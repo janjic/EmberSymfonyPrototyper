@@ -12,6 +12,7 @@
 !var/sessions/.gitkeep
 /vendor/
 /web/bundles/
+/web/app/
 bower_components
 node_modules
 tmp
