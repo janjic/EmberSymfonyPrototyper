@@ -1,0 +1,22 @@
+---
+server:
+    install: '1'
+    packages: [vim, htop, iotop, git, curl]
+    timezone: UTC
+    locale: en_US.UTF-8
+vagrant_local:
+    install: '1'
+    vm: { base_box: trusty64, hostname: php7, ip: 192.168.11.3, sharedfolder: ./, enableWindows: '1', useVagrantCloud: '1', syncType: nfs }
+php:
+    install: '1'
+    ppa: php
+    pecl_packages: []
+    packages: ['php7.0-cli', 'php7.0-pgsql', 'php7.0-curl','php7.0-dev','php7.0-gd','php7.0-gmp','php7.0-json','php7.0-mysql','php7.0-readline','php7.0-recode','php7.0-xml','php7.0-xmlrpc','php7.0-bz2','php7.0-imap','php7.0-intl','php7.0-fpm','php7.0-mcrypt','php7.0-soap','php7.0-zip','php7.0-redis','php7.0-amqp', 'php7.0-gmagick','php7.0-apcu','php7.0-apcu-bc','php-uploadprogress','php-yaml','php-memcached','php-http','php-memcache','php7.0-bcmath','php-oauth','php-ssh2','php-zmq','php7.0-imap','php7.0-intl','php7.0-cgi','php-geoip','php-igbinary','php-oauth','php7.0-gmp','php7.0-fpm','php7.0-mbstring']
+xdebug:
+    install: '1'
+nginx:
+    virtualhost_file: fsd_dev.tpl
+    server_name: fsd_dev.localhost
+    file: fsd_dev
+    root: /var/www/fsd_dev/web
+    server_root: fsd_dev/public

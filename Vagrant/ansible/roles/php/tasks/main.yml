@@ -1,0 +1,95 @@
+---
+- name: Add ppa Repository
+  become: true
+  become_method: sudo
+  apt_repository: repo=ppa:ondrej/{{ php.ppa }}
+
+- name: Update apt
+  become: true
+  become_method: sudo
+  apt: update_cache=yes
+
+- name: Install php
+  become: true
+  become_method: sudo
+  apt: pkg=php state=latest
+
+- name: Install PHP Packages
+  become: true
+  become_method: sudo
+  apt: pkg={{ item }} state=latest
+  with_items: "{{php.packages}}"
+  when: php.packages is defined
+
+- name: Install pear
+  become: true
+  become_method: sudo
+  apt: pkg=php-pear state=latest
+
+- include: configure.yml
+- include: pecl.yml
+
+- name: Download php-imagick.
+  get_url:
+    url: "https://pecl.php.net/get/imagick-3.4.0.tgz"
+    dest: "/usr/share/imagick-3.4.0.tgz"
+
+- name: extract php-imagick
+  unarchive:
+    src: "/usr/share/imagick-3.4.0.tgz"
+    dest: "/usr/share"
+    copy: no
+
+- name: build and fix  php-imagick for php 7.0
+  shell: >
+    {{ item }}
+    chdir=/usr/share/imagick-3.4.0
+    creates=/usr/share/imagick-3.4.0/modules/imagick.so
+  with_items:
+    - phpize7.0
+    - ./configure
+    - make install
+
+- name: Ensure Imagick module path exists.
+  file:
+    path: "/usr/lib"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Move Imagick module into place.
+  shell: >
+    cp /usr/share/imagick-3.4.0/modules/imagick.so /usr/lib/imagick.so
+    creates=/usr/lib/imagick.so
+
+- name: Copy imagick ini into main extension config folder.
+  become: true
+  become_method: sudo
+  template:
+    src: imagick.tpl
+    dest: "{{ item }}/20-imagick.ini"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+      - /etc/php/7.0/fpm/conf.d
+      - /etc/php/7.0/cli/conf.d
+
+- name: Configure php-fpm max execution time.
+  lineinfile:
+    dest: /etc/php/7.0/fpm/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^max_execution_time', line: "max_execution_time='{{ max_execution_time }}'" }
+
+- name: Change php-fpm www.conf max execution time.
+  lineinfile:
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^request_terminate_timeout', line: "request_terminate_timeout='{{ max_execution_time }}'" }

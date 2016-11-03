@@ -1,0 +1,36 @@
+---
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Configure exim (Debian only).
+  lineinfile:
+    dest: "{{ exim_configuration_file }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^dc_eximconfig_configtype', line: "dc_eximconfig_configtype='{{ dc_eximconfig_configtype }}'" }
+    - { regexp: '^dc_other_hostnames', line: "dc_other_hostnames='{{ dc_other_hostnames }}'" }
+    - { regexp: '^dc_local_interfaces', line: "dc_local_interfaces='{{ dc_local_interfaces }}'" }
+    - { regexp: '^dc_readhost', line: "dc_readhost='{{ dc_readhost }}'" }
+    - { regexp: '^dc_relay_nets', line: "dc_relay_nets='{{ dc_relay_nets }}'" }
+    - { regexp: '^dc_smarthost', line: "dc_smarthost='{{ dc_smarthost }}'" }
+    - { regexp: '^CFILEMODE', line: "CFILEMODE='{{ CFILEMODE }}'" }
+    - { regexp: '^dc_localdelivery', line: "dc_localdelivery='{{ dc_localdelivery }}'" }
+  notify: restart exim
+  when: ansible_os_family == 'Debian'
+
+- name: Copy passwd.client into main extension config folder.
+  template:
+    src:   passwd_client_ini.j2
+    dest: /etc/exim4/passwd.client
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Ensure exim is running.
+  service: "name={{ exim_daemon }} state=started enabled=yes"

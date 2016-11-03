@@ -1,0 +1,30 @@
+---
+#- stat: path=/etc/php/7.0/fpm/php.ini
+#  register: phpfpm
+
+- stat: path=/etc/php/7.0/cli/php.ini
+  register: phpcli
+
+- include: php-cli.yml
+  when: phpcli.stat.exists
+
+- name: change php memory_limit
+  become: true
+  become_method: sudo
+  lineinfile: dest=/etc/php/7.0/fpm/php.ini
+              regexp='memory_limit'
+              line='       memory_limit = 500M'
+
+- name: change php upload_max_filesize
+  become: true
+  become_method: sudo
+  lineinfile: dest=/etc/php/7.0/fpm/php.ini
+              regexp='upload_max_filesize'
+              line='       upload_max_filesize = 500M'
+
+- name: change php post_max_size
+  become: true
+  become_method: sudo
+  lineinfile: dest=/etc/php/7.0/fpm/php.ini
+              regexp='post_max_size'
+              line='       post_max_size = 500M'

@@ -1,0 +1,40 @@
+---
+- name: Update apt
+  become: true
+  become_method: sudo
+  apt: update_cache=yes
+
+- name: Install System Packages
+  become: true
+  become_method: sudo
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - wget
+    - python-software-properties
+    - software-properties-common
+    - pkg-config
+    - libmagickwand-dev
+
+- name: Install Extra Packages
+  become: true
+  become_method: sudo
+  apt: pkg={{ item }} state=latest
+  with_items: "{{server.packages}}"
+  when: server.packages is defined
+
+- name: Configure the timezone
+  become: true
+  become_method: sudo
+  template: src=timezone.tpl dest=/etc/timezone
+
+- name: More Configure the timezone
+  become: true
+  become_method: sudo
+  file: src=/usr/share/zoneinfo/{{server.timezone}} dest=/etc/localtime state=link force=yes backup=yes
+
+- name: Set default system language pack
+  shell: locale-gen {{server.locale}}
+  become: true
+  become_method: sudo
+

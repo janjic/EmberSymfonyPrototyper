@@ -1,0 +1,78 @@
+---
+- name: Add nginx Repository
+  become: true
+  become_method: sudo
+  apt_repository: repo=ppa:nginx/stable
+
+#- name: Add nginx key
+#  apt_key: keyserver=keyserver.ubuntu.com id=C300EE8C
+
+- name: Update apt
+  become: true
+  become_method: sudo
+  apt: update_cache=yes
+
+- name: nginxphp | Install Nginx
+  apt: pkg=nginx state=latest
+
+- name: ensure phpmyadmin ppa repository is installed
+  apt_repository:
+    repo: "ppa:nijel/phpmyadmin"
+    update_cache: yes
+
+- name: ensure phpmyadmin package is installed
+  apt:
+    name: phpmyadmin
+
+#- name: Create the ws server service
+#  template: src=ws.tpl dest=/etc/init/ws_server.conf
+#  with_items: vhosts
+#  become: true
+#  become_method: sudo
+
+- name: Create main
+  template: src=nginx_conf.tpl dest=/etc/nginx/nginx.conf
+  with_items: vhosts
+  become: true
+  become_method: sudo
+
+- name: Create the virtualhost for http
+  template: src=nginx_virtualhost.tpl dest=/etc/nginx/sites-available/fsd_dev
+  with_items: vhosts
+  become: true
+  become_method: sudo
+
+- name: Create the virtualhost for https
+  template: src=nginx_ssl_virtualhost.tpl dest=/etc/nginx/sites-available/fsd_devssl
+  with_items: vhosts
+  become: true
+  become_method: sudo
+
+- name: Disable Default Site
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+  become: true
+  become_method: sudo
+
+- name: Enable http virtualhost
+  become: true
+  become_method: sudo
+  file: src=/etc/nginx/sites-available/fsd_dev dest=/etc/nginx/sites-enabled/fsd_dev state=link
+  with_items: vhosts
+
+- name: Enable https virtualhost
+  become: true
+  become_method: sudo
+  file: src=/etc/nginx/sites-available/fsd_devssl dest=/etc/nginx/sites-enabled/fsd_devssl state=link
+  with_items: vhosts
+
+
+- name: Add the virtualhosts to the file /etc/hosts
+  become: true
+  become_method: sudo
+  lineinfile: dest=/etc/hosts line="127.0.0.1 fsd_dev.localhost"
+  with_items: vhosts
+  notify:
+  - stop apache2
+  - restart nginx
+  - restart php7.0-fpm
+

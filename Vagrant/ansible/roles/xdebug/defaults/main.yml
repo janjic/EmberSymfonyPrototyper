@@ -1,0 +1,25 @@
+---
+php_xdebug_config_filename: 20-xdebug.ini
+php_extension_conf_paths:
+  - /etc/php/7.0/fpm/conf.d
+#  - /etc/php/7.0/cli/conf.d
+
+
+workspace: /root
+
+php_xdebug_version: 2.4.1
+
+php_xdebug_coverage_enable: 1
+php_xdebug_default_enable: 1
+php_xdebug_cli_enable: 1
+
+php_xdebug_remote_enable: "true"
+php_xdebug_remote_connect_back: "true"
+php_xdebug_remote_host: localhost
+php_xdebug_remote_port: "9000"
+php_xdebug_remote_log: /tmp/xdebug.log
+php_xdebug_remote_autostart: "false"
+
+php_xdebug_idekey: vagrant
+
+php_xdebug_max_nesting_level: 256

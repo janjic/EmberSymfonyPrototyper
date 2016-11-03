@@ -1,0 +1,16 @@
+---
+# Main configuration type. Should be 'internet' for public mail sending, or
+# 'local' if mail should only be delivered locally. See Exim documentation for
+# other options.
+dc_eximconfig_configtype: satellite
+dc_other_hostnames: localhost
+dc_local_interfaces: 127.0.0.1 ; ::1
+dc_readhost: localhost
+dc_relay_domains: ''
+dc_relay_nets: ''
+dc_smarthost: smtp.gmail.com:587
+dc_smarthost_server: google.com
+dc_smarthost_username: vagrantfsddev@gmail.com
+dc_smarthost_password: devfsdvagrant
+CFILEMODE: 644
+dc_localdelivery: mail_spool

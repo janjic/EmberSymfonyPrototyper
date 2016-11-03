@@ -1,0 +1,19 @@
+---
+- hosts: local
+  become: true
+  become_method: sudo
+  vars_files:
+    - vars/all.yml
+  roles:
+    - server
+    - vagrant_local
+    - ssl
+    - redis
+    - php
+    - mysql
+    - node
+    - exim
+    - composer
+    - xdebug
+    - nginx
+    - app

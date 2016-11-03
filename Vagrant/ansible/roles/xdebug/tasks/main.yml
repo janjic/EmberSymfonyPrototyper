@@ -1,0 +1,46 @@
+- name: Download Xdebug.
+  get_url:
+    url: "http://xdebug.org/files/xdebug-2.4.0rc2.tgz"
+    dest: "/usr/share/xdebug-2.4.0rc2.tgz"
+
+- name: extract x-debug
+  unarchive:
+    src: "/usr/share/xdebug-2.4.0rc2.tgz"
+    dest: "/usr/share"
+    copy: no
+  tags: x_debug
+
+- name: Build Xdebug.
+  shell: >
+    {{ item }}
+    chdir=/usr/share/xdebug-2.4.0RC2
+    creates=/usr/share/xdebug-2.4.0RC2/modules/xdebug.so
+  with_items:
+    - phpize7.0
+    - ./configure
+    - make install
+  tags: x_debug
+
+- name: Ensure Xdebug module path exists.
+  file:
+    path: "/usr/lib"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: x_debug
+
+- name: Move Xdebug module into place.
+  shell: >
+    cp /usr/share/xdebug-2.4.0RC2/modules/xdebug.so /usr/lib/xdebug.so
+    creates=/usr/lib/xdebug.so
+  tags: x_debug
+
+- name: Copy xdebug ini into main extension config folder.
+  template:
+    src: xdebug.ini.j2
+    dest: "{{ item }}/{{ php_xdebug_config_filename }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ php_extension_conf_paths }}"
