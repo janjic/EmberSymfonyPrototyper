@@ -1,0 +1,54 @@
+---
+# application tasks to be customized and to run after the main provision
+- name: update file db
+  become: true
+  become_method: sudo
+  shell: updatedb
+
+# Update all packages to the latest version
+- apt: upgrade=dist
+
+#- name: Creates settings files
+#  template: src={{ item.name }}.tpl dest=/var/www/fsd_dev/app/config/{{ item.name }}.yml
+#  with_items:
+#      - { name: 'plugin_routes'}
+#      - { name: 'plugin_settings'}
+#      - { name: 'theme_settings'}
+#
+- name: Adding user vagrant to www-data group
+  user: name=vagrant groups=www-data append=yes
+
+- name: Ensure cache and log path exists
+  become: true
+  become_method: sudo
+  file: path=/usr/share/fsddev-app state=directory group=www-data mode="u+rwx,g+rs,g-w,o-rwx"
+#
+#- name: installing bundles for webshop
+#  become: true
+#  become_method: sudo
+#  script: ../vagrant_composer_install.sh
+#
+#- name: ensure ws_server is running
+#  become: true
+#  become_method: sudo
+#  service: "name=ws_server state=restarted enabled=yes"
+#
+#- name: create database
+#  become: true
+#  become_method: sudo
+#  shell: php /var/www/fsd_dev/app/console doctrine:database:create
+#
+#- name: schema update
+#  become: true
+#  become_method: sudo
+#  shell: php /var/www/fsd_dev/app/console doctrine:schema:update --force
+#
+#- name: run install default settings
+#  become: true
+#  become_method: sudo
+#  shell: php /var/www/fsd_dev/app/console empire-cli:settings_install
+#
+#- name: create default admin user
+#  become: true
+#  become_method: sudo
+#  shell: php /var/www/fsd_dev/app/console empire-cli:import_admin_default admin admin
