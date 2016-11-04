@@ -20,8 +20,6 @@ export default OAuth2PasswordGrant.extend({
             data.client_id = config.APP.clientId;
             data.client_secret = config.APP.clientSecret;
         }
-        // data.client_id = config.APP.clientId;
-        // data.client_secret = config.APP.clientSecret;
 
         return this._super(...arguments);
     },

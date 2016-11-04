@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass='UserRepository')
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
