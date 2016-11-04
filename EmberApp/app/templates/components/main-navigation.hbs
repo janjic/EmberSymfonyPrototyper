@@ -12,6 +12,13 @@
             {{#link-to 'auth-error' tagName='li'}}
                 <a>Auth Error Page</a>
             {{/link-to}}
+            {{#link-to 'about' tagName='li'}}
+                <a>Only not logged</a>
+            {{/link-to}}
+
+            {{#link-to 'simple' tagName='li'}}
+                <a>Always</a>
+            {{/link-to}}
         </ul>
         {{! display logout button when the session is authenticated, login button otherwise }}
         {{#if session.isAuthenticated}}
