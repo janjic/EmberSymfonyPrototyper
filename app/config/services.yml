@@ -4,6 +4,8 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    revoke_grant_extension:
+        class: AppBundle\OAuth\TokenGrantExtension
+        arguments: ["@fos_oauth_server.access_token_manager", "@fos_oauth_server.refresh_token_manager"]
+        tags:
+          - { name: fos_oauth_server.grant_extension, uri: 'https://check_token_type_hint'  }

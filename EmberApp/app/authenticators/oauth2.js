@@ -12,19 +12,16 @@ export default OAuth2PasswordGrant.extend({
     serverTokenRevocationEndpoint: '/oauth/v2/token',
 
     makeRequest(url, data) {
-
         if (!Object.is(data.token_type_hint, undefined)) {
-            if (Object.is(data.token_type_hint, 'access_token')) {
-                data.grant_type = 'token';
-            } else {
-                data.grant_type = data.token_type_hint;
-            }
+             data.grant_type = data.token_type_hint;
 
             delete data.token_type_hint;
         } else {
             data.client_id = config.APP.clientId;
             data.client_secret = config.APP.clientSecret;
         }
+        // data.client_id = config.APP.clientId;
+        // data.client_secret = config.APP.clientSecret;
 
         return this._super(...arguments);
     },
