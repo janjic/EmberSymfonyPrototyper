@@ -4,7 +4,7 @@ const { inject: { service }, Component } = Ember;
 
 export default Component.extend({
     session:        service('session'),
-    sessionAccount: service('session-account'),
+    currentUser: service('current-user'),
 
     actions: {
         login() {

@@ -4,7 +4,6 @@ const { inject: { service }, Component } = Ember;
 
 export default Component.extend({
     session: service('session'),
-
     actions: {
         authenticateWithOAuth2() {
             let { identification, password } = this.getProperties('identification', 'password');
