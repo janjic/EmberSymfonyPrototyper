@@ -8,10 +8,6 @@ use OAuth2\OAuth2;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class TokenController
- * @package UserBundle\Controller
- */
 class TokenController extends BaseController {
 
     /**

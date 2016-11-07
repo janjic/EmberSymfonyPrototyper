@@ -35,6 +35,5 @@ class UserJqgridConverter extends JQGridConverter
     {
 
         return parent::convert();
-
     }
 }
