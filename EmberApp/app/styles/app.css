@@ -118,7 +118,7 @@ table td a  {
 .admin-panel .right-section{
     overflow-x: hidden;
 }
- #nav-icon3 span{
+#nav-icon3 span{
     display: block;
     position: absolute;
     height: 2px;
@@ -243,7 +243,7 @@ table td a  {
     color: #263d48;
 }
 /*.login .input-group{*/
-    /*width: 100%;*/
+/*width: 100%;*/
 /*}*/
 .login .form-group .icon-addon .form-control{
     box-shadow: none;
@@ -361,17 +361,17 @@ table td a  {
 }
 
 /*.icon-addon.addon-lg .form-control {*/
-    /*line-height: 1.33;*/
-    /*!*height: 46px;*!*/
-    /*font-size: 16px;*/
-    /*padding: 10px 16px 10px 40px;*/
+/*line-height: 1.33;*/
+/*!*height: 46px;*!*/
+/*font-size: 16px;*/
+/*padding: 10px 16px 10px 40px;*/
 /*}*/
 
 /*.icon-addon.addon-sm .form-control {*/
-    /*height: 30px;*/
-    /*padding: 5px 10px 5px 28px;*/
-    /*font-size: 12px;*/
-    /*line-height: 1.5;*/
+/*height: 30px;*/
+/*padding: 5px 10px 5px 28px;*/
+/*font-size: 12px;*/
+/*line-height: 1.5;*/
 /*}*/
 
 .icon-addon.addon-lg .fa,
@@ -384,9 +384,9 @@ table td a  {
 
 /*.icon-addon.addon-md .form-control,*/
 /*.icon-addon .form-control {*/
-    /*padding-left: 30px;*/
-    /*float: left;*/
-    /*font-weight: normal;*/
+/*padding-left: 30px;*/
+/*float: left;*/
+/*font-weight: normal;*/
 /*}*/
 
 .icon-addon.addon-sm .fa,
@@ -400,7 +400,7 @@ table td a  {
 .icon-addon .form-control:focus + .glyphicon,
 
 .icon-addon .form-control:focus + .fa
- {
+{
     color: #d14545;
 }
 
@@ -586,14 +586,14 @@ header{
 }
 
 /*.stepwizard-row:before {*/
-    /*top: 14px;*/
-    /*bottom: 0;*/
-    /*position: absolute;*/
-    /*content: " ";*/
-    /*width: 100%;*/
-    /*height: 1px;*/
-    /*background-color: #ccc;*/
-    /*z-order: 0;*/
+/*top: 14px;*/
+/*bottom: 0;*/
+/*position: absolute;*/
+/*content: " ";*/
+/*width: 100%;*/
+/*height: 1px;*/
+/*background-color: #ccc;*/
+/*z-order: 0;*/
 
 /*}*/
 .progress{
