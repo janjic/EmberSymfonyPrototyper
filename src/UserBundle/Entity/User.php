@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="UserRepository")
+ * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity("username")
  * @UniqueEntity("email")
@@ -36,7 +36,7 @@ class User extends BaseUser
     protected $lastName;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Document\Image", cascade={"all"}, orphanRemoval=TRUE)
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", cascade={"all"}, orphanRemoval=TRUE)
      * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      **/
     protected $avatar;

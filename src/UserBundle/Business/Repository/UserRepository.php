@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * Class UserRepository
- * @package AppBundle\Entity
+ * @package UserBundle\Business\Repository
  */
 class UserRepository extends EntityRepository
 {

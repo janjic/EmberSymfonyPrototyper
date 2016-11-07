@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Document;
+namespace UserBundle\Entity\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,7 +29,7 @@ class Image extends Document implements \Serializable
     private $position;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Document\Image", inversedBy="image")
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", inversedBy="image")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      **/
     private $category;

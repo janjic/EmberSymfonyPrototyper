@@ -40,6 +40,11 @@ module.exports = function(defaults) {
   app.import('vendor/fontawesome-webfont.eot', {
     destDir: 'fonts'
   });
+    app.import('vendor/jqGrid/css/jquery-ui.css');
+    app.import('vendor/jqGrid/css/ui.jqgrid.css');
+    app.import('vendor/jqGrid/js/i18n/grid.locale-en.js');
+    app.import('vendor/jqGrid/js/jquery.jqGrid.min.js');
+    app.import('vendor/jqGrid/js/jQgrid-universal.js');
 
   app.import('vendor/glyphicons-halflings-regular.eot', {
     destDir: 'fonts'

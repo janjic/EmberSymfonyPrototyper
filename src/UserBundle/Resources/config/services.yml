@@ -1,0 +1,24 @@
+services:
+    agent_system.user_repository:
+        class: UserBundle\Business\Repository\UserRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\User
+
+    agent_system.user_manager:
+       class: UserBundle\Business\Manager\UserManager
+       arguments:
+             repository: "@agent_system.user_repository"
+             eventContainer: "@agent_system.user.event.container"
+
+    agent_system.user.event.container:
+        class: UserBundle\Business\Event\UserEventContainer
+        arguments:
+             container: "@service_container"
+
+    agent_system.user.adapter:
+        class: UserBundle\Adapter\UserAdapter
+        arguments:
+            - "@agent_system.user_manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
