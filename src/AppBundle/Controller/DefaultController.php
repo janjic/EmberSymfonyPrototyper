@@ -11,29 +11,34 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-//    /**
-//    * @Route("/", name="homepage")
-//     */
-//    public function indexAction(Request $request)
-//    {
-//        // replace this example code with whatever you need
-//        return $this->render('default/index.html.twig', [
-//            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-//        ]);
-//    }
 
+    const DEFAULT_USER_PARAM = 'all';
     /**
-     * @Route("/api/test", name="api_test")
+     * @Route("/api/users/{user_param}", name="api_users", defaults={"user_param": "all"}),
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function apiTestAction(Request $request)
+    public function apiUserAction(Request $request)
     {
-        // replace this example code with whatever you need
+        $data = null;
+        if (($param = $request->get('user_param')) === self::DEFAULT_USER_PARAM) {
+                $data = $this->getDoctrine()->getRepository('AppBundle:User')->findUsers(null);
+        } else {
+            if ($id = intval($param)) {
+                $data = $this->getDoctrine()->getRepository('AppBundle:User')->findUsers($id);
+            }
+        }
+
         return new JsonResponse(
             array(
-                'type' => array(
-                    'id'=>1
-                )
+                'user'=>
+                   array(
+                       'id'=> '1',
+                       'username'=>'admin'
+                   )
+
             )
+
         );
     }
 

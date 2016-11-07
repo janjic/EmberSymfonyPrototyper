@@ -80,10 +80,14 @@ server {
    expires 365d;
    }
 location /app {
-    root /var/www/fsd_dev/web;
-    # root /home/ivo/myapp;
-    index index.html;
-    try_files $uri $uri/ /index.html;
+    root /var/www/fsd_dev/web/app;
+    rewrite ^ /index.html break;
+
+}
+
+location /app/assets {
+    root /var/www/fsd_dev/web/app;
+
 }
 
    ### phpMyAdmin ###
