@@ -19,12 +19,31 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  app.import('vendor/jqGrid/css/jquery-ui.css');
-  app.import('vendor/jqGrid/css/ui.jqgrid.css');
-  app.import('vendor/jqGrid/js/i18n/grid.locale-en.js');
-  app.import('vendor/jqGrid/js/jquery.jqGrid.min.js');
-  app.import('vendor/jqGrid/js/jQgrid-universal.js');
+  app.import('vendor/bootstrap.min.js');
+  app.import('vendor/bootstrap.min.css');
+  app.import('vendor/font-awesome.min.css');
+  app.import('vendor/fontawesome-webfont.woff2', {
+    destDir: 'fonts'
+  });
+  app.import('vendor/fontawesome-webfont.woff', {
+    destDir: 'fonts'
+  });
 
+  app.import('vendor/fontawesome-webfont.ttf', {
+    destDir: 'fonts'
+  });
 
+  app.import('vendor/fontawesome-webfont.svg', {
+    destDir: 'fonts'
+  });
+
+    app.import('vendor/fontawesome-webfont.eot', {
+    destDir: 'fonts'
+  });
+    app.import('vendor/jqGrid/css/jquery-ui.css');
+    app.import('vendor/jqGrid/css/ui.jqgrid.css');
+    app.import('vendor/jqGrid/js/i18n/grid.locale-en.js');
+    app.import('vendor/jqGrid/js/jquery.jqGrid.min.js');
+    app.import('vendor/jqGrid/js/jQgrid-universal.js');
   return app.toTree();
 };

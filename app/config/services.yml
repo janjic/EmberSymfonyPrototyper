@@ -5,5 +5,5 @@ parameters:
 
 services:
     fos_oauth_server.controller.token:
-      class: AppBundle\Controller\TokenController
+      class: UserBundle\Controller\TokenController
       arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']

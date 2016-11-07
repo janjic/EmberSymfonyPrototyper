@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\OAuth;
+namespace UserBundle\OAuth;
 
 use FOS\OAuthServerBundle\Entity\AccessTokenManager;
 use FOS\OAuthServerBundle\Entity\RefreshTokenManager;
@@ -10,7 +10,7 @@ use OAuth2\Model\IOAuth2Client;
 
 /**
  * Class TokenGrantExtension
- * @package AppBundle\OAuth
+ * @package UserBundle\OAuth
  */
 class TokenGrantExtension implements GrantExtensionInterface
 {

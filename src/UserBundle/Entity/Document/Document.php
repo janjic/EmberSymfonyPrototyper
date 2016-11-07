@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Document;
+namespace UserBundle\Entity\Document;
 
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
