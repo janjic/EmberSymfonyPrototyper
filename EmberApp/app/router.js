@@ -12,6 +12,8 @@ Router.map(function() {
   this.route('auth-error');
   this.route('about');
   this.route('simple');
+  this.route('user-profile');
+  this.route('dashboard-users-all');
 });
 
 export default Router;

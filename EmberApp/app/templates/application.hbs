@@ -1,4 +1,10 @@
-{{main-navigation onLogin= (action 'transitionToLoginRoute') }}
-<div class="container">
-    {{outlet}}
-</div>
+{{!-- {{main-navigation onLogin= (action 'transitionToLoginRoute') }} --}}
+{{agent-header }}
+<section class="admin-panel">
+    <div class="container-fluid fixed-margin all-users">
+        {{agent-left-menu}}
+        <div class=" right-section">
+            {{outlet}}
+            </div>
+        </div>
+</section>

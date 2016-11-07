@@ -18,25 +18,18 @@ class DefaultController extends Controller
      */
     public function apiUserAction(Request $request)
     {
-        $data = null;
-        if (($param = $request->get('user_param')) === self::DEFAULT_USER_PARAM) {
-                $data = $this->getDoctrine()->getRepository('AppBundle:User')->findUsers(null);
-        } else {
-            if ($id = intval($param)) {
-                $data = $this->getDoctrine()->getRepository('AppBundle:User')->findUsers($id);
-            }
-        }
-
         return new JsonResponse(
             array(
-                'user'=>
-                   array(
-                       'id'=> '1',
-                       'username'=>'admin'
-                   )
+                'users'=>
+                    (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
+                                $this->getDoctrine()->getRepository('AppBundle:User')->findUsers(null):
+                                    (($id = intval($param)) ? $this->getDoctrine()->getRepository('AppBundle:User')->findUsers($id)
+                                            :array(
+                                                'error' => 'Please provide valid params'
+                                            )
 
             )
 
-        );
+        ));
     }
 }

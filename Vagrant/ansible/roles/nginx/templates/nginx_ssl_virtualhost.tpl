@@ -90,6 +90,20 @@ location /app/assets {
 
 }
 
+location /app/fonts/ {
+
+    #Fonts dir
+    alias /var/www/fsd_dev/web/app/fonts/;
+
+    #Include vanilla types
+    include mime.types;
+
+    #Missing mime types
+    types  {font/truetype ttf;}
+    types  {application/font-woff woff;}
+    types  {application/font-woff2 woff2;}
+}
+
    ### phpMyAdmin ###
 location /phpmyadmin {
                root /usr/share/;
