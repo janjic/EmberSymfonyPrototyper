@@ -37,8 +37,25 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
-    app.import('vendor/fontawesome-webfont.eot', {
+  app.import('vendor/fontawesome-webfont.eot', {
     destDir: 'fonts'
   });
+
+  app.import('vendor/glyphicons-halflings-regular.eot', {
+    destDir: 'fonts'
+  });
+  app.import('vendor/glyphicons-halflings-regular.ttf', {
+    destDir: 'fonts'
+  });
+  app.import('vendor/glyphicons-halflings-regular.svg', {
+    destDir: 'fonts'
+  });
+  app.import('vendor/glyphicons-halflings-regular.woff', {
+    destDir: 'fonts'
+  });
+  app.import('vendor/glyphicons-halflings-regular.woff2', {
+    destDir: 'fonts'
+  });
+
   return app.toTree();
 };

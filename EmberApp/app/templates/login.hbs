@@ -1,4 +1,12 @@
-<div class="page-header">
-    <h1>Login</h1>
-</div>
-{{login-form}}
+<section class="login-section">
+    <div class="fullscreen-bg">
+        <video class="fullscreen-bg__video" autoplay loop muted>
+            <source src="assets/videos/video.mp4">
+        </video>
+    </div>
+    <div class="login">
+        <div class="login-form">
+            {{outlet}}
+        </div>
+    </div>
+</section>

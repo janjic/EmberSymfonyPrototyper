@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fa fa-users" aria-hidden="true"></i>Users</a>
+        </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+        <div class="panel-body">
+            <ul class="table">
+                <li>
+                    <a href="add-new-user.html">Add New User</a>
+                </li>
+                <li>
+                    <a href="users-customers.html">All Users</a>
+                </li>
+                <li>
+                    {{#link-to 'dashboard.users-all' }}All Users{{/link-to}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
