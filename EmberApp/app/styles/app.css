@@ -1,6 +1,8 @@
 body{
     font-family: 'Open Sans', sans-serif;
 }
+
+
 h3{
     font-weight: 100;
     margin-top: 0px;
@@ -207,7 +209,7 @@ table td a  {
 
 }
 .login{
-    width: 30%;
+    width: 300px;
     background: white;
     border: 1px solid #d5d6d8;
     border-top: 4px solid #d14545;
