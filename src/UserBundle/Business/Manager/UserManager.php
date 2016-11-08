@@ -41,7 +41,7 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
      */
     public function searchForJQGRID($searchParams, $sortParams = array(), $additionalParams = array())
     {
-        // TODO: Implement searchForJQGRID() method.
+        return $this->repository->searchUsersForJQGRID($searchParams, $sortParams, $additionalParams);
     }
 
     /**
@@ -53,7 +53,11 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
      */
     public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams = array())
     {
-        // TODO: Implement findAllForJQGRID() method.
+        if ($searchParam = $this->eventContainer->getSearchParam()) {
+            $additionalParams['search_param'] = $searchParam;
+        }
+
+        return  $this->repository->findAllUsersForJQGRID($page, $offset, $sortParams, $additionalParams);
     }
 
     /**
@@ -64,11 +68,12 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
      */
     public function getCountForJQGRID($searchParams = null, $sortParams = null, $additionalParams = array())
     {
-        // TODO: Implement getCountForJQGRID() method.
+        if (!$searchParams) {
+
+            return $this->repository->searchUsersForJQGRID(null, $sortParams, $additionalParams, true);
+        }
+
+        return $this->repository->searchUsersForJQGRID($searchParams, $sortParams, $additionalParams, true);
     }
 
-    public function findAllUsers()
-    {
-        return $this->repository->findAll();
-    }
 }
