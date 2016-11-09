@@ -2,6 +2,12 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 
+img{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
 
 h3{
     font-weight: 100;
@@ -18,11 +24,14 @@ h5{
     margin-top: 0px;
     margin-bottom: 20px;
 }
-
 table.table {
     text-align: center;
+    margin-bottom:0px;
 }
-
+.table-responsive{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 table td input{
     width: 100%;
     display: inline-block;
@@ -564,9 +573,9 @@ header{
 
 
 /*FORM WIZARD*/
-.form-wizard{
-    margin-top: 20px;
-}
+/*.form-wizard{*/
+    /*margin-top: 20px;*/
+/*}*/
 .dashboar-heading{
     border-bottom: 1px solid #ddd;
     padding-bottom: 20px;
@@ -829,17 +838,103 @@ header{
     width: 250px;
 }
 .right-section{
-    margin-left: 261px;
+    margin-left: 250px;
     /*min-width: 450px;*/
     /*width: auto;*/
     overflow-x: scroll;
-    padding: 20px;
+    padding: 30px;
 }
 
 /*DASHBOARD HOME*/
 .home-card{
     background: #d14545;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: #fff;
+    position: relative;
 }
+.home-card span{
+    display: block;
+    text-align: right;
+    font-size: 22px;
+}
+.home-card i{
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+    font-size: 90px;
+    color: rgba(0,0,0,0.1);
+}
+.home-card p{
+    display: inline-block;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+.form-control:focus{
+    border-color: rgba(209, 69, 69, 0.4);;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+}
+input:focus{
+    border-color: rgba(209, 69, 69, 0.4);;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+}
+.table-heading{
+    margin-bottom: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    background: #2f3844;
+    color: white;
+    margin-top: 0px;
+    min-width: 600px;
+}
+
+/*MESSAGES*/
+
+.messages-heading{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.messages-heading h3{
+    margin-bottom: 0px;
+    display: inline-block;
+}
+.messages-heading button{
+    display: inline-block;
+}
+.create-message .messages-heading{
+    margin-bottom: 30px;
+}
+.create-message input{
+    width: 75%;
+}
+.create-message .setup-content label{
+    text-align: left !important;
+}
+
+/*VIEW MESSAGE*/
+.user-message{
+    padding: 20px;
+    background: #ddd;
+}
+.username h4{
+    display: inline-block;
+}
+.username img{
+    display: inline-block;
+}
+
+
+.admin-message{
+    padding: 20px;
+    background: rgba(221, 221, 221, 0.34);
+}
+
+
 
 @media screen and (max-width: 769px) {
     .insert-avatar-container {
@@ -877,10 +972,22 @@ header{
         left: -0px;
     }
     .right-section{
+        margin-top:60px;
         margin-left: 15px;
     }
+    .dashboard-home{
+        margin-top: 0px;
+    }
+
 }
 
 .table-option tr:first-child th:last-child {
     width: 100px;
 }
+
+@media screen and (max-width: 1200px) and (min-width: 767px) {
+    .dashboard-home .col-md-3{
+        width: 50%;
+    }
+}
+

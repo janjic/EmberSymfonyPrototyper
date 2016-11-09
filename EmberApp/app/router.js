@@ -39,6 +39,8 @@ Router.map(function() {
     this.route('settings');
     this.route('all-tickets');
     this.route('users-customers');
+    this.route('create-message');
+    this.route('view-message');
   });
 });
 
