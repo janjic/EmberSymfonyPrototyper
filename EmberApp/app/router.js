@@ -37,6 +37,7 @@ Router.map(function() {
     this.route('sent');
     this.route('trash');
     this.route('settings');
+    this.route('all-tickets');
   });
 });
 
