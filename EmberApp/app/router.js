@@ -38,6 +38,8 @@ Router.map(function() {
     this.route('trash');
     this.route('settings');
     this.route('all-tickets');
+    this.route('user-view');
+    this.route('user-edit');
   });
 });
 
