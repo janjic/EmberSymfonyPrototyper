@@ -8,6 +8,11 @@ h3{
     margin-top: 0px;
     margin-bottom: 20px;
 }
+h4{
+    font-weight: 100;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
 h5{
     font-weight: 400;
     margin-top: 0px;
@@ -829,6 +834,11 @@ header{
     /*width: auto;*/
     overflow-x: scroll;
     padding: 20px;
+}
+
+/*DASHBOARD HOME*/
+.home-card{
+    background: #d14545;
 }
 
 @media screen and (max-width: 769px) {
