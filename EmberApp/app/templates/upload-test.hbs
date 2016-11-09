@@ -1,17 +1,1 @@
-dasdadassdasdasdadadasdasdasdadassdadasda
-<div class="row">
-    <div class="col-md-12">
-        {{file-uploader isDisabled=controller.uploadDisabled fileInputChanged="receiveFile" uploadProgress="uploadProgress" }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="uploaded-images">
-            {{#each asset in controller.assets}}
-                <div class="col-md-3">
-                    {{uploaded-file file=asset}}
-                </div>
-            {{/each}}
-        </div>
-    </div>
-</div>  
+{{file-upload url="/upload"}}
