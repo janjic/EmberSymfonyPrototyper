@@ -19,6 +19,7 @@ Router.map(function() {
   this.route('dashboard', function() {
     this.route('users-all');
   });
+  this.route('upload-test');
 });
 
 export default Router;
