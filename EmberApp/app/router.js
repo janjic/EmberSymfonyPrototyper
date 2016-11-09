@@ -40,6 +40,13 @@ Router.map(function() {
     this.route('all-tickets');
     this.route('user-view');
     this.route('user-edit');
+    this.route('ticket-details');
+
+    this.route('payment', function() {});
+
+    this.route('payments', function() {
+      this.route('purchase-details');
+    });
   });
 });
 

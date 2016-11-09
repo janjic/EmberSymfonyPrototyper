@@ -45,7 +45,19 @@ table td a  {
     padding-right: 0px;
     padding-left: 0px;
 }
-.all-users h3{
+
+h1.main-heading {
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+h3.sub-heading {
     margin-bottom: 15px;
     color: #333;
     font-weight: 600;
@@ -55,6 +67,7 @@ table td a  {
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
 }
+
 
 .profile-view p {
     margin-bottom: 0;
@@ -566,15 +579,7 @@ header{
 .form-wizard{
     margin-top: 20px;
 }
-.dashboar-heading{
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
-    padding-left: 0px!important;
-    background: none!important;
-    color: #2f3844!important;
-    margin-top: 0px!important;
-    margin-bottom: 20px!important;
-}
+
 .stepwizard-step p {
     margin-top: 10px;
 }
@@ -870,6 +875,96 @@ header{
     }
 }
 
+@media screen and (min-width: 767px) and (max-width: 1150px) {
+    .tickets > .row > .col-md-6 {
+        width: 100%;
+    }
+}
+
+.ticket-info, .user-info {
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #eee;
+    margin-bottom:15px;
+}
+
+.ticket-messages .user-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.ticket-messages .admin-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.user-message span {
+    color: #ccc;
+    font-style: italic;
+}
+
+.ticket-messages .user-img p {
+    margin-bottom: 0;
+    margin-right: 15px;
+}
+
+.ticket-messages .user-img .img-holder {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ticket-messages .user-img .img-holder img {
+    width: 100%;
+    height: auto;
+}
+
+.ticket-messages .user-message {
+    border: 1px solid #ddd;
+    background-color: #eee;
+    padding: 15px;
+}
+
+.ticket-messages .admin-message {
+    background-color: #f9f9f9;
+}
+
+.ticket-messages .message {
+    margin-bottom: 15px;
+}
+
+.message textarea {
+    margin-bottom: 10px;
+}
+
+
 .table-option tr:first-child th:last-child {
     width: 100px;
+}
+
+.top-options {
+    margin-bottom: 15px;
+}
+
+.info-box {
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 30px;
+    margin-bottom: 15px;
+}
+
+.purchase-tables thead, .purchase-tables tfoot {
+    background-color: #364150;
+    color: #fff;
+}
+
+.purchase-tables thead th, .purchase-tables tfoot td {
+    border: none;
 }
