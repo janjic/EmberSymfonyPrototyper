@@ -22,6 +22,30 @@ class UserRepository extends EntityRepository
         return  $qb->select()->getQuery()->getArrayResult();
     }
 
+    public function findUsersObject($id = null, $params = null)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        if ($id) {
+            $qb->andWhere(self::ALIAS.'.id = ?1')
+                ->setParameter(1, $id);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+
+        if ($params) {
+            $page = $params['page'];
+            $offset = $params['offset'];
+            $firstResult =0;
+            if ($page !=1) {
+                $firstResult = ($page-1)*$offset;
+            }
+            $qb->setFirstResult($firstResult)->setMaxResults($offset);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param mixed $page
      * @param mixed $offset

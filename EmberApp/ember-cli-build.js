@@ -23,6 +23,8 @@ module.exports = function(defaults) {
   app.import('vendor/bootstrap.min.js');
   app.import('vendor/bootstrap.min.css');
   app.import('vendor/font-awesome.min.css');
+
+  app.import('vendor/bootstrap.min.js');
   app.import('vendor/fontawesome-webfont.woff2', {
     destDir: 'fonts'
   });
@@ -41,11 +43,14 @@ module.exports = function(defaults) {
   app.import('vendor/fontawesome-webfont.eot', {
     destDir: 'fonts'
   });
-    app.import('vendor/jqGrid/css/jquery-ui.css');
-    app.import('vendor/jqGrid/css/ui.jqgrid.css');
-    app.import('vendor/jqGrid/js/i18n/grid.locale-en.js');
-    app.import('vendor/jqGrid/js/jquery.jqGrid.min.js');
-    app.import('vendor/jqGrid/js/jQgrid-universal.js');
+
+  app.import('vendor/jqGrid/css/jquery-ui.css');
+  app.import('vendor/jqGrid/css/ui.jqgrid.css');
+  app.import('vendor/jqGrid/js/i18n/grid.locale-en.js');
+  app.import('vendor/jqGrid/js/jquery.jqGrid.min.js');
+  app.import('vendor/jqGrid/js/jQgrid-universal.js');
+  app.import('vendor/bundles/bazingajstranslation/main.js');
+  app.import('vendor/bundles/fosjsrouting/main.js');
 
   app.import('vendor/glyphicons-halflings-regular.eot', {
     destDir: 'fonts'
@@ -56,6 +61,7 @@ module.exports = function(defaults) {
   app.import('vendor/glyphicons-halflings-regular.svg', {
     destDir: 'fonts'
   });
+
   app.import('vendor/glyphicons-halflings-regular.woff', {
     destDir: 'fonts'
   });
