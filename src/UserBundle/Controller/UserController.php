@@ -20,29 +20,17 @@ class UserController extends Controller
     /**
      * @Route("/api/users/{user_param}", name="api_users", defaults={"user_param": "all"}),
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
     public function apiUserAction(Request $request)
     {
         $userId = ($id = intval($request->get('user_param'))) ? $id : null;
         $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
         $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
+
         /**return JSON Response */
         return $this->response($serializer->serialize($users));
 
-//        return new JsonResponse(
-//            array(
-//                'users'=>
-//                    (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
-//                        $this->getDoctrine()->getRepository('UserBundle:User')->findUsers(null):
-//                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsers($id)
-//                            :array(
-//                                'error' => 'Please provide valid params'
-//                            )
-//
-//                        )
-//
-//            ));
     }
 
 

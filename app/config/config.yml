@@ -76,6 +76,34 @@ fos_user:
     firewall_name: main
     user_class: UserBundle\Entity\User
 
+assetic:
+    bundles:
+      - CoreBundle
+    assets:
+      symfony_translation:
+        output: '../EmberApp/vendor/bundles/bazingajstranslation/main.js'
+        filter: uglifyjs2
+        inputs:
+          - 'bundles/bazingajstranslation/js/translator.min.js'
+          - 'js/translations/config.js'
+          - 'js/translations/*/*.js'
+      symfony_routes:
+        output: '../EmberApp/vendor/bundles/fosjsrouting/main.js'
+        filter: uglifyjs2
+        inputs:
+          - 'bundles/fosjsrouting/js/router.js'
+          - 'js/fos_js_routes.js'
+
+    node: /usr/bin/nodejs
+    filters:
+      uglifycss:
+        bin: /usr/local/lib/npm/bin/uglifycss
+      uglifyjs2:
+        bin:  /usr/local/lib/npm/bin/uglifyjs
+
+bazinga_js_translation:
+    locale_fallback:      en
+
 fos_oauth_server:
     db_driver: orm
     client_class:        UserBundle\Entity\Client

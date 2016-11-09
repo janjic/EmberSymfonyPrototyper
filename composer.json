@@ -30,7 +30,10 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/oauth-server-bundle": "dev-master",
-        "nilportugues/jsonapi-bundle": "^1.5"
+        "nilportugues/jsonapi-bundle": "^1.5",
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "willdurand/js-translation-bundle": "^2.6",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
