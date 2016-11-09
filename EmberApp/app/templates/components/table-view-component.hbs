@@ -1,0 +1,40 @@
+<h3 class="dashboar-heading">{{mainTitle}}</h3>
+<div class="table-responsive">
+    <h3>{{tableTitle}}</h3>
+    <table class="table table-striped table-bordered">
+        <tr>
+            {{#each colNames as |colName|}}
+                <th>{{colName}}</th>
+            {{/each}}
+            <th></th>
+        </tr>
+        <tr>
+            {{#each colNames as |colName|}}
+                <td><div class="table-input">{{input value=value key-up=(action 'handleFilterEntry' colName)}} <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
+            {{/each}}
+
+        </tr>
+
+        {{#each model as |m|}}
+            <tr>
+                {{#each colModels as |colModel|}}
+                    <td>{{get m colModel}}</td>
+                {{/each}}
+                <td>5</td>
+                <td>
+                    <a href="profile-settings.html" class="table-user-link">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+                    <a href="profile-edit.html" class="table-user-link">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {{/each}}
+
+    </table>
+
+    <button {{action 'prevPage'}}>Previous</button>
+    <button {{action 'nextPage'}}>Next</button>
+</div>
+
