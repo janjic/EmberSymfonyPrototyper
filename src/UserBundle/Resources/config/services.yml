@@ -22,3 +22,42 @@ services:
             - "@agent_system.user_manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Group --------------------------------------------------------------------------------------------------- #
+    agent_system.group.repository:
+        class: UserBundle\Business\Repository\GroupRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Group
+
+    agent_system.group.manager:
+        class: UserBundle\Business\Manager\GroupManager
+        arguments:
+            repository: "@agent_system.group.repository"
+#            container: "@alligator.group.container"
+
+    agent_system.group.adapter:
+        class: UserBundle\Adapter\Group\GroupAdapter
+        arguments:
+            - "@agent_system.group.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Role ---------------------------------------------------------------------------------------------------- #
+    agent_system.role.repository:
+        class: UserBundle\Business\Repository\RoleRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Role
+
+    agent_system.role.manager:
+        class: UserBundle\Business\Manager\RoleManager
+        arguments:
+            repository: "@agent_system.role.repository"
+
+    agent_system.role.adapter:
+        class: UserBundle\Adapter\Role\RoleAdapter
+        arguments:
+            - "@agent_system.role.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }

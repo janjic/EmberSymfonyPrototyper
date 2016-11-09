@@ -28,7 +28,6 @@ class User extends BaseUser
      */
     protected $firstName;
 
-
     /**
      * @var string
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
@@ -45,6 +44,15 @@ class User extends BaseUser
      * @ORM\Column(type="text", nullable=true)
      */
     protected $baseImageUrl;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Group", cascade={"merge"})
+     * @ORM\JoinTable(name="as_group_user",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",  onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id",  onDelete="CASCADE")}
+     * )
+     */
+    protected $groups;
 
     /**
      * @return mixed

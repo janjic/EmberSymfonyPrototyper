@@ -3,6 +3,7 @@
 namespace UserBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,4 +50,12 @@ class UserController extends Controller
         return new JsonResponse($userJqgrid->toArray());
     }
 
+    /**
+     * @Route("/testtt", name="testt", defaults={"user_param": "all"}),
+     * @return JsonResponse
+     */
+    public function testAction()
+    {
+        Debug::dump($this->container->get('agent_system.role.manager')->getAll());die();
+    }
 }

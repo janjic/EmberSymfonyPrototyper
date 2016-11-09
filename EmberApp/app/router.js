@@ -18,6 +18,11 @@ Router.map(function() {
 
   this.route('dashboard', function() {
     this.route('users-all');
+
+    this.route('settings', function() {
+      this.route('manage-user-groups');
+      this.route('manage-roles');
+    });
   });
 });
 

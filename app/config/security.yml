@@ -7,18 +7,18 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     firewalls:
-        api:
-            pattern:    ^/api
-            fos_oauth:  true
-            stateless:  true
-            anonymous: true
+#        api:
+#            pattern:    ^/api
+#            fos_oauth:  true
+#            stateless:  true
+#            anonymous: true
 
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-            logout:       true
-            anonymous:    true
+#        main:
+#            pattern: ^/
+#            form_login:
+#                provider: fos_userbundle
+#            logout:       true
+#            anonymous:    true
 
         oauth_token:
             pattern:    ^/oauth/v2/token

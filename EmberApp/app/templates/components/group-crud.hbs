@@ -1,0 +1,48 @@
+<div class="col-md-6">
+    <ul>
+        {{#each groups as |group|}}
+            <li>
+                {{group.name}}
+                {{#if displayAdd}}
+                    <button class="btn btn-primary" {{action "deleteGroupActionStart" group}}>Delete</button>
+                    <button class="btn btn-primary" {{action "editGroupAction" group}}>Edit</button>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="col-md-6">
+    {{#if displayAdd}}
+        <h4>Add new group</h4>
+        {{input type="text" class="new-group" placeholder="New group" value=addName}}
+        <button class="btn btn-primary" {{action "createGroup"}}>Add</button>
+    {{/if}}
+
+    {{#if displayEdit}}
+
+        <h4>Edit group</h4>
+        <div>
+            {{input type="text" class="new-group" placeholder="New group" value=editGroup.name}}
+            <button class="btn btn-primary pull-right" {{action "editGroupSave"}}>Save</button>
+            <button class="btn btn-primary pull-right" {{action "returnToAdd"}}>Cancel</button>
+        </div>
+    {{/if}}
+
+    {{#if displayDelete}}
+        <h4>Please select new group for users</h4>
+        <div>
+            {{#each availableParents as |group|}}
+                <div class="row">
+                    <div class="col-md-3">
+                        {{group.name}}
+                    </div>
+                    <button class="btn btn-primary col-md-3" {{action "setNewParentGroup" group}}>Set as new parent</button>
+                </div>
+            {{/each}}
+
+            <button class="btn btn-primary pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >Delete</button>
+            <button class="btn btn-primary pull-right" {{action "returnToAdd"}}>Cancel</button>
+        </div>
+    {{/if}}
+</div>
