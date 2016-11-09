@@ -1,0 +1,9 @@
+mapping:
+  class: UserBundle\Entity\User
+  alias: users
+  aliased_properties: []
+  hide_properties: []
+  id_properties:
+  - id
+  urls:
+    self: api_users

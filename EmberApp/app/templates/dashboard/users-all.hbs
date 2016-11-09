@@ -22,108 +22,26 @@
             <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
 
         </tr>
+        {{#each model as |user|}}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.username}}</td>
+                <td>5</td>
+                <td>6</td>
+                <td>
+                    <a href="profile-settings.html" class="table-user-link">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+                    <a href="profile-edit.html" class="table-user-link">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {{/each}}
 
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
+</tbody>
 
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>
-                <a href="profile-settings.html" class="table-user-link">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-        </tbody>
     </table>
 </div>
