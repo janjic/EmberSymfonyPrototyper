@@ -17,8 +17,13 @@ Router.map(function() {
   this.route('user-profile');
 
   this.route('dashboard', function() {
-    this.route('users-all');
-    this.route('add-new-user');
+    this.route('users', function() {
+      this.route('users-all');
+      this.route('add-new-user');
+      this.route('user-view');
+      this.route('user-edit');
+      this.route('all-tickets');
+    });
     this.route('add-new-agent');
     this.route('all-agents');
     this.route('agent-update-history');
@@ -37,13 +42,7 @@ Router.map(function() {
     this.route('sent');
     this.route('trash');
     this.route('settings');
-    this.route('all-tickets');
-    this.route('user-view');
-    this.route('user-edit');
     this.route('ticket-details');
-
-    this.route('payment', function() {});
-
     this.route('payments', function() {
       this.route('purchase-details');
     });
