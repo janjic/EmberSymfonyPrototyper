@@ -26,26 +26,44 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
-        $isPagination = false;
-        $params = null;
-        $userId = ($id = intval($request->get('user_param'))) ? $id : null;
-        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
-            $params['page'] =  $page;
-            $params['offset'] =  $offset;
-            $isPagination = true;
-        }
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId, $params);
         $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
 
+        if ($userId = intval($request->get('user_param'))) {
+            $user = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
 
-        if ($isPagination) {
+            return $this->response($serializer->serialize($user));
+        }
+
+        $params = null;
+        $searchParams = null;
+        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
+            $searchFields = array('id'=>'user.id', 'username'=>'user.username', 'firstName'=>'user.firstName', 'lastName'=>'user.lastName');
+            $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
+            $params['page'] =  $page;
+            $params['offset'] =  $offset;
+
+            if ($filters = $request->get('filters')) {
+                $searchParams= array(array('toolbar_search'=>true, 'rows'=>$offset, 'page'=>$page), array());
+                foreach ($rules = json_decode($filters)->rules as $rule) {
+                    $searchParams[1][$searchFields[$rule->field]] = $rule->data;
+                }
+
+                $users = $this->getDoctrine()->getRepository('UserBundle:User')->searchUsersForJQGRID($searchParams, $sortParams);
+            } else {
+                $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAllUsersForJQGRID($page, $offset, $sortParams);
+            }
+
+            $size = (int) $this->getDoctrine()->getRepository('UserBundle:User')->searchUsersForJQGRID($searchParams, $sortParams, true)[0][1];
+            $pageCount = ceil($size/$offset);
+
             /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
             $transformer = $serializer->getTransformer();
-            $transformer->setSelfUrl($this->generateUrl('api_users', ['page' => $params['page'], 'offset' => $params['offset']], true));
-            $transformer->setNextUrl($this->generateUrl('api_users', ['page' => $params['page']+1, 'offset' => $params['offset']], true));
-            if ($params['page'] > 1) {
-                $transformer->setPrevUrl($this->generateUrl('api_users', ['page' => $params['page']-1, 'offset' => $params['offset']], true));
-            }
+            $transformer->addMeta('totalItems', $size);
+            $transformer->addMeta('pages', $pageCount);
+            $transformer->addMeta('page', $page);
+
+        } else {
+            $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject();
         }
 
         /**return JSON Response */

@@ -2,8 +2,19 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 
+img{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
 
 h3{
+    font-weight: 100;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+h4{
     font-weight: 100;
     margin-top: 0px;
     margin-bottom: 20px;
@@ -16,8 +27,17 @@ h5{
 
 table.table {
     text-align: center;
+    margin-bottom:0px;
 }
 
+table.table tbody tr td {
+    min-width: 100px;
+}
+
+.table-responsive{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 table td input{
     width: 100%;
     display: inline-block;
@@ -37,23 +57,47 @@ table td a  {
 .table-input{
     display: flex;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
 }
+
+.sorting {
+    margin-right: 10px;
+}
+
+.sorting i {
+    cursor: pointer;
+}
+
 .fixed-margin{
     margin-right: 15px;
     padding-right: 0px;
     padding-left: 0px;
 }
-.all-users h3{
-    margin-bottom: 0px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 30px;
-    background: #2f3844;
-    color: white;
-    margin-top: 20px;
-    min-width: 600px;
+
+h1.main-heading {
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+h3.sub-heading {
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+
+.profile-view p {
+    margin-bottom: 0;
 }
 
 .table-option h4 {
@@ -214,7 +258,7 @@ table td a  {
 
 }
 .login{
-    width: 300px;
+    width: 500px;
     background: white;
     border: 1px solid #d5d6d8;
     border-top: 4px solid #d14545;
@@ -562,15 +606,7 @@ header{
 .form-wizard{
     margin-top: 20px;
 }
-.dashboar-heading{
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
-    padding-left: 0px!important;
-    background: none!important;
-    color: #2f3844!important;
-    margin-top: 0px!important;
-    margin-bottom: 20px!important;
-}
+
 .stepwizard-step p {
     margin-top: 10px;
 }
@@ -661,6 +697,7 @@ header{
 .form-wizard .form-group{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .setup-content .form-control, .profile-settings .form-control{
     border-radius: 0px;
@@ -676,6 +713,7 @@ header{
 
 .setup-content label {
     font-weight: bold;
+    font-size: 13px;
 }
 
 .profile-settings {
@@ -760,58 +798,45 @@ header{
     color: white;
 }
 /*ONN OFF SWITCH*/
-.onoffswitch {
-    position: relative; width: 90px;
+
+.onoffswitch, .onoffswitch-2 {
+    position: relative; width: 55px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
-.onoffswitch-checkbox {
+.onoffswitch-checkbox, .onoffswitch-2-checkbox {
     display: none;
 }
-.onoffswitch-label {
+.onoffswitch-label, .onoffswitch-2-label {
     display: block; overflow: hidden; cursor: pointer;
-    border-radius: 10px;
+    height: 20px; padding: 0; line-height: 20px;
+    border: 0px solid #FFFFFF; border-radius: 30px;
+    background-color: #9E9E9E;
 }
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "YES";
-    padding-left: 10px;
-    background-color: #58CC54; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "NO";
-    padding-right: 10px;
-    background-color: #D14545; color: #FFFFFF;
-    text-align: right;
-}
-
-.active-switch:before {
-    content: "Active";
-}
-
-.active-switch:after {
-    content: "Inactive";
-}
-.onoffswitch-switch {
-    display: block; width: 18px; margin: 6px;
+.onoffswitch-label:before, .onoffswitch-2-label:before {
+    content: "";
+    display: block; width: 30px; margin: -5px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 56px;
-    border: 2px solid #999999; border-radius: 20px;
-    transition: all 0.3s ease-in 0s;
+    right: 31px;
+    border-radius: 30px;
+    box-shadow: 0 6px 12px 0px #757575;
 }
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-2-checkbox:checked + .onoffswitch-2-label {
+    background-color: #27AE60;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before,
+.onoffswitch-2-checkbox:checked + .onoffswitch-2-label, .onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
+    border-color: #27AE60;
+}.onoffswitch-checkbox:checked + .onoffswitch-label:before
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner,
+.onoffswitch-2-checkbox:checked + .onoffswitch-2-label .onoffswitch-inner{
     margin-left: 0;
 }
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+.onoffswitch-checkbox:checked + .onoffswitch-label:before,
+.onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
     right: 0px;
+    background-color: #2ecc71;
+    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*OFF ON SWITCH END*/
@@ -824,12 +849,158 @@ header{
     width: 250px;
 }
 .right-section{
-    margin-left: 261px;
+    margin-left: 250px;
     /*min-width: 450px;*/
     /*width: auto;*/
     overflow-x: scroll;
-    padding: 20px;
+    padding: 30px;
 }
+
+/*DASHBOARD HOME*/
+.home-card{
+    background: #d14545;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: #fff;
+    position: relative;
+}
+.home-card span{
+    display: block;
+    text-align: right;
+    font-size: 22px;
+}
+.home-card i{
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+    font-size: 90px;
+    color: rgba(0,0,0,0.1);
+}
+.home-card p{
+    display: inline-block;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+.form-control:focus{
+    border-color: rgba(209, 69, 69, 0.4);;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+}
+input:focus{
+    border-color: rgba(209, 69, 69, 0.4);;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(233, 102, 102, 0.6);
+}
+.table-heading{
+    margin-bottom: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    background: #2f3844;
+    color: white;
+    margin-top: 0px;
+    min-width: 600px;
+}
+
+/*MESSAGES*/
+
+.messages-heading{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.messages-heading h3{
+    margin-bottom: 0px;
+    display: inline-block;
+}
+.messages-heading button{
+    display: inline-block;
+}
+.create-message .messages-heading{
+    margin-bottom: 30px;
+}
+.create-message input{
+    width: 75%;
+}
+.create-message .setup-content label{
+    text-align: left !important;
+}
+.btn-grey{
+    background-color: #a0a0a0 !important;
+    border-color: #aeaeae !important;
+    margin-left: 15px;
+}
+.btn-grey:hover{
+    background-color: #8b8b8b !important;
+    border-color: #aeaeae !important;
+}
+.create-message textarea{
+    resize: vertical;
+}
+.messages{
+    margin-bottom: 0px;
+}
+
+/*VIEW MESSAGE*/
+.view-message .messages-heading{
+    margin-bottom: 30px;
+}
+.view-message textarea{
+    resize: vertical;
+    margin-bottom: 15px;
+}
+.user-message{
+    padding: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+.username {
+    height: 70px;
+    padding-bottom: 15px;
+    margin-right: 20px;
+}
+.username-admin{
+    margin-right:0px !important;
+    margin-left: 20px;
+}
+.username h4{
+    display: inline-block;
+    margin-bottom: 15px;
+}
+.username img{
+    display: inline-block;
+    border-radius: 50%;
+}
+.user-comment{
+    margin-bottom: 30px;
+}
+.user-comment span{
+    float: right;
+    margin-right: 20px;
+    color: #bec2c9;
+}
+.admin-comment{
+    margin-bottom: 30px;
+}
+.admin-comment span{
+    color: #bec2c9;
+    margin-left: 20px;
+}
+
+.admin-message{
+    padding: 20px;
+    margin-bottom: 5px;
+    background: #d43f3a;
+    border-radius: 10px;
+    color: #fff;
+    text-align: justify;
+}
+
+
+
 
 @media screen and (max-width: 769px) {
     .insert-avatar-container {
@@ -867,13 +1038,155 @@ header{
         left: -0px;
     }
     .right-section{
+        margin-top:60px;
         margin-left: 15px;
     }
+    .dashboard-home{
+        margin-top: 0px;
+    }
+    .username{
+        width: 16.66666667%;
+        padding: 0px 15px 15px 15px;
+        float: right;
+        margin-right: 0px;
+    }
+    .username h4{
+        display:none;
+    }
+    .user-message{
+        width: 83.33333333%;
+        float: left;
+    }
+    .admin-message{
+        width: 83.33333333%;
+        float: left;
+    }
+    .username-admin{
+        margin-left: 0px;
+        float: left !important;
+    }
+    .user-comment span{
+        float:left;
+        margin-left: 20px;
+    }
+    .admin-comment span{
+        float: right;
+        margin-right: 20px;
+    }
+
+
+
 }
+
+@media screen and (min-width: 767px) and (max-width: 1230px) {
+    section.user-settings form > .col-md-6, .profile-view > .col-md-6 {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1150px) {
+    .tickets > .row > .col-md-6 {
+        width: 100%;
+    }
+}
+
+.ticket-info, .user-info {
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #eee;
+    margin-bottom:15px;
+}
+
+.ticket-messages .user-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.ticket-messages .admin-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.user-message span {
+    color: #ccc;
+    font-style: italic;
+}
+
+.ticket-messages .user-img p {
+    margin-bottom: 0;
+    margin-right: 15px;
+}
+
+.ticket-messages .user-img .img-holder {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ticket-messages .user-img .img-holder img {
+    width: 100%;
+    height: auto;
+}
+
+.ticket-messages .user-message {
+    border: 1px solid #ddd;
+    background-color: #eee;
+    padding: 15px;
+}
+
+.ticket-messages .admin-message {
+    background-color: #f9f9f9;
+    color: #333 !important;
+}
+
+.ticket-messages .message {
+    margin-bottom: 15px;
+}
+
+.message textarea {
+    margin-bottom: 10px;
+}
+
 
 .table-option tr:first-child th:last-child {
     width: 100px;
 }
+
+@media screen and (max-width: 1200px) and (min-width: 767px) {
+    .dashboard-home .col-md-3{
+        width: 50%;
+    }
+}
+
+
+
+.top-options {
+    margin-bottom: 15px;
+}
+
+.info-box {
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 30px;
+    margin-bottom: 15px;
+}
+
+.purchase-tables thead, .purchase-tables tfoot {
+    background-color: #364150;
+    color: #fff;
+}
+
+.purchase-tables thead th, .purchase-tables tfoot td {
+    border: none;
+}
+
 
 /* ------ Role settings --------------------------------------------------------------------------------------------- */
 /**
