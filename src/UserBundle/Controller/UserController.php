@@ -24,13 +24,44 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
+        $isPagination = false;
+        $params = null;
         $userId = ($id = intval($request->get('user_param'))) ? $id : null;
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
+        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
+            $params['page'] =  $page;
+            $params['offset'] =  $offset;
+            $isPagination = true;
+        }
+        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId, $params);
         $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
+
+
+        if ($isPagination) {
+            /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
+            $transformer = $serializer->getTransformer();
+            $transformer->setSelfUrl($this->generateUrl('api_users', ['page' => $params['page'], 'offset' => $params['offset']], true));
+            $transformer->setNextUrl($this->generateUrl('api_users', ['page' => $params['page']+1, 'offset' => $params['offset']], true));
+            if ($params['page'] > 1) {
+                $transformer->setPrevUrl($this->generateUrl('api_users', ['page' => $params['page']-1, 'offset' => $params['offset']], true));
+            }
+        }
 
         /**return JSON Response */
         return $this->response($serializer->serialize($users));
 
+//        return new JsonResponse(
+//            array(
+//                'users'=>
+//                    (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
+//                        $this->getDoctrine()->getRepository('UserBundle:User')->findUsers(null):
+//                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsers($id)
+//                            :array(
+//                                'error' => 'Please provide valid params'
+//                            )
+//
+//                        )
+//
+//            ));
     }
 
 
