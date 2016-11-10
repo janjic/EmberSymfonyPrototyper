@@ -4,6 +4,7 @@ namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use UserBundle\Entity\User;
 
 
 /**
@@ -12,7 +13,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    const ALIAS = 'user';
+    const ALIAS = 'u';
+
+    /**
+     * @param null $id
+     * @return array
+     */
     public function findUsers ($id = null)
     {
         $qb = $this->createQueryBuilder('u');
@@ -20,6 +26,18 @@ class UserRepository extends EntityRepository
         $id ? $qb->where('u.id = ?1')->setParameter(1, $id):false;
 
         return  $qb->select()->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function save(User $user)
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+
+        return $user;
     }
 
     /**
@@ -37,7 +55,7 @@ class UserRepository extends EntityRepository
             // $offset = $page*$offset;
         }
         $qb= $this->createQueryBuilder(self::ALIAS)->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
-            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+            self::ALIAS.'.lastName', self::ALIAS.'.enabled', self::ALIAS.'.locked');
 
         if (array_key_exists('search_param', $additionalParams)) {
             $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
@@ -60,7 +78,7 @@ class UserRepository extends EntityRepository
         $oQ0= $this->createQueryBuilder(self::ALIAS);
         if (!$isCountSearch) {
             $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
-                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+                self::ALIAS.'.enabled', self::ALIAS.'.locked');
         }
 
         $firstResult = 0;

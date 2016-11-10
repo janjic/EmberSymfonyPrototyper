@@ -20,4 +20,12 @@ class UserEventContainer
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getSearchParam()
+    {
+        return $this->container->get('request_stack')->getCurrentRequest()->query->get('search');
+    }
+
 }

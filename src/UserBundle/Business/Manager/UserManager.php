@@ -5,6 +5,7 @@ use CoreBundle\Adapter\JQGridInterface;
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use UserBundle\Business\Event\UserEventContainer;
 use UserBundle\Business\Repository\UserRepository;
+use UserBundle\Entity\User;
 
 /**
  * Class UserManager
@@ -32,6 +33,16 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
         $this->repository = $repository;
         $this->eventContainer = $eventContainer;
     }
+
+    /**
+     * @param User $user
+     * @return UserRepository
+     */
+    public function save(User $user)
+    {
+        return $this->repository->save($user);
+    }
+
 
     /**
      * @param array $searchParams

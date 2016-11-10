@@ -39,14 +39,26 @@ class UserController extends Controller
 
     /**
      * @Route("/api/users-jqgrid", name="api_users_jqgrid", defaults={"user_param": "all"}),
-     * @param ArrayCollection $usersJQgrid
+     * @param ArrayCollection $userJqgrid
      * @return JsonResponse
      */
-    public function indexAction(ArrayCollection $userJqgrid)
+    public function jqgridUsersAction(ArrayCollection $userJqgrid)
     {
 
         /**return JSON Response */
         return new JsonResponse($userJqgrid->toArray());
+    }
+
+    /**
+     * @Route("/api/user-save", name="api_users_save"),
+     * @param ArrayCollection $userSave
+     * @return JsonResponse
+     */
+    public function saveUserAction(ArrayCollection $userSave)
+    {
+
+        /**return JSON Response */
+        return new JsonResponse($userSave->toArray());
     }
 
 }
