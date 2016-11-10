@@ -1,0 +1,24 @@
+<div class=" left-section">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {{#link-to 'dashboard.home'}}<i class="fa fa-tachometer"></i> Dashboard{{/link-to}}
+                </h4>
+            </div>
+        </div>
+        {{left-menu-genealogy}}
+        {{left-menu-users}}
+        {{left-menu-agents}}
+        {{left-menu-payments}}
+        {{left-menu-mass-mail}}
+        {{left-menu-messages}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {{#link-to 'dashboard.settings'}}<i class="fa fa-cogs"></i> Settings{{/link-to}}
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
