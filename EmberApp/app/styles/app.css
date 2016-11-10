@@ -24,6 +24,13 @@ h5{
     margin-top: 0px;
     margin-bottom: 20px;
 }
+.no-padding-left-right{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+.no-border-radius{
+    border-radius: 0px !important;
+}
 table.table {
     text-align: center;
     margin-bottom:0px;
@@ -926,7 +933,7 @@ input:focus{
     resize: vertical;
 }
 .messages{
-    margin-bottom: 0px;
+    margin-bottom: 100px;
 }
 
 /*VIEW MESSAGE*/
@@ -985,6 +992,14 @@ input:focus{
     color: #fff;
     text-align: justify;
 }
+.send-message-mobile{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background: white;
+    padding-top: 15px;
+    right: 60px;
+}
 
 
 
@@ -1026,7 +1041,7 @@ input:focus{
     }
     .right-section{
         margin-top:60px;
-        margin-left: 15px;
+        margin-left: 0px;
     }
     .dashboard-home{
         margin-top: 0px;
@@ -1068,7 +1083,31 @@ input:focus{
     .container-fluid{
         margin-right: 0px;
     }
-
+    .send-message-mobile{
+        position: fixed;
+        bottom:0;
+        width: 100%;
+        padding-top: 0px;
+        right: 0;
+    }
+    .send-message-mobile textarea{
+        border-radius: 0px;
+        resize: none;
+        margin-bottom: 0px;
+    }
+    .send-message-mobile .form-group{
+        margin-bottom: 0px;
+    }
+    .send-message-mobile .form-group .btn-grey{
+        display: none;
+    }
+    .send-message-mobile .form-group .btn{
+        width: 100%;
+        border-radius: 0px;
+    }
+    .messages{
+        margin-bottom: 58px;
+    }
 
 }
 
