@@ -17,7 +17,6 @@ Router.map(function() {
   this.route('user-profile');
 
   this.route('dashboard', function() {
-    this.route('users-customers');
     this.route('home');
     this.route('settings');
     this.route('payments', function() {
@@ -53,6 +52,16 @@ Router.map(function() {
       this.route('trash');
       this.route('view-message');
     });
+
+    this.route('users', function() {
+      this.route('add-new-user');
+      this.route('all-tickets');
+      this.route('ticket-details');
+      this.route('user-edit');
+      this.route('user-view');
+      this.route('users-all');
+    });
+
   });
 
   this.route('dashboard-agent', function() {
