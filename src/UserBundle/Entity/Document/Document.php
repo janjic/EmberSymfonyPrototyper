@@ -77,7 +77,9 @@ class Document
     protected function createProFolder()
     {
         $proFolder = $this->getUploadRootDir() .Document::VERSION;
+//        var_dump($proFolder);exit;
         if (!file_exists($proFolder)) {
+
             mkdir($proFolder, 0777, true);
         }
 
@@ -101,7 +103,7 @@ class Document
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__ . '/../../../../../web/' . $this->getUploadDir();
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
     /**

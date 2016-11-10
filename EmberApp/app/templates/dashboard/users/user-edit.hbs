@@ -1,137 +1,164 @@
-<section class="form-wizard user-settings">
-    <h1 class="main-heading">User profile edit</h1>
-    <form role="form">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <h3 class="sub-heading">Account information</h3>
-            <div class="profile-settings">
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                        <img class="img img-responsive" src="../assets/images/user-avatar.png" alt="">
-                        <hr>
-                        <div class="form-group clearfix">
-                            <a href="change-password.html" class="btn btn-danger">Change <br> password</a>
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Title</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="Mr">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">First name</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="John">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Last name</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="Johnson">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Email</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="john@gmail.com">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Phone number</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="+42 42 234 56 67">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Language</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="English">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Country</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="Switzerland">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Date of birth</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="04/02/1991">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Status</label>
-                            <div class="col-md-8 col-xs-8">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                                    <label class="onoffswitch-label" for="myonoffswitch">
-                                        <span class="onoffswitch-inner active-switch"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<section class="form-wizard">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="dashboar-heading">Edit User</h3>
         </div>
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <h3 class="sub-heading">Optional information</h3>
-            <div class="profile-settings">
-                <div class="row">
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Address</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="Miloja Djaka 36, Belgrade">
-                        </div>
+    </div>
+    <form role="form">
+        <div class="row setup-content">
+            <div class="col-md-6">
+
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Title
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        <select class="form-control" name="username">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">ZIP Code</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="11000">
-                        </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Name
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="text" class="form-control" value=model.firstName }}
+                        {{#unless firstNameValid.valid}}
+                            <label class="label-danger">{{firstNameValid.message}}</label>
+                        {{/unless}}
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Comment</label>
-                        <div class="col-md-8 col-xs-8">
-                            <textarea class="form-control" name="" id="" cols="30" rows="10" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer feugiat, risus ut luctus pharetra, ex massa commodo mi, quis efficitur sapien erat nec orci. Integer ut tempor ipsum. Cras vitae est ut leo posuere dictum a non nisi."></textarea>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Family name
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="text" class="form-control" value=model.lastName }}
+                        {{#unless lastNameValid.valid}}
+                            <label class="label-danger">{{lastNameValid.message}}</label>
+                        {{/unless}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Email
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.email }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Repeat email
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.email }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Insert user image
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    {{#if model.baseImageUrl}}
+                    <img src="{{model.baseImageUrl}}" alt="{{model.username}}" width="300" height="300">
+                    {{/if}}
+                    <div class="col-md-8 user-img">
+                        <input type="button" class="form-control drag-and-drop" name="username" placeholder="asd">
+                        <div class="insert-avatar-container text-center" >
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile')}}
                         </div>
                     </div>
                 </div>
             </div>
-            <h3 class="sub-heading">Referral link</h3>
-            <div class="profile-settings">
-                <div class="row">
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent ID</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="234WX123WQ">
+
+            <div class="col-md-6">
+
+
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Street and number
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.streetNumber }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Postcode
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.postcode }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">City
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.city }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Country
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.country }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Phone number
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.phone }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Language
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.language }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Date of birth
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=model.birthDate}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Admin
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-1">
+                        <div class="onoffswitch">
+                            {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=model.isAdmin }}
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
                         </div>
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's first name</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="John">
-                        </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Comment
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{textarea class="form-control" name="username" value=model.comment}}
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's last name</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="Smith">
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's email</label>
-                        <div class="col-md-8 col-xs-8">
-                            <input class="form-control" type="text" placeholder="john@smith.com">
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <div class="col-md-12">
-                            <a href="#" class="btn btn-success pull-right">Save user profile</a>
-                        </div>
+                </div>
+
+                <div class="form-group clearfix text-right">
+                    <div class="col-md-12">
+                        {{name}}
+                        <button class="btn btn-danger pull-right" {{action 'saveUser' model }}>Save</button>
                     </div>
                 </div>
             </div>

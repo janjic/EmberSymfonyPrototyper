@@ -26,6 +26,11 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
+        if($request->isMethod('PUT')){
+            $this->get('agent_system.user_manager')->edit(json_decode($request->getContent())->user, $request->get('user_param'));
+            return;
+        }
+
         $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
 
         if ($userId = intval($request->get('user_param'))) {
@@ -84,17 +89,27 @@ class UserController extends Controller
 //            ));
     }
 
-
     /**
      * @Route("/api/users-jqgrid", name="api_users_jqgrid", defaults={"user_param": "all"}),
-     * @param ArrayCollection $usersJQgrid
+     * @param ArrayCollection $userJqgrid
      * @return JsonResponse
      */
-    public function indexAction(ArrayCollection $userJqgrid)
+    public function jqgridUsersAction(ArrayCollection $userJqgrid)
     {
 
         /**return JSON Response */
         return new JsonResponse($userJqgrid->toArray());
+    }
+
+    /**
+     * @Route("/api/user-save", name="api_users_save"),
+     * @param ArrayCollection $userSave
+     * @return JsonResponse
+     */
+    public function saveUserAction(ArrayCollection $userSave)
+    {
+        /**return JSON Response */
+        return new JsonResponse($userSave->toArray());
     }
 
     /**

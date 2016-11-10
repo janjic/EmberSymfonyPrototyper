@@ -4,6 +4,7 @@ namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use UserBundle\Entity\User;
 
 
 /**
@@ -13,11 +14,33 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
     const ALIAS = 'user';
+    const JOIN_WITH_ADDRESS = 'address';
+    const JOIN_WITH_IMAGE = 'image';
+
+    /**
+     * @param null $id
+     * @return array
+     */
     public function findUsers ($id = null)
     {
         $qb = $this->createQueryBuilder('u');
         $qb->select('u.id', 'u.firstName', 'u.lastName', 'u.baseImageUrl  as image', 'u.username');
         $id ? $qb->where('u.id = ?1')->setParameter(1, $id):false;
+
+        return  $qb->select()->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param null $id
+     * @return array
+     */
+    public function findUsersNew ($id = null)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::JOIN_WITH_ADDRESS, self::JOIN_WITH_IMAGE);
+        $qb->leftJoin(self::ALIAS.'.address', self::JOIN_WITH_ADDRESS);
+        $qb->leftJoin(self::ALIAS.'.image', self::JOIN_WITH_IMAGE);
+        $id ? $qb->where(self::ALIAS.'.id = ?1')->setParameter(1, $id):false;
 
         return  $qb->select()->getQuery()->getArrayResult();
     }
@@ -62,8 +85,7 @@ class UserRepository extends EntityRepository
         $qb= $this->createQueryBuilder(self::ALIAS);
 //            ->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
 //            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
-
-
+        
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
 //        $qb->groupBy(self::ALIAS.'.id');
 

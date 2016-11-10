@@ -58,13 +58,13 @@ Router.map(function() {
     });
 
     this.route('users', function() {
-      this.route('add-new-user');
       this.route('all-tickets');
       this.route('ticket-details');
-      this.route('user-edit');
-      this.route('user-view');
-      this.route('users-all');
+      this.route('user-view'); 
       this.route('users-customers');
+      this.route('users-all');
+      this.route('user-add');
+      this.route('user-edit', {path: '/user-edit/:id'});
     });
 
   });

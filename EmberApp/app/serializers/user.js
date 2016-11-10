@@ -12,3 +12,10 @@ export default DS.JSONAPISerializer.extend({
         return underscore(rawKey);
     }
 });
+
+// export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
+//     attrs: {
+//         image: {embedded: 'always'},
+//         address: {embedded: 'always'}
+//     }
+// });

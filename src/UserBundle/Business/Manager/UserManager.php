@@ -3,8 +3,12 @@
 namespace UserBundle\Business\Manager;
 use CoreBundle\Adapter\JQGridInterface;
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
+use DateTime;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Business\Event\UserEventContainer;
 use UserBundle\Business\Repository\UserRepository;
+use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\User;
 
 /**
  * Class UserManager
@@ -32,6 +36,58 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
         $this->repository = $repository;
         $this->eventContainer = $eventContainer;
     }
+
+    /**
+     * @param User $user
+     * @return UserRepository
+     */
+    public function save(User $user)
+    {
+        return $this->repository->save($user);
+    }
+
+    /**
+     * @param  $user
+     * @return UserRepository
+     */
+    public function edit($user, $id)
+    {
+        /**
+         * @var User $dbUser
+         */
+        $dbUser = $this->repository->findOneById($id);
+        $dbUser->setFirstName($user->firstName);
+        $dbUser->setLastName($user->lastName);
+        $dbUser->setUsername($user->email);
+        $dbUser->setEmail($user->email);
+        $dbUser->setPlainPassword($user->password);
+        $dbUser->setLanguage($user->language);
+
+        $dbUser->setBirthDate(new DateTime($user->birthDate));
+        $dbUser->getAddress()->setStreetNumber($user->address->streetNumber);
+        $dbUser->getAddress()->setPostcode($user->address->postcode);
+        $dbUser->getAddress()->setCity($user->address->city);
+        $dbUser->getAddress()->setCountry($user->address->country);
+        $dbUser->getAddress()->setPhone($user->address->phone);
+        if(!property_exists($user->image,'id')){
+            $img  = new Image();
+            $img->setBase64Content($user->image->base64_content);
+            $img->setName($user->image->name);
+            $img->saveToFile($img->getBase64Content());
+            $dbUser->getImage()->setName($img->getName());
+            $dbUser->setBaseImageUrl($img->getWebPath());
+        }
+        return $this->repository->edit($dbUser);
+    }
+
+    /**
+     * @param $image
+     */
+    public function deleteImage($image)
+    {
+        $this->eventContainer->deleteImage($image);
+    }
+
 
     /**
      * @param array $searchParams

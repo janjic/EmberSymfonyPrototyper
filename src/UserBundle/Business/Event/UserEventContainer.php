@@ -20,4 +20,19 @@ class UserEventContainer
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getSearchParam()
+    {
+        return $this->container->get('request_stack')->getCurrentRequest()->query->get('search');
+    }
+
+    public function deleteImage($image)
+    {
+        $em =$this->container->get('doctrine')->getEntityManager();
+        $em->remove($image);
+        $em->flush();
+    }
+
 }
