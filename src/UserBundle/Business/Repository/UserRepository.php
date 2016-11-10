@@ -50,24 +50,22 @@ class UserRepository extends EntityRepository
      * @param mixed $page
      * @param mixed $offset
      * @param mixed $sortParams
-     * @param mixed $additionalParams
      * @return array
      */
-    public function findAllUsersForJQGRID($page, $offset, $sortParams, $additionalParams)
+    public function findAllUsersForJQGRID($page, $offset, $sortParams)
     {
         $firstResult =0;
         if ($page !=1) {
             $firstResult = ($page-1)*$offset;
             // $offset = $page*$offset;
         }
-        $qb= $this->createQueryBuilder(self::ALIAS)->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
-            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+        $qb= $this->createQueryBuilder(self::ALIAS);
+//            ->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
+//            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
 
-        if (array_key_exists('search_param', $additionalParams)) {
-            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
-        }
+
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
-        $qb->groupBy(self::ALIAS.'.id');
+//        $qb->groupBy(self::ALIAS.'.id');
 
         return $qb->getQuery()->getResult();
     }
@@ -75,16 +73,15 @@ class UserRepository extends EntityRepository
     /**
      * @param mixed $searchParams
      * @param mixed $sortParams
-     * @param mixed $additionalParams
      * @param bool  $isCountSearch
      * @return array
      */
-    public function searchUsersForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    public function searchUsersForJQGRID($searchParams, $sortParams, $isCountSearch = false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
         if (!$isCountSearch) {
-            $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
-                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+//            $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
+//                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
         }
 
         $firstResult = 0;
@@ -96,7 +93,6 @@ class UserRepository extends EntityRepository
                 $firstResult = 0;
                 if ($page != 1) {
                     $firstResult = ($page - 1) * $offset;
-                    $offset = $page * $offset;
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
@@ -219,7 +215,7 @@ class UserRepository extends EntityRepository
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
-            $oQ0->groupBy(self::ALIAS.'.id');
+//            $oQ0->groupBy(self::ALIAS.'.id');
             $oQ0->setFirstResult($firstResult)->setMaxResults($offset);
         }
 

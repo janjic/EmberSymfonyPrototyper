@@ -1,18 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    page: 1,
-    offset: 10,
-    queryParams: {
-        page: {
-            refreshModel: true
-        }
-    },
-    model: function (params) {
-        var page = params.page ? params.page : this.get('page');
+    model: function () {
         return this.store.query('user', {
-            page: page,
-            offset: this.get('offset')
+            page: 1,
+            offset: 10,
+            sidx: 'id',
+            sord: 'asc'
         });
+    },
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('maxPages', model.meta.pages);
+        controller.set('totalItems', model.meta.totalItems);
     }
 });

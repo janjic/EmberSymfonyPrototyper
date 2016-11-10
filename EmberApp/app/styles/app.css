@@ -18,6 +18,10 @@ table.table {
     text-align: center;
 }
 
+table.table tbody tr td {
+    min-width: 100px;
+}
+
 table td input{
     width: 100%;
     display: inline-block;
@@ -37,9 +41,16 @@ table td a  {
 .table-input{
     display: flex;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
 }
+
+.sorting {
+    margin-right: 10px;
+}
+
+.sorting i {
+    cursor: pointer;
+}
+
 .fixed-margin{
     margin-right: 15px;
     padding-right: 0px;

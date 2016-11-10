@@ -1,29 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Confirmed', 'Country', ''],
-    colModels: ['id', 'firstName', 'lastName', 'username', 'enabled'],
+    page: 1,
+    offset: 10,
+    colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Confirmed', 'Country', 'Actions'],
+    colModels: [{value: 'id', compare:'eq', compareValues: [{name: 'First', value:'1'},{name: 'Second', value:'2'},{name: 'Third', value:'3'}]}, {value: 'firstName', compare:'cn'}, {value: 'lastName', compare:'eq', compareValues: [{name: 'First', value:'1'},{name: 'Second', value:'2'},{name: 'Third', value:'3'}]}, {value: 'username', compare:'cn'}, {value: 'enabled', compare:'cn'}, {value: 'address', compare:'cn'}],
     actions: {
-        prevPage: function () {
-            if (this.get('page') > 1) {
-                this.transitionToRoute({
-                    queryParams: {
-                        page: this.decrementProperty('page'),
-                        offset: 10
-                    }
-                });
-            }
-        },
-        nextPage: function () {
-            this.transitionToRoute({
-                queryParams: {
-                    page: this.incrementProperty('page'),
-                    offset: 10
-                }
+        filterModel: function (searchArray, page, column, sortType) {
+            return this.get('store').query('user', {
+                page: page,
+                offset: this.get('offset'),
+                sidx: column,
+                sord: sortType,
+                filters: JSON.stringify(searchArray)
             });
-        },
-        filterModel: function (colon, value) {
-            console.log('Search', colon + ' - ' + value);
         }
     }
 });
