@@ -69,6 +69,7 @@ Router.map(function() {
       this.route('user-edit');
       this.route('user-view');
       this.route('users-all');
+      this.route('users-customers');
     });
 
   });
@@ -83,7 +84,6 @@ Router.map(function() {
 
     this.route('users', function() {
       this.route('add-new-user');
-      this.route('users-customers');
     });
   });
 });
