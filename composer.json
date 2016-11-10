@@ -30,6 +30,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/oauth-server-bundle": "dev-master",
+        "stof/doctrine-extensions-bundle": "^1.2",
         "nilportugues/jsonapi-bundle": "^1.5",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "willdurand/js-translation-bundle": "^2.6",

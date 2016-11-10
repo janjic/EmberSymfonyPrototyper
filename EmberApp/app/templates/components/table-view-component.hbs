@@ -7,21 +7,19 @@
             {{#each colNames as |colName|}}
                 <th>{{colName}}</th>
             {{/each}}
-            <th></th>
         </tr>
         <tr>
-            {{#each colNames as |colName|}}
-                <td><div class="table-input">{{input value=value key-up=(action 'handleFilterEntry' colName)}} <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
+            {{#each colModels as |colName|}}
+                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=(action 'handleFilterEntry')}}
             {{/each}}
-
+            <th></th>
         </tr>
 
         {{#each model as |m|}}
             <tr>
                 {{#each colModels as |colModel|}}
-                    <td>{{get m colModel}}</td>
+                    <td>{{get m colModel.value}}</td>
                 {{/each}}
-                <td>5</td>
                 <td>
                     <a href="profile-settings.html" class="table-user-link">
                         <i class="fa fa-eye" aria-hidden="true"></i>
@@ -35,7 +33,14 @@
         </tbody>
     </table>
 
-    <button {{action 'prevPage'}}>Previous</button>
-    <button {{action 'nextPage'}}>Next</button>
+    <button {{action 'goToPage' 1}}>First</button>
+    <button {{action 'goToPage' '-1'}}>Previous</button>
+
+    {{input action='goToPage' value=model.meta.page}}
+    {{model.meta.pages}}
+
+    <button {{action 'goToPage' '+1'}}>Next</button>
+    <button {{action 'goToPage' model.meta.pages}}>Last</button>
+
 </div>
 

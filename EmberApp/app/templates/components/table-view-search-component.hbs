@@ -1,6 +1,20 @@
-<td>
-    <div class="table-input">
-        {{input}}
-        <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
-    </div>
-</td>
+<div class="table-input">
+    {{#if isSelect}}
+        <div class="sorting">
+            <i class="fa {{sortClass}}" {{action 'sort'}}></i>
+        </div>
+        <select {{action 'handleFilterEntry' on='change'}}>
+            <option value="-1" disabled selected>Select</option>
+            {{#each compareValues as |compareValue|}}
+                <option value="{{compareValue.value}}">{{compareValue.name}}</option>
+            {{/each}}
+        </select>
+        <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
+    {{else}}
+        <div class="sorting">
+            <i class="fa {{sortClass}}" {{action 'sort'}}></i>
+        </div>
+        {{input value=searchValue key-up=(action 'handleFilterEntry')}}
+        <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
+    {{/if}}
+</div>

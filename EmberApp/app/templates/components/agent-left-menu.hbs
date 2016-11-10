@@ -13,5 +13,24 @@
         {{agent-left-menu-reports}}
         {{agent-left-menu-wallet}}
         {{agent-left-menu-profile}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSettings"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a>
+                </h4>
+            </div>
+            <div id="collapseSettings" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="table">
+                        <li>
+                            {{#link-to 'dashboard.settings.manage-user-groups' }}Manage Groups{{/link-to}}
+                        </li>
+                        <li>
+                            {{#link-to 'dashboard.settings.manage-roles' }}Manage Roles{{/link-to}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

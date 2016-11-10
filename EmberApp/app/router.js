@@ -17,9 +17,11 @@ Router.map(function() {
   this.route('user-profile');
 
   this.route('dashboard', function() {
-    this.route('users-customers');
     this.route('home');
-    this.route('settings');
+    this.route('settings', function() {
+        this.route('manage-user-groups');
+        this.route('manage-roles');
+    });
     this.route('payments', function() {
       this.route('purchase-details');
       this.route('reports');
@@ -44,15 +46,6 @@ Router.map(function() {
     });
 
 
-    this.route('users', function() {
-      this.route('add-new-user');
-      this.route('all-tickets');
-      this.route('ticket-details');
-      this.route('user-edit');
-      this.route('user-view');
-      this.route('users-all');
-    });
-
     this.route('messages', function() {
       this.route('create-message');
       this.route('drafts');
@@ -63,6 +56,17 @@ Router.map(function() {
       this.route('trash');
       this.route('view-message');
     });
+
+    this.route('users', function() {
+      this.route('add-new-user');
+      this.route('all-tickets');
+      this.route('ticket-details');
+      this.route('user-edit');
+      this.route('user-view');
+      this.route('users-all');
+      this.route('users-customers');
+    });
+
   });
 
   this.route('dashboard-agent', function() {
@@ -75,7 +79,6 @@ Router.map(function() {
 
     this.route('users', function() {
       this.route('add-new-user');
-      this.route('users-customers');
     });
   });
 });

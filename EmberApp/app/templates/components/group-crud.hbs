@@ -1,0 +1,41 @@
+<div class="col-md-6">
+    {{#each groups as |group|}}
+        <div class="form-group clearfix">
+            {{group.name}}
+            <button class="btn btn-info pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
+            <button class="btn btn-info pull-right" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
+        </div>
+    {{/each}}
+</div>
+
+<div class="col-md-6">
+    {{#if displayDelete}}
+        <h4>Please select new group for users</h4>
+        <div>
+            {{#each availableParents as |group|}}
+                <div class="row">
+                    <div class="col-md-3">
+                        {{group.name}}
+                    </div>
+                    <button class="btn btn-primary col-md-3" {{action "setNewParentGroup" group}}>Set as new parent</button>
+                </div>
+            {{/each}}
+
+            <button class="btn btn-primary pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >Delete</button>
+            <button class="btn btn-primary pull-right" {{action "cancelDelete"}}>Cancel</button>
+        </div>
+    {{else}}
+        {{#if displayEdit}}
+            <h4>Edit group</h4>
+            <div>
+                {{input type="text" class="new-group" placeholder="New group" value=editGroup.name}}
+                <button class="btn btn-primary pull-right" {{action "editGroupSave"}}>Save</button>
+                <button class="btn btn-primary pull-right" {{action "cancelEdit"}}>Cancel</button>
+            </div>
+        {{else}}
+            <h4>Add new group</h4>
+            {{input type="text" class="new-group" placeholder="New group" value=addName}}
+            <button class="btn btn-primary" {{action "createGroup"}}>Add</button>
+        {{/if}}
+    {{/if}}
+</div>
