@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('user-profile');
 
   this.route('dashboard', function() {
+    this.route('users-customers');
     this.route('users', function() {
       this.route('users-all');
       this.route('add-new-user');
@@ -55,6 +56,20 @@ Router.map(function() {
       this.route('drafts');
       this.route('sent');
       this.route('trash');
+    });
+  });
+
+  this.route('dashboard-agent', function() {
+    this.route('home');
+
+    this.route('profile', function() {
+      this.route('profile-settings');
+      this.route('messages');
+    });
+
+    this.route('users', function() {
+      this.route('add-new-user');
+      this.route('users-customers');
     });
   });
 });
