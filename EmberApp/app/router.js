@@ -41,6 +41,8 @@ Router.map(function() {
     this.route('users-customers');
     this.route('create-message');
     this.route('view-message');
+    this.route('create-message-edit');
+    this.route('sent-messages');
   });
 });
 

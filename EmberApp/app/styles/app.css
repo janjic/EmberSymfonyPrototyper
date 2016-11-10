@@ -915,24 +915,79 @@ input:focus{
 .create-message .setup-content label{
     text-align: left !important;
 }
+.btn-grey{
+    background-color: #a0a0a0 !important;
+    border-color: #aeaeae !important;
+    margin-left: 15px;
+}
+.btn-grey:hover{
+    background-color: #8b8b8b !important;
+    border-color: #aeaeae !important;
+}
+.create-message textarea{
+    resize: vertical;
+}
+.messages{
+    margin-bottom: 0px;
+}
 
 /*VIEW MESSAGE*/
+.view-message .messages-heading{
+    margin-bottom: 30px;
+}
+.view-message textarea{
+    resize: vertical;
+    margin-bottom: 15px;
+}
 .user-message{
     padding: 20px;
     background: #ddd;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+.username {
+    height: 70px;
+    padding-bottom: 15px;
+    margin-right: 20px;
+}
+.username-admin{
+    margin-right:0px !important;
+    margin-left: 20px;
 }
 .username h4{
     display: inline-block;
+    margin-bottom: 15px;
 }
 .username img{
     display: inline-block;
+    border-radius: 50%;
 }
-
+.user-comment{
+    margin-bottom: 30px;
+}
+.user-comment span{
+    float: right;
+    margin-right: 20px;
+    color: #bec2c9;
+}
+.admin-comment{
+    margin-bottom: 30px;
+}
+.admin-comment span{
+    color: #bec2c9;
+    margin-left: 20px;
+}
 
 .admin-message{
     padding: 20px;
-    background: rgba(221, 221, 221, 0.34);
+    margin-bottom: 5px;
+    background: #d43f3a;
+    border-radius: 10px;
+    color: #fff;
+    text-align: justify;
 }
+
 
 
 
@@ -978,6 +1033,37 @@ input:focus{
     .dashboard-home{
         margin-top: 0px;
     }
+    .username{
+        width: 16.66666667%;
+        padding: 0px 15px 15px 15px;
+        float: right;
+        margin-right: 0px;
+    }
+    .username h4{
+        display:none;
+    }
+    .user-message{
+        width: 83.33333333%;
+        float: left;
+    }
+    .admin-message{
+        width: 83.33333333%;
+        float: left;
+    }
+    .username-admin{
+        margin-left: 0px;
+        float: left !important;
+    }
+    .user-comment span{
+        float:left;
+        margin-left: 20px;
+    }
+    .admin-comment span{
+        float: right;
+        margin-right: 20px;
+    }
+
+
 
 }
 
