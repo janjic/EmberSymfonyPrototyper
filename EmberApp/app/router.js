@@ -18,14 +18,6 @@ Router.map(function() {
 
   this.route('dashboard', function() {
     this.route('users-customers');
-    this.route('users', function() {
-      this.route('users-all');
-      this.route('add-new-user');
-      this.route('user-view');
-      this.route('user-edit');
-      this.route('all-tickets');
-      this.route('ticket-details');
-    });
     this.route('home');
     this.route('settings');
     this.route('payments', function() {
@@ -52,10 +44,14 @@ Router.map(function() {
     });
 
     this.route('messages', function() {
-      this.route('received-messages');
+      this.route('create-message');
       this.route('drafts');
+      this.route('create-message-edit');
+      this.route('received-messages');
       this.route('sent');
+      this.route('sent-messages');
       this.route('trash');
+      this.route('view-message');
     });
   });
 

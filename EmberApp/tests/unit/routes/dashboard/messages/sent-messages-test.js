@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:dashboard/create-message', 'Unit | Route | dashboard/create message', {
+moduleFor('route:dashboard/messages/sent-messages', 'Unit | Route | dashboard/messages/sent messages', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

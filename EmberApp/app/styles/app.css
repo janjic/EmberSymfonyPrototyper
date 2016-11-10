@@ -1129,6 +1129,7 @@ input:focus{
 
 .ticket-messages .admin-message {
     background-color: #f9f9f9;
+    color: #333 !important;
 }
 
 .ticket-messages .message {
