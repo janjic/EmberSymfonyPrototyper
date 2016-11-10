@@ -23,28 +23,38 @@ Router.map(function() {
       this.route('user-view');
       this.route('user-edit');
       this.route('all-tickets');
+      this.route('ticket-details');
     });
-    this.route('add-new-agent');
-    this.route('all-agents');
-    this.route('agent-update-history');
-    this.route('tree-view');
-    this.route('table-view');
-    this.route('folder-view');
     this.route('home');
-    this.route('payouts-to-agents');
-    this.route('reports');
-    this.route('add-new-mail-list');
-    this.route('all-mail-lists');
-    this.route('add-mm-campaign');
-    this.route('all-mm-campaigns');
-    this.route('received-messages');
-    this.route('drafts');
-    this.route('sent');
-    this.route('trash');
     this.route('settings');
-    this.route('ticket-details');
     this.route('payments', function() {
       this.route('purchase-details');
+      this.route('reports');
+      this.route('payouts-to-agents');
+    });
+
+    this.route('agents', function() {
+      this.route('add-new-agent');
+      this.route('all-agents');
+      this.route('agent-update-history');
+      this.route('agent-view');
+      this.route('agent-edit');
+    });
+
+    this.route('mass-mails', function() {
+      this.route('add-new-mail-list');
+      this.route('all-mail-lists');
+      this.route('add-new-campaign');
+      this.route('all-campaigns');
+      this.route('edit-mail-list');
+      this.route('edit-campaign');
+    });
+
+    this.route('messages', function() {
+      this.route('received-messages');
+      this.route('drafts');
+      this.route('sent');
+      this.route('trash');
     });
   });
 });
