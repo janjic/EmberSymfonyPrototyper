@@ -85,6 +85,16 @@ class User extends BaseUser
     }
 
     /**
+     * @param mixed $baseImageUrl
+     */
+    public function setBaseImageUrl($baseImageUrl)
+    {
+        $this->baseImageUrl = $baseImageUrl;
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -151,6 +161,8 @@ class User extends BaseUser
     public function setImage($image)
     {
         $this->image = $image;
+        $image->setUser($this);
+
         return $this;
     }
 

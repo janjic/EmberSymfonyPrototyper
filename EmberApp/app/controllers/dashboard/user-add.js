@@ -10,17 +10,16 @@ export default Ember.Controller.extend({
     lastNameValid: Ember.computed('model.lastName', function () {
         return validateStringInput(this, 'lastName','lastNameNotFocused', 2, 'string', 'Last name not valid');
     }),
-    // lastNameNotFocused: true,
-    // lastNameValid: Ember.computed('model.lastName', function () {
-    //     return validateStringInput(this, 'lastNameValid','firstNameNotFocused', 2);
-    // }),
-
     actions: {
         updateUserBirthDate(date){
             this.model.set('birthDate', date);
         },
         saveUser(user) {
-            user.save();
+            user.save().then(()=> {
+                this.set('model', this.store.createRecord('user'));
+                this.set('model.image', this.store.createRecord('image'));
+                this.set('model.address', this.store.createRecord('address'));
+            }) ;
         },
         addedFile: function (file) {
             var img = this.model.get('image');

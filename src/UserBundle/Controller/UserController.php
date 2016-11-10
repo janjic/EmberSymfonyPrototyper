@@ -21,12 +21,17 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
+        if($request->isMethod('PUT')){
+            $this->get('agent_system.user_manager')->edit(json_decode($request->getContent())->user, $request->get('user_param'));
+
+        }
+
         return new JsonResponse(
             array(
                 'users'=>
                     (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
                         $this->getDoctrine()->getRepository('UserBundle:User')->findUsers(null):
-                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsers($id)
+                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsersNew($id)
                             :array(
                                 'error' => 'Please provide valid params'
                             )
@@ -35,7 +40,6 @@ class UserController extends Controller
 
             ));
     }
-
 
     /**
      * @Route("/api/users-jqgrid", name="api_users_jqgrid", defaults={"user_param": "all"}),
@@ -56,7 +60,6 @@ class UserController extends Controller
      */
     public function saveUserAction(ArrayCollection $userSave)
     {
-
         /**return JSON Response */
         return new JsonResponse($userSave->toArray());
     }

@@ -80,7 +80,7 @@
                     <div class="col-md-8 user-img">
                         <input type="button" class="form-control drag-and-drop" name="username" placeholder="asd">
                         <div class="insert-avatar-container text-center" >
-                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile')}}
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') }}
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
-                        {{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate')}}
+                        {{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=model.birthDate}}
                     </div>
                 </div>
                 <div class="form-group clearfix">

@@ -14,6 +14,8 @@ use UserBundle\Entity\User;
 class UserRepository extends EntityRepository
 {
     const ALIAS = 'u';
+    const JOIN_WITH_ADDRESS = 'address';
+    const JOIN_WITH_IMAGE = 'image';
 
     /**
      * @param null $id
@@ -29,6 +31,21 @@ class UserRepository extends EntityRepository
     }
 
     /**
+     * @param null $id
+     * @return array
+     */
+    public function findUsersNew ($id = null)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::JOIN_WITH_ADDRESS, self::JOIN_WITH_IMAGE);
+        $qb->leftJoin(self::ALIAS.'.address', self::JOIN_WITH_ADDRESS);
+        $qb->leftJoin(self::ALIAS.'.image', self::JOIN_WITH_IMAGE);
+        $id ? $qb->where(self::ALIAS.'.id = ?1')->setParameter(1, $id):false;
+
+        return  $qb->select()->getQuery()->getArrayResult();
+    }
+
+    /**
      * @param User $user
      * @return User
      */
@@ -37,6 +54,23 @@ class UserRepository extends EntityRepository
         $this->_em->persist($user);
         $this->_em->flush();
 
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function edit(User $user)
+    {
+        try {
+            $this->_em->merge($user);
+            $this->_em->flush();
+
+        } catch (Exception $e)
+        {
+            var_dump($e->getMessage());exit;
+        }
         return $user;
     }
 

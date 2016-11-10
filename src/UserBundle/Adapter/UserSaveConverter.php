@@ -4,11 +4,11 @@ namespace UserBundle\Adapter;
 
 
 use CoreBundle\Adapter\JQGridConverter;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Business\Manager\UserManager;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Document\Image;
@@ -46,9 +46,7 @@ class UserSaveConverter extends JQGridConverter
         $userObj->setComment($userJson->comment);
         $userObj->setPlainPassword($userJson->password);
         $userObj->setIsAdmin($userJson->isAdmin);
-
-//        $userObj->setBirthDate($userJson->birthDate);
-        $userObj->setBirthDate(new \DateTime());
+        $userObj->setBirthDate(new DateTime($userJson->birthDate));
 
         $imageObj = new Image();
         $imageObj->setBase64Content($userJson->image->base64_content);
@@ -68,11 +66,20 @@ class UserSaveConverter extends JQGridConverter
         {
             throw $e;
         }
-
+        $userObj->setImage($imageObj);
+        $userObj->setBaseImageUrl($userObj->getImage()->getWebPath());
         $userObj->setAddress($addressObj);
 
         $userObj = $this->manager->save($userObj);
 
-        $this->request->attributes->set($this->param, new ArrayCollection(array($userObj)));
+        if($userObj->getId()){
+            $this->request->attributes->set($this->param, new ArrayCollection(array(
+                'user' => array('id' => $userObj->getId(), 'username', $userObj->getUsername()),
+                'meta' => array('code'=> 200, 'message', 'User successfully saved'))));
+        } else {
+            $this->request->attributes->set($this->param, new ArrayCollection(array(
+                'user' => array('id' => null),
+                'meta' => array('code'=> 410, 'message', 'User not saved'))));
+        }
     }
 }
