@@ -8,15 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\RoleManager;
 
 /**
- * Class RoleDeleteConverter
+ * Class RoleUpdateConverter
  * @package UserBundle\Adapter\Role
  */
-class RoleDeleteConverter extends JQGridConverter
+class RoleUpdateConverter extends JQGridConverter
 {
     /**
      * @param RoleManager $manager
-     * @param Request     $request
-     * @param string      $param
+     * @param Request      $request
+     * @param string       $param
      */
     public function __construct(RoleManager $manager, Request $request, $param)
     {
@@ -28,20 +28,19 @@ class RoleDeleteConverter extends JQGridConverter
      */
     public function convert()
     {
-        $id = intval($this->request->get('id'));
+        $json = json_decode($this->request->getContent());
+        $role = $json->role;
 
-        if ($this->manager->removeNestedFromTree($id)) {
+        $entity = $this->manager->changeNested($this->request->get('id'), $role);
+        if ($entity) {
             $this->request->attributes->set($this->param, new ArrayCollection(array(
-                'role' => array(
-                    'id' => $id
-                ),
                 'meta' => array(
                     'code' => 200,
-                    'message' => 'Role deleted!'
+                    'message' => 'Role changed!'
                 )
             )));
         } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array('meta' => array('code' => 403, 'message' => 'Role not deleted!'))));
+            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 403, 'message' => 'Role not changed!')));
         }
     }
 }

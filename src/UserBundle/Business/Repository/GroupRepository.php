@@ -32,7 +32,7 @@ class GroupRepository extends EntityRepository
     /**
      * Save new group
      * @param Group $group
-     * @return bool
+     * @return mixed
      */
     public function saveGroup($group)
     {
@@ -44,7 +44,7 @@ class GroupRepository extends EntityRepository
             return false;
         }
 
-        return true;
+        return $group;
     }
 
     /**

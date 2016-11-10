@@ -28,16 +28,22 @@ class GroupDeleteConverter extends JQGridConverter
      */
     public function convert()
     {
-        $groups = $this->manager->deleteGroup($this->request->get('id'), $this->request->get('parentId'));
-        if ($groups) {
+        $id = $this->request->get('id');
+        $content = json_decode($this->request->getContent());
+
+        $group = $this->manager->deleteGroup($id, $content->newParent);
+        if ($group) {
             $this->request->attributes->set($this->param, new ArrayCollection(array(
-                'code' => 200,
-                "id" => $this->request->get('id'),
-                "type"=> "success",
-                'message' => 'Group deleted!'
+                'role' => array(
+                    'id' => $id
+                ),
+                'meta' => array(
+                    'code' => 200,
+                    'message' => 'Group deleted!'
+                )
             )));
         } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 403, 'message' => 'Group not deleted!')));
+            $this->request->attributes->set($this->param, new ArrayCollection(array('meta' => array('code' => 403, 'message' => 'Group not deleted!'))));
         }
     }
 }

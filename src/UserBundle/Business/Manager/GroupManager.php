@@ -37,7 +37,7 @@ class GroupManager implements BasicEntityManagerInterface
 
     /**
      * @param object $newGroup
-     * @return bool
+     * @return mixed
      */
     public function addGroup($newGroup)
     {

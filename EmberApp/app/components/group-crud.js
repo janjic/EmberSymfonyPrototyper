@@ -2,17 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     groups: [],
-    addName: '',
     store: Ember.inject.service(),
 
     /** add */
-    displayAdd: Ember.computed('displayEdit', 'displayDelete', function() {
-        return this.get('displayEdit') === false && this.get('displayDelete') === false ;
-    }),
+    addName: '',
 
     /** edit */
     editGroup: null,
-    displayEdit: Ember.computed('editGroup', function() {
+    displayEdit: Ember.computed('editGroup', 'itemToDelete', function() {
         return this.get('editGroup') !== null;
     }),
 
@@ -27,26 +24,26 @@ export default Ember.Component.extend({
         return !emptyAll;
     }),
     availableParents: Ember.computed('itemToDelete', function() {
-        var _this = this;
-        return this.get('groups').filter(function(item){
-            return item !== _this.get('itemToDelete');
+        return this.get('groups').filter((item) => {
+            return item !== this.get('itemToDelete');
         });
     }),
 
     actions: {
         createGroup: function() {
-            var _this = this;
-            var group = this.get('store').createRecord('group', {name: this.get('addName')});
+            var group = this.get('store').createRecord('group', {name: this.get('addName'), type: 'group'});
 
-            group.save().then(function() {
-                _this.set('name', '');
-            }, function () {
+            group.save().then(() => {
+                this.set('addName', '');
+            }, () => {
                 group.deleteRecord();
             });
         },
 
+        /** delete group */
         deleteGroupActionStart: function (group) {
             this.set('itemToDelete', group);
+            this.set('editGroup', null);
         },
 
         setNewParentGroup: function (group) {
@@ -54,20 +51,20 @@ export default Ember.Component.extend({
         },
 
         deleteGroup: function () {
-            var _this = this;
             var group = this.get('itemToDelete');
             group.set('newParent', this.get('newGroupForUsers'));
-            group.deleteRecord();
-            group.save().then(function () {
-                _this.set('itemToDelete', null);
-                _this.set('newGroupForUsers', null);
-            }, function () {
+            group.destroyRecord().then(() => {
+                this.set('itemToDelete', null);
+                this.set('newGroupForUsers', null);
+                this.get('groups').removeAt(this.get('groups').indexOf(group));
+            }, () => {
                 group.rollbackAttributes();
             });
         },
 
         /** edit group */
         editGroupAction: function (group) {
+            this.set('itemToDelete', null);
             this.set('editGroup', group);
         },
 
@@ -78,11 +75,15 @@ export default Ember.Component.extend({
             });
         },
 
-        returnToAdd: function() {
+        cancelEdit: function() {
+            this.get('editGroup').rollbackAttributes();
+            this.set('editGroup', null);
+        },
+
+        cancelDelete: function() {
             this.set('itemToDelete', null);
             this.set('newGroupForUsers', null);
+        },
 
-            this.set('editGroup', null);
-        }
     }
 });

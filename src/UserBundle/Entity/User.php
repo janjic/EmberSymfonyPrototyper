@@ -45,14 +45,14 @@ class User extends BaseUser
      */
     protected $baseImageUrl;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Group", cascade={"merge"})
-     * @ORM\JoinTable(name="as_group_user",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",  onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id",  onDelete="CASCADE")}
-     * )
-     */
-    protected $groups;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Group", cascade={"merge"})
+//     * @ORM\JoinTable(name="as_group_user",
+//     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",  onDelete="CASCADE")},
+//     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id",  onDelete="CASCADE")}
+//     * )
+//     */
+//    protected $groups;
 
     /**
      * @return mixed

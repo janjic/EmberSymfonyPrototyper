@@ -6,6 +6,7 @@ use CoreBundle\Adapter\JQGridConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\RoleManager;
+use UserBundle\Entity\Role;
 
 /**
  * Class RoleAddConverter
@@ -28,12 +29,22 @@ class RoleAddConverter extends JQGridConverter
      */
     public function convert()
     {
-//        $content = json_decode($this->request->getContent());
-//        $groups = $this->manager->addGroup($content);
-//        if ($groups) {
-//            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 200, 'message' => 'Group saved!')));
-//        } else {
-//            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 403, 'message' => 'Group not saved!')));
-//        }
+        $content = json_decode($this->request->getContent());
+
+        /** @var Role $role */
+        $role = $this->manager->addRole($content->role);
+        if ($role) {
+            $this->request->attributes->set($this->param, new ArrayCollection(array(
+                'role' => array(
+                    'id' => $role->getId(),
+                ),
+                'meta' => array(
+                    'code' => 200,
+                    'message' => 'Role saved!'
+                )
+            )));
+        } else {
+            $this->request->attributes->set($this->param, new ArrayCollection(array('meta' => array('code' => 410, 'message' => 'Role not saved!'))));
+        }
     }
 }

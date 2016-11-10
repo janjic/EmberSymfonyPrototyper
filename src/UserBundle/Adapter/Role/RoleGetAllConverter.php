@@ -28,12 +28,6 @@ class RoleGetAllConverter extends JQGridConverter
      */
     public function convert()
     {
-        $roles = $this->manager->getAll();
-
-        if ($roles) {
-            $this->request->attributes->set($this->param, new ArrayCollection($roles));
-        } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 201, 'message' => 'Roles not available!')));
-        }
+        $this->request->attributes->set($this->param, new ArrayCollection($roles = $this->manager->getAll()));
     }
 }

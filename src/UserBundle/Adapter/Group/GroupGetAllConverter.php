@@ -30,10 +30,6 @@ class GroupGetAllConverter extends JQGridConverter
     {
         $groups = $this->manager->findAllGroups();
 
-        if ($groups) {
-            $this->request->attributes->set($this->param, new ArrayCollection($groups));
-        } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array('code' => 201, 'message' => 'Groups not available!')));
-        }
+        $this->request->attributes->set($this->param, new ArrayCollection($groups));
     }
 }

@@ -4,12 +4,14 @@ namespace UserBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
+use NilPortugues\Api\JsonApi\Http\Request\Parameters\Fields;
 use NilPortugues\Symfony\JsonApiBundle\Serializer\JsonApiResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\User;
 
 class UserController extends Controller
 {
