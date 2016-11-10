@@ -4,8 +4,8 @@ import humanReadableFileSize from './../utils/human-readable-file-size';
 export default Ember.Object.extend({
         init() {
             this._super();
-            Ember.assert("File to upload required on init.", !!this.get('fileToUpload'));
-            this.set('uploadPromise', Ember.Deferred.create());
+            Ember.assert("File to upload required on init.", this.get('fileToUpload'));
+            this.set('uploadPromise', Ember.RSVP.defer());
         },
 
     readFile: Ember.on('init', function() {
@@ -89,7 +89,7 @@ export default Ember.Object.extend({
         this.set('isUploading', true);
 
         $.ajax({
-            url: 'http://embernati-demo.s3.amazonaws.com/',
+            url: 'https://192.168.11.3/app_dev.php/file_upload',
             type: "POST",
             data: fd,
             processData: false,
@@ -107,16 +107,18 @@ export default Ember.Object.extend({
             try {
                 value = data.getElementsByTagName('Location')[0].textContent;
             } catch(e) { }
+            console.log('Value je ', value);
             self.set('isUploading', false);
             self.set('didUpload', true);
             self.get('uploadPromise').resolve(value);
         }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Neuspeno');
             self.set('isUploading', false);
             self.set('didError', true);
             self.get('uploadPromise').reject(errorThrown);
         });
 
-        return this.get('uploadPromise');
+        return this.get('uploadPromise').promise;
     },
 
     // ..........................................................
@@ -124,7 +126,8 @@ export default Ember.Object.extend({
     //
     showProgressBar: Ember.computed.or('isUploading', 'didUpload'),
 
-    progressStyle: function() {
-        return 'width: %@%'.fmt(this.get('progress'));
-    }.property('progress')
+    progressStyle:  Ember.computed('progress', function() {
+        let progress = this.get('progress');
+        return  Ember.String.htmlSafe(`width: ${progress}%`);
+    })
 });
