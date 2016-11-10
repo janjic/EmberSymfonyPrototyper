@@ -7,6 +7,8 @@
 !/var/logs
 /var/logs/*
 !var/logs/.gitkeep
+EmberApp/vendor/bundles
+web/js
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep

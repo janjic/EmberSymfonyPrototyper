@@ -1,0 +1,51 @@
+<div class="dd nestable col-md-6" id="nestable3">
+    {{#if needRefresh }}
+        {{ role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+    {{else}}
+        {{ role-crud-items-component items=getItems setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+    {{/if}}
+</div>
+
+<div class="col-md-6 add-edit-menu-item">
+    {{#if currentEditing}}
+        <form class="">
+            <h3>Edit</h3>
+            <div class="form-group">
+                <label for="editName">Name</label>
+                <div class="input-group">
+                    {{input type="text" value=currentEditing.name class="form-control" placeholder="Role name"}}
+                    {{#if currentEditing.name}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editRole">Role</label>
+                <div class="input-group">
+                    {{input type="text" value=currentEditing.role class="form-control" placeholder="Item link"}}
+                    {{#if currentEditing.role}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                </div>
+            </div>
+            <button class="btn btn-info" disabled={{editButtonDisabled}} {{action 'editRole'}}>Edit</button>
+            <button class="btn btn-info" {{action 'cancelEdit'}}>Cancel</button>
+        </form>
+    {{else}}
+        <form class="">
+            <h3>Add new role</h3>
+            <div class="form-group">
+                <label for="addInputName">Name</label>
+                <div class="input-group">
+                    {{input type="text" value=newRoleName class="form-control" placeholder="Role name"}}
+                    {{#if newRoleName}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addInputSlug">Title</label>
+                <div class="input-group">
+                    {{input type="text" value=newRoleTitle class="form-control" placeholder="Item link"}}
+                    {{#if newRoleTitle}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                </div>
+
+            </div>
+            <button class="btn btn-info" disabled={{addButtonDisabled}} {{action 'addRole'}}>Add</button>
+        </form>
+    {{/if}}
+</div>

@@ -1,7 +1,5 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import Image from './image';
-import Address from './address';
 
 const { attr, Model } = DS;
 

@@ -1,0 +1,8 @@
+mapping:
+  class: UserBundle\Entity\Role
+  aliased_properties: []
+  hide_properties: []
+  id_properties:
+  - id
+  urls:
+    self: api_roles_all
