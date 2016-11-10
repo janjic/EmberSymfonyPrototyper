@@ -43,6 +43,15 @@ Router.map(function() {
       this.route('edit-campaign');
     });
 
+    this.route('users', function() {
+      this.route('add-new-user');
+      this.route('all-tickets');
+      this.route('ticket-details');
+      this.route('user-edit');
+      this.route('user-view');
+      this.route('users-all');
+    });
+
     this.route('messages', function() {
       this.route('create-message');
       this.route('drafts');
