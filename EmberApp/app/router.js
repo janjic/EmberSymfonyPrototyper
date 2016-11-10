@@ -17,9 +17,11 @@ Router.map(function() {
   this.route('user-profile');
 
   this.route('dashboard', function() {
-    this.route('users-all');
-    this.route('user-add');
-    this.route('user-edit', {path: '/user-edit/:id'});
+    this.route('users', function () {
+      this.route('users-all');
+      this.route('user-add');
+      this.route('user-edit', {path: '/user-edit/:id'});
+    });
   });
 });
 
