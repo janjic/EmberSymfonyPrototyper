@@ -1035,7 +1035,8 @@ input:focus{
     }
     .username{
         width: 16.66666667%;
-        padding: 0px 15px 15px 15px;
+        padding: 0px 15px 0px 15px;
+
         float: right;
         margin-right: 0px;
     }
@@ -1062,9 +1063,33 @@ input:focus{
         float: right;
         margin-right: 20px;
     }
+    .right-section{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .container-fluid{
+        margin-right: 0px;
+    }
 
 
+}
 
+@media screen and (max-width: 500px) {
+    .admin-message{
+        width: 70%;
+    }
+    .admin-message p{
+        font-size: 12px;
+    }
+    .user-message p{
+        font-size: 12px;
+    }
+    .user-message{
+        width: 70%;
+    }
+    .username{
+        width: 30%;
+    }
 }
 
 .table-option tr:first-child th:last-child {
