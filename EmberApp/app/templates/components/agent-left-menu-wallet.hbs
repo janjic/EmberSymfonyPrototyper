@@ -1,1 +1,19 @@
-{{yield}}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-users" aria-hidden="true"></i>Reports</a>
+        </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse">
+        <div class="panel-body">
+            <ul class="table">
+                <li>
+                    {{#link-to 'dashboard-agent.wallet.wallet-summary'}}Customer Orders{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard-agent.wallet.payout-history' }}Commissions and bonuses{{/link-to}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

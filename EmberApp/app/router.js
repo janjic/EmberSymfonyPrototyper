@@ -79,6 +79,26 @@ Router.map(function() {
 
     this.route('users', function() {
       this.route('add-new-user');
+      this.route('users-customers');
+      this.route('user-edit');
+      this.route('user-view');
+    });
+
+    this.route('tickets', function() {
+      this.route('tickets-all');
+      this.route('new-ticket');
+      this.route('view-ticket');
+    });
+
+    this.route('reports', function() {
+      this.route('customer-orders');
+      this.route('commissions');
+      this.route('purchase-details');
+    });
+
+    this.route('wallet', function() {
+      this.route('wallet-summary');
+      this.route('payout-history');
     });
   });
 });

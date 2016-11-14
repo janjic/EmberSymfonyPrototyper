@@ -1,1 +1,19 @@
-{{yield}}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-users" aria-hidden="true"></i>Tickets</a>
+        </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+            <ul class="table">
+                <li>
+                    {{#link-to 'dashboard-agent.tickets.tickets-all'}}Add New User{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard-agent.tickets.new-ticket' }}My customers{{/link-to}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
