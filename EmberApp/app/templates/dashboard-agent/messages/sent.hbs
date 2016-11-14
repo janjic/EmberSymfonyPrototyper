@@ -1,6 +1,6 @@
 <div class="messages-heading clearfix">
-    <h3>Received Messages</h3>
-    {{#link-to 'dashboard.messages.create-message' class='pull-right btn btn-danger'}}Create Message{{/link-to}}
+    <h3>Sent Messages</h3>
+    {{#link-to 'dashboard-agent.messages.create-message' class='pull-right btn btn-danger'}}Create Message{{/link-to}}
 </div>
 
 
@@ -36,8 +36,7 @@
             <td>true</td>
             <td>5</td>
             <td>
-                {{#link-to 'dashboard.messages.view-message' class='table-user-link'}} <i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
-
+                {{#link-to 'dashboard-agent.messages.sent-messages' class='table-user-link'}} <i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
                 <a href="profile-edit.html" class="table-user-link">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>

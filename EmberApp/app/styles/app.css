@@ -42,6 +42,13 @@ table.table tbody tr td {
     min-width: 100px;
 }
 
+.table th {
+    text-align: left;
+    background-color: #364150;
+    color: #fff;
+    font-weight: normal;
+}
+
 .table-responsive{
     margin-top: 30px;
     margin-bottom: 30px;
@@ -1152,7 +1159,6 @@ input:focus{
         float: right;
         margin-right: 20px;
     }
-    .container-fluid {
 
     .right-section {
         padding-left: 0px;
@@ -1486,6 +1492,7 @@ input:focus{
 /**
 * Nestable Extras
 */
+
 .nestable-lists {
     display: block;
     clear: both;
@@ -1531,9 +1538,8 @@ input:focus{
 }
 
 .dd {
-//  float: left;
-//  width: 48 %;
-//    width: 80%;
+    float: left;
+    width: 80%;
 }
 
 .add-edit-menu-item {
@@ -1551,6 +1557,7 @@ input:focus{
 /**
 * Nestable Draggable Handles
 */
+
 .dd3-content {
     display: block;
     height: 30px;
@@ -1624,6 +1631,7 @@ input:focus{
 /*
 * Nestable++
 */
+
 .button-delete {
     position: absolute;
     top: 4px;
