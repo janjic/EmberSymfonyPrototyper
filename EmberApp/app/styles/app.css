@@ -20,6 +20,7 @@ h4{
     margin-bottom: 20px;
 }
 h5{
+    font-size: 16px;
     font-weight: 400;
     margin-top: 0px;
     margin-bottom: 20px;
@@ -83,7 +84,7 @@ table td a  {
 }
 
 h1.main-heading {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     color: #333;
     font-weight: 600;
     font-size: 16px;
@@ -609,9 +610,51 @@ header{
 .admin-panel .panel-default .panel-collapse .panel-body ul li a:focus{
     text-decoration: none;
 }
+/* ------ COMMISSIONS AND BONUSES--------------------------------------------------------------------------------------------- */
+.search-comissions{
+    display: flex;
+}
+.search-comissions select{
+    display: inline-block;
+    margin-right: 30px;
+}
+.search-comissions button{
+    display: inline-block;
+}
+.commissions-and-bonuses-section .home-card h4{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
 
 
-/*FORM WIZARD*/
+
+
+/* ------ PAYOUTS--------------------------------------------------------------------------------------------- */
+.wallet-summary-section .home-card h4{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+.wallet-summary-section p {
+    margin: 0px 15px 0px 0px;
+    display: inline-block;
+}
+.wallet-summary-section input{
+    display: inline-block;
+}
+.wallet-summary-section form{
+    display: flex;
+    align-items: center;
+}
+.wallet-summary-section input{
+    margin-right: 15px;
+}
+.wallet-summary-section h5{
+    margin-bottom: 15px;
+}
+
+
+
+
+
+/* ------ FORM WIZARD--------------------------------------------------------------------------------------------- */
 .form-wizard{
     margin-top: 20px;
 }
@@ -696,7 +739,8 @@ header{
     border-radius: 15px;
 }
 
-/*FORM WIZARD END*/
+/* ------ FORM WIZARD END --------------------------------------------------------------------------------------------- */
+
 .form-wizard label{
     font-weight: 400;
 }
@@ -1064,6 +1108,8 @@ input:focus{
     .right-section {
         margin-top: 60px;
         margin-left: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .dashboard-home {
@@ -1106,6 +1152,7 @@ input:focus{
         float: right;
         margin-right: 20px;
     }
+    .container-fluid {
 
     .right-section {
         padding-left: 0px;
@@ -1146,8 +1193,12 @@ input:focus{
     .messages {
         margin-bottom: 58px;
     }
-
+    .send-message-mobile .row{
+        margin-right: 0px;
+        margin-left: 0px;
+    }
 }
+
 @media screen and (max-width: 500px) {
     .admin-message{
         width: 70%;
@@ -1250,7 +1301,16 @@ input:focus{
     .dashboard-home .col-md-3{
         width: 50%;
     }
+
 }
+@media screen and (max-width: 1050px) and (min-width: 767px) {
+    .wallet-summary-section .col-md-4{
+        width: 100%;
+    }
+
+}
+
+
 
 
 
