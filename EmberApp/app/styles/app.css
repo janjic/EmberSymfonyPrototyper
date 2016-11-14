@@ -837,10 +837,10 @@ header{
 .onoffswitch-2-checkbox:checked + .onoffswitch-2-label, .onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
     border-color: #27AE60;
 }.onoffswitch-checkbox:checked + .onoffswitch-label:before
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner,
-.onoffswitch-2-checkbox:checked + .onoffswitch-2-label .onoffswitch-inner{
-    margin-left: 0;
-}
+ .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner,
+ .onoffswitch-2-checkbox:checked + .onoffswitch-2-label .onoffswitch-inner{
+     margin-left: 0;
+ }
 .onoffswitch-checkbox:checked + .onoffswitch-label:before,
 .onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
     right: 0px;
@@ -1025,22 +1025,27 @@ input:focus{
         top: 0px;
         left: 0px;
     }
-    .insert-avatar-container span{
+
+    .insert-avatar-container span {
         display: none;
     }
-    .drag-and-drop{
+
+    .drag-and-drop {
         display: none;
     }
-    .mobile-toggle{
+
+    .mobile-toggle {
         display: block;
         border-bottom: 1px solid #ddd;
     }
-    .mobile-toggle a i{
+
+    .mobile-toggle a i {
         font-size: 22px;
         color: white;
 
     }
-    .left-section{
+
+    .left-section {
         position: absolute;
         opacity: 1;
         z-index: 1;
@@ -1051,80 +1056,98 @@ input:focus{
         -o-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
     }
-    .left-section-visible{
+
+    .left-section-visible {
         left: -0px;
     }
-    .right-section{
-        margin-top:60px;
+
+    .right-section {
+        margin-top: 60px;
         margin-left: 0px;
     }
-    .dashboard-home{
+
+    .dashboard-home {
         margin-top: 0px;
     }
-    .username{
+
+    .username {
         width: 16.66666667%;
         padding: 0px 15px 0px 15px;
 
         float: right;
         margin-right: 0px;
     }
-    .username h4{
-        display:none;
+
+    .username h4 {
+        display: none;
     }
-    .user-message{
+
+    .user-message {
         width: 83.33333333%;
         float: left;
     }
-    .admin-message{
+
+    .admin-message {
         width: 83.33333333%;
         float: left;
     }
-    .username-admin{
+
+    .username-admin {
         margin-left: 0px;
         float: left !important;
     }
-    .user-comment span{
-        float:left;
+
+    .user-comment span {
+        float: left;
         margin-left: 20px;
     }
-    .admin-comment span{
+
+    .admin-comment span {
         float: right;
         margin-right: 20px;
     }
-    .right-section{
+
+    .right-section {
         padding-left: 0px;
         padding-right: 0px;
     }
-    .container-fluid{
+
+    .container-fluid {
         margin-right: 0px;
     }
-    .send-message-mobile{
+
+    .send-message-mobile {
         position: fixed;
-        bottom:0;
+        bottom: 0;
         width: 100%;
         padding-top: 0px;
         right: 0;
     }
-    .send-message-mobile textarea{
+
+    .send-message-mobile textarea {
         border-radius: 0px;
         resize: none;
         margin-bottom: 0px;
     }
-    .send-message-mobile .form-group{
+
+    .send-message-mobile .form-group {
         margin-bottom: 0px;
     }
-    .send-message-mobile .form-group .btn-grey{
+
+    .send-message-mobile .form-group .btn-grey {
         display: none;
     }
-    .send-message-mobile .form-group .btn{
+
+    .send-message-mobile .form-group .btn {
         width: 100%;
         border-radius: 0px;
     }
-    .messages{
+
+    .messages {
         margin-bottom: 58px;
     }
 
-
+}
 @media screen and (max-width: 500px) {
     .admin-message{
         width: 70%;
@@ -1571,3 +1594,12 @@ input:focus{
 #json-output {
     margin-top: 20px;
 }
+
+.checkboxes label {
+    display: block;
+}
+
+.checkboxes label.checkbox-inline {
+    margin-left: 20px;
+}
+
