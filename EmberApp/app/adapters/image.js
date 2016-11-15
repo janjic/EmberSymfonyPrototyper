@@ -8,6 +8,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:application',
 
     urlForCreateRecord(){
-        return 'https://192.168.11.3/app_dev.php/api/user-save';
+        return 'https://192.168.11.3/app_dev.php/api/image-save';
     }
 });

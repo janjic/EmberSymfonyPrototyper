@@ -48,7 +48,7 @@ class JQGridConverter extends BasicConverter
 
             $reviewsAll = $this->manager->findAllForJQGRID($page, $offset, $sortParams, $additionalParams);
 
-            $size = (int) $this->manager->getCountForJQGRID(null, null, $additionalParams)[0][1];
+            $size = (int) $this->manager->getCountForJQGRID(null, null, true, $additionalParams)[0][1];
 
             $pageCount = ceil($size/$offset);
 

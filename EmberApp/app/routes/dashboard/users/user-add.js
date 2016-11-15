@@ -8,5 +8,9 @@ export default Ember.Route.extend({
         user.set('address', address);
         user.set('image', image);
         return user;
+        // {
+            // user, image, address
+
+        // };
     }
 });

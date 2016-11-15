@@ -125,11 +125,28 @@ class UserManager implements BasicEntityManagerInterface, JQGridInterface
     public function getCountForJQGRID($searchParams = null, $sortParams = null, $additionalParams = array())
     {
         if (!$searchParams) {
-
             return $this->repository->searchUsersForJQGRID(null, $sortParams, $additionalParams, true);
         }
 
         return $this->repository->searchUsersForJQGRID($searchParams, $sortParams, $additionalParams, true);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findImageById($id)
+    {
+        return $this->eventContainer->findImageById($id);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findAddressById($id)
+    {
+        return $this->eventContainer->findAddressById($id);
     }
 
 }

@@ -1,26 +1,27 @@
 <?php
 
-namespace UserBundle\Adapter;
+namespace UserBundle\Adapter\Image;
 
 use CoreBundle\Adapter\AdapterInterface;
 use CoreBundle\Adapter\BaseAdapter;
 use CoreBundle\Adapter\BasicConverter;
+use UserBundle\Business\Manager\ImageManager;
 use UserBundle\Business\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class UserAdapter
+ * Class ImageAdapter
  *
  * @package Alligator\Adapter\User
  */
-class UserAdapter extends BaseAdapter
+class ImageAdapter extends BaseAdapter
 {
     /**
-     * @param UserManager $userManager
+     * @param ImageManager $imageManager
      */
-    public function __construct(UserManager $userManager)
+    public function __construct(ImageManager $imageManager)
     {
-        $this->userManager = $userManager;
+        $this->imageManager = $imageManager;
     }
 
 
@@ -33,8 +34,8 @@ class UserAdapter extends BaseAdapter
     public function buildConverterInstance($param, Request $request)
     {
 
-        $type = __NAMESPACE__."\\".ucfirst($param).UserAdapterUtil::BASE_CONVERTER_NAME;
+        $type = __NAMESPACE__."\\".ucfirst($param).ImageAdapterUtil::BASE_CONVERTER_NAME;
 
-        return new $type($this->userManager, $request, $param);
+        return new $type($this->imageManager, $request, $param);
     }
 }

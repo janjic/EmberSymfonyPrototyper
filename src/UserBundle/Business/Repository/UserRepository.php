@@ -4,6 +4,7 @@ namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use Exception;
 use UserBundle\Entity\User;
 
 
@@ -43,6 +44,35 @@ class UserRepository extends EntityRepository
         $id ? $qb->where(self::ALIAS.'.id = ?1')->setParameter(1, $id):false;
 
         return  $qb->select()->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function save(User $user)
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function edit(User $user)
+    {
+        try {
+            $this->_em->merge($user);
+            $this->_em->flush();
+
+        } catch (Exception $e)
+        {
+            var_dump($e->getMessage());exit;
+        }
+        return $user;
     }
 
     public function findUsersObject($id = null, $params = null)
