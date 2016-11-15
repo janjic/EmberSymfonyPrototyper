@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven"><i class="fa fa-commenting-o" aria-hidden="true"></i>Messages</a>
+        </h4>
+    </div>
+    <div id="collapseSeven" class="panel-collapse collapse">
+        <div class="panel-body">
+            <ul class="table">
+                <li>
+                    {{#link-to 'dashboard-agent.messages.received-messages'}}Received messages{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard-agent.messages.drafts'}}Drafts{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard-agent.messages.sent'}}Sent{{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard-agent.messages.trash'}}Trash{{/link-to}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

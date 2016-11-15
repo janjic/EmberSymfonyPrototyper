@@ -1,1 +1,168 @@
-{{outlet}}
+<section class="form-wizard">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="dashboar-heading">Edit User</h3>
+        </div>
+    </div>
+    <form role="form">
+        <div class="row setup-content">
+            <div class="col-md-6">
+
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Title
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        <select class="form-control" name="username">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Name
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="text" class="form-control" value=model.firstName }}
+                        {{#unless firstNameValid.valid}}
+                            <label class="label-danger">{{firstNameValid.message}}</label>
+                        {{/unless}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Family name
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="text" class="form-control" value=model.lastName }}
+                        {{#unless lastNameValid.valid}}
+                            <label class="label-danger">{{lastNameValid.message}}</label>
+                        {{/unless}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Email
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.email }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Repeat email
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.email }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Insert user image
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    {{#if model.baseImageUrl}}
+                        <img src="{{model.baseImageUrl}}" alt="{{model.username}}" width="300" height="300">
+                    {{/if}}
+                    <div class="col-md-8 user-img">
+                        <input type="button" class="form-control drag-and-drop" name="username" placeholder="asd">
+                        <div class="insert-avatar-container text-center" >
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile')}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Street and number
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.streetNumber }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Postcode
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.postcode }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">City
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.city }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Country
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.country }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Phone number
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.address.phone }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Language
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{input type="email" class="form-control" value=model.language }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Date of birth
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=model.birthDate}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Admin
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-1">
+                        <div class="onoffswitch">
+                            {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=model.isAdmin }}
+                            <label class="onoffswitch-label" for="myonoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-4 col-xs-4">Comment
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-8 col-xs-8">
+                        {{textarea class="form-control" name="username" value=model.comment}}
+                    </div>
+                </div>
+
+                <div class="form-group clearfix text-right">
+                    <div class="col-md-12">
+                        {{name}}
+                        <button class="btn btn-danger pull-right" {{action 'saveUser' model }}>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</section>

@@ -42,6 +42,13 @@ table.table tbody tr td {
     min-width: 100px;
 }
 
+.table th {
+    text-align: left;
+    background-color: #364150;
+    color: #fff;
+    font-weight: normal;
+}
+
 .table-responsive{
     margin-top: 30px;
     margin-bottom: 30px;
@@ -879,10 +886,10 @@ header{
 .onoffswitch-2-checkbox:checked + .onoffswitch-2-label, .onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
     border-color: #27AE60;
 }.onoffswitch-checkbox:checked + .onoffswitch-label:before
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner,
-.onoffswitch-2-checkbox:checked + .onoffswitch-2-label .onoffswitch-inner{
-    margin-left: 0;
-}
+ .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner,
+ .onoffswitch-2-checkbox:checked + .onoffswitch-2-label .onoffswitch-inner{
+     margin-left: 0;
+ }
 .onoffswitch-checkbox:checked + .onoffswitch-label:before,
 .onoffswitch-2-checkbox:checked + .onoffswitch-2-label:before {
     right: 0px;
@@ -1150,6 +1157,12 @@ input:focus{
         float: right;
         margin-right: 20px;
     }
+
+    .right-section {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
     .container-fluid {
         margin-right: 0px;
     }
@@ -1477,6 +1490,7 @@ input:focus{
 /**
 * Nestable Extras
 */
+
 .nestable-lists {
     display: block;
     clear: both;
@@ -1522,9 +1536,8 @@ input:focus{
 }
 
 .dd {
-//  float: left;
-//  width: 48 %;
-//    width: 80%;
+    float: left;
+    width: 80%;
 }
 
 .add-edit-menu-item {
@@ -1542,6 +1555,7 @@ input:focus{
 /**
 * Nestable Draggable Handles
 */
+
 .dd3-content {
     display: block;
     height: 30px;
@@ -1615,6 +1629,7 @@ input:focus{
 /*
 * Nestable++
 */
+
 .button-delete {
     position: absolute;
     top: 4px;
@@ -1645,3 +1660,12 @@ input:focus{
 #json-output {
     margin-top: 20px;
 }
+
+.checkboxes label {
+    display: block;
+}
+
+.checkboxes label.checkbox-inline {
+    margin-left: 20px;
+}
+
