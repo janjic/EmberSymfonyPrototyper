@@ -26,14 +26,14 @@
         </div>
     {{else}}
         {{#if displayEdit}}
-            <h4>Edit group</h4>
+            <h1 class="main-heading">Edit group</h1>
             <div>
                 {{input type="text" class="new-group" placeholder="New group" value=editGroup.name}}
                 <button class="btn btn-primary pull-right" {{action "editGroupSave"}}>Save</button>
                 <button class="btn btn-primary pull-right" {{action "cancelEdit"}}>Cancel</button>
             </div>
         {{else}}
-            <h4>Add new group</h4>
+            <h1 class="main-heading">Add new group</h1>
             {{input type="text" class="new-group" placeholder="New group" value=addName}}
             <button class="btn btn-primary" {{action "createGroup"}}>Add</button>
         {{/if}}
