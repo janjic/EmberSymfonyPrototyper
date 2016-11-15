@@ -3,6 +3,7 @@
 namespace UserBundle\Adapter\Group;
 
 use CoreBundle\Adapter\JQGridConverter;
+use CoreBundle\Business\Serializer\FSDSerializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\GroupManager;
@@ -30,6 +31,6 @@ class GroupGetAllConverter extends JQGridConverter
     {
         $groups = $this->manager->findAllGroups();
 
-        $this->request->attributes->set($this->param, new ArrayCollection($groups));
+        $this->request->attributes->set($this->param, new ArrayCollection(array(FSDSerializer::serialize($groups))));
     }
 }
