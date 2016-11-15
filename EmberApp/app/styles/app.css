@@ -95,6 +95,7 @@ table td a  {
 }
 
 h1.main-heading {
+    margin-top: 0px;
     margin-bottom: 30px;
     color: #333;
     font-weight: 600;
@@ -780,11 +781,17 @@ header{
     font-weight: 400;
     font-size: 14px;
     padding: 6px 12px 6px 12px;
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+    background: linear-gradient(to left, transparent 50%, #d43f3a 50%);
+    background-size: 203% 100%;
+    background-position:right bottom;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 .setup-content .nextBtn:hover{
-    background: #d14545;
+    /*background: #d14545;*/
+    background-position:left bottom;
     color: white;
 }
 
@@ -801,11 +808,17 @@ header{
     font-weight: 400;
     font-size: 14px;
     padding: 10px 25px 10px 25px;
-    -webkit-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+    background: linear-gradient(to left, transparent 50%, #58CC54 50%);
+    background-size: 205% 100%;
+    background-position:right bottom;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 .setup-content .finish-btn:hover{
-    background: #58CC54;
+    /*background: #58CC54;*/
+    background-position:left bottom;
     color: white;
 }
 /*ON OFF SWITCH*/
