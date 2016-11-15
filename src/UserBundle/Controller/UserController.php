@@ -8,6 +8,7 @@ use NilPortugues\Api\JsonApi\Http\Request\Parameters\Fields;
 use NilPortugues\Symfony\JsonApiBundle\Serializer\JsonApiResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,7 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
+
         if($request->isMethod('PUT')){
             $this->get('agent_system.user_manager')->edit(json_decode($request->getContent())->user, $request->get('user_param'));
             return;
@@ -109,20 +111,8 @@ class UserController extends Controller
     public function saveUserAction(ArrayCollection $userSave)
     {
         /**return JSON Response */
-        return new JsonResponse($userSave->toArray());
+        return new JsonResponse($userSave->toArray(), $userSave['meta']['code']);
     }
 
-    /**
-     * @Route("/api/users-test", name="api_users_jqgrid", defaults={"user_param": "all"}),
-     * @return Response
-     */
-    public function indexTestAction()
-    {
-
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
-        $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
-        /**return JSON Response */
-        return $this->response($serializer->serialize($users));
-    }
 
 }

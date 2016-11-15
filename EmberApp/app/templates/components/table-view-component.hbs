@@ -1,6 +1,5 @@
-<h3 class="dashboar-heading">{{mainTitle}}</h3>
+<h1 class="main-heading">{{mainTitle}}</h1>
 <div class="table-responsive">
-    <h3>{{tableTitle}}</h3>
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
@@ -12,7 +11,7 @@
             {{#each colModels as |colName|}}
                 {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=(action 'handleFilterEntry')}}
             {{/each}}
-            <th></th>
+            <td></td>
         </tr>
 
         {{#each model as |m|}}
