@@ -8,5 +8,6 @@ export default DS.Model.extend({
     city:         attr('string'),
     country:      attr('string'),
     phone:        attr('string'),
+    fixedPhone:   attr('string'),
     user:         DS.belongsTo('user', {inverse: 'address'})
 });
