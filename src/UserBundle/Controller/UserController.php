@@ -72,7 +72,6 @@ class UserController extends Controller
         } else {
             $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject();
         }
-
         /**return JSON Response */
         return $this->response($serializer->serialize($users));
 
