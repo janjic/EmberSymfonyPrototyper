@@ -37,6 +37,7 @@ class UserController extends Controller
 
         if ($userId = intval($request->get('user_param'))) {
             $user = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
+
             return $this->response($serializer->serialize($user));
         }
 
