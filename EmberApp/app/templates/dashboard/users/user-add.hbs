@@ -26,7 +26,7 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{input type="text" class="form-control" value=model.firstName }}
                         {{#unless firstNameValid.valid}}
-                            <label class="label-danger">{{firstNameValid.message}}</label>
+                            <label class="has-error">{{firstNameValid.message}}</label>
                         {{/unless}}
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{input type="text" class="form-control" value=model.lastName }}
                         {{#unless lastNameValid.valid}}
-                            <label class="label-danger">{{lastNameValid.message}}</label>
+                            <label class="has-error">{{lastNameValid.message}}</label>
                         {{/unless}}
                     </div>
                 </div>

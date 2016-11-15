@@ -1645,3 +1645,7 @@ input:focus{
 .checkboxes label.checkbox-inline {
     margin-left: 20px;
 }
+
+.has-error {
+    color: red;
+}
