@@ -7,7 +7,7 @@ use UserBundle\Entity\Group;
 
 class GroupSchema extends SchemaProvider
 {
-    protected $resourceType = 'group';
+    protected $resourceType = 'groups';
 
     public function getId($author)
     {
@@ -27,7 +27,7 @@ class GroupSchema extends SchemaProvider
     {
         /** @var Group $group */
         return [
-            'roles'   => [self::DATA => $group->getRolesCollection()]
+            'roles' => [self::DATA => $group->getRolesCollection()]
         ];
     }
 

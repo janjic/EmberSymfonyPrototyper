@@ -6,5 +6,5 @@ use CoreBundle\Business\Serializer\AbstractProxySchema;
 
 class GroupProxySchema extends AbstractProxySchema
 {
-    protected $resourceType = 'group';
+    protected $resourceType = 'groups';
 }

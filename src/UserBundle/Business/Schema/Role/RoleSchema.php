@@ -7,7 +7,7 @@ use UserBundle\Entity\Group;
 
 class RoleSchema extends SchemaProvider
 {
-    protected $resourceType = 'role';
+    protected $resourceType = 'roles';
 
     public function getId($author)
     {

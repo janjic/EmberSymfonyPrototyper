@@ -6,5 +6,5 @@ use CoreBundle\Business\Serializer\AbstractProxySchema;
 
 class RoleProxySchema extends AbstractProxySchema
 {
-    protected $resourceType = 'role';
+    protected $resourceType = 'roles';
 }
