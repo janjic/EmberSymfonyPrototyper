@@ -24,7 +24,7 @@ class GroupRepository extends EntityRepository
     public function findAllGroups()
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS.'.id', self::ALIAS.'.name');
+        $qb->select(self::ALIAS);
 
         return $qb->getQuery()->getResult();
     }
