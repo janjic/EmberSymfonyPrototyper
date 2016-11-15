@@ -26,3 +26,4 @@ composer.phar
 Vagrant/.vagrant/
 Vagrant/vendor/
 web/uploads/
+/app/config/parameters.yml
