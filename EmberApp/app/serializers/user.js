@@ -50,10 +50,19 @@ export default DS.JSONAPISerializer.extend({
                         payloadType = this.payloadKeyFromModelName(belongsTo.modelName);
                     }
 
+                    var belongsToAttrs = belongsTo.attributes();
+                    var belongsData = {};
+
+                    for (var attr in belongsToAttrs) {
+                        if (belongsToAttrs.hasOwnProperty(attr)) {
+                            belongsData[underscore(attr)] = belongsToAttrs[attr];
+                        }
+                    }
+
                     data = {
                         type: payloadType,
                         id: belongsTo.id,
-                        attributes: belongsTo.attributes()
+                        attributes: belongsData
                     };
                 }
                 json.relationships[payloadKey] = { data };

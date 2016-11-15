@@ -36,31 +36,45 @@ class UserSaveConverter extends JQGridConverter
      */
     public function convert()
     {
-        $json = json_decode($this->request->getContent())->data;
-        $userJson = $json->attributes;
-
+        $userJson = json_decode($this->request->getContent())->data;
         $userObj = new User();
-        $userObj->setFirstName($userJson->first_name)
-            ->setLastName($userJson->last_name)
-            ->setUsername($userJson->email);
-        $userObj->setEmail($userJson->email);
-        $userObj->setLanguage($userJson->language);
-        $userObj->setComment($userJson->comment);
-        $userObj->setPlainPassword($userJson->password);
-        $userObj->setIsAdmin($userJson->is_admin);
-        $userObj->setBirthDate(new DateTime($userJson->birth_date));
+        $userJsonAttrs = $userJson->attributes;
 
-        $imageId = $json->relationships->image->data->id;
-        $image = $this->manager->findImageById($imageId);
+        $userObj->setFirstName($userJsonAttrs->first_name)
+            ->setLastName($userJsonAttrs->last_name)
+            ->setUsername($userJsonAttrs->email);
+        $userObj->setEmail($userJsonAttrs->email);
+        $userObj->setLanguage($userJsonAttrs->language);
+        $userObj->setComment($userJsonAttrs->comment);
+        $userObj->setPlainPassword($userJsonAttrs->password);
+        $userObj->setIsAdmin($userJsonAttrs->is_admin);
+        $userObj->setBirthDate(new DateTime($userJsonAttrs->birth_date));
 
-        $userObj->setImage($image);
+        $imageObj = new Image();
+        $imageJson = $userJson->relationships->image->data->attributes;
+        $imageObj->setBase64Content($imageJson->base64_content);
+        $imageObj->setName($imageJson->name);
 
-        $addressId = $json->relationships->address->data->id;
-        $address = $this->manager->findAddressById($addressId);
+        $addressObj = new Address();
 
-        $userObj->setAddress($address);
+        $addressJson = $userJson->relationships->address->data->attributes;
+        $addressObj->setStreetNumber($addressJson->street_number)
+            ->setCity($addressJson->city)
+            ->setCountry($addressJson->country)
+            ->setPhone($addressJson->phone)
+            ->setPostcode($addressJson->postcode);
+        try {
+            $imageObj->saveToFile($imageObj->getBase64Content());
+        } catch (Exception $e)
+        {
+            throw $e;
+        }
+        $userObj->setImage($imageObj);
+        $userObj->setBaseImageUrl($userObj->getImage()->getWebPath());
+        $userObj->setAddress($addressObj);
 
         $userObj = $this->manager->save($userObj);
+
 
         if($userObj->getId()){
             $this->request->attributes->set($this->param, new ArrayCollection(array(
