@@ -84,6 +84,7 @@ table td a  {
 }
 
 h1.main-heading {
+    margin-top: 0px;
     margin-bottom: 30px;
     color: #333;
     font-weight: 600;
@@ -655,9 +656,6 @@ header{
 
 
 /* ------ FORM WIZARD--------------------------------------------------------------------------------------------- */
-.form-wizard{
-    margin-top: 20px;
-}
 
 .stepwizard-step p {
     margin-top: 10px;
