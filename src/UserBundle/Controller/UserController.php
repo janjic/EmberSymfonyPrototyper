@@ -4,13 +4,15 @@ namespace UserBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
+use NilPortugues\Api\JsonApi\Http\Request\Parameters\Fields;
 use NilPortugues\Symfony\JsonApiBundle\Serializer\JsonApiResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\User;
 
 class UserController extends Controller
 {
@@ -25,44 +27,76 @@ class UserController extends Controller
      */
     public function apiUserAction(Request $request)
     {
-        $userId = ($id = intval($request->get('user_param'))) ? $id : null;
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
+
+        if($request->isMethod('PUT')){
+            $this->get('agent_system.user_manager')->edit(json_decode($request->getContent())->user, $request->get('user_param'));
+            return;
+        }
+
         $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
+
+        if ($userId = intval($request->get('user_param'))) {
+            $user = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject($userId);
+
+            return $this->response($serializer->serialize($user));
+        }
+
+        $params = null;
+        $searchParams = null;
+        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
+            $searchFields = array('id'=>'user.id', 'username'=>'user.username', 'firstName'=>'user.firstName', 'lastName'=>'user.lastName');
+            $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
+            $params['page'] =  $page;
+            $params['offset'] =  $offset;
+
+            if ($filters = $request->get('filters')) {
+                $searchParams= array(array('toolbar_search'=>true, 'rows'=>$offset, 'page'=>$page), array());
+                foreach ($rules = json_decode($filters)->rules as $rule) {
+                    $searchParams[1][$searchFields[$rule->field]] = $rule->data;
+                }
+
+                $users = $this->getDoctrine()->getRepository('UserBundle:User')->searchUsersForJQGRID($searchParams, $sortParams);
+            } else {
+                $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAllUsersForJQGRID($page, $offset, $sortParams);
+            }
+
+            $size = (int) $this->getDoctrine()->getRepository('UserBundle:User')->searchUsersForJQGRID($searchParams, $sortParams, true)[0][1];
+            $pageCount = ceil($size/$offset);
+
+            /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
+            $transformer = $serializer->getTransformer();
+            $transformer->addMeta('totalItems', $size);
+            $transformer->addMeta('pages', $pageCount);
+            $transformer->addMeta('page', $page);
+
+        } else {
+            $users = $this->getDoctrine()->getRepository('UserBundle:User')->findUsersObject();
+        }
 
         /**return JSON Response */
         return $this->response($serializer->serialize($users));
 
+//        return new JsonResponse(
+//            array(
+//                'users'=>
+//                    (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
+//                        $this->getDoctrine()->getRepository('UserBundle:User')->findUsers(null):
+//                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsers($id)
+//                            :array(
+//                                'error' => 'Please provide valid params'
+//                            )
+//
+//                        )
+//
+//            ));
     }
-
-    /**
-     * @Route("/file_upload", name="file_upload"),
-     * @param Request $request
-     * @return Response
-     */
-    public function fileUploadAction(Request $request)
-    {
-        /** @var UploadedFile $file */
-        $file = $request->files->get('file');
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-        $file->move($this->get('service_container')->getParameter('main_upload_dir'), $fileName);
-
-        return new JsonResponse(array(
-            'dataUrl' => $this->get('service_container')->get('assets.packages')->getUrl('uploads/'.$fileName)));
-
-
-        /**return JSON Response */
-       // return $this->response($serializer->serialize($users));
-
-    }
-
 
     /**
      * @Route("/api/users-jqgrid", name="api_users_jqgrid", defaults={"user_param": "all"}),
      * @param ArrayCollection $userJqgrid
      * @return JsonResponse
      */
-    public function indexAction(ArrayCollection $userJqgrid)
+    public function jqgridUsersAction(ArrayCollection $userJqgrid)
     {
 
         /**return JSON Response */
@@ -70,16 +104,15 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/api/users-test", name="api_users_jqgrid", defaults={"user_param": "all"}),
-     * @return Response
+     * @Route("/api/user-save", name="api_users_save"),
+     * @param ArrayCollection $userSave
+     * @return JsonResponse
      */
-    public function indexTestAction()
+    public function saveUserAction(ArrayCollection $userSave)
     {
-
-        $users = $this->getDoctrine()->getRepository('UserBundle:User')->findAll();
-        $serializer = $this->get('nil_portugues.serializer.json_api_serializer');
         /**return JSON Response */
-        return $this->response($serializer->serialize($users));
+        return new JsonResponse($userSave->toArray(), $userSave['meta']['code']);
     }
+
 
 }

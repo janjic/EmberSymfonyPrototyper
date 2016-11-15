@@ -8,13 +8,14 @@
         <div class="panel-body">
             <ul class="table">
                 <li>
-                    <a href="add-new-user.html">Add New User</a>
+                    {{#link-to 'dashboard.users.user-add'}}Add New User{{/link-to}}
                 </li>
                 <li>
-                    <a href="users-customers.html">All Users</a>
+                    {{#link-to 'dashboard.users.users-customers' }}All Users Customers{{/link-to}}
+                    {{#link-to 'dashboard.users.users-all'}}All Users{{/link-to}}
                 </li>
                 <li>
-                    {{#link-to 'dashboard.users-all' }}All Users{{/link-to}}
+                    {{#link-to 'dashboard.users.all-tickets' }}All Tickets{{/link-to}}
                 </li>
             </ul>
         </div>

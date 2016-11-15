@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Image
  *
  * @ORM\Table("al_image")
- * @ORM\Entity(repositoryClass="Alligator\Business\Database\Image\ImageRepository")
+ * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Image extends Document implements \Serializable
@@ -29,10 +29,10 @@ class Image extends Document implements \Serializable
     private $position;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", inversedBy="image")
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", inversedBy="image")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      **/
-    private $category;
+    private $user;
 
     /**
      * @var string
@@ -126,19 +126,19 @@ class Image extends Document implements \Serializable
     /**
      * @return mixed
      */
-    public function getCategory()
+    public function getUser()
     {
-        return $this->category;
+        return $this->user;
     }
 
     /**
-     * @param mixed $category
+     * @param mixed $user
      */
-    public function setCategory($category)
+    public function setUser($user)
     {
-        $this->category = $category;
-    }
+        $this->user = $user;
 
+    }
 
 
 

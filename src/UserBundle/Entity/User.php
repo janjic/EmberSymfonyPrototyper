@@ -28,7 +28,6 @@ class User extends BaseUser
      */
     protected $firstName;
 
-
     /**
      * @var string
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
@@ -36,15 +35,54 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * @var string
+     * @ORM\Column(name="language", type="string", length=255, nullable=true)
+     */
+    protected $language;
+
+    /**
+     * @var string
+     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
+     */
+    protected $comment;
+
+    /**
+     * @var string
+     * @ORM\Column(name="isAdmin", type="boolean")
+     */
+    protected $isAdmin;
+
+    /**
+     * @var string
+     * @ORM\Column(name="$birthDate", type="date", length=255, nullable=true)
+     */
+    protected $birthDate;
+
+    /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", cascade={"all"}, orphanRemoval=TRUE)
      * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      **/
-    protected $avatar;
+    protected $image;
+
+    /**
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Address", cascade={"all"})
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     **/
+    protected $address;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $baseImageUrl;
+
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Group", cascade={"merge"})
+//     * @ORM\JoinTable(name="as_group_user",
+//     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",  onDelete="CASCADE")},
+//     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id",  onDelete="CASCADE")}
+//     * )
+//     */
+//    protected $groups;
 
     /**
      * @return mixed
@@ -53,6 +91,16 @@ class User extends BaseUser
     {
         return $this->baseImageUrl;
     }
+
+    /**
+     * @param mixed $baseImageUrl
+     */
+    public function setBaseImageUrl($baseImageUrl)
+    {
+        $this->baseImageUrl = $baseImageUrl;
+    }
+
+
 
     /**
      * @return mixed
@@ -68,6 +116,8 @@ class User extends BaseUser
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -84,6 +134,8 @@ class User extends BaseUser
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -100,22 +152,115 @@ class User extends BaseUser
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getAvatar()
+    public function getImage()
     {
-        return $this->avatar;
+        return $this->image;
     }
 
     /**
-     * @param mixed $avatar
+     * @param mixed $image
      */
-    public function setAvatar($avatar)
+    public function setImage($image)
     {
-        $this->avatar = $avatar;
+        $this->image = $image;
+        $image->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param mixed $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param mixed $isAdmin
+     */
+    public function setIsAdmin($isAdmin)
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
     }
 
     public function __construct()

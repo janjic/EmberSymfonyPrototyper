@@ -3,130 +3,16 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard</a>
+                    {{#link-to 'dashboard-agent.home'}}<i class="fa fa-tachometer"></i> Dashboard{{/link-to}}
                 </h4>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-tree" aria-hidden="true"></i>Genealogy Tree</a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            <a href="#">Tree View</a>
-                        </li>
-                        <li>
-                            <a href="#">Table View</a>
-                        </li>
-                        <li>
-                            <a href="#">Folder View</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        {{left-menu-users}}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-user-secret" aria-hidden="true"></i>Agents</a>
-                </h4>
-            </div>
-            <div id="collapseFour" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            <a href="add-new-agent.html">Add New Agent</a>
-                        </li>
-                        <li>
-                            <a href="all-agents.html">All Agents</a>
-                        </li>
-                        <li>
-                            <a href="agent-update-history.html">Agent Update History</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"><i class="fa fa-credit-card" aria-hidden="true"></i>Payments</a>
-                </h4>
-            </div>
-            <div id="collapseFive" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            <a href="#">Payouts to Agents</a>
-                        </li>
-                        <li>
-                            <a href="#">Reports</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"><i class="fa fa-envelope-o" aria-hidden="true"></i>Mass Mails</a>
-                </h4>
-            </div>
-            <div id="collapseSix" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            <a href="#">Add New Mail List</a>
-                        </li>
-                        <li>
-                            <a href="#">Al Mail List</a>
-                        </li>
-                        <li>
-                            <a href="#">Add New MassMail Campaign</a>
-                        </li>
-                        <li>
-                            <a href="#">All Mass Mail Campaigns</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven"><i class="fa fa-commenting-o" aria-hidden="true"></i>Messages</a>
-                </h4>
-            </div>
-            <div id="collapseSeven" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            <a href="#">Received Messages <span>(10)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Drafts <span>(10)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Sent<span>(10)</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Trash<span>(10)</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a>
-                </h4>
-            </div>
-        </div>
+        {{agent-left-menu-genealogy}}
+        {{agent-left-menu-users}}
+        {{agent-left-menu-tickets}}
+        {{agent-left-menu-reports}}
+        {{agent-left-menu-wallet}}
+        {{agent-left-menu-profile}}
+        {{agent-left-menu-messages}}
     </div>
 </div>

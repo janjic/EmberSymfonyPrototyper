@@ -1,6 +1,5 @@
 mapping:
   class: UserBundle\Entity\User
-  alias: users
   aliased_properties: []
   hide_properties: []
   id_properties:

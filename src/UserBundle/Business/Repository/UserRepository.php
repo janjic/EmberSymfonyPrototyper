@@ -4,6 +4,8 @@ namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use Exception;
+use UserBundle\Entity\User;
 
 
 /**
@@ -13,6 +15,13 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
     const ALIAS = 'user';
+    const JOIN_WITH_ADDRESS = 'address';
+    const JOIN_WITH_IMAGE = 'image';
+
+    /**
+     * @param null $id
+     * @return array
+     */
     public function findUsers ($id = null)
     {
         $qb = $this->createQueryBuilder('u');
@@ -22,7 +31,51 @@ class UserRepository extends EntityRepository
         return  $qb->select()->getQuery()->getArrayResult();
     }
 
-    public function findUsersObject($id = null, $params = array())
+    /**
+     * @param null $id
+     * @return array
+     */
+    public function findUsersNew ($id = null)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::JOIN_WITH_ADDRESS, self::JOIN_WITH_IMAGE);
+        $qb->leftJoin(self::ALIAS.'.address', self::JOIN_WITH_ADDRESS);
+        $qb->leftJoin(self::ALIAS.'.image', self::JOIN_WITH_IMAGE);
+        $id ? $qb->where(self::ALIAS.'.id = ?1')->setParameter(1, $id):false;
+
+        return  $qb->select()->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function save(User $user)
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function edit(User $user)
+    {
+        try {
+            $this->_em->merge($user);
+            $this->_em->flush();
+
+        } catch (Exception $e)
+        {
+            var_dump($e->getMessage());exit;
+        }
+        return $user;
+    }
+
+    public function findUsersObject($id = null, $params = null)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
 
@@ -33,6 +86,16 @@ class UserRepository extends EntityRepository
             return $qb->getQuery()->getOneOrNullResult();
         }
 
+        if ($params) {
+            $page = $params['page'];
+            $offset = $params['offset'];
+            $firstResult =0;
+            if ($page !=1) {
+                $firstResult = ($page-1)*$offset;
+            }
+            $qb->setFirstResult($firstResult)->setMaxResults($offset);
+        }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -40,24 +103,21 @@ class UserRepository extends EntityRepository
      * @param mixed $page
      * @param mixed $offset
      * @param mixed $sortParams
-     * @param mixed $additionalParams
      * @return array
      */
-    public function findAllUsersForJQGRID($page, $offset, $sortParams, $additionalParams)
+    public function findAllUsersForJQGRID($page, $offset, $sortParams)
     {
         $firstResult =0;
         if ($page !=1) {
             $firstResult = ($page-1)*$offset;
             // $offset = $page*$offset;
         }
-        $qb= $this->createQueryBuilder(self::ALIAS)->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
-            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
-
-        if (array_key_exists('search_param', $additionalParams)) {
-            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
-        }
+        $qb= $this->createQueryBuilder(self::ALIAS);
+//            ->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
+//            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+        
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
-        $qb->groupBy(self::ALIAS.'.id');
+//        $qb->groupBy(self::ALIAS.'.id');
 
         return $qb->getQuery()->getResult();
     }
@@ -65,16 +125,15 @@ class UserRepository extends EntityRepository
     /**
      * @param mixed $searchParams
      * @param mixed $sortParams
-     * @param mixed $additionalParams
      * @param bool  $isCountSearch
      * @return array
      */
-    public function searchUsersForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    public function searchUsersForJQGRID($searchParams, $sortParams, $isCountSearch = false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
         if (!$isCountSearch) {
-            $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
-                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
+//            $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
+//                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
         }
 
         $firstResult = 0;
@@ -86,7 +145,6 @@ class UserRepository extends EntityRepository
                 $firstResult = 0;
                 if ($page != 1) {
                     $firstResult = ($page - 1) * $offset;
-                    $offset = $page * $offset;
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
@@ -209,7 +267,7 @@ class UserRepository extends EntityRepository
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
-            $oQ0->groupBy(self::ALIAS.'.id');
+//            $oQ0->groupBy(self::ALIAS.'.id');
             $oQ0->setFirstResult($firstResult)->setMaxResults($offset);
         }
 
