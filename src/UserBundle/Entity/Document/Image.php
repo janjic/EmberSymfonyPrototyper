@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Image
  *
  * @ORM\Table("al_image")
- * @ORM\Entity(repositoryClass="Alligator\Business\Database\Image\ImageRepository")
+ * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Image extends Document implements \Serializable

@@ -1,6 +1,8 @@
 import Ember from 'ember';
+const Translator = window.Translator;
 
 export default Ember.Controller.extend({
+    store: Ember.inject.service('store'),
     firstNameNotFocused: true,
     firstNameValid: Ember.computed('model.firstName', function () {
         return validateStringInput(this, 'firstName','firstNameNotFocused', 2, 'string', 'First name not valid');
@@ -12,15 +14,31 @@ export default Ember.Controller.extend({
     }),
     actions: {
         updateUserBirthDate(date){
-            this.model.set('birthDate', date);
+            var user = this.model;
+            user.set('birthDate', date);
         },
         saveUser(user) {
-            user.save().then(()=> {
-                this.set('model', this.store.createRecord('user'));
-                this.set('model.image', this.store.createRecord('image'));
-                this.set('model.address', this.store.createRecord('address'));
-            }) ;
+            var model = this.get('model');
+            // image.save().then(() => {
+            //     address.save().then(() => {
+            //         user.set('image', image);
+            //         user.set('address', address);
+                    user.save().then(() => {
+                        this.toast.success('User saved!');
+                        model.set('image', this.store.createRecord('image'));
+                        model.set('address', this.store.createRecord('address'));
+                        model.set('user', this.store.createRecord('user'));
+                    }, () => {
+                        this.toast.error('Data not saved!');
+                    })
+        //         }, () => {
+        //             this.toast.error('Data not saved!');
+        //         })
+        //     }, () => {
+        //         this.toast.error('Data not saved!');
+        //     });
         },
+
         addedFile: function (file) {
             var img = this.model.get('image');
             img.set('name', file.name);
@@ -28,10 +46,8 @@ export default Ember.Controller.extend({
             reader.onloadend = function () {
                 var imgBase64 = reader.result;
                 img.set('base64_content', imgBase64);
-
             };
             reader.readAsDataURL(file);
-            console.log(img.get('base64_content'));
         },
     }
 });
