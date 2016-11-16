@@ -11,6 +11,7 @@ export default Model.extend({
     // rgt:  DS.attr(),
     // root:  DS.attr(),
     children: DS.hasMany('role', { inverse: 'parent' }),
+    agents: DS.hasMany('agent', {inverse: 'role'}),
     parent: DS.belongsTo('role', { inverse: 'children' }),
     prev: DS.attr(), // used only for sending data to sever
     simpleUpdate: DS.attr('boolean', { defaultValue: false }), // used only for sending data to sever

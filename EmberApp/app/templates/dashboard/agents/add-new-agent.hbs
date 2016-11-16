@@ -55,7 +55,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.agentID }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -63,7 +63,8 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.firstName }}
+
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -71,7 +72,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.lastName }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -79,7 +80,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="password" class="form-control" value=model.plainPassword }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -87,7 +88,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="password" class="form-control" value=model.plainPassword }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -95,7 +96,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{input type="text" class="form-control" value=model.email }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -103,7 +104,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{input type="text" class="form-control" value=model.email }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -111,7 +112,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{input type="text" class="form-control" value=model.privateEmail }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -133,7 +134,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.address.phone }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -141,7 +142,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.address.fixedPhone }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -149,7 +150,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.address.streetNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -157,7 +158,15 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.address.postcode }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">City
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{input type="text" class="form-control" value=model.address.city }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -165,7 +174,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{input type="text" class="form-control" value=model.address.country }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -173,7 +182,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{input type="text" class="form-control" value=model.nationality }}
                         </div>
                     </div>
 
@@ -182,7 +191,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="email" class="form-control">
+                            {{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -204,7 +213,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.socialSecurityNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -212,7 +221,8 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.bankName }}
+
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -220,7 +230,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <input type="text" class="form-control">
+                            {{input type="text" class="form-control" value=model.bankAccountNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -228,7 +238,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            <textarea type="text" class="form-control"></textarea>
+                            {{textarea class="form-control" value=model.agentBackground}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -236,17 +246,12 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8 user-img">
-                            <input type="button" class="form-control drag-and-drop" name="username" placeholder="asd">
-                            <div class="insert-avatar-container text-center" >
-                                <button class="insert-avatar">Insert avatar</button>
-                                <span>Or</span>
-                                <span>Drag and Drop</span>
-                            </div>
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <div class="col-xs-12 col-md-7">
-                            <button class="btn btn-success finish-btn btn-lg pull-right" type="submit">Finish!</button>
+                            <button class="btn btn-success finish-btn btn-lg pull-right" type="submit" {{action 'saveAgent' model }}>Finish!</button>
                         </div>
                     </div>
 
