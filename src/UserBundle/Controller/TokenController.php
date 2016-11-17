@@ -29,6 +29,7 @@ class TokenController extends BaseController {
 
     public function tokenAction(Request $request)
     {
+
         $regex = '#^(authorization_code|token|password|client_credentials|refresh_token|https?://.+|urn:.+)$#';
         $filters = array(
             "grant_type" => array(

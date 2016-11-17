@@ -97,6 +97,9 @@ services:
         arguments:
             repository: "@agent_system.role.repository"
 
+    fos_oauth_server.controller.token:
+        class: UserBundle\Controller\TokenController
+        arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']
     agent_system.role.adapter:
         class: UserBundle\Adapter\Role\RoleAdapter
         arguments:
