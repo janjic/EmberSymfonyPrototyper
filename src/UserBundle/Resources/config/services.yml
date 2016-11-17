@@ -106,3 +106,23 @@ services:
             - "@agent_system.role.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Role ---------------------------------------------------------------------------------------------------- #
+    agent_system.agent.repository:
+        class: UserBundle\Business\Repository\AgentRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Agent
+
+    agent_system.agent.manager:
+        class: UserBundle\Business\Manager\AgentManager
+        arguments:
+            repository: "@agent_system.agent.repository"
+            roleManager: "@agent_system.group.manager"
+
+    agent_system.agent.adapter:
+        class: UserBundle\Adapter\Agent\AgentAdapter
+        arguments:
+            - "@agent_system.agent.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
