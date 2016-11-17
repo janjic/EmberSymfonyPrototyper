@@ -39,8 +39,7 @@ class FSDSerializer
                 'Proxies\__CG__\UserBundle\Entity\Document\Image' => ImageProxySchema::class,
             ];
         }
-
-        $encoder = Encoder::instance($instancesArray, new EncoderOptions(0, $_SERVER['PHP_SELF']));
+        $encoder = Encoder::instance($instancesArray, new EncoderOptions(0, ($self = $_SERVER['PHP_SELF']) == '/app.php' ? null : $self));
 
         return $encoder->encodeData($data);
     }

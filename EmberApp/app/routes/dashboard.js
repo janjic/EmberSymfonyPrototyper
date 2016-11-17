@@ -14,7 +14,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
             this.transitionTo(Configuration.authenticationRoute);
         } else {
             let currentUser = this.get('currentUser');
-            console.log('User id je', currentUser.id);
+            console.log('User id je', currentUser.get('user.id'));
             this.transitionTo('dashboard.home');
         }
     }

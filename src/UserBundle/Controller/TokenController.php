@@ -29,7 +29,6 @@ class TokenController extends BaseController {
 
     public function tokenAction(Request $request)
     {
-
         $regex = '#^(authorization_code|token|password|client_credentials|refresh_token|https?://.+|urn:.+)$#';
         $filters = array(
             "grant_type" => array(
@@ -62,7 +61,7 @@ class TokenController extends BaseController {
         $token = json_decode($response->getContent());
 
         if (!property_exists($token, 'error')&& ($username = $input['username'])) {
-             $token->account_id = $this->em->getRepository('UserBundle:User')->findOneBy(array('username' =>$username))->getId();
+             $token->account_id = $this->em->getRepository('UserBundle:Agent')->findOneBy(array('username' =>$username))->getId();
         }
 
         $response->setContent(json_encode($token));
