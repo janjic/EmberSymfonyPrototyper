@@ -908,6 +908,7 @@ header{
 /*OFF ON SWITCH END*/
 
 .left-section{
+    overflow: auto;
     position: fixed;
     height: 100%;
     background: #364150;
@@ -1676,4 +1677,29 @@ input:focus{
 .checkboxes label.checkbox-inline {
     margin-left: 20px;
 }
+
+/*
+* Scrollbar customization
+*/
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 0px;
+    background-color: #d8d9db;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #d8d9db;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: none;
+    background-color: #a9aeb2;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background-color: #a9aeb2;
+}
+
 
