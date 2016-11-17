@@ -30,12 +30,10 @@ class ImageManager implements BasicEntityManagerInterface
 
     /**
      * @param ImageRepository    $repository
-     * @param UserEventContainer $eventContainer
      */
-    public function __construct(ImageRepository $repository, UserEventContainer $eventContainer)
+    public function __construct(ImageRepository $repository)
     {
         $this->repository = $repository;
-        $this->eventContainer = $eventContainer;
     }
 
     /**

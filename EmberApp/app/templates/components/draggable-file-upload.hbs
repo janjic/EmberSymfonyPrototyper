@@ -1,0 +1,51 @@
+<button {{action "uploadAll"}} class="btn btn-primary " disabled={{if hasUploads false true}}>Upload All</button>
+<button {{action "removeCompleted"}} class="btn btn-default btn-remove-completed" disabled={{if hasCompleted false true}}>Remove Completed</button>
+<label class="total-size">Total file size: </label> {{totalFileSize}}
+
+{{#input-drop-upload doOnFilesSelected=(action 'handleMultipleFilesUploads')}}
+    <span class="btn btn-primary btn-file">
+        Browse...{{input-button-upload doOnFilesSelected=(action 'handleMultipleFilesUploads') multiple=true}}
+    </span>
+{{/input-drop-upload}}
+
+{{#each model as |uploadFile|}}
+    <div class="upload-file-block">
+        <div class="image-preview">
+            {{#if uploadFile.isDisplayableImage}}
+                <img class="image-preview" src="{{uploadFile.base64Image}}" />
+            {{else}}
+                <img class="image-preview" src="assets/image-unknown.gif">
+            {{/if}}
+        </div>
+
+        <div class="details-block">
+            <label>Name:</label> {{input value=uploadFile.name}} <br>
+            <label>Size:</label> {{uploadFile.size}}<br>
+
+            {{#if uploadFile.didUpload}}
+                <span class="has-success">
+                <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                <span class="form-control-feedback">Success</span>
+              </span>
+            {{else}}
+
+                <a {{action "uploadFile" uploadFile}} class="btn btn-info">
+                    <span class="glyphicon glyphicon-floppy-saved"></span>
+                </a>
+            {{/if}}
+
+            <a {{action "removeFile" uploadFile}} class="btn btn-success">
+                <span class="glyphicon glyphicon-floppy-remove"></span>
+            </a>
+
+            {{#if uploadFile.showProgressBar}}
+                <div class="progress progress-striped">
+                    <div class="progress-bar progress-bar-info" style={{uploadFile.progressStyle}}></div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{else}}
+
+    <h4 class="msg-drop">Drop or browse files here</h4>
+{{/each}}

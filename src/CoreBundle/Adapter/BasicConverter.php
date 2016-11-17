@@ -16,7 +16,7 @@ abstract class BasicConverter
     protected $param;
 
     /**
-     * @param BasicEntityManagerInterface $manager
+     * @param BasicEntityManagerInterface|JsonAPIConverter $manager
      * @param Request                     $request
      * @param string                      $param
      */
