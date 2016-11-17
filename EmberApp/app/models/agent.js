@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import Ember from 'ember';
 
 const { attr, Model } = DS;
 
@@ -21,7 +20,7 @@ export default Model.extend({
     bankAccountNumber:    attr('string'),
     agentBackground:      attr('string'),
     address:              DS.belongsTo('address', {inverse: 'agent',  embedded: 'always'}),
-    role:                 DS.belongsTo('role', {embedded: 'always'}),
+    group:                DS.belongsTo('group', {embedded: 'always'}),
     image:                DS.belongsTo('image', {inverse: 'agent', embedded: 'always'}),
 
 });

@@ -33,7 +33,7 @@ Router.map(function() {
       this.route('all-agents');
       this.route('agent-update-history');
       this.route('agent-view');
-      this.route('agent-edit');
+      this.route('agent-edit', {path: '/agent-edit/:id'});
     });
 
     this.route('mass-mails', function() {

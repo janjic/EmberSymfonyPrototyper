@@ -25,31 +25,31 @@ class Agent extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="string", length=30)
+     * @ORM\Column(name="title", type="string", length=30, nullable=true)
      */
     protected $title;
 
     /**
      * @var string
-     * @ORM\Column(name="agent_code", type="string", length=30)
+     * @ORM\Column(name="agent_code", type="string", length=30, nullable=true)
      */
     protected $agentId;
 
     /**
      * @var string
-     * @ORM\Column(name="first_name", type="string", length=30)
+     * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
      */
     protected $firstName;
 
     /**
      * @var string
-     * @ORM\Column(name="last_name", type="string", length=30)
+     * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
      */
     protected $lastName;
 
     /**
      * @var string
-     * @ORM\Column(name="private_email", type="string", length=30)
+     * @ORM\Column(name="private_email", type="string", length=30, nullable=true)
      */
     protected $privateEmail;
 
@@ -76,19 +76,19 @@ class Agent extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="bank_name", type="string", length=30)
+     * @ORM\Column(name="bank_name", type="string", length=30, nullable=true)
      */
     protected $bankName;
 
     /**
      * @var string
-     * @ORM\Column(name="bank_account_number", type="string", length=30)
+     * @ORM\Column(name="bank_account_number", type="string", length=30, nullable=true)
      */
     protected $bankAccountNumber;
 
     /**
      * @var string
-     * @ORM\Column(name="agent_bacground", type="string", length=30)
+     * @ORM\Column(name="agent_bacground", type="string", length=30, nullable=true)
      */
     protected $agentBackground;
 
@@ -105,10 +105,10 @@ class Agent extends BaseUser
     protected $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Role")
-     * @@ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Group")
+     * @@ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
-    protected $role;
+    protected $group;
 
     /**
      * @return mixed
@@ -353,17 +353,17 @@ class Agent extends BaseUser
     /**
      * @return mixed
      */
-    public function getRole()
+    public function getGroup()
     {
-        return $this->role;
+        return $this->group;
     }
 
     /**
-     * @param mixed $role
+     * @param mixed $group
      */
-    public function setRole($role)
+    public function setGroup($group)
     {
-        $this->role = $role;
+        $this->group = $group;
     }
 
 }

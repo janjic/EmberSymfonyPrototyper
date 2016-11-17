@@ -75,4 +75,14 @@ class RoleManager implements BasicEntityManagerInterface
         return $this->repository->removeNestedFromTree($id);
     }
 
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findRoleById($id)
+    {
+        return $this->repository->findOneById($id);
+    }
+
 }

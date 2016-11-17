@@ -22,7 +22,12 @@ export default Ember.Controller.extend({
             }, () => {
                 this.toast.error('Data not saved!');
             });
-
         },
+        roleSelected(group){
+            this.model.set('group', group);
+        },
+        titleChanged(title){
+            this.model.set('title', title);
+        }
     }
 });
