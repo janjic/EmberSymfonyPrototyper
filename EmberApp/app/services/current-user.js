@@ -9,6 +9,7 @@ export default Ember.Service.extend({
     load() {
         return new RSVP.Promise((resolve, reject) => {
             let userId = this.get('session.data.authenticated.account_id');
+            console.log("USER ID JE u load", userId);
             if (!isEmpty(userId)) {
                 this.get('store').find('agent', userId).then((user) => {
                     this.set('user', user);
