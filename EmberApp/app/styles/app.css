@@ -1648,3 +1648,7 @@ input:focus{
 .has-error {
     color: red;
 }
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: rgba(209, 69, 69, 0.58);
+}
