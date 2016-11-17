@@ -43,8 +43,8 @@
                         <div class="col-md-4 col-xs-8">
                             <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
                                 <option value="-1" disabled selected>Choose title</option>
-                                    <option value="Mr." >Mr.</option>
-                                    <option value="Mrs." >Mrs.</option>
+                                    <option value="MR" >Mr.</option>
+                                    <option value="MRS" >Mrs.</option>
                             </select>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
-                            {{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
                         </div>
                     </div>
                     <div class="form-group clearfix">

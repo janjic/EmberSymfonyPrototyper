@@ -13,7 +13,7 @@ class AgentRepository extends EntityRepository
 {
     const ALIAS         = 'agent';
     const ADDRESS_ALIAS = 'address';
-    const GROUP_ALIAS   = 'group';
+    const GROUP_ALIAS   = 'g';
     const IMAGE_ALIAS   = 'image';
 
     /**
@@ -41,7 +41,7 @@ class AgentRepository extends EntityRepository
     public function findAgentById($id)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS, self::ADDRESS_ALIAS,  self::IMAGE_ALIAS);
+        $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS);
         $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
         ->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS)
         ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS);
@@ -49,5 +49,22 @@ class AgentRepository extends EntityRepository
         ->setParameter('id', $id);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param Agent $agent
+     * @return Agent
+     */
+    public function edit(Agent $agent)
+    {
+        try {
+            $this->_em->merge($agent);
+            $this->_em->flush();
+        } catch (\Exception $e) {
+
+            return new Agent();
+        }
+
+        return $agent;
     }
 }

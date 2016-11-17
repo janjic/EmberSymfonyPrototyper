@@ -53,4 +53,13 @@ class AgentManager implements BasicEntityManagerInterface
         return $this->repository->findAgentById($id);
     }
 
+    /**
+     * @param Agent $agent
+     * @return mixed
+     */
+    public function edit(Agent $agent)
+    {
+        return $this->repository->edit($agent);
+    }
+
 }
