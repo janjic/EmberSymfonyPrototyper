@@ -33,7 +33,7 @@ class AgentController extends Controller
     /**
      * @Route("/api/agents/{id}", name="api_agents"),
      * @param ArrayCollection $agentEdit
-     * @return JsonResponse
+     * @return Response
      */
     public function agentEditAction(ArrayCollection $agentEdit)
     {

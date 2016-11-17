@@ -80,7 +80,7 @@ swiftmailer:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: UserBundle\Entity\User
+    user_class: UserBundle\Entity\Agent
 
 assetic:
     bundles:
@@ -127,6 +127,3 @@ stof_doctrine_extensions:
     orm:
         default:
             tree: true
-nilportugues_json_api:
-    mappings:
-        - "@UserBundle/Resources/mappings/"

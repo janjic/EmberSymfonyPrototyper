@@ -2,7 +2,6 @@
 
 namespace UserBundle\Entity\Document;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,33 +27,11 @@ class Image extends Document implements \Serializable
      */
     private $position;
 
-    /**
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", inversedBy="image")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
-     **/
-    private $user;
 
     /**
      * @var string
      */
     private $base64Content = null;
-
-    /**
-     * Image constructor.
-     */
-    public function __construct()
-    {
-        $this->thumbnails = new ArrayCollection();
-    }
-
-
-    /**
-     * @param mixed $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-    }
 
 
     /**

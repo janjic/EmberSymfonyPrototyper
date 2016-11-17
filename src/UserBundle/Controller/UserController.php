@@ -75,19 +75,6 @@ class UserController extends Controller
         /**return JSON Response */
         return $this->response($serializer->serialize($users));
 
-//        return new JsonResponse(
-//            array(
-//                'users'=>
-//                    (($param = $request->get('user_param'))=== self::DEFAULT_USER_PARAM) ?
-//                        $this->getDoctrine()->getRepository('UserBundle:User')->findUsers(null):
-//                        (($id = intval($param)) ? $this->getDoctrine()->getRepository('UserBundle:User')->findUsers($id)
-//                            :array(
-//                                'error' => 'Please provide valid params'
-//                            )
-//
-//                        )
-//
-//            ));
     }
 
     /**
