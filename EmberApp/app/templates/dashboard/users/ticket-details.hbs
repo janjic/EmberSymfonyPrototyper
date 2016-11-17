@@ -58,52 +58,74 @@
         </div>
     </div>
     <div class="row">
-        <div class="ticket-messages">
-            <div class="message clearfix">
-                <div class="col-md-12">
-                    <div class="user-img">
-                        <p>User</p>
-                        <div class="img-holder"><img class="img-circle" src="../../assets/images/user-avatar.png" alt=""></div>
+        <section class="messages clearfix">
+            <article>
+                <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
+                    <div class="username text-right">
+                        <h4>Username 1</h4>
+                        <img src="../../assets/images/user-avatar.png" title="Username">
                     </div>
-                </div>
-                <div class="col-md-9 col-md-offset-3">
-                    <div class="user-message">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda deserunt dignissimos, eos ipsam perspiciatis quod. Aspernatur blanditiis eos expedita iusto nemo odit quidem totam vero? Delectus omnis praesentium sit ut.</p>
-                        <a href="">file.jpg</a> <span class="pull-right">23.12.2016. 00:37</span>
+                    <div class="user-message clearfix">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
                     </div>
+                    <span>5 days ago</span>
                 </div>
-            </div>
-            <div class="message clearfix">
-                <div class="col-md-12">
-                    <div class="user-img admin-img">
-                        <div class="img-holder"><img class="img-circle" src="../../assets/images/user-avatar.png" alt=""></div>
-                        <p>Admin</p>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="user-message admin-message">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda deserunt dignissimos, eos ipsam perspiciatis quod. Aspernatur blanditiis eos expedita iusto nemo odit quidem totam vero? Delectus omnis praesentium sit ut.</p>
-                        <a href="">file.jpg</a> <span class="pull-right">23.12.2016. 00:37</span>
-                    </div>
-                </div>
-            </div>
-            <div class="message clearfix">
-                <div class="col-md-12">
-                    <div class="user-img admin-img">
-                        <div class="img-holder"><img class="img-circle" src="../../assets/images/user-avatar.png" alt=""></div>
-                        <p>Admin</p>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <textarea class="form-control" name="comment" id="comment" cols="100" rows="5"></textarea>
-                    <a href="#" class="btn btn-primary">Attach a file</a>
-                </div>
-            </div>
-        </div>
+            </article>
 
-        <div class="form-group clearfix pull-right">
-            <a href="#" class="btn btn-success btn-lg">Close ticket</a>
-            <a href="#" class="btn btn-danger btn-lg">Send ticket</a>
+            <article>
+                <div class="admin-comment col-xs-12 col-sm-8 ">
+                    <div class="username username-admin">
+                        <img src="../../assets/images/user-avatar.png" title="Admin">
+                        <h4>Admin</h4>
+                    </div>
+                    <div class="admin-message clearfix">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
+                    </div>
+                    <span>5 days ago</span>
+                </div>
+            </article>
+
+            <article>
+                <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
+                    <div class="username text-right">
+                        <h4>Username 1</h4>
+                        <img src="../../assets/images/user-avatar.png" title="Username">
+                    </div>
+                    <div class="user-message clearfix">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
+                    </div>
+                    <span>5 days ago</span>
+                </div>
+            </article>
+
+            <article>
+                <div class="admin-comment col-xs-12 col-sm-8 ">
+                    <div class="username username-admin">
+                        <img src="../../assets/images/user-avatar.png" title="Admin">
+                        <h4>Admin</h4>
+                    </div>
+                    <div class="admin-message clearfix">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
+                    </div>
+                    <span>5 days ago</span>
+                </div>
+            </article>
+        </section>
+
+        <div class="send-message-mobile">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-6 col-md-offset-6 no-padding-left-right no-border-radius">
+                    <textarea class="form-control" name="enter-message" placeholder="Enter Message"></textarea>
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="form-group clearfix text-right">
+                <div class="col-md-12 no-padding-left-right">
+                    <a href="#" class="btn btn-info ">Attach Files</a>
+                    <a href="#" class="btn btn-danger ">Send</a>
+                </div>
+            </div>
         </div>
     </div>
 </dic>
