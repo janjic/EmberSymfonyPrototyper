@@ -111,6 +111,7 @@ Router.map(function() {
       this.route('view-message');
     });
   });
+  this.route('files');
 });
 
 export default Router;

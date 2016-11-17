@@ -31,7 +31,7 @@ class AgentSchema extends SchemaProvider
             'birthDate'            => $agent->getBirthDate(),
             'bankName'             => $agent->getBankName(),
             'bankAccountNumber'    => $agent->getBankAccountNumber(),
-            'agentBackground'      => $agent->getAgentBackground()
+            'agentBackground'      => $agent->getAgentBackground(),
 
         ];
     }

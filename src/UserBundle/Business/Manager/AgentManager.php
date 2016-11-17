@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
+use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Agent;
@@ -11,7 +12,7 @@ use UserBundle\Entity\Agent;
  * Class AgentManager
  * @package UserBundle\Business\Manager
  */
-class AgentManager implements BasicEntityManagerInterface
+class AgentManager implements JSONAPIEntityManagerInterface
 {
     /**
      * @var GroupRepository
@@ -54,6 +55,7 @@ class AgentManager implements BasicEntityManagerInterface
     }
 
     /**
+
      * @param Agent $agent
      * @return mixed
      */
@@ -62,4 +64,39 @@ class AgentManager implements BasicEntityManagerInterface
         return $this->repository->edit($agent);
     }
 
+
+    /**
+     * @param null $id
+     * @return array
+     */
+    public function getResource($id = null)
+    {
+       return $this->repository->findAgentById($id);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function saveResource($data)
+    {
+        // TODO: Implement saveResource() method.
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function updateResource($data)
+    {
+        // TODO: Implement updateResource() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function deleteResource($id = null)
+    {
+        // TODO: Implement deleteResource() method.
+    }
 }

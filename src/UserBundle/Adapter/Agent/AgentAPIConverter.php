@@ -2,24 +2,18 @@
 
 namespace UserBundle\Adapter\Agent;
 
-use CoreBundle\Adapter\JQGridConverter;
+use CoreBundle\Adapter\JsonAPIConverter;
 use CoreBundle\Business\Serializer\FSDSerializer;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\AgentManager;
-use UserBundle\Business\Manager\GroupManager;
-use UserBundle\Entity\Address;
-use UserBundle\Entity\Agent;
-use UserBundle\Entity\Document\Image;
-use UserBundle\Entity\Group;
 
 /**
- * Class AgentEditConverter
+ * Class AgentAPIConverter
  * @package UserBundle\Adapter\Agent
+ *
  */
-class AgentEditConverter extends JQGridConverter
+class AgentAPIConverter extends JsonAPIConverter
 {
     /**
      * @param AgentManager $manager
@@ -36,6 +30,7 @@ class AgentEditConverter extends JQGridConverter
      */
     public function convert()
     {
+
         /**
          * If method is patch perform edit
          */
@@ -139,6 +134,7 @@ class AgentEditConverter extends JQGridConverter
             $serializedObj = FSDSerializer::serialize($agent);
         }
 
+        $agent = parent::convert();
 
         $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
 

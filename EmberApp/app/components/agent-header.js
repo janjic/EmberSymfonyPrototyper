@@ -1,4 +1,12 @@
 import Ember from 'ember';
+const { inject: { service }, Component } = Ember;
 
-export default Ember.Component.extend({
+export default Component.extend({
+    session: service('session'),
+    actions: {
+        logout() {
+            this.get('session').invalidate();
+        }
+    }
+
 });
