@@ -15,6 +15,6 @@ abstract class AgentAdapterUtil extends BaseAdapterUtil
 
     /** parameters for user entity */
     const GROUP_SAVE_CONVERTER = 'agentSave';
-    const GROUP_EDIT_CONVERTER = 'agentEdit';
+    const GROUP_EDIT_CONVERTER = 'agentAPI';
 
 }

@@ -31,14 +31,13 @@ class AgentController extends Controller
     }
 
     /**
-     * @Route("/api/agents/{id}", name="api_agents"),
-     * @param ArrayCollection $agentEdit
+     * @Route("/api/agents/{id}", name="api_agents", options={"expose" = true}, defaults={"id": "all"}),
+     * @param ArrayCollection $agentAPI
      * @return Response
      */
-    public function agentEditAction(ArrayCollection $agentEdit)
+    public function agentAPIAction(ArrayCollection $agentAPI)
     {
-
-        return $this->response($agentEdit[0]);
+        return $this->response($agentAPI[0]);
     }
 
 
