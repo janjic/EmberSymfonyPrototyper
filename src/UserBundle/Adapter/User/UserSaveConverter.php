@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Adapter;
+namespace UserBundle\Adapter\User;
 
 
 use CoreBundle\Adapter\JQGridConverter;
@@ -36,30 +36,33 @@ class UserSaveConverter extends JQGridConverter
      */
     public function convert()
     {
-        $userJson = json_decode($this->request->getContent())->user;
+        $userJson = json_decode($this->request->getContent())->data;
         $userObj = new User();
-        $userObj->setFirstName($userJson->firstName)
-            ->setLastName($userJson->lastName)
-            ->setUsername($userJson->email);
-        $userObj->setEmail($userJson->email);
-        $userObj->setLanguage($userJson->language);
-        $userObj->setComment($userJson->comment);
-        $userObj->setPlainPassword($userJson->password);
-        $userObj->setIsAdmin($userJson->isAdmin);
-        $userObj->setBirthDate(new DateTime($userJson->birthDate));
+        $userJsonAttrs = $userJson->attributes;
+
+        $userObj->setFirstName($userJsonAttrs->first_name)
+            ->setLastName($userJsonAttrs->last_name)
+            ->setUsername($userJsonAttrs->email);
+        $userObj->setEmail($userJsonAttrs->email);
+        $userObj->setLanguage($userJsonAttrs->language);
+        $userObj->setComment($userJsonAttrs->comment);
+        $userObj->setPlainPassword($userJsonAttrs->password);
+        $userObj->setIsAdmin($userJsonAttrs->is_admin);
+        $userObj->setBirthDate(new DateTime($userJsonAttrs->birth_date));
 
         $imageObj = new Image();
-        $imageObj->setBase64Content($userJson->image->base64_content);
-        $imageObj->setName($userJson->image->name);
+        $imageJson = $userJson->relationships->image->data->attributes;
+        $imageObj->setBase64Content($imageJson->base64_content);
+        $imageObj->setName($imageJson->name);
 
         $addressObj = new Address();
-        $addressObj->setStreetNumber($userJson->address->streetNumber)
-        ->setCity($userJson->address->streetNumber)
-        ->setCountry($userJson->address->country)
-        ->setPhone($userJson->address->phone)
-        ->setPostcode($userJson->address->postcode);
 
-//        Debug::dump($imageObj);exit;
+        $addressJson = $userJson->relationships->address->data->attributes;
+        $addressObj->setStreetNumber($addressJson->street_number)
+            ->setCity($addressJson->city)
+            ->setCountry($addressJson->country)
+            ->setPhone($addressJson->phone)
+            ->setPostcode($addressJson->postcode);
         try {
             $imageObj->saveToFile($imageObj->getBase64Content());
         } catch (Exception $e)
@@ -72,14 +75,15 @@ class UserSaveConverter extends JQGridConverter
 
         $userObj = $this->manager->save($userObj);
 
+
         if($userObj->getId()){
             $this->request->attributes->set($this->param, new ArrayCollection(array(
-                'user' => array('id' => $userObj->getId(), 'username', $userObj->getUsername()),
+                'data' => array('type'=> 'users', 'id' => $userObj->getId()),
                 'meta' => array('code'=> 200, 'message', 'User successfully saved'))));
         } else {
             $this->request->attributes->set($this->param, new ArrayCollection(array(
                 'user' => array('id' => null),
-                'meta' => array('code'=> 410, 'message', 'User not saved'))));
+                'meta' => array('code'=> 500, 'message', 'User not saved'))));
         }
     }
 }

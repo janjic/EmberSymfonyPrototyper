@@ -49,8 +49,8 @@ $(document).on("ready",function(){
         $(".left-section").toggleClass("left-section-visible");
         $(".toggle-left-section").toggleClass("collapsed");
 
-    })
-})
+    });
+});
 
 
 $(document).on("resize",function(){

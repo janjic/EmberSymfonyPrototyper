@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Adapter;
+namespace UserBundle\Adapter\User;
 
 
 use CoreBundle\Adapter\JQGridConverter;
@@ -23,9 +23,9 @@ class UserJqgridConverter extends JQGridConverter
     public function __construct(UserManager $manager, Request $request, $param)
     {
         parent::__construct($manager, $request, $param);
-        $this->searchFields = array('id'=>'u.id', 'username'=>'u.username', 'firstName'=>'u.firstName',
-            'lastName'=>'u.lastName', 'city'=>'a.city', 'country'=>'a.country', 'type'=>'u.type', 'enabled'=>'u.enabled',
-            'locked'=>'u.locked', 'numOfSuccessOrders' => 'numOfSuccessOrders', 'numOfOrders' => 'numOfOrders');
+        $this->searchFields = array('id'=>'user.id', 'username'=>'user.username', 'firstName'=>'user.firstName',
+            'lastName'=>'user.lastName', 'city'=>'a.city', 'country'=>'a.country', 'type'=>'user.type', 'enabled'=>'user.enabled',
+            'locked'=>'user.locked', 'numOfSuccessOrders' => 'numOfSuccessOrders', 'numOfOrders' => 'numOfOrders');
     }
 
     /**

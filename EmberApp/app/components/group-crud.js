@@ -31,7 +31,7 @@ export default Ember.Component.extend({
 
     actions: {
         createGroup: function() {
-            var group = this.get('store').createRecord('group', {name: this.get('addName'), type: 'group'});
+            var group = this.get('store').createRecord('group', {name: this.get('addName')});
 
             group.save().then(() => {
                 this.set('addName', '');
