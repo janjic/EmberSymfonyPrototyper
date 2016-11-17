@@ -26,6 +26,10 @@ h5{
     margin-bottom: 20px;
 }
 
+p{
+    margin-bottom: 0px;
+}
+
 .no-padding-left-right{
     padding-right: 0 !important;
     padding-left: 0 !important;
@@ -89,7 +93,7 @@ table td a  {
 }
 
 .fixed-margin{
-    margin-right: 15px;
+    margin-right: 0;
     padding-right: 0;
     padding-left: 0;
 }
@@ -959,6 +963,13 @@ input:focus{
     background-color: #8b8b8b !important;
     border-color: #aeaeae !important;
 }
+.btn-info{
+    margin-right: 15px;
+    background-color: #4cc7c7!important;
+}
+.btn-info:hover{
+    background-color: #44b5b5 !important;
+}
 .create-message textarea{
     resize: vertical;
 }
@@ -970,10 +981,7 @@ input:focus{
 .view-message .messages-heading{
     margin-bottom: 30px;
 }
-.view-message textarea{
-    resize: vertical;
-    margin-bottom: 15px;
-}
+
 .user-message{
     padding: 20px;
     background: #ddd;
@@ -1028,7 +1036,18 @@ input:focus{
     bottom: 0;
     background: white;
     padding-top: 15px;
-    right: 60px;
+    right: 45px;
+}
+.send-message-mobile textarea{
+    resize: vertical;
+    margin-bottom: 15px;
+}
+.send-message-mobile i{
+    display: none;
+    cursor: pointer;
+}
+.send-message-mobile .fa-paperclip{
+    right: 55px;
 }
 
 
@@ -1121,11 +1140,6 @@ input:focus{
         margin-right: 20px;
     }
 
-    .right-section {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
     .container-fluid {
         margin-right: 0;
     }
@@ -1139,30 +1153,54 @@ input:focus{
     }
 
     .send-message-mobile textarea {
-        border-radius: 0;
-        resize: none;
         margin-bottom: 0;
+        padding-right: 55px;
+        padding-left: 15px;
+        border-radius: 0;
+        border-right-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        resize: none;
+
+    }
+
+    .send-message-mobile i{
+        position: absolute;
+        display: block;
+        top: 15px;
+        right: 15px;
+        font-size: 25px;
+        color: #d14545;
     }
 
     .send-message-mobile .form-group {
-        margin-bottom: 0;
-    }
-
-    .send-message-mobile .form-group .btn-grey {
         display: none;
     }
 
     .send-message-mobile .form-group .btn {
         width: 100%;
         border-radius: 0;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
     }
 
     .messages {
-        margin-bottom: 58px;
+        margin-bottom: 15px;
     }
     .send-message-mobile .row{
         margin-right: 0;
         margin-left: 0;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .send-message-mobile .row {
+        margin-right: 0px;
+    }
+    .tickets .send-message-mobile{
+        right: 30px;
     }
 }
 
@@ -1205,7 +1243,7 @@ input:focus{
     padding: 15px;
     border: 1px solid #ddd;
     background: #eee;
-    margin-bottom:15px;
+    margin-bottom:30px;
 }
 
 .ticket-messages .user-img {
@@ -1256,6 +1294,10 @@ input:focus{
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+
+.img-holder{
+    height: 100px !important;
 }
 
 .ticket-messages .user-img .img-holder img {
@@ -1660,6 +1702,7 @@ input:focus{
 }
 
 ::-webkit-scrollbar {
+    height: 10px;
     width: 10px;
     background-color: #d8d9db;
 }
@@ -1671,3 +1714,4 @@ input:focus{
 }
 ::-webkit-scrollbar-thumb:window-inactive {
     background-color: #a9aeb2;
+}
