@@ -67,6 +67,43 @@ class AgentManager implements JSONAPIEntityManagerInterface
         return $this->repository->edit($agent);
     }
 
+    /**
+     * @param $request
+     */
+    public function jqgridAction($request)
+    {
+        $params = null;
+        $searchParams = null;
+        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
+            $searchFields = array('id' => 'agent.id', 'username' => 'agent.username', 'firstName' => 'agent.firstName', 'lastName' => 'agent.lastName');
+            $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
+            $params['page'] = $page;
+            $params['offset'] = $offset;
+
+            if ($filters = $request->get('filters')) {
+                $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());
+                foreach ($rules = json_decode($filters)->rules as $rule) {
+                    $searchParams[1][$searchFields[$rule->field]] = $rule->data;
+                }
+                $agents = $this->repository->searchForJQGRID($searchParams, $sortParams, null);
+            } else {
+                $agents = $this->repository->findAllForJQGRID($page, $offset, $sortParams, null);
+            }
+
+            $size = (int)$this->repository->searchForJQGRID($searchParams, $sortParams, null, true)[0][1];
+            $pageCount = ceil($size / $offset);
+
+            return $agents;
+
+            var_dump($agents);
+            exit;
+            /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
+            $transformer = $serializer->getTransformer();
+            $transformer->addMeta('totalItems', $size);
+            $transformer->addMeta('pages', $pageCount);
+            $transformer->addMeta('page', $page);
+        }
+    }
 
     /**
      * @param null $id

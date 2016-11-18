@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
     colModels: [{value: 'id', compare:'cn'},
                 {value: 'firstName', compare:'cn'},
                 {value: 'lastName', compare:'cn'},
-                {value: 'username', compare:'cn'},
+                {value: 'email', compare:'cn'},
                 {value: 'group.name', compare:'cn'},
                 {value: 'address.country', compare:'cn'},
                 {value: 'enabled', compare:'cn'}
