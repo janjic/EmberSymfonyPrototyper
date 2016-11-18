@@ -2,8 +2,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import isEnabled from 'ember-data/-private/features';
 
-var underscore = Ember.String.underscore;
-var camelize   = Ember.String.camelize;
+let underscore = Ember.String.underscore;
+let camelize   = Ember.String.camelize;
 
 export default DS.JSONAPISerializer.extend({
 
@@ -40,10 +40,6 @@ export default DS.JSONAPISerializer.extend({
                         let deprecatedPayloadTypeLookup = this.payloadKeyFromModelName(belongsTo.modelName);
 
                         if (payloadType !== deprecatedPayloadTypeLookup && this._hasCustomPayloadKeyFromModelName()) {
-                            deprecate("You used payloadKeyFromModelName to serialize type for belongs-to relationship. Use payloadTypeFromModelName instead.", false, {
-                                id: 'ds.json-api-serializer.deprecated-payload-type-for-belongs-to',
-                                until: '3.0.0'
-                            });
 
                             payloadType = deprecatedPayloadTypeLookup;
                         }

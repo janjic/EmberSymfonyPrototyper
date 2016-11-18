@@ -1,3 +1,8 @@
+########################################################################################################################
+#                                                                                                                      #
+#                     NEVER DISABLE API FIREWALL AND access_control!!!!!!!!!!!!!!!!!!!!!!!                            #
+#                                                                                                                      #
+########################################################################################################################
 security:
     providers:
         fos_userbundle:
@@ -13,12 +18,12 @@ security:
             stateless:  true
             anonymous: true
 
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-            logout:       true
-            anonymous:    true
+#        main:
+#            pattern: ^/
+#            form_login:
+#                provider: fos_userbundle
+#            logout:       true
+#            anonymous:    true
 
         oauth_token:
             pattern:    ^/oauth/v2/token
