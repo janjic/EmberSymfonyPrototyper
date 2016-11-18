@@ -138,6 +138,14 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Choose superior agent
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{agent-picker-component onAgentSelected=(action 'agentSelected') selectedAgent=model.superior}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Direct superior</label>
                         <div class="col-md-8 col-xs-8">
                             <input class="form-control" type="text" placeholder="Tom Johnson">

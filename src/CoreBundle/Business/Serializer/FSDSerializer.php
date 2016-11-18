@@ -33,8 +33,8 @@ class FSDSerializer
                 Image::class   => ImageSchema::class,
 
                 'Proxies\__CG__\UserBundle\Entity\Role'           => RoleProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Group'          => GroupProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Agent'          => AgentProxySchema::class,
+                'Proxies\__CG__\UserBundle\Entity\Group'          => GroupSchema::class,
+                'Proxies\__CG__\UserBundle\Entity\Agent'          => AgentSchema::class,
                 'Proxies\__CG__\UserBundle\Entity\Address'        => AddressProxySchema::class,
                 'Proxies\__CG__\UserBundle\Entity\Document\Image' => ImageProxySchema::class,
             ];

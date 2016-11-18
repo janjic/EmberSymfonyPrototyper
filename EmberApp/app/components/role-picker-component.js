@@ -5,9 +5,6 @@ export default Ember.Component.extend({
     groups: [],
     selectedGroupIndex: -1,
     selectedGroup: null,
-    computedGroups: Ember.computed('selectedGroup', 'groups', function () {
-        
-    }),
     init(){
         this._super(...arguments);
         this.set('groups', this.get('store').findAll('group'));

@@ -11,13 +11,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use UserBundle\Entity\User;
 
 class AgentController extends Controller
 {
 
     /**
-     * @Route("/api/agent-save", name="api_agent_save"),
+     * @Route("/api/agent-save", name="api_agent_save", options={"expose" = true}),
      * @param ArrayCollection $agentSave
      * @return JsonResponse
      */
@@ -34,7 +33,7 @@ class AgentController extends Controller
      */
     public function agentAPIAction(ArrayCollection $agentAPI)
     {
-        return $this->response($agentAPI[0]);
+        return new Response($agentAPI[0]);
     }
 
 

@@ -42,12 +42,13 @@ class AgentSchema extends SchemaProvider
         return [
             'group'   => [self::DATA => $agent->getGroup()],
             'image'   => [self::DATA => $agent->getImage()],
-            'address' => [self::DATA => $agent->getAddress()]
+            'address' => [self::DATA => $agent->getAddress()],
+            'superior'=> [self::DATA => $agent->getSuperior()]
         ];
     }
 
     public function getIncludePaths(){
-        return ['group', 'image', 'address'];
+        return ['group', 'image', 'address', 'superior'];
     }
 
 }

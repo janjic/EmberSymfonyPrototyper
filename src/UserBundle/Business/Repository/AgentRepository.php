@@ -11,10 +11,11 @@ use UserBundle\Entity\Agent;
  */
 class AgentRepository extends EntityRepository
 {
-    const ALIAS         = 'agent';
-    const ADDRESS_ALIAS = 'address';
-    const GROUP_ALIAS   = 'g';
-    const IMAGE_ALIAS   = 'image';
+    const ALIAS          = 'agent';
+    const ADDRESS_ALIAS  = 'address';
+    const GROUP_ALIAS    = 'g';
+    const IMAGE_ALIAS    = 'image';
+    const SUPERIOR_ALIAS = 'superior';
 
     /**
      * @param $agent
@@ -27,7 +28,7 @@ class AgentRepository extends EntityRepository
             $this->_em->persist($agent);
             $this->_em->flush();
         } catch (\Exception $e) {
-
+            throw $e;
             return new Agent();
         }
 
@@ -40,15 +41,23 @@ class AgentRepository extends EntityRepository
      */
     public function findAgentById($id)
     {
+
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS);
+        $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS, self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
         ->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS)
+        ->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS)
         ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS);
-        $qb->where(self::ALIAS.'.id =:id')
-        ->setParameter('id', $id);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        if(intval($id)) {
+            $qb->where(self::ALIAS.'.id =:id')
+                ->setParameter('id', $id);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

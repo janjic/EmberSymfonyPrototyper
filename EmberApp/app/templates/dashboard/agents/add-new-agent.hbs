@@ -37,6 +37,14 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Choose superior agent
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{agent-picker-component onAgentSelected=(action 'agentSelected')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
                         <label class="control-label col-md-3 col-xs-4">Title
                             <span class="required" aria-required="true"> * </span>
                         </label>
@@ -175,7 +183,7 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-3 col-xs-4">Nationality
+                        <label class="control-label col-md-3 col-xs-4">Language
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-4 col-xs-8">
