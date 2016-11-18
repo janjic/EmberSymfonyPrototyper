@@ -7,11 +7,11 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     firewalls:
-#        api:
-#            pattern:    ^/api
-#            fos_oauth:  true
-#            stateless:  true
-#            anonymous: true
+        api:
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
+            anonymous: true
 
         main:
             pattern: ^/

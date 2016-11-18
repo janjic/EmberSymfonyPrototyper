@@ -5,7 +5,6 @@ namespace UserBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use NilPortugues\Api\JsonApi\Http\Request\Parameters\Fields;
-use NilPortugues\Symfony\JsonApiBundle\Serializer\JsonApiResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,8 +15,6 @@ use UserBundle\Entity\User;
 
 class AgentController extends Controller
 {
-
-    use JsonApiResponseTrait;
 
     /**
      * @Route("/api/agent-save", name="api_agent_save"),
