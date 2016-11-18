@@ -136,7 +136,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=user.language }}
+                            {{elements.language-select selectedLanguage=user.language onLanguageSelected=(action 'updateLanguage')}}
                         </div>
                     </div>
                     <div class="form-group clearfix">

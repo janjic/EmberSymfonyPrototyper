@@ -33,8 +33,21 @@ class TCRUserController extends Controller
         $url.= '&sidx='.$request->get('sidx');
         $url.= '&sord='.$request->get('sord');
 
+        if ($filters = $request->get('filters')) {
+            $url.= '&_search=true';
+            $url.= '&filters='.$filters;
+
+//            var_dump($filters);die();
+//            $body['_search'] = json_decode($filters);
+//            $resp = $this->container->get('agent_system.tcr_user_manager')->sendDataToTCR($url, json_encode($filters));
+//
+//            var_dump($resp);die();
+        }
+
         $resp = $this->container->get('agent_system.tcr_user_manager')->getContentFromTCR($url);
         $users = array();
+
+        //var_dump($resp);die();
 
         foreach ($resp->items as $user) {
             $new = new TCRUser();
@@ -141,7 +154,7 @@ class TCRUserController extends Controller
         $url = 'app_dev.php/en/json/edit-user';
 
         $manager = $this->container->get('agent_system.tcr_user_manager');
-        $resp = $manager->sendDataToTCR($url, $data);
+        $resp = $manager->sendDataToTCR($url, json_encode($data));
 
         var_dump($resp);die();
 

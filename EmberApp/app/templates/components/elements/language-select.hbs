@@ -1,0 +1,9 @@
+<select class="form-control" onchange={{ action 'languageChanged' value="target.value"}}>
+    {{#each languages as |language|}}
+        {{#if (eq selectedLanguage language.key)}}
+            <option value="{{language.key}}" selected>{{language.name}}</option>
+        {{else}}
+            <option value="{{language.key}}">{{language.name}}</option>
+        {{/if}}
+    {{/each}}
+</select>

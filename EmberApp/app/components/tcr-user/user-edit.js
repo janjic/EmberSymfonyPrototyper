@@ -28,6 +28,10 @@ export default Ember.Component.extend({
             this.set('user.birthDate', date.toJSON());
         },
 
+        updateLanguage(lang){
+            this.set('user.language', lang);
+        },
+
         addedFile: function (file) {
             this.set('user.image', null);
             var img = this.get('store').createRecord('image');
