@@ -1,5 +1,4 @@
 import Ember from 'ember';
-const Translator = window.Translator;
 
 export default Ember.Controller.extend({
     store: Ember.inject.service('store'),
