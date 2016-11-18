@@ -71,9 +71,6 @@ services:
         arguments:
             repository: "@agent_system.role.repository"
 
-    fos_oauth_server.controller.token:
-        class: UserBundle\Controller\TokenController
-        arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']
     agent_system.role.adapter:
         class: UserBundle\Adapter\Role\RoleAdapter
         arguments:
@@ -81,7 +78,16 @@ services:
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
 
-    # ------ Role ---------------------------------------------------------------------------------------------------- #
+    fos_oauth_server.controller.token:
+            class: UserBundle\Controller\TokenController
+            arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']
+
+    # ------ TCR User ------------------------------------------------------------------------------------------------ #
+    agent_system.tcr_user_manager:
+        class: UserBundle\Business\Manager\TCRUserManager
+
+
+    # ------ Agent --------------------------------------------------------------------------------------------------- #
     agent_system.agent.repository:
         class: UserBundle\Business\Repository\AgentRepository
         factory: ["@doctrine.orm.default_entity_manager", getRepository]

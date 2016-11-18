@@ -389,4 +389,30 @@ class Agent extends BaseUser
 
 
 
+    /**
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getPropertyValue ($property)
+    {
+        if ($this->{$property}) {
+            return $this->{$property};
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     * @return $this
+     */
+    public function setPropertyValue($name, $value)
+    {
+        $this->{$name} = $value;
+
+        return $this;
+    }
+
 }
