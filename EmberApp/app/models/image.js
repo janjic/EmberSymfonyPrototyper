@@ -7,6 +7,5 @@ export default DS.Model.extend({
     webPath:        attr('string'),
     filePath:       attr('string'),
     base64_content: attr('string'),
-    user:           DS.belongsTo('user', {inverse: 'image' }),
     agent:          DS.belongsTo('agent', {inverse: 'image' })
 });

@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import TCRUserValidations from '../../validations/tcr-user';
 
 export default Ember.Component.extend({
-
     store: Ember.inject.service(),
+    validations: TCRUserValidations,
 
     userCity: null,
     userStreet: null,
@@ -41,6 +42,12 @@ export default Ember.Component.extend({
             this.set('user.image', img);
         },
 
+        removedFile: function () {
+            this.set('user.image', null);
+        },
+
+        /** crud */
+
         saveUser(user) {
             user.save().then(() => {
                 this.toast.success('Updated!');
@@ -48,5 +55,15 @@ export default Ember.Component.extend({
                 this.toast.error('Error occurred!');
             });
         },
+
+        /** validations */
+
+        reset(changeset) {
+            return changeset.rollback();
+        },
+
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        }
     }
 });

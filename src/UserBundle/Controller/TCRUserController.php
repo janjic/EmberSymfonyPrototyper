@@ -124,8 +124,10 @@ class TCRUserController extends Controller
         $data->roleAdmin = $data->is_admin;
         $data->money_add = "";
 
-        $data->avatar = $content->data->relationships->image->data->attributes;
-        $data->avatar->id = $content->data->relationships->image->data->id;
+        if ($imgData = $content->data->relationships->image->data) {
+            $data->avatar = $imgData->attributes;
+            $data->avatar->id = $imgData->id;
+        }
 
 
         $data->birth_date = "1994-06-14T00:00:00+0200";
@@ -135,7 +137,6 @@ class TCRUserController extends Controller
         unset($data->is_admin);
         unset($data->avatar->type);
         unset($data->username);
-
 
         $url = 'app_dev.php/en/json/edit-user';
 
