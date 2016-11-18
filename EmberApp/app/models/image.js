@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { attr, Model } = DS;
+const { attr } = DS;
 
 export default DS.Model.extend({
     name:           attr('string'),
@@ -8,4 +8,5 @@ export default DS.Model.extend({
     filePath:       attr('string'),
     base64_content: attr('string'),
     user:           DS.belongsTo('user', {inverse: 'image' }),
+    agent:          DS.belongsTo('agent', {inverse: 'image' })
 });

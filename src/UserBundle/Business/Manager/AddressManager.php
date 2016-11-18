@@ -32,12 +32,10 @@ class AddressManager implements BasicEntityManagerInterface
 
     /**
      * @param AddressRepository  $repository
-     * @param UserEventContainer $eventContainer
      */
-    public function __construct(AddressRepository $repository, UserEventContainer $eventContainer)
+    public function __construct(AddressRepository $repository)
     {
         $this->repository = $repository;
-        $this->eventContainer = $eventContainer;
     }
 
 
@@ -58,6 +56,5 @@ class AddressManager implements BasicEntityManagerInterface
     {
         return $this->repository->findOneById($id);
     }
-
 
 }

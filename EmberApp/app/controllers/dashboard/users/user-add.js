@@ -1,5 +1,4 @@
 import Ember from 'ember';
-const Translator = window.Translator;
 
 export default Ember.Controller.extend({
     store: Ember.inject.service('store'),
@@ -19,24 +18,12 @@ export default Ember.Controller.extend({
         },
         saveUser(user) {
             var model = this.get('model');
-            // image.save().then(() => {
-            //     address.save().then(() => {
-            //         user.set('image', image);
-            //         user.set('address', address);
-                    user.save().then(() => {
-                        this.toast.success('User saved!');
-                        model.set('image', this.store.createRecord('image'));
-                        model.set('address', this.store.createRecord('address'));
-                        model.set('user', this.store.createRecord('user'));
-                    }, () => {
-                        this.toast.error('Data not saved!');
-                    })
-        //         }, () => {
-        //             this.toast.error('Data not saved!');
-        //         })
-        //     }, () => {
-        //         this.toast.error('Data not saved!');
-        //     });
+            user.save().then(() => {
+                this.toast.success('User saved!');
+            }, () => {
+                this.toast.error('Data not saved!');
+            });
+
         },
 
         addedFile: function (file) {

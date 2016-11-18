@@ -52,6 +52,12 @@ class Address
     protected $phone;
 
     /**
+     * @var string
+     * @ORM\Column(name="fixed_phone", type="string", length=255, nullable=true)
+     */
+    protected $fixedPhone;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -155,6 +161,22 @@ class Address
         $this->phone = $phone;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFixedPhone()
+    {
+        return $this->fixedPhone;
+    }
+
+    /**
+     * @param string $fixedPhone
+     */
+    public function setFixedPhone($fixedPhone)
+    {
+        $this->fixedPhone = $fixedPhone;
     }
 
 
