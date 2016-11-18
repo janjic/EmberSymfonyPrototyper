@@ -23,9 +23,12 @@
                     {{#link-to viewLink m.id class="table-user-link"}}
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     {{/link-to}}
-                    <a href="profile-edit.html" class="table-user-link">
+                    {{#link-to editLink m.id class="table-user-link"}}
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
+                    {{/link-to}}
+                    <!--<a href="profile-edit.html" class="table-user-link">-->
+                        <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
+                    <!--</a>-->
                 </td>
             </tr>
         {{/each}}
