@@ -18,7 +18,6 @@ use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Business\Schema\TCRUser\TCRUserSchema;
-use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
 use UserBundle\Entity\Role;
 use UserBundle\Entity\TCRUser;

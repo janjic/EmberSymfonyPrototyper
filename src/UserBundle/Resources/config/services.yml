@@ -82,27 +82,27 @@ services:
             class: UserBundle\Controller\TokenController
             arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']
 
-    # ------ Role ---------------------------------------------------------------------------------------------------- #
-        agent_system.tcr_user_manager:
-            class: UserBundle\Business\Manager\TCRUserManager
+    # ------ TCR User ------------------------------------------------------------------------------------------------ #
+    agent_system.tcr_user_manager:
+        class: UserBundle\Business\Manager\TCRUserManager
 
 
-    # ------ Agent ---------------------------------------------------------------------------------------------------- #
-        agent_system.agent.repository:
-            class: UserBundle\Business\Repository\AgentRepository
-            factory: ["@doctrine.orm.default_entity_manager", getRepository]
-            arguments:
-                - UserBundle\Entity\Agent
+    # ------ Agent --------------------------------------------------------------------------------------------------- #
+    agent_system.agent.repository:
+        class: UserBundle\Business\Repository\AgentRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Agent
 
-        agent_system.agent.manager:
-            class: UserBundle\Business\Manager\AgentManager
-            arguments:
-                repository: "@agent_system.agent.repository"
-                roleManager: "@agent_system.group.manager"
+    agent_system.agent.manager:
+        class: UserBundle\Business\Manager\AgentManager
+        arguments:
+            repository: "@agent_system.agent.repository"
+            roleManager: "@agent_system.group.manager"
 
-        agent_system.agent.adapter:
-            class: UserBundle\Adapter\Agent\AgentAdapter
-            arguments:
-                - "@agent_system.agent.manager"
-            tags:
-                - { name: request.param_converter, converter:attribute priority: 10 }
+    agent_system.agent.adapter:
+        class: UserBundle\Adapter\Agent\AgentAdapter
+        arguments:
+            - "@agent_system.agent.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
