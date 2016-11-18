@@ -3,6 +3,7 @@
 namespace UserBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use NilPortugues\Api\JsonApi\Http\Request\Parameters\Fields;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

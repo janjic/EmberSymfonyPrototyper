@@ -40,8 +40,6 @@ class Group implements GroupInterface
      */
     protected $roles;
 
-
-
     /**
      * @param string               $name
      * @param ArrayCollection|null $roles

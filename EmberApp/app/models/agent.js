@@ -18,8 +18,9 @@ export default Model.extend({
     bankName:             attr('string'),
     bankAccountNumber:    attr('string'),
     agentBackground:      attr('string'),
-    address:              DS.belongsTo('address', {inverse: 'agent',  embedded: 'always'}),
-    group:                DS.belongsTo('group', {embedded: 'always'}),
-    image:                DS.belongsTo('image', {inverse: 'agent', embedded: 'always'}),
+    address:              DS.belongsTo('address', {inverse: 'agent'}),
+    group:                DS.belongsTo('group'),
+    superior:             DS.belongsTo('agent'),
+    image:                DS.belongsTo('image', {inverse: 'agent'}),
 
 });

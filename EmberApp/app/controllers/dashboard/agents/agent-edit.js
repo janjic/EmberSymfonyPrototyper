@@ -1,9 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    store: Ember.inject.service(),
     actions: {
-        roleSelected(role){
-            this.model.set('role', role);
+        roleSelected(group){
+            this.model.set('group', group);
+        },
+        agentSelected(agent){
+            this.model.set('superior', agent);
         },
         titleChanged(title){
             this.model.set('title', title);
@@ -12,5 +16,12 @@ export default Ember.Controller.extend({
             var agent = this.model;
             agent.set('birthDate', date);
         },
+        editAgent(agent){
+            agent.save().then(() => {
+                this.toast.success('Agent saved!');
+            }, () => {
+                this.toast.error('Data not saved!');
+            });
+        }
     }
 });

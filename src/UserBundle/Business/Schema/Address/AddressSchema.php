@@ -21,12 +21,12 @@ class AddressSchema extends SchemaProvider
     {
         /** @var Address $address */
         return [
-            'streetNumber' => $address->getStreetNumber(),
-            'postcode'     => $address->getPostcode(),
-            'city'         => $address->getCity(),
-            'country'      => $address->getCountry(),
-            'phone'        => $address->getPhone(),
-            'fixedPhone'   => $address->getFixedPhone(),
+            'street_number' => $address->getStreetNumber(),
+            'postcode'      => $address->getPostcode(),
+            'city'          => $address->getCity(),
+            'country'       => $address->getCountry(),
+            'phone'         => $address->getPhone(),
+            'fixed_phone'   => $address->getFixedPhone(),
         ];
     }
 
