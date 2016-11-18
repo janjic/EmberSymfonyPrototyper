@@ -55,11 +55,12 @@ class TCRUserSchema extends SchemaProvider
     public function getRelationships($user, $isPrimary, array $includeList)
     {
         return [
-            'image' => [self::DATA => $user->getAvatar()]
+            'image' => [self::DATA => $user->getAvatar()],
+            'agent' => [self::DATA => $user->getAgent()]
         ];
     }
 
     public function getIncludePaths(){
-        return ['image'];
+        return ['image', 'agent'];
     }
 }

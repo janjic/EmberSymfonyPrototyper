@@ -77,7 +77,7 @@ class TCRUser extends BaseUser
     private $avatar;
 
     /**
-     * @var mixed
+     * @var Agent
      */
     private $agent;
 

@@ -11,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Business\Schema\Agent\AgentSimpleSchema;
+use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\TCRUser;
 use UserBundle\Entity\User;
@@ -31,12 +33,10 @@ class TCRUserController extends Controller
         $url.= '&sidx='.$request->get('sidx');
         $url.= '&sord='.$request->get('sord');
 
-//        var_dump($request->get('filters'));die();
         $resp = $this->container->get('agent_system.tcr_user_manager')->getContentFromTCR($url);
         $users = array();
 
         foreach ($resp->items as $user) {
-//            var_dump($user);die();
             $new = new TCRUser();
 
             foreach ($user as $key => $value) {
@@ -72,7 +72,7 @@ class TCRUserController extends Controller
 
         $user = new TCRUser();
         foreach ($resp as $key => $value) {
-            $user->setPropertyValue($manager->dashesToCamelCase($key), $resp->{$key});
+            $user->setPropertyValue($manager->dashesToCamelCase($key), $value);
         }
 
         if ($avatar = $user->getAvatar()) {
@@ -84,7 +84,15 @@ class TCRUserController extends Controller
             $user->setAvatar($image);
         }
 
-        return new Response(FSDSerializer::serialize($user));
+        if ($agentObj = $user->getAgent()) {
+            $agent = $this->get('agent_system.agent.manager')->findAgentById($agentObj->id);
+            $user->setAgent($agent);
+        }
+
+        $schemaMappings = FSDSerializer::$schemaMappings;
+        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSimpleSchema::class;
+
+        return new Response(FSDSerializer::serialize($user, [], $schemaMappings));
     }
 
 
@@ -121,7 +129,6 @@ class TCRUserController extends Controller
 
 
         $data->birth_date = "1994-06-14T00:00:00+0200";
-        $data->company = "FSD";
 
         unset($data->first_name);
         unset($data->last_name);

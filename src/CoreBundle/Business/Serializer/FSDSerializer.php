@@ -24,24 +24,27 @@ use UserBundle\Entity\TCRUser;
 
 class FSDSerializer
 {
+    public static $schemaMappings = [
+        Group::class   => GroupSchema::class,
+        Role::class    => RoleSchema::class,
+        Agent::class   => AgentSchema::class,
+        Address::class => AddressSchema::class,
+        Image::class   => ImageSchema::class,
+        TCRUser::class => TCRUserSchema::class,
+
+        'Proxies\__CG__\UserBundle\Entity\Role'           => RoleProxySchema::class,
+        'Proxies\__CG__\UserBundle\Entity\Group'          => GroupProxySchema::class,
+        'Proxies\__CG__\UserBundle\Entity\Agent'          => AgentProxySchema::class,
+        'Proxies\__CG__\UserBundle\Entity\Address'        => AddressProxySchema::class,
+        'Proxies\__CG__\UserBundle\Entity\Document\Image' => ImageProxySchema::class,
+    ];
+
     public static function serialize($data, $meta = [], $instancesArray = null)
     {
         if ($instancesArray == null) {
-            $instancesArray = [
-                Group::class   => GroupSchema::class,
-                Role::class    => RoleSchema::class,
-                Agent::class   => AgentSchema::class,
-                Address::class => AddressSchema::class,
-                Image::class   => ImageSchema::class,
-                TCRUser::class  => TCRUserSchema::class,
-
-                'Proxies\__CG__\UserBundle\Entity\Role'           => RoleProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Group'          => GroupProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Agent'          => AgentProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Address'        => AddressProxySchema::class,
-                'Proxies\__CG__\UserBundle\Entity\Document\Image' => ImageProxySchema::class,
-            ];
+            $instancesArray = self::$schemaMappings;
         }
+
         $encoder = Encoder::instance($instancesArray, new EncoderOptions(0, ($self = $_SERVER['PHP_SELF']) == '/app.php' ? null : $self))->withMeta($meta);
 
         return $encoder->encodeData($data);
