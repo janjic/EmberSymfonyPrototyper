@@ -103,3 +103,7 @@ services:
             - "@agent_system.role.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Role ---------------------------------------------------------------------------------------------------- #
+    agent_system.tcr_user_manager:
+        class: UserBundle\Business\Manager\TCRUserManager

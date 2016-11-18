@@ -60,7 +60,7 @@ Router.map(function() {
     this.route('users', function() {
       this.route('all-tickets');
       this.route('ticket-details');
-      this.route('user-view'); 
+      this.route('user-view', {path: '/user-view/:id'});
       this.route('users-customers');
       this.route('users-all');
       this.route('user-add');

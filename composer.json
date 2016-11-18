@@ -35,7 +35,8 @@
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "willdurand/js-translation-bundle": "^2.6",
         "symfony/assetic-bundle": "^2.8",
-        "neomerx/json-api": ">=0.8.10"
+        "neomerx/json-api": ">=0.8.10",
+        "guzzlehttp/guzzle": ">=6.2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
