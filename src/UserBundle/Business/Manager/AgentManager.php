@@ -192,8 +192,6 @@ class AgentManager implements JSONAPIEntityManagerInterface
             $dbAgent->setSuperior($superior);
         }
 
-
-
         /**
          * Edit agent
          */

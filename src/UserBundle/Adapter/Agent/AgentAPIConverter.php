@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Proxy;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\AgentManager;
+use UserBundle\Business\Schema\Agent\AgentSchema;
+use UserBundle\Business\Schema\Group\GroupSchema;
 
 /**
  * Class AgentAPIConverter
@@ -33,13 +35,11 @@ class AgentAPIConverter extends JsonAPIConverter
     {
 
         $agent = parent::convert();
-//        $agent->__load();
-//        var_dump($agent);exit;
-//        $agent = ($agent instanceof Proxy)? $agent->__load():$agent;
-//        var_dump($agent);exit;
-//        var_dump($agent);exit;
-        $serializedObj = FSDSerializer::serialize($agent);
-//        var_dump($serializedObj);exit;
+        $schemaMappings = FSDSerializer::$schemaMappings;
+        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Group'] = GroupSchema::class;
+        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSchema::class;
+        $serializedObj = FSDSerializer::serialize($agent, [], $schemaMappings);
+
         $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
 
     }
