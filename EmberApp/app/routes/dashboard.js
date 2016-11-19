@@ -1,8 +1,6 @@
 import Ember from 'ember';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import Configuration from 'ember-simple-auth/configuration';
-const { service } = Ember.inject;
+import PermissionCheckerMixin from './../mixins/permission-checker';
 const { Route } = Ember;
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend(PermissionCheckerMixin, {
 });
