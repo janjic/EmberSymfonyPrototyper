@@ -23,8 +23,9 @@ class ImageSchema extends SchemaProvider
     public function getAttributes($resource)
     {
         return [
-            'web_path' => $resource->getWebPath(),
-            'name'     => $resource->getName(),
+            'file_path' => $resource->getFilePath(),
+            'web_path'  => $resource->getWebPath(),
+            'name'      => $resource->getName(),
         ];
     }
 }

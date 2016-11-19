@@ -26,6 +26,9 @@ export default Ember.Controller.extend({
         roleSelected(group){
             this.model.set('group', group);
         },
+        agentSelected(agent){
+            this.model.set('superior', agent);
+        },
         titleChanged(title){
             this.model.set('title', title);
         }

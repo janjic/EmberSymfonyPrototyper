@@ -104,6 +104,12 @@ class Agent extends BaseUser
     protected $address;
 
     /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id", nullable=true)
+     **/
+    protected $superior;
+
+    /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Group")
      * @@ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
@@ -363,6 +369,50 @@ class Agent extends BaseUser
     public function setGroup($group)
     {
         $this->group = $group;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuperior()
+    {
+        return $this->superior;
+    }
+
+    /**
+     * @param mixed $superior
+     */
+    public function setSuperior($superior)
+    {
+        $this->superior = $superior;
+    }
+
+
+
+    /**
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function getPropertyValue ($property)
+    {
+        if ($this->{$property}) {
+            return $this->{$property};
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     * @return $this
+     */
+    public function setPropertyValue($name, $value)
+    {
+        $this->{$name} = $value;
+
+        return $this;
     }
 
 }

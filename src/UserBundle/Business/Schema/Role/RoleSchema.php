@@ -3,23 +3,29 @@
 namespace UserBundle\Business\Schema\Role;
 
 use Neomerx\JsonApi\Schema\SchemaProvider;
-use UserBundle\Entity\Group;
+use UserBundle\Entity\Role;
 
 class RoleSchema extends SchemaProvider
 {
     protected $resourceType = 'roles';
 
-    public function getId($author)
+    /**
+     * @param Role $entity
+     * @return mixed
+     */
+    public function getId($entity)
     {
-        /** @var Group $author */
-        return $author->getId();
+        return $entity->getId();
     }
 
-    public function getAttributes($author)
+    /**
+     * @param Role $entity
+     * @return array
+     */
+    public function getAttributes($entity)
     {
-        /** @var Group $author */
         return [
-            'name' => $author->getName()
+            'name' => $entity->getName()
         ];
     }
 }

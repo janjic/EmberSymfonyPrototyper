@@ -135,12 +135,22 @@ class AgentSaveConverter extends JQGridConverter
         $group = $this->manager->getGroupById($content->relationships->group->data->id);
 
         /**
+         * Find superior agent from Database
+         */
+        $superiorAttrs = $content->relationships->superior->data;
+
+        $superior = $this->manager->findAgentById($superiorAttrs->id);
+
+        /**
          * Populate agent object with relationships and image url
          */
         $agent->setAddress($address);
         $agent->setImage($image);
         $agent->setBaseImageUrl($image->getWebPath());
         $agent->setGroup($group);
+        $agent->setSuperior($superior);
+
+
 
         /**
          * @var $agent Agent
