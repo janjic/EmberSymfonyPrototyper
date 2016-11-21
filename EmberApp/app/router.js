@@ -112,6 +112,7 @@ Router.map(function() {
     });
   });
   this.route('files');
+  this.route('error');
 });
 
 export default Router;

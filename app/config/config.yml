@@ -117,7 +117,7 @@ fos_oauth_server:
     refresh_token_class: UserBundle\Entity\RefreshToken
     auth_code_class:     UserBundle\Entity\AuthCode
     service:
-        user_provider: fos_user.user_provider.username
+        user_provider: agent.oauth.username_email.user.provider
 #        options:
 #          #access_token_lifetime: 3600
 #          #refresh_token_lifetime: 1209600

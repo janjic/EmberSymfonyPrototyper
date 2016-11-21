@@ -4,6 +4,7 @@ namespace UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 
 /**
@@ -114,6 +115,22 @@ class Agent extends BaseUser
      * @@ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), parent::getRoles(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
 
     /**
      * @return mixed

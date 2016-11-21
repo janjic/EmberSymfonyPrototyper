@@ -106,3 +106,8 @@ services:
             - "@agent_system.agent.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
+
+    agent.oauth.username_email.user.provider:
+        class: UserBundle\Business\Provider\AgentOauthProvider
+        arguments:
+                    - "@agent_system.agent.manager"

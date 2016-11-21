@@ -32,7 +32,7 @@ class FSDSerializer
         Image::class   => ImageSchema::class,
         TCRUser::class => TCRUserSchema::class,
 
-        'Proxies\__CG__\UserBundle\Entity\Role'           => RoleProxySchema::class,
+        'Proxies\__CG__\UserBundle\Entity\Role'           => RoleSchema::class,
         'Proxies\__CG__\UserBundle\Entity\Group'          => GroupProxySchema::class,
         'Proxies\__CG__\UserBundle\Entity\Agent'          => AgentProxySchema::class,
         'Proxies\__CG__\UserBundle\Entity\Address'        => AddressProxySchema::class,
