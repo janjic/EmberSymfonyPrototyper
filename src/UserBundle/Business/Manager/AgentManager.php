@@ -234,38 +234,42 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Get Image Id
          */
-        $imageId = $data->relationships->image->data->id;
-
+        $imageId = ($imageData = $data->relationships->image->data)? $imageData->id: null;
         /**
          * Check if image has changed
          */
-        if(is_null($dbAgent->getImage()) || $dbAgent->getImage()->getId() != $imageId) {
-            /**
-             * Get data for image
-             */
-            $imageAttr = $data->relationships->image->data->attributes;
+        if((is_null($dbAgent->getImage()) || $dbAgent->getImage()->getId() != $imageId)) {
+            if(!is_null($imageData) && property_exists($data->relationships->image->data->attributes, 'base64_content')){
+                /**
+                 * Get data for image
+                 */
+                $imageAttr = $data->relationships->image->data->attributes;
+                /**
+                 * Create image object
+                 */
+                $image = new Image();
 
-            /**
-             * Create image object
-             */
-            $image = new Image();
+                /**
+                 * Populate image object
+                 */
+                $image->setBase64Content($imageAttr->base64_content);
+                $image->setName($imageAttr->name);
 
-            /**
-             * Populate image object
-             */
-            $image->setBase64Content($imageAttr->base64_content);
-            $image->setName($imageAttr->name);
+                /**
+                 * Save image to file
+                 */
+                $image->saveToFile($image->getBase64Content());
 
-            /**
-             * Save image to file
-             */
-            $image->saveToFile($image->getBase64Content());
+                /**
+                 * Set image to agent
+                 */
+                $dbAgent->setImage($image);
+                $dbAgent->setBaseImageUrl($image->getWebPath());
+            } else {
+                $dbAgent->setImage(null);
+                $dbAgent->setBaseImageUrl(null);
+            }
 
-            /**
-             * Set image to agent
-             */
-            $dbAgent->setImage($image);
-            $dbAgent->setBaseImageUrl($image->getWebPath());
         }
 
         /**
