@@ -45,9 +45,9 @@ class AgentRepository extends EntityRepository
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS, self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
-        ->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS)
-        ->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS)
-        ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS);
+            ->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS)
+            ->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS)
+            ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS);
 
         if(intval($id)) {
             $qb->where(self::ALIAS.'.id =:id')
@@ -92,13 +92,10 @@ class AgentRepository extends EntityRepository
             // $offset = $page*$offset;
         }
         $qb= $this->createQueryBuilder(self::ALIAS);
-//        ->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName',
-//            self::ALIAS.'.lastName', self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
         if (array_key_exists('search_param', $additionalParams)) {
             $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
         }
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
-//        $qb->groupBy(self::ALIAS.'.id');
         return $qb->getQuery()->getResult();
     }
     /**
@@ -111,10 +108,7 @@ class AgentRepository extends EntityRepository
     public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
-        if (!$isCountSearch) {
-//            $oQ0->select(self::ALIAS.'.id', self::ALIAS.'.username', self::ALIAS.'.firstName', self::ALIAS.'.lastName',
-//                self::ALIAS.'.type', self::ALIAS.'.enabled', self::ALIAS.'.locked');
-        }
+
         $firstResult = 0;
         $offset = 0;
         if ($searchParams) {
@@ -128,11 +122,18 @@ class AgentRepository extends EntityRepository
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
-                    if ($key == 'u.locked' || $key == 'u.enabled') {
+                    if ($key == 'agent.locked') {
                         if ($param != -1) {
                             $oQ0->andWhere($key.' = '.$param);
                         }
-                    }else {
+                    } else if($key == 'address.country'){
+                        $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
+                        $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                    }  else if($key == 'group.name'){
+                        $oQ0->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
+                        $oQ0->andWhere($oQ0->expr()->like(self::GROUP_ALIAS.'.name', $oQ0->expr()->literal('%'.$param.'%')));
+                    }
+                    else {
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
                     }
                 }
@@ -243,7 +244,6 @@ class AgentRepository extends EntityRepository
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
-//            $oQ0->groupBy(self::ALIAS.'.id');
             $oQ0->setFirstResult($firstResult)->setMaxResults($offset);
         }
         if ($sortParams) {

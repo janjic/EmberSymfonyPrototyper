@@ -24,6 +24,7 @@ class AgentSchema extends SchemaProvider
             'agentID'              => $agent->getAgentId(),
             'firstName'            => $agent->getFirstName(),
             'lastName'             => $agent->getLastName(),
+            'username'             => $agent->getUsername(),
             'email'                => $agent->getEmail(),
             'privateEmail'         => $agent->getPrivateEmail(),
             'socialSecurityNumber' => $agent->getSocialSecurityNumber(),
@@ -32,6 +33,7 @@ class AgentSchema extends SchemaProvider
             'bankName'             => $agent->getBankName(),
             'bankAccountNumber'    => $agent->getBankAccountNumber(),
             'agentBackground'      => $agent->getAgentBackground(),
+            'status'               => $agent->isLocked()
 
         ];
     }
