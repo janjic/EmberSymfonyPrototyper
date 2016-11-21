@@ -33,11 +33,14 @@ class TCRUserController extends Controller
         $url.= '&sidx='.$request->get('sidx');
         $url.= '&sord='.$request->get('sord');
 
-        if ($filters = $request->get('filters')) {
+        if ($filters = json_decode($request->get('filters'), true)) {
+            foreach ($filters['rules'] as &$rule) {
+                $rule['field'] = $this->changeToTCRFormat($rule['field']);
+            }
             $url.= '&_search=true';
-            $url.= '&filters='.$filters;
+            $url.= '&filters='.json_encode($filters);
 
-//            var_dump($filters);die();
+//            var_dump($filters['rules'][0]);die();
 //            $body['_search'] = json_decode($filters);
 //            $resp = $this->container->get('agent_system.tcr_user_manager')->sendDataToTCR($url, json_encode($filters));
 //
@@ -66,6 +69,15 @@ class TCRUserController extends Controller
         ];
 
         return new Response(FSDSerializer::serialize($users, $meta));
+    }
+
+    public function changeToTCRFormat($key){
+        $rules = [
+            'firstName' => 'name',
+            'lastName' => 'surname'
+        ];
+
+        return array_key_exists($key, $rules) ? $rules[$key] : $key;
     }
 
     /**
