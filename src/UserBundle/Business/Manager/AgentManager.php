@@ -10,6 +10,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\Image;
 
 /**
  * Class AgentManager
@@ -228,6 +229,43 @@ class AgentManager implements JSONAPIEntityManagerInterface
              * Set superior agent
              */
             $dbAgent->setSuperior($superior);
+        }
+
+        /**
+         * Get Image Id
+         */
+        $imageId = $data->relationships->image->data->id;
+
+        /**
+         * Check if image has changed
+         */
+        if($dbAgent->getImage()->getId() != $imageId) {
+            /**
+             * Get data for image
+             */
+            $imageAttr = $data->relationships->image->data->attributes;
+
+            /**
+             * Create image object
+             */
+            $image = new Image();
+
+            /**
+             * Populate image object
+             */
+            $image->setBase64Content($imageAttr->base64_content);
+            $image->setName($imageAttr->name);
+
+            /**
+             * Save image to file
+             */
+            $image->saveToFile($image->getBase64Content());
+
+            /**
+             * Set image to agent
+             */
+            $dbAgent->setImage($image);
+            $dbAgent->setBaseImageUrl($image->getWebPath());
         }
 
         /**

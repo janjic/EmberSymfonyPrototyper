@@ -108,6 +108,7 @@ class AgentSaveConverter extends JQGridConverter
                 $address->$func($value);
             }
         }
+
         /**
          * Get data for image
          */
