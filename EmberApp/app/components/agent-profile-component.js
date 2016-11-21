@@ -35,5 +35,11 @@ export default Ember.Component.extend({
         removedFile: function () {
             this.set('currentUser.user.image', null);
         },
+        updateLanguage(lang){
+            this.set('currentUser.user.nationality', lang);
+        },
+        changeCountry(country){
+            this.set('currentUser.user.address.country', country);
+        },
     }
 });
