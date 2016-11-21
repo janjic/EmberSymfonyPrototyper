@@ -6,6 +6,14 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3">
                     <img class="img img-responsive" src="{{currentUser.user.image.webPath}}" alt="">
+                    {{#if currentUser.user.image.filePath}}
+                        <img src="{{currentUser.user.image.filePath}}" alt="{{currentUser.user.username}}" width="300" height="300">
+                    {{/if}}
+                    <div class="col-md-8 user-img">
+                        <div class="insert-avatar-container text-center" >
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-9 col-sm-9">
                     <div class="form-group clearfix">

@@ -28,7 +28,7 @@ class AgentRepository extends EntityRepository
             $this->_em->persist($agent);
             $this->_em->flush();
         } catch (\Exception $e) {
-
+            throw $e;
             return new Agent();
         }
 

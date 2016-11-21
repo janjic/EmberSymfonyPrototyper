@@ -63,7 +63,7 @@ class AgentSaveConverter extends JQGridConverter
             /**
              * Check if function is callable / if exists
              */
-            if(is_callable(array($agent, $func))){
+            if(is_callable(array($agent, $func))&& !is_null($value)){
                 switch ($key){
                     case 'birthDate':
                         $agent->$func(new DateTime($value));

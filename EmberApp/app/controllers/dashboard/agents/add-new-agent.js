@@ -31,6 +31,12 @@ export default Ember.Controller.extend({
         },
         titleChanged(title){
             this.model.set('title', title);
-        }
+        },
+        updateLanguage(lang){
+            this.set('model.nationality', lang);
+        },
+        changeCountry(country){
+            this.set('model.address.country', country);
+        },
     }
 });

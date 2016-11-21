@@ -239,7 +239,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Check if image has changed
          */
-        if($dbAgent->getImage()->getId() != $imageId) {
+        if(is_null($dbAgent->getImage()) || $dbAgent->getImage()->getId() != $imageId) {
             /**
              * Get data for image
              */

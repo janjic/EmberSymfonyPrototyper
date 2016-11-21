@@ -9,6 +9,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:application',
 
     urlForCreateRecord: function () {
+        return 'https://192.168.11.3/app_dev.php/api/agent-save';
         return Routing.generate('api_agent_save');
     }
 });
