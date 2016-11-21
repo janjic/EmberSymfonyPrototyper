@@ -152,7 +152,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
             /**
              * Check if function is callable / if exists
              */
-            if (is_callable(array($dbAgent, $func))) {
+            if (is_callable(array($dbAgent, $func)) && !is_null($value)) {
                 switch ($key) {
                     case 'birthDate':
                         $dbAgent->$func(new DateTime($value));

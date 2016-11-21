@@ -4,11 +4,20 @@ export default Ember.Component.extend({
     currentUser: Ember.inject.service('current-user'),
     actions: {
         updateAgentBirthDate(date){
-            var agent = this.model;
+            let agent = this.get('currentUser.user');
             agent.set('birthDate', date);
         },
         titleChanged(title){
-            this.model.set('title', title);
+            let agent = this.get('currentUser.user');
+            agent.set('title', title);
+            // this.model.set('title', title);
         },
+        editAgent(agent){
+            agent.save().then(()=> function () {
+                this.toast.success('Profile saved!');
+            },() => function () {
+                this.toast.error('Profile not saved!');
+            })
+        }
     }
 });
