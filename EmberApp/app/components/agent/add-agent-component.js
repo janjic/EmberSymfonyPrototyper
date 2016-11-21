@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.Component.extend({
     actions: {
         updateAgentBirthDate(date){
             var agent = this.model;
