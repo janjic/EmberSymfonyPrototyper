@@ -1,4 +1,6 @@
-<label for={{concat type "-" property}}>{{property}}</label>
+{{#unless doNotShowLabel }}
+    <label for={{concat type "-" property}}>{{property}}</label>
+{{/unless}}
 <input
         class="form-control"
         type={{type}}

@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\Image;
 
 /**
  * Class AgentManager
@@ -68,6 +69,44 @@ class AgentManager implements JSONAPIEntityManagerInterface
         return $this->repository->edit($agent);
     }
 
+    /**
+     * @param $request
+     */
+    public function jqgridAction($request)
+    {
+        $params = null;
+        $searchParams = null;
+        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
+            $searchFields = array('id' => 'agent.id', 'username' => 'agent.username', 'firstName' => 'agent.firstName',
+                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'status' => 'agent.locked', 'address.country' => 'address.country');
+            $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
+            $params['page'] = $page;
+            $params['offset'] = $offset;
+
+            if ($filters = $request->get('filters')) {
+                $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());
+                foreach ($rules = json_decode($filters)->rules as $rule) {
+                    $searchParams[1][$searchFields[$rule->field]] = $rule->data;
+                }
+                $agents = $this->repository->searchForJQGRID($searchParams, $sortParams, null);
+            } else {
+                $agents = $this->repository->findAllForJQGRID($page, $offset, $sortParams, null);
+            }
+
+            $size = (int)$this->repository->searchForJQGRID($searchParams, $sortParams, null, true)[0][1];
+            $pageCount = ceil($size / $offset);
+
+            return $agents;
+
+            var_dump($agents);
+            exit;
+            /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
+            $transformer = $serializer->getTransformer();
+            $transformer->addMeta('totalItems', $size);
+            $transformer->addMeta('pages', $pageCount);
+            $transformer->addMeta('page', $page);
+        }
+    }
 
     /**
      * @param null $id
@@ -115,7 +154,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
             /**
              * Check if function is callable / if exists
              */
-            if (is_callable(array($dbAgent, $func))) {
+            if (is_callable(array($dbAgent, $func)) && !is_null($value)) {
                 switch ($key) {
                     case 'birthDate':
                         $dbAgent->$func(new DateTime($value));
@@ -191,6 +230,47 @@ class AgentManager implements JSONAPIEntityManagerInterface
              * Set superior agent
              */
             $dbAgent->setSuperior($superior);
+        }
+
+        /**
+         * Get Image Id
+         */
+        $imageId = ($imageData = $data->relationships->image->data)? $imageData->id: null;
+        /**
+         * Check if image has changed
+         */
+        if((is_null($dbAgent->getImage()) || $dbAgent->getImage()->getId() != $imageId)) {
+            if(!is_null($imageData) && property_exists($data->relationships->image->data->attributes, 'base64_content')){
+                /**
+                 * Get data for image
+                 */
+                $imageAttr = $data->relationships->image->data->attributes;
+                /**
+                 * Create image object
+                 */
+                $image = new Image();
+
+                /**
+                 * Populate image object
+                 */
+                $image->setBase64Content($imageAttr->base64_content);
+                $image->setName($imageAttr->name);
+
+                /**
+                 * Save image to file
+                 */
+                $image->saveToFile($image->getBase64Content());
+
+                /**
+                 * Set image to agent
+                 */
+                $dbAgent->setImage($image);
+                $dbAgent->setBaseImageUrl($image->getWebPath());
+            } else {
+                $dbAgent->setImage(null);
+                $dbAgent->setBaseImageUrl(null);
+            }
+
         }
 
         /**

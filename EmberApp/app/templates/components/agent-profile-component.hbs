@@ -1,0 +1,187 @@
+<section class="profile-view">
+    <h1 class="main-heading">My profile settings</h1>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <h3 class="sub-heading">Account information</h3>
+        <div class="profile-settings">
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <img class="img img-responsive" src="{{currentUser.user.image.webPath}}" alt="">
+                    {{#if currentUser.user.image.filePath}}
+                        <img src="{{currentUser.user.image.filePath}}" alt="{{currentUser.user.username}}" width="300" height="300">
+                    {{/if}}
+                    <div class="col-md-8 user-img">
+                        <div class="insert-avatar-container text-center" >
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Title</label>
+                        <div class="col-md-8 col-xs-8">
+                            <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
+                                {{#if (eq currentUser.user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">Mr.</option> {{/if}}
+                                {{#if (eq currentUser.user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">First name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.firstName }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Last name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.lastName }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Email</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.email }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Phone number</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.address.phone }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Language</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements.language-select selectedLanguage=currentUser.user.nationality onLanguageSelected=(action 'updateLanguage')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Country</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements.country-select selectedCountry=currentUser.user.address.country onCountryChange=(action 'changeCountry')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Social security number</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.socialSecurityNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Bank name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.bankName }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Bank account number</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=currentUser.user.bankAccountNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Date of birth</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=currentUser.user.birthDate}}
+
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Password</label>
+                        <div class="col-md-8 col-xs-8">
+                            <p>***********</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <h3 class="sub-heading">Optional information</h3>
+        <div class="profile-settings">
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Address</label>
+                <div class="col-md-8 col-xs-8">
+                    {{input type="text" class="form-control" value=currentUser.user.address.streetNumber }}
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Fixed number</label>
+                <div class="col-md-8 col-xs-8">
+                    {{input type="text" class="form-control" value=currentUser.user.address.fixedPhone }}
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Private mail</label>
+                <div class="col-md-8 col-xs-8">
+                    {{input type="text" class="form-control" value=currentUser.user.privateEmail }}
+                </div>
+            </div>
+        </div>
+        <h3 class="sub-heading">Notification settings</h3>
+        <div class="profile-settings">
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Show notifications</label>
+                <div class="col-md-8 col-xs-8">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix checkboxes">
+                <div class="col-md-12">
+                    <label for="checkboxes">Select type of notifications which you want to show:</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="option1"> New message
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox2" value="option2"> Payment
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox3" value="option3"> New Agent
+                    </label>
+                </div>
+            </div>
+        </div>
+        <h3 class="sub-heading">Genealogy tree</h3>
+        <div class="profile-settings">
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">ID</label>
+                <div class="col-md-8 col-xs-8">
+                    <p>{{currentUser.user.agentID}}</p>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Type</label>
+                <div class="col-md-8 col-xs-8">
+                    {{currentUser.user.group.name}}
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Direct superior</label>
+                <div class="col-md-8 col-xs-8">
+                    {{currentUser.user.superior.firstName}} {{currentUser.user.superior.lastName}}
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Number of agents down the line</label>
+                <div class="col-md-8 col-xs-8">
+                    <p>7</p>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-4 col-xs-4">Number of customers</label>
+                <div class="col-md-8 col-xs-8">
+                    <p>15</p>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' currentUser.user}}>Edit profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

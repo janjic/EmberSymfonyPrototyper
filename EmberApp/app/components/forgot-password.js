@@ -13,6 +13,7 @@ export default Ember.Component.extend({
         },
 
         validateProperty(changeset, property) {
+            console.log(changeset);
             return changeset.validate(property);
         }
     }

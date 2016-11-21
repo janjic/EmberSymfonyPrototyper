@@ -19,7 +19,11 @@ class JsonAPIConverter extends BasicConverter
     {
         switch ($this->request->getMethod()) {
             case 'GET':
-                return $this->manager->getResource($this->request->get('id'));
+                if($this->request->get('filters')){
+                    return $this->manager->jqgridAction($this->request);
+                } else {
+                    return $this->manager->getResource($this->request->get('id'));
+                }
             case 'POST':
                 return $this->manager->saveResource($this->request->getContent());
             case 'PUT':

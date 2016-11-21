@@ -7,9 +7,9 @@ export default Ember.Controller.extend({
     colModels: [
         {value: 'id', compare:'cn'},
         {value: 'firstName', compare:'cn'},
-        {value: 'lastName', compare:'eq', compareValues: [{name: 'First', value:'1'},{name: 'Second', value:'2'},{name: 'Third', value:'3'}]},
+        {value: 'lastName', compare:'cn'},
         {value: 'username', compare:'cn'},
-        {value: 'enabled', compare:'cn'},
+        {value: 'enabled', compare:'eq', compareValues: [{name: 'true', value:'1'},{name: 'false', value:'0'}]},
         {value: 'country', compare:'cn'}],
     actions: {
         filterModel: function (searchArray, page, column, sortType) {

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.Component.extend({
     actions: {
         updateAgentBirthDate(date){
             var agent = this.model;
@@ -31,6 +31,12 @@ export default Ember.Controller.extend({
         },
         titleChanged(title){
             this.model.set('title', title);
-        }
+        },
+        updateLanguage(lang){
+            this.set('model.nationality', lang);
+        },
+        changeCountry(country){
+            this.set('model.address.country', country);
+        },
     }
 });

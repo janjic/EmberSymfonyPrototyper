@@ -63,7 +63,7 @@ class AgentSaveConverter extends JQGridConverter
             /**
              * Check if function is callable / if exists
              */
-            if(is_callable(array($agent, $func))){
+            if(is_callable(array($agent, $func))&& !is_null($value)){
                 switch ($key){
                     case 'birthDate':
                         $agent->$func(new DateTime($value));
@@ -108,26 +108,35 @@ class AgentSaveConverter extends JQGridConverter
                 $address->$func($value);
             }
         }
+
         /**
          * Get data for image
          */
         $imageAttr = $content->relationships->image->data->attributes;
 
         /**
-         * Create image object
+         * If image is defined
          */
-        $image = new Image();
+        if(property_exists($imageAttr, 'base64_content')){
+            /**
+             * Create image object
+             */
+            $image = new Image();
 
-        /**
-         * Populate image object
-         */
-        $image->setBase64Content($imageAttr->base64_content);
-        $image->setName($imageAttr->name);
+            /**
+             * Populate image object
+             */
+            $image->setBase64Content($imageAttr->base64_content);
+            $image->setName($imageAttr->name);
 
-        /**
-         * Save image to file
-         */
-        $image->saveToFile($image->getBase64Content());
+            /**
+             * Save image to file
+             */
+            $image->saveToFile($image->getBase64Content());
+
+            $agent->setImage($image);
+            $agent->setBaseImageUrl($image->getWebPath());
+        }
 
         /**
          * Get group from database by id
@@ -145,8 +154,6 @@ class AgentSaveConverter extends JQGridConverter
          * Populate agent object with relationships and image url
          */
         $agent->setAddress($address);
-        $agent->setImage($image);
-        $agent->setBaseImageUrl($image->getWebPath());
         $agent->setGroup($group);
         $agent->setSuperior($superior);
 
