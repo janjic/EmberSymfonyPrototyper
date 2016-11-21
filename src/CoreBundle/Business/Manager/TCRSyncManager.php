@@ -55,7 +55,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
             'Accept-Language' => "sr-RS,sr;q=0.8,en-US;q=0.6,en;q=0.4"
         ];
 
-        $request = new Request('POST', $url, $headers, json_encode($data));
+        $request = new Request('POST', $url, $headers, $data);
 
         $response = $client->send($request);
 

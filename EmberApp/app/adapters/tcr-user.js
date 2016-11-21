@@ -5,11 +5,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     namespace: 'app_dev.php/api',
     authorizer: 'authorizer:application',
 
-    urlForFindRecord(id, modelName, snapshot) {
+    urlForFindRecord(id) {
         return "https://192.168.11.3/app_dev.php/api/tcr-user/"+id;
     },
 
-    urlForUpdateRecord(id, modelName, snapshot) {
+    urlForUpdateRecord(id) {
         return "https://192.168.11.3/app_dev.php/api/tcr-user/"+id;
     },
 

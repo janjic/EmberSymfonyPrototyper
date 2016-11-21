@@ -33,8 +33,24 @@ class TCRUserController extends Controller
         $url.= '&sidx='.$request->get('sidx');
         $url.= '&sord='.$request->get('sord');
 
+        if ($filters = json_decode($request->get('filters'), true)) {
+            foreach ($filters['rules'] as &$rule) {
+                $rule['field'] = $this->changeToTCRFormat($rule['field']);
+            }
+            $url.= '&_search=true';
+            $url.= '&filters='.json_encode($filters);
+
+//            var_dump($filters['rules'][0]);die();
+//            $body['_search'] = json_decode($filters);
+//            $resp = $this->container->get('agent_system.tcr_user_manager')->sendDataToTCR($url, json_encode($filters));
+//
+//            var_dump($resp);die();
+        }
+
         $resp = $this->container->get('agent_system.tcr_user_manager')->getContentFromTCR($url);
         $users = array();
+
+        //var_dump($resp);die();
 
         foreach ($resp->items as $user) {
             $new = new TCRUser();
@@ -53,6 +69,15 @@ class TCRUserController extends Controller
         ];
 
         return new Response(FSDSerializer::serialize($users, $meta));
+    }
+
+    public function changeToTCRFormat($key){
+        $rules = [
+            'firstName' => 'name',
+            'lastName' => 'surname'
+        ];
+
+        return array_key_exists($key, $rules) ? $rules[$key] : $key;
     }
 
     /**
@@ -124,8 +149,10 @@ class TCRUserController extends Controller
         $data->roleAdmin = $data->is_admin;
         $data->money_add = "";
 
-        $data->avatar = $content->data->relationships->image->data->attributes;
-        $data->avatar->id = $content->data->relationships->image->data->id;
+        if ($imgData = $content->data->relationships->image->data) {
+            $data->avatar = $imgData->attributes;
+            $data->avatar->id = $imgData->id;
+        }
 
 
         $data->birth_date = "1994-06-14T00:00:00+0200";
@@ -136,11 +163,10 @@ class TCRUserController extends Controller
         unset($data->avatar->type);
         unset($data->username);
 
-
         $url = 'app_dev.php/en/json/edit-user';
 
         $manager = $this->container->get('agent_system.tcr_user_manager');
-        $resp = $manager->sendDataToTCR($url, $data);
+        $resp = $manager->sendDataToTCR($url, json_encode($data));
 
         var_dump($resp);die();
 
