@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
         let indexOf = collection.indexOf(item);
         let prevEl = collection.objectAt(indexOf-1);
         item.set('prev', prevEl ? prevEl.get('id') : null);
-        item.save().then(i=>{
+        item.save().then(()=>{
             this.toggleProperty('needRefresh');
         });
     },
@@ -84,7 +84,7 @@ export default Ember.Mixin.create({
             item.set('parent', newParent);
 
             this.toggleProperty('needRefresh');
-            item.save().then(i=>{
+            item.save().then(()=>{
                 this.toggleProperty('needRefresh');
             });
         }

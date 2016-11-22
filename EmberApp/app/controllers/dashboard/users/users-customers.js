@@ -4,10 +4,16 @@ export default Ember.Controller.extend({
     page: 1,
     offset: 10,
     colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Confirmed', 'Country', 'Actions'],
-    colModels: [{value: 'id', compare:'eq', compareValues: [{name: 'First', value:'1'},{name: 'Second', value:'2'},{name: 'Third', value:'3'}]}, {value: 'firstName', compare:'cn'}, {value: 'lastName', compare:'eq', compareValues: [{name: 'First', value:'1'},{name: 'Second', value:'2'},{name: 'Third', value:'3'}]}, {value: 'username', compare:'cn'}, {value: 'enabled', compare:'cn'}, {value: 'address.streetNumber', compare:'cn'}],
+    colModels: [
+        {value: 'id', compare:'cn'},
+        {value: 'firstName', compare:'cn'},
+        {value: 'lastName', compare:'cn'},
+        {value: 'username', compare:'cn'},
+        {value: 'enabled', compare:'eq', compareValues: [{name: 'true', value:'1'},{name: 'false', value:'0'}]},
+        {value: 'country', compare:'cn'}],
     actions: {
         filterModel: function (searchArray, page, column, sortType) {
-            return this.get('store').query('user', {
+            return this.get('store').query('tcrUser', {
                 page: page,
                 offset: this.get('offset'),
                 sidx: column,

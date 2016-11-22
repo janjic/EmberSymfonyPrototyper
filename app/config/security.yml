@@ -1,3 +1,8 @@
+########################################################################################################################
+#                                                                                                                      #
+#                     NEVER DISABLE API FIREWALL AND access_control!!!!!!!!!!!!!!!!!!!!!!!                             #
+#                                                                                                                      #
+########################################################################################################################
 security:
     providers:
         fos_userbundle:
@@ -7,18 +12,18 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     firewalls:
-#        api:
-#            pattern:    ^/api
-#            fos_oauth:  true
-#            stateless:  true
-#            anonymous: true
+        api:
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
+            anonymous: true
 
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-            logout:       true
-            anonymous:    true
+#        main:
+#            pattern: ^/
+#            form_login:
+#                provider: fos_userbundle
+#            logout:       true
+#            anonymous:    true
 
         oauth_token:
             pattern:    ^/oauth/v2/token
@@ -29,7 +34,7 @@ security:
             anonymous: true
 
     access_control:
-#        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

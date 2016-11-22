@@ -9,23 +9,34 @@ class GroupSchema extends SchemaProvider
 {
     protected $resourceType = 'groups';
 
-    public function getId($author)
+    /**
+     * @param Group $entity
+     * @return mixed
+     */
+    public function getId($entity)
     {
-        /** @var Group $author */
-        return $author->getId();
+        return $entity->getId();
     }
 
-    public function getAttributes($author)
+    /**
+     * @param Group $entity
+     * @return array
+     */
+    public function getAttributes($entity)
     {
-        /** @var Group $author */
         return [
-            'name' => $author->getName()
+            'name' => $entity->getName()
         ];
     }
 
+    /**
+     * @param Group $group
+     * @param bool $isPrimary
+     * @param array $includeList
+     * @return array
+     */
     public function getRelationships($group, $isPrimary, array $includeList)
     {
-        /** @var Group $group */
         return [
             'roles' => [self::DATA => $group->getRolesCollection()]
         ];

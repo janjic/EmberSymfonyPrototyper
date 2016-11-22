@@ -14,7 +14,7 @@ export default Ember.Route.extend({
                     return cellvalue?"<span class='fa fa-check' aria-hidden='true'></span>":"<span class='fa fa-close' aria-hidden='true'></span>";
                 } },
                 { name : 'locked', index : 'locked', width:100, stype: "select", searchoptions: {
-                    sopt: ['eq', 'ne'], value: "-1:"+"ALL"+";1:"+"YES"+";0:"+'NO'
+                    sopt: ['eq', 'ne'], value: "-1:"+"all"+";1:"+"yes"+";0:"+'no'
                 },formatter:function isLocked (cellvalue, options, rowObject)
                 {
                     return cellvalue?"<span class='fa fa-check' aria-hidden='true'></span>":"<span class='fa fa-close' aria-hidden='true'></span>";

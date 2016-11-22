@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function () {
-        return this.store.query('user', {
+        return this.store.query('tcr-user', {
             page: 1,
             offset: 10,
             sidx: 'id',

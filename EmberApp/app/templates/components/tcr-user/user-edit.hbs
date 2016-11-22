@@ -1,0 +1,183 @@
+<section class="form-wizard">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="dashboar-heading">Edit User</h3>
+        </div>
+    </div>
+    {{#with (changeset user validations) as |changeset|}}
+
+        <form role="form">
+            <div class="row setup-content">
+                <div class="col-md-6">
+
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4" for="title">Title
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            <select id="title" class="form-control" name="username" onchange={{action "setTitle" value="target.value"}}>
+                                {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">MR</option> {{/if}}
+                                {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Name
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="firstName"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "email")
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Family name
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="lastName"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "email")
+                            }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Email
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="email" class="form-control" disabled=true value=user.email }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Company
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=user.company }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Insert user image
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        {{#if user.image.filePath}}
+                            <img src="{{user.image.filePath}}" alt="{{user.username}}" width="300" height="300">
+                        {{/if}}
+                        <div class="col-md-8 user-img">
+                            <div class="insert-avatar-container text-center" >
+                                {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Street and number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=userStreet }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">City
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="email" class="form-control" value=userCity }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Postcode
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=user.zip }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Country
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" disabled=true value=user.country }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Phone number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{!--{{input type="text" class="form-control" value=user.phoneNumber }}--}}
+                            {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="phoneNumber"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "email")
+                            }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Language
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements.language-select selectedLanguage=user.language onLanguageSelected=(action 'updateLanguage')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Date of birth {{ user.birthDate }}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{pikaday-input useUTC=true format="DD/MM/YYYY" onSelection=(action 'updateUserBirthDate') value=user.birthDate}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Admin
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="onoffswitch">
+                                {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=user.isAdmin }}
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Comment
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{textarea class="form-control" name="username" value=user.comment}}
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix text-right">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger pull-right" {{action 'saveUser' user }}>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/with}}
+
+</section>

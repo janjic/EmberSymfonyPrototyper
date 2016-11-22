@@ -1,0 +1,10 @@
+<select class="form-control" onchange={{ action 'roleChanged'  value="target.value"}}>
+    <!--<option value="-1" disabled selected>Choose role</option>-->
+    {{#each groups as |group index|}}
+        {{#if (eq selectedGroupIndex index)}}
+            <option  selected value="{{index}}" {{equals }}>{{group.name}}</option>
+        {{else}}
+            <option value="{{index}}" {{equals }}>{{group.name}}</option>
+        {{/if}}
+    {{/each}}
+</select>

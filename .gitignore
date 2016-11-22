@@ -25,4 +25,5 @@ var/
 composer.phar
 Vagrant/.vagrant/
 Vagrant/vendor/
-/app/config/parameters.yml
+web/uploads/
+app/config/parameters.yml

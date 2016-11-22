@@ -61,7 +61,7 @@ class TokenController extends BaseController {
         $token = json_decode($response->getContent());
 
         if (!property_exists($token, 'error')&& ($username = $input['username'])) {
-             $token->account_id = $this->em->getRepository('UserBundle:User')->findOneBy(array('username' =>$username))->getId();
+             $token->account_id = $this->em->getRepository('UserBundle:Agent')->findOneBy(array('username' =>$username))->getId();
         }
 
         $response->setContent(json_encode($token));
