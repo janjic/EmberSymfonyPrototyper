@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import AgentValidations from '../../validations/agent';
 
 export default Ember.Component.extend({
+    validations: AgentValidations,
     store: Ember.inject.service(),
     actions: {
         roleSelected(group){
@@ -46,6 +48,13 @@ export default Ember.Component.extend({
         changeCountry(country){
             this.set('model.address.country', country);
         },
+        /** validations */
+        reset(changeset) {
+            return changeset.rollback();
+        },
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        }
 
     }
 });

@@ -11,7 +11,6 @@ export default Ember.Component.extend({
         reset(changeset) {
             return changeset.rollback();
         },
-
         validateProperty(changeset, property) {
             console.log(changeset);
             return changeset.validate(property);
