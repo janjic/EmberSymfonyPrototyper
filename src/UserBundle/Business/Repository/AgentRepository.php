@@ -3,13 +3,14 @@
 namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use UserBundle\Entity\Agent;
 
 /**
  * Class GroupRepository
  * @package UserBundle\Business\Repository
  */
-class AgentRepository extends EntityRepository
+class AgentRepository extends NestedTreeRepository
 {
     const ALIAS          = 'agent';
     const ADDRESS_ALIAS  = 'address';
@@ -18,20 +19,23 @@ class AgentRepository extends EntityRepository
     const SUPERIOR_ALIAS = 'superior';
 
     /**
-     * @param $agent
+     * @param Agent $agent
      * @return Agent
      * @throws \Exception
      */
     public function saveAgent($agent)
     {
         try {
-            $this->_em->persist($agent);
+            if(!is_null($agent->getSuperior())){
+                $this->persistAsFirstChildOf($agent, $agent->getSuperior());
+            } else {
+                $this->persistAsFirstChild($agent);
+            }
             $this->_em->flush();
         } catch (\Exception $e) {
             throw $e;
             return new Agent();
         }
-
         return $agent;
     }
 
@@ -67,6 +71,11 @@ class AgentRepository extends EntityRepository
     public function edit(Agent $agent)
     {
         try {
+            if(!is_null($agent->getSuperior())){
+                $this->persistAsFirstChildOf($agent, $agent->getSuperior());
+            } else {
+                $this->persistAsFirstChild($agent);
+            }
             $this->_em->merge($agent);
             $this->_em->flush();
         } catch (\Exception $e) {

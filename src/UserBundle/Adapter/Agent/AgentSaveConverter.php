@@ -148,16 +148,19 @@ class AgentSaveConverter extends JQGridConverter
          */
         $superiorAttrs = $content->relationships->superior->data;
 
-        $superior = $this->manager->findAgentById($superiorAttrs->id);
+        /**
+         * If agent is not root set his superior agent
+         */
+        if(!is_null($superiorAttrs)) {
+            $superior = $this->manager->findAgentById($superiorAttrs->id);
+            $agent->setSuperior($superior);
+        }
 
         /**
          * Populate agent object with relationships and image url
          */
         $agent->setAddress($address);
         $agent->setGroup($group);
-        $agent->setSuperior($superior);
-
-
 
         /**
          * @var $agent Agent
