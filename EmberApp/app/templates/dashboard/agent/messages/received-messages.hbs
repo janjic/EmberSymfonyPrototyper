@@ -1,4 +1,8 @@
-<h1 class="main-heading">Trash</h1>
+
+<h1 class="main-heading">Received Messages</h1>
+<div class="clearfix">
+    {{#link-to 'dashboard.agent.messages.create-message' class='pull-right btn btn-danger'}}Create Message{{/link-to}}
+</div>
 
 
 <div class="table-responsive">
@@ -32,7 +36,8 @@
             <td>true</td>
             <td>5</td>
             <td>
-                {{#link-to 'dashboard-agent.messages.view-message' class='table-user-link'}} <i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
+                {{#link-to 'dashboard.agent.messages.view-message' class='table-user-link'}} <i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
+
                 <a href="profile-edit.html" class="table-user-link">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
