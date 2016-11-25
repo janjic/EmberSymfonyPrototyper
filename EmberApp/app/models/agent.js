@@ -25,6 +25,6 @@ export default Model.extend({
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
-    image:                DS.belongsTo('image', {inverse: 'agent'}),
+    image:                DS.belongsTo('image'),
 
 });

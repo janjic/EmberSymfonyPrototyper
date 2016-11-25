@@ -1,192 +1,201 @@
 <section class="form-wizard">
     <h1 class="main-heading">Agent edit</h1>
-    {{#with (changeset model validations) as |changeset|}}
-        <form role="form">
-            <div class="col-md-2 col-sm-6 col-xs-12">
-                <img class="img img-responsive" src="{{model.image.webPath}}" alt="">
-                {{#if user.image.filePath}}
-                    <img src="{{model.image.filePath}}" alt="{{model.username}}" width="300" height="300">
-                {{/if}}
-                <div class="col-md-8 user-img">
-                    <div class="insert-avatar-container text-center" >
-                        {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
-                    </div>
-                </div>
-                <hr>
-                <div class="form-group clearfix">
-                    <a href="change-password.html" class="btn btn-danger">Change password</a>
+    <form role="form">
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <img class="img img-responsive" src="{{model.image.webPath}}" alt="">
+            {{#if model.image.filePath}}
+                <img src="{{model.image.filePath}}" alt="{{model.username}}" width="300" height="300">
+            {{/if}}
+            <div class="col-md-8 user-img">
+                <div class="insert-avatar-container text-center" >
+                    {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                 </div>
             </div>
-            <div class="col-md-5 col-sm-6 col-xs-12">
-                <h3 class="sub-heading">Account information</h3>
-                <div class="profile-settings">
-                    <div class="row">
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Title</label>
-                            <div class="col-md-8 col-xs-8">
-                                <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                                    {{#if (eq model.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">Mr.</option> {{/if}}
-                                    {{#if (eq model.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">First name</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
-                                value=model.firstName validateProperty=(action 'validateProperty' changeset "firstName")}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Last name</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
-                                value=model.lastName validateProperty=(action 'validateProperty' changeset "lastName")}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Email</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
-                                value=model.email validateProperty=(action 'validateProperty' changeset "email")}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Phone number</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.address.phone }}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Language</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Country</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Social security number</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.socialSecurityNumber }}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Bank name</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.bankName }}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Bank account number or IBAN</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.bankAccountNumber }}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Date of birth</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Status</label>
-                            <div class="col-md-8 col-xs-8">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                                    <label class="onoffswitch-label" for="myonoffswitch">
-                                        <span class="onoffswitch-inner active-switch"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
+            <hr>
+            <div class="form-group clearfix">
+                <a href="change-password.html" class="btn btn-danger">Change password</a>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            <h3 class="sub-heading">Account information</h3>
+            <div class="profile-settings">
+                <div class="row">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Title</label>
+                        <div class="col-md-8 col-xs-8">
+                            <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
+                                {{#if (eq model.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">Mr.</option> {{/if}}
+                                {{#if (eq model.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
+                            </select>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-5 col-sm-6 col-xs-12">
-                <h3 class="sub-heading">Optional information</h3>
-                <div class="profile-settings">
-                    <div class="row">
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Address</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.address.streetNumber }}
-                            </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">First name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "firstName")}}
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">ZIP Code</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.address.postcode }}
-                            </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Last name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "lastName")}}
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Private email</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.privateEmail }}
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Email</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "email")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Phone number</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
+                            validateProperty=(action 'validateProperty' addressChangeset "phone")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Language</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Country</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Social security number</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.socialSecurityNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Bank name</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.bankName }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Bank account number or IBAN</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.bankAccountNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Date of birth</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=changeset.birthDate}}
+                            {{#if (get changeset.error 'birthDate')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Status</label>
+                        <div class="col-md-8 col-xs-8">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner active-switch"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 col-sm-6 col-xs-12">
-                <h3 class="sub-heading">Genealogy tree</h3>
-                <div class="profile-settings">
-                    <div class="row">
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Agent ID</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{input type="text" class="form-control" value=model.agentID }}
-                            </div>
+        </div>
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            <h3 class="sub-heading">Optional information</h3>
+            <div class="profile-settings">
+                <div class="row">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Address</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
+                            validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Agent type</label>
-                            <div class="col-md-8 col-xs-8">
-                                {{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group}}
-                            </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">ZIP Code</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="postcode" changeset=addressChangeset type="text"
+                            validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-3 col-xs-4">Choose superior agent
-                                <span class="required" aria-required="true"> * </span>
-                            </label>
-                            <div class="col-md-4 col-xs-8">
-                                {{agent-picker-component onAgentSelected=(action 'agentSelected') selectedAgent=model.superior currentEditingAgentId=model.id}}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Number of agents downline</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="7 agents">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Number of customers</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="15 customers">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-4 col-xs-4">Total sum of customers orders</label>
-                            <div class="col-md-8 col-xs-8">
-                                <input class="form-control" type="text" placeholder="43534 CHF">
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <div class="col-md-12">
-                                {{#if changeset.isValid}}
-                                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' model}}>Save agent profile</a>
-                                {{else}}
-                                    <a href="#" class="btn btn-success pull-right" disabled="disabled">Save agent profile</a>
-                                {{/if}}
-                            </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Private email</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    {{/with}}
+        </div>
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            <h3 class="sub-heading">Genealogy tree</h3>
+            <div class="profile-settings">
+                <div class="row">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Agent ID</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.agentID }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Agent type</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group
+                            changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Choose superior agent
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{agent-picker-component onAgentSelected=(action 'agentSelected') selectedAgent=model.superior currentEditingAgentId=model.id
+                            changeset = changeset property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Number of agents downline</label>
+                        <div class="col-md-8 col-xs-8">
+                            <input class="form-control" type="text" placeholder="7 agents">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Number of customers</label>
+                        <div class="col-md-8 col-xs-8">
+                            <input class="form-control" type="text" placeholder="15 customers">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">Total sum of customers orders</label>
+                        <div class="col-md-8 col-xs-8">
+                            <input class="form-control" type="text" placeholder="43534 CHF">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group clearfix">
+                <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>Save agent profile</a>
+            </div>
+        </div>
+    </form>
 </section>

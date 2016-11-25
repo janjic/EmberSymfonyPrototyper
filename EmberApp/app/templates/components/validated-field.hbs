@@ -6,6 +6,7 @@
         type={{type}}
                 id={{concat type "-" property}}
         value={{get changeset property}}
+
                 oninput={{action (mut (get changeset property)) value="target.value"}}
         onblur={{action validateProperty}}>
     {{#if (get changeset.error property)}}

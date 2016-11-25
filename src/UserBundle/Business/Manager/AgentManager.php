@@ -218,13 +218,13 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Find superior agent from Database
          */
-        $superiorId = $data->relationships->superior->data->id;
+        $superiorAttrs = $data->relationships->superior->data;
 
-        if ($dbAgent->getSuperior()->getId() != $superiorId) {
+        if (!is_null($superiorAttrs) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
             /**
              * Get superior from database
              */
-            $superior = $this->findAgentById($superiorId);
+            $superior = $this->findAgentById($superiorAttrs->id);
             /**
              * Set superior agent
              */

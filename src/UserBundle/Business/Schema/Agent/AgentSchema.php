@@ -9,6 +9,7 @@ use UserBundle\Entity\Group;
 class AgentSchema extends SchemaProvider
 {
     protected $resourceType = 'agent';
+    public static $superiorId   = '';
 
     public function getId($agent)
     {
@@ -40,13 +41,20 @@ class AgentSchema extends SchemaProvider
 
     public function getRelationships($agent, $isPrimary, array $includeList)
     {
-        /** @var Agent $agent */
-        return [
-            'group'   => [self::DATA => $agent->getGroup()],
-            'image'   => [self::DATA => $agent->getImage()],
-            'address' => [self::DATA => $agent->getAddress()],
-            'superior'=> [self::DATA => $agent->getSuperior()]
-        ];
+        if($agent->getId() != self::$superiorId){
+            /** @var Agent $agent */
+            return [
+                'group'   => [self::DATA => $agent->getGroup()],
+                'image'   => [self::DATA => $agent->getImage()],
+                'address' => [self::DATA => $agent->getAddress()],
+                'superior'=> [self::DATA => $agent->getSuperior()]
+            ];
+        } else {
+            return [
+
+            ];
+        }
+
     }
 
     public function getIncludePaths(){
