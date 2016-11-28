@@ -4,7 +4,7 @@
         {{#if agent.id}}
             {{#if currentEditingAgentId }}
                 {{#if (not-eq agent.id currentEditingAgentId)}}
-                    {{#if (eq selectedAgent.id agent.id)}}
+                    {{#if (eq selectedAgentId agent.id)}}
                         <option  selected value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>
                     {{else}}
                         <option value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>

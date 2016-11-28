@@ -515,21 +515,21 @@ class Agent extends BaseUser
     }
 
     /**
-     * @param Role $child
+     * @param Agent $child
      */
     public function addChild($child)
     {
         $this->children->add($child);
-        $child->setParent($this);
+        $child->setSuperior($this);
     }
 
     /**
-     * @param Role $child
+     * @param Agent $child
      */
     public function removeChild($child)
     {
         $this->children->removeElement($child);
-        $child->setParent(null);
+        $child->setSuperior(null);
     }
 
 

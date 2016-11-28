@@ -99,6 +99,7 @@ services:
         arguments:
             repository: "@agent_system.agent.repository"
             roleManager: "@agent_system.group.manager"
+            syncManager: "@agent_system.tcr_user_manager"
 
     agent_system.agent.adapter:
         class: UserBundle\Adapter\Agent\AgentAdapter

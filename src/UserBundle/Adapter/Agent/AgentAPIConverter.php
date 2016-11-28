@@ -35,7 +35,7 @@ class AgentAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-
+        var_dump('ovde');exit;
         $agent = parent::convert();
         $schemaMappings = FSDSerializer::$schemaMappings;
 

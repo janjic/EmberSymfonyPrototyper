@@ -4,6 +4,7 @@ namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use CoreBundle\Business\Manager\TCRSyncManager;
 use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -25,14 +26,18 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     protected $groupManager;
 
+    protected $syncManager;
+
     /**
      * @param AgentRepository $repository
-     * @param GroupManager    $groupManager
+     * @param GroupManager $groupManager
+     * @param TCRSyncManager $syncManager
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, TCRSyncManager $syncManager)
     {
         $this->repository = $repository;
         $this->groupManager = $groupManager;
+        $this->syncManager = $syncManager;
     }
 
     public function getGroupById($id)
@@ -46,7 +51,11 @@ class AgentManager implements JSONAPIEntityManagerInterface
      */
     public function save(Agent $agent)
     {
-        return $this->repository->saveAgent($agent);
+        $agent = $this->repository->saveAgent($agent);
+        if($agent->getId()){
+            $this->syncWithTCRPortal($agent, 'add');
+        }
+        return $agent;
     }
 
     /**
@@ -59,13 +68,13 @@ class AgentManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-
      * @param Agent $agent
+     * @param Agent $dbSuperior
      * @return mixed
      */
-    public function edit(Agent $agent)
+    public function edit(Agent $agent, $dbSuperior)
     {
-        return $this->repository->edit($agent);
+        return $this->repository->edit($agent, $dbSuperior);
     }
 
     /**
@@ -219,6 +228,10 @@ class AgentManager implements JSONAPIEntityManagerInterface
          * Find superior agent from Database
          */
         $superiorAttrs = $data->relationships->superior->data;
+        /**
+         * Save reference on db superior agent in case we need it in edit
+         */
+        $dbSuperior = $dbAgent->getSuperior();
 
         if (!is_null($superiorAttrs) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
             /**
@@ -275,30 +288,77 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Edit agent
          */
-        return $agent = $this->edit($dbAgent);
+        $agent = $this->edit($dbAgent, $dbSuperior);
+
+        if($agent->getId()){
+            $this->syncWithTCRPortal($agent, 'edit');
+        }
+
+        return $agent;
     }
 
-        /**
-         * @return mixed
-         */
-        public function deleteResource($id = null)
+    /**
+     * @return mixed
+     */
+    public function deleteResource($id = null)
     {
         // TODO: Implement deleteResource() method.
     }
 
 
-        /**
-         * @param $string
-         * @param bool $capitalizeFirstCharacter
-         * @return mixed
-         */
-        function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
-        {
-            $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+    /**
+     * @param $string
+     * @param bool $capitalizeFirstCharacter
+     * @return mixed
+     */
+    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
+    {
+        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
 
-            if (!$capitalizeFirstCharacter) {
-                $str[0] = strtolower($str[0]);
-            }
-            return $str;
+        if (!$capitalizeFirstCharacter) {
+            $str[0] = strtolower($str[0]);
         }
+        return $str;
     }
+
+
+    /**
+     * @param $agent
+     */
+    function syncWithTCRPortal($agent, $action)
+    {
+        if($action == 'add'){
+            $url = 'app_dev.php/en/json/add-agent';
+        } else {
+            $url = 'app_dev.php/en/json/edit-agent';
+        }
+
+        $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
+//        var_dump(json_decode($agentJson));exit;
+        $this->syncManager->sendDataToTCR($url, $agentJson);
+    }
+
+    /**
+     * @param Agent $agent
+     * @param null $id
+     * @return string
+     */
+    function createJsonFromAgentObject(Agent $agent, $id = null)
+    {
+        $agentArray = [];
+        if(!is_null($id)){
+            $agentArray['id'] = $agent->getId();
+        }
+        $agentArray['agent_id'] = $agent->getAgentId();
+        $agentArray['agent_type'] = $agent->getGroup()->getName();
+        $agentArray['company'] = '';
+        $agentArray['comment'] = $agent->getAgentBackground();
+        $agentArray['country'] = $agent->getAddress()->getCountry();
+        $agentArray['email'] = $agent->getEmail();
+        $agentArray['first_name'] = $agent->getFirstName();
+        $agentArray['last_name'] = $agent->getLastName();
+        $agentArray['phone_number'] = $agent->getAddress()->getPhone();
+
+        return json_encode($agentArray);
+    }
+}

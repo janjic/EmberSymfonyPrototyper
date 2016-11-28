@@ -179,6 +179,7 @@ class AgentSaveConverter extends JQGridConverter
     }
 
 
+
     /**
      * @param $string
      * @param bool $capitalizeFirstCharacter

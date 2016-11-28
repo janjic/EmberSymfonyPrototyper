@@ -17,6 +17,7 @@ class AgentRepository extends NestedTreeRepository
     const GROUP_ALIAS    = 'g';
     const IMAGE_ALIAS    = 'image';
     const SUPERIOR_ALIAS = 'superior';
+    const CHILDREN_ALIAS = 'children';
 
     /**
      * @param Agent $agent
@@ -47,11 +48,12 @@ class AgentRepository extends NestedTreeRepository
     {
 
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS, self::SUPERIOR_ALIAS);
+        $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS, self::SUPERIOR_ALIAS, self::CHILDREN_ALIAS);
         $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
             ->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS)
             ->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS)
-            ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS);
+            ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS)
+            ->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
 
         if(intval($id)) {
             $qb->where(self::ALIAS.'.id =:id')
@@ -66,20 +68,33 @@ class AgentRepository extends NestedTreeRepository
 
     /**
      * @param Agent $agent
+     * @param Agent $dbSuperior
      * @return Agent
+     * @throws \Exception
      */
-    public function edit(Agent $agent)
+    public function edit(Agent $agent, $dbSuperior)
     {
+        /**
+         * @var Agent $newSuperior
+         */
+        $newSuperior = $this->findAgentById($agent->getSuperior()->getId());
         try {
             if(!is_null($agent->getSuperior())){
-                $this->persistAsFirstChildOf($agent, $agent->getSuperior());
+                if(!is_null($dbSuperior) && in_array($newSuperior, $agent->getChildren()->getValues())){
+//                    var_dump($agent->getLvl());exit;
+                    $this->persistAsFirstChildOf($newSuperior, $dbSuperior);
+                    $this->_em->flush();
+//                    $this->persistAsFirstChildOf($agent, $newSuperior);
+                } else {
+                    $this->persistAsFirstChildOf($agent, $newSuperior);
+                }
             } else {
                 $this->persistAsFirstChild($agent);
             }
-            $this->_em->merge($agent);
             $this->_em->flush();
+            $this->reorderAll();
         } catch (\Exception $e) {
-
+            throw $e;
             return new Agent();
         }
 
