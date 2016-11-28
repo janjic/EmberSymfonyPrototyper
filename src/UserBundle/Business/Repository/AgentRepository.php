@@ -69,11 +69,14 @@ class AgentRepository extends NestedTreeRepository
             $qb->where(self::ALIAS.'.id =:id')
                 ->setParameter('id', $id);
             $user = $qb->getQuery()->getOneOrNullResult();
+            return $this->loadUserRoles($user);
         } else {
             $user = $qb->getQuery()->getResult();
+
+            return $user;
         }
 
-        return $this->loadUserRoles($user);
+
     }
 
     /**
@@ -153,7 +156,7 @@ class AgentRepository extends NestedTreeRepository
     public function isClassSupportedForProvider($class)
     {
         return $this->getEntityName() === $class
-        || is_subclass_of($class, $this->getEntityName());
+            || is_subclass_of($class, $this->getEntityName());
     }
 
     /**

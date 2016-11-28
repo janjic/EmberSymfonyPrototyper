@@ -180,4 +180,12 @@ class Group implements GroupInterface
 
         return $this->roles;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRolesCollection()
+    {
+        return $this->roles;
+    }
 }

@@ -27,9 +27,6 @@ export default Model.extend({
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
-    username: Ember.computed('email', function () {
-        return 'admin';
-    })
     image:                DS.belongsTo('image'),
 
 });
