@@ -23,16 +23,19 @@ class DefaultController extends Controller
     {
         //Object from DB
         $agent = $this->get('agent_system.agent.manager')->getResource(1);
-        //$agens = array_fill(0, 100, $agent);
         $relations = array('group', 'superior.*', 'group.roles', 'image', 'address');
         //LINKS AND META ARE OPTIONALS
-        //TODO: META AND LINKS IN DIFFERENT ARRAYS
         $mappings =
             array(
                 'agent' => array('class' => Agent::class, 'type'=>'agents',
                     'links'=> array('function'=>function($routing, $resource=null)
                     {
                         return ['self' => $routing->generate('api_agents', array('id'=> $resource->getId())), 'next' => 'asdsadasdsa'];
+
+                    }, 'dependency'=>array($this->get('router'))),
+                    'meta'=> array('function'=>function($routing, $resource=null)
+                    {
+                        return ['meta_self' => $routing->generate('api_agents', array('id'=> $resource->getId())), 'meta_next' => 'asdsadasdsa'];
 
                     }, 'dependency'=>array($this->get('router')))),
                 'group'    => array('class' => Group::class,  'type'=>'groups'),

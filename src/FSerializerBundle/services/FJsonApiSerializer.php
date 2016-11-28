@@ -253,7 +253,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         foreach ($mappings as $mapping) {
             if ($mapping['type'] == $this->type ) {
                 if (array_key_exists('meta', $mapping) && ($function = $mapping['meta']['function'])) {
-                    $params = array_key_exists('dependency', $mapping) ?$mapping['meta']['dependency']:array();
+                    $params = array_key_exists('dependency', $mapping['meta']) ?$mapping['meta']['dependency']:array();
                     $params[] = $resource;
                     return call_user_func_array($function, $params);
 
