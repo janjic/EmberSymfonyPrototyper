@@ -1,4 +1,5 @@
 <select class="form-control" onchange={{ action 'changeCountry' value="target.value"}}>
+    <option value="-1" selected disabled>Choose country</option>
     {{#each countries as |country|}}
         {{#if (eq selectedCountry country)}}
             <option value="{{country}}" selected>{{country}}</option>

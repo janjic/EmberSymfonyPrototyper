@@ -37,6 +37,11 @@ class AgentAPIConverter extends JsonAPIConverter
     {
         $agent = parent::convert();
         $schemaMappings = FSDSerializer::$schemaMappings;
+
+        if(is_callable($agent, 'getId')){
+            AgentSchema::$superiorId = $agent->getId();
+        }
+
         $schemaMappings['Proxies\__CG__\UserBundle\Entity\Group'] = GroupSchema::class;
         $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSchema::class;
         $schemaMappings['Proxies\__CG__\UserBundle\Entity\Address'] = AddressSchema::class;

@@ -67,50 +67,44 @@ Router.map(function() {
       this.route('user-edit', {path: '/user-edit/:id'});
     });
 
-  });
-
-  this.route('dashboard-agent', function() {
-    this.route('home');
-
-    this.route('profile', function() {
-      this.route('profile-settings');
-    });
-
-    this.route('users', function() {
-      this.route('add-new-user');
-      this.route('users-customers');
-      this.route('user-edit');
-      this.route('user-view');
-    });
-
-    this.route('tickets', function() {
-      this.route('tickets-all');
-      this.route('new-ticket');
-      this.route('view-ticket');
-    });
-
-    this.route('reports', function() {
-      this.route('customer-orders');
-      this.route('commissions');
-      this.route('purchase-details');
-    });
-
-    this.route('wallet', function() {
-      this.route('wallet-summary');
-      this.route('payout-history');
-    });
-
-    this.route('messages', function() {
-      this.route('create-message');
-      this.route('create-message-edit');
-      this.route('drafts');
-      this.route('received-messages');
-      this.route('sent');
-      this.route('sent-messages');
-      this.route('trash');
-      this.route('view-message');
+    this.route('agent', function() {
+      this.route('home');
+      this.route('messages', function() {
+        this.route('create-message');
+        this.route('create-message-edit');
+        this.route('drafts');
+        this.route('received-messages');
+        this.route('sent');
+        this.route('sent-messages');
+        this.route('trash');
+        this.route('view-message');
+      });
+      this.route('profile', function() {
+        this.route('profile-settings');
+      });
+      this.route('tickets', function() {
+        this.route('tickets-all');
+        this.route('new-ticket');
+        this.route('view-ticket');
+      });
+      this.route('reports', function() {
+        this.route('customer-orders');
+        this.route('commissions');
+        this.route('purchase-details');
+      });
+      this.route('wallet', function() {
+        this.route('wallet-summary');
+        this.route('payout-history');
+      });
+      this.route('users', function() {
+        this.route('add-new-user');
+        this.route('users-customers');
+        this.route('user-edit');
+        this.route('user-view');
+      });
     });
   });
+
   this.route('files');
   this.route('error');
 });

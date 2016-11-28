@@ -16,6 +16,8 @@ export default Ember.Component.extend({
     actions: {
         roleChanged: function (groupIndex) {
             var gruop = this.get('groups').objectAt(groupIndex);
+            this.set('changeset.'+this.get('property'), gruop);
+            this.get('validateProperty')(this.get('changeset'), this.get('property'));
             this.get('onRoleSelected')(gruop);
         }
     }

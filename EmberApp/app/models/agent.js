@@ -9,11 +9,13 @@ export default Model.extend({
     firstName:            attr('string'),
     lastName:             attr('string'),
     email:                attr('string'),
+    emailRepeat:          attr('string'),
     username:             attr('string'),
     privateEmail:         attr('string'),
     password:             attr('string'),
     plainPassword:        attr('string'),
     roles:                attr('array'),
+    passwordRepeat:       attr('string'),
     baseImageUrl:         attr('string'),
     socialSecurityNumber: attr('string'),
     nationality:          attr('string'),
@@ -25,9 +27,9 @@ export default Model.extend({
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
-    image:                DS.belongsTo('image', {inverse: 'agent'}),
     username: Ember.computed('email', function () {
         return 'admin';
     })
+    image:                DS.belongsTo('image'),
 
 });

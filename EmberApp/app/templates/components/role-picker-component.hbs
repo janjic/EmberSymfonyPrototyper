@@ -1,10 +1,19 @@
 <select class="form-control" onchange={{ action 'roleChanged'  value="target.value"}}>
-    <!--<option value="-1" disabled selected>Choose role</option>-->
+    <option value="-1" disabled selected>Choose role</option>
     {{#each groups as |group index|}}
-        {{#if (eq selectedGroupIndex index)}}
+        {{#if (eq selectedGroup.id group.id)}}
             <option  selected value="{{index}}" {{equals }}>{{group.name}}</option>
         {{else}}
             <option value="{{index}}" {{equals }}>{{group.name}}</option>
         {{/if}}
     {{/each}}
 </select>
+{{#if (get changeset.error property)}}
+    <small>
+        <ul>
+            {{#each (get (get changeset.error property) "validation") as |message|}}
+                <li>{{message}}</li>
+            {{/each}}
+        </ul>
+    </small>
+{{/if}}

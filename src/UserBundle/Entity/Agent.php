@@ -2,13 +2,22 @@
 
 namespace UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Tree;
+use Gedmo\Mapping\Annotation\TreeLeft;
+use Gedmo\Mapping\Annotation\TreeLevel;
+use Gedmo\Mapping\Annotation\TreeParent;
+use Gedmo\Mapping\Annotation\TreeRight;
+use Gedmo\Mapping\Annotation\TreeRoot;
+
 
 
 /**
  * Class Agent
  * @package UserBundle\Entity
+ * @Tree(type="nested")
  * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\AgentRepository")
  * @ORM\Table(name="as_agent")
  */
@@ -92,6 +101,43 @@ class Agent extends BaseUser
     protected $agentBackground;
 
     /**
+     * @TreeLeft
+     * @ORM\Column(name="lft", type="integer")
+     */
+    private $lft;
+
+    /**
+     * @TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    private $lvl;
+
+    /**
+     * @TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    private $rgt;
+
+    /**
+     * @TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    private $root;
+
+    /**
+     * @TreeParent
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent", inversedBy="children")
+     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     */
+    private $superior;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\Agent", mappedBy="superior")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    private $children;
+
+    /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", cascade={"all"}, orphanRemoval=TRUE)
      * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      **/
@@ -104,16 +150,17 @@ class Agent extends BaseUser
     protected $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
-     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id", nullable=true)
-     **/
-    protected $superior;
-
-    /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Group")
      * @@ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->children = new ArrayCollection();
+    }
 
     /**
      * {@inheritdoc}
@@ -403,6 +450,103 @@ class Agent extends BaseUser
         $this->superior = $superior;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * @param mixed $lft
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+    /**
+     * @param mixed $lvl
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * @param mixed $rgt
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * @param mixed $root
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param mixed $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    /**
+     * @param Role $child
+     */
+    public function addChild($child)
+    {
+        $this->children->add($child);
+        $child->setParent($this);
+    }
+
+    /**
+     * @param Role $child
+     */
+    public function removeChild($child)
+    {
+        $this->children->removeElement($child);
+        $child->setParent(null);
+    }
 
 
     /**

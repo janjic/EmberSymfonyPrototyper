@@ -1,7 +1,19 @@
 import Ember from 'ember';
+import AgentValidations from '../../validations/edit-agent';
+import AddressValidations from '../../validations/address';
+import Changeset from 'ember-changeset';
+import lookupValidator from './../../utils/lookupValidator';
 
 export default Ember.Component.extend({
+    AgentValidations,
+    AddressValidations,
     store: Ember.inject.service(),
+    model: null,
+    init() {
+        this._super(...arguments);
+        this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
+        this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
+    },
     actions: {
         roleSelected(group){
             this.model.set('group', group);
@@ -13,15 +25,21 @@ export default Ember.Component.extend({
             this.model.set('title', title);
         },
         updateAgentBirthDate(date){
+            this.set('changeset.birthDate', date);
+            this.get('changeset').validate('birthDate');
             var agent = this.model;
-            agent.set('birthDate', date);
+            agent.set('birthDate',date);
         },
         editAgent(agent){
-            agent.save().then(() => {
-                this.toast.success('Agent saved!');
-            }, () => {
-                this.toast.error('Data not saved!');
-            });
+            this.get('changeset').validate() && this.get('addressChangeset').validate();
+            if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
+                agent.set('address', this.get('addressChangeset._content'));
+                agent.save().then(() => {
+                    this.toast.success('Agent saved!');
+                }, () => {
+                    this.toast.error('Data not saved!');
+                });
+            }
         },
         addedFile: function (file) {
             this.set('model.image', null);
@@ -47,5 +65,29 @@ export default Ember.Component.extend({
             this.set('model.address.country', country);
         },
 
+        /** validations */
+        reset(changeset) {
+            return changeset.rollback();
+        },
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        }
+
+    },
+
+    validateDateInput(date)
+    {
+        if(date){
+            if(date < (new Date()).setYear((new Date().getFullYear()-18))) {
+                this.set('dateInputValid', true);
+                return true;
+            } else {
+                this.set('dateInputValid', false);
+                return true;
+            }
+        } else {
+            this.set('dateInputValid', false);
+            return true;
+        }
     }
 });

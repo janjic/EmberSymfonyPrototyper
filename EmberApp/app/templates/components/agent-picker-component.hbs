@@ -1,13 +1,27 @@
 <select class="form-control" onchange={{ action 'agentChanged'  value="target.value"}}>
-    <!--<option value="-1" disabled selected>Choose role</option>-->
+    <option value="-1" selected disabled>Choose superior agent</option>
     {{#each agents as |agent index|}}
         {{#if agent.id}}
-            {{#if (eq selectedAgent.id agent.id)}}
-                <option  selected value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>
+            {{#if currentEditingAgentId }}
+                {{#if (not-eq agent.id currentEditingAgentId)}}
+                    {{#if (eq selectedAgent.id agent.id)}}
+                        <option  selected value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>
+                    {{else}}
+                        <option value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>
+                    {{/if}}
+                {{/if}}
             {{else}}
                 <option value="{{index}}" {{equals }}>{{agent.firstName}} {{agent.lastName}}</option>
             {{/if}}
         {{/if}}
-
     {{/each}}
 </select>
+{{#if (get changeset.error property)}}
+    <small>
+        <ul>
+            {{#each (get (get changeset.error property) "validation") as |message|}}
+                <li>{{message}}</li>
+            {{/each}}
+        </ul>
+    </small>
+{{/if}}
