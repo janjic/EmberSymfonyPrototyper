@@ -34,7 +34,7 @@ class AgentSchema extends SchemaProvider
             'bankName'             => $agent->getBankName(),
             'bankAccountNumber'    => $agent->getBankAccountNumber(),
             'agentBackground'      => $agent->getAgentBackground(),
-            'status'               => $agent->isLocked()
+            'status'               => $agent->isEnabled()
 
         ];
     }
