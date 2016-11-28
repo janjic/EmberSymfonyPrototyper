@@ -4,6 +4,8 @@ export default Ember.Component.extend({
     groups: [],
     store: Ember.inject.service(),
 
+    selectedRolesList: [],
+
     /** add */
     addName: '',
 
@@ -85,5 +87,15 @@ export default Ember.Component.extend({
             this.set('newGroupForUsers', null);
         },
 
+        roleSelect: function (value) {
+            if (this.get('editGroup') == null) {
+                this.set('selectedRolesList', value);
+                console.log(this.get('selectedRolesList'));
+            } else {
+                this.get('editGroup').set('roles', value);
+                console.log(this.get('editGroup').get('roles'));
+
+            }
+        }
     }
 });

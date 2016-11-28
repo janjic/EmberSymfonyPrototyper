@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
+use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Doctrine\Common\Util\Debug;
 use UserBundle\Business\Repository\RoleRepository;
 use UserBundle\Entity\Role;
@@ -11,7 +12,7 @@ use UserBundle\Entity\Role;
  * Class RoleManager
  * @package UserBundle\Business\Manager
  */
-class RoleManager implements BasicEntityManagerInterface
+class RoleManager implements JSONAPIEntityManagerInterface
 {
     /**
      * @var RoleRepository
@@ -26,63 +27,83 @@ class RoleManager implements BasicEntityManagerInterface
         $this->repository = $repository;
     }
 
-    /**
-     * @return array
-     */
-    public function getAll()
+//    /**
+//     * @return array
+//     */
+//    public function getAll()
+//    {
+//        return $this->repository->getAll();
+//    }
+//
+//    /**
+//     * @param mixed $role
+//     * @return mixed
+//     */
+//    public function addRole($role)
+//    {
+//        $newRole = new Role($role->role);
+//        $newRole->setName($role->name);
+//
+//        return $this->repository->saveItem($newRole);
+//    }
+//
+//    /**
+//     * @param int   $id
+//     * @param mixed $role
+//     * @return bool|mixed
+//     */
+//    public function changeNested($id, $role)
+//    {
+//        if ($role->simpleUpdate) {
+//            /** @var Role $roleDB */
+//            $roleDB = $this->repository->findOneById($id);
+//            $roleDB->setRole($role->role);
+//            $roleDB->setName($role->name);
+//            $roleDB->setId($id);
+//
+//            return $this->repository->simpleUpdate($roleDB);
+//        }
+//
+//        return $this->repository->changeNested($id, intval($role->prev), intval($role->parent), $role->name, $role->role);
+//    }
+//
+//    /**
+//     * @param int $id
+//     * @return bool
+//     */
+//    public function removeNestedFromTree($id)
+//    {
+//        return $this->repository->removeNestedFromTree($id);
+//    }
+//
+//
+//    /**
+//     * @param $id
+//     * @return mixed
+//     */
+//    public function findRoleById($id)
+//    {
+//        return $this->repository->findOneById($id);
+//    }
+    public function getResource($id = null)
     {
-        return $this->repository->getAll();
+        return $this->repository->findRole($id);
     }
 
-    /**
-     * @param mixed $role
-     * @return mixed
-     */
-    public function addRole($role)
+    public function saveResource($data)
     {
-        $newRole = new Role($role->role);
-        $newRole->setName($role->name);
-
-        return $this->repository->saveItem($newRole);
+        // TODO: Implement saveResource() method.
     }
 
-    /**
-     * @param int   $id
-     * @param mixed $role
-     * @return bool|mixed
-     */
-    public function changeNested($id, $role)
+    public function updateResource($data)
     {
-        if ($role->simpleUpdate) {
-            /** @var Role $roleDB */
-            $roleDB = $this->repository->findOneById($id);
-            $roleDB->setRole($role->role);
-            $roleDB->setName($role->name);
-            $roleDB->setId($id);
-
-            return $this->repository->simpleUpdate($roleDB);
-        }
-
-        return $this->repository->changeNested($id, intval($role->prev), intval($role->parent), $role->name, $role->role);
+        // TODO: Implement updateResource() method.
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     */
-    public function removeNestedFromTree($id)
+    public function deleteResource($id)
     {
-        return $this->repository->removeNestedFromTree($id);
+        // TODO: Implement deleteResource() method.
     }
 
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function findRoleById($id)
-    {
-        return $this->repository->findOneById($id);
-    }
 
 }

@@ -11,47 +11,68 @@ use UserBundle\Entity\Group;
  */
 class GroupRepository extends EntityRepository
 {
-    const ALIAS = 'groups';
-    const USERS_GROUP = 'users';
-    const COMPANY_GROUP = 'users';
+    const ALIAS       = 'groups';
+    const ROLES_ALIAS = 'roles';
+
+
+//    const USERS_GROUP = 'users';
+//    const COMPANY_GROUP = 'users';
     const GROUP_USER_TABLE_NAME         = 'as_group_user';
     const GROUP_USER_TABLE_GROUP_COLUMN = 'group_id';
+//
+//    /**
+//     * Get all groups
+//     * @return array
+//     */
+//    public function findAllGroups()
+//    {
+//        $qb = $this->createQueryBuilder(self::ALIAS);
+//        $qb->select(self::ALIAS);
+//
+//        return $qb->getQuery()->getResult();
+//    }
+//
+//    /**
+//     * Save new group
+//     * @param Group $group
+//     * @return mixed
+//     */
+//    public function saveGroup($group)
+//    {
+//        try {
+//            $this->_em->persist($group);
+//            $this->_em->flush();
+//        } catch (\Exception $e) {
+//            throw $e;
+//            return false;
+//        }
+//
+//        return $group;
+//    }
 
-    /**
-     * Get all groups
-     * @return array
-     */
-    public function findAllGroups()
+
+    public function findGroup($id)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS);
+        $qb->select(self::ALIAS, self::ROLES_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.roles', self::ROLES_ALIAS);
+
+        if (intval($id)) {
+            $qb->where(self::ALIAS.'.id =:id')
+               ->setParameter('id', $id);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
 
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * Save new group
-     * @param Group $group
-     * @return mixed
-     */
-    public function saveGroup($group)
-    {
-        try {
-            $this->_em->persist($group);
-            $this->_em->flush();
-        } catch (\Exception $e) {
-            throw $e;
-            return false;
-        }
-
-        return $group;
-    }
 
     /**
-     * @param int $oldGroupId
-     * @param int $newGroupId
-     * @return boolean
-     */
+    //     * @param int $oldGroupId
+    //     * @param int $newGroupId
+    //     * @return boolean
+    //     */
     public function changeUsersGroup($oldGroupId, $newGroupId)
     {
         try {
@@ -84,21 +105,4 @@ class GroupRepository extends EntityRepository
 
         return true;
     }
-
-//    /**
-//     * Utility override to be used by the UserManager
-//     *
-//     * {@inheritDoc}
-//     */
-//    public function findGroupByUser(User $user)
-//    {
-//
-//        $q = $this
-//            ->createQueryBuilder('g')
-//            ->where('g.name = ?1')
-//            ->setParameter(1, $user->getType());
-//
-//        return $q->getQuery()->getSingleResult();
-//    }
-
 }
