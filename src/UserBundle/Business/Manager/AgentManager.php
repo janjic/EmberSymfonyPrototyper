@@ -2,11 +2,11 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use CoreBundle\Business\Manager\TCRSyncManager;
 use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Agent;
@@ -25,14 +25,18 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     protected $groupManager;
 
+    protected $syncManager;
+
     /**
      * @param AgentRepository $repository
-     * @param GroupManager    $groupManager
+     * @param GroupManager $groupManager
+     * @param TCRSyncManager $syncManager
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, TCRSyncManager $syncManager)
     {
         $this->repository = $repository;
         $this->groupManager = $groupManager;
+        $this->syncManager = $syncManager;
     }
 
     public function getGroupById($id)
@@ -42,11 +46,16 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param Agent $agent
+     * @param Agent $superior
      * @return Agent
      */
-    public function save(Agent $agent)
+    public function save(Agent $agent, Agent $superior)
     {
-        return $this->repository->saveAgent($agent);
+        $agent = $this->repository->saveAgent($agent, $superior);
+        if($agent->getId()){
+            $this->syncWithTCRPortal($agent, 'add');
+        }
+        return $agent;
     }
 
     /**
@@ -59,13 +68,14 @@ class AgentManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-
      * @param Agent $agent
-     * @return mixed
+     * @param $dbSuperior
+     * @param $newSuperior
+     * @return Agent
      */
-    public function edit(Agent $agent)
+    public function edit(Agent $agent, $dbSuperior, $newSuperior)
     {
-        return $this->repository->edit($agent);
+        return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
 
     /**
@@ -136,7 +146,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
          * Retrieve agent from database by id
          * @var $dbAgent Agent
          */
-        $dbAgent = $this->findAgentById($data->id);
+        $dbAgent = $this->repository->findOneBy(array('id'=>$data->id));
         /**
          * Get agent attributes from request
          */
@@ -219,16 +229,22 @@ class AgentManager implements JSONAPIEntityManagerInterface
          * Find superior agent from Database
          */
         $superiorAttrs = $data->relationships->superior->data;
+        /**
+         * Save reference on db superior agent in case we need it in edit
+         */
+        $dbSuperior = $dbAgent->getSuperior();
 
-        if (!is_null($superiorAttrs) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
+        $newSuperior = null;
+
+        if (!is_null($superiorAttrs) && !is_null($dbAgent->getSuperior()) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
             /**
              * Get superior from database
              */
-            $superior = $this->findAgentById($superiorAttrs->id);
-            /**
-             * Set superior agent
-             */
-            $dbAgent->setSuperior($superior);
+            $newSuperior = $this->repository->getReference($superiorAttrs->id);
+//            /**
+//             * Set superior agent
+//             */
+//            $dbAgent->setSuperior($superior);
         }
 
         /**
@@ -275,13 +291,20 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Edit agent
          */
-        return $agent = $this->edit($dbAgent);
+        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
+
+        if($agent->getId()){
+            $this->syncWithTCRPortal($agent, 'edit');
+        }
+
+        return $agent;
     }
 
-        /**
-         * @return mixed
-         */
-        public function deleteResource($id = null)
+    /**
+     * @param null $id
+     * @return mixed
+     */
+    public function deleteResource($id = null)
     {
         // TODO: Implement deleteResource() method.
     }
@@ -296,9 +319,77 @@ class AgentManager implements JSONAPIEntityManagerInterface
         {
             $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
 
-            if (!$capitalizeFirstCharacter) {
+        if (!$capitalizeFirstCharacter) {
                 $str[0] = strtolower($str[0]);
-            }
-            return $str;
         }
+
+        return $str;
+    }
+
+    /**
+     * @param $usernameOrEmail
+     * @return mixed
+     */
+    public function loadUserForProvider($usernameOrEmail)
+    {
+        return $this->repository->getUserForProvider($usernameOrEmail);
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function refreshUserForProvider(UserInterface $user)
+    {
+        return $this->repository->refreshUser($user);
+    }
+
+    /**
+     * @param $class
+     * @return mixed
+     */
+    public function checkIsClassSupportedForProvider($class)
+    {
+        return $this->checkIsClassSupportedForProvider($class);
+    }
+
+    /**
+     * @param $agent
+     * @param $action
+     */
+    function syncWithTCRPortal($agent, $action)
+    {
+        if($action == 'add'){
+            $url = 'app_dev.php/en/json/add-agent';
+        } else {
+            $url = 'app_dev.php/en/json/edit-agent';
+        }
+
+        $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
+
+        $this->syncManager->sendDataToTCR($url, $agentJson);
+    }
+    /**
+     * @param Agent $agent
+     * @param null $id
+     * @return string
+     */
+    function createJsonFromAgentObject(Agent $agent, $id = null)
+    {
+        $agentArray = [];
+        if(!is_null($id)){
+            $agentArray['id'] = $agent->getId();
+        }
+        $agentArray['agent_id'] = $agent->getAgentId();
+        $agentArray['agent_type'] = $agent->getGroup()->getName();
+        $agentArray['company'] = '';
+        $agentArray['comment'] = $agent->getAgentBackground();
+        $agentArray['country'] = $agent->getAddress()->getCountry();
+        $agentArray['email'] = $agent->getEmail();
+        $agentArray['first_name'] = $agent->getFirstName();
+        $agentArray['last_name'] = $agent->getLastName();
+        $agentArray['phone_number'] = $agent->getAddress()->getPhone();
+
+        return json_encode($agentArray);
+    }
+
     }

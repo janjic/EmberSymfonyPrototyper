@@ -151,9 +151,10 @@ class AgentSaveConverter extends JQGridConverter
         /**
          * If agent is not root set his superior agent
          */
+        $superior = null;
+
         if(!is_null($superiorAttrs)) {
             $superior = $this->manager->findAgentById($superiorAttrs->id);
-            $agent->setSuperior($superior);
         }
 
         /**
@@ -165,7 +166,7 @@ class AgentSaveConverter extends JQGridConverter
         /**
          * @var $agent Agent
          */
-        $agent = $this->manager->save($agent);
+        $agent = $this->manager->save($agent, $superior);
 
         if($agent->getId()){
             $this->request->attributes->set($this->param, new ArrayCollection(array(
@@ -177,6 +178,7 @@ class AgentSaveConverter extends JQGridConverter
                 'meta' => array('code'=> 500, 'message' => 'Agent not saved'))));
         }
     }
+
 
 
     /**

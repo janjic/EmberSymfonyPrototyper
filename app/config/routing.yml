@@ -1,3 +1,7 @@
+f_serializer:
+    resource: "@FSerializerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 user:
     resource: "@UserBundle/Controller/"
     type:     annotation

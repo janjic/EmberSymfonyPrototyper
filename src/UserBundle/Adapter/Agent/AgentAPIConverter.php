@@ -35,7 +35,6 @@ class AgentAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-
         $agent = parent::convert();
         $schemaMappings = FSDSerializer::$schemaMappings;
 
@@ -50,7 +49,6 @@ class AgentAPIConverter extends JsonAPIConverter
         $serializedObj = FSDSerializer::serialize($agent, [], $schemaMappings);
 
         $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
-
     }
 
     /**

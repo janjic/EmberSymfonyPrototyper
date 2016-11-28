@@ -177,26 +177,8 @@ class Group implements GroupInterface
         if (!$this->roles->count()) {
             return array(FOSUser::ROLE_DEFAULT);
         }
-        $roles = array();
-        foreach ($this->roles->toArray() as $role) {
-            $roles[] = $role instanceof RoleInterface ? $role->getRole() : (string)$role;
-        }
 
-        return array_filter($roles);
-    }
-
-    /**
-     * @param ArrayCollection $roles
-     *
-     * @return $this
-     */
-    public function setRolesCollection(ArrayCollection $roles)
-    {
-        foreach ($roles as $role) {
-            $this->addRole($role);
-        }
-
-        return $this;
+        return $this->roles;
     }
 
     /**

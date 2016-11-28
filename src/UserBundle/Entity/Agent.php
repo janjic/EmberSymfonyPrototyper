@@ -163,6 +163,22 @@ class Agent extends BaseUser
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), parent::getRoles(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -515,21 +531,21 @@ class Agent extends BaseUser
     }
 
     /**
-     * @param Role $child
+     * @param Agent $child
      */
     public function addChild($child)
     {
         $this->children->add($child);
-        $child->setParent($this);
+        $child->setSuperior($this);
     }
 
     /**
-     * @param Role $child
+     * @param Agent $child
      */
     public function removeChild($child)
     {
         $this->children->removeElement($child);
-        $child->setParent(null);
+        $child->setSuperior(null);
     }
 
 

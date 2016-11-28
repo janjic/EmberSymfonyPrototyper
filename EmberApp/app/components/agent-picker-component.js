@@ -4,20 +4,24 @@ export default Ember.Component.extend({
     store: Ember.inject.service(),
     agents: [],
     selectedAgentIndex: -1,
-    selectedAgent: null,
+    selectedAgentId: null,
     init(){
         this._super(...arguments);
         this.set('agents', this.get('store').findAll('agent'));
-        var index = (this.get('agents').indexOf(this.get('selectedAgent')));
-        if(index !== -1){
-            this.set('selectedAgentIndex', index);
-        }
+        this.set('selectedAgentId', this.get('selectedAgent.id'));
+        // let index = (this.get('agents').indexOf(this.get('selectedAgent')));
+        // console.log(this.get('selectedAgent.id'));
+        // if(index !== -1){
+        //     this.set('selectedAgentIndex', index);
+        // }
     },
     actions: {
         agentChanged: function (agentIndex) {
-            var agent = this.get('agents').objectAt(agentIndex);
-            this.set('changeset.'+this.get('property'), agent);
-            this.get('validateProperty')(this.get('changeset'), this.get('property'));
+            let agent = this.get('agents').objectAt(agentIndex);
+            if(this.get('isValidated')){
+                this.set('changeset.'+this.get('property'), agent);
+                this.get('validateProperty')(this.get('changeset'), this.get('property'));
+            }
             this.get('onAgentSelected')(agent);
         }
     }
