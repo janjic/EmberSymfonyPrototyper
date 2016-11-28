@@ -6,7 +6,7 @@ namespace FSerializerBundle\Generators;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiOne;
 use ReflectionClass;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
@@ -22,9 +22,9 @@ class FJsonApiGenerator extends Generator
 
     private $associationMappingRules = [
         ClassMetadataInfo::ONE_TO_ONE =>   JsonApiOne::class,
-        ClassMetadataInfo::ONE_TO_MANY =>  JsonApiMenu::class,
+        ClassMetadataInfo::ONE_TO_MANY =>  JsonApiMany::class,
         ClassMetadataInfo::MANY_TO_ONE =>  JsonApiOne::class,
-        ClassMetadataInfo::MANY_TO_MANY => JsonApiMenu::class,
+        ClassMetadataInfo::MANY_TO_MANY => JsonApiMany::class,
 
     ];
 

@@ -239,7 +239,7 @@ class JsonApiDocument implements JsonSerializable
 
         $type = array_key_exists(0, $decoded['data']) ?$decoded['data'][0]['type']:$decoded['data']['type'];
         if (!$type) {
-            throw new Exception('Document type does not exist ij json');
+            throw new Exception('Document type does not exist in json api');
         }
         $this->data->getSerializer()->setType($type);
         if (!$this->data->getSerializer()->getDeserializationClass()) {
@@ -291,7 +291,7 @@ class JsonApiDocument implements JsonSerializable
             $decodedIncludedData = $includedData ? $includedData : $decoded['included'];
             $newObject = $this->populateAttributes($resource, $decodedResource, $propertyAccessor);
 
-            /** @var JsonApiRelationship $relationship  Ovde relationship moze da bude One or Many*/
+            /** @var JsonApiRelationship $relationship Relationship must implement JsonApiElementInterface */
             foreach ($resource->getUnfilteredRelationships() as $relationship) {
                 $relationshipObject = $this->denormalize($relationship->getData(),$relationship->getDenormalizedData($decodedRelationships, $decodedIncludedData),$decodedIncludedData);
                 try {

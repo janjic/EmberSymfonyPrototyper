@@ -1,7 +1,7 @@
 <?php
 namespace FSerializerBundle\Test;
 
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 
@@ -23,6 +23,6 @@ class SiteSerializer extends JsonApiSerializerAbstract
 
     public function posts($site)
     {
-        return new JsonApiRelationship(new JsonApiMenu($site->posts, new PostSerializer()));
+        return new JsonApiRelationship(new JsonApiMany($site->posts, new PostSerializer()));
     }
 }

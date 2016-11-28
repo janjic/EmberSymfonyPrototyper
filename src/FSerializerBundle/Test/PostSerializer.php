@@ -1,7 +1,7 @@
 <?php
 namespace FSerializerBundle\Test;
 
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 
@@ -24,7 +24,7 @@ class PostSerializer extends JsonApiSerializerAbstract
 
     public function comments($post)
     {
-        return new JsonApiRelationship(new JsonApiMenu($post->comments, new CommentSerializer()));
+        return new JsonApiRelationship(new JsonApiMany($post->comments, new CommentSerializer()));
     }
 
     public function getDeserializationClass()

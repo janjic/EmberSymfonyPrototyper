@@ -1,7 +1,7 @@
 <?php
 namespace FSerializerBundle\Test;
 
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;

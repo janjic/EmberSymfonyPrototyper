@@ -9,7 +9,7 @@ use Exception;
 use FSerializerBundle\Generators\FJsonApiGenerator;
 use FSerializerBundle\Serializer\JsonApiDocument;
 use FSerializerBundle\Serializer\JsonApiElementInterface;
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
@@ -43,6 +43,11 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      * @var \Symfony\Component\PropertyAccess\PropertyAccessor
      */
     private  $propertyAccessor;
+
+    /**
+     * @var
+     */
+    private $linksFunction;
 
     /**
      * @var FJsonApiGenerator
@@ -206,7 +211,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
             throw new Exception('Please set main type in config mapping');
         }
         /** @var JsonApiElementInterface $resourceClass */
-        $resourceClass = $isArray ? JsonApiMenu::class : JsonApiOne::class;
+        $resourceClass = $isArray ? JsonApiMany::class : JsonApiOne::class;
         return new JsonApiDocument((new $resourceClass($data, $this))->relations($relations));
     }
 
@@ -221,12 +226,44 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         return $this;
     }
 
-    public function getLinks($resource) {
-        return ['meta'=>'aaaa'];
+    /**
+     * {@inheritdoc}
+     */
+    public function getLinks($resource)
+    {
+        $mappings =   $this->getMappings();
+        foreach ($mappings as $mapping) {
+            if ($mapping['type'] == $this->type ) {
+               if (array_key_exists('links', $mapping) && ($function = $mapping['links']['function'])) {
+                   $params = array_key_exists('dependency', $mapping['links']) ?$mapping['links']['dependency']:array();
+                   $params[] = $resource;
+                   return call_user_func_array($function, $params);
+
+               }
+
+
+            }
+        }
+
+        return array();
     }
 
-    public function getMeta($post) {
-        return ['meta'=> 'bbb'];
+    public function getMeta($resource) {
+        $mappings =   $this->getMappings();
+        foreach ($mappings as $mapping) {
+            if ($mapping['type'] == $this->type ) {
+                if (array_key_exists('meta', $mapping) && ($function = $mapping['meta']['function'])) {
+                    $params = array_key_exists('dependency', $mapping) ?$mapping['meta']['dependency']:array();
+                    $params[] = $resource;
+                    return call_user_func_array($function, $params);
+
+                }
+
+
+            }
+        }
+
+        return array();
     }
 
     private function buildSelfInstance($name)

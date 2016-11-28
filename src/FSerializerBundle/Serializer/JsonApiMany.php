@@ -2,7 +2,7 @@
 namespace FSerializerBundle\Serializer;
 
 
-class JsonApiMenu implements JsonApiElementInterface
+class JsonApiMany implements JsonApiElementInterface
 {
     /**
      * @var array

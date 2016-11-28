@@ -1,0 +1,4 @@
+services:
+    f_serializer:
+        class: FSerializerBundle\services\FJsonApiSerializer
+        arguments: [ "@doctrine.orm.entity_manager" ]

@@ -1,7 +1,7 @@
 <?php
 namespace FSerializerBundle\Test;
 
-use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 use UserBundle\Entity\Group;
@@ -36,7 +36,7 @@ class GroupSerializer extends JsonApiSerializerAbstract
      */
     public function roles($group)
     {
-        return new JsonApiRelationship(new JsonApiMenu($group->getRoles(), new RoleSerializer()));
+        return new JsonApiRelationship(new JsonApiMany($group->getRoles(), new RoleSerializer()));
     }
 
     public function getDeserializationClass()
