@@ -2,12 +2,11 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
 use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Agent;
@@ -302,6 +301,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @param null $id
      * @return mixed
      */
     public function deleteResource($id = null)
@@ -310,21 +310,47 @@ class AgentManager implements JSONAPIEntityManagerInterface
     }
 
 
-    /**
-     * @param $string
-     * @param bool $capitalizeFirstCharacter
-     * @return mixed
-     */
-    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
-    {
-        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        /**
+         * @param $string
+         * @param bool $capitalizeFirstCharacter
+         * @return mixed
+         */
+        function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
+        {
+            $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
 
         if (!$capitalizeFirstCharacter) {
-            $str[0] = strtolower($str[0]);
+                $str[0] = strtolower($str[0]);
         }
+
         return $str;
     }
 
+    /**
+     * @param $usernameOrEmail
+     * @return mixed
+     */
+    public function loadUserForProvider($usernameOrEmail)
+    {
+        return $this->repository->getUserForProvider($usernameOrEmail);
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function refreshUserForProvider(UserInterface $user)
+    {
+        return $this->repository->refreshUser($user);
+    }
+
+    /**
+     * @param $class
+     * @return mixed
+     */
+    public function checkIsClassSupportedForProvider($class)
+    {
+        return $this->checkIsClassSupportedForProvider($class);
+    }
 
     /**
      * @param $agent
@@ -342,7 +368,6 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
         $this->syncManager->sendDataToTCR($url, $agentJson);
     }
-
     /**
      * @param Agent $agent
      * @param null $id
@@ -366,4 +391,5 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
         return json_encode($agentArray);
     }
-}
+
+    }

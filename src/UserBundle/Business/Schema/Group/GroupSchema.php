@@ -42,7 +42,7 @@ class GroupSchema extends SchemaProvider
         ];
     }
 
-    public function getIncludePaths(){
+    public function getIncludePaths() {
         return ['roles'];
     }
 

@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 const { attr, Model } = DS;
 
@@ -13,6 +14,7 @@ export default Model.extend({
     privateEmail:         attr('string'),
     password:             attr('string'),
     plainPassword:        attr('string'),
+    roles:                attr('array'),
     passwordRepeat:       attr('string'),
     baseImageUrl:         attr('string'),
     socialSecurityNumber: attr('string'),
@@ -25,6 +27,9 @@ export default Model.extend({
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
+    username: Ember.computed('email', function () {
+        return 'admin';
+    })
     image:                DS.belongsTo('image'),
 
 });

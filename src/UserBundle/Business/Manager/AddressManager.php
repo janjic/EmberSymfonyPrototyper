@@ -24,11 +24,6 @@ class AddressManager implements BasicEntityManagerInterface
      */
     protected $repository;
 
-    /**
-     * @var UserEventContainer
-     */
-    protected $eventContainer;
-
 
     /**
      * @param AddressRepository  $repository
@@ -56,5 +51,6 @@ class AddressManager implements BasicEntityManagerInterface
     {
         return $this->repository->findOneById($id);
     }
+
 
 }

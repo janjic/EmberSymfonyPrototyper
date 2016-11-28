@@ -163,6 +163,22 @@ class Agent extends BaseUser
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), parent::getRoles(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
