@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Repository;
 
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use UserBundle\Entity\Agent;
@@ -21,14 +22,15 @@ class AgentRepository extends NestedTreeRepository
 
     /**
      * @param Agent $agent
+     * @param $superior
      * @return Agent
      * @throws \Exception
      */
-    public function saveAgent($agent)
+    public function saveAgent($agent, $superior)
     {
         try {
-            if(!is_null($agent->getSuperior())){
-                $this->persistAsFirstChildOf($agent, $agent->getSuperior());
+            if(!is_null($superior)){
+                $this->persistAsFirstChildOf($agent, $superior);
             } else {
                 $this->persistAsFirstChild($agent);
             }
@@ -69,22 +71,19 @@ class AgentRepository extends NestedTreeRepository
     /**
      * @param Agent $agent
      * @param Agent $dbSuperior
+     * @param $newSuperior
      * @return Agent
      * @throws \Exception
      */
-    public function edit(Agent $agent, $dbSuperior)
+    public function edit(Agent $agent, $dbSuperior, $newSuperior)
     {
-        /**
-         * @var Agent $newSuperior
-         */
-        $newSuperior = $this->findAgentById($agent->getSuperior()->getId());
+        $dbSuperior = $this->getReference($dbSuperior->getId());
         try {
             if(!is_null($agent->getSuperior())){
                 if(!is_null($dbSuperior) && in_array($newSuperior, $agent->getChildren()->getValues())){
-//                    var_dump($agent->getLvl());exit;
                     $this->persistAsFirstChildOf($newSuperior, $dbSuperior);
                     $this->_em->flush();
-//                    $this->persistAsFirstChildOf($agent, $newSuperior);
+                    $this->persistAsFirstChildOf($agent, $newSuperior);
                 } else {
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 }
@@ -92,7 +91,6 @@ class AgentRepository extends NestedTreeRepository
                 $this->persistAsFirstChild($agent);
             }
             $this->_em->flush();
-            $this->reorderAll();
         } catch (\Exception $e) {
             throw $e;
             return new Agent();
@@ -274,5 +272,16 @@ class AgentRepository extends NestedTreeRepository
             $oQ0->orderBy($sortParams[0], $sortParams[1]);
         }
         return $oQ0->getQuery()->getResult();
+    }
+
+    /**
+     * @param $id
+     * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
+     */
+    public function getReference($id)
+    {
+        $className = $this->getClassMetadata()->getReflectionClass()->getName();
+
+        return $this->_em->getReference($className, $id);
     }
 }

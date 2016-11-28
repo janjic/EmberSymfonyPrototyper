@@ -47,11 +47,12 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param Agent $agent
+     * @param Agent $superior
      * @return Agent
      */
-    public function save(Agent $agent)
+    public function save(Agent $agent, Agent $superior)
     {
-        $agent = $this->repository->saveAgent($agent);
+        $agent = $this->repository->saveAgent($agent, $superior);
         if($agent->getId()){
             $this->syncWithTCRPortal($agent, 'add');
         }
@@ -69,12 +70,13 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param Agent $agent
-     * @param Agent $dbSuperior
-     * @return mixed
+     * @param $dbSuperior
+     * @param $newSuperior
+     * @return Agent
      */
-    public function edit(Agent $agent, $dbSuperior)
+    public function edit(Agent $agent, $dbSuperior, $newSuperior)
     {
-        return $this->repository->edit($agent, $dbSuperior);
+        return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
 
     /**
@@ -145,7 +147,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
          * Retrieve agent from database by id
          * @var $dbAgent Agent
          */
-        $dbAgent = $this->findAgentById($data->id);
+        $dbAgent = $this->repository->findOneBy(array('id'=>$data->id));
         /**
          * Get agent attributes from request
          */
@@ -233,15 +235,17 @@ class AgentManager implements JSONAPIEntityManagerInterface
          */
         $dbSuperior = $dbAgent->getSuperior();
 
+        $newSuperior = null;
+
         if (!is_null($superiorAttrs) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
             /**
              * Get superior from database
              */
-            $superior = $this->findAgentById($superiorAttrs->id);
-            /**
-             * Set superior agent
-             */
-            $dbAgent->setSuperior($superior);
+            $newSuperior = $this->repository->getReference($superiorAttrs->id);
+//            /**
+//             * Set superior agent
+//             */
+//            $dbAgent->setSuperior($superior);
         }
 
         /**
@@ -288,7 +292,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         /**
          * Edit agent
          */
-        $agent = $this->edit($dbAgent, $dbSuperior);
+        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
 
         if($agent->getId()){
             $this->syncWithTCRPortal($agent, 'edit');
@@ -324,6 +328,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $agent
+     * @param $action
      */
     function syncWithTCRPortal($agent, $action)
     {
