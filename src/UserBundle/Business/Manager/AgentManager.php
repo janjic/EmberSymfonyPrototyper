@@ -2,11 +2,8 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;

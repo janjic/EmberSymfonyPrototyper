@@ -16,26 +16,24 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         return this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN') ? 'dashboard.home' :'dashboard-agent.home';
 
     }),
-
     beforeModel() {
         return this._loadCurrentUser();
     },
     sessionAuthenticated() {
+        //wait first for resolving loading promise then redirect
         new RSVP.Promise((resolve, reject) =>{
             this._loadCurrentUser().then(()=> resolve(true)).catch(() => this.get('session').invalidate() && reject(false));
         }).then(()=>{
-            this.transitionTo(this.get('routeAfterAuthentication'));
-            // const attemptedTransition = this.get('session.attemptedTransition');
-            // if (attemptedTransition) {
-            //     attemptedTransition.retry();
-            //     this.set('session.attemptedTransition', null);
-            // } else {
-            //     this.transitionTo(this.get('routeAfterAuthentication'));
-            // }
+            const attemptedTransition = this.get('session.attemptedTransition');
+            if (attemptedTransition) {
+                attemptedTransition.retry();
+                this.set('session.attemptedTransition', null);
+            } else {
+                this.transitionTo(this.get('routeAfterAuthentication'));
+            }
         });
 
     },
-
     _loadCurrentUser() {
         return this.get('currentUser').load();
     }

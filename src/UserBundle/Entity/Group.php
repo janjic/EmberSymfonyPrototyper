@@ -180,26 +180,4 @@ class Group implements GroupInterface
 
         return $this->roles;
     }
-
-    /**
-     * @param ArrayCollection $roles
-     *
-     * @return $this
-     */
-    public function setRolesCollection(ArrayCollection $roles)
-    {
-        foreach ($roles as $role) {
-            $this->addRole($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRolesCollection()
-    {
-        return $this->roles;
-    }
 }

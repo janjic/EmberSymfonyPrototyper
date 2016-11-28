@@ -1,0 +1,248 @@
+<?php
+namespace FSerializerBundle\services;
+
+use ArrayAccess;
+use Countable;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
+use Exception;
+use FSerializerBundle\Generators\FJsonApiGenerator;
+use FSerializerBundle\Serializer\JsonApiDocument;
+use FSerializerBundle\Serializer\JsonApiElementInterface;
+use FSerializerBundle\Serializer\JsonApiMenu;
+use FSerializerBundle\Serializer\JsonApiOne;
+use FSerializerBundle\Serializer\JsonApiRelationship;
+use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
+/**
+ * Class FJsonApiSerializer
+ * @package FSerializerBundle\services
+ */
+class FJsonApiSerializer extends JsonApiSerializerAbstract
+{
+
+    private $deserializationClass;
+
+    /**
+     * @var
+     */
+    private $mappings;
+
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    /**
+     * @var DisconnectedClassMetadataFactory
+     */
+    private $cmf;
+
+    /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     */
+    private  $propertyAccessor;
+
+    /**
+     * @var FJsonApiGenerator
+     */
+    private $generator;
+
+    private $disabledAttributes = array('__initializer__', '__cloner__', '__isInitialized__');
+
+
+    /**
+     * @param $deserializationClass
+     * @return $this
+     */
+    public function setDeserializationClass($deserializationClass)
+    {
+        $this->deserializationClass = $deserializationClass;
+        return $this;
+    }
+
+    /**
+     * FJsonApiSerializer constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->cmf = new DisconnectedClassMetadataFactory();
+        $this->cmf->setEntityManager($this->entityManager);
+        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $this->generator = new FJsonApiGenerator($this->cmf);
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId($model)
+    {
+        return $model->getId();
+    }
+
+
+    public function __call($method, $args) {
+        switch ($method) {
+            case 'getDeserializationClass':
+                return null;
+            default:
+                $object = $args[0];
+                if (array_key_exists($method, $this->mappings)) {
+                    $data = $this->generator->generateMapping(get_class($object));
+                    $relationshipInstance = $this->propertyAccessor->getValue($object,$method);
+                    $relationships =  $data['relationships'];
+                    return new JsonApiRelationship(new $relationships[$method]( $relationshipInstance, $this->buildSelfInstance($method)));
+                }
+                throw new \Exception('Method does not exist in FJsonApiSerializer');
+
+                break;
+
+        }
+    }
+
+    /**
+     * @param $mappings
+     * @return $this
+     */
+    public function setMappings($mappings)
+    {
+        $this->mappings = $mappings;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMappings()
+    {
+        return $this->mappings;
+    }
+
+
+    public function getRelationship($model, $name)
+    {
+        $method = $this->getRelationshipMethodName($name);
+        $relationship = $this->$method($model);
+        if ($relationship !== null && ! ($relationship instanceof JsonApiRelationship)) {
+            throw new \Exception('Relationship method must return null or an instance of JsonApiRelationship');
+        }
+
+        $relationship->setName($method);
+        return $relationship;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributes($model, array $fields = null)
+    {
+        $data = $this->generator->generateMapping(get_class($model));
+        $attributes =  $data['attributes'];
+        $attributes = array_diff($attributes, $this->disabledAttributes);
+        $getAttributesReturnValue = array();
+        foreach ($attributes as $attribute) {
+            $getAttributesReturnValue[$attribute] =   $this->propertyAccessor->getValue($model, $attribute);
+        }
+
+        return $getAttributesReturnValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeserializationClass()
+    {
+       return $this->deserializationClass;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDisabledAttributes(): array
+    {
+        return $this->disabledAttributes;
+    }
+
+    /**
+     * @param $data
+     * @param array $mappings
+     * @param $relations
+     * @return $this
+     * @throws Exception
+     */
+    public function deserialize($data, array $mappings, $relations)
+    {
+        return (new JsonApiDocument((new JsonApiOne(null,  $this->setMappings($mappings)))->relations($relations)))->deserialize($data);
+    }
+
+    /**
+     * @param $data
+     * @param array $mappings
+     * @param $relations
+     * @param array $disabledAttributes
+     * @return JsonApiDocument
+     * @throws Exception
+     */
+    public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
+    {
+        $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
+        $class   = $isArray ? get_class($data[0]): get_class($data);
+        $typeExist = false;
+        foreach ($mappings as $mapping) {
+            if ($mapping['class'] == $class ) {
+                $typeExist = true;
+                $this->setType($mapping['type']);
+                $this->setMappings($mappings);
+                $this->setDisabledAttributes($disabledAttributes);
+                break;
+            }
+        }
+        if (!$typeExist) {
+            throw new Exception('Please set main type in config mapping');
+        }
+        /** @var JsonApiElementInterface $resourceClass */
+        $resourceClass = $isArray ? JsonApiMenu::class : JsonApiOne::class;
+        return new JsonApiDocument((new $resourceClass($data, $this))->relations($relations));
+    }
+
+    /**
+     * @param array $disabledAttributes
+     * @return $this
+     */
+    public function setDisabledAttributes(array $disabledAttributes)
+    {
+        $this->disabledAttributes = array_merge($this->disabledAttributes,$disabledAttributes);
+
+        return $this;
+    }
+
+    public function getLinks($resource) {
+        return ['meta'=>'aaaa'];
+    }
+
+    public function getMeta($post) {
+        return ['meta'=> 'bbb'];
+    }
+
+    private function buildSelfInstance($name)
+    {
+        $instance = (new self($this->entityManager))->setMappings($this->mappings);
+        $mappings = $this->getMappings();
+        foreach ($mappings as $key =>$mapping) {
+            if ($key==$name) {
+                $instance->setType($mapping['type']);
+                $instance->setDeserializationClass($mapping['class']);
+                $instance->setDisabledAttributes($this->disabledAttributes);
+                break;
+            }
+        }
+
+        return $instance;
+    }
+
+}
