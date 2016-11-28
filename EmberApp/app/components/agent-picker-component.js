@@ -18,8 +18,10 @@ export default Ember.Component.extend({
     actions: {
         agentChanged: function (agentIndex) {
             let agent = this.get('agents').objectAt(agentIndex);
-            this.set('changeset.'+this.get('property'), agent);
-            this.get('validateProperty')(this.get('changeset'), this.get('property'));
+            if(this.get('isValidated')){
+                this.set('changeset.'+this.get('property'), agent);
+                this.get('validateProperty')(this.get('changeset'), this.get('property'));
+            }
             this.get('onAgentSelected')(agent);
         }
     }

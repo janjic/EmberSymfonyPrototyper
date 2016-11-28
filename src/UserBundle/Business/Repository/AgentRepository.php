@@ -75,20 +75,23 @@ class AgentRepository extends NestedTreeRepository
      * @return Agent
      * @throws \Exception
      */
-    public function edit(Agent $agent, $dbSuperior, $newSuperior)
+    public function edit(Agent $agent, $dbSuperior=null, $newSuperior=null)
     {
-        $dbSuperior = $this->getReference($dbSuperior->getId());
+       $isHQEdit = is_null($newSuperior) && is_null($dbSuperior);
+
         try {
-            if(!is_null($agent->getSuperior())){
+            if(!is_null($newSuperior)){
+                $dbSuperior = $this->getReference($dbSuperior->getId());
                 if(!is_null($dbSuperior) && in_array($newSuperior, $agent->getChildren()->getValues())){
                     $this->persistAsFirstChildOf($newSuperior, $dbSuperior);
                     $this->_em->flush();
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 } else {
+
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 }
             } else {
-                $this->persistAsFirstChild($agent);
+                $isHQEdit? $this->_em->merge($agent):$this->persistAsFirstChild($agent);
             }
             $this->_em->flush();
         } catch (\Exception $e) {

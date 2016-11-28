@@ -237,7 +237,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
         $newSuperior = null;
 
-        if (!is_null($superiorAttrs) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
+        if (!is_null($superiorAttrs) && !is_null($dbAgent->getSuperior()) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
             /**
              * Get superior from database
              */

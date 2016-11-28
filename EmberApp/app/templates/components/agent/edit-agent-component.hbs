@@ -167,7 +167,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-8 col-xs-8">
-                            {{agent-picker-component onAgentSelected=(action 'agentSelected') selectedAgent=model.superior currentEditingAgentId=model.id
+                            {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false selectedAgent=model.superior currentEditingAgentId=model.id
                             changeset = changeset property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
                         </div>
                     </div>
