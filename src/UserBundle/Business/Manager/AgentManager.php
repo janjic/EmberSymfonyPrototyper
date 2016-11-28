@@ -334,7 +334,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         }
 
         $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
-//        var_dump(json_decode($agentJson));exit;
+
         $this->syncManager->sendDataToTCR($url, $agentJson);
     }
 
