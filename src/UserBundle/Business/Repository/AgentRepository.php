@@ -260,7 +260,7 @@ class AgentRepository extends NestedTreeRepository
                 foreach ($searchParams[0] as $key => $param) {
                     if ($key == 'agent.locked') {
                         if ($param != -1) {
-                            $oQ0->andWhere($key.' = '.$param);
+                            $oQ0->andWhere('agent.enabled = '.$param);
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);

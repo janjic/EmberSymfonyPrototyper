@@ -6,11 +6,15 @@ use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
 use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
+use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
+use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Group;
+use UserBundle\Entity\Role;
 
 /**
  * Class AgentManager
@@ -28,15 +32,22 @@ class AgentManager implements JSONAPIEntityManagerInterface
     protected $syncManager;
 
     /**
+     * @var FJsonApiSerializer $fSerializer
+     */
+    protected $fSerializer;
+
+    /**
      * @param AgentRepository $repository
      * @param GroupManager $groupManager
      * @param TCRSyncManager $syncManager
+     * @param FJsonApiSerializer $fSerializer
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, TCRSyncManager $syncManager)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, TCRSyncManager $syncManager, FJsonApiSerializer $fSerializer)
     {
-        $this->repository = $repository;
+        $this->repository   = $repository;
         $this->groupManager = $groupManager;
-        $this->syncManager = $syncManager;
+        $this->syncManager  = $syncManager;
+        $this->fSerializer  = $fSerializer;
     }
 
     public function getGroupById($id)
@@ -310,17 +321,17 @@ class AgentManager implements JSONAPIEntityManagerInterface
     }
 
 
-        /**
-         * @param $string
-         * @param bool $capitalizeFirstCharacter
-         * @return mixed
-         */
-        function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
-        {
-            $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+    /**
+     * @param $string
+     * @param bool $capitalizeFirstCharacter
+     * @return mixed
+     */
+    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
+    {
+        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
 
         if (!$capitalizeFirstCharacter) {
-                $str[0] = strtolower($str[0]);
+            $str[0] = strtolower($str[0]);
         }
 
         return $str;
@@ -392,4 +403,22 @@ class AgentManager implements JSONAPIEntityManagerInterface
         return json_encode($agentArray);
     }
 
+
+    function deserializeAgent($content, $mappings = null)
+    {
+        $relations = array('group', 'superior.*', 'group.roles', 'image', 'address');
+        if(!$mappings){
+            $mappings =
+                array(
+                    'agent' => array('class' => Agent::class, 'type'=>'agents',
+                    'group'    => array('class' => Group::class,  'type'=>'groups'),
+                    'superior' => array('class' => Agent::class,  'type'=>'agents'),
+                    'roles'    => array('class' => Role::class,   'type'=>'roles'),
+                    'image'    => array('class' => Image::class,  'type'=>'images'),
+                    'address'  => array('class' => Address::class, 'type'=>'address')
+                ));
+        }
+
+        return $this->fSerializer->deserialize($content,$mappings, $relations);
     }
+}

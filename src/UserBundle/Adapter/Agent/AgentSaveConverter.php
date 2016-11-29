@@ -39,7 +39,7 @@ class AgentSaveConverter extends JQGridConverter
          * Get get data from request and decode it
          */
         $content = json_decode($this->request->getContent())->data;
-
+        var_dump($this->manager->deserializeAgent($this->request->getContent()));exit;
         /**
          * Get attributes for agent object
          */
