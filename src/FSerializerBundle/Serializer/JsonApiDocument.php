@@ -288,7 +288,20 @@ class JsonApiDocument implements JsonSerializable
         foreach ($element->getResources() as $resource) {
             $decodedResource = array_key_exists('data',$decoded) ? $decoded['data'] : $decoded;
             $decodedRelationships = array_key_exists('data',$decoded) ? (array_key_exists('relationships',$decoded['data'])?$decoded['data']['relationships']:array()) : (array_key_exists('relationships',$decoded)?$decoded['relationships']:array());
-            $decodedIncludedData = $includedData ? $includedData : $decoded['included'];
+            $decodedIncludedData = $includedData ? $includedData : (array_key_exists('included', $decoded)?$decoded['included']: false);
+
+            if ($decodedIncludedData === false) {
+                $decodedIncludedData = array();
+                foreach ($decodedRelationships as $key=> $value) {
+                    if (array_key_exists('data', $value)) {
+                        foreach ( $value['data']  as $rel) {
+                            $decodedIncludedData[] = $rel;
+                        }
+                    }
+
+                }
+            }
+
             $newObject = $this->populateAttributes($resource, $decodedResource, $propertyAccessor);
 
             /** @var JsonApiRelationship $relationship Relationship must implement JsonApiElementInterface */
@@ -375,7 +388,7 @@ class JsonApiDocument implements JsonSerializable
      */
     private function createInstance($data, $reflectionClass)
     {
-        if(!$data) {
+        if(is_null($data)) {
             return null;
         }
 
@@ -431,7 +444,7 @@ class JsonApiDocument implements JsonSerializable
             $resourceObject = array();
             foreach ($decoded as $decodedArray) {
                 foreach ($decodedArray as $decodedObject) {
-                    $data = $decodedObject['attributes'];
+                    $data = array_key_exists('attributes',$decodedObject) ?$decodedObject['attributes']:array();
                     $class = $serializer->getDeserializationClass();
                     $newObject = $this->createInstance($data, new ReflectionClass($class));
                     try {

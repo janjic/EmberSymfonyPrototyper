@@ -5,6 +5,7 @@ namespace UserBundle\Business\Manager;
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Doctrine\Common\Util\Debug;
+use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Group;
 use UserBundle\Entity\Role;
@@ -21,11 +22,18 @@ class GroupManager implements JSONAPIEntityManagerInterface
     protected $repository;
 
     /**
-     * @param GroupRepository $repository
+     * @var FJsonApiSerializer
      */
-    public function __construct(GroupRepository $repository)
+    protected $fSerializer;
+
+    /**
+     * @param GroupRepository $repository
+     * @param FJsonApiSerializer $fSerializer
+     */
+    public function __construct(GroupRepository $repository, FJsonApiSerializer $fSerializer)
     {
         $this->repository = $repository;
+        $this->fSerializer = $fSerializer;
     }
 
 //    /**
@@ -110,6 +118,7 @@ class GroupManager implements JSONAPIEntityManagerInterface
 
     public function saveResource($data)
     {
+        Debug::dump($this->deserializeGroup($data));die();
         // TODO: Implement saveResource() method.
     }
 
@@ -149,5 +158,15 @@ class GroupManager implements JSONAPIEntityManagerInterface
         return $this->repository->removeGroup($group);
     }
 
+    public function deserializeGroup($content, $mappings = null)
+    {
+        $relations = array('roles');
+        if (!$mappings) {
+            $mappings = array(
+                'group'   => array('class' => Group::class, 'type'=>'groups')
+            );
+        }
 
+        return $this->fSerializer->setDeserializationClass(Group::class)->deserialize($content, $mappings, $relations);
+    }
 }

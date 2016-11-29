@@ -57,17 +57,6 @@ class GroupController extends Controller
 //    }
 
 
-//    /**
-//     * @Route("/api/agent-save", name="api_agent_save", options={"expose" = true}),
-//     * @param ArrayCollection $agentSave
-//     * @return JsonResponse
-//     */
-//    public function saveAgentAction(ArrayCollection $agentSave)
-//    {
-//        /**return JSON Response */
-//        return new JsonResponse($agentSave->toArray(), $agentSave['meta']['code']);
-//    }
-
     /**
      * @Route("/api/groups/{id}", name="api_groups", options={"expose" = true}, defaults={"id": "all"}),
      * @param ArrayCollection $groupAPI
