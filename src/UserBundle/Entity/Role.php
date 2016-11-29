@@ -85,7 +85,7 @@ class Role implements RoleInterface
     /**
      * @param string $role ROLE_FOO etc
      */
-    public function __construct($role)
+    public function __construct($role=null)
     {
         $this->role = $role;
         $this->groups = new ArrayCollection();

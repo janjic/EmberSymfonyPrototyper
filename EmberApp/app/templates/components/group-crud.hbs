@@ -29,12 +29,18 @@
             <h1 class="main-heading">Edit group</h1>
             <div>
                 {{input type="text" class="new-group" placeholder="New group" value=editGroup.name}}
+
+                {{elements.roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
+
                 <button class="btn btn-primary pull-right" {{action "editGroupSave"}}>Save</button>
                 <button class="btn btn-primary pull-right" {{action "cancelEdit"}}>Cancel</button>
             </div>
         {{else}}
             <h1 class="main-heading">Add new group</h1>
             {{input type="text" class="new-group" placeholder="New group" value=addName}}
+
+            {{elements.roles-multipleselect onSelectAction=(action 'roleSelect')}}
+
             <button class="btn btn-primary" {{action "createGroup"}}>Add</button>
         {{/if}}
     {{/if}}

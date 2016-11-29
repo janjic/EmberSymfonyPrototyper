@@ -54,7 +54,6 @@ class JsonApiOne implements JsonApiElementInterface
     {
         $this->data = $data;
         $this->serializer = $serializer;
-
         if (method_exists($this->serializer, 'setDeserializationClass') && is_object($this->data) && !is_null($this->data)) {
             $serializer->setDeserializationClass(get_class($this->data));
             if (!$serializer->getDeserializationClass()) {
@@ -423,5 +422,10 @@ class JsonApiOne implements JsonApiElementInterface
 
         return $returnValue;
 
+    }
+
+    public function getCreatedRelationships()
+    {
+        return $this->relationships;
     }
 }

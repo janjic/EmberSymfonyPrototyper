@@ -4,6 +4,6 @@ const { attr, Model } = DS;
 
 export default Model.extend({
     name:   attr('string'),
-    agents: DS.hasMany('agent', {inverse: 'role'}),
-    // roles:  DS.hasMany('role')
+    agents: DS.hasMany('agent', {inverse: 'group'}),
+    roles:  DS.hasMany('role')
 });
