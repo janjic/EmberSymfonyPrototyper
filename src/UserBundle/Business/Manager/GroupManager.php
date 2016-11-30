@@ -41,6 +41,15 @@ class GroupManager implements JSONAPIEntityManagerInterface
         return $this->repository->findGroup($id);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getGroupById($id)
+    {
+        return $this->getResource($id);
+    }
+
     public function saveResource($data)
     {
         /** @var Group $group */

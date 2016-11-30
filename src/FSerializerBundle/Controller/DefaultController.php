@@ -22,7 +22,8 @@ class DefaultController extends Controller
     public function indexAction()
     {
         //Object from DB
-        $agent = $this->get('agent_system.agent.manager')->getResource(1);
+        $agent = $this->get('agent_system.agent.manager')->getResource(42);
+        var_dump($agent);exit;
         $relations = array('group', 'superior.*', 'group.roles', 'image', 'address');
         //LINKS AND META ARE OPTIONALS
         $mappings =
@@ -52,7 +53,7 @@ class DefaultController extends Controller
         $serialized->addLink('self', $this->get('router')->generate('api_agents'));
 
 
-        //return new JsonResponse($serialized);
+        return new JsonResponse($serialized);
         //DESERIALIZATION
         $string = json_encode($serialized);
 

@@ -7,7 +7,7 @@ import {
 
 import validateDate from './validationRules/validateDate';
 export default {
-    agentID:        validatePresence(true),
+    agentId:        validatePresence(true),
     firstName:      validatePresence(true),
     lastName:       validatePresence(true),
     email:          validateFormat({ type: 'email' }),

@@ -38,129 +38,147 @@ class AgentSaveConverter extends JQGridConverter
         /**
          * Get get data from request and decode it
          */
-        $content = json_decode($this->request->getContent())->data;
-
+//        $content = json_decode($this->request->getContent())->data;
         /**
-         * Get attributes for agent object
+         * @var Agent $agent
          */
-        $agentAttr = $content->attributes;
+        $agent = $this->manager->deserializeAgent($this->request->getContent());
 
-        /**
-         * Create new agent object
-         */
-        $agent = new Agent();
 
-        /**
-         * Iterate through attributes and call set method on agent object to populate it
-         * If key is birthDate create new DateTime object from string date
-         */
-        foreach ($agentAttr as $key => $value) {
+//        /**
+//         * Get attributes for agent object
+//         */
+//        $agentAttr = $content->attributes;
+//
+//        /**
+//         * Create new agent object
+//         */
+//        $agent = new Agent();
+//
+//        /**
+//         * Iterate through attributes and call set method on agent object to populate it
+//         * If key is birthDate create new DateTime object from string date
+//         */
+//        foreach ($agentAttr as $key => $value) {
+//
+//            /**
+//             * Create function name
+//             */
+//            $func = 'set'.ucfirst($key);
+//            /**
+//             * Check if function is callable / if exists
+//             */
+//            if(is_callable(array($agent, $func))&& !is_null($value)){
+//                switch ($key){
+//                    case 'birthDate':
+//                        $agent->$func(new DateTime($value));
+//                        break;
+//                    case 'email':
+//                        $agent->$func($value);
+//                        $agent->setUsername($value);
+//                        break;
+//                    default:
+//                        $agent->$func($value);
+//                        break;
+//                }
+//            }
+//        }
+        $agent->setUsername($agent->getEmail());
+        $agent->setBirthDate(new DateTime($agent->getBirthDate()));
 
-            /**
-             * Create function name
-             */
-            $func = 'set'.ucfirst($key);
-            /**
-             * Check if function is callable / if exists
-             */
-            if(is_callable(array($agent, $func))&& !is_null($value)){
-                switch ($key){
-                    case 'birthDate':
-                        $agent->$func(new DateTime($value));
-                        break;
-                    case 'email':
-                        $agent->$func($value);
-                        $agent->setUsername($value);
-                        break;
-                    default:
-                        $agent->$func($value);
-                        break;
-                }
-            }
-        }
 
-        /**
-         * Get data for address
-         */
-        $addressAttr = $content->relationships->address->data->attributes;
+//        /**
+//         * Get data for address
+//         */
+//        $addressAttr = $content->relationships->address->data->attributes;
+//
+//        /**
+//         * Create new address object
+//         */
+//        $address = new Address();
+//
+//        /**
+//         * Iterate through attributes and call set method on address object to populate it
+//         */
+//        foreach ($addressAttr as $key => $value) {
+//            /**
+//             * Create function name
+//             * dashesToCamelCase - create camelCase format from underscore
+//             */
+//            $func = 'set'.ucfirst($this->dashesToCamelCase($key));
+//            /**
+//             * Check if function is callable / if exists
+//             */
+//            if(is_callable(array($address, $func))){
+//                /**
+//                 * Call function with param
+//                 */
+//                $address->$func($value);
+//            }
+//        }
+//
+//        /**
+//         * Get data for image
+//         */
+//        $imageAttr = $content->relationships->image->data->attributes;
+//
+//        /**
+//         * If image is defined
+//         */
+//        if(property_exists($imageAttr, 'base64_content')){
+//            /**
+//             * Create image object
+//             */
+//            $image = new Image();
+//
+//            /**
+//             * Populate image object
+//             */
+//            $image->setBase64Content($imageAttr->base64_content);
+//            $image->setName($imageAttr->name);
+//
+//            /**
+//             * Save image to file
+//             */
+//            $image->saveToFile($image->getBase64Content());
+//
+//            $agent->setImage($image);
+//            $agent->setBaseImageUrl($image->getWebPath());
+//        }
 
-        /**
-         * Create new address object
-         */
-        $address = new Address();
-
-        /**
-         * Iterate through attributes and call set method on address object to populate it
-         */
-        foreach ($addressAttr as $key => $value) {
-            /**
-             * Create function name
-             * dashesToCamelCase - create camelCase format from underscore
-             */
-            $func = 'set'.ucfirst($this->dashesToCamelCase($key));
-            /**
-             * Check if function is callable / if exists
-             */
-            if(is_callable(array($address, $func))){
-                /**
-                 * Call function with param
-                 */
-                $address->$func($value);
-            }
-        }
-
-        /**
-         * Get data for image
-         */
-        $imageAttr = $content->relationships->image->data->attributes;
-
-        /**
-         * If image is defined
-         */
-        if(property_exists($imageAttr, 'base64_content')){
-            /**
-             * Create image object
-             */
+        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0){
             $image = new Image();
-
-            /**
-             * Populate image object
-             */
-            $image->setBase64Content($imageAttr->base64_content);
-            $image->setName($imageAttr->name);
-
-            /**
-             * Save image to file
-             */
+            $image->setBase64Content($agent->getImage()->getBase64Content());
+            $image->setName($agent->getImage()->getName());
             $image->saveToFile($image->getBase64Content());
 
             $agent->setImage($image);
             $agent->setBaseImageUrl($image->getWebPath());
         }
-
-        /**
-         * Get group from database by id
-         */
-        $group = $this->manager->getGroupById($content->relationships->group->data->id);
-
-        /**
-         * Find superior agent from Database
-         */
-        $superiorAttrs = $content->relationships->superior->data;
+//
+//        /**
+//         * Get group from database by id
+//         */
+        $group = $this->manager->getGroupById($agent->getGroup()->getId());
+//
+//        /**
+//         * Find superior agent from Database
+//         */
+//        $superiorAttrs = $content->relationships->superior->data;
 
         /**
          * If agent is not root set his superior agent
          */
         $superior = null;
 
-        if(!is_null($superiorAttrs)) {
-            $superior = $this->manager->findAgentById($superiorAttrs->id);
+        if(!is_null($agent->getSuperior())) {
+            $superior = $this->manager->findAgentById($agent->getSuperior()->getId());
         }
 
         /**
          * Populate agent object with relationships and image url
          */
-        $agent->setAddress($address);
+//        $agent->setAddress($address);
         $agent->setGroup($group);
 
         /**

@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
+use Doctrine\ORM\Query as Query;
 
 /**
  * Class GroupRepository
@@ -260,7 +261,7 @@ class AgentRepository extends NestedTreeRepository
                 foreach ($searchParams[0] as $key => $param) {
                     if ($key == 'agent.locked') {
                         if ($param != -1) {
-                            $oQ0->andWhere($key.' = '.$param);
+                            $oQ0->andWhere('agent.enabled = '.$param);
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
