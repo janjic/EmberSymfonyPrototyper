@@ -1715,3 +1715,8 @@ input:focus{
 ::-webkit-scrollbar-thumb:window-inactive {
     background-color: #a9aeb2;
 }
+
+.sign-in img {
+    width: 20px;
+    height: 20px;
+}
