@@ -2,9 +2,8 @@
     <h1 class="main-heading">Agent edit</h1>
     <form role="form">
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <img class="img img-responsive" src="{{model.image.webPath}}" alt="">
-            {{#if model.image.filePath}}
-                <img src="{{model.image.filePath}}" alt="{{model.username}}" width="300" height="300">
+            {{#if model.image.webPath}}
+                <img src="{{model.image.webPath}}" alt="{{model.username}}" width="300" height="300">
             {{/if}}
             <div class="col-md-8 user-img">
                 <div class="insert-avatar-container text-center" >

@@ -100,7 +100,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         $searchParams = null;
         if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
             $searchFields = array('id' => 'agent.id', 'username' => 'agent.username', 'firstName' => 'agent.firstName',
-                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'status' => 'agent.locked', 'address.country' => 'address.country');
+                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'enabled' => 'agent.enabled', 'address.country' => 'address.country');
             $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
             $params['page'] = $page;
             $params['offset'] = $offset;

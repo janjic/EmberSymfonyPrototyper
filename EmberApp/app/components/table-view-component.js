@@ -25,13 +25,13 @@ export default Ember.Component.extend({
             var searchArrayFields = this.get('searchArray');
             var exists = searchArrayFields.findBy('field', column);
             if (exists !== undefined) {
-                if (!searchValue) {
+                if (searchValue === '') {
                     searchArrayFields.removeObject(exists);
                 } else {
                     exists.data = searchValue;
                 }
             } else {
-                if (searchValue) {
+                if (searchValue !== '') {
                     searchArrayFields.addObject({
                         field: column,
                         op: compareType,

@@ -13,14 +13,13 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
-        console.log(this.model.get('superior'));
     },
     actions: {
         roleSelected(group){
-            this.model.set('group', group);
+            this.changeset.set('group', group);
         },
         agentSelected(agent){
-            this.model.set('superior', agent);
+            this.changeset.set('superior', agent);
         },
         titleChanged(title){
             this.model.set('title', title);
@@ -34,6 +33,7 @@ export default Ember.Component.extend({
         editAgent(agent){
             this.get('changeset').validate() && this.get('addressChangeset').validate();
             if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
+                // console.log(agent.get('superior'));
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {
                     this.toast.success('Agent saved!');

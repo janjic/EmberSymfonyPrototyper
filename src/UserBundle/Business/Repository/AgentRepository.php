@@ -259,7 +259,7 @@ class AgentRepository extends NestedTreeRepository
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
-                    if ($key == 'agent.locked') {
+                    if ($key == 'agent.enabled') {
                         if ($param != -1) {
                             $oQ0->andWhere('agent.enabled = '.$param);
                         }

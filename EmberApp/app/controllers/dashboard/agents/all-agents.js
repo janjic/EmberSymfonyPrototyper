@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
         {value: 'username', compare:'cn'},
         {value: 'group.name', compare:'eq', compareValues: this.groupsModel},
         {value: 'address.country', compare:'cn'},
-        {value: 'status', compare:'eq', compareValues: [{name: Translator.trans('ALL'), value: -1}, {name: Translator.trans('LOCKED'), value: 1}, {name: Translator.trans('NOT LOCKED'), value: 0}]}
+        {value: 'enabled', compare:'eq', compareValues: [{name: Translator.trans('All'), value: -1}, {name: Translator.trans('Enabled'), value: 1}, {name: Translator.trans('Not Enabled'), value: 0}]}
     ],
     init: function () {
         this.store.findAll('group').then((items)=> {
