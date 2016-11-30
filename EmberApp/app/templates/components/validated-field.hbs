@@ -10,11 +10,9 @@
                 oninput={{action (mut (get changeset property)) value="target.value"}}
         onblur={{action validateProperty}}>
     {{#if (get changeset.error property)}}
-        <small>
-            <ul>
+            <ul class="error-list">
                 {{#each (get (get changeset.error property) "validation") as |message|}}
                     <li>{{message}}</li>
                 {{/each}}
             </ul>
-        </small>
     {{/if}}

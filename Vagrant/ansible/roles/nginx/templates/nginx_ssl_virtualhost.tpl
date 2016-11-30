@@ -85,8 +85,8 @@ location /app {
 
 }
 
-location /app/assets {
-    root /var/www/fsd_dev/web/app;
+location app/assets {
+    root /var/www/fsd_dev/web;
 
 }
 

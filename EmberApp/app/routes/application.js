@@ -13,7 +13,7 @@ const {
 export default Ember.Route.extend(ApplicationRouteMixin, {
     currentUser: service('current-user'),
     routeAfterAuthentication: computed('currentUser', function () {
-        return this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN') ? 'dashboard.home' :'dashboard-agent.home';
+        return this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN') ? 'dashboard.home' :'dashboard.agent.home';
 
     }),
     beforeModel() {
