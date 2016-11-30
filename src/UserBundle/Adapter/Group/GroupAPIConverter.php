@@ -29,9 +29,16 @@ class GroupAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $serializedObj = FSDSerializer::serialize($this->groupConvert());
-
-        $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
+        if ($resultConvert = $this->groupConvert()) {
+            if ($this->request->getMethod() == "DELETE") {
+//                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroupDelete($resultConvert))));
+                $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
+            } else {
+                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroup($resultConvert))));
+            }
+        } else {
+            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 201)));
+        }
     }
 
     /**

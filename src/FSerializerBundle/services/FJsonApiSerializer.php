@@ -44,10 +44,6 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     private  $propertyAccessor;
 
-    /**
-     * @var
-     */
-    private $linksFunction;
 
     /**
      * @var FJsonApiGenerator

@@ -443,6 +443,9 @@ class JsonApiDocument implements JsonSerializable
         if (array_key_exists(0, $decoded)) {
             $resourceObject = array();
             foreach ($decoded as $decodedArray) {
+                if (!is_array($decodedArray)) {
+                    continue;
+                }
                 foreach ($decodedArray as $decodedObject) {
                     $data = array_key_exists('attributes',$decodedObject) ?$decodedObject['attributes']:array();
                     $class = $serializer->getDeserializationClass();

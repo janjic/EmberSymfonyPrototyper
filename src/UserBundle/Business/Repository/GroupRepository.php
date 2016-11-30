@@ -17,7 +17,7 @@ class GroupRepository extends EntityRepository
 
 //    const USERS_GROUP = 'users';
 //    const COMPANY_GROUP = 'users';
-    const GROUP_USER_TABLE_NAME         = 'as_group_user';
+    const GROUP_USER_TABLE_NAME         = 'as_agent';
     const GROUP_USER_TABLE_GROUP_COLUMN = 'group_id';
 //
 //    /**
@@ -31,24 +31,24 @@ class GroupRepository extends EntityRepository
 //
 //        return $qb->getQuery()->getResult();
 //    }
-//
-//    /**
-//     * Save new group
-//     * @param Group $group
-//     * @return mixed
-//     */
-//    public function saveGroup($group)
-//    {
-//        try {
-//            $this->_em->persist($group);
-//            $this->_em->flush();
-//        } catch (\Exception $e) {
-//            throw $e;
-//            return false;
-//        }
-//
-//        return $group;
-//    }
+
+    /**
+     * Save new group
+     * @param Group $group
+     * @return mixed
+     */
+    public function saveGroup($group)
+    {
+        try {
+            $this->_em->persist($group);
+            $this->_em->flush();
+        } catch (\Exception $e) {
+            throw $e;
+            return false;
+        }
+
+        return $group;
+    }
 
 
     public function findGroup($id)
@@ -85,6 +85,7 @@ class GroupRepository extends EntityRepository
 
             return true;
         } catch (\Exception $e) {
+            throw $e;
             return false;
         }
     }
@@ -92,7 +93,7 @@ class GroupRepository extends EntityRepository
     /**
      * Remove group
      * @param Group $group
-     * @return boolean
+     * @return mixed
      */
     public function removeGroup($group)
     {
@@ -100,9 +101,38 @@ class GroupRepository extends EntityRepository
             $this->_em->remove($group);
             $this->_em->flush();
         } catch (\Exception $e) {
+            throw $e;
             return false;
         }
 
+        return new Group('');
         return true;
+    }
+
+    /**
+     * @param $id
+     * @param $class
+     * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
+     */
+    public function createReference($id, $class)
+    {
+        return $this->_em->getReference($class, $id);
+    }
+
+    /**
+     * @param Group $group
+     * @return mixed
+     */
+    public function editGroup($group)
+    {
+        try {
+            $this->_em->merge($group);
+            $this->_em->flush();
+        } catch (\Exception $e) {
+            throw $e;
+            return false;
+        }
+
+        return $group;
     }
 }
