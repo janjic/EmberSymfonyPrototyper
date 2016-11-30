@@ -489,7 +489,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
                 'address'  => array('class' => Address::class, 'type'=>'address')
             );
 
-        $serialized = $this->fSerializer->serialize($agent, $mappings, $relations);
+        $serialized = $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, $mappings, $relations);
 
         return $serialized;
     }

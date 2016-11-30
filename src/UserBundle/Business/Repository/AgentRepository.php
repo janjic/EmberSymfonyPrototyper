@@ -268,7 +268,7 @@ class AgentRepository extends NestedTreeRepository
                         $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
                     }  else if($key == 'group.name'){
                         $oQ0->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-                        $oQ0->andWhere($oQ0->expr()->like(self::GROUP_ALIAS.'.name', $oQ0->expr()->literal('%'.$param.'%')));
+                        $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
                     }
                     else {
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
