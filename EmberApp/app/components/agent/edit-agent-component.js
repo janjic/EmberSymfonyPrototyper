@@ -13,6 +13,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
+        console.log(this.model.get('superior'));
     },
     actions: {
         roleSelected(group){
@@ -48,7 +49,7 @@ export default Ember.Component.extend({
             var reader = new FileReader();
             reader.onloadend = function () {
                 var imgBase64 = reader.result;
-                img.set('base64_content', imgBase64);
+                img.set('base64Content', imgBase64);
 
             };
             reader.readAsDataURL(file);

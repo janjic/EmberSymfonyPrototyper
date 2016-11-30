@@ -3,6 +3,8 @@ namespace FSerializerBundle\services;
 
 use ArrayAccess;
 use Countable;
+use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
 use Exception;
@@ -14,6 +16,7 @@ use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use UserBundle\Entity\Agent;
 
 /**
  * Class FJsonApiSerializer
@@ -182,6 +185,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function deserialize($data, array $mappings, $relations)
     {
+
         return (new JsonApiDocument((new JsonApiOne(null,  $this->setMappings($mappings)))->relations($relations)))->deserialize($data);
     }
 
@@ -196,7 +200,8 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
     public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
     {
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
-        $class   = $isArray ? get_class($data[0]): get_class($data);
+        //Make sure object is not proxy
+        $class   = ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data));
         $typeExist = false;
         foreach ($mappings as $mapping) {
             if ($mapping['class'] == $class ) {
@@ -259,9 +264,9 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
 
                 }
 
-
             }
         }
+
 
         return array();
     }

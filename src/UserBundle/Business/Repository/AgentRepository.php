@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
+use Doctrine\ORM\Query as Query;
 
 /**
  * Class GroupRepository

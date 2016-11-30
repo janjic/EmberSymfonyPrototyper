@@ -88,18 +88,18 @@ class GroupManager implements JSONAPIEntityManagerInterface
 //        return $this->repository->removeGroup($group);
 //    }
 //
-//    /**
-//     * @param int $id
-//     * @return mixed
-//     */
-//    public function getGroupById($id)
-//    {
-//        try {
-//            return $this->repository->findOneById($id);
-//        } catch (\Exception $e) {
-//            return null;
-//        }
-//    }
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getGroupById($id)
+    {
+        try {
+            return $this->repository->findOneById($id);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
 
     /**

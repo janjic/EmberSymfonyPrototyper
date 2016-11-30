@@ -23,6 +23,7 @@ class DefaultController extends Controller
     {
         //Object from DB
         $agent = $this->get('agent_system.agent.manager')->getResource(42);
+        var_dump($agent);exit;
         $relations = array('group', 'superior.*', 'group.roles', 'image', 'address');
         //LINKS AND META ARE OPTIONALS
         $mappings =
