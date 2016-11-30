@@ -52,7 +52,7 @@ export default DS.JSONAPISerializer.extend({
 
                     for (var attr in belongsToAttrs) {
                         if (belongsToAttrs.hasOwnProperty(attr)) {
-                            belongsData[underscore(attr)] = belongsToAttrs[attr];
+                            belongsData[attr] = belongsToAttrs[attr];
                         }
                     }
 

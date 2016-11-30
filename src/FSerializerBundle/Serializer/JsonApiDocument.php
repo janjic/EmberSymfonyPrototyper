@@ -242,13 +242,25 @@ class JsonApiDocument implements JsonSerializable
             throw new Exception('Document type does not exist in json api');
         }
         $this->data->getSerializer()->setType($type);
+
+
+        $mappings = $this->data->getSerializer()->getMappings();
+        foreach ($mappings as $key =>$mapping) {
+            if ($mapping['type'] == $this->data->getSerializer()->getType() ) {
+                $this->data->getSerializer()->setDeserializationClass($mapping['class']);
+                break;
+            }
+        }
+
         if (!$this->data->getSerializer()->getDeserializationClass()) {
+
             throw  new Exception('Set deserialization class to F-Serializer');
         }
 
         if (!$this->data->getSerializer()->getType()) {
             throw  new Exception('Set default document type for serializer before calling deserilization');
         }
+
         if (! empty($this->data)) {
             if (array_key_exists(0,$decoded['data'])) {
                 $objects = array();
@@ -289,14 +301,11 @@ class JsonApiDocument implements JsonSerializable
             $decodedResource = array_key_exists('data',$decoded) ? $decoded['data'] : $decoded;
             $decodedRelationships = array_key_exists('data',$decoded) ? (array_key_exists('relationships',$decoded['data'])?$decoded['data']['relationships']:array()) : (array_key_exists('relationships',$decoded)?$decoded['relationships']:array());
             $decodedIncludedData = $includedData ? $includedData : (array_key_exists('included', $decoded)?$decoded['included']: false);
-
             if ($decodedIncludedData === false) {
                 $decodedIncludedData = array();
                 foreach ($decodedRelationships as $key=> $value) {
                     if (array_key_exists('data', $value)) {
-                        foreach ( $value['data']  as $rel) {
-                            $decodedIncludedData[] = $rel;
-                        }
+                        $decodedIncludedData[] = $value['data'];
                     }
 
                 }

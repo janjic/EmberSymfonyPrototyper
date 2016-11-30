@@ -30,7 +30,7 @@ class AgentSerializer extends JsonApiSerializerAbstract
             'title'                => $agent?$agent->getTitle():null,
             'roles'                => $agent?$agent->getRoles():null,
             'username'             => $agent?$agent->getUsername():null,
-            'agentID'              => $agent?$agent->getAgentId():null,
+            'agentId'              => $agent?$agent->getAgentId():null,
             'firstName'            => $agent?$agent->getFirstName():null,
             'lastName'             => $agent?$agent->getLastName():null,
             'email'                => $agent?$agent->getEmail():null,
