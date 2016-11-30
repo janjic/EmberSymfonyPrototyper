@@ -1697,7 +1697,7 @@ input:focus{
 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
-    border-radius: 0px;
+    border-radius: 0;
     background-color: #d8d9db;
 }
 
@@ -1719,4 +1719,13 @@ input:focus{
 .sign-in img {
     width: 20px;
     height: 20px;
+}
+
+.error-list {
+    padding: 0;
+}
+
+.error-list li {
+    list-style: none;
+    color: red;
 }
