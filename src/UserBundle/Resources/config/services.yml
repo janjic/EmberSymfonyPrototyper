@@ -80,7 +80,7 @@ services:
 
     fos_oauth_server.controller.token:
             class: UserBundle\Controller\TokenController
-            arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager']
+            arguments: ['@fos_oauth_server.server', '@doctrine.orm.entity_manager', '@fos_user.user_manager']
 
     # ------ TCR User ------------------------------------------------------------------------------------------------ #
     agent_system.tcr_user_manager:

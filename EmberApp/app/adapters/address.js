@@ -7,7 +7,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     namespace: 'api',
     authorizer: 'authorizer:application',
 
-    shouldReloadRecord(store, snapshot) {
+    shouldReloadRecord() {
         return false;
     }
 
