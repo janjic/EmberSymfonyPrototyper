@@ -116,10 +116,22 @@ class TCRUserController extends Controller
             $user->setAgent($agent);
         }
 
-        $schemaMappings = FSDSerializer::$schemaMappings;
-        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSimpleSchema::class;
+        $relations = array();
+        //LINKS AND META ARE OPTIONALS
+        $mappings =
+            array(
+                'tcr-users' => array('class' => TCRUser::class, 'type'=>'tcr-users'),
+            );
 
-        return new Response(FSDSerializer::serialize($user, [], $schemaMappings));
+        $serialized = $this->get('f_serializer')->serialize($user, $mappings, $relations);
+
+        return new JsonResponse($serialized);
+
+
+//        $schemaMappings = FSDSerializer::$schemaMappings;
+//        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSimpleSchema::class;
+//
+//        return new Response(FSDSerializer::serialize($user, [], $schemaMappings));
     }
 
 
