@@ -30,8 +30,9 @@ export default Ember.Component.extend({
             };
             reader.readAsDataURL(file);
         },
-        saveAgent(agent, address) {
-            this.get('changeset').validate() && this.get('addressChangeset').validate();
+        saveAgent(agent) {
+            this.get('changeset').validate();
+            this.get('addressChangeset').validate();
             if (this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {

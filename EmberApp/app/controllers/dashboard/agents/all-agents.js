@@ -20,10 +20,6 @@ export default Ember.Controller.extend({
         this.store.findAll('group').then((items)=> {
             this.set('groups', items);
         });
-        console.log(this.get('groups'));
-        this.get('groups').forEach(function (item) {
-
-        });
     },
     actions: {
         filterModel: function (searchArray, page, column, sortType) {

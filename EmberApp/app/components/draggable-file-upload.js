@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import humanReadableFileSize from './../utils/human-readable-file-size';
 import FileUploadModel from './../models/file-upload';
-var { set } = Ember;
 
 export default Ember.Component.extend({
     init() {
