@@ -9,6 +9,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('login', function() {
     this.route('forgot');
+    this.route('new-password', { path: '/new-password/:token' });
   });
   this.route('protected');
   this.route('auth-error');

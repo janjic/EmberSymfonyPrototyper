@@ -272,9 +272,9 @@ h3.sub-heading {
     font-weight: 600;
 }
 .login-form{
-    /*width: 27%;*/
     color: #263d48;
     padding: 30px;
+    position: relative;
 
 }
 .login{
@@ -284,7 +284,6 @@ h3.sub-heading {
     border-top: 4px solid #d14545;
     border-radius: 3px;
     box-shadow: 0 0 10px 5px rgba(0,0,0,0.48);
-    position: relative;
 }
 
 .bottom-login{
@@ -1736,7 +1735,9 @@ svg{
     position: absolute;
     z-index: 1;
     background-color: rgba(255, 255, 255, 0.8);
-    display: none;
+    display: block;
+    top: 0;
+    right: 0;
 }
 .rotate-45{
     transform-origin: center;

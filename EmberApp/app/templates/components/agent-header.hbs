@@ -14,9 +14,9 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Username <i class="fa fa-caret-down"></i></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">{{user.username }} <i class="fa fa-caret-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">My profile</a></li>
+                            <li>{{#link-to 'dashboard.agent.profile.profile-settings'}}My profile{{/link-to}}</li>
                             <li><a {{action 'logout'}}>Logout</a></li>
                         </ul>
                     </li>

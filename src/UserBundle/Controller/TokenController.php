@@ -4,6 +4,7 @@ namespace UserBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Controller\TokenController as BaseController;
+use FOS\UserBundle\Model\UserManagerInterface;
 use OAuth2\OAuth2;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,16 +16,23 @@ class TokenController extends BaseController {
      */
     private $em;
 
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
+
 
     /**
      * TokenController constructor.
      * @param OAuth2 $server
      * @param EntityManager $entityManager
      */
-    public function __construct(OAuth2 $server, EntityManager $entityManager)
+    public function __construct(OAuth2 $server, EntityManager $entityManager, UserManagerInterface $userManager)
     {
         parent::__construct($server);
         $this->em           = $entityManager;
+        $this->userManager  = $userManager;
+
     }
 
     public function tokenAction(Request $request)
@@ -61,7 +69,7 @@ class TokenController extends BaseController {
         $token = json_decode($response->getContent());
 
         if (!property_exists($token, 'error')&& ($username = $input['username'])) {
-             $token->account_id = $this->em->getRepository('UserBundle:Agent')->findOneBy(array('username' =>$username))->getId();
+             $token->account_id = $this->userManager->findUserByUsernameOrEmail($username)->getId();
         }
 
         $response->setContent(json_encode($token));
