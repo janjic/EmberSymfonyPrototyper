@@ -170,6 +170,7 @@ class TCRUserController extends Controller
         $manager = $this->container->get('agent_system.tcr_user_manager');
         $resp = $manager->sendDataToTCR($url, json_encode($data));
 
+//        var_dump($resp);die();
         if($resp->code == 200) {
             return new JsonResponse(array(
                 'data' => array('type'=> 'agents'),
