@@ -19,7 +19,9 @@ export default Ember.Component.extend({
                         usernameOrPassword: changeset.get('email')
                     }
                 };
+                this.set('isLoading', true);
                 request(Routing.generate('api_agent_forgot_password'), options).then(response => {
+                    this.set('isLoading', false);
                     switch (parseInt(response.status)) {
                         case 41:
                             this.toast.error(Translator.trans('password.already.requested.%ttl%', {'ttl': response.time}));
