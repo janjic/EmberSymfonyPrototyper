@@ -13,3 +13,4 @@ loading.logging.user: 'Logging user in...'
 placeholder.email: 'Plese insert you email'
 
 button.reset.passwrod: 'RESET PASSWORD'
+menu.agents: 'Agents'

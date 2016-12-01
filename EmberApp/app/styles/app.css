@@ -9,6 +9,10 @@ img{
     height: auto;
 }
 
+button {
+    outline: 0;
+}
+
 h3{
     font-weight: 100;
     margin-top: 0;
@@ -27,7 +31,8 @@ h5{
 }
 
 p{
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    font-size: 14px;
 }
 
 .no-padding-left-right{
@@ -67,7 +72,7 @@ table td a  {
     color: #2f3844;
 }
 .table-user-link {
-    color: #d14545;
+    color: #C0392B;
     font-size: 16px;
 }
 .table-user-link:hover{
@@ -237,7 +242,7 @@ h3.sub-heading {
 }
 
 .navbar {
-    background-color: #d14545;
+    background-color: #C0392B;
     border-width: 0 !important;
 }
 
@@ -281,7 +286,7 @@ h3.sub-heading {
     width: 500px;
     background: white;
     border: 1px solid #d5d6d8;
-    border-top: 4px solid #d14545;
+    border-top: 4px solid #C0392B;
     border-radius: 3px;
     box-shadow: 0 0 10px 5px rgba(0,0,0,0.48);
 }
@@ -300,13 +305,17 @@ h3.sub-heading {
     transition: all 0.2s ease-in-out;
 }
 .bottom-login a:hover{
-    color: #d14545;
+    color: #C0392B;
 }
 .login h3{
     text-align: center;
     margin-top: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #263d48;
+}
+
+.login p {
+    margin-bottom: 20px;
 }
 
 .login .form-group .icon-addon .form-control{
@@ -330,7 +339,7 @@ h3.sub-heading {
 .mobile-toggle a{
     position: relative;
     display: inline-block;
-    background: #d14545;
+    background: #C0392B;
     margin-left: 20px;
     padding: 10px 10px 10px 11px;
     margin-top: 10px;
@@ -435,7 +444,7 @@ h3.sub-heading {
 
 .icon-addon .form-control:focus + .fa
 {
-    color: #d14545;
+    color: #C0392B;
 }
 
 #button2{
@@ -452,11 +461,11 @@ h3.sub-heading {
     transition: all 0.2s ease-in-out;
 }
 .forgot-password a:hover{
-    color: #d14545;
+    color: #C0392B;
 }
 .sign-in{
     width: 100%;
-    background: #d14545;
+    background: #C0392B;
     color: white;
     border: none;
     box-shadow: none;
@@ -492,7 +501,7 @@ h3.sub-heading {
 }
 
 header{
-    background: #d14545;
+    background: #C0392B;
     border: none;
     color: white;
 }
@@ -531,7 +540,7 @@ header{
 }
 .admin-panel .panel-title>a:focus{
     color: white;
-    background: #d14545;
+    background: #C0392B;
     text-decoration: none;
 }
 .admin-panel .panel-title>a i{
@@ -558,7 +567,7 @@ header{
 }
 .admin-panel .panel-default .panel-collapse .panel-body ul li:hover{
     border-top: none;
-    border-left: 6px solid #d14545;
+    border-left: 6px solid #C0392B;
 }
 .admin-panel .panel-default .panel-collapse .panel-body ul li a{
     color: #b4bcc8;
@@ -645,7 +654,7 @@ header{
     margin-right: 15px;
 }
 .progress-bar{
-    background-color: #d14545;
+    background-color: #C0392B;
 }
 .add-margin-left{
     margin-left: 15px;
@@ -664,7 +673,7 @@ header{
     height: 45px;
     width: 45px;
     border-radius: 50%!important;
-    background: #d14545 none;
+    background: #C0392B none;
     border: none;
 }
 .btn-primary[disabled]:focus{
@@ -693,7 +702,7 @@ header{
     font-weight: 400;
 }
 .required{
-    color:#d14545;
+    color:#C0392B;
 }
 .form-wizard .form-group{
     display: -webkit-box;
@@ -746,10 +755,10 @@ header{
 
 .insert-avatar{
     display: block;
-    border: 1px solid #d14545;
+    border: 1px solid #C0392B;
     box-shadow: none;
     background: transparent;
-    color:#d14545;
+    color:#C0392B;
     font-weight: 400;
     font-size: 14px;
     padding: 6px 12px 6px 12px;
@@ -757,24 +766,24 @@ header{
     transition: all 0.2s ease-in-out;
 }
 .insert-avatar:hover{
-    background: #d14545;
+    background: #C0392B;
     color: white;
 }
 .insert-avatar-container span{
     display: block;
 }
 .btn-primary.disabled, .btn-primary.disabled.active, .btn-primary.disabled.focus, .btn-primary.disabled:active, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled].active, .btn-primary[disabled].focus, .btn-primary[disabled]:active, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover {
-    background-color: #d14545!important;
+    background-color: #C0392B!important;
     background-image: none;
 }
 
 .setup-content .nextBtn {
     margin-top: 30px;
-    border: 1px solid #d14545;
+    border: 1px solid #C0392B;
     border-radius: 0;
     box-shadow: none;
     background: transparent;
-    color:#d14545;
+    color:#C0392B;
     font-weight: 400;
     font-size: 14px;
     padding: 6px 12px 6px 12px;
@@ -787,7 +796,7 @@ header{
     transition: all 0.3s ease-in-out;
 }
 .setup-content .nextBtn:hover{
-    /*background: #d14545;*/
+    /*background: #C0392B;*/
     background-position:left bottom;
     color: white;
 }
@@ -885,7 +894,7 @@ header{
 /*DASHBOARD HOME*/
 
 .home-card{
-    background: #d14545;
+    background: #C0392B;
     padding: 20px;
     margin-bottom: 30px;
     color: #fff;
@@ -1167,7 +1176,7 @@ input:focus{
         top: 15px;
         right: 15px;
         font-size: 25px;
-        color: #d14545;
+        color: #C0392B;
     }
 
     .send-message-mobile .form-group {
@@ -1720,11 +1729,14 @@ input:focus{
 
 .error-list {
     padding: 0;
+    margin: 0;
 }
 
 .error-list li {
     list-style: none;
     color: red;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 /* SVG loader */
@@ -1773,7 +1785,7 @@ svg{
 /* Modal */
 
 .modal-header {
-    background-color: #d14545;
+    background-color: #C0392B;
     color: #fff;
     font-weight: bold;
 }
