@@ -108,7 +108,7 @@ class TCRUserController extends Controller
 
             $user->setAvatar($image);
         }
-
+//        var_dump($user->getAgent());exit;
         if ($agentObj = $user->getAgent()) {
             $agent = $this->get('agent_system.agent.manager')->findAgentById($agentObj->id);
             $user->setAgent($agent);

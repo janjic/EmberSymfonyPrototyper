@@ -1,18 +1,20 @@
 import Ember from 'ember';
 import TCRUserValidations from '../../validations/tcr-user';
+import AddressValidations from '../../validations/address';
+import Changeset from 'ember-changeset';
+import lookupValidator from './../../utils/lookupValidator';
 
 export default Ember.Component.extend({
+    AddressValidations,
+    TCRUserValidations,
     store: Ember.inject.service('store'),
-    validations: TCRUserValidations,
-
-    userCity: '',
-    userStreet: '',
-    address: Ember.observer('userCity', 'userStreet', function() {
-        this.set('user.address', this.get('userCity')+', '+this.get('userStreet'));
-    }),
-
     passwordRepeat: '',
     emailRepeat: '',
+    init() {
+        this._super(...arguments);
+        this.changeset = new Changeset(this.get('model'), lookupValidator(TCRUserValidations), TCRUserValidations);
+        this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
+    },
 
     actions: {
         setTitle(newTitle){
