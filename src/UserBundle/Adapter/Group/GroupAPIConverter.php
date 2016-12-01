@@ -3,7 +3,6 @@
 namespace UserBundle\Adapter\Group;
 
 use CoreBundle\Adapter\JsonAPIConverter;
-use CoreBundle\Business\Serializer\FSDSerializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\GroupManager;
@@ -31,13 +30,12 @@ class GroupAPIConverter extends JsonAPIConverter
     {
         if ($resultConvert = $this->groupConvert()) {
             if ($this->request->getMethod() == "DELETE") {
-//                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroupDelete($resultConvert))));
                 $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
             } else {
                 $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroup($resultConvert))));
             }
         } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 201)));
+            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 410)));
         }
     }
 

@@ -14,23 +14,28 @@ class GroupRepository extends EntityRepository
     const ALIAS       = 'groups';
     const ROLES_ALIAS = 'roles';
 
-
-//    const USERS_GROUP = 'users';
-//    const COMPANY_GROUP = 'users';
     const GROUP_USER_TABLE_NAME         = 'as_agent';
     const GROUP_USER_TABLE_GROUP_COLUMN = 'group_id';
-//
-//    /**
-//     * Get all groups
-//     * @return array
-//     */
-//    public function findAllGroups()
-//    {
-//        $qb = $this->createQueryBuilder(self::ALIAS);
-//        $qb->select(self::ALIAS);
-//
-//        return $qb->getQuery()->getResult();
-//    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findGroup($id)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::ROLES_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.roles', self::ROLES_ALIAS);
+
+        if (intval($id)) {
+            $qb->where(self::ALIAS.'.id =:id')
+                ->setParameter('id', $id);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * Save new group
@@ -43,36 +48,33 @@ class GroupRepository extends EntityRepository
             $this->_em->persist($group);
             $this->_em->flush();
         } catch (\Exception $e) {
-            throw $e;
             return false;
         }
 
         return $group;
     }
 
-
-    public function findGroup($id)
+    /**
+     * @param Group $group
+     * @return mixed
+     */
+    public function editGroup($group)
     {
-        $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS, self::ROLES_ALIAS);
-        $qb->leftJoin(self::ALIAS.'.roles', self::ROLES_ALIAS);
-
-        if (intval($id)) {
-            $qb->where(self::ALIAS.'.id =:id')
-               ->setParameter('id', $id);
-
-            return $qb->getQuery()->getOneOrNullResult();
+        try {
+            $this->_em->merge($group);
+            $this->_em->flush();
+        } catch (\Exception $e) {
+            return false;
         }
 
-        return $qb->getQuery()->getResult();
+        return $group;
     }
 
-
     /**
-    //     * @param int $oldGroupId
-    //     * @param int $newGroupId
-    //     * @return boolean
-    //     */
+     * @param int $oldGroupId
+     * @param int $newGroupId
+     * @return boolean
+     */
     public function changeUsersGroup($oldGroupId, $newGroupId)
     {
         try {
@@ -85,7 +87,6 @@ class GroupRepository extends EntityRepository
 
             return true;
         } catch (\Exception $e) {
-            throw $e;
             return false;
         }
     }
@@ -101,11 +102,9 @@ class GroupRepository extends EntityRepository
             $this->_em->remove($group);
             $this->_em->flush();
         } catch (\Exception $e) {
-            throw $e;
             return false;
         }
 
-        return new Group('');
         return true;
     }
 
@@ -117,22 +116,5 @@ class GroupRepository extends EntityRepository
     public function createReference($id, $class)
     {
         return $this->_em->getReference($class, $id);
-    }
-
-    /**
-     * @param Group $group
-     * @return mixed
-     */
-    public function editGroup($group)
-    {
-        try {
-            $this->_em->merge($group);
-            $this->_em->flush();
-        } catch (\Exception $e) {
-            throw $e;
-            return false;
-        }
-
-        return $group;
     }
 }

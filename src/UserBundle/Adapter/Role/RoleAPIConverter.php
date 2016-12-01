@@ -3,7 +3,6 @@
 namespace UserBundle\Adapter\Role;
 
 use CoreBundle\Adapter\JsonAPIConverter;
-use CoreBundle\Business\Serializer\FSDSerializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\RoleManager;
@@ -29,8 +28,14 @@ class RoleAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $serializedObj = FSDSerializer::serialize(parent::convert());
-
-        $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
+        if ($resultConvert = parent::convert()) {
+            if ($this->request->getMethod() == "DELETE") {
+                $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
+            } else {
+                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeRole($resultConvert))));
+            }
+        } else {
+            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 410)));
+        }
     }
 }

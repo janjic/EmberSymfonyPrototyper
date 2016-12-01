@@ -1,8 +1,8 @@
 <div class="dd nestable col-md-6" id="nestable3">
     {{#if needRefresh }}
-        {{ role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+        {{ role.role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
     {{else}}
-        {{ role-crud-items-component items=getItems setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+        {{ role.role-crud-items-component items=getItems setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
     {{/if}}
 </div>
 

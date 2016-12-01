@@ -2,9 +2,7 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use Doctrine\Common\Util\Debug;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Group;
@@ -36,6 +34,10 @@ class GroupManager implements JSONAPIEntityManagerInterface
         $this->fSerializer = $fSerializer;
     }
 
+    /**
+     * @param null $id
+     * @return mixed
+     */
     public function getResource($id = null)
     {
         return $this->repository->findGroup($id);
@@ -50,6 +52,10 @@ class GroupManager implements JSONAPIEntityManagerInterface
         return $this->getResource($id);
     }
 
+    /**
+     * @param string $data
+     * @return mixed
+     */
     public function saveResource($data)
     {
         /** @var Group $group */
@@ -63,14 +69,18 @@ class GroupManager implements JSONAPIEntityManagerInterface
         return $this->repository->saveGroup($group);
     }
 
+    /**
+     * @param string $data
+     * @return mixed
+     */
     public function updateResource($data)
     {
         /** @var Group $group */
         $group = $this->deserializeGroup($data);
+
         /** @var Group $groupDb */
         $groupDb = $this->repository->findGroup($group->getId());
         $groupDb->setName($group->getName());
-
         $groupDb->setRoles([]);
         foreach ($group->getRoles() as $role) {
             $groupDb->addRole($this->repository->createReference($role->getId(), Role::class));
@@ -79,6 +89,10 @@ class GroupManager implements JSONAPIEntityManagerInterface
         return $this->repository->editGroup($groupDb);
     }
 
+    /**
+     * @param null $content
+     * @return mixed
+     */
     public function deleteResource($content)
     {
         $content = json_decode($content);
@@ -89,15 +103,9 @@ class GroupManager implements JSONAPIEntityManagerInterface
             return false;
         }
 
-
         if (!$this->repository->changeUsersGroup($group->getId(), $content->newParent)) {
             return false;
         }
-
-//        /** @var Role $role */
-//        foreach ($group->getRolesCollection() as $role) {
-//            $role->removeGroup($group);
-//        }
 
         return $this->repository->removeGroup($group);
     }
@@ -136,22 +144,5 @@ class GroupManager implements JSONAPIEntityManagerInterface
         }
 
         return $this->fSerializer->serialize($content, $mappings, $relations);
-    }
-
-    /**
-     * @param $content
-     * @param null $mappings
-     * @return mixed
-     */
-    public function serializeGroupDelete($content, $mappings = null)
-    {
-        $relations = array();
-        if (!$mappings) {
-            $mappings = array(
-                'group'  => array('class' => Group::class, 'type'=>'groups'),
-            );
-        }
-
-        return $this->fSerializer->serialize($content, $mappings, $relations, ['name', 'rolesCollection']);
     }
 }

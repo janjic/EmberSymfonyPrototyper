@@ -14,10 +14,5 @@ abstract class RoleAdapterUtil extends BaseAdapterUtil
     const BASE_CONVERTER_NAME = 'Converter';
 
     /** parameters for user entity */
-    const ROLE_ALL_CONVERTER    = 'roleGetAll';
-    const ROLE_ADD_CONVERTER    = 'roleAdd';
-    const ROLE_DELETE_CONVERTER = 'roleDelete';
-    const ROLE_UPDATE_CONVERTER = 'roleUpdate';
-
     const ROLE_API = 'roleAPI';
 }
