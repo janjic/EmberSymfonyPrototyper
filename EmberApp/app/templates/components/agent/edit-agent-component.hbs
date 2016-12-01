@@ -2,15 +2,12 @@
     <h1 class="main-heading">Agent edit</h1>
     <form role="form">
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div class="form-group clearfix">
-                <img class="img img-responsive" src="{{model.image.webPath}}" alt="">
-                {{#if model.image.filePath}}
-                    <img src="{{model.image.filePath}}" alt="{{model.username}}" width="300" height="300">
-                {{/if}}
-                <div class="user-img">
-                    <div class="insert-avatar-container text-center" >
-                        {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
-                    </div>
+            {{#if model.image.webPath}}
+                <img src="{{model.image.webPath}}" alt="{{model.username}}" width="300" height="300">
+            {{/if}}
+            <div class="col-md-8 user-img">
+                <div class="insert-avatar-container text-center" >
+                    {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                 </div>
             </div>
             <hr>

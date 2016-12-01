@@ -23,7 +23,7 @@ export default Model.extend({
     bankName:             attr('string'),
     bankAccountNumber:    attr('string'),
     agentBackground:      attr('string'),
-    status:               attr('boolean'),
+    enabled:              attr('boolean'),
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
