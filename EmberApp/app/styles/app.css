@@ -1780,3 +1780,7 @@ svg{
 .modal-header .close i {
     color: #fff;
 }
+
+.btn:focus {
+    outline: 0;
+}
