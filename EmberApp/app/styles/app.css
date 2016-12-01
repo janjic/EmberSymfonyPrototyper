@@ -1769,3 +1769,15 @@ svg{
         transform: translate(-30px,-30px)
     }
 }
+
+/* Modal */
+
+.modal-header {
+    background-color: #d14545;
+    color: #fff;
+    font-weight: bold;
+}
+
+.modal-header .close i {
+    color: #fff;
+}
