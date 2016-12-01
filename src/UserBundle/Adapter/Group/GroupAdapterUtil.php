@@ -14,8 +14,11 @@ abstract class GroupAdapterUtil extends BaseAdapterUtil
     const BASE_CONVERTER_NAME = 'Converter';
 
     /** parameters for user entity */
-    const GROUP_ALL_CONVERTER = 'groupGetAll';
-    const GROUP_ADD_CONVERTER = 'groupAdd';
-    const GROUP_DELETE_CONVERTER = 'groupDelete';
+//    const GROUP_ALL_CONVERTER = 'groupGetAll';
+//    const GROUP_ADD_CONVERTER = 'groupAdd';
+//    const GROUP_DELETE_CONVERTER = 'groupDelete';
+
+
+    const GROUP_API = 'groupAPI';
 
 }

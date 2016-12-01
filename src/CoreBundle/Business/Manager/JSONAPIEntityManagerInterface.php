@@ -31,6 +31,6 @@ interface JSONAPIEntityManagerInterface extends BasicEntityManagerInterface
          * @param null $id
          * @return mixed
          */
-        public function deleteResource($id = null);
+        public function deleteResource($id);
 
 }

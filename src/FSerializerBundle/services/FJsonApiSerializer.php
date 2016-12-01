@@ -3,6 +3,8 @@ namespace FSerializerBundle\services;
 
 use ArrayAccess;
 use Countable;
+use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
 use Exception;
@@ -14,6 +16,7 @@ use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use UserBundle\Entity\Agent;
 
 /**
  * Class FJsonApiSerializer
@@ -162,7 +165,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function getDeserializationClass()
     {
-       return $this->deserializationClass;
+        return $this->deserializationClass;
     }
 
     /**
@@ -182,6 +185,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function deserialize($data, array $mappings, $relations)
     {
+
         return (new JsonApiDocument((new JsonApiOne(null,  $this->setMappings($mappings)))->relations($relations)))->deserialize($data);
     }
 
@@ -195,20 +199,34 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
     {
+
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
-        $class   = $isArray ? get_class($data[0]): get_class($data);
-        $typeExist = false;
-        foreach ($mappings as $mapping) {
-            if ($mapping['class'] == $class ) {
-                $typeExist = true;
-                $this->setType($mapping['type']);
-                $this->setMappings($mappings);
-                $this->setDisabledAttributes($disabledAttributes);
-                break;
+        //Make sure object is not proxy
+        $class   =  ($isArray && count($data) || is_object($data)) ? ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data)):null;
+        if($class){
+            foreach ($mappings as $mapping) {
+                if ($mapping['class'] == $class ) {
+                    $this->setType($mapping['type']);
+                    $this->setMappings($mappings);
+                    $this->setDisabledAttributes($disabledAttributes);
+                    break;
+                }
             }
         }
-        if (!$typeExist) {
-            throw new Exception('Please set main type in config mapping');
+        if (!$this->type || !$this->deserializationClass) {
+            if(!$class) {
+                throw new Exception('Please set deserialization class');
+            }
+                foreach ($mappings as $mapping) {
+                    if ($mapping['class'] == $class ) {
+                        $typeExist = true;
+                        $this->setType($mapping['type']);
+                        $this->setMappings($mappings);
+                        $this->setDisabledAttributes($disabledAttributes);
+                        break;
+                    }
+                }
+
         }
         /** @var JsonApiElementInterface $resourceClass */
         $resourceClass = $isArray ? JsonApiMany::class : JsonApiOne::class;
@@ -234,12 +252,12 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         $mappings =   $this->getMappings();
         foreach ($mappings as $mapping) {
             if ($mapping['type'] == $this->type ) {
-               if (array_key_exists('links', $mapping) && ($function = $mapping['links']['function'])) {
-                   $params = array_key_exists('dependency', $mapping['links']) ?$mapping['links']['dependency']:array();
-                   $params[] = $resource;
-                   return call_user_func_array($function, $params);
+                if (array_key_exists('links', $mapping) && ($function = $mapping['links']['function'])) {
+                    $params = array_key_exists('dependency', $mapping['links']) ?$mapping['links']['dependency']:array();
+                    $params[] = $resource;
+                    return call_user_func_array($function, $params);
 
-               }
+                }
 
 
             }
@@ -259,9 +277,9 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
 
                 }
 
-
             }
         }
+
 
         return array();
     }

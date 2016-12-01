@@ -50,7 +50,7 @@ services:
         class: UserBundle\Business\Manager\GroupManager
         arguments:
             repository: "@agent_system.group.repository"
-#            container: "@alligator.group.container"
+            fSerializer: "@f_serializer"
 
     agent_system.group.adapter:
         class: UserBundle\Adapter\Group\GroupAdapter
@@ -97,9 +97,10 @@ services:
     agent_system.agent.manager:
         class: UserBundle\Business\Manager\AgentManager
         arguments:
-            repository: "@agent_system.agent.repository"
+            repository:  "@agent_system.agent.repository"
             roleManager: "@agent_system.group.manager"
             syncManager: "@agent_system.tcr_user_manager"
+            fSerializer: "@f_serializer"
 
     agent_system.agent.adapter:
         class: UserBundle\Adapter\Agent\AgentAdapter

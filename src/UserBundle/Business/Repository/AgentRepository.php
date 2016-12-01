@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
+use Doctrine\ORM\Query as Query;
 
 /**
  * Class GroupRepository
@@ -258,16 +259,16 @@ class AgentRepository extends NestedTreeRepository
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
-                    if ($key == 'agent.locked') {
+                    if ($key == 'agent.enabled') {
                         if ($param != -1) {
-                            $oQ0->andWhere($key.' = '.$param);
+                            $oQ0->andWhere('agent.enabled = '.$param);
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
                         $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
                     }  else if($key == 'group.name'){
                         $oQ0->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-                        $oQ0->andWhere($oQ0->expr()->like(self::GROUP_ALIAS.'.name', $oQ0->expr()->literal('%'.$param.'%')));
+                        $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
                     }
                     else {
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));

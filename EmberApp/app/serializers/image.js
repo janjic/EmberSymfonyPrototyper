@@ -5,10 +5,10 @@ var underscore = Ember.String.underscore;
 
 export default DS.JSONAPISerializer.extend({
     keyForAttribute: function(attr) {
-        return underscore(attr);
+        return attr;
     },
 
     keyForRelationship: function(rawKey) {
-        return underscore(rawKey);
+        return rawKey;
     }
 });

@@ -5,7 +5,6 @@
         </div>
     </div>
     {{#with (changeset user validations) as |changeset|}}
-
         <form role="form">
             <div class="row setup-content">
                 <div class="col-md-6">
@@ -82,10 +81,10 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Company
+                        <label class="control-label col-md-5 col-xs-5">Company
                             <span class="required" aria-required="true"> * </span>
                         </label>
-                        <div class="col-md-8 col-xs-8">
+                        <div class="col-md-7 col-xs-7">
                             {{input type="text" class="form-control" value=user.company }}
                         </div>
                     </div>

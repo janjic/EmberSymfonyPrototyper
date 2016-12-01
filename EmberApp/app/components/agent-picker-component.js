@@ -9,6 +9,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.set('agents', this.get('store').findAll('agent'));
         this.set('selectedAgentId', this.get('selectedAgent.id'));
+        this.get('onAgentSelected')(this.get('selectedAgent'));
         // let index = (this.get('agents').indexOf(this.get('selectedAgent')));
         // console.log(this.get('selectedAgent.id'));
         // if(index !== -1){

@@ -1,0 +1,5 @@
+<select class="form-control" multiple onchange={{ action 'selectAction'}}>
+    {{#each roles as |role|}}
+        <option value={{role.id}} selected={{in-array selectedRoles role}}>{{role.name}}</option>
+    {{/each}}
+</select>

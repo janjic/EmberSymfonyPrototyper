@@ -39,7 +39,7 @@ class AgentController extends Controller
      */
     public function agentAPIAction(ArrayCollection $agentAPI)
     {
-        return new Response($agentAPI[0]);
+        return new JsonResponse($agentAPI[0]);
     }
 
 

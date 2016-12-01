@@ -16,10 +16,10 @@ export default Ember.Component.extend({
     },
     actions: {
         roleSelected(group){
-            this.model.set('group', group);
+            this.changeset.set('group', group);
         },
         agentSelected(agent){
-            this.model.set('superior', agent);
+            this.changeset.set('superior', agent);
         },
         titleChanged(title){
             this.model.set('title', title);
@@ -33,6 +33,7 @@ export default Ember.Component.extend({
         editAgent(agent){
             this.get('changeset').validate() && this.get('addressChangeset').validate();
             if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
+                // console.log(agent.get('superior'));
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {
                     this.toast.success('Agent saved!');
@@ -48,7 +49,7 @@ export default Ember.Component.extend({
             var reader = new FileReader();
             reader.onloadend = function () {
                 var imgBase64 = reader.result;
-                img.set('base64_content', imgBase64);
+                img.set('base64Content', imgBase64);
 
             };
             reader.readAsDataURL(file);

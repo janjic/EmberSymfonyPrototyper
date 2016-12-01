@@ -5,7 +5,7 @@ const { Model } = DS;
 export default Model.extend({
     name:  DS.attr(),
     role:  DS.attr(),
-    // groups: DS.hasMany('group'),
+    groups: DS.hasMany('group'),
     // lft:  DS.attr(),
     lvl:  DS.attr(),
     // rgt:  DS.attr(),

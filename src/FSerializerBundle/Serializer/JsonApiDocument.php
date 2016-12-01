@@ -242,13 +242,25 @@ class JsonApiDocument implements JsonSerializable
             throw new Exception('Document type does not exist in json api');
         }
         $this->data->getSerializer()->setType($type);
+
+
+        $mappings = $this->data->getSerializer()->getMappings();
+        foreach ($mappings as $key =>$mapping) {
+            if ($mapping['type'] == $this->data->getSerializer()->getType() ) {
+                $this->data->getSerializer()->setDeserializationClass($mapping['class']);
+                break;
+            }
+        }
+
         if (!$this->data->getSerializer()->getDeserializationClass()) {
+
             throw  new Exception('Set deserialization class to F-Serializer');
         }
 
         if (!$this->data->getSerializer()->getType()) {
             throw  new Exception('Set default document type for serializer before calling deserilization');
         }
+
         if (! empty($this->data)) {
             if (array_key_exists(0,$decoded['data'])) {
                 $objects = array();
@@ -288,7 +300,17 @@ class JsonApiDocument implements JsonSerializable
         foreach ($element->getResources() as $resource) {
             $decodedResource = array_key_exists('data',$decoded) ? $decoded['data'] : $decoded;
             $decodedRelationships = array_key_exists('data',$decoded) ? (array_key_exists('relationships',$decoded['data'])?$decoded['data']['relationships']:array()) : (array_key_exists('relationships',$decoded)?$decoded['relationships']:array());
-            $decodedIncludedData = $includedData ? $includedData : $decoded['included'];
+            $decodedIncludedData = $includedData ? $includedData : (array_key_exists('included', $decoded)?$decoded['included']: false);
+            if ($decodedIncludedData === false) {
+                $decodedIncludedData = array();
+                foreach ($decodedRelationships as $key=> $value) {
+                    if (array_key_exists('data', $value)) {
+                        $decodedIncludedData[] = $value['data'];
+                    }
+
+                }
+            }
+
             $newObject = $this->populateAttributes($resource, $decodedResource, $propertyAccessor);
 
             /** @var JsonApiRelationship $relationship Relationship must implement JsonApiElementInterface */
@@ -375,7 +397,7 @@ class JsonApiDocument implements JsonSerializable
      */
     private function createInstance($data, $reflectionClass)
     {
-        if(!$data) {
+        if(is_null($data)) {
             return null;
         }
 
@@ -431,7 +453,7 @@ class JsonApiDocument implements JsonSerializable
             $resourceObject = array();
             foreach ($decoded as $decodedArray) {
                 foreach ($decodedArray as $decodedObject) {
-                    $data = $decodedObject['attributes'];
+                    $data = array_key_exists('attributes',$decodedObject) ?$decodedObject['attributes']:array();
                     $class = $serializer->getDeserializationClass();
                     $newObject = $this->createInstance($data, new ReflectionClass($class));
                     try {

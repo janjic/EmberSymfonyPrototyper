@@ -19,4 +19,5 @@ abstract class RoleAdapterUtil extends BaseAdapterUtil
     const ROLE_DELETE_CONVERTER = 'roleDelete';
     const ROLE_UPDATE_CONVERTER = 'roleUpdate';
 
+    const ROLE_API = 'roleAPI';
 }

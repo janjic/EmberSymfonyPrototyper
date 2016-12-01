@@ -31,7 +31,7 @@ class JsonAPIConverter extends BasicConverter
             case 'PATCH':
                 return $this->manager->updateResource($this->request->getContent());
             case 'DELETE':
-                return $this->manager->getResource($this->request->get('id'));
+                return $this->manager->deleteResource($this->request->get('id'));
             default:
                 return null;
         }

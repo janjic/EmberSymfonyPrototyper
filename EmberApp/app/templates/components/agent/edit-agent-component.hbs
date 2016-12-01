@@ -2,9 +2,8 @@
     <h1 class="main-heading">Agent edit</h1>
     <form role="form">
         <div class="col-md-2 col-sm-6 col-xs-12">
-            <img class="img img-responsive" src="{{model.image.webPath}}" alt="">
-            {{#if model.image.filePath}}
-                <img src="{{model.image.filePath}}" alt="{{model.username}}" width="300" height="300">
+            {{#if model.image.webPath}}
+                <img src="{{model.image.webPath}}" alt="{{model.username}}" width="300" height="300">
             {{/if}}
             <div class="col-md-8 user-img">
                 <div class="insert-avatar-container text-center" >
@@ -33,28 +32,28 @@
                         <label class="control-label col-md-4 col-xs-4">First name</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "firstName")}}
+                                              validateProperty=(action 'validateProperty' changeset "firstName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Last name</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "lastName")}}
+                                              validateProperty=(action 'validateProperty' changeset "lastName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Email</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "email")}}
+                                              validateProperty=(action 'validateProperty' changeset "email")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Phone number</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "phone")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -125,21 +124,21 @@
                         <label class="control-label col-md-4 col-xs-4">Address</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">ZIP Code</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="postcode" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Private email</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "privateEmail")}}
+                                              validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                         </div>
                     </div>
                 </div>
@@ -152,14 +151,14 @@
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Agent ID</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=model.agentID }}
+                            {{input type="text" class="form-control" value=model.agentId }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Agent type</label>
                         <div class="col-md-8 col-xs-8">
                             {{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group
-                            changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}
+                                                    changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -168,7 +167,7 @@
                         </label>
                         <div class="col-md-8 col-xs-8">
                             {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false selectedAgent=model.superior currentEditingAgentId=model.id
-                            changeset = changeset property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                                                     changeset = changeset property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">

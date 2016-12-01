@@ -20,7 +20,7 @@ class AgentSimpleSchema extends SchemaProvider
     {
         /** @var Agent $agent */
         return [
-            'agentID'              => $agent->getAgentId(),
+            'agentId'              => $agent->getAgentId(),
             'firstName'            => $agent->getFirstName(),
             'lastName'             => $agent->getLastName(),
             'email'                => $agent->getEmail(),

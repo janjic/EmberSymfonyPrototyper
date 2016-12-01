@@ -4,6 +4,8 @@ export default Ember.Component.extend({
     groups: [],
     store: Ember.inject.service(),
 
+    selectedRolesList: [],
+
     /** add */
     addName: '',
 
@@ -32,7 +34,7 @@ export default Ember.Component.extend({
     actions: {
         createGroup: function() {
             var group = this.get('store').createRecord('group', {name: this.get('addName')});
-
+            group.set('roles', this.get('selectedRolesList'));
             group.save().then(() => {
                 this.set('addName', '');
             }, () => {
@@ -64,8 +66,12 @@ export default Ember.Component.extend({
 
         /** edit group */
         editGroupAction: function (group) {
+            if (this.get('editGroup')) {
+                this.get('editGroup').rollbackAttributes();
+            }
             this.set('itemToDelete', null);
             this.set('editGroup', group);
+            this.set('selectedRolesList', group.get('roles'));
         },
 
         editGroupSave: function () {
@@ -85,5 +91,8 @@ export default Ember.Component.extend({
             this.set('newGroupForUsers', null);
         },
 
+        roleSelect: function (value) {
+            this.set('selectedRolesList', value);
+        }
     }
 });
