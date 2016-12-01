@@ -167,12 +167,18 @@ class TCRUserController extends Controller
         unset($data->username);
 
         $url = 'app_dev.php/en/json/edit-user';
-
         $manager = $this->container->get('agent_system.tcr_user_manager');
         $resp = $manager->sendDataToTCR($url, json_encode($data));
 
-        var_dump($resp);die();
-
+        if($resp->code == 200) {
+            return new JsonResponse(array(
+                'data' => array('type'=> 'agents'),
+                'meta' => array('code'=> 200, 'message' => 'User successfully saved')));
+        } else {
+            return new JsonResponse(array(
+                'user' => array('id' => null),
+                'meta' => array('code'=> 500, 'message' => 'User not saved')));
+        }
     }
 
     /**
@@ -196,8 +202,6 @@ class TCRUserController extends Controller
             }
         }
 
-        // adjust rest
-//        $data->id = $request->get('id');
         $data->password = $data->plain_password;
         $data->name = $data->first_name;
         $data->surname = $data->last_name;
@@ -220,9 +224,18 @@ class TCRUserController extends Controller
         unset($data->username);
 
         $url = 'app_dev.php/en/json/register';
-//        var_dump($data);exit;
         $manager = $this->container->get('agent_system.tcr_user_manager');
+
         $resp = $manager->sendDataToTCR($url, json_encode($data));
-        var_dump($resp);exit;
+
+        if($resp->code == 200) {
+            return new JsonResponse(array(
+                'data' => array('type'=> 'agents'),
+                'meta' => array('code'=> 200, 'message' => 'User successfully saved')));
+        } else {
+            return new JsonResponse(array(
+                'user' => array('id' => null),
+                'meta' => array('code'=> 500, 'message' => 'User not saved')));
+        }
     }
 }

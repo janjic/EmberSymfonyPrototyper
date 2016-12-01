@@ -10,8 +10,6 @@ export default Ember.Component.extend({
     userStreet: null,
     address: Ember.computed('userCity', 'userStreet', function() {
         this.set('changeset.address', this.get('userCity')+', '+this.get('userStreet'));
-        console.log(this.get('changeset.address'));
-
     }),
     init() {
         this._super(...arguments);
@@ -24,7 +22,6 @@ export default Ember.Component.extend({
             this.user.set('title', title);
         },
         updateUserBirthDate(date){
-            // this.set('user.birthDate', date);
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
             var agent = this.model;
