@@ -272,9 +272,9 @@ h3.sub-heading {
     font-weight: 600;
 }
 .login-form{
-    /*width: 27%;*/
     color: #263d48;
     padding: 30px;
+    position: relative;
 
 }
 .login{
@@ -282,7 +282,6 @@ h3.sub-heading {
     background: white;
     border: 1px solid #d5d6d8;
     border-top: 4px solid #d14545;
-    /*box-shadow:  2px 2px 10px #d1d1d1;*/
     border-radius: 3px;
     box-shadow: 0 0 10px 5px rgba(0,0,0,0.48);
 }
@@ -309,9 +308,7 @@ h3.sub-heading {
     margin-bottom: 30px;
     color: #263d48;
 }
-/*.login .input-group{*/
-/*width: 100%;*/
-/*}*/
+
 .login .form-group .icon-addon .form-control{
     box-shadow: none;
     border-top: none;
@@ -1697,7 +1694,7 @@ input:focus{
 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
-    border-radius: 0px;
+    border-radius: 0;
     background-color: #d8d9db;
 }
 
@@ -1714,4 +1711,73 @@ input:focus{
 }
 ::-webkit-scrollbar-thumb:window-inactive {
     background-color: #a9aeb2;
+}
+
+.sign-in img {
+    width: 20px;
+    height: 20px;
+}
+
+.error-list {
+    padding: 0;
+}
+
+.error-list li {
+    list-style: none;
+    color: red;
+}
+
+/* SVG loader */
+
+svg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: block;
+    top: 0;
+    right: 0;
+}
+.rotate-45{
+    transform-origin: center;
+    transform: rotate(45deg)
+}
+.rotate{
+    transform-origin: center;
+    animation: rotate 1s ease-in-out infinite;
+}
+.rotate-back{
+    transform-origin: center;
+    animation: rotate 1s ease-in-out infinite;
+    animation-direction: reverse;
+}
+.left{
+    animation: move 1s ease-in-out infinite;
+}
+.right{
+    animation: move 1s ease-in-out infinite;
+}
+
+@keyframes rotate{
+    100%{
+        transform: rotate(calc(90deg + 45deg))
+    }
+}
+@keyframes move{
+    50%{
+        transform: translate(-30px,-30px)
+    }
+}
+
+/* Modal */
+
+.modal-header {
+    background-color: #d14545;
+    color: #fff;
+    font-weight: bold;
+}
+
+.modal-header .close i {
+    color: #fff;
 }

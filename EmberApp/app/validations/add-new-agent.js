@@ -16,9 +16,9 @@ export default {
     privateEmail:   validateFormat({ type: 'email' }),
     plainPassword:  validateLength({min: 5}),
     passwordRepeat: validateConfirmation({on: 'plainPassword'}),
-    birthDate:      validateDate({minAge:18}),
     superior:       validatePresence(true),
     group:          validatePresence(true),
+    birthDate:      validateDate({minAge:18}),
     title:          validatePresence(true),
     nationality:    validatePresence(true)
 };

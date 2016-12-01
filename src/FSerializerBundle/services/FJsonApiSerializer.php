@@ -161,7 +161,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function getDeserializationClass()
     {
-       return $this->deserializationClass;
+        return $this->deserializationClass;
     }
 
     /**
@@ -195,21 +195,34 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
     {
+
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
         //Make sure object is not proxy
-        $class   = ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data));
-        $typeExist = false;
-        foreach ($mappings as $mapping) {
-            if ($mapping['class'] == $class ) {
-                $typeExist = true;
-                $this->setType($mapping['type']);
-                $this->setMappings($mappings);
-                $this->setDisabledAttributes($disabledAttributes);
-                break;
+        $class   =  ($isArray && count($data) || is_object($data)) ? ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data)):null;
+        if($class){
+            foreach ($mappings as $mapping) {
+                if ($mapping['class'] == $class ) {
+                    $this->setType($mapping['type']);
+                    $this->setMappings($mappings);
+                    $this->setDisabledAttributes($disabledAttributes);
+                    break;
+                }
             }
         }
-        if (!$typeExist) {
-            throw new Exception('Please set main type in config mapping');
+        if (!$this->type || !$this->deserializationClass) {
+            if(!$class) {
+                throw new Exception('Please set deserialization class');
+            }
+                foreach ($mappings as $mapping) {
+                    if ($mapping['class'] == $class ) {
+                        $typeExist = true;
+                        $this->setType($mapping['type']);
+                        $this->setMappings($mappings);
+                        $this->setDisabledAttributes($disabledAttributes);
+                        break;
+                    }
+                }
+
         }
         /** @var JsonApiElementInterface $resourceClass */
         $resourceClass = $isArray ? JsonApiMany::class : JsonApiOne::class;
@@ -235,12 +248,12 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         $mappings =   $this->getMappings();
         foreach ($mappings as $mapping) {
             if ($mapping['type'] == $this->type ) {
-               if (array_key_exists('links', $mapping) && ($function = $mapping['links']['function'])) {
-                   $params = array_key_exists('dependency', $mapping['links']) ?$mapping['links']['dependency']:array();
-                   $params[] = $resource;
-                   return call_user_func_array($function, $params);
+                if (array_key_exists('links', $mapping) && ($function = $mapping['links']['function'])) {
+                    $params = array_key_exists('dependency', $mapping['links']) ?$mapping['links']['dependency']:array();
+                    $params[] = $resource;
+                    return call_user_func_array($function, $params);
 
-               }
+                }
 
 
             }

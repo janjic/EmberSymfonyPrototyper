@@ -37,7 +37,7 @@
             </div>
         {{else}}
             <h1 class="main-heading">Add new group</h1>
-            {{input type="text" class="new-group" placeholder="New group" value=addName}}
+            {{input type="text" class="new-group form-control" placeholder="New group" value=addName}}
 
             {{elements.roles-multipleselect onSelectAction=(action 'roleSelect')}}
 

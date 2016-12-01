@@ -10,10 +10,12 @@ const {
     }
     } = Ember;
 
+const Translator = window.Translator;
+
 export default Ember.Route.extend(ApplicationRouteMixin, {
     currentUser: service('current-user'),
     routeAfterAuthentication: computed('currentUser', function () {
-        return this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN') ? 'dashboard.home' :'dashboard-agent.home';
+        return this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN') ? 'dashboard.home' :'dashboard.agent.home';
 
     }),
     beforeModel() {
@@ -21,6 +23,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     },
     sessionAuthenticated() {
         //wait first for resolving loading promise then redirect
+        Translator.locale = 'en';
         new RSVP.Promise((resolve, reject) =>{
             this._loadCurrentUser().then(()=> resolve(true)).catch(() => this.get('session').invalidate() && reject(false));
         }).then(()=>{

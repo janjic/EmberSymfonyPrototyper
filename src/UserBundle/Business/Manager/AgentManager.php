@@ -100,7 +100,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         $searchParams = null;
         if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
             $searchFields = array('id' => 'agent.id', 'username' => 'agent.username', 'firstName' => 'agent.firstName',
-                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'status' => 'agent.locked', 'address.country' => 'address.country');
+                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'enabled' => 'agent.enabled', 'address.country' => 'address.country');
             $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
             $params['page'] = $page;
             $params['offset'] = $offset;
@@ -162,15 +162,11 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
 
         $dbAgent = $this->repository->findOneById($agent->getId());
-
-//        var_dump($agent);exit;
         $dbAgent->setTitle($agent->getTitle());
         $dbAgent->setFirstName($agent->getFirstName());
         $dbAgent->setLastName($agent->getLastName());
         $dbAgent->setEmail($agent->getEmail());
         $dbAgent->setUsername($agent->getEmail());
-
-
 
         /**
          * @var Address $dbAddress
@@ -188,8 +184,6 @@ class AgentManager implements JSONAPIEntityManagerInterface
         $dbAddress->setPhone($address->getPhone());
         $dbAddress->setPostcode($address->getPostcode());
 
-//        $agent->setAddress($dbAddress);
-
         $dbAgent->setBirthDate(new DateTime($agent->getBirthDate()));
         $dbAgent->setUsername($agent->getEmail());
 
@@ -204,155 +198,12 @@ class AgentManager implements JSONAPIEntityManagerInterface
         }
 
 
-//        var_dump($this->repository->findOneById($agent->getId()));exit;
         $dbSuperior = $dbAgent->getSuperior();
-        $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
+        $newSuperior = null;
+        if(!is_null($agent->getSuperior())){
+            $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
+        }
 
-//        /**
-//         * Retrieve agent from database by id
-//         * @var $dbAgent Agent
-//         */
-//        $dbAgent = $this->repository->findOneBy(array('id'=>$data->id));
-//        /**
-//         * Get agent attributes from request
-//         */
-//        $agentAttrs = $data->attributes;
-//
-//        /**
-//         * Iterate through properties
-//         */
-//        foreach ($agentAttrs as $key => $value) {
-//            /**
-//             * Create function name
-//             */
-//            $func = 'set' . ucfirst($key);
-//            /**
-//             * Check if function is callable / if exists
-//             */
-//            if (is_callable(array($dbAgent, $func)) && !is_null($value)) {
-//                switch ($key) {
-//                    case 'birthDate':
-//                        $dbAgent->$func(new DateTime($value));
-//                        break;
-//                    case 'plainPassword':
-//                        break;
-//                    case 'password':
-//                        break;
-//                    default:
-//                        $dbAgent->$func($value);
-//                        break;
-//                }
-//                /**
-//                 * Call function with param
-//                 */
-//
-//            }
-//        }
-//
-//        /**
-//         * Get address attributes from request
-//         */
-//        $addressAttrs = $data->relationships->address->data->attributes;
-//        /**
-//         * Iterate through properties
-//         */
-//        foreach ($addressAttrs as $key => $value) {
-//            /**
-//             * Create function name
-//             */
-//            $func = 'set' . ucfirst($this->dashesToCamelCase($key));
-//            /**
-//             * Check if function is callable / if exists
-//             */
-//            if (is_callable(array($dbAgent->getAddress(), $func))) {
-//                /**
-//                 * Call function with param
-//                 */
-//                $dbAgent->getAddress()->$func($value);
-//            }
-//        }
-//
-//        /**
-//         * Get group id
-//         */
-//        $groupId = $data->relationships->group->data->id;
-//
-//        /**
-//         * If agent group has changed
-//         */
-//        if ($dbAgent->getGroup()->getId() != $groupId) {
-//            /**
-//             *  Get group from database
-//             */
-//            $group = $this->getGroupById($groupId);
-//            /**
-//             * Set group to agent
-//             */
-//            $dbAgent->setGroup($group);
-//        }
-//
-//        /**
-//         * Find superior agent from Database
-//         */
-//        $superiorAttrs = $data->relationships->superior->data;
-//        /**
-//         * Save reference on db superior agent in case we need it in edit
-//         */
-//        $dbSuperior = $dbAgent->getSuperior();
-//
-//        $newSuperior = null;
-//
-//        if (!is_null($superiorAttrs) && !is_null($dbAgent->getSuperior()) && $dbAgent->getSuperior()->getId() != $superiorAttrs->id) {
-//            /**
-//             * Get superior from database
-//             */
-//            $newSuperior = $this->repository->getReference($superiorAttrs->id);
-//        }
-//
-//        /**
-//         * Get Image Id
-//         */
-//        $imageId = ($imageData = $data->relationships->image->data)? $imageData->id: null;
-//        /**
-//         * Check if image has changed
-//         */
-//        if((is_null($dbAgent->getImage()) || $dbAgent->getImage()->getId() != $imageId)) {
-//            if(!is_null($imageData) && property_exists($data->relationships->image->data->attributes, 'base64_content')){
-//                /**
-//                 * Get data for image
-//                 */
-//                $imageAttr = $data->relationships->image->data->attributes;
-//                /**
-//                 * Create image object
-//                 */
-//                $image = new Image();
-//
-//                /**
-//                 * Populate image object
-//                 */
-//                $image->setBase64Content($imageAttr->base64_content);
-//                $image->setName($imageAttr->name);
-//
-//                /**
-//                 * Save image to file
-//                 */
-//                $image->saveToFile($image->getBase64Content());
-//
-//                /**
-//                 * Set image to agent
-//                 */
-//                $dbAgent->setImage($image);
-//                $dbAgent->setBaseImageUrl($image->getWebPath());
-//            } else {
-//                $dbAgent->setImage(null);
-//                $dbAgent->setBaseImageUrl(null);
-//            }
-//
-//        }
-//
-//        /**
-//         * Edit agent
-//         */
         $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
 
         if($agent->getId()){
@@ -489,7 +340,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
                 'address'  => array('class' => Address::class, 'type'=>'address')
             );
 
-        $serialized = $this->fSerializer->serialize($agent, $mappings, $relations);
+        $serialized = $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, $mappings, $relations);
 
         return $serialized;
     }

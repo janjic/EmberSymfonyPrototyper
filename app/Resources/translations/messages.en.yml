@@ -1,0 +1,15 @@
+#INFO
+password.changed.successfully:          'Password is changed successfully'
+password.changed.invalid.token:         'Access token has expired, been revoked, or is otherwise invalid !'
+password.already.requested.%ttl%:       'Password already requested in last %ttl% minutes!'
+password.resetting.link.sent:           'Resetting link is sent to your email address !'
+password.user.with.email.not.exist:     'User with entered email does not exist !'
+
+
+loading.sending.data: 'Sending data to server...'
+loading.logging.user: 'Logging user in...'
+
+
+placeholder.email: 'Plese insert you email'
+
+button.reset.passwrod: 'RESET PASSWORD'

@@ -9,7 +9,7 @@
                     {{#if currentUser.user.image.filePath}}
                         <img src="{{currentUser.user.image.filePath}}" alt="{{currentUser.user.username}}" width="300" height="300">
                     {{/if}}
-                    <div class="col-md-8 user-img">
+                    <div class="user-img">
                         <div class="insert-avatar-container text-center" >
                             {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                         </div>
@@ -89,7 +89,10 @@
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Password</label>
                         <div class="col-md-8 col-xs-8">
-                            <p>***********</p>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#change-pass-modal">Change password</button>
+                            <div class="modal fade" id="change-pass-modal" tabindex="-1" role="dialog" aria-labelledby="changePassModal">
+                                {{change-password-component}}
+                            </div>
                         </div>
                     </div>
                 </div>
