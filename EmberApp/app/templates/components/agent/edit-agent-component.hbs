@@ -5,7 +5,7 @@
             {{#if model.image.webPath}}
                 <img src="{{model.image.webPath}}" alt="{{model.username}}" width="300" height="300">
             {{/if}}
-            <div class="col-md-8 user-img">
+            <div class="user-img">
                 <div class="insert-avatar-container text-center" >
                     {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                 </div>
