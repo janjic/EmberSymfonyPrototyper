@@ -17,7 +17,7 @@ export default Ember.Component.extend({
                 this.toast.success('Profile saved!');
             },() => function () {
                 this.toast.error('Profile not saved!');
-            })
+            });
         },
         addedFile: function (file) {
             this.set('currentUser.user.image', null);

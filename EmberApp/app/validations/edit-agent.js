@@ -1,8 +1,6 @@
 import {
     validateFormat,
-    validatePresence,
-    validateConfirmation,
-    validateLength
+    validatePresence
 } from 'ember-changeset-validations/validators';
 
 import validateDate from './validationRules/validateDate';

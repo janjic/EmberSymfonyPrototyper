@@ -85,12 +85,11 @@ location /app {
 
 }
 
-location app/assets {
-    root /var/www/fsd_dev/web;
-
+location ~ ^/app/.*/assets/.*$ {
+    rewrite ^/app/.*/assets/(?<file>.*)$ /app/assets/$file last;
 }
 
-location /app/fonts/ {
+    location /app/fonts/ {
 
     #Fonts dir
     alias /var/www/fsd_dev/web/app/fonts/;
