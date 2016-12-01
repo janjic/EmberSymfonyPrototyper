@@ -57,6 +57,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
 
         $request = new Request('POST', $url, $headers, $data);
         $response = $client->send($request);
+        var_dump($response->getBody()->getContents());exit;
         return json_decode($response->getBody()->getContents());
 
     }

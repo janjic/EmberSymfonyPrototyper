@@ -13,10 +13,20 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            <select class="form-control" name="username" onchange={{action "setTitle" value="target.value"}}>
-                                <option value="MR" selected>Mr.</option>
-                                <option value="MRS">Mrs.</option>
+                            <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
+                                <option value="-1" disabled selected>Choose title</option>
+                                <option value="MR" >Mr.</option>
+                                <option value="MRS" >Mrs.</option>
                             </select>
+                            {{#if (get changeset.error 'title')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -52,7 +62,9 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="password" class="form-control" value=user.password }}
+                            {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "plainPassword")}}
+                            {{!--{{input type="password" class="form-control" value=user.password }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -60,7 +72,9 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="password" class="form-control" value=passwordRepeat }}
+                            {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
+                            {{!--{{input type="password" class="form-control" value=passwordRepeat }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -68,7 +82,9 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=user.email }}
+                            {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "email")}}
+                            {{!--{{input type="email" class="form-control" value=user.email }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -76,7 +92,9 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=emailRepeat }}
+                            {{validated-field doNotShowLabel=true property="emailRepeat" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
+                            {{!--{{input type="email" class="form-control" value=emailRepeat }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -84,7 +102,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-xs-7">
-                            {{input type="text" class="form-control" value=user.company }}
+                            {{input type="text" class="form-control" value=changeset.company }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -103,8 +121,10 @@
                         <label class="control-label col-md-5 col-sm-5 col-xs-12">Street and number
                             <span class="required" aria-required="true"> * </span>
                         </label>
+                        {{address}}
+
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=user.address.streetNumber }}
+                            {{input type="email" class="form-control" value=userStreet }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -112,7 +132,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=model.address.postcode }}
+                            {{input type="email" class="form-control" value=changeset.zip }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -120,7 +140,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=model.address.city }}
+                            {{input type="email" class="form-control" value=userCity }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -128,7 +148,17 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=model.address.country }}
+                            {{elements.country-select selectedCountry=user.country onCountryChange=(action 'changeCountry')}}
+                            {{#if (get changeset.error 'country')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'country') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                            {{!--{{input type="email" class="form-control" value=model.address.country }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -136,7 +166,9 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="email" class="form-control" value=model.address.phone }}
+                            {{validated-field doNotShowLabel=true property="phoneNumber" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "phoneNumber")}}
+                            {{!--{{input type="email" class="form-control" value=user.phone }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -144,7 +176,17 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{input type="text" class="form-control" value=model.language }}
+                            {{elements.language-select selectedLanguage=user.language onLanguageSelected=(action 'updateLanguage')}}
+                            {{#if (get changeset.error 'language')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'language') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                            {{!--{{input type="text" class="form-control" value=model.language }}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -152,7 +194,17 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=model.birthDate}}
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=user.birthDate}}
+                            {{#if (get changeset.error 'birthDate')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                            {{!--{{pikaday-input format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=model.birthDate}}--}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -161,7 +213,7 @@
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
                             <div class="onoffswitch">
-                                {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=model.isAdmin }}
+                                {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=user.isAdmin }}
                                 <label class="onoffswitch-label" for="myonoffswitch">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
@@ -174,13 +226,13 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{textarea class="form-control" name="username" value=model.comment}}
+                            {{textarea class="form-control" name="username" value=user.comment}}
                         </div>
                     </div>
 
                     <div class="form-group clearfix text-right">
                         <div class="col-md-12">
-                            <button class="btn btn-danger pull-right" {{action 'saveUser' model }}>Save</button>
+                            <button class="btn btn-danger pull-right" {{action 'saveUser' changeset }}>Save</button>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace UserBundle\Controller;
 
 use CoreBundle\Business\Serializer\FSDSerializer;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
 use UserBundle\Business\Schema\Agent\AgentSimpleSchema;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
@@ -149,13 +151,14 @@ class TCRUserController extends Controller
         $data->roleAdmin = $data->is_admin;
         $data->money_add = "";
 
+        $date = new \DateTime($data->birth_date);
+
+        $data->birth_date = $date->format(DateTime::ISO8601);
+
         if ($imgData = $content->data->relationships->image->data) {
             $data->avatar = $imgData->attributes;
             $data->avatar->id = $imgData->id;
         }
-
-
-        $data->birth_date = "1994-06-14T00:00:00+0200";
 
         unset($data->first_name);
         unset($data->last_name);
@@ -170,5 +173,56 @@ class TCRUserController extends Controller
 
         var_dump($resp);die();
 
+    }
+
+    /**
+     * @Route("/api/tcr-user/save", name="api_save_tcr_user"),
+     * @Method({"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function apiSaveAction(Request $request)
+    {
+        $manager = $this->container->get('agent_system.tcr_user_manager');
+        $content = json_decode($request->getContent());
+
+        $data = $content->data->attributes;
+
+        foreach ($data as $key => $value) {
+            $newKey = $manager->middleDashesToLower($key);
+            if (!property_exists($data, $newKey)) {
+                $data->{$newKey} = $value;
+                unset($data->{$key});
+            }
+        }
+
+        // adjust rest
+//        $data->id = $request->get('id');
+        $data->password = $data->plain_password;
+        $data->name = $data->first_name;
+        $data->surname = $data->last_name;
+        $data->roleAdmin = $data->is_admin;
+        $data->money_add = "";
+
+        if ($imgData = $content->data->relationships->image->data) {
+            $data->avatar = $imgData->attributes;
+            $data->avatar->id = $imgData->id;
+        }
+
+        $date = new \DateTime($data->birth_date);
+
+        $data->birth_date = $date->format(DateTime::ISO8601);
+
+        unset($data->first_name);
+        unset($data->last_name);
+        unset($data->is_admin);
+        unset($data->avatar->type);
+        unset($data->username);
+
+        $url = 'app_dev.php/en/json/register';
+//        var_dump($data);exit;
+        $manager = $this->container->get('agent_system.tcr_user_manager');
+        $resp = $manager->sendDataToTCR($url, json_encode($data));
+        var_dump($resp);exit;
     }
 }
