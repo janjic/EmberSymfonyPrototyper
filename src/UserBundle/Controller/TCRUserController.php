@@ -41,18 +41,16 @@ class TCRUserController extends Controller
             }
             $url.= '&_search=true';
             $url.= '&filters='.json_encode($filters);
-
-//            var_dump($filters['rules'][0]);die();
-//            $body['_search'] = json_decode($filters);
-//            $resp = $this->container->get('agent_system.tcr_user_manager')->sendDataToTCR($url, json_encode($filters));
-//
-//            var_dump($resp);die();
         }
+
+        /** @var Agent $user */
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        if (!$user->hasRole('ROLE_ADMIN')){
+            $url.= '&agentId='.$user->getAgentId();
+        };
 
         $resp = $this->container->get('agent_system.tcr_user_manager')->getContentFromTCR($url);
         $users = array();
-
-        //var_dump($resp);die();
 
         foreach ($resp->items as $user) {
             $new = new TCRUser();
