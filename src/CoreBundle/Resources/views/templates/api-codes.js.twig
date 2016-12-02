@@ -1,0 +1,6 @@
+(function (ApiCode) {
+    {% for key,value in codes %}
+        ApiCode.{{ key }} = {{ value }};
+    {% endfor %}
+
+})(typeof ApiCode === 'undefined' ? this.ApiCode = {} : ApiCode);
