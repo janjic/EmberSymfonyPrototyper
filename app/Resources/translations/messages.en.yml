@@ -19,6 +19,7 @@ placeholder:
 
 button:
   reset.passwrod: 'RESET PASSWORD'
+  save: 'Save'
 
 validation:
   email:
@@ -92,4 +93,36 @@ agent-menu:
     drafts: 'Drafts'
     sent: 'Sent'
     trash: 'Trash'
+
+# ADMIN - USER PAGES
+
+admin-user:
+  new:
+    title: 'Add new user'
+    label:
+      title: 'Title'
+      choose-title: 'Choose title'
+      mr: 'Mr.'
+      mrs: 'Mrs.'
+      name: 'Name'
+      family-name: 'Family name'
+      password: 'Password'
+      repeat-password: 'Repeat password'
+      email: 'Email'
+      repeat-email: 'Repeat email'
+      company: 'Company'
+      image: 'User image'
+      street-number: 'Street number'
+      postcode: 'Postcode'
+      city: 'City'
+      country: 'Country'
+      phone: 'Phone number'
+      language: 'Language'
+      birthdate: 'Date of birth'
+      admin: 'Admin'
+      comment: 'Comment'
+
+
+
+
 
