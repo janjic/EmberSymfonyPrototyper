@@ -1,6 +1,6 @@
 <select class="form-control" onchange={{ action 'agentChanged'  value="target.value"}}>
     <option value="-1" selected >Choose superior agent</option>
-    {{#each agents as |agent index|}}
+    {{#each agentsFiltered as |agent index|}}
         {{#if agent.id}}
             {{#if currentEditingAgentId }}
                 {{#if (not-eq agent.id currentEditingAgentId)}}
