@@ -1,0 +1,5 @@
+<ol class="dd-list">
+    {{#each items as |item|}}
+        {{role.role-crud-item-component item=item setCurrentEditing=setCurrentEditing deleteItem=deleteItem}}
+    {{/each}}
+</ol>

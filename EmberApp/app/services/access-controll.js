@@ -100,7 +100,7 @@ export default Ember.Service.extend({
 
             // Operation is conditional, run async function
             if (typeof $role.can[operation] === 'function') {
-                return $role.can[operation].apply(null,...params).then((data)=> resolve(true), (errors)=> reject(false));
+                return $role.can[operation].apply(null,...params).then(()=> resolve(true), ()=> reject(false));
             }
             // No operation reject as false
             return reject(false);

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { default as EmpireNestable } from '../mixins/empire-nestable';
+import { default as EmpireNestable } from '../../mixins/empire-nestable';
 
 export default Ember.Component.extend(EmpireNestable, {
     store: Ember.inject.service('store'),

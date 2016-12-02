@@ -38,7 +38,7 @@ class GroupSchema extends SchemaProvider
     public function getRelationships($group, $isPrimary, array $includeList)
     {
         return [
-            'roles' => [self::DATA => $group->getRolesCollection()]
+            'roles' => [self::DATA => $group->getRoles()]
         ];
     }
 

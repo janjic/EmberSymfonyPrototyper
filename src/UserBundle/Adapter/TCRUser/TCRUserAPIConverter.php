@@ -1,24 +1,24 @@
 <?php
 
-namespace UserBundle\Adapter\Group;
+namespace UserBundle\Adapter\TCRUser;
 
 use CoreBundle\Adapter\JsonAPIConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
-use UserBundle\Business\Manager\GroupManager;
+use UserBundle\Business\Manager\TCRUserManager;
 
 /**
- * Class GroupAPIConverter
- * @package UserBundle\Adapter\Group
+ * Class TCRUserAPIConverter
+ * @package UserBundle\Adapter\TCRUser
  */
-class GroupAPIConverter extends JsonAPIConverter
+class TCRUserAPIConverter extends JsonAPIConverter
 {
     /**
-     * @param GroupManager $manager
-     * @param Request      $request
-     * @param string       $param
+     * @param TCRUserManager $manager
+     * @param Request        $request
+     * @param string         $param
      */
-    public function __construct(GroupManager $manager, Request $request, $param)
+    public function __construct(TCRUserManager $manager, Request $request, $param)
     {
         parent::__construct($manager, $request, $param);
     }
@@ -28,25 +28,21 @@ class GroupAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        if ($resultConvert = $this->groupConvert()) {
-            if ($this->request->getMethod() == "DELETE") {
-                $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
-            } else {
-                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroup($resultConvert))));
-            }
+        if ($resultConvert = $this->tcrUserConvert()) {
+            $this->request->attributes->set($this->param, new ArrayCollection(array($resultConvert)));
         } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 410)));
+            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error in CR sync!')), 410)));
         }
     }
 
     /**
      * @return mixed
      */
-    public function groupConvert()
+    public function tcrUserConvert()
     {
         switch ($this->request->getMethod()) {
             case 'GET':
-                if($this->request->get('filters')){
+                if($this->request->get('offset') && $this->request->get('page')){
                     return $this->manager->jqgridAction($this->request);
                 } else {
                     return $this->manager->getResource($this->request->get('id'));
@@ -58,7 +54,7 @@ class GroupAPIConverter extends JsonAPIConverter
             case 'PATCH':
                 return $this->manager->updateResource($this->request->getContent());
             case 'DELETE':
-                return $this->manager->deleteResource($this->request->getContent());
+                return $this->manager->deleteResource($this->request->get('id'));
             default:
                 return null;
         }

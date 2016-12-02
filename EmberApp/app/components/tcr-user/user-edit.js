@@ -29,8 +29,7 @@ export default Ember.Component.extend({
         updateUserBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            var agent = this.model;
-            this.set('user.birthDate', date)
+            this.set('user.birthDate', date);
         },
 
         updateLanguage(lang){

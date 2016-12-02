@@ -1,11 +1,4 @@
-import Ember from 'ember';
 import buildMessage from 'ember-changeset-validations/utils/validation-errors';
-
-const {
-    get,
-    isPresent,
-    isBlank
-} = Ember;
 
 function _testDate(key, value, valid, context = {}) {
     return valid? true: buildMessage(key, 'present', value, context);
@@ -22,7 +15,7 @@ export default function validateDate(opts) {
             return _testDate(key, value, valid, opts);
         }
         else {
-            return buildMessage(key, 'present', value, opts)
+            return buildMessage(key, 'present', value, opts);
         }
     };
 }
