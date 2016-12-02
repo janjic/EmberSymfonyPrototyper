@@ -4,6 +4,7 @@ export default DS.Transform.extend({
         return value;
     },
     deserialize: function(value) {
+        console.log(value);
         return Object.is(value, null)? null:value.date;
     }
 });

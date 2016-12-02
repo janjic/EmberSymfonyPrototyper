@@ -30,7 +30,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
     /**
      * @var
      */
-    private $mappings;
+    private $mappings =array();
 
     /**
      * @var EntityManager
@@ -203,30 +203,19 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
         //Make sure object is not proxy
         $class   =  ($isArray && count($data) || is_object($data)) ? ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data)):null;
-        if($class){
-            foreach ($mappings as $mapping) {
-                if ($mapping['class'] == $class ) {
-                    $this->setType($mapping['type']);
-                    $this->setMappings($mappings);
-                    $this->setDisabledAttributes($disabledAttributes);
-                    break;
-                }
-            }
-        }
+        $this->setMappings($mappings);
+        $this->setDisabledAttributes($disabledAttributes);
         if (!$this->type || !$this->deserializationClass) {
             if(!$class) {
                 throw new Exception('Please set deserialization class');
             }
-                foreach ($mappings as $mapping) {
-                    if ($mapping['class'] == $class ) {
-                        $typeExist = true;
-                        $this->setType($mapping['type']);
-                        $this->setMappings($mappings);
-                        $this->setDisabledAttributes($disabledAttributes);
-                        break;
-                    }
+            foreach ($mappings as $mapping) {
+                if ($mapping['class'] == $class ) {
+                    $this->setType($mapping['type']);
+                    $this->setDeserializationClass($class);
+                    break;
                 }
-
+            }
         }
         /** @var JsonApiElementInterface $resourceClass */
         $resourceClass = $isArray ? JsonApiMany::class : JsonApiOne::class;
