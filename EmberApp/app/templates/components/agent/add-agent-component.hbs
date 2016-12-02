@@ -34,7 +34,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{role-picker-component onRoleSelected=(action 'roleSelected') changeset = changeset
-                            property="group" validateProperty=(action 'validateProperty' changeset "group")}}
+                                                    property="group" validateProperty=(action 'validateProperty' changeset "group")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -43,7 +43,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false changeset = changeset
-                            property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                                                     property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -57,13 +57,11 @@
                                 <option value="MRS" >Mrs.</option>
                             </select>
                             {{#if (get changeset.error 'title')}}
-                                <small>
-                                    <ul>
-                                        {{#each (get (get changeset.error 'title') "validation") as |message|}}
-                                            <li>{{message}}</li>
-                                        {{/each}}
-                                    </ul>
-                                </small>
+                                <ul class="error-list">
+                                    {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                        <li>{{message}}</li>
+                                    {{/each}}
+                                </ul>
                             {{/if}}
                         </div>
                     </div>
@@ -73,7 +71,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="agentId" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "agentId")}}
+                                              validateProperty=(action 'validateProperty' changeset "agentId")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -82,7 +80,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "firstName")}}
+                                              validateProperty=(action 'validateProperty' changeset "firstName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -91,7 +89,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "lastName")}}
+                                              validateProperty=(action 'validateProperty' changeset "lastName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -100,7 +98,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
-                            validateProperty=(action 'validateProperty' changeset "plainPassword")}}
+                                              validateProperty=(action 'validateProperty' changeset "plainPassword")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -109,7 +107,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
-                            validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
+                                              validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -118,7 +116,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "email")}}
+                                              validateProperty=(action 'validateProperty' changeset "email")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -127,7 +125,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="emailRepeat" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
+                                              validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -136,7 +134,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
-                            validateProperty=(action 'validateProperty' changeset "privateEmail")}}
+                                              validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -166,7 +164,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "phone")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -175,7 +173,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -184,7 +182,7 @@
                         </label>
                         <div class="col-md-4 col-xs-8">
                             {{validated-field doNotShowLabel=true property="postcode" changeset=addressChangeset type="text"
-                            validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
+                                              validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">

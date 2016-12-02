@@ -2,13 +2,15 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     store: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     groups: [],
     selectedGroupIndex: -1,
     selectedGroup: null,
     init(){
         this._super(...arguments);
+        console.log(this.get('currentUser.user.group'));
         this.set('groups', this.get('store').findAll('group'));
-        var index = (this.get('groups').indexOf(this.get('selectedGroup')));
+        let index = (this.get('groups').indexOf(this.get('selectedGroup')));
         if(index !== -1){
             this.set('selectedGroupIndex', index);
         }
