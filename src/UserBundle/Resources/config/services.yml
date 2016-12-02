@@ -86,7 +86,16 @@ services:
     # ------ TCR User ------------------------------------------------------------------------------------------------ #
     agent_system.tcr_user_manager:
         class: UserBundle\Business\Manager\TCRUserManager
+        arguments:
+            fSerializer: "@f_serializer"
+            tokenStorage: '@security.token_storage'
 
+    agent_system.tcr_user.adapter:
+        class: UserBundle\Adapter\TCRUser\TCRUserAdapter
+        arguments:
+            - "@agent_system.tcr_user_manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
 
     # ------ Agent --------------------------------------------------------------------------------------------------- #
     agent_system.agent.repository:
