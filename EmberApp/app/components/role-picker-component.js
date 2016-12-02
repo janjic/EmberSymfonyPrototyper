@@ -7,7 +7,7 @@ export default Ember.Component.extend({
     groupsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
         let ctx = this;
         return this.get('groups').filter(function (item) {
-            return ctx.get('currentUser.user.roles').indexOf(item.get('name')) == -1;
+            return ctx.get('currentUser.user.roles').indexOf(item.get('roles').objectAt(0).get('role')) != -1;
         });
     }),
     selectedGroupIndex: -1,
@@ -19,7 +19,6 @@ export default Ember.Component.extend({
         if(index !== -1){
             this.set('selectedGroupIndex', index);
         }
-        // console.log(this.get('currentUser.user.roles'));
     },
     actions: {
         roleChanged: function (groupIndex) {

@@ -16,8 +16,9 @@ export default Ember.Mixin.create(AuthenticatedRouteMixin, {
             this.transitionTo(Configuration.authenticationRoute);
 
         } else {
-            this.get('acl').can('access_to_route', this.get('routeName'), this.get('currentUser.user')).
-                    then(() => this._super(...arguments),()=> transition.abort() && this.transitionTo('error'));
+            this._super(...arguments);
+            // this.get('acl').can('access_to_route', this.get('routeName'), this.get('currentUser.user')).
+            //         then(() => this._super(...arguments),()=> transition.abort() && this.transitionTo('error'));
         }
     }
 });
