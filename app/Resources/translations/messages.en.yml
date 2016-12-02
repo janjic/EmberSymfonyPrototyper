@@ -23,15 +23,44 @@ button:
 validation:
   email:
 
-  admin-menu:
-    users:
-      title:
-      new:
-      all:
-      tickets:
-    agents:
-      title:
-      new:
-      all:
-      update.history:
-    payments:
+
+# ADMIN MENU ITEMS
+
+admin-menu:
+  dashboard:
+    title: 'Dashboard'
+  genealogy.tree:
+    title: 'Genealogy tree'
+  users:
+    title: 'Users'
+    new: 'Add new user'
+    all: 'All users customers'
+    tickets: 'All tickets'
+  agents:
+    title: 'Agents'
+    new: 'Add new agent'
+    all: 'All agents'
+    update.history: 'Agent update history'
+  payments:
+    title: 'Payments'
+    payouts.to.agents: 'Payouts to agents'
+    reports: 'Reports'
+  mass.mails:
+    title: 'Mass mails'
+    new.mail.list: 'Add new mail list'
+    all.mail.lists: 'All mail lists'
+    new.campaign: 'Add new mass mail campaign'
+    all.campaigns: 'All mass mail campaings'
+  messages:
+    title: 'Messages'
+    received: 'Received messages'
+    drafts: 'Drafts'
+    sent: 'Sent'
+    trash: 'Trash'
+  settings:
+    title: 'Settings'
+    groups: 'Manage groups'
+    roles: 'Manage roles'
+
+# AGENT MENU ITEMS
+
