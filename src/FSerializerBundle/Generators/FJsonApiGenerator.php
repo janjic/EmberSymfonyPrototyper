@@ -6,6 +6,7 @@ namespace FSerializerBundle\Generators;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
+use Exception;
 use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\Serializer\JsonApiOne;
 use ReflectionClass;
@@ -74,21 +75,18 @@ class FJsonApiGenerator extends Generator
             }
         }
 
-        // properties
-//        foreach ($reflectionClass->getProperties(\ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-//            if ($reflectionProperty->isStatic()) {
-//                continue;
-//            }
-//            var_dump($reflectionProperty->name);
-//
-//            $attributes[$reflectionProperty->name] = true;
-//        }
-        $metaData = $this->classMetadataFactory->getMetadataFor($class);
-
-        $attributes = array_keys($attributes);
         $relations = array();
-        foreach ($metaData->associationMappings as $key =>$association) {
-            $relations[$key] = $this->associationMappingRules[$association['type']];
+        try {
+            $metaData = $this->classMetadataFactory->getMetadataFor($class);
+
+            $attributes = array_keys($attributes);
+
+            foreach ($metaData->associationMappings as $key => $association) {
+                $relations[$key] = $this->associationMappingRules[$association['type']];
+            }
+        } catch (Exception $e) {
+
+            return array('attributes'=> array_keys($attributes), 'relationships'=>$relations);
         }
 
         return array('attributes'=> array_diff($attributes, array_keys($relations)), 'relationships'=>$relations);

@@ -95,6 +95,11 @@ assetic:
     bundles:
       - CoreBundle
     assets:
+      symfony_helpers:
+        output: '../EmberApp/vendor/bundles/core/js/api-codes.js'
+        filter: uglifyjs2
+        inputs:
+          - 'js/api-codes.js'
       symfony_translation:
         output: '../EmberApp/vendor/bundles/bazingajstranslation/main.js'
         filter: uglifyjs2
