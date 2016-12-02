@@ -35,116 +35,15 @@ class AgentSaveConverter extends JQGridConverter
      */
     public function convert()
     {
-        /**
-         * Get get data from request and decode it
-         */
-//        $content = json_decode($this->request->getContent())->data;
+
         /**
          * @var Agent $agent
          */
         $agent = $this->manager->deserializeAgent($this->request->getContent());
 
-
-//        /**
-//         * Get attributes for agent object
-//         */
-//        $agentAttr = $content->attributes;
-//
-//        /**
-//         * Create new agent object
-//         */
-//        $agent = new Agent();
-//
-//        /**
-//         * Iterate through attributes and call set method on agent object to populate it
-//         * If key is birthDate create new DateTime object from string date
-//         */
-//        foreach ($agentAttr as $key => $value) {
-//
-//            /**
-//             * Create function name
-//             */
-//            $func = 'set'.ucfirst($key);
-//            /**
-//             * Check if function is callable / if exists
-//             */
-//            if(is_callable(array($agent, $func))&& !is_null($value)){
-//                switch ($key){
-//                    case 'birthDate':
-//                        $agent->$func(new DateTime($value));
-//                        break;
-//                    case 'email':
-//                        $agent->$func($value);
-//                        $agent->setUsername($value);
-//                        break;
-//                    default:
-//                        $agent->$func($value);
-//                        break;
-//                }
-//            }
-//        }
         $agent->setUsername($agent->getEmail());
         $agent->setBirthDate(new DateTime($agent->getBirthDate()));
 
-
-//        /**
-//         * Get data for address
-//         */
-//        $addressAttr = $content->relationships->address->data->attributes;
-//
-//        /**
-//         * Create new address object
-//         */
-//        $address = new Address();
-//
-//        /**
-//         * Iterate through attributes and call set method on address object to populate it
-//         */
-//        foreach ($addressAttr as $key => $value) {
-//            /**
-//             * Create function name
-//             * dashesToCamelCase - create camelCase format from underscore
-//             */
-//            $func = 'set'.ucfirst($this->dashesToCamelCase($key));
-//            /**
-//             * Check if function is callable / if exists
-//             */
-//            if(is_callable(array($address, $func))){
-//                /**
-//                 * Call function with param
-//                 */
-//                $address->$func($value);
-//            }
-//        }
-//
-//        /**
-//         * Get data for image
-//         */
-//        $imageAttr = $content->relationships->image->data->attributes;
-//
-//        /**
-//         * If image is defined
-//         */
-//        if(property_exists($imageAttr, 'base64_content')){
-//            /**
-//             * Create image object
-//             */
-//            $image = new Image();
-//
-//            /**
-//             * Populate image object
-//             */
-//            $image->setBase64Content($imageAttr->base64_content);
-//            $image->setName($imageAttr->name);
-//
-//            /**
-//             * Save image to file
-//             */
-//            $image->saveToFile($image->getBase64Content());
-//
-//            $agent->setImage($image);
-//            $agent->setBaseImageUrl($image->getWebPath());
-//        }
 
         if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0){
             $image = new Image();
@@ -155,16 +54,9 @@ class AgentSaveConverter extends JQGridConverter
             $agent->setImage($image);
             $agent->setBaseImageUrl($image->getWebPath());
         }
-//
-//        /**
-//         * Get group from database by id
-//         */
+
         $group = $this->manager->getGroupById($agent->getGroup()->getId());
-//
-//        /**
-//         * Find superior agent from Database
-//         */
-//        $superiorAttrs = $content->relationships->superior->data;
+
 
         /**
          * If agent is not root set his superior agent

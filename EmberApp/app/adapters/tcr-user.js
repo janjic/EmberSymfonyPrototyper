@@ -13,4 +13,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         return "https://192.168.11.3/app_dev.php/api/tcr-user/"+id;
     },
 
+    urlForCreateRecord: function () {
+        return 'https://192.168.11.3/app_dev.php/api/tcr-user/save';
+    }
+
 });
