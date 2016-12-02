@@ -70,55 +70,55 @@ export default Ember.Object.extend({
     // Actually do something!
     //
     uploadFile: function() {
-        if(this.get('isUploading') || this.get('didUpload') || this.get('didError')) {
-            return this.get('uploadPromise');
-        }
-
-        var fileToUpload = this.get('fileToUpload');
-        var name = this.get('name');
-        var key = "public-uploads/" + (new Date).getTime() + '-' + name;
-        var fd = new FormData();
-        var self = this;
-
-        fd.append('key', key);
-        fd.append('acl', 'public-read-write');
-        fd.append('success_action_status', '201');
-        fd.append('Content-Type', fileToUpload.type);
-        fd.append('file', fileToUpload);
-
-        this.set('isUploading', true);
-
-        $.ajax({
-            url: 'https://192.168.11.3/app_dev.php/file_upload',
-            type: "POST",
-            data: fd,
-            processData: false,
-            contentType: false,
-            xhr: function() {
-                var xhr = $.ajaxSettings.xhr() ;
-                // set the onprogress event handler
-                xhr.upload.onprogress = function(evt) {
-                    self.set('progress', (evt.loaded/evt.total*100));
-                };
-                return xhr ;
-            }
-        }).done(function(data, textStatus, jqXHR) {
-            var value = "";
-            try {
-                value = data.getElementsByTagName('Location')[0].textContent;
-            } catch(e) { }
-            console.log('Value je ', value);
-            self.set('isUploading', false);
-            self.set('didUpload', true);
-            self.get('uploadPromise').resolve(value);
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log('Neuspeno');
-            self.set('isUploading', false);
-            self.set('didError', true);
-            self.get('uploadPromise').reject(errorThrown);
-        });
-
-        return this.get('uploadPromise').promise;
+        // if(this.get('isUploading') || this.get('didUpload') || this.get('didError')) {
+        //     return this.get('uploadPromise');
+        // }
+        //
+        // var fileToUpload = this.get('fileToUpload');
+        // var name = this.get('name');
+        // var key = "public-uploads/" + (new Date).getTime() + '-' + name;
+        // var fd = new FormData();
+        // var self = this;
+        //
+        // fd.append('key', key);
+        // fd.append('acl', 'public-read-write');
+        // fd.append('success_action_status', '201');
+        // fd.append('Content-Type', fileToUpload.type);
+        // fd.append('file', fileToUpload);
+        //
+        // this.set('isUploading', true);
+        //
+        // $.ajax({
+        //     url: 'https://192.168.11.3/app_dev.php/file_upload',
+        //     type: "POST",
+        //     data: fd,
+        //     processData: false,
+        //     contentType: false,
+        //     xhr: function() {
+        //         var xhr = $.ajaxSettings.xhr() ;
+        //         // set the onprogress event handler
+        //         xhr.upload.onprogress = function(evt) {
+        //             self.set('progress', (evt.loaded/evt.total*100));
+        //         };
+        //         return xhr ;
+        //     }
+        // }).done(function(data, textStatus, jqXHR) {
+        //     var value = "";
+        //     try {
+        //         value = data.getElementsByTagName('Location')[0].textContent;
+        //     } catch(e) { }
+        //     console.log('Value je ', value);
+        //     self.set('isUploading', false);
+        //     self.set('didUpload', true);
+        //     self.get('uploadPromise').resolve(value);
+        // }).fail(function(jqXHR, textStatus, errorThrown) {
+        //     console.log('Neuspeno');
+        //     self.set('isUploading', false);
+        //     self.set('didError', true);
+        //     self.get('uploadPromise').reject(errorThrown);
+        // });
+        //
+        // return this.get('uploadPromise').promise;
     },
 
     // ..........................................................

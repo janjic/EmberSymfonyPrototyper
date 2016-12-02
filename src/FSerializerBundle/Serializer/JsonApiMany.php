@@ -122,6 +122,7 @@ class JsonApiMany implements JsonApiElementInterface
         $first = false;
         foreach ($data as $resource) {
             if (! ($resource instanceof JsonApiOne)) {
+
                 $resource = new JsonApiOne($resource, $serializer);
                 if ($first) {
                     $this->relationsPath = $resource->getRelationsPath();
@@ -142,6 +143,10 @@ class JsonApiMany implements JsonApiElementInterface
      */
     public function getDenormalizedData($relationShips, $included, $name)
     {
+        if (!count($this->resources) && array_key_exists($name, $relationShips) && ($size = count($relationShips[$name]['data']))) {
+            $data = array_fill(0, $size, null);
+            $this->resources = $this->buildResources($data, $this->serializer);
+        }
         $objects = array();
         foreach ($this->resources as $resource) {
            $objects[] = $resource->getDenormalizedData($relationShips, $included, $name);

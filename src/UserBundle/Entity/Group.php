@@ -32,9 +32,9 @@ class Group implements GroupInterface
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Role", inversedBy="groups", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="groups", cascade={"persist", "merge"})
      * @ORM\JoinTable(name="as_group_role",
-     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="rol_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
@@ -44,7 +44,7 @@ class Group implements GroupInterface
      * @param string               $name
      * @param ArrayCollection|null $roles
      */
-    public function __construct($name, $roles = null)
+    public function __construct($name = null, $roles = null)
     {
         $this->name = $name;
         $this->roles = new ArrayCollection();
@@ -146,8 +146,8 @@ class Group implements GroupInterface
      */
     public function hasRole($role)
     {
-        foreach ($this->roles as $role) {
-            if ($role == ($role instanceof RoleInterface ? $role->getRole() : (string)$role)) {
+        foreach ($this->roles as $r) {
+            if ($r == ($role instanceof RoleInterface ? $role->getRole() : (string)$role)) {
                 return true;
             }
         }
@@ -162,6 +162,11 @@ class Group implements GroupInterface
      */
     public function setRoles(array $roles)
     {
+        if (!sizeof($roles)) {
+            $this->roles = new ArrayCollection();
+            return $this;
+        }
+
         foreach ($roles as $role) {
             $this->addRole($role);
         }
@@ -170,21 +175,9 @@ class Group implements GroupInterface
     }
 
     /**
-     * @return array|ArrayCollection
-     */
-    public function getRoles()
-    {
-        if (!$this->roles->count()) {
-            return array(FOSUser::ROLE_DEFAULT);
-        }
-
-        return $this->roles;
-    }
-
-    /**
      * @return ArrayCollection
      */
-    public function getRolesCollection()
+    public function getRoles()
     {
         return $this->roles;
     }

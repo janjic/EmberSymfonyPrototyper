@@ -9,7 +9,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.set('groups', this.get('store').findAll('group'));
         var index = (this.get('groups').indexOf(this.get('selectedGroup')));
-        if(index != -1){
+        if(index !== -1){
             this.set('selectedGroupIndex', index);
         }
     },

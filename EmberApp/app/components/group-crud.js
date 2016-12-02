@@ -58,7 +58,6 @@ export default Ember.Component.extend({
             group.destroyRecord().then(() => {
                 this.set('itemToDelete', null);
                 this.set('newGroupForUsers', null);
-                this.get('groups').removeAt(this.get('groups').indexOf(group));
             }, () => {
                 group.rollbackAttributes();
             });
@@ -75,7 +74,9 @@ export default Ember.Component.extend({
         },
 
         editGroupSave: function () {
-            this.get('editGroup').save().then(function () {
+            let editGroup = this.get('editGroup');
+            editGroup.set('roles', this.get('selectedRolesList'));
+            editGroup.save().then(function () {
 
             }, function () {
             });

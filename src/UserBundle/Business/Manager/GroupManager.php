@@ -2,9 +2,7 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use Doctrine\Common\Util\Debug;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Entity\Group;
@@ -36,106 +34,65 @@ class GroupManager implements JSONAPIEntityManagerInterface
         $this->fSerializer = $fSerializer;
     }
 
-//    /**
-//     * Get all groups
-//     * @return array
-//     */
-//    public function findAllGroups()
-//    {
-//        return $this->repository->findAllGroups();
-//    }
-//
-//    /**
-//     * @param object $newGroup
-//     * @return mixed
-//     */
-//    public function addGroup($newGroup)
-//    {
-//        $group = new Group($newGroup->name);
-////        $roles = $this->container->getRolesFromArray($newGroup->getRolesCollection()->toArray());
-////        $newGroup->resetRolesCollection();
-////        /** @var Role $role */
-////        foreach ($roles as $role) {
-////            $role->addGroup($newGroup);
-////        }
-//
-//        return $this->repository->saveGroup($group);
-//    }
-//
-//    /**
-//     * Remove group
-//     * @param int $groupId
-//     * @param int $newParentId
-//     * @return bool
-//     */
-//    public function deleteGroup($groupId, $newParentId)
-//    {
-//        /** @var Group $group */
-//        $group = $this->getGroupById($groupId);
-//        if (!$group) {
-//            return false;
-//        }
-//
-//        if (!$this->repository->changeUsersGroup($group->getId(), $newParentId)) {
-//            return false;
-//        }
-//
-//        /** @var Role $role */
-//        foreach ($group->getRolesCollection() as $role) {
-//            $role->removeGroup($group);
-//        }
-//
-//        return $this->repository->removeGroup($group);
-//    }
-//
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    public function getGroupById($id)
-    {
-        try {
-            return $this->repository->findOneById($id);
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-
     /**
      * @param null $id
      * @return mixed
-     *
-     *
-     *  NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     *
-     *
      */
     public function getResource($id = null)
     {
         return $this->repository->findGroup($id);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getGroupById($id)
+    {
+        return $this->getResource($id);
+    }
+
+    /**
+     * @param string $data
+     * @return mixed
+     */
     public function saveResource($data)
     {
-        Debug::dump($this->deserializeGroup($data));die();
-        // TODO: Implement saveResource() method.
+        /** @var Group $group */
+        $group = $this->deserializeGroup($data);
+        $roles = $group->getRoles();
+        foreach ($roles as $role) {
+            $group->removeRole($role);
+            $group->addRole($this->repository->createReference($role->getId(), Role::class));
+        }
+
+        return $this->repository->saveGroup($group);
     }
 
+    /**
+     * @param string $data
+     * @return mixed
+     */
     public function updateResource($data)
     {
-        $content = json_decode($data)->data;
-        $newRoles = 'a';
-        var_dump($content);die();
+        /** @var Group $group */
+        $group = $this->deserializeGroup($data);
 
         /** @var Group $groupDb */
-        $groupDb = $this->repository->findOneById($content->id);
-        $groupDb->setName('as');
-        Debug::dump($groupDb);die();
+        $groupDb = $this->repository->findGroup($group->getId());
+        $groupDb->setName($group->getName());
+        $groupDb->setRoles([]);
+        foreach ($group->getRoles() as $role) {
+            $groupDb->addRole($this->repository->createReference($role->getId(), Role::class));
+        }
 
-        var_dump($data);die();
+        return $this->repository->editGroup($groupDb);
     }
 
+    /**
+     * @param null $content
+     * @return mixed
+     */
     public function deleteResource($content)
     {
         $content = json_decode($content);
@@ -150,23 +107,42 @@ class GroupManager implements JSONAPIEntityManagerInterface
             return false;
         }
 
-        /** @var Role $role */
-        foreach ($group->getRolesCollection() as $role) {
-            $role->removeGroup($group);
-        }
-
         return $this->repository->removeGroup($group);
     }
 
+    /**
+     * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
     public function deserializeGroup($content, $mappings = null)
     {
         $relations = array('roles');
         if (!$mappings) {
             $mappings = array(
-                'group'   => array('class' => Group::class, 'type'=>'groups')
+                'group'  => array('class' => Group::class, 'type'=>'groups'),
+                'roles'  => array('class' => Role::class, 'type'=>'roles')
             );
         }
 
         return $this->fSerializer->setDeserializationClass(Group::class)->deserialize($content, $mappings, $relations);
+    }
+
+    /**
+     * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
+    public function serializeGroup($content, $mappings = null)
+    {
+        $relations = array('roles');
+        if (!$mappings) {
+            $mappings = array(
+                'group'  => array('class' => Group::class, 'type'=>'groups'),
+                'roles'  => array('class' => Role::class, 'type'=>'roles')
+            );
+        }
+
+        return $this->fSerializer->serialize($content, $mappings, $relations);
     }
 }
