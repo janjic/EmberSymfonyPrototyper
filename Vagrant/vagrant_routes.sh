@@ -5,3 +5,4 @@ php7.0 bin/console assets:install
 php7.0 bin/console fos:js-routing:dump
 php7.0 bin/console bazinga:js-translation:dump
 php7.0 bin/console assetic:dump --env=prod --no-debug
+php7.0 bin/console dump:api-codes-to:ember

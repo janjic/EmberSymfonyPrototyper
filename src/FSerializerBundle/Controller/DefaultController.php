@@ -2,6 +2,8 @@
 
 namespace FSerializerBundle\Controller;
 
+use CoreBundle\Adapter\AgentApiCode;
+use CoreBundle\Dumper\ApiCodeDumper;
 use FSerializerBundle\Serializer\JsonApiDocument;
 use FSerializerBundle\Serializer\JsonApiOne;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +23,8 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
+        var_dump((new ApiCodeDumper($this->get('templating'), $this->get('filesystem')))->dump());
+        exit;
         //Object from DB
         $agent = $this->get('agent_system.agent.manager')->getResource(42);
         var_dump($agent);exit;
@@ -103,4 +107,6 @@ class DefaultController extends Controller
 //        exit;
         return new JsonResponse($document);
     }
+
+
 }

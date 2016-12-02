@@ -13,7 +13,7 @@
 {{#if (get changeset.error property)}}
     <ul class="error-list">
         {{#each (get (get changeset.error property) "validation") as |message|}}
-            <li>{{message}}</li>
+            <li>{{trans message}}</li>
         {{/each}}
     </ul>
 {{/if}}

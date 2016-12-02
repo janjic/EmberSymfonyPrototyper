@@ -32,6 +32,16 @@ class TCRUser extends BaseUser
     protected $surname;
 
     /**
+     * @var string
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     */
+    protected $lastName;
+
+    /**
      * @var \DateTime
      */
     protected $birthDate;
@@ -290,6 +300,7 @@ class TCRUser extends BaseUser
      */
     public function setName($name)
     {
+        $this->firstName = $name;
         $this->name = $name;
 
         return $this;
@@ -309,10 +320,44 @@ class TCRUser extends BaseUser
      */
     public function setSurname($surname)
     {
+        $this->lastName = $surname;
         $this->surname = $surname;
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
 
     /**
      * @return mixed

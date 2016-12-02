@@ -322,6 +322,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
         }
 
 
+
         return $this->fSerializer->deserialize($content,$mappings, $relations);
     }
 
