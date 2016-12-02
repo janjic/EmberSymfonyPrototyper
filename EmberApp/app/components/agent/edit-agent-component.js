@@ -22,7 +22,7 @@ export default Ember.Component.extend({
             this.changeset.set('superior', agent);
         },
         titleChanged(title){
-            this.model.set('title', title);
+            this.changeset.set('title', title);
         },
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
