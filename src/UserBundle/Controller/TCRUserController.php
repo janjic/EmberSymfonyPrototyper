@@ -112,6 +112,8 @@ class TCRUserController extends Controller
         }
         $user->setFirstName($user->getName());
         $user->setLastName($user->getSurname());
+        $user->setBirthDate(new DateTime($user->getBirthDate()));
+
         if ($agentObj = $user->getAgent()) {
             $agent = $this->get('agent_system.agent.manager')->findAgentById($agentObj->id);
             $user->setAgent($agent);
@@ -154,12 +156,13 @@ class TCRUserController extends Controller
 
         // adjust rest
         $data->id = $request->get('id');
-        $data->name = $data->first_name;
-        $data->surname = $data->last_name;
-        $data->roleAdmin = $data->is_admin;
+        $data->name = $data->firstName;
+        $data->surname = $data->lastName;
+        $data->roleAdmin = $data->isAdmin;
+
         $data->money_add = "";
 
-        $date = new \DateTime($data->birth_date);
+        $date = new \DateTime($data->birthDate);
 
         $data->birth_date = $date->format(DateTime::ISO8601);
 
