@@ -1,31 +1,36 @@
 import Ember from 'ember';
 import TCRUserValidations from '../../validations/tcr-user';
+import Changeset from 'ember-changeset';
+import lookupValidator from './../../utils/lookupValidator';
 
 export default Ember.Component.extend({
     store: Ember.inject.service(),
-    validations: TCRUserValidations,
-
+    TCRUserValidations,
     userCity: null,
     userStreet: null,
     address: Ember.observer('userCity', 'userStreet', function() {
-        this.set('user.address', this.get('userCity')+', '+this.get('userStreet'));
+        this.set('changeset.address', this.get('userCity')+', '+this.get('userStreet'));
     }),
 
     init() {
         this._super(...arguments);
-
+        this.changeset = new Changeset(this.get('user'), lookupValidator(TCRUserValidations), TCRUserValidations);
         let address = this.get('user').get('address');
         this.set('userCity', address.split(',')[0].trim());
         this.set('userStreet', address.split(',')[1].trim());
     },
 
     actions: {
-        setTitle(newTitle){
-            this.set('user.title', newTitle);
+        titleChanged(title){
+            this.set('changeset.title', title);
+            this.get('changeset').validate('title');
+            this.user.set('title', title);
         },
-
         updateUserBirthDate(date){
-            this.set('user.birthDate', date.toJSON());
+            this.set('changeset.birthDate', date);
+            this.get('changeset').validate('birthDate');
+            var agent = this.model;
+            this.set('user.birthDate', date)
         },
 
         updateLanguage(lang){
@@ -53,11 +58,14 @@ export default Ember.Component.extend({
         /** crud */
 
         saveUser(user) {
-            user.save().then(() => {
-                this.toast.success('Updated!');
-            }, () => {
-                this.toast.error('Error occurred!');
-            });
+            this.get('changeset').validate();
+            if (this.get('changeset').get('isValid')) {
+                user.save().then(() => {
+                    this.toast.success('User saved!');
+                }, () => {
+                    this.toast.error('Data not saved!');
+                });
+            }
         },
 
         /** validations */

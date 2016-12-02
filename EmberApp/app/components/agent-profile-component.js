@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     currentUser: Ember.inject.service('current-user'),
-    store: Ember.inject.service(''),
+    store: Ember.inject.service(),
     actions: {
         updateAgentBirthDate(date){
             let agent = this.get('currentUser.user');
