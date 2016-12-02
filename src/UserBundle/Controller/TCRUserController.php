@@ -110,7 +110,8 @@ class TCRUserController extends Controller
 
             $user->setAvatar($image);
         }
-//        var_dump($user->getAgent());exit;
+        $user->setFirstName($user->getName());
+        $user->setLastName($user->getSurname());
         if ($agentObj = $user->getAgent()) {
             $agent = $this->get('agent_system.agent.manager')->findAgentById($agentObj->id);
             $user->setAgent($agent);
@@ -127,11 +128,6 @@ class TCRUserController extends Controller
 
         return new JsonResponse($serialized);
 
-
-//        $schemaMappings = FSDSerializer::$schemaMappings;
-//        $schemaMappings['Proxies\__CG__\UserBundle\Entity\Agent'] = AgentSimpleSchema::class;
-//
-//        return new Response(FSDSerializer::serialize($user, [], $schemaMappings));
     }
 
 
