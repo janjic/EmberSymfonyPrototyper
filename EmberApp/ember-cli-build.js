@@ -51,6 +51,7 @@ module.exports = function(defaults) {
   app.import('vendor/jqGrid/js/jQgrid-universal.js');
   app.import('vendor/bundles/bazingajstranslation/main.js');
   app.import('vendor/bundles/fosjsrouting/main.js');
+  app.import('vendor/bundles/core/js/api-codes.js');
   app.import('vendor/frontend-scripts.js');
 
   app.import('vendor/glyphicons-halflings-regular.eot', {
