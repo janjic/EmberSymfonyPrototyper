@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-var underscore = Ember.String.underscore;
 var camelize = Ember.String.camelize;
 
 export default DS.JSONAPISerializer.extend({

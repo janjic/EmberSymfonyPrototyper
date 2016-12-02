@@ -304,8 +304,11 @@ class JsonApiDocument implements JsonSerializable
             if ($decodedIncludedData === false) {
                 $decodedIncludedData = array();
                 foreach ($decodedRelationships as $key=> $value) {
-                    if (array_key_exists('data', $value)) {
-                        $decodedIncludedData[] = $value['data'];
+                    if (array_key_exists('data', $value) && sizeof($value['data'])) {
+                        foreach ($value['data'] as $dataKey => $dataValue) {
+                            $decodedIncludedData[] = $dataValue;
+                        };
+
                     }
 
                 }
@@ -452,6 +455,9 @@ class JsonApiDocument implements JsonSerializable
         if (array_key_exists(0, $decoded)) {
             $resourceObject = array();
             foreach ($decoded as $decodedArray) {
+                if (!is_array($decodedArray)) {
+                    continue;
+                }
                 foreach ($decodedArray as $decodedObject) {
                     $data = array_key_exists('attributes',$decodedObject) ?$decodedObject['attributes']:array();
                     $class = $serializer->getDeserializationClass();

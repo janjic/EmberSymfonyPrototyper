@@ -29,8 +29,7 @@ export default Ember.Component.extend({
         updateUserBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            var agent = this.model;
-            this.set('user.birthDate', date)
+            this.set('user.birthDate', date);
         },
 
         updateLanguage(lang){
@@ -44,7 +43,7 @@ export default Ember.Component.extend({
             var reader = new FileReader();
             reader.onloadend = function () {
                 var imgBase64 = reader.result;
-                img.set('base64_content', imgBase64);
+                img.set('base64Content', imgBase64);
 
             };
             reader.readAsDataURL(file);

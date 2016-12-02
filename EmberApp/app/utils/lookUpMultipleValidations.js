@@ -37,7 +37,9 @@ export default function handleMultipleValidations(validators, { key, newValue, o
     let validations = emberArray(validators
         .map((validator) => {
             let validatorResult =validator(key, newValue, oldValue, changes, content);
-            Object.is(validatorResult, true) ? content.set(key, newValue) :false;
+            if (Object.is(validatorResult, true)) {
+                content.set(key, newValue);
+            }
 
             return validatorResult;
         }));

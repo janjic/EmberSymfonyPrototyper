@@ -31,7 +31,8 @@ export default Ember.Component.extend({
             agent.set('birthDate',date);
         },
         editAgent(agent){
-            this.get('changeset').validate() && this.get('addressChangeset').validate();
+            this.get('changeset').validate();
+            this.get('addressChangeset').validate();
             if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
                 // console.log(agent.get('superior'));
                 agent.set('address', this.get('addressChangeset._content'));

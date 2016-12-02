@@ -2,9 +2,8 @@
 
 namespace UserBundle\Business\Manager;
 
-use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use Doctrine\Common\Util\Debug;
+use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\RoleRepository;
 use UserBundle\Entity\Role;
 
@@ -20,71 +19,19 @@ class RoleManager implements JSONAPIEntityManagerInterface
     protected $repository;
 
     /**
+     * @var FJsonApiSerializer
+     */
+    protected $fSerializer;
+
+    /**
      * @param RoleRepository $repository
      */
-    public function __construct(RoleRepository $repository)
+    public function __construct(RoleRepository $repository, FJsonApiSerializer $fSerializer)
     {
         $this->repository = $repository;
+        $this->fSerializer = $fSerializer;
     }
 
-//    /**
-//     * @return array
-//     */
-//    public function getAll()
-//    {
-//        return $this->repository->getAll();
-//    }
-//
-//    /**
-//     * @param mixed $role
-//     * @return mixed
-//     */
-//    public function addRole($role)
-//    {
-//        $newRole = new Role($role->role);
-//        $newRole->setName($role->name);
-//
-//        return $this->repository->saveItem($newRole);
-//    }
-//
-//    /**
-//     * @param int   $id
-//     * @param mixed $role
-//     * @return bool|mixed
-//     */
-//    public function changeNested($id, $role)
-//    {
-//        if ($role->simpleUpdate) {
-//            /** @var Role $roleDB */
-//            $roleDB = $this->repository->findOneById($id);
-//            $roleDB->setRole($role->role);
-//            $roleDB->setName($role->name);
-//            $roleDB->setId($id);
-//
-//            return $this->repository->simpleUpdate($roleDB);
-//        }
-//
-//        return $this->repository->changeNested($id, intval($role->prev), intval($role->parent), $role->name, $role->role);
-//    }
-//
-//    /**
-//     * @param int $id
-//     * @return bool
-//     */
-//    public function removeNestedFromTree($id)
-//    {
-//        return $this->repository->removeNestedFromTree($id);
-//    }
-//
-//
-//    /**
-//     * @param $id
-//     * @return mixed
-//     */
-//    public function findRoleById($id)
-//    {
-//        return $this->repository->findOneById($id);
-//    }
     public function getResource($id = null)
     {
         return $this->repository->findRole($id);
@@ -92,18 +39,64 @@ class RoleManager implements JSONAPIEntityManagerInterface
 
     public function saveResource($data)
     {
-        // TODO: Implement saveResource() method.
+        return $this->repository->saveItem($this->deserializeRole($data));
     }
 
     public function updateResource($data)
     {
-        // TODO: Implement updateResource() method.
+        $rawData = json_decode($data, true);
+
+        if ($rawData['data']['attributes']['simple-update']) {
+            /** @var Role $role */
+            $role = $this->deserializeRole($data);
+            /** @var Role $roleDB */
+            $roleDB = $this->getResource($role->getId());
+            $roleDB->setRole($role->getRole());
+            $roleDB->setName($role->getName());
+
+            return $this->repository->simpleUpdate($roleDB);
+        }
+
+        $prev = $rawData['data']['attributes']['prev'];
+        $parent = $rawData['data']['relationships']['parent']['data']['id'];
+
+        return $this->repository->changeNested($rawData['data']['id'], intval($prev), intval($parent));
     }
 
     public function deleteResource($id)
     {
-        // TODO: Implement deleteResource() method.
+        return $this->repository->removeNestedFromTree($id);
     }
 
+    /**
+     * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
+    public function deserializeRole($content, $mappings = null)
+    {
+        if (!$mappings) {
+            $mappings = array('roles'  => array('class' => Role::class, 'type'=>'roles'));
+        }
+
+        return $this->fSerializer->setDeserializationClass(Role::class)->deserialize($content, $mappings, []);
+    }
+
+    /**
+     * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
+    public function serializeRole($content, $mappings = null)
+    {
+        if (!$mappings) {
+            $mappings = array(
+                'roles'  => array('class' => Role::class, 'type'=>'roles'),
+                'parent' => array('class' => Role::class, 'type'=>'roles')
+            );
+        }
+
+        return $this->fSerializer->serialize($content, $mappings, ['parent']);
+    }
 
 }
