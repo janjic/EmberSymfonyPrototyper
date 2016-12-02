@@ -1,16 +1,20 @@
 <div class="panel-heading">
     <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-credit-card" aria-hidden="true"></i>My wallet</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-credit-card" aria-hidden="true"></i>{{trans 'agent-menu.wallet.title' }}</a>
     </h4>
 </div>
 <div id="collapseFour" class="panel-collapse collapse">
     <div class="panel-body">
         <ul class="table">
             <li>
-                {{#link-to 'dashboard.agent.wallet.wallet-summary'}}Summary{{/link-to}}
+                {{#link-to 'dashboard.agent.wallet.wallet-summary'}}
+                    {{trans 'agent-menu.wallet.summary' }}
+                {{/link-to}}
             </li>
             <li>
-                {{#link-to 'dashboard.agent.wallet.payout-history' }}Payout history{{/link-to}}
+                {{#link-to 'dashboard.agent.wallet.payout-history' }}
+                    {{trans 'agent-menu.wallet.history' }}
+                {{/link-to}}
             </li>
         </ul>
     </div>

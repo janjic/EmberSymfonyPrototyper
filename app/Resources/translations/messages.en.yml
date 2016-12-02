@@ -64,3 +64,32 @@ admin-menu:
 
 # AGENT MENU ITEMS
 
+agent-menu:
+  dashboard:
+    title: 'Dashboard'
+  users:
+    title: 'Users'
+    new: 'Add new user'
+    customers: 'My customers'
+  tickets:
+    title: 'Tickets'
+    history: 'Ticket history'
+    new: 'Create ticket'
+  reports:
+    title: 'Reports'
+    orders: 'Customer orders'
+    bonuses: 'Commissions and bonuses'
+  wallet:
+    title: 'My wallet'
+    summary: 'Summary'
+    history: 'Payout history'
+  profile:
+    title: 'My profile'
+    settings: 'My profile settings'
+  messages:
+    title: 'Messages'
+    received: 'Received messages'
+    drafts: 'Drafts'
+    sent: 'Sent'
+    trash: 'Trash'
+
