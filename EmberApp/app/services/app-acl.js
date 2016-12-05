@@ -3,6 +3,23 @@ const {
     RSVP,
 } = Ember;
 const roles =  {
+    access_to_route: {
+        can: [{
+            name: 'dashboard',
+            when: function (user) {
+                return  new RSVP.Promise((resolve, reject) =>{
+                    console.log(user.get('roles'));
+                    if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
+                        resolve(true);
+                    } else {
+                        reject(false);
+                    }
+                });
+            }
+
+        }]
+
+    },
     admin: {
         can: ['dashboard'],
         inherits: ['y']

@@ -157,14 +157,19 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
          */
         $agent = $this->deserializeAgent($data);
 
-
+        /**
+         * @var Agent $dbAgent
+         */
         $dbAgent = $this->repository->findOneById($agent->getId());
         $dbAgent->setTitle($agent->getTitle());
         $dbAgent->setFirstName($agent->getFirstName());
         $dbAgent->setLastName($agent->getLastName());
         $dbAgent->setEmail($agent->getEmail());
         $dbAgent->setUsername($agent->getEmail());
-
+        $dbAgent->setNationality($agent->getNationality());
+        $dbAgent->setBankAccountNumber($agent->getBankAccountNumber());
+        $dbAgent->setBankName($agent->getBankName());
+        $dbAgent->setSocialSecurityNumber($agent->getSocialSecurityNumber());
         /**
          * @var Address $dbAddress
          */

@@ -71,5 +71,19 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
+  app.import('vendor/Rubik-Bold.ttf', {
+      destDir: 'fonts'
+  });
+
+  app.import('vendor/Rubik-Medium.ttf', {
+      destDir: 'fonts'
+  });
+  app.import('vendor/Rubik-Regular.ttf', {
+      destDir: 'fonts'
+  });
+
+
+
+
   return app.toTree();
 };

@@ -19,6 +19,110 @@ placeholder:
 
 button:
   reset.passwrod: 'RESET PASSWORD'
+  save: 'Save'
 
 validation:
   email:
+
+
+# ADMIN MENU ITEMS
+
+admin-menu:
+  dashboard:
+    title: 'Dashboard'
+  genealogy.tree:
+    title: 'Genealogy tree'
+  users:
+    title: 'Users'
+    new: 'Add new user'
+    all: 'All users customers'
+    tickets: 'All tickets'
+  agents:
+    title: 'Agents'
+    new: 'Add new agent'
+    all: 'All agents'
+    update.history: 'Agent update history'
+  payments:
+    title: 'Payments'
+    payouts.to.agents: 'Payouts to agents'
+    reports: 'Reports'
+  mass.mails:
+    title: 'Mass mails'
+    new.mail.list: 'Add new mail list'
+    all.mail.lists: 'All mail lists'
+    new.campaign: 'Add new mass mail campaign'
+    all.campaigns: 'All mass mail campaings'
+  messages:
+    title: 'Messages'
+    received: 'Received messages'
+    drafts: 'Drafts'
+    sent: 'Sent'
+    trash: 'Trash'
+  settings:
+    title: 'Settings'
+    groups: 'Manage groups'
+    roles: 'Manage roles'
+
+# AGENT MENU ITEMS
+
+agent-menu:
+  dashboard:
+    title: 'Dashboard'
+  users:
+    title: 'Users'
+    new: 'Add new user'
+    customers: 'My customers'
+  tickets:
+    title: 'Tickets'
+    history: 'Ticket history'
+    new: 'Create ticket'
+  reports:
+    title: 'Reports'
+    orders: 'Customer orders'
+    bonuses: 'Commissions and bonuses'
+  wallet:
+    title: 'My wallet'
+    summary: 'Summary'
+    history: 'Payout history'
+  profile:
+    title: 'My profile'
+    settings: 'My profile settings'
+  messages:
+    title: 'Messages'
+    received: 'Received messages'
+    drafts: 'Drafts'
+    sent: 'Sent'
+    trash: 'Trash'
+
+# ADMIN - USER PAGES
+
+admin-user:
+  new:
+    title: 'Add new user'
+    label:
+      title: 'Title'
+      choose-title: 'Choose title'
+      mr: 'Mr.'
+      mrs: 'Mrs.'
+      name: 'Name'
+      family-name: 'Family name'
+      password: 'Password'
+      repeat-password: 'Repeat password'
+      email: 'Email'
+      repeat-email: 'Repeat email'
+      company: 'Company'
+      image: 'User image'
+      street-number: 'Street number'
+      postcode: 'Postcode'
+      city: 'City'
+      country: 'Country'
+      phone: 'Phone number'
+      language: 'Language'
+      birthdate: 'Date of birth'
+      admin: 'Admin'
+      comment: 'Comment'
+
+
+
+
+
