@@ -738,17 +738,7 @@ header{
 .required{
     color:#C0392B;
 }
-.form-wizard .form-group{
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-}
+
 .setup-content .form-control, .profile-settings .form-control{
     border-radius: 0;
 }
