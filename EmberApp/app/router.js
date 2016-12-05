@@ -103,6 +103,9 @@ Router.map(function() {
         this.route('user-edit');
         this.route('user-view');
       });
+      this.route('agents', function() {
+        this.route('add-new-agent');
+      });
     });
   });
 

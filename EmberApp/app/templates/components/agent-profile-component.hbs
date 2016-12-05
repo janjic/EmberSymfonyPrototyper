@@ -28,25 +28,29 @@
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">First name</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.firstName }}
+                            {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "firstName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Last name</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.lastName }}
+                            {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "lastName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Email</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.email }}
+                            {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "email")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Phone number</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.address.phone }}
+                            {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
+                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -64,25 +68,35 @@
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Social security number</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.socialSecurityNumber }}
+                            {{input type="text" class="form-control" value=changeset.socialSecurityNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Bank name</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.bankName }}
+                            {{input type="text" class="form-control" value=changeset.bankName }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Bank account number</label>
                         <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=currentUser.user.bankAccountNumber }}
+                            {{input type="text" class="form-control" value=changeset.bankAccountNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">Date of birth</label>
                         <div class="col-md-8 col-xs-8">
-                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=currentUser.user.birthDate}}
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=changeset.birthDate}}
+                            {{#if (get changeset.error 'birthDate')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                            {{!--{{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=currentUser.user.birthDate}}--}}
 
                         </div>
                     </div>
@@ -105,7 +119,8 @@
             <div class="form-group clearfix">
                 <label class="control-label col-md-4 col-xs-4">Address</label>
                 <div class="col-md-8 col-xs-8">
-                    {{input type="text" class="form-control" value=currentUser.user.address.streetNumber }}
+                    {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
+                                      validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
                 </div>
             </div>
             <div class="form-group clearfix">
@@ -117,7 +132,8 @@
             <div class="form-group clearfix">
                 <label class="control-label col-md-4 col-xs-4">Private mail</label>
                 <div class="col-md-8 col-xs-8">
-                    {{input type="text" class="form-control" value=currentUser.user.privateEmail }}
+                    {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
+                                      validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                 </div>
             </div>
         </div>
@@ -181,7 +197,7 @@
             </div>
             <div class="form-group clearfix">
                 <div class="col-md-12">
-                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' currentUser.user}}>Edit profile</a>
+                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>Edit profile</a>
                 </div>
             </div>
         </div>

@@ -1,201 +1,203 @@
 <section class="form-wizard">
     <h1 class="main-heading">Add New Agent</h1>
     <form role="form">
-        <div class="row setup-content">
-            <div class="col-md-6">
-                <h3 class="sub-heading"> Provide new user account details</h3>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose type
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{role-picker-component onRoleSelected=(action 'roleSelected') changeset = changeset
-                                                property="group" validateProperty=(action 'validateProperty' changeset "group")}}
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3 class="sub-heading"> Provide new user account details</h3>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Choose type
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{role-picker-component onRoleSelected=(action 'roleSelected') changeset = changeset
+                                                    property="group" validateProperty=(action 'validateProperty' changeset "group")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose superior agent
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false changeset = changeset
-                                                 property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Choose superior agent
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false changeset = changeset
+                                                     property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Title
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                            <option value="-1" disabled selected>Choose title</option>
-                            <option value="MR" >Mr.</option>
-                            <option value="MRS" >Mrs.</option>
-                        </select>
-                        {{#if (get changeset.error 'title')}}
-                            <small>
-                                <ul>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Title
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
+                                <option value="-1" disabled selected>Choose title</option>
+                                <option value="MR" >Mr.</option>
+                                <option value="MRS" >Mrs.</option>
+                            </select>
+                            {{#if (get changeset.error 'title')}}
+                                <ul class="error-list">
                                     {{#each (get (get changeset.error 'title') "validation") as |message|}}
                                         <li>{{message}}</li>
                                     {{/each}}
                                 </ul>
-                            </small>
-                        {{/if}}
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Agent ID
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="agentId" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "agentId")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Agent ID
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="agentId" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "agentId")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">First Name
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "firstName")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">First Name
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "firstName")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Last Name
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "lastName")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Last Name
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "lastName")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Password
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
-                                          validateProperty=(action 'validateProperty' changeset "plainPassword")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Password
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "plainPassword")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Repeat Password
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
-                                          validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Repeat Password
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Email
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "email")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Email
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "email")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Repeat email
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="emailRepeat" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Repeat email
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="emailRepeat" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Private Email
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
-                                          validateProperty=(action 'validateProperty' changeset "privateEmail")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Private Email
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "privateEmail")}}
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <h3 class="sub-heading"> Provide new user personal details</h3>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Phone number
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{input type="text" class="form-control" value=model.address.fixedPhone }}
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3 class="sub-heading"> Provide new user personal details</h3>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Phone number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{input type="text" class="form-control" value=model.address.fixedPhone }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Mobile number
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
-                                          validateProperty=(action 'validateProperty' addressChangeset "phone")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Mobile number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
+                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Street and number
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
-                                          validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Street and number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
+                                              validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Postcode
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{validated-field doNotShowLabel=true property="postcode" changeset=addressChangeset type="text"
-                                          validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Postcode
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{validated-field doNotShowLabel=true property="postcode" changeset=addressChangeset type="text"
+                                              validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">City
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{input type="text" class="form-control" value=model.address.city }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">City
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{input type="text" class="form-control" value=model.address.city }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Country
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
-                        {{#if (get addressChangeset.error 'country')}}
-                            <small>
-                                <ul>
-                                    {{#each (get (get addressChangeset.error 'country') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            </small>
-                        {{/if}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Country
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                            {{#if (get addressChangeset.error 'country')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get addressChangeset.error 'country') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Language
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
-                        {{#if (get changeset.error 'nationality')}}
-                            <small>
-                                <ul>
-                                    {{#each (get (get changeset.error 'nationality') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            </small>
-                        {{/if}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-3 col-xs-4">Language
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-4 col-xs-8">
+                            {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
+                            {{#if (get changeset.error 'nationality')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'nationality') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
 
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">Date of birth
