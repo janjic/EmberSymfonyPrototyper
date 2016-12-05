@@ -18,11 +18,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\Agent;
 
 
 class ResettingAgentController extends Controller
 {
-
 
     /**
      * @Route("/api/agents-forgot-password", name="api_agent_forgot_password", options={"expose" = true}),
@@ -167,6 +167,93 @@ class ResettingAgentController extends Controller
         }
 
         $this->get('mailer')->send($message);
+
+    }
+
+    /**
+     * @Route("/api/agents-change-password", name="api_agent_change_password", options={"expose" = true}),
+     * @param Request $request
+     * @return Response
+     */
+    public function changePasswordAction(Request $request)
+    {
+        /** @var UserInterface $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $oldPassword = $request->request->get('oldPassword');
+
+        $encoder =   $this->get('security.encoder_factory')->getEncoder($user);
+
+        if ($encoder->isPasswordValid($user->getPassword(), $oldPassword, $user->getSalt())) {
+            if (($newPassword =  $request->request->get('password')) === ($confirmedPassword = $request->request->get('passwordConfirmation'))) {
+                $user->setPlainPassword($newPassword);
+                $userManipulator = $this->get('fos_user.util.user_manipulator');
+                $userManipulator->changePassword($user->getUsername(), $newPassword);
+                return new JsonResponse('OK');
+            } else {
+                return new JsonResponse("NISU ISTO UKUCANE");
+                var_dump();
+            }
+        }else {
+            return new JsonResponse("NIJE POGODJENA STARA");
+        }
+
+        exit;
+
+        $user = $this->get('agent_system.agent.repository')->findOneBy(array('username'=> $user->getUsername(), 'password'=>$hashedPassword));
+
+        if (!$user) {
+            return new JsonResponse(AgentApiResponse::USER_WITH_EMAIL_NOT_EXIST_RESPONSE);
+        }
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
+
+        /* Dispatch init event */
+        $event = new GetResponseNullableUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $ttl = $this->get('service_container')->getParameter('fos_user.resetting.token_ttl');
+        if (null !== $user && !$user->isPasswordRequestNonExpired($ttl)) {
+            $event = new GetResponseUserEvent($user, $request);
+            $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
+
+            if (null !== $event->getResponse()) {
+                return $event->getResponse();
+            }
+
+            if (null === $user->getConfirmationToken()) {
+                /** @var $tokenGenerator TokenGeneratorInterface */
+                $tokenGenerator = $this->get('fos_user.util.token_generator');
+                $user->setConfirmationToken($tokenGenerator->generateToken());
+            }
+
+            /* Dispatch confirm event */
+            $event = new GetResponseUserEvent($user, $request);
+            $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
+
+            if (null !== $event->getResponse()) {
+                return $event->getResponse();
+            }
+
+            $this->sendResettingEmailMessage($user);
+            $user->setPasswordRequestedAt(new \DateTime());
+            $this->get('fos_user.user_manager')->updateUser($user);
+
+            /* Dispatch completed event */
+            $event = new GetResponseUserEvent($user, $request);
+            $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
+
+            if (null !== $event->getResponse()) {
+                return $event->getResponse();
+            }
+        } else {
+            return new JsonResponse(AgentApiResponse::PASSWORD_ALREADY_REQUESTED($ttl));
+        }
+
+        return new JsonResponse(AgentApiResponse::SUCCESS_MAIL_SENT_RESPONSE);
 
     }
 
