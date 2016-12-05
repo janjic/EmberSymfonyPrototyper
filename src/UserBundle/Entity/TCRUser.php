@@ -154,7 +154,9 @@ class TCRUser extends BaseUser
      */
     public function getStreetAndNumber()
     {
-        return explode(',', $this->getAddress())[1];
+        $exp = explode(',', $this->getAddress());
+
+        return array_key_exists(1, $exp) ? $exp[1] : '';
 
     }
 

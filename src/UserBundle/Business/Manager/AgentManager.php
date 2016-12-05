@@ -22,7 +22,7 @@ use UserBundle\Entity\Role;
  * Class AgentManager
  * @package UserBundle\Business\Manager
  */
-class AgentManager implements JSONAPIEntityManagerInterface
+class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterface
 {
     /**
      * @var GroupRepository
@@ -31,7 +31,6 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
     protected $groupManager;
 
-    protected $syncManager;
 
     /**
      * @var FJsonApiSerializer $fSerializer
@@ -41,14 +40,12 @@ class AgentManager implements JSONAPIEntityManagerInterface
     /**
      * @param AgentRepository $repository
      * @param GroupManager $groupManager
-     * @param TCRSyncManager $syncManager
      * @param FJsonApiSerializer $fSerializer
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, TCRSyncManager $syncManager, FJsonApiSerializer $fSerializer)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer)
     {
         $this->repository   = $repository;
         $this->groupManager = $groupManager;
-        $this->syncManager  = $syncManager;
         $this->fSerializer  = $fSerializer;
     }
 
@@ -284,7 +281,7 @@ class AgentManager implements JSONAPIEntityManagerInterface
 
         $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
 
-        $this->syncManager->sendDataToTCR($url, $agentJson);
+        $this->sendDataToTCR($url, $agentJson);
     }
     /**
      * @param Agent $agent
