@@ -13,13 +13,11 @@
                             {{#if (eq model.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
                         </select>
                         {{#if (get changeset.error 'title')}}
-                            <small>
-                                <ul>
-                                    {{#each (get (get changeset.error 'title') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            </small>
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     </div>
                 </div>
@@ -73,10 +71,11 @@
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
-                    {{#if user.avatar.filePath}}
-                        <img src="{{user.avatar.filePath}}" alt="{{user.username}}" width="300" height="300">
-                    {{/if}}
                     <div class="col-md-8 user-img">
+                        {{#if user.avatar.filePath}}
+                            <img style="margin-bottom: 15px;" src="{{user.avatar.filePath}}" alt="{{user.username}}" width="300" height="300">
+                        {{/if}}
+
                         <div class="insert-avatar-container text-center" >
                             {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                         </div>
