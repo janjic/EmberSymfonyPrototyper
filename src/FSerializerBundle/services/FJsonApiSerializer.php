@@ -99,6 +99,9 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
                     $data = $this->generator->generateMapping(get_class($object));
                     $relationshipInstance = $this->propertyAccessor->getValue($object,$method);
                     $relationships =  $data['relationships'];
+                    if (!$relationships) {
+                        $relationships[$method] = $this->mappings[$method]['jsonApiType'];
+                    }
                     return new JsonApiRelationship(new $relationships[$method]( $relationshipInstance, $this->buildSelfInstance($method)));
                 }
                 throw new \Exception('Method does not exist in FJsonApiSerializer');

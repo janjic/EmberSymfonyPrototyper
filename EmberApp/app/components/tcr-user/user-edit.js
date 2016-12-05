@@ -37,7 +37,7 @@ export default Ember.Component.extend({
         },
 
         addedFile: function (file) {
-            this.set('user.image', null);
+            this.set('user.avatar', null);
             var img = this.get('store').createRecord('image');
             img.set('name', file.name);
             var reader = new FileReader();
@@ -47,11 +47,11 @@ export default Ember.Component.extend({
 
             };
             reader.readAsDataURL(file);
-            this.set('user.image', img);
+            this.set('user.avatar', img);
         },
 
         removedFile: function () {
-            this.set('user.image', null);
+            this.set('user.avatar', null);
         },
 
         /** crud */
@@ -59,9 +59,11 @@ export default Ember.Component.extend({
         saveUser(user) {
             this.get('changeset').validate();
             if (this.get('changeset').get('isValid')) {
-                user.save().then(() => {
+                user.save().then((resp) => {
+                    console.log(resp);
                     this.toast.success('User saved!');
                 }, () => {
+                    console.log(resp);
                     this.toast.error('Data not saved!');
                 });
             }

@@ -5,7 +5,7 @@ const { attr, Model } = DS;
 export default Model.extend({
     firstName:      attr('string'),
     lastName:       attr('string'),
-    image:          DS.belongsTo('image'),
+    avatar:         DS.belongsTo('image'),
     baseImageUrl:   attr('string'),
     username:       attr('string'),
     password:       attr('string'),
