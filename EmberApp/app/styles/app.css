@@ -760,10 +760,6 @@ header{
     margin-bottom: 15px;
 }
 
-.profile-settings label {
-    font-weight: bold;
-}
-
 .dropzone {
     border: 1px dashed rgba(0, 0, 0, 0.3);
     display: -webkit-box;
@@ -1820,4 +1816,14 @@ svg{
 
 .btn:focus {
     outline: 0;
+}
+
+.table-pagination {
+    text-align: center;
+    padding: 5px;
+}
+
+.table-pagination .btn-primary {
+    padding: 2px 6px;
+    font-size: 10px;
 }

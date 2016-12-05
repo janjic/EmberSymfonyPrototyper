@@ -8,6 +8,7 @@ export default Ember.Component.extend({
     selectedAgentId: null,
     agentsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
         let ctx = this;
+        console.log(this.get('currentUser.user'));
         if(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN') != -1){
             return this.get('agents');
         } else {

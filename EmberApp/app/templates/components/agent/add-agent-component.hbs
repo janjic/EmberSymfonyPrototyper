@@ -1,11 +1,11 @@
 <section class="form-wizard">
-    <h1 class="main-heading">Add New Agent</h1>
+    <h1 class="main-heading">{{trans 'admin-agent.new.title'}}</h1>
     <form role="form">
         <div class="row setup-content">
             <div class="col-md-6">
-                <h3 class="sub-heading"> Provide new user account details</h3>
+                <h3 class="sub-heading">{{trans 'admin-agent.subheading.user-details'}}</h3>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose type
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.type'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose superior agent
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.superior'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -23,14 +23,14 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Title
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.title'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                            <option value="-1" disabled selected>Choose title</option>
-                            <option value="MR" >Mr.</option>
-                            <option value="MRS" >Mrs.</option>
+                            <option value="-1" disabled selected>{{trans 'admin-agent.label.choose-title'}}</option>
+                            <option value="MR" >{{trans 'admin-agent.label.mr'}}</option>
+                            <option value="MRS" >{{trans 'admin-agent.label.mrs'}}</option>
                         </select>
                         {{#if (get changeset.error 'title')}}
                             <ul class="error-list">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Agent ID
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.agent-id'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">First Name
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.first-name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Last Name
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.last-name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Password
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Repeat Password
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-password'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Email
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Repeat email
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Private Email
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.private-email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -116,9 +116,9 @@
             </div>
 
             <div class="col-md-6">
-                <h3 class="sub-heading"> Provide new user personal details</h3>
+                <h3 class="sub-heading">{{trans 'admin-agent.subheading.personal-details'}}</h3>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Phone number
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.phone'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Mobile number
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.mobile'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Street and number
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.street-number'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Postcode
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.postcode'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">City
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.city'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Country
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.country'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -178,7 +178,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Language
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.language'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -196,7 +196,7 @@
                 </div>
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Date of birth
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.birthdate'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -213,10 +213,10 @@
                     </div>
                 </div>
 
-                <h3 class="sub-heading"> Agent bank information</h3>
+                <h3 class="sub-heading">{{trans 'admin-agent.subheading.bank-info'}}</h3>
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Social security number
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.social-security-num'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -224,7 +224,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank name
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.bank'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -232,7 +232,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank account number or IBAN
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.bank-account-num'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -240,7 +240,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Agent Background
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.agent-background'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -248,7 +248,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Insert agent image
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.agent-image'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12 user-img">
@@ -256,7 +256,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>Save</button>
+                    <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>{{trans 'button.save'}}</button>
                 </div>
             </div>
         </div>
