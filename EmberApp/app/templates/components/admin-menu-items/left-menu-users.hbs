@@ -1,26 +1,19 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fa fa-users" aria-hidden="true"></i>{{trans 'admin-menu.users.title' }}</a>
-    </h4>
-</div>
-<div id="collapseThree" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.users.user-add'}}
-                    {{trans 'admin-menu.users.new' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.users.users-customers' }}
-                    {{trans 'admin-menu.users.all' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.users.all-tickets' }}
-                    {{trans 'admin-menu.users.tickets' }}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Users"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.users.user-add'}}
+                {{trans 'admin-menu.users.new' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.users.users-customers' }}
+                {{trans 'admin-menu.users.all' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.users.all-tickets' }}
+                {{trans 'admin-menu.users.tickets' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}
