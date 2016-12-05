@@ -18,11 +18,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\Agent;
 
 
 class ResettingAgentController extends Controller
 {
-
 
     /**
      * @Route("/api/agents-forgot-password", name="api_agent_forgot_password", options={"expose" = true}),
@@ -167,6 +167,59 @@ class ResettingAgentController extends Controller
         }
 
         $this->get('mailer')->send($message);
+
+    }
+
+    /**
+     * @Route("/api/agents-change-password", name="api_agent_change_password", options={"expose" = true}),
+     * @param Request $request
+     * @return Response
+     */
+    public function changePasswordAction(Request $request)
+    {
+        /* Dispatch completed event */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        /** @var UserInterface $user */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $oldPassword = $request->request->get('oldPassword');
+
+        $encoder =   $this->get('security.encoder_factory')->getEncoder($user);
+
+        if ($encoder->isPasswordValid($user->getPassword(), $oldPassword, $user->getSalt())) {
+            if (($newPassword =  $request->request->get('password')) === ($confirmedPassword = $request->request->get('passwordConfirmation'))) {
+                $user->setPlainPassword($newPassword);
+                $event = new GetResponseUserEvent($user, $request);
+                $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
+
+                if (null !== $event->getResponse()) {
+                    return $event->getResponse();
+                }
+                $userManipulator = $this->get('fos_user.util.user_manipulator');
+                $userManipulator->changePassword($user->getUsername(), $newPassword);
+
+                $event = new GetResponseUserEvent($user, $request);
+                $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, $event);
+
+                if (null !== $event->getResponse()) {
+                    return $event->getResponse();
+                }
+                return new JsonResponse(AgentApiResponse::PASSWORDS_CHANGED_OK_RESPONSE);
+            } else {
+                return new JsonResponse(AgentApiResponse::PASSWORDS_ARE_NOT_SAME_RESPONSE);
+            }
+        }
+
+        return new JsonResponse(AgentApiResponse::OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE);
 
     }
 

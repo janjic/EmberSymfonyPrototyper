@@ -1,5 +1,5 @@
 <div class=" left-section">
-    <div class="panel-group" id="accordion">
+    {{#bs-accordion selected=selected class="panel-group"}}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -7,12 +7,12 @@
                 </h4>
             </div>
         </div>
-        {{admin-menu-items.left-menu-genealogy}}
-        {{admin-menu-items.left-menu-users}}
-        {{admin-menu-items.left-menu-agents}}
-        {{admin-menu-items.left-menu-payments}}
-        {{admin-menu-items.left-menu-mass-mail}}
-        {{admin-menu-items.left-menu-messages}}
+        {{admin-menu-items/left-menu-genealogy}}
+        {{admin-menu-items/left-menu-users}}
+        {{admin-menu-items/left-menu-agents}}
+        {{admin-menu-items/left-menu-payments}}
+        {{admin-menu-items/left-menu-mass-mail}}
+        {{admin-menu-items/left-menu-messages}}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -36,5 +36,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{/bs-accordion}}
 </div>

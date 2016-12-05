@@ -5,59 +5,63 @@
         <div class="profile-settings">
             <div class="row">
                 <div class="col-md-3 col-sm-3">
+                    {{#if user.image.filePath }}
                     <img class="img img-responsive" src="{{user.image.filePath}}" alt="">
+                    {{else}}
+                        <img src="../../../assets/images/user-avatar.png" alt="">
+                    {{/if}}
                 </div>
                 <div class="col-md-9 col-sm-9">
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Title</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.title'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.title}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">First name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.firstName}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Last name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.lastName}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Email</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.email}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Phone number</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.phone'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.phoneNumber}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Language</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.language'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.language}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Country</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.country'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.country}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Date of birth</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.birthdate'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.birthDate}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Status</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.status'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <div class="onoffswitch">
                                 {{input disabled="true" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=user.enabled}}
@@ -67,7 +71,7 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Admin</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.admin'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <div class="onoffswitch-2">
                                 {{input disabled="true" type="checkbox" name="onoffswitch-2" class="onoffswitch-2-checkbox" id="myonoffswitch-2" checked=user.isAdmin}}
@@ -85,19 +89,19 @@
         <div class="profile-settings">
             <div class="row">
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Address</label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.address'}}</label>
                     <div class="col-md-8 col-xs-8">
                         <p>{{user.address}}</p>
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">ZIP Code</label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}</label>
                     <div class="col-md-8 col-xs-8">
                         <p>{{user.zip}}</p>
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Comment</label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.comment'}}</label>
                     <div class="col-md-8 col-xs-8">
                         <p>{{user.comment}}</p>
                     </div>
@@ -110,38 +114,38 @@
             <div class="row">
                 {{#if user.agent }}
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent ID</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.agent.id}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's first name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-first-name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.agent.firstName}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's last name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-last-name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.agent.lastName}}</p>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Agent's email</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-email'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <p>{{user.agent.email}}</p>
                         </div>
                     </div>
                 {{else}}
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">No Agent</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.no-agent'}}</label>
                     </div>
                 {{/if}}
 
                 <div class="form-group clearfix">
                     <div class="col-md-12">
-                        {{#link-to 'dashboard.users.user-edit' user class='btn btn-danger pull-right'}}Edit profile{{/link-to}}
+                        {{#link-to 'dashboard.users.user-edit' user class='btn btn-danger pull-right'}}{{trans 'button.edit'}}{{/link-to}}
                     </div>
                 </div>
             </div>

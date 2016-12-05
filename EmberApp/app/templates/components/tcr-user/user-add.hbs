@@ -9,14 +9,14 @@
             <div class="col-md-6">
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.title'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.title'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                            <option value="-1" disabled selected>{{trans 'admin-user.new.label.choose-title'}}</option>
-                            <option value="MR" >{{trans 'admin-user.new.label.mr'}}</option>
-                            <option value="MRS" >{{trans 'admin-user.new.label.mrs'}}</option>
+                            <option value="-1" disabled selected>{{trans 'admin-user.label.choose-title'}}</option>
+                            <option value="MR" >{{trans 'admin-user.label.mr'}}</option>
+                            <option value="MRS" >{{trans 'admin-user.label.mrs'}}</option>
                         </select>
                         {{#if (get changeset.error 'title')}}
                             <ul class="error-list">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.name'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.family-name'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.family-name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.password'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.password'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.repeat-password'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.repeat-password'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.email'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.repeat-email'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.repeat-email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-xs-5">{{trans 'admin-user.new.label.company'}}
+                    <label class="control-label col-md-5 col-xs-5">{{trans 'admin-user.label.company'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-xs-7">
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.image'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.image'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12 user-img">
@@ -116,7 +116,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.street-number'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.street-number'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     {{address}}
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.postcode'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.postcode'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.city'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.city'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.country'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.country'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -158,7 +158,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.phone'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.phone'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -168,7 +168,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.language'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.language'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.birthdate'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.birthdate'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -199,7 +199,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.admin'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.admin'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.comment'}}
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.label.comment'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">

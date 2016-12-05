@@ -13,13 +13,13 @@
 
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">{{user.username }} <i class="fa fa-caret-down"></i></a>
-                        <ul class="dropdown-menu">
+                    {{#bs-dropdown tagName="li"}}
+                        {{#bs-dropdown-toggle}}{{user.username }}<i class="fa fa-caret-down"></i>{{/bs-dropdown-toggle}}
+                        {{#bs-dropdown-menu}}
                             <li>{{#link-to 'dashboard.agent.profile.profile-settings'}}My profile{{/link-to}}</li>
                             <li><a {{action 'logout'}}>Logout</a></li>
-                        </ul>
-                    </li>
+                        {{/bs-dropdown-menu}}
+                    {{/bs-dropdown}}
                     <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
                     <li><a href="#"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></a></li>
                 </ul>
