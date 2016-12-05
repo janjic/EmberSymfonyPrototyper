@@ -199,71 +199,73 @@
                         </div>
                     </div>
 
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Date of birth
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
-                        {{#if (get changeset.error 'birthDate')}}
-                            <small>
-                                <ul>
-                                    {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            </small>
-                        {{/if}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Date of birth
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
+                            {{#if (get changeset.error 'birthDate')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
 
-                <h3 class="sub-heading"> Agent bank information</h3>
+                    <h3 class="sub-heading"> Agent bank information</h3>
 
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Social security number
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{input type="text" class="form-control" value=model.socialSecurityNumber }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Social security number
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{input type="text" class="form-control" value=model.socialSecurityNumber }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank name
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{input type="text" class="form-control" value=model.bankName }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank name
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{input type="text" class="form-control" value=model.bankName }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank account number or IBAN
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{input type="text" class="form-control" value=model.bankAccountNumber }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Bank account number or IBAN
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{input type="text" class="form-control" value=model.bankAccountNumber }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Agent Background
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{textarea class="form-control" value=model.agentBackground}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Agent Background
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{textarea class="form-control" value=model.agentBackground}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">Insert agent image
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-7 col-sm-7 col-xs-12 user-img">
-                        {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">Insert agent image
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12 user-img">
+                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>Save</button>
+                    <div class="form-group clearfix">
+                        <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>Save</button>
+                    </div>
                 </div>
             </div>
         </div>
+
     </form>
 </section>
 
