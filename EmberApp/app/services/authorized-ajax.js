@@ -1,12 +1,11 @@
 
 import Ember from 'ember';
 import AjaxRequestMixin from 'ember-ajax/mixins/ajax-request';
-
 export default Ember.Service.extend(AjaxRequestMixin, {
     session: Ember.inject.service(),
 
-    sendAuthorizedRequest (data, type, url) {
-        this.get('session').authorize('authorizer:application', (headerName, headerValue) => {
+    sendAuthorizedRequest (data, type, url, callBack, context) {
+        return this.get('session').authorize('authorizer:application', (headerName, headerValue) => {
             const headers = {};
             headers[headerName] = headerValue;
             this.set('headers', headers);
@@ -14,7 +13,9 @@ export default Ember.Service.extend(AjaxRequestMixin, {
                 method: type,
                 data: data,
             };
-            return this.request(url, options);
+            this.request(url, options).then(response => {
+                callBack.apply(context,response);
+            });
         });
     }
 });

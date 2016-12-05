@@ -177,6 +177,18 @@ class ResettingAgentController extends Controller
      */
     public function changePasswordAction(Request $request)
     {
+        /* Dispatch completed event */
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         /** @var UserInterface $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $oldPassword = $request->request->get('oldPassword');
@@ -186,74 +198,28 @@ class ResettingAgentController extends Controller
         if ($encoder->isPasswordValid($user->getPassword(), $oldPassword, $user->getSalt())) {
             if (($newPassword =  $request->request->get('password')) === ($confirmedPassword = $request->request->get('passwordConfirmation'))) {
                 $user->setPlainPassword($newPassword);
+                $event = new GetResponseUserEvent($user, $request);
+                $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
+
+                if (null !== $event->getResponse()) {
+                    return $event->getResponse();
+                }
                 $userManipulator = $this->get('fos_user.util.user_manipulator');
                 $userManipulator->changePassword($user->getUsername(), $newPassword);
-                return new JsonResponse('OK');
+
+                $event = new GetResponseUserEvent($user, $request);
+                $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, $event);
+
+                if (null !== $event->getResponse()) {
+                    return $event->getResponse();
+                }
+                return new JsonResponse(AgentApiResponse::PASSWORDS_CHANGED_OK_RESPONSE);
             } else {
-                return new JsonResponse("NISU ISTO UKUCANE");
-                var_dump();
+                return new JsonResponse(AgentApiResponse::PASSWORDS_ARE_NOT_SAME_RESPONSE);
             }
-        }else {
-            return new JsonResponse("NIJE POGODJENA STARA");
         }
 
-        exit;
-
-        $user = $this->get('agent_system.agent.repository')->findOneBy(array('username'=> $user->getUsername(), 'password'=>$hashedPassword));
-
-        if (!$user) {
-            return new JsonResponse(AgentApiResponse::USER_WITH_EMAIL_NOT_EXIST_RESPONSE);
-        }
-        /** @var $dispatcher EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
-        /* Dispatch init event */
-        $event = new GetResponseNullableUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
-        $ttl = $this->get('service_container')->getParameter('fos_user.resetting.token_ttl');
-        if (null !== $user && !$user->isPasswordRequestNonExpired($ttl)) {
-            $event = new GetResponseUserEvent($user, $request);
-            $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
-
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
-
-            if (null === $user->getConfirmationToken()) {
-                /** @var $tokenGenerator TokenGeneratorInterface */
-                $tokenGenerator = $this->get('fos_user.util.token_generator');
-                $user->setConfirmationToken($tokenGenerator->generateToken());
-            }
-
-            /* Dispatch confirm event */
-            $event = new GetResponseUserEvent($user, $request);
-            $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
-
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
-
-            $this->sendResettingEmailMessage($user);
-            $user->setPasswordRequestedAt(new \DateTime());
-            $this->get('fos_user.user_manager')->updateUser($user);
-
-            /* Dispatch completed event */
-            $event = new GetResponseUserEvent($user, $request);
-            $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
-
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
-        } else {
-            return new JsonResponse(AgentApiResponse::PASSWORD_ALREADY_REQUESTED($ttl));
-        }
-
-        return new JsonResponse(AgentApiResponse::SUCCESS_MAIL_SENT_RESPONSE);
+        return new JsonResponse(AgentApiResponse::OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE);
 
     }
 
