@@ -6,9 +6,8 @@ export default Ember.Component.extend({
     agents: [],
     selectedAgentIndex: -1,
     selectedAgentId: null,
-    agentsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
-        let ctx = this;
-        if(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN') != -1){
+    agentsFiltered: Ember.computed('agents.@each.name', 'currentUser', function () {
+        if(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN') !== -1){
             return this.get('agents');
         } else {
             return [this.get('currentUser.user')];

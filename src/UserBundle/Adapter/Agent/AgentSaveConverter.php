@@ -45,7 +45,7 @@ class AgentSaveConverter extends JQGridConverter
         $agent->setBirthDate(new DateTime($agent->getBirthDate()));
 
 
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0){
+        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0 && $agent->getImage()->getBase64Content() != null){
             $image = new Image();
             $image->setBase64Content($agent->getImage()->getBase64Content());
             $image->setName($agent->getImage()->getName());
@@ -53,6 +53,8 @@ class AgentSaveConverter extends JQGridConverter
 
             $agent->setImage($image);
             $agent->setBaseImageUrl($image->getWebPath());
+        } else {
+            $agent->setImage(null);
         }
 
         $group = $this->manager->getGroupById($agent->getGroup()->getId());
