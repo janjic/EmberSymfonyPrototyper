@@ -29,7 +29,7 @@ class TCRUserAPIConverter extends JsonAPIConverter
     public function convert()
     {
         if ($resultConvert = $this->tcrUserConvert()) {
-            $this->request->attributes->set($this->param, new ArrayCollection(array($resultConvert)));
+            $this->request->attributes->set($this->param, new ArrayCollection(is_array($resultConvert) ? $resultConvert : array($resultConvert)));
         } else {
             $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error in CR sync!')), 410)));
         }

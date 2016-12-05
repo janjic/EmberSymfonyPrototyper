@@ -1,16 +1,20 @@
 <div class="panel-heading">
     <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-th-list" aria-hidden="true"></i>Reports</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-th-list" aria-hidden="true"></i>{{trans 'agent-menu.reports.title' }}</a>
     </h4>
 </div>
 <div id="collapseOne" class="panel-collapse collapse">
     <div class="panel-body">
         <ul class="table">
             <li>
-                {{#link-to 'dashboard.agent.reports.customer-orders'}}Customer Orders{{/link-to}}
+                {{#link-to 'dashboard.agent.reports.customer-orders'}}
+                    {{trans 'agent-menu.reports.orders' }}
+                {{/link-to}}
             </li>
             <li>
-                {{#link-to 'dashboard.agent.reports.commissions' }}Commissions and bonuses{{/link-to}}
+                {{#link-to 'dashboard.agent.reports.commissions' }}
+                    {{trans 'agent-menu.reports.bonuses' }}
+                {{/link-to}}
             </li>
         </ul>
     </div>

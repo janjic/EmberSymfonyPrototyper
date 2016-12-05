@@ -2,6 +2,8 @@
 namespace FSerializerBundle\Serializer;
 
 
+use Doctrine\Common\Util\ClassUtils;
+
 class JsonApiOne implements JsonApiElementInterface
 {
     use JsonApiLinkTrait;
@@ -55,10 +57,7 @@ class JsonApiOne implements JsonApiElementInterface
         $this->data = $data;
         $this->serializer = $serializer;
         if (method_exists($this->serializer, 'setDeserializationClass') && is_object($this->data) && !is_null($this->data)) {
-            $serializer->setDeserializationClass(get_class($this->data));
-            if (!$serializer->getDeserializationClass()) {
-
-            }
+            $serializer->setDeserializationClass(ClassUtils::getRealClass(get_class($this->data)));
         }
     }
 

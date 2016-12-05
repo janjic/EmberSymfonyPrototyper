@@ -89,6 +89,7 @@ services:
         arguments:
             fSerializer: "@f_serializer"
             tokenStorage: '@security.token_storage'
+            agentManager: '@agent_system.agent.manager'
 
     agent_system.tcr_user.adapter:
         class: UserBundle\Adapter\TCRUser\TCRUserAdapter
@@ -109,7 +110,6 @@ services:
         arguments:
             repository:  "@agent_system.agent.repository"
             roleManager: "@agent_system.group.manager"
-            syncManager: "@agent_system.tcr_user_manager"
             fSerializer: "@f_serializer"
 
     agent_system.agent.adapter:

@@ -1,22 +1,30 @@
 <div class="panel-heading">
     <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"><i class="fa fa-envelope-o" aria-hidden="true"></i>Mass Mails</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"><i class="fa fa-envelope-o" aria-hidden="true"></i>{{trans 'admin-menu.mass.mails.title'}}</a>
     </h4>
 </div>
 <div id="collapseSix" class="panel-collapse collapse">
     <div class="panel-body">
         <ul class="table">
             <li>
-                {{#link-to 'dashboard.mass-mails.add-new-mail-list'}}Add New Mail List{{/link-to}}
+                {{#link-to 'dashboard.mass-mails.add-new-mail-list'}}
+                    {{trans 'admin-menu.mass.mails.new.mail.list'}}
+                {{/link-to}}
             </li>
             <li>
-                {{#link-to 'dashboard.mass-mails.all-mail-lists'}}All Mail Lists{{/link-to}}
+                {{#link-to 'dashboard.mass-mails.all-mail-lists'}}
+                    {{trans 'admin-menu.mass.mails.all.mail.lists'}}
+                {{/link-to}}
             </li>
             <li>
-                {{#link-to 'dashboard.mass-mails.add-new-campaign'}}Add New Mass Mail Campaign{{/link-to}}
+                {{#link-to 'dashboard.mass-mails.add-new-campaign'}}
+                    {{trans 'admin-menu.mass.mails.new.campaign'}}
+                {{/link-to}}
             </li>
             <li>
-                {{#link-to 'dashboard.mass-mails.all-campaigns'}}All Mass Mail Campaigns{{/link-to}}
+                {{#link-to 'dashboard.mass-mails.all-campaigns'}}
+                    {{trans 'admin-menu.mass.mails.all.campaigns'}}
+                {{/link-to}}
             </li>
         </ul>
     </div>

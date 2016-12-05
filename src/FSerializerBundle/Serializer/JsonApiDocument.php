@@ -509,4 +509,11 @@ class JsonApiDocument implements JsonSerializable
 
         return $resourceObject;
     }
+    /**
+     * @return JsonApiElementInterface
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 }

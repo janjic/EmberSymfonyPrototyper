@@ -4,11 +4,15 @@ namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
+use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\TCRUser;
+use UserBundle\Entity\Document\Image;
+use DateTime;
 
 /**
  * Class TCRUserManager
@@ -27,14 +31,21 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
     protected $tokenStorage;
 
     /**
+     * @var AgentManager
+     */
+    protected $agentManager;
+
+    /**
      * TCRUserManager constructor.
      * @param FJsonApiSerializer $fSerializer
      * @param TokenStorageInterface $tokenStorage
+     * @param AgentManager $agentManager
      */
-    public function __construct(FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage)
+    public function __construct(FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage, AgentManager $agentManager)
     {
         $this->fSerializer = $fSerializer;
         $this->tokenStorage = $tokenStorage;
+        $this->agentManager = $agentManager;
     }
 
     /**
@@ -69,9 +80,11 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         foreach ($resp->items as $user) {
             $new = new TCRUser();
             foreach ($user as $key => $value) {
-                $new->setPropertyValue($key, $user->{$key});
-            }
+                $key = $key == 'name' ? 'firstName' : $key;
+                $key = $key == 'surname' ? 'lastName' : $key;
 
+                $new->setPropertyValue($key, $value);
+            }
             $users[] = $new;
         }
 
@@ -90,8 +103,33 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
      */
     public function getResource($id = null)
     {
-        var_dump($id);die();
-        // TODO: Implement getResource() method.
+        $resp = $this->getContentFromTCR('app_dev.php/sr/json/user/'.$id);
+
+        $user = new TCRUser();
+        foreach ($resp as $key => $value) {
+            $key = $key == 'name' ? 'firstName' : $key;
+            $key = $key == 'surname' ? 'lastName' : $key;
+
+            $user->setPropertyValue($this->dashesToCamelCase($key), $value);
+        }
+
+        if ($avatar = $user->getAvatar()) {
+            $image = new Image();
+            $image->setId($avatar->id);
+            $image->setFilePath($avatar->web_path);
+            $image->setName($avatar->name);
+
+            $user->setAvatar($image);
+        }
+
+        if ($agentObj = $user->getAgent()) {
+            $agent = $this->agentManager->findAgentById($agentObj->id);
+            $user->setAgent($agent);
+        }
+
+        $user->setBirthDate(new \DateTime($user->getBirthDate()));
+
+        return $this->serializeTCRUser($user);
     }
 
     /**
@@ -100,8 +138,49 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
      */
     public function saveResource($data)
     {
-        var_dump('stig');die();
-        // TODO: Implement saveResource() method.
+        $content = json_decode($data);
+        $data = $content->data->attributes;
+
+        foreach ($data as $key => $value) {
+            $newKey = $this->middleDashesToLower($key);
+            if (!property_exists($data, $newKey)) {
+                $data->{$newKey} = $value;
+                unset($data->{$key});
+            }
+        }
+
+        $data->password = $data->plainPassword;
+        $data->name = $data->firstName;
+        $data->surname = $data->lastName;
+        $data->roleAdmin = $data->isAdmin;
+        $data->phone_number = $data->phoneNumber;
+        $data->money_add = "";
+
+        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
+            $data->avatar = $imgData->attributes;
+            $data->avatar->id = $imgData->id;
+        } else {
+            $data->avatar = null;
+        }
+
+        $date = new \DateTime($data->birthDate);
+
+        $data->birth_date = $date->format(DateTime::ISO8601);
+
+        unset($data->firstName);
+        unset($data->lastName);
+        unset($data->isAdmin);
+        unset($data->avatar->type);
+        unset($data->username);
+        unset($data->phoneNumber);
+
+        $resp = $this->sendDataToTCR('app_dev.php/en/json/register', json_encode($data));
+
+        if($resp->status == 200) {
+            return array(array('meta' => array('message'=>'User successfully saved')), 200);
+        } else {
+            return array(array('errors' => array('message'=>'Error occurred')), 500);
+        }
     }
 
     /**
@@ -110,26 +189,81 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
      */
     public function updateResource($data)
     {
-        var_dump('stig');die();
-        // TODO: Implement updateResource() method.
+        $content = json_decode($data);
+        $data = $content->data->attributes;
+
+        foreach ($data as $key => $value) {
+            $newKey = $this->middleDashesToLower($key);
+            if (!property_exists($data, $newKey)) {
+                $data->{$newKey} = $value;
+                unset($data->{$key});
+            }
+        }
+
+        // adjust rest
+        $data->id = $content->data->id;
+        $data->name = $data->firstName;
+        $data->surname = $data->lastName;
+        $data->roleAdmin = $data->isAdmin;
+        $data->phone_number = $data->phoneNumber;
+        $data->money_add = "";
+
+        $date = new \DateTime($data->birthDate);
+        $data->birth_date = $date->format(DateTime::ISO8601);
+
+        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
+            $data->avatar = $imgData->attributes;
+            if ($imgData->id) {
+                $data->avatar->id = $imgData->id;
+                unset($data->avatar->base64_content);
+                unset($data->avatar->web_path);
+            }
+        } else {
+            $data->avatar = null;
+        }
+
+        unset($data->firstName);
+        unset($data->lastName);
+        unset($data->isAdmin);
+        unset($data->avatar->type);
+        unset($data->avatar->file_path);
+        unset($data->username);
+        unset($data->phoneNumber);
+
+        unset($data->baseImageUrl);
+        unset($data->password);
+        unset($data->passwordRepeat);
+        unset($data->plainPassword);
+        unset($data->emailRepeat);
+        unset($data->birthDate);
+
+        $url = 'app_dev.php/en/json/edit-user';
+        $resp = $this->sendDataToTCR($url, json_encode($data));
+
+        if($resp->status == 200) {
+            return array(array('meta' => array('message'=>'User successfully saved')), 200);
+        } else {
+            return array(array('errors' => array('message'=>'Error occurred')), 500);
+        }
     }
 
     /**
      * @param null $id
-     * @return mixed
+     * @throws \Exception
      */
     public function deleteResource($id)
     {
-        var_dump('stig');die();
-        // TODO: Implement deleteResource() method.
+        throw new \Exception('TCR User delete not supported!');
     }
 
     public function serializeTCRUser($user, $meta = null){
         $mappings = array(
             'tcr-users' => array('class' => TCRUser::class, 'type'=>'tcr-users'),
+            'agent' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class),
+            'avatar' => array('class' => Image::class, 'type'=>'images', 'jsonApiType'=> JsonApiOne::class)
         );
 
-        $serialized = $this->fSerializer->serialize($user, $mappings, []);
+        $serialized = $this->fSerializer->serialize($user, $mappings, ['agent', 'avatar']);
 
         if ($meta) {
             foreach ($meta as $key => $value) {
