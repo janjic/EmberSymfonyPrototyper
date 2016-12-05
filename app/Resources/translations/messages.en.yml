@@ -28,6 +28,7 @@ button:
   reset.passwrod: 'RESET PASSWORD'
   save: 'Save'
   edit: 'Edit'
+  change-pass: 'Change password'
 
 validation:
   email:
@@ -140,6 +141,13 @@ admin-user:
     no-agent: 'No agent'
     status: 'Status'
     address: 'Address'
+    social-security-num: 'Social security number'
+    bank: 'Bank name'
+    bank-account-num: 'Bank account number or IBAN'
+    address: 'Address'
+    fixed: 'Fixed number'
+    private-email: 'Private email'
+
 
 
 # ADMIN - AGENT PAGES
@@ -188,6 +196,13 @@ admin-agent:
     user-details: 'Provide new user account details'
     personal-details: 'Provide new user personal details'
     bank-info: 'Agent bank information'
+  profile:
+    title: 'My profile settings'
+    account-info: 'Account information'
+    optional-info: 'Optional information'
+    notification-settings: 'Notification settings'
+    genealogy-tree: 'Genealogy tree'
+
 
 
 

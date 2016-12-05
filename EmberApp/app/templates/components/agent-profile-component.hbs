@@ -1,7 +1,7 @@
 <section class="profile-view">
-    <h1 class="main-heading">My profile settings</h1>
+    <h1 class="main-heading">{{trans 'admin-agent.profile.title'}}</h1>
     <div class="col-md-6 col-sm-12 col-xs-12">
-        <h3 class="sub-heading">Account information</h3>
+        <h3 class="sub-heading">{{trans 'admin-agent.profile.account-info'}}</h3>
         <div class="profile-settings">
             <div class="row">
                 <div class="col-md-3 col-sm-3">
@@ -17,74 +17,74 @@
                 </div>
                 <div class="col-md-9 col-sm-9">
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Title</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.title'}}</label>
                         <div class="col-md-8 col-xs-8">
                             <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                                {{#if (eq currentUser.user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">Mr.</option> {{/if}}
-                                {{#if (eq currentUser.user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
+                                {{#if (eq currentUser.user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
+                                {{#if (eq currentUser.user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
                             </select>
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">First name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="firstName" changeset=changeset type="text"
                                               validateProperty=(action 'validateProperty' changeset "firstName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Last name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="lastName" changeset=changeset type="text"
                                               validateProperty=(action 'validateProperty' changeset "lastName")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Email</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="email" changeset=changeset type="text"
                                               validateProperty=(action 'validateProperty' changeset "email")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Phone number</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.phone'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
                                               validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Language</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.language'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{elements.language-select selectedLanguage=currentUser.user.nationality onLanguageSelected=(action 'updateLanguage')}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Country</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.country'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{elements.country-select selectedCountry=currentUser.user.address.country onCountryChange=(action 'changeCountry')}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Social security number</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.social-security-num'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{input type="text" class="form-control" value=changeset.socialSecurityNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Bank name</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.bank'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{input type="text" class="form-control" value=changeset.bankName }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Bank account number</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.bank-account-num'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{input type="text" class="form-control" value=changeset.bankAccountNumber }}
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Date of birth</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.birthdate'}}</label>
                         <div class="col-md-8 col-xs-8">
                             {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=changeset.birthDate}}
                             {{#if (get changeset.error 'birthDate')}}
@@ -101,9 +101,9 @@
                         </div>
                     </div>
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">Password</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.password'}}</label>
                         <div class="col-md-8 col-xs-8">
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#change-pass-modal">Change password</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#change-pass-modal">{{trans 'button.change-pass'}}</button>
                             <div class="modal fade" id="change-pass-modal" tabindex="-1" role="dialog" aria-labelledby="changePassModal">
                                 {{change-password-component}}
                             </div>
@@ -114,33 +114,33 @@
         </div>
     </div>
     <div class="col-md-6 col-sm-12 col-xs-12">
-        <h3 class="sub-heading">Optional information</h3>
+        <h3 class="sub-heading">{{trans 'admin-agent.profile.optional-info'}}</h3>
         <div class="profile-settings">
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Address</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.address'}}</label>
                 <div class="col-md-8 col-xs-8">
                     {{validated-field doNotShowLabel=true property="streetNumber" changeset=addressChangeset type="text"
                                       validateProperty=(action 'validateProperty' addressChangeset "streetNumber")}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Fixed number</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.fixed'}}</label>
                 <div class="col-md-8 col-xs-8">
                     {{input type="text" class="form-control" value=currentUser.user.address.fixedPhone }}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Private mail</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.private-email'}}</label>
                 <div class="col-md-8 col-xs-8">
                     {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
                                       validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                 </div>
             </div>
         </div>
-        <h3 class="sub-heading">Notification settings</h3>
+        <h3 class="sub-heading">{{trans 'admin-agent.profile.notification-settings'}}</h3>
         <div class="profile-settings">
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Show notifications</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.show-notifications'}}</label>
                 <div class="col-md-8 col-xs-8">
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
@@ -150,54 +150,54 @@
             </div>
             <div class="form-group clearfix checkboxes">
                 <div class="col-md-12">
-                    <label for="checkboxes">Select type of notifications which you want to show:</label>
+                    <label for="checkboxes">{{trans 'admin-user.label.notifications-message'}}</label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox1" value="option1"> New message
+                        <input type="checkbox" id="inlineCheckbox1" value="option1"> {{trans 'admin-user.label.new-message'}}
                     </label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox2" value="option2"> Payment
+                        <input type="checkbox" id="inlineCheckbox2" value="option2"> {{trans 'admin-user.label.payment'}}
                     </label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox3" value="option3"> New Agent
+                        <input type="checkbox" id="inlineCheckbox3" value="option3"> {{trans 'admin-user.label.new-agent'}}
                     </label>
                 </div>
             </div>
         </div>
-        <h3 class="sub-heading">Genealogy tree</h3>
+        <h3 class="sub-heading">{{trans 'admin-agent.profile.genealogy-tree'}}</h3>
         <div class="profile-settings">
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">ID</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
                 <div class="col-md-8 col-xs-8">
                     <p>{{currentUser.user.agentId}}</p>
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Type</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.type'}}</label>
                 <div class="col-md-8 col-xs-8">
                     {{currentUser.user.group.name}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Direct superior</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.direct-superior'}}</label>
                 <div class="col-md-8 col-xs-8">
                     {{currentUser.user.superior.firstName}} {{currentUser.user.superior.lastName}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Number of agents down the line</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.number-of-agents-downline'}}</label>
                 <div class="col-md-8 col-xs-8">
                     <p>7</p>
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-4 col-xs-4">Number of customers</label>
+                <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.customers'}}</label>
                 <div class="col-md-8 col-xs-8">
                     <p>15</p>
                 </div>
             </div>
             <div class="form-group clearfix">
                 <div class="col-md-12">
-                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>Edit profile</a>
+                    <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>{{trans 'button.edit'}}</a>
                 </div>
             </div>
         </div>
