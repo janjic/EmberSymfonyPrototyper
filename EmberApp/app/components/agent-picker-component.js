@@ -2,19 +2,23 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     store: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     agents: [],
     selectedAgentIndex: -1,
     selectedAgentId: null,
+    agentsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
+        let ctx = this;
+        if(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN') != -1){
+            return this.get('agents');
+        } else {
+            return [this.get('currentUser.user')];
+        }
+    }),
     init(){
         this._super(...arguments);
         this.set('agents', this.get('store').findAll('agent'));
         this.set('selectedAgentId', this.get('selectedAgent.id'));
         this.get('onAgentSelected')(this.get('selectedAgent'));
-        // let index = (this.get('agents').indexOf(this.get('selectedAgent')));
-        // console.log(this.get('selectedAgent.id'));
-        // if(index !== -1){
-        //     this.set('selectedAgentIndex', index);
-        // }
     },
     actions: {
         agentChanged: function (agentIndex) {

@@ -1,23 +1,40 @@
 import Ember from 'ember';
+import AgentValidations from '../validations/edit-agent';
+import AddressValidations from '../validations/address';
+import Changeset from 'ember-changeset';
+import lookupValidator from '../utils/lookupValidator';
+
 
 export default Ember.Component.extend({
+    AgentValidations,
+    AddressValidations,
     currentUser: Ember.inject.service('current-user'),
     store: Ember.inject.service(),
+    init() {
+        this._super(...arguments);
+        this.changeset = new Changeset(this.get('currentUser.user'), lookupValidator(AgentValidations), AgentValidations);
+        this.addressChangeset = new Changeset(this.get('currentUser.user.address'), lookupValidator(AddressValidations), AddressValidations);
+    },
     actions: {
         updateAgentBirthDate(date){
+            this.set('changeset.birthDate', date);
+            this.get('changeset').validate('birthDate');
             let agent = this.get('currentUser.user');
-            agent.set('birthDate', date);
+            agent.set('birthDate',date);
         },
         titleChanged(title){
-            let agent = this.get('currentUser.user');
-            agent.set('title', title);
+            this.changeset.set('title', title);
         },
         editAgent(agent){
-            agent.save().then(()=> function () {
-                this.toast.success('Profile saved!');
-            },() => function () {
-                this.toast.error('Profile not saved!');
-            });
+            this.get('changeset').validate() && this.get('addressChangeset').validate();
+            if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
+                agent.set('address', this.get('addressChangeset._content'));
+                agent.save().then(() => {
+                    this.toast.success('Agent saved!');
+                }, () => {
+                    this.toast.error('Data not saved!');
+                });
+            }
         },
         addedFile: function (file) {
             this.set('currentUser.user.image', null);
@@ -26,7 +43,7 @@ export default Ember.Component.extend({
             var reader = new FileReader();
             reader.onloadend = function () {
                 var imgBase64 = reader.result;
-                img.set('base64_content', imgBase64);
+                img.set('base64Content', imgBase64);
 
             };
             reader.readAsDataURL(file);
@@ -41,5 +58,13 @@ export default Ember.Component.extend({
         changeCountry(country){
             this.set('currentUser.user.address.country', country);
         },
+
+        /** validations */
+        reset(changeset) {
+            return changeset.rollback();
+        },
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        }
     }
 });
