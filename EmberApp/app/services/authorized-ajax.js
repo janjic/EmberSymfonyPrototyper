@@ -14,7 +14,7 @@ export default Ember.Service.extend(AjaxRequestMixin, {
                 data: data,
             };
             this.request(url, options).then(response => {
-                callBack.apply(context,response);
+                callBack(response);
             });
         });
     }

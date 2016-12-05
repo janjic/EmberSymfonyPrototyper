@@ -1,14 +1,16 @@
 import Ember from 'ember';
 import ChangePasswordValidation from '../validations/change-password';
-const { inject: { service } } = Ember;
+const { inject: { service }, A} = Ember;
 const {Routing, ApiCode, Translator} = window;
 import LoadingStateMixin from '../mixins/loading-state';
 export default Ember.Component.extend(LoadingStateMixin,{
     authorizedAjax: service('authorized-ajax'),
     validations: ChangePasswordValidation,
-    password: '',
-    passwordConfirmation: '',
-    oldPassword: '',
+
+    init() {
+        this._setUpDefault();
+        this._super(...arguments);
+    },
     actions: {
         setNewPassword(changeset) {
             if (changeset.validate() && changeset.get('isValid')) {
@@ -25,6 +27,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
                                 this.toast.error(Translator.trans('password.changed.old.is_not_correct'));
                                 break;
                             case ApiCode.PASSWORDS_CHANGED_OK:
+                                this.set('open', false);
+                                this._setUpDefault(changeset);
                                 this.toast.success(Translator.trans('password.changed.successfully'));
                                 break;
                             case ApiCode.PASSWORDS_ARE_NOT_SAME:
@@ -34,7 +38,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
                                 return;
                         }
                         this.disableLoader();
-                    }, this);
+                    }.bind(this), this);
 
 
             }
@@ -42,6 +46,16 @@ export default Ember.Component.extend(LoadingStateMixin,{
         validateProperty(changeset, property) {
             return changeset.validate(property);
         }
+    },
+
+    _setUpDefault(context=this) {
+        A([
+            'password',
+            'passwordConfirmation',
+            'oldPassword',
+        ]).forEach((property) => {
+            context.set(property, '');
+        });
     }
 
 });
