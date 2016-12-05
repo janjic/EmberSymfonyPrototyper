@@ -98,7 +98,6 @@ Router.map(function() {
         this.route('payout-history');
       });
       this.route('users', function() {
-        this.route('add-new-user');
         this.route('users-customers');
         this.route('user-edit');
         this.route('user-view');
