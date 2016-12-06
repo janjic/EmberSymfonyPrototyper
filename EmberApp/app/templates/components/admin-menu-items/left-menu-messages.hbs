@@ -1,31 +1,24 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven"><i class="fa fa-commenting-o" aria-hidden="true"></i>{{trans 'admin-menu.messages.title'}}</a>
-    </h4>
-</div>
-<div id="collapseSeven" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.messages.received-messages'}}
-                    {{trans 'admin-menu.messages.received'}}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.messages.drafts'}}
-                    {{trans 'admin-menu.messages.drafts'}}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.messages.sent'}}
-                    {{trans 'admin-menu.messages.sent'}}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.messages.trash'}}
-                    {{trans 'admin-menu.messages.trash'}}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Messages"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.messages.received-messages'}}
+                {{trans 'admin-menu.messages.received'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.messages.drafts'}}
+                {{trans 'admin-menu.messages.drafts'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.messages.sent'}}
+                {{trans 'admin-menu.messages.sent'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.messages.trash'}}
+                {{trans 'admin-menu.messages.trash'}}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}
