@@ -1,31 +1,24 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven"><i class="fa fa-commenting-o" aria-hidden="true"></i>{{trans 'agent-menu.messages.title' }}</a>
-    </h4>
-</div>
-<div id="collapseSeven" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.agent.messages.received-messages'}}
-                    {{trans 'agent-menu.messages.received' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agent.messages.drafts'}}
-                    {{trans 'agent-menu.messages.drafts' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agent.messages.sent'}}
-                    {{trans 'agent-menu.messages.sent' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agent.messages.trash'}}
-                    {{trans 'agent-menu.messages.trash' }}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Messages" class="menu-messages"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.agent.messages.received-messages'}}
+                {{trans 'agent-menu.messages.received' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.messages.drafts'}}
+                {{trans 'agent-menu.messages.drafts' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.messages.sent'}}
+                {{trans 'agent-menu.messages.sent' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.messages.trash'}}
+                {{trans 'agent-menu.messages.trash' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}

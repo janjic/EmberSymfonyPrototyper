@@ -1,21 +1,14 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"><i class="fa fa-credit-card" aria-hidden="true"></i>{{trans 'admin-menu.payments.title'}}</a>
-    </h4>
-</div>
-<div id="collapseFive" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.payments.payouts-to-agents'}}
-                    {{trans 'admin-menu.payments.payouts.to.agents'}}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.payments.reports'}}
-                    {{trans 'admin-menu.payments.reports'}}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Payments" class="menu-payments"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.payments.payouts-to-agents'}}
+                {{trans 'admin-menu.payments.payouts.to.agents'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.payments.reports'}}
+                {{trans 'admin-menu.payments.reports'}}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}

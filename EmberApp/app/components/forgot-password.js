@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import ForgotPasswordValidations from '../validations/forgot-password';
+import LoadingStateMixin from '../mixins/loading-state';
 import request from 'ember-ajax/request';
-const {Translator, ApiCode} = window;
-
-export default Ember.Component.extend({
+const {Translator, ApiCode, Routing} = window;
+export default Ember.Component.extend(LoadingStateMixin,{
     validations: ForgotPasswordValidations,
     email: '',
     init() {
@@ -18,12 +18,12 @@ export default Ember.Component.extend({
                         usernameOrPassword: changeset.get('email')
                     }
                 };
-                this.set('isLoading', true);
+                this.showLoader();
                 request(Routing.generate('api_agent_forgot_password'), options).then(response => {
-                    this.set('isLoading', false);
+                    this.disableLoader();
                     switch (parseInt(response.status)) {
                         case ApiCode.PASSWORD_ALREADY_REQUESTED:
-                            this.toast.error(trans('password.already.requested.%ttl%', {'ttl': response.time}));
+                            this.toast.error(Translator.trans('password.already.requested.%ttl%', {'ttl': response.time}));
                             break;
                         case ApiCode.MAIL_SENT_TO_USER:
                             this.toast.success(Translator.trans('password.resetting.link.sent'));

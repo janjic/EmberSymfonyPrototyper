@@ -1,35 +1,29 @@
-<section class="form-wizard">
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="dashboar-heading">Edit User</h3>
-        </div>
-    </div>
+<section class="user-edit">
+    <h1 class="main-heading">{{trans 'admin-user.edit.title'}}</h1>
     <form role="form">
         <div class="row setup-content">
             <div class="col-md-6">
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4" for="title">Title
+                    <label class="control-label col-md-4 col-xs-4" for="title">{{trans 'admin-user.label.title'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
                         <select class="form-control" disabled onchange={{ action 'titleChanged'  value="target.value"}}>
-                            {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">Mr.</option> {{/if}}
-                            {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">Mrs.</option> {{/if}}
+                            {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
+                            {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
                         </select>
                         {{#if (get changeset.error 'title')}}
-                            <small>
-                                <ul>
-                                    {{#each (get (get changeset.error 'title') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            </small>
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     </div>
                 </div>
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Name
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -44,7 +38,7 @@
                 </div>
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Family name
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -58,7 +52,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Email
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -66,7 +60,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Company
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.company'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -74,13 +68,14 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Insert user image
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
-                    {{#if user.avatar.filePath}}
-                        <img src="{{user.avatar.filePath}}" alt="{{user.username}}" width="300" height="300">
-                    {{/if}}
                     <div class="col-md-8 user-img">
+                        {{#if user.avatar.filePath}}
+                            <img style="margin-bottom: 15px;" src="{{user.avatar.filePath}}" alt="{{user.username}}" width="300" height="300">
+                        {{/if}}
+
                         <div class="insert-avatar-container text-center" >
                             {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                         </div>
@@ -91,7 +86,7 @@
             <div class="col-md-6">
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Street and number
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.street-number'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -99,7 +94,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">City
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.city'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -107,7 +102,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Postcode
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -115,7 +110,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Country
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.country'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -123,7 +118,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Phone number
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.phone'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -138,7 +133,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Language
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.language'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -146,7 +141,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Date of birth
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.birthdate'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -163,7 +158,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Admin
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.admin'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8">
@@ -177,7 +172,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">Comment
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.comment'}}
                         <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
@@ -186,9 +181,7 @@
                 </div>
 
                 <div class="form-group clearfix text-right">
-                    <div class="col-md-12">
-                        <button class="btn btn-danger pull-right" {{action 'saveUser' changeset }}>Save</button>
-                    </div>
+                    <button class="btn btn-success pull-right" {{action 'saveUser' changeset }}>{{trans 'button.save'}}</button>
                 </div>
             </div>
         </div>

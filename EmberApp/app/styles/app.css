@@ -49,7 +49,7 @@ h5{
 }
 
 label {
-    font-weight: 600;
+    font-weight: 300;
     font-size: 13px;
 }
 
@@ -564,9 +564,10 @@ header{
     padding: 15px 20px 15px 20px;
     width: 100%;
     height: 100%;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 300;
     background: #364150;
+    color: #ccc;
 }
 .admin-panel .panel-title>a:hover{
     background: #2f3844;
@@ -733,22 +734,12 @@ header{
 /* ------ FORM WIZARD END --------------------------------------------------------------------------------------------- */
 
 .form-wizard label{
-    font-weight: 400;
+    font-weight: 300;
 }
 .required{
     color:#C0392B;
 }
-.form-wizard .form-group{
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-}
+
 .setup-content .form-control, .profile-settings .form-control{
     border-radius: 0;
 }
@@ -762,16 +753,12 @@ header{
 }
 
 .setup-content label {
-    font-weight: 600;
+    font-weight: 300;
     font-size: 13px;
 }
 
 .profile-settings {
     margin-bottom: 15px;
-}
-
-.profile-settings label {
-    font-weight: bold;
 }
 
 .dropzone {
@@ -972,7 +959,7 @@ input:focus{
     min-width: 600px;
 }
 
-/*MESSAGES*/
+/* MESSAGES */
 
 .messages-heading{
     padding-bottom: 15px;
@@ -1831,3 +1818,123 @@ svg{
 .btn:focus {
     outline: 0;
 }
+
+.table-pagination {
+    text-align: center;
+    padding: 5px;
+}
+
+.table-pagination .btn-primary {
+    padding: 2px 6px;
+    font-size: 10px;
+}
+
+.panel-title>a:before {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.menu-genealogy .panel-title>a:before {
+    content: "\f1bb";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-users .panel-title>a:before {
+     content:  "\f007";
+     font-family: FontAwesome;
+     font-style: normal;
+     font-weight: normal;
+     text-decoration: inherit;
+ }
+
+.menu-agents .panel-title>a:before {
+    content:   "\f0b1";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-payments .panel-title>a:before {
+    content:   "\f09d";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-payments .panel-title>a:before {
+    content:   "\f09d";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-messages .panel-title>a:before {
+    content:   "\f003";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-mails .panel-title>a:before {
+    content:   "\f1d9";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-settings .panel-title>a:before {
+    content:   "\f013";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-dashboard .panel-title>a:before {
+    content:   "\f0e4";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-tickets .panel-title>a:before {
+    content:   "\f145";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-reports .panel-title>a:before {
+    content:   "\f03a";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-wallet .panel-title>a:before {
+    content:   "\f09d";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-profile .panel-title>a:before {
+    content:   "\f192";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+

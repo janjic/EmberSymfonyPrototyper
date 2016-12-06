@@ -8,7 +8,6 @@ const roles =  {
             name: 'dashboard',
             when: function (user) {
                 return  new RSVP.Promise((resolve, reject) =>{
-                    console.log(user.get('roles'));
                     if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
                         resolve(true);
                     } else {

@@ -4,6 +4,8 @@ namespace UserBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Controller\TokenController as BaseController;
+use FOS\OAuthServerBundle\Entity\RefreshTokenManager;
+use FOS\OAuthServerBundle\Storage\OAuthStorage;
 use FOS\UserBundle\Model\UserManagerInterface;
 use OAuth2\OAuth2;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,55 +23,39 @@ class TokenController extends BaseController {
      */
     private $userManager;
 
+    /**
+     * @var OAuthStorage
+     */
+    private $authStorage;
+
 
     /**
      * TokenController constructor.
      * @param OAuth2 $server
      * @param EntityManager $entityManager
+     * @param UserManagerInterface $userManager
+     * @param OAuthStorage $authStorage
      */
-    public function __construct(OAuth2 $server, EntityManager $entityManager, UserManagerInterface $userManager)
+    public function __construct(OAuth2 $server, EntityManager $entityManager, UserManagerInterface $userManager, OAuthStorage $authStorage)
     {
         parent::__construct($server);
         $this->em           = $entityManager;
         $this->userManager  = $userManager;
+        $this->authStorage = $authStorage;
 
     }
 
     public function tokenAction(Request $request)
     {
-        $regex = '#^(authorization_code|token|password|client_credentials|refresh_token|https?://.+|urn:.+)$#';
-        $filters = array(
-            "grant_type" => array(
-                "filter" => FILTER_VALIDATE_REGEXP,
-                "options" => array("regexp" => $regex),
-                "flags" => FILTER_REQUIRE_SCALAR
-            ),
-            "scope" => array("flags" => FILTER_REQUIRE_SCALAR),
-            "code" => array("flags" => FILTER_REQUIRE_SCALAR),
-            "redirect_uri" => array("filter" => FILTER_SANITIZE_URL),
-            "username" => array("flags" => FILTER_REQUIRE_SCALAR),
-            "password" => array("flags" => FILTER_REQUIRE_SCALAR),
-            "refresh_token" => array("flags" => FILTER_REQUIRE_SCALAR),
-        );
-
-        if ($request === null) {
-            $request = Request::createFromGlobals();
-        }
-
-        // Input data by default can be either POST or GET
-        if ($request->getMethod() === 'POST') {
-            $inputData = $request->request->all();
-        } else {
-            $inputData = $request->query->all();
-        }
-
-        $input = filter_var_array($inputData, $filters);
         /** @var Response $response */
         $response = parent::tokenAction($request);
         $token = json_decode($response->getContent());
 
-        if (!property_exists($token, 'error')&& ($username = $input['username'])) {
-             $token->account_id = $this->userManager->findUserByUsernameOrEmail($username)->getId();
+        if (property_exists($token, 'refresh_token')) {
+            $refreshToken =  $this->authStorage->getRefreshToken($token->refresh_token);
+            if ($refreshToken && ($user = $refreshToken->getUser())) {
+                $token->account_id = $user->getId();
+            }
         }
 
         $response->setContent(json_encode($token));

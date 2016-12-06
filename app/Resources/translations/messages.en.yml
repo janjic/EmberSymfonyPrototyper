@@ -3,6 +3,8 @@ password:
   changed:
     successfully:                'Password is changed successfully'
     invalid.token:               'Access token has expired, been revoked, or is otherwise invalid !'
+    old.is.not.correct:          'Old password is not correct'
+    are.not.same:                 'Entered passwords are not same'
   already.requested.%ttl%:       'Password already requested in last %ttl% minutes!'
   resetting.link.sent:           'Resetting link is sent to your email address !'
   user.with.email.not.exist:     'User with entered email does not exist !'
@@ -17,9 +19,18 @@ loading:
 placeholder:
   email: 'Plese insert you email'
 
+table:
+  pagination:
+    first: 'First'
+    previous: 'Previous'
+    next: 'Next'
+    last: 'Last'
+
 button:
   reset.passwrod: 'RESET PASSWORD'
   save: 'Save'
+  edit: 'Edit'
+  change-pass: 'Change password'
 
 validation:
   email:
@@ -97,30 +108,102 @@ agent-menu:
 # ADMIN - USER PAGES
 
 admin-user:
+  all:
+    title: 'All users'
   new:
     title: 'Add new user'
-    label:
-      title: 'Title'
-      choose-title: 'Choose title'
-      mr: 'Mr.'
-      mrs: 'Mrs.'
-      name: 'Name'
-      family-name: 'Family name'
-      password: 'Password'
-      repeat-password: 'Repeat password'
-      email: 'Email'
-      repeat-email: 'Repeat email'
-      company: 'Company'
-      image: 'User image'
-      street-number: 'Street number'
-      postcode: 'Postcode'
-      city: 'City'
-      country: 'Country'
-      phone: 'Phone number'
-      language: 'Language'
-      birthdate: 'Date of birth'
-      admin: 'Admin'
-      comment: 'Comment'
+  edit:
+    title: 'Edit user'
+  label:
+    title: 'Title'
+    choose-title: 'Choose title'
+    mr: 'Mr.'
+    mrs: 'Mrs.'
+    name: 'First name'
+    family-name: 'Last name'
+    password: 'Password'
+    repeat-password: 'Repeat password'
+    email: 'Email'
+    repeat-email: 'Repeat email'
+    company: 'Company'
+    image: 'User image'
+    street-number: 'Street number'
+    postcode: 'Postcode'
+    city: 'City'
+    country: 'Country'
+    phone: 'Phone number'
+    language: 'Language'
+    birthdate: 'Date of birth'
+    admin: 'Admin'
+    comment: 'Comment'
+    agent-id: 'Agent ID'
+    agent-first-name: 'Agent first name'
+    agent-last-name: 'Agent last name'
+    agent-email: 'Agent email'
+    no-agent: 'No agent'
+    status: 'Status'
+    address: 'Address'
+    social-security-num: 'Social security number'
+    bank: 'Bank name'
+    bank-account-num: 'Bank account number or IBAN'
+    address: 'Address'
+    fixed: 'Fixed number'
+    private-email: 'Private email'
+
+
+
+# ADMIN - AGENT PAGES
+
+admin-agent:
+  all:
+    title: 'All agents'
+  new:
+    title: 'Add new agent'
+  edit:
+    title: 'Edit agent'
+  label:
+    type: 'Choose type'
+    superior: 'Choose superior type'
+    title: 'Title'
+    choose-title: 'Choose title'
+    mr: 'Mr.'
+    mrs: 'Mrs.'
+    agent-id: 'Agent ID'
+    first-name: 'First name'
+    last-name: 'Last name'
+    password: 'Password'
+    repeat-password: 'Repeat password'
+    email: 'Email'
+    repeat-email: 'Repeat email'
+    private-email: 'Private email'
+    street-number: 'Street number'
+    postcode: 'Postcode'
+    city: 'City'
+    country: 'Country'
+    phone: 'Phone number'
+    language: 'Language'
+    birthdate: 'Date of birth'
+    mobile: 'Mobile phone'
+    social-security-num: 'Social security number'
+    bank: 'Bank name'
+    bank-account-num: 'Bank account number or IBAN'
+    agent-background: 'Agent background'
+    agent-image: 'Agent image'
+    status: 'Status'
+    address: 'Address'
+    num-of-agents-downline: 'Number of agents down the line'
+    customers: 'Number of customers'
+    customer-orders-sum: 'Total sum of customer orders'
+  subheading:
+    user-details: 'Provide new user account details'
+    personal-details: 'Provide new user personal details'
+    bank-info: 'Agent bank information'
+  profile:
+    title: 'My profile settings'
+    account-info: 'Account information'
+    optional-info: 'Optional information'
+    notification-settings: 'Notification settings'
+    genealogy-tree: 'Genealogy tree'
 
 validations:
   presence-password: 'Password is too short (minimum is 5 characters)!'
