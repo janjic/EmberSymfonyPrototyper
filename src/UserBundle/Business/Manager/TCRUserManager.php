@@ -176,8 +176,8 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
         $resp = $this->sendDataToTCR('app_dev.php/en/json/register', json_encode($data));
 
-        if($resp->status == 200) {
-            return array(array('meta' => array('message'=>'User successfully saved')), 200);
+        if($resp->code == 200) {
+            return array(array('data' => array('id' => $resp->id, "type" => "tcr-users")), 201);
         } else {
             return array(array('errors' => array('message'=>'Error occurred')), 500);
         }
@@ -241,7 +241,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $resp = $this->sendDataToTCR($url, json_encode($data));
 
         if($resp->status == 200) {
-            return array(array('meta' => array('message'=>'User successfully saved')), 200);
+            return array(array('meta' => array('message'=>'User successfully saved')), 204);
         } else {
             return array(array('errors' => array('message'=>'Error occurred')), 500);
         }

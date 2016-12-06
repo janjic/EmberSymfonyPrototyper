@@ -97,7 +97,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-xs-5">{{trans 'admin-user.new.label.company'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-7 col-xs-7">
                         {{input type="text" class="form-control" value=changeset.company }}
@@ -105,7 +105,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.image'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12 user-img">
                         <div class="insert-avatar-container text-center" >
@@ -117,7 +117,7 @@
             <div class="col-md-6">
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.street-number'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     {{address}}
 
@@ -127,7 +127,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.postcode'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{input type="email" class="form-control" value=changeset.zip }}
@@ -135,7 +135,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.city'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{input type="email" class="form-control" value=userCity }}
@@ -213,9 +213,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.comment'}}
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-user.new.label.comment'}}</label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{textarea class="form-control" name="username" value=user.comment}}
                     </div>

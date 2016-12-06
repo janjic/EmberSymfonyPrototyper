@@ -41,7 +41,10 @@ class ApiCodeDumper
     public function dump($target = 'web/js')
     {
         $file = $target. '/' .'api-codes.js';
-        $this->filesystem->remove($file);
+        if( file_exists($file)){
+            $this->filesystem->remove($file);
+        }
+
         $this->filesystem->touch($file);
         $data = array('codes'=>(new \ReflectionClass(AgentApiCode::class))->getConstants());
         file_put_contents(
