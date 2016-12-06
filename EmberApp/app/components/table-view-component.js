@@ -17,13 +17,13 @@ export default Ember.Component.extend({
                 if (result) {
                     result
                         .then((filterResults) => this.set('model', filterResults) && this.set('maxPages', filterResults.meta.pages))
-                        .catch((result) => console.log(result));
+                        .catch((result) => console.error(result));
                 }
             }
         },
         handleFilterEntry(column, searchValue, compareType) {
-            var searchArrayFields = this.get('searchArray');
-            var exists = searchArrayFields.findBy('field', column);
+            let searchArrayFields = this.get('searchArray');
+            let exists = searchArrayFields.findBy('field', column);
             if (exists !== undefined) {
                 if (searchValue === '') {
                     searchArrayFields.removeObject(exists);
@@ -39,12 +39,12 @@ export default Ember.Component.extend({
                     });
                 }
             }
-            var paramsArray = this.get('paramsArray');
+            let paramsArray = this.get('paramsArray');
             paramsArray.rules = searchArrayFields;
             this.set('page', 1);
             this.get('filter')(paramsArray, 1, this.get('sortColumn'), this.get('sortType'))
                 .then((filterResults) => this.set('model', filterResults)  && this.set('maxPages', filterResults.meta.pages))
-                .catch((result) => console.log(result));
+                .catch((result) => console.error(result));
         }
     }
 });

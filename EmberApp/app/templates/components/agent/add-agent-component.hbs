@@ -165,7 +165,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                        {{elements/country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
                         {{#if (get addressChangeset.error 'country')}}
                             <small>
                                 <ul>
@@ -182,7 +182,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
+                        {{elements/language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
                         {{#if (get changeset.error 'nationality')}}
                             <small>
                                 <ul>

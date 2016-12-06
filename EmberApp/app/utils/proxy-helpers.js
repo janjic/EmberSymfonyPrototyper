@@ -22,7 +22,7 @@ function _itemAt(arr, index) {
     if (typeof arr.objectAt === 'function') {
         return arr.objectAt(index);
     } else {
-        return arr[i];
+        return arr[index];
     }
 }
 

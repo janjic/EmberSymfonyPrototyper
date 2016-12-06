@@ -17,21 +17,24 @@ export default Ember.Component.extend({
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            var agent = this.model;
+            let agent = this.model;
             agent.set('birthDate', date);
         },
         addedFile: function (file) {
-            var img = this.model.get('image');
+            let img = this.model.get('image');
             img.set('name', file.name);
-            var reader = new FileReader();
+            let reader = new FileReader();
             reader.onloadend = function () {
-                var imgBase64 = reader.result;
+                let imgBase64 = reader.result;
                 img.set('base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
         },
         saveAgent(agent, address) {
-           let isValid = this.get('changeset').validate() && this.get('addressChangeset').validate() && this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid');
+            let changeSet = this.get('changeset');
+            let addressChangeSet = this.get('addressChangeset');
+            let isValidatedSuccess =  changeSet.validate() && addressChangeSet.validate();
+            let isValid = isValidatedSuccess && this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid');
             if (isValid ) {
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {
@@ -67,7 +70,7 @@ export default Ember.Component.extend({
             return changeset.rollback();
         },
         validateProperty(changeset, property) {
-            var prop = property;
+            let prop = property;
             if(this.isObject(changeset.get(property))){
                 prop = property+'.id';
             }

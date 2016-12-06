@@ -46,19 +46,4 @@ class AgentAPIConverter extends JsonAPIConverter
         $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
     }
 
-    /**
-     * @param $string
-     * @param bool $capitalizeFirstCharacter
-     * @return mixed
-     */
-    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
-    {
-        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
-
-        if (!$capitalizeFirstCharacter) {
-            $str[0] = strtolower($str[0]);
-        }
-        return $str;
-    }
-
 }

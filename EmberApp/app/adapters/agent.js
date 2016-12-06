@@ -5,10 +5,11 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 const Routing = window.Routing;
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-    namespace: 'app_dev.php/api',
+    namespace: 'api',
     authorizer: 'authorizer:application',
 
     urlForCreateRecord: function () {
+        return 'https://192.168.11.3/app_dev.php/api/agent-save';
         return Routing.generate('api_agent_save');
     }
 });

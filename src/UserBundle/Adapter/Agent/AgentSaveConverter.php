@@ -70,7 +70,6 @@ class AgentSaveConverter extends JQGridConverter
         /**
          * Populate agent object with relationships and image url
          */
-//        $agent->setAddress($address);
         $agent->setGroup($group);
 
         /**

@@ -6,16 +6,15 @@ export default Ember.Component.extend({
     agents: [],
     selectedAgentIndex: -1,
     selectedAgentId: null,
-    agentsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
-        let ctx = this;
-        console.log(this.get('currentUser.user'));
-        if(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN') != -1){
+    agentsFiltered: Ember.computed('agents.[]', 'currentUser', function () {
+        if(!Object.is(this.get('currentUser.user.roles').indexOf('ROLE_SUPER_ADMIN'),  -1)){
             return this.get('agents');
         } else {
             return [this.get('currentUser.user')];
         }
     }),
-    init(){
+
+    didInsertElement() {
         this._super(...arguments);
         this.set('agents', this.get('store').findAll('agent'));
         this.set('selectedAgentId', this.get('selectedAgent.id'));

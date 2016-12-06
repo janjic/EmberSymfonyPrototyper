@@ -1,7 +1,7 @@
 import buildMessage from 'ember-changeset-validations/utils/validation-errors';
 
 function _testDate(key, value, valid, context = {}) {
-    return valid? true: buildMessage(key, 'present', value, context);
+    return valid? true: buildMessage(key, 'greaterThanOrEqualTo', valid, 18);
 }
 
 export default function validateDate(opts) {

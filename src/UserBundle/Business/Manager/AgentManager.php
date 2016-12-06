@@ -4,11 +4,8 @@ namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
-use CoreBundle\Business\Serializer\FSDSerializer;
 use DateTime;
-use Doctrine\Common\Util\Debug;
 use FSerializerBundle\services\FJsonApiSerializer;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
@@ -90,6 +87,8 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
     /**
      * @param $request
+     * @return array
+     *
      */
     public function jqgridAction($request)
     {
@@ -230,7 +229,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      * @param bool $capitalizeFirstCharacter
      * @return mixed
      */
-    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
+    public function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
     {
         $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
 
@@ -250,8 +249,9 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->getUserForProvider($usernameOrEmail);
     }
 
-    /**
+    /***
      * @param UserInterface $user
+     * @return Agent
      */
     public function refreshUserForProvider(UserInterface $user)
     {
@@ -329,7 +329,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
 
-    function serializeAgent($agent)
+    public function serializeAgent($agent)
     {
         $relations = array('group', 'superior', 'group.roles', 'image', 'address');
         //LINKS AND META ARE OPTIONALS
