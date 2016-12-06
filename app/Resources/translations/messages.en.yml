@@ -14,8 +14,6 @@ loading:
   sending.data: 'Sending data to server...'
   logging.user: 'Logging user in...'
 
-
-
 placeholder:
   email: 'Plese insert you email'
 
