@@ -1,21 +1,14 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><i class="fa fa-ticket" aria-hidden="true"></i>{{trans 'agent-menu.tickets.title' }}</a>
-    </h4>
-</div>
-<div id="collapseTwo" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.agent.tickets.tickets-all'}}
-                    {{trans 'agent-menu.tickets.history' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agent.tickets.new-ticket' }}
-                    {{trans 'agent-menu.tickets.new' }}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Tickets" class="menu-tickets"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.agent.tickets.tickets-all'}}
+                {{trans 'agent-menu.tickets.history' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.tickets.new-ticket' }}
+                {{trans 'agent-menu.tickets.new' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}

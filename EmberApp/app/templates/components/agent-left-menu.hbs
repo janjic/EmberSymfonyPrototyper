@@ -1,21 +1,19 @@
-{{#if }}
-
-{{/if}}
-<div class=" left-section">
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
+<div class="left-section">
+{{#bs-accordion selected=selected class="panel-group"}}
+        <div class="panel panel-default menu-dashboard">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    {{#link-to 'dashboard.agent.home'}}<i class="fa fa-tachometer"></i> {{trans 'agent-menu.dashboard.title' }}{{/link-to}}
+                    {{#link-to 'dashboard.agent.home'}}{{trans 'agent-menu.dashboard.title' }}{{/link-to}}
                 </h4>
             </div>
         </div>
-        {{agent-menu-items.agent-left-menu-genealogy}}
-        {{agent-menu-items.agent-left-menu-users}}
-        {{agent-menu-items.agent-left-menu-tickets}}
-        {{agent-menu-items.agent-left-menu-reports}}
-        {{agent-menu-items.agent-left-menu-wallet}}
-        {{agent-menu-items.agent-left-menu-profile}}
-        {{agent-menu-items.agent-left-menu-messages}}
+    {{agent-menu-items/agent-left-menu-genealogy}}
+    {{agent-menu-items/agent-left-menu-users}}
+    {{agent-menu-items/agent-left-menu-tickets}}
+    {{agent-menu-items/agent-left-menu-reports}}
+    {{agent-menu-items/agent-left-menu-wallet}}
+    {{agent-menu-items/agent-left-menu-profile}}
+    {{agent-menu-items/agent-left-menu-messages}}
     </div>
+{{/bs-accordion}}
 </div>
