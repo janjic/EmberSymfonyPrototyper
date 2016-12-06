@@ -1,26 +1,19 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><i class="fa fa-user-secret" aria-hidden="true"></i>{{trans 'admin-menu.agents.title'}}</a>
-    </h4>
-</div>
-<div id="collapseFour" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.agents.add-new-agent'}}
-                    {{trans 'admin-menu.agents.new'}}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agents.all-agents'}}
-                    {{trans 'admin-menu.agents.all' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agents.agent-update-history'}}
-                    {{trans 'admin-menu.agents.update.history' }}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Agents"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.agents.add-new-agent'}}
+                {{trans 'admin-menu.agents.new'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agents.all-agents'}}
+                {{trans 'admin-menu.agents.all' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agents.agent-update-history'}}
+                {{trans 'admin-menu.agents.update.history' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}
