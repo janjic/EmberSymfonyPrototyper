@@ -1906,3 +1906,35 @@ svg{
     text-decoration: inherit;
 }
 
+.menu-tickets .panel-title>a:before {
+    content:   "\f145";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-reports .panel-title>a:before {
+    content:   "\f03a";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-wallet .panel-title>a:before {
+    content:   "\f09d";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+.menu-profile .panel-title>a:before {
+    content:   "\f192";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
