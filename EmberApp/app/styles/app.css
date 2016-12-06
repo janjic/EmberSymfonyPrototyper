@@ -1843,7 +1843,7 @@ svg{
 }
 
 .menu-users .panel-title>a:before {
-     content:  "\f0c0";
+     content:  "\f007";
      font-family: FontAwesome;
      font-style: normal;
      font-weight: normal;

@@ -2,46 +2,53 @@
     {{#each groups as |group|}}
         <div class="form-group clearfix">
             {{group.name}}
-            <button class="btn btn-info pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
-            <button class="btn btn-info pull-right" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-success pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
+            <button class="btn btn-danger pull-right" style="margin-right: 5px;" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
         </div>
     {{/each}}
 </div>
 
 <div class="col-md-6">
     {{#if displayDelete}}
-        <h4>Please select new group for users</h4>
+        <h3 class="sub-heading">Please select new group for users</h3>
         <div>
             {{#each availableParents as |group|}}
-                <div class="row">
-                    <div class="col-md-3">
-                        {{group.name}}
+                <div class="form-group clearfix">
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            {{group.name}}
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-primary" {{action "setNewParentGroup" group}}>Set as new parent</button>
+                        </div>
                     </div>
-                    <button class="btn btn-primary col-md-3" {{action "setNewParentGroup" group}}>Set as new parent</button>
                 </div>
             {{/each}}
 
-            <button class="btn btn-primary pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >Delete</button>
-            <button class="btn btn-primary pull-right" {{action "cancelDelete"}}>Cancel</button>
+            <button class="btn btn-danger pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >Delete</button>
+            <button class="btn btn-success pull-right" style="margin-right: 5px;" {{action "cancelDelete"}}>Cancel</button>
         </div>
     {{else}}
         {{#if displayEdit}}
             <h1 class="main-heading">Edit group</h1>
             <div>
-                {{input type="text" class="new-group" placeholder="New group" value=editGroup.name}}
+                <div class="form-group clearfix">
+                    {{input type="text" class="new-group form-control" placeholder="New group" value=editGroup.name}}
 
-                {{elements.roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
-
-                <button class="btn btn-primary pull-right" {{action "editGroupSave"}}>Save</button>
-                <button class="btn btn-primary pull-right" {{action "cancelEdit"}}>Cancel</button>
+                    {{elements.roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
+                </div>
+                <button type="button" class="btn btn-success pull-right" {{action "editGroupSave"}}>Save</button>
+                <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>Cancel</button>
             </div>
         {{else}}
             <h1 class="main-heading">Add new group</h1>
-            {{input type="text" class="new-group form-control" placeholder="New group" value=addName}}
-
+            <div class="form-group clearfix">
+                <label for="{{addName}}">New group name</label>
+                {{input type="text" class="new-group form-control" value=addName}}
+            </div>
             {{elements.roles-multipleselect onSelectAction=(action 'roleSelect')}}
 
-            <button class="btn btn-primary" {{action "createGroup"}}>Add</button>
+            <button class="btn btn-success pull-right" {{action "createGroup"}}>Add</button>
         {{/if}}
     {{/if}}
 </div>
