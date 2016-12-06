@@ -1,9 +1,9 @@
-<div class=" left-section">
+<div class="left-section">
     {{#bs-accordion selected=selected class="panel-group"}}
-        <div class="panel panel-default">
+        <div class="panel panel-default menu-dashboard">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    {{#link-to 'dashboard.home'}}<i class="fa fa-tachometer"></i>{{trans 'admin-menu.dashboard.title'}}{{/link-to}}
+                    {{#link-to 'dashboard.home'}}{{trans 'admin-menu.dashboard.title'}}{{/link-to}}
                 </h4>
             </div>
         </div>
@@ -13,28 +13,19 @@
         {{admin-menu-items/left-menu-payments}}
         {{admin-menu-items/left-menu-mass-mail}}
         {{admin-menu-items/left-menu-messages}}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSettings"><i class="fa fa-cogs" aria-hidden="true"></i>{{trans 'admin-menu.settings.title'}}</a>
-                </h4>
-            </div>
-            <div id="collapseSettings" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="table">
-                        <li>
-                            {{#link-to 'dashboard.settings.manage-user-groups' }}
-                                {{trans 'admin-menu.settings.groups'}}
-                            {{/link-to}}
-                        </li>
-                        <li>
-                            {{#link-to 'dashboard.settings.manage-roles' }}
-                                {{trans 'admin-menu.settings.roles'}}
-                            {{/link-to}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {{#bs-accordion-item title="Settings" class="menu-settings"}}
+            <ul class="table">
+                <li>
+                    {{#link-to 'dashboard.settings.manage-user-groups' }}
+                        {{trans 'admin-menu.settings.groups'}}
+                    {{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'dashboard.settings.manage-roles' }}
+                        {{trans 'admin-menu.settings.roles'}}
+                    {{/link-to}}
+                </li>
+            </ul>
+        {{/bs-accordion-item}}
     {{/bs-accordion}}
 </div>

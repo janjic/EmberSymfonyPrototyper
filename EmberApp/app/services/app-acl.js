@@ -13,9 +13,6 @@ const roles =  {
                      * Admin can only access profile page from agent route
                      */
                     if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
-                        if (Object.is(target, 'dashboard.agent.profile.profile-settings')) {
-                            resolve(true);
-                        }
                         /**
                          * Admin can not access agent pages
                          */
