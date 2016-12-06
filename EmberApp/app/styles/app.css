@@ -49,7 +49,7 @@ h5{
 }
 
 label {
-    font-weight: 600;
+    font-weight: 300;
     font-size: 13px;
 }
 
@@ -734,7 +734,7 @@ header{
 /* ------ FORM WIZARD END --------------------------------------------------------------------------------------------- */
 
 .form-wizard label{
-    font-weight: 400;
+    font-weight: 300;
 }
 .required{
     color:#C0392B;
@@ -753,7 +753,7 @@ header{
 }
 
 .setup-content label {
-    font-weight: 600;
+    font-weight: 300;
     font-size: 13px;
 }
 
