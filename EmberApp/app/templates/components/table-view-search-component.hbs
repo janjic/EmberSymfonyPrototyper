@@ -14,7 +14,7 @@
         <div class="sorting">
             <i class="fa {{sortClass}}" {{action 'sort'}}></i>
         </div>
-        {{input value=searchValue key-up=(action 'handleFilterEntry')}}
+        {{input class="form-control" value=searchValue key-up=(action 'handleFilterEntry')}}
         <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
     {{/if}}
 </div>
