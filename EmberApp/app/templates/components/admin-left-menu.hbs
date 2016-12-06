@@ -1,9 +1,9 @@
-<div class=" left-section">
+<div class="left-section">
     {{#bs-accordion selected=selected class="panel-group"}}
-        <div class="panel panel-default">
+        <div class="panel panel-default menu-dashboard">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    {{#link-to 'dashboard.home'}}<i class="fa fa-tachometer"></i>{{trans 'admin-menu.dashboard.title'}}{{/link-to}}
+                    {{#link-to 'dashboard.home'}}{{trans 'admin-menu.dashboard.title'}}{{/link-to}}
                 </h4>
             </div>
         </div>
@@ -13,7 +13,7 @@
         {{admin-menu-items/left-menu-payments}}
         {{admin-menu-items/left-menu-mass-mail}}
         {{admin-menu-items/left-menu-messages}}
-        {{#bs-accordion-item title="Settings"}}
+        {{#bs-accordion-item title="Settings" class="menu-settings"}}
             <ul class="table">
                 <li>
                     {{#link-to 'dashboard.settings.manage-user-groups' }}
