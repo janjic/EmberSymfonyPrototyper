@@ -3,9 +3,12 @@ import TCRUserValidations from '../../validations/tcr-user-add';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 
+const { Translator } = window;
+
 export default Ember.Component.extend({
     TCRUserValidations,
     store: Ember.inject.service('store'),
+    routing: Ember.inject.service('-routing'),
     userCity: null,
     userStreet: null,
     address: Ember.computed('userCity', 'userStreet', function() {
@@ -25,15 +28,16 @@ export default Ember.Component.extend({
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
             var agent = this.model;
-            this.set('user.birthDate', date)
+            this.set('user.birthDate', date);
         },
         saveUser(user) {
             this.get('changeset').validate();
             if (this.get('changeset').get('isValid')) {
                 user.save().then(() => {
-                    this.toast.success('User saved!');
+                    this.toast.success(Translator.trans('User saved!'));
+                    this.get('routing').transitionTo('dashboard.users.users-customers');
                 }, () => {
-                    this.toast.error('Data not saved!');
+                    this.toast.error(Translator.trans('Data not saved!'));
                 });
             }
         },
@@ -56,6 +60,7 @@ export default Ember.Component.extend({
                 img.set('base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
+            this.set('user.avatar', img);
         },
 
         /** validations */

@@ -14,8 +14,6 @@ loading:
   sending.data: 'Sending data to server...'
   logging.user: 'Logging user in...'
 
-
-
 placeholder:
   email: 'Plese insert you email'
 
@@ -205,7 +203,14 @@ admin-agent:
     notification-settings: 'Notification settings'
     genealogy-tree: 'Genealogy tree'
 
-
+validations:
+  presence-password: 'Password is too short (minimum is 5 characters)!'
+  password-repeat: 'Password repeat doesn''t match password'
+  presence-email: 'Email must be a valid email address!'
+  email-repeat: 'Email repeat doesn''t match email'
+  presence-value: 'This field can''t be blank!'
+  phone-number: 'Phone number is invalid!'
+  older-than-18: 'User must be 18 or older!'
 
 
 

@@ -3,8 +3,11 @@ import TCRUserValidations from '../../validations/tcr-user';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 
+const { Translator } = window;
+
 export default Ember.Component.extend({
     store: Ember.inject.service(),
+    routing: Ember.inject.service('-routing'),
     TCRUserValidations,
     userCity: null,
     userStreet: null,
@@ -59,12 +62,13 @@ export default Ember.Component.extend({
         saveUser(user) {
             this.get('changeset').validate();
             if (this.get('changeset').get('isValid')) {
-                user.save().then((resp) => {
-                    console.log(resp);
-                    this.toast.success('User saved!');
+                user.save().then(() => {
+                    this.toast.success(Translator.trans('User updated!'));
+                    // let user_id = this.get('user.id');
+                    // this.get('routing').transitionTo('dashboard.users.user-view', user_id);
+                    this.get('routing').transitionTo('dashboard.users.users-customers');
                 }, () => {
-                    console.log(resp);
-                    this.toast.error('Data not saved!');
+                    this.toast.error(Translator.trans('Data not updated!'));
                 });
             }
         },

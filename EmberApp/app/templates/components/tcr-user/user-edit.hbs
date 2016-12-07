@@ -8,9 +8,9 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
-                        <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                            {{#if (eq model.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
-                            {{#if (eq model.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
+                        <select class="form-control" disabled onchange={{ action 'titleChanged'  value="target.value"}}>
+                            {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
+                            {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
                         </select>
                         {{#if (get changeset.error 'title')}}
                             <ul class="error-list">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.company'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="text" class="form-control" value=user.company }}
@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 user-img">
                         {{#if user.avatar.filePath}}
@@ -87,7 +87,7 @@
 
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.street-number'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="text" class="form-control" value=userStreet }}
@@ -95,7 +95,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.city'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="email" class="form-control" value=userCity }}
@@ -103,7 +103,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="text" class="form-control" value=user.zip }}
@@ -148,7 +148,7 @@
                         {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=user.birthDate}}
                         {{#if (get changeset.error 'birthDate')}}
                             <small>
-                                <ul>
+                                <ul class="error-list">
                                     {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
                                         <li>{{message}}</li>
                                     {{/each}}
@@ -173,7 +173,7 @@
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.comment'}}
-                        <span class="required" aria-required="true"> * </span>
+                        <!--<span class="required" aria-required="true"> * </span>-->
                     </label>
                     <div class="col-md-8 col-xs-8">
                         {{textarea class="form-control" name="username" value=user.comment}}

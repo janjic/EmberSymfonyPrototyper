@@ -21,8 +21,8 @@ Router.map(function() {
         this.route('home');
         this.route('profile-settings');
         this.route('settings', function() {
-            this.route('manage-user-groups');
-            this.route('manage-roles');
+          this.route('manage-user-groups');
+          this.route('manage-roles');
         });
         this.route('payments', function() {
             this.route('purchase-details');
