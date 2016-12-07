@@ -31,15 +31,6 @@
         {{/each}}
         </tbody>
     </table>
-    <div class="table-pagination">
-        <button class="btn btn-primary" {{action 'goToPage' 1}}>{{trans 'table.pagination.first'}}</button>
-        <button class="btn btn-primary" {{action 'goToPage' '-1'}}>{{trans 'table.pagination.previous'}}</button>
-
-        {{input enter="goToPage" value=model.meta.page}}
-        {{model.meta.pages}}
-
-        <button class="btn btn-primary" {{action 'goToPage' '+1'}}>{{trans 'table.pagination.next'}}</button>
-        <button class="btn btn-primary" {{action 'goToPage' model.meta.pages}}>{{trans 'table.pagination.last'}}</button>
-    </div>
+    {{table-view-pagination-component model=model offset=offset filter=(action 'goToPage')}}
 </div>
 
