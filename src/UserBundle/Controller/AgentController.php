@@ -23,7 +23,7 @@ class AgentController extends Controller
     public function saveAgentAction(ArrayCollection $agentSave)
     {
         /**return JSON Response */
-        return new JsonResponse($agentSave->toArray(), $agentSave['meta']['code']);
+        return new JsonResponse($agentSave->toArray());
     }
 
     /**

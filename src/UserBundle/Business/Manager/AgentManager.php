@@ -5,6 +5,8 @@ namespace UserBundle\Business\Manager;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
 use DateTime;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Repository\AgentRepository;
@@ -59,9 +61,13 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function save(Agent $agent, Agent $superior)
     {
         $agent = $this->repository->saveAgent($agent, $superior);
-//        if($agent->getId()){
-//            $this->syncWithTCRPortal($agent, 'add');
-//        }
+
+        if ($agent instanceof Exception) {
+            return $agent;
+        } else {
+            //TODO: CHECK SYNC
+            //$this->syncWithTCRPortal($agent, 'add');
+        }
         return $agent;
     }
 

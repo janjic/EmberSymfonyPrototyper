@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
     },
     image: Ember.Object.create({
-        base64: null,
+        base64Content: null,
         name: null,
     }),
     actions: {
@@ -30,18 +30,14 @@ export default Ember.Component.extend({
             let $this = this;
             reader.onloadend = function () {
                 let imgBase64 = reader.result;
-                $this.set('image.base64', imgBase64);
+                $this.set('image.base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
         },
 
-        onDropzoneInitialise() {
-            console.log('EVNET JE', arguments);
-        },
-
         removedFile() {
             this.set('image.name', null);
-            this.set('image.base64', null);
+            this.set('image.base64Content', null);
         },
         saveAgent(agent) {
             let changeSet = this.get('changeset');
@@ -51,7 +47,7 @@ export default Ember.Component.extend({
             if (isValid ) {
                 agent.set('address', this.get('addressChangeset._content'));
                 let img = this.get('image');
-                if (img.get('base64')) {
+                if (img.get('base64Content')) {
                     this.get('addImage')(img);
                 }
                 agent.save().then(() => {
@@ -87,10 +83,6 @@ export default Ember.Component.extend({
             return changeset.rollback();
         },
         validateProperty(changeset, property) {
-            let prop = property;
-            if(this.isObject(changeset.get(property))){
-                prop = property+'.id';
-            }
             return changeset.validate(property);
         },
     },
