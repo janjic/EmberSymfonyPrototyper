@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import Configuration from 'ember-simple-auth/configuration';
 const { service } = Ember.inject;
 export default Ember.Mixin.create(AuthenticatedRouteMixin, {
     init() {
@@ -8,16 +7,17 @@ export default Ember.Mixin.create(AuthenticatedRouteMixin, {
     },
     acl: service('access-controll'),
     currentUser: service('current-user'),
-    beforeModel(transition) {
-        if (!this.get('session.isAuthenticated')) {
-            Ember.assert('The route configured as Configuration.authenticationRoute cannot implement the AuthenticatedRouteMixin mixin as that leads to an infinite transitioning loop!', this.get('routeName') !== Configuration.authenticationRoute);
-            transition.abort();
-            this.set('session.attemptedTransition', transition);
-            this.transitionTo(Configuration.authenticationRoute);
-
-        } else {
-            this.get('acl').can('access_to_route', this.get('routeName'), this.get('currentUser.user')).
-                    then(() => this._super(...arguments),()=> transition.abort() && this.transitionTo('error'));
-        }
+    session: service(),
+    redirect() {
+        let [ , transition ] = arguments;
+        let user = this.get('currentUser.user');
+        this.get('acl').can('access_to_route', this.get('routeName'), this.get('currentUser.user'), transition.targetName).
+        then(() => this._super(...arguments),()=> {
+            if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
+                this.transitionTo('dashboard.home');
+            } else {
+                this.transitionTo('dashboard.agent.home');
+            }
+        });
     }
 });

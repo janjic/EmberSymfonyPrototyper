@@ -15,7 +15,7 @@ export default {
     email:          validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
     emailRepeat:    validateConfirmation({on: 'email', message: Translator.trans('validations.email-repeat')}),
     privateEmail:   validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
-    plainPassword:  validateLength({min: 5, message: Translator.trans('validations.presence-password')}),
+    plainPassword:  validateLength({min: 6, message: Translator.trans('validations.presence-password')}),
     passwordRepeat: validateConfirmation({on: 'plainPassword', message: Translator.trans('validations.password-repeat')}),
     superior:       validatePresence(true),
     group:          validatePresence(true),
