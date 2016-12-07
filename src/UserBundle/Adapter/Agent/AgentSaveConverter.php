@@ -2,9 +2,11 @@
 
 namespace UserBundle\Adapter\Agent;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Adapter\JQGridConverter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\AgentManager;
@@ -45,7 +47,7 @@ class AgentSaveConverter extends JQGridConverter
         $agent->setBirthDate(new DateTime($agent->getBirthDate()));
 
 
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0){
+        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0 && $agent->getImage()->getBase64Content() != null){
             $image = new Image();
             $image->setBase64Content($agent->getImage()->getBase64Content());
             $image->setName($agent->getImage()->getName());
@@ -53,8 +55,11 @@ class AgentSaveConverter extends JQGridConverter
 
             $agent->setImage($image);
             $agent->setBaseImageUrl($image->getWebPath());
+        } else {
+            $agent->setImage(null);
         }
 
+        /** @var TODO: to reference $group */
         $group = $this->manager->getGroupById($agent->getGroup()->getId());
 
 
@@ -64,45 +69,32 @@ class AgentSaveConverter extends JQGridConverter
         $superior = null;
 
         if(!is_null($agent->getSuperior())) {
+            /** @var TODO: to reference $group */
             $superior = $this->manager->findAgentById($agent->getSuperior()->getId());
         }
 
         /**
          * Populate agent object with relationships and image url
          */
-//        $agent->setAddress($address);
         $agent->setGroup($group);
 
         /**
-         * @var $agent Agent
+         * @var $agent Agent|Exception
          */
         $agent = $this->manager->save($agent, $superior);
 
-        if($agent->getId()){
-            $this->request->attributes->set($this->param, new ArrayCollection(array(
-                'data' => array('type'=> 'agents', 'id' => $agent->getId()),
-                'meta' => array('code'=> 200, 'message' => 'Agent successfully saved'))));
-        } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array(
-                'user' => array('id' => null),
-                'meta' => array('code'=> 500, 'message' => 'Agent not saved'))));
+        switch (get_class($agent)) {
+            case UniqueConstraintViolationException::class:
+                $this->request->attributes->set($this->param, new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST));
+                break;
+            case (Agent::class && ($id= $agent->getId())):
+                $this->request->attributes->set($this->param, new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id)));
+                break;
+            case Exception::class:
+                $this->request->attributes->set($this->param, new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($agent)));
+                break;
+            default:
+                return;
         }
-    }
-
-
-
-    /**
-     * @param $string
-     * @param bool $capitalizeFirstCharacter
-     * @return mixed
-     */
-    function dashesToCamelCase($string, $capitalizeFirstCharacter = false)
-    {
-        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
-
-        if (!$capitalizeFirstCharacter) {
-            $str[0] = strtolower($str[0]);
-        }
-        return $str;
     }
 }

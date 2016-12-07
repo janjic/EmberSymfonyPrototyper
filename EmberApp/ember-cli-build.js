@@ -36,8 +36,8 @@ module.exports = function(defaults) {
       destDir: 'fonts'
   });
 
-
-
+  app.import("bower_components/orgchart/dist/js/jquery.orgchart.js");
+  app.import("bower_components/orgchart/dist/css/jquery.orgchart.css");
 
   return app.toTree();
 };

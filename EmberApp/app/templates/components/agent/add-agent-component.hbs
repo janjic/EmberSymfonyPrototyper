@@ -18,8 +18,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false changeset = changeset
-                                                 property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                        {{agent-picker-component changeset = changeset property="superior"}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -165,7 +164,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                        {{elements/country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
                         {{#if (get addressChangeset.error 'country')}}
                                 <ul class="error-list">
                                     {{#each (get (get addressChangeset.error 'country') "validation") as |message|}}
@@ -180,7 +179,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
+                        {{elements/language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
                         {{#if (get changeset.error 'nationality')}}
                                 <ul class="error-list">
                                     {{#each (get (get changeset.error 'nationality') "validation") as |message|}}
@@ -196,7 +195,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{pikaday-input useUTC=true class="form-control" format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate}}
+                        {{pikaday-input class="form-control" useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate yearRange="100"}}
                         {{#if (get changeset.error 'birthDate')}}
                                 <ul class="error-list">
                                     {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
@@ -246,7 +245,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12 user-img">
-                        {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') }}
+                        {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                     </div>
                 </div>
                 <div class="form-group clearfix">

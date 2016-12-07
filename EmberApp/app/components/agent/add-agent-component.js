@@ -13,27 +13,43 @@ export default Ember.Component.extend({
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
     },
+    image: Ember.Object.create({
+        base64Content: null,
+        name: null,
+    }),
     actions: {
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            var agent = this.model;
+            let agent = this.model;
             agent.set('birthDate', date);
         },
-        addedFile: function (file) {
-            var img = this.model.get('image');
-            img.set('name', file.name);
-            var reader = new FileReader();
+        addedFile (file) {
+            this.set('image.name', file.name);
+            let reader = new FileReader();
+            let $this = this;
             reader.onloadend = function () {
-                var imgBase64 = reader.result;
-                img.set('base64Content', imgBase64);
+                let imgBase64 = reader.result;
+                $this.set('image.base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
         },
-        saveAgent(agent, address) {
-           let isValid = this.get('changeset').validate() && this.get('addressChangeset').validate() && this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid');
+
+        removedFile() {
+            this.set('image.name', null);
+            this.set('image.base64Content', null);
+        },
+        saveAgent(agent) {
+            let changeSet = this.get('changeset');
+            let addressChangeSet = this.get('addressChangeset');
+            let isValidated      =  changeSet.validate() && addressChangeSet.validate();
+            let isValid          = isValidated && changeSet.get('isValid') && addressChangeSet.get('isValid');
             if (isValid ) {
                 agent.set('address', this.get('addressChangeset._content'));
+                let img = this.get('image');
+                if (img.get('base64Content')) {
+                    this.get('addImage')(img);
+                }
                 agent.save().then(() => {
                     this.toast.success('Agent saved!');
                 }, () => {
@@ -67,10 +83,6 @@ export default Ember.Component.extend({
             return changeset.rollback();
         },
         validateProperty(changeset, property) {
-            var prop = property;
-            if(this.isObject(changeset.get(property))){
-                prop = property+'.id';
-            }
             return changeset.validate(property);
         },
     },

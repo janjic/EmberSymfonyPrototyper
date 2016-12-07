@@ -14,7 +14,7 @@ export default {
     email:          validateFormat({ type: 'email' }),
     emailRepeat:    validateConfirmation({on: 'email'}),
     privateEmail:   validateFormat({ type: 'email' }),
-    plainPassword:  validateLength({min: 5}),
+    plainPassword:  validateLength({min: 6}),
     passwordRepeat: validateConfirmation({on: 'plainPassword'}),
     superior:       validatePresence(true),
     group:          validatePresence(true),

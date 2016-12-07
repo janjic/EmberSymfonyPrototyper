@@ -6,7 +6,7 @@ import LoadingStateMixin from '../mixins/loading-state';
 export default Ember.Component.extend(LoadingStateMixin,{
     authorizedAjax: service('authorized-ajax'),
     validations: ChangePasswordValidation,
-
+    isModalOpen:false,
     init() {
         this._setUpDefault();
         this._super(...arguments);
@@ -45,6 +45,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);
+        },
+        openModal() {
+            this.set('isModalOpen', true);
         }
     },
 
