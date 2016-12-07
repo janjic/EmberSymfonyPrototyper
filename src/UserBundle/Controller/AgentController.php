@@ -42,5 +42,26 @@ class AgentController extends Controller
         return new JsonResponse($agentAPI[0]);
     }
 
+    /**
+     * @Route("/agents/orgchart/root", name="api_agents_orgchart", options={"expose" = true}),
+     * @return Response
+     */
+    public function dataForOrgchartAction()
+    {
+        $agents = $this->container->get('agent_system.agent.manager')->loadRootAndChildren();
+
+        return new Response(json_encode($agents[29]));
+    }
+
+    /**
+     * @Route("/agents/orgchart/children/{id}", name="api_agents_orgchart_children", options={"expose" = true}, defaults={"id": null}),
+     * @return Response
+     */
+    public function dataForChildrenOrgchartAction($id)
+    {
+        $agents = $this->container->get('agent_system.agent.manager')->loadChildren($id);
+
+        return new Response(json_encode($agents));
+    }
 
 }

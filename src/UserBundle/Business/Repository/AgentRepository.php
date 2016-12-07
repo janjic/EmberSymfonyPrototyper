@@ -399,4 +399,42 @@ class AgentRepository extends NestedTreeRepository
 
         return $this->_em->getReference($className, $id);
     }
+
+    /**
+     * @return array
+     */
+    public function loadRootAndChildren()
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
+            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount',  self::ALIAS.'.email', self::SUPERIOR_ALIAS.'.id as superior_id');
+        $qb->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
+
+        $qb->where(self::SUPERIOR_ALIAS.'.superior is NULL');
+        $qb->orWhere(self::ALIAS.'.superior is NULL');
+
+        $qb->groupBy(self::ALIAS.'.id');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $parent
+     * @return array
+     */
+    public function loadChildren($parent)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
+            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email');
+        $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
+
+        $qb->where(self::ALIAS.'.superior =?1');
+        $qb->setParameter(1, $parent);
+
+        $qb->groupBy(self::ALIAS.'.id');
+
+        return $qb->getQuery()->getResult();
+    }
 }

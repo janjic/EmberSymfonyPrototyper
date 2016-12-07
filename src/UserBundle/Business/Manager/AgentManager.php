@@ -25,7 +25,7 @@ use UserBundle\Entity\Role;
 class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterface
 {
     /**
-     * @var GroupRepository
+     * @var AgentRepository
      */
     protected $repository;
 
@@ -179,12 +179,14 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
          * @var Address $address
          */
         $address = $agent->getAddress();
-        $dbAddress->setStreetNumber($address->getStreetNumber());
-        $dbAddress->setCity($address->getCity());
-        $dbAddress->setCountry($address->getCountry());
-        $dbAddress->setFixedPhone($address->getFixedPhone());
-        $dbAddress->setPhone($address->getPhone());
-        $dbAddress->setPostcode($address->getPostcode());
+        if ($address) {
+            $dbAddress->setStreetNumber($address->getStreetNumber());
+            $dbAddress->setCity($address->getCity());
+            $dbAddress->setCountry($address->getCountry());
+            $dbAddress->setFixedPhone($address->getFixedPhone());
+            $dbAddress->setPhone($address->getPhone());
+            $dbAddress->setPostcode($address->getPostcode());
+        }
 
         $dbAgent->setBirthDate(new DateTime($agent->getBirthDate()));
         $dbAgent->setUsername($agent->getEmail());
@@ -347,4 +349,62 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
         return $serialized;
     }
+
+    /**
+     * @return array
+     */
+    function loadRootAndChildren()
+    {
+        $data = $this->repository->loadRootAndChildren();
+        $helper = [];
+        foreach ($data as $agent) {
+
+            $superior = $agent['superior_id'];
+            $childrenCount = $agent['childrenCount'];
+            unset($agent['superior_id']);
+            unset($agent['childrenCount']);
+
+            /** if there is superior add element as child */
+            if ($superior != null) {
+                $agent['relationship'] = '1'.(sizeof($data) > 2 ? 1 : 0).((int) $childrenCount > 0 ? 1 : 0);
+                $helper[$superior]['children'][] = $agent;
+
+            } else if (array_key_exists($agent['id'], $helper)) {
+                /** element is root */
+                $agent['relationship'] = '001';
+                $children = $helper[$agent['id']]['children'];
+                $helper[$agent['id']] = $agent;
+                $helper[$agent['id']]['children'] = $children;
+
+            } else {
+                /** element is root */
+                $agent['relationship'] = '001';
+                $helper[$agent['id']] = $agent;
+            }
+
+        }
+
+        return $helper;
+    }
+
+    /**
+     * @param $parent
+     * @return array
+     */
+    function loadChildren($parent)
+    {
+        $data = $this->repository->loadChildren($parent);
+        $helper['children'] = [];
+        foreach ($data as $agent) {
+
+            $agent['relationship'] = '1'.(sizeof($data) > 1 ? 1 : 0).((int) $agent['childrenCount'] > 0 ? 1 : 0);
+            unset($agent['childrenCount']);
+
+            $helper['children'][] = $agent;
+        }
+
+        return $helper;
+    }
+
+
 }
