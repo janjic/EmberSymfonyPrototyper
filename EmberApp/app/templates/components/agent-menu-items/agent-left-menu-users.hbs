@@ -1,21 +1,14 @@
-<div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><i class="fa fa-users" aria-hidden="true"></i>{{trans 'agent-menu.users.title' }}</a>
-    </h4>
-</div>
-<div id="collapseThree" class="panel-collapse collapse">
-    <div class="panel-body">
-        <ul class="table">
-            <li>
-                {{#link-to 'dashboard.agent.users.add-new-user'}}
-                    {{trans 'agent-menu.users.new' }}
-                {{/link-to}}
-            </li>
-            <li>
-                {{#link-to 'dashboard.agent.users.users-customers' }}
-                    {{trans 'agent-menu.users.customers' }}
-                {{/link-to}}
-            </li>
-        </ul>
-    </div>
-</div>
+{{#bs-accordion-item title="Users" class="menu-users"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.agent.users.add-new-user'}}
+                {{trans 'agent-menu.users.new' }}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.users.users-customers' }}
+                {{trans 'agent-menu.users.customers' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}

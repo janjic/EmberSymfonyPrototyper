@@ -20,27 +20,6 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   app.import('vendor/nestable.js');
-  app.import('vendor/font-awesome.min.css');
-
-  app.import('vendor/fontawesome-webfont.woff2', {
-    destDir: 'fonts'
-  });
-  app.import('vendor/fontawesome-webfont.woff', {
-    destDir: 'fonts'
-  });
-
-  app.import('vendor/fontawesome-webfont.ttf', {
-    destDir: 'fonts'
-  });
-
-  app.import('vendor/fontawesome-webfont.svg', {
-    destDir: 'fonts'
-  });
-
-  app.import('vendor/fontawesome-webfont.eot', {
-    destDir: 'fonts'
-  });
-
   app.import('vendor/bundles/bazingajstranslation/main.js');
   app.import('vendor/bundles/fosjsrouting/main.js');
   app.import('vendor/bundles/core/js/api-codes.js');
