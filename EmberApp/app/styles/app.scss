@@ -1395,16 +1395,11 @@ header {
 .dd-empty {
   display: block;
   position: relative;
-  margin: 0;
-  padding: 0;
-  min-height: 20px;
   font-size: 13px;
   line-height: 20px;
   margin: 5px 0;
   padding: 0;
-  min-height: 30px;
   background: $alabaster;
-  border: 1px dashed $grayish;
   box-sizing: border-box;
   border: 1px dashed $half-white;
   min-height: 100px;
@@ -1416,9 +1411,6 @@ header {
 .dd-placeholder {
   display: block;
   position: relative;
-  margin: 0;
-  padding: 0;
-  min-height: 20px;
   font-size: 13px;
   line-height: 20px;
   margin: 5px 0;
