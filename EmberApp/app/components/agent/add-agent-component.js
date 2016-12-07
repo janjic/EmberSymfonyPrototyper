@@ -4,6 +4,8 @@ import AddressValidations from '../../validations/address';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 
+const { Translator } = window;
+
 export default Ember.Component.extend({
     AgentValidations,
     AddressValidations,
@@ -35,9 +37,9 @@ export default Ember.Component.extend({
             if (isValid ) {
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {
-                    this.toast.success('Agent saved!');
+                    this.toast.success(Translator.trans('Agent saved!'));
                 }, () => {
-                    this.toast.error('Data not saved!');
+                    this.toast.error(Translator.trans('Data not saved!'));
                 });
             }
         },
