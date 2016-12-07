@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 const { attr, Model } = DS;
+const {computed} = Ember;
 
 export default Model.extend({
     title:                attr('string'),
@@ -27,5 +28,12 @@ export default Model.extend({
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
     image:                DS.belongsTo('image'),
+
+    fullName: computed('firstName', 'lastName', function() {
+        if (!this.get('firstName') && !this.get('lastName')) {
+            return `${this.get('email')}`;
+        }
+        return `${this.get('firstName')} ${this.get('lastName')}`;
+    })
 
 });

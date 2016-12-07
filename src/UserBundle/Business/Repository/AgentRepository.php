@@ -3,7 +3,9 @@
 namespace UserBundle\Business\Repository;
 
 use Doctrine\Common\Util\Debug;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
+use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\ORM\NoResultException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -31,7 +33,7 @@ class AgentRepository extends NestedTreeRepository
     /**
      * @param Agent $agent
      * @param $superior
-     * @return Agent
+     * @return Agent|Exception
      * @throws \Exception
      */
     public function saveAgent($agent, $superior)
@@ -43,9 +45,10 @@ class AgentRepository extends NestedTreeRepository
                 $this->persistAsFirstChild($agent);
             }
             $this->_em->flush();
-        } catch (\Exception $e) {
-            throw $e;
-            return new Agent();
+        } catch (UniqueConstraintViolationException $e) {
+            return $e;
+        } catch (Exception $e) {
+            return $e;
         }
         return $agent;
     }
@@ -56,7 +59,6 @@ class AgentRepository extends NestedTreeRepository
      */
     public function findAgentById($id)
     {
-
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS, self::ADDRESS_ALIAS, self::IMAGE_ALIAS, self::GROUP_ALIAS, self::SUPERIOR_ALIAS, self::CHILDREN_ALIAS, self::ROLE_ALIAS);
         $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
@@ -73,7 +75,6 @@ class AgentRepository extends NestedTreeRepository
             return $this->loadUserRoles($user);
         } else {
             $user = $qb->getQuery()->getResult();
-
             return $user;
         }
 

@@ -27,6 +27,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         new RSVP.Promise((resolve, reject) =>{
             this._loadCurrentUser().then(()=> resolve(true)).catch(() => this.get('session').invalidate() && reject(false));
         }).then(()=>{
+            this.transitionTo(this.get('routeAfterAuthentication'));
             const attemptedTransition = this.get('session.attemptedTransition');
             if (attemptedTransition) {
                 attemptedTransition.retry();

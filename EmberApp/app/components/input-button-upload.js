@@ -1,5 +1,4 @@
 import Ember from 'ember';
-// import dragDropEventHasFiles from './../utils/drag-drop-event-has-files';
 
 export default Ember.TextField.extend({
     type: 'file',

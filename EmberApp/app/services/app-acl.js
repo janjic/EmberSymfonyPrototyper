@@ -4,19 +4,48 @@ const {
 } = Ember;
 const roles =  {
     access_to_route: {
-        can: [{
+        can: [
+            {
             name: 'dashboard',
-            when: function (user) {
+            when: function (user, target) {
                 return  new RSVP.Promise((resolve, reject) =>{
+                    /**
+                     * Admin can only access profile page from agent route
+                     */
                     if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
-                        resolve(true);
+                        /**
+                         * Admin can not access agent pages
+                         */
+                        if (target.match(/dashboard.agent\/.*/)) {
+                            reject(false);
+                        }
+
                     } else {
-                        reject(false);
+                        if (target.match(/dashboard.agent.*/)) {
+                            resolve(true);
+                        } else {
+                            reject(false);
+                        }
+
                     }
                 });
+                }
+            },
+            {
+            name: 'dashboard.agent.home',
+            when: function (user) {
+                    return  new RSVP.Promise((resolve, reject) =>{
+                        if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
+                            reject(false);
+                        } else {
+                            resolve(true);
+                        }
+                    });
+                    }
+
             }
 
-        }]
+        ]
 
     },
     admin: {

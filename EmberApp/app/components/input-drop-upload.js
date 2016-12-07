@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import dragDropEventHasFiles from './../utils/drag-drop-event-has-files';
-var { set } = Ember;
+let { set } = Ember;
 
 export default Ember.Component.extend({
     classNames        : [ 'draggableDropzone' ],

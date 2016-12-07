@@ -2,9 +2,9 @@
     <option value="-1" disabled selected>Choose role</option>
     {{#each groupsFiltered as |group index|}}
         {{#if (eq selectedGroup.id group.id)}}
-            <option  selected value="{{index}}" {{equals }}>{{group.name}}</option>
+            <option  selected value="{{index}}">{{group.name}}</option>
         {{else}}
-            <option value="{{index}}" {{equals }}>{{group.name}}</option>
+            <option value="{{index}}">{{group.name}}</option>
         {{/if}}
     {{/each}}
 </select>
