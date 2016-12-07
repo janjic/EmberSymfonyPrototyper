@@ -59,9 +59,9 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function save(Agent $agent, Agent $superior)
     {
         $agent = $this->repository->saveAgent($agent, $superior);
-        if($agent->getId()){
-            $this->syncWithTCRPortal($agent, 'add');
-        }
+//        if($agent->getId()){
+//            $this->syncWithTCRPortal($agent, 'add');
+//        }
         return $agent;
     }
 

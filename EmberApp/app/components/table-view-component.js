@@ -13,7 +13,7 @@ export default Ember.Component.extend({
             page = (typeof page === 'string') ? (page === '+1' || page === '-1') ? (this.get('page') + parseInt(page)) : parseInt(page) : page;
             if (1 <= page && page <= this.get('maxPages')) {
                 this.set('page', page);
-                var result = this.get('filter')(this.get('paramsArray'), page, this.get('sortColumn'), this.get('sortType'));
+                let result = this.get('filter')(this.get('paramsArray'), page, this.get('sortColumn'), this.get('sortType'));
                 if (result) {
                     result
                         .then((filterResults) => this.set('model', filterResults) && this.set('maxPages', filterResults.meta.pages))

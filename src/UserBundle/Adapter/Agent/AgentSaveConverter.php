@@ -45,7 +45,7 @@ class AgentSaveConverter extends JQGridConverter
         $agent->setBirthDate(new DateTime($agent->getBirthDate()));
 
 
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() ==0){
+        if(!is_null($agent->getImage())){
             $image = new Image();
             $image->setBase64Content($agent->getImage()->getBase64Content());
             $image->setName($agent->getImage()->getName());

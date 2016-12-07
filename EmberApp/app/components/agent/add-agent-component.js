@@ -13,6 +13,10 @@ export default Ember.Component.extend({
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
     },
+    image: Ember.Object.create({
+        base64: null,
+        name: null,
+    }),
     actions: {
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
@@ -20,23 +24,36 @@ export default Ember.Component.extend({
             let agent = this.model;
             agent.set('birthDate', date);
         },
-        addedFile: function (file) {
-            let img = this.model.get('image');
-            img.set('name', file.name);
+        addedFile (file) {
+            this.set('image.name', file.name);
             let reader = new FileReader();
+            let $this = this;
             reader.onloadend = function () {
                 let imgBase64 = reader.result;
-                img.set('base64Content', imgBase64);
+                $this.set('image.base64', imgBase64);
             };
             reader.readAsDataURL(file);
         },
-        saveAgent(agent, address) {
+
+        onDropzoneInitialise() {
+            console.log('EVNET JE', arguments);
+        },
+
+        removedFile() {
+            this.set('image.name', null);
+            this.set('image.base64', null);
+        },
+        saveAgent(agent) {
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
-            let isValidatedSuccess =  changeSet.validate() && addressChangeSet.validate();
-            let isValid = isValidatedSuccess && this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid');
+            let isValidated      =  changeSet.validate() && addressChangeSet.validate();
+            let isValid          = isValidated && changeSet.get('isValid') && addressChangeSet.get('isValid');
             if (isValid ) {
                 agent.set('address', this.get('addressChangeset._content'));
+                let img = this.get('image');
+                if (img.get('base64')) {
+                    this.get('addImage')(img);
+                }
                 agent.save().then(() => {
                     this.toast.success('Agent saved!');
                 }, () => {

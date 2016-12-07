@@ -16,7 +16,7 @@ const roles =  {
                         /**
                          * Admin can not access agent pages
                          */
-                        if (target.match(/dashboard.agent.*/)) {
+                        if (target.match(/dashboard.agent\/.*/)) {
                             reject(false);
                         }
 
