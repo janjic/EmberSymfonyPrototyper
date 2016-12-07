@@ -469,7 +469,7 @@ table {
   border: 1px solid $grayish;
   border-top: 4px solid $main-red;
   @include border-radius(3px);
-  //@include box-shadow(0 0 10px 5px $half-black);
+  @include box-shadow(3px, 3px, 5px, $half-black);
 
   h3 {
     text-align: center;
@@ -481,7 +481,7 @@ table {
     margin-bottom: 20px;
   }
   .form-group .icon-addon .form-control {
-    //@include box-shadow(none);
+    box-shadow: none;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -523,7 +523,7 @@ table {
     width: 40px;
     height: 40px;
     margin-bottom: 10px;
-    //@include box-shadow(0 2px 2px 0 $black_14,0 1px 5px 0 $black_12,0 3px 1px -2px $black_20);
+    @include box-shadow(2px, 2px, 0, $black_20);
   }
 }
 .toggle-left-section::before {
@@ -686,7 +686,7 @@ table {
   background: $main-red;
   color: $white;
   border: none;
-  //@include box-shadow(none);
+  box-shadow: none;
   font-weight: 600;
   padding: 10px 0;
   @include border-radius(3px);
@@ -817,7 +817,7 @@ header {
 .insert-avatar {
   display: block;
   border: 1px solid $main-red;
-  //@include box-shadow(none);
+  box-shadow: none;
   background: transparent;
   color: $main-red;
   font-weight: 400;
@@ -850,7 +850,7 @@ header {
       margin-left: 0;
       right: 0;
       background-color: $other-green;
-      //@include box-shadow(3px 6px 18px 0 $black_20);
+      @include box-shadow(3px, 6px, 18px, $black_20);
     }
     .onoffswitch-inner {
       margin-left: 0;
@@ -866,7 +866,7 @@ header {
       border-color: $main-green;
       right: 0;
       background-color: $other-green;
-      //@include box-shadow(3px 6px 18px 0 $black_20);
+      @include box-shadow(3px, 6px, 18px, $black_20);
     }
     .onoffswitch-inner {
       margin-left: 0;
@@ -893,10 +893,8 @@ header {
     top: 0;
     bottom: 0;
     right: 31px;
-    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-    border-radius: 30px;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow: 0 6px 12px 0 $black_20;
+    @include border-radius(30px);
+    @include box-shadow(2px, 5px, 15px, $black_20);
   }
 }
 .onoffswitch-2-label {
@@ -907,8 +905,7 @@ header {
   padding: 0;
   line-height: 20px;
   border: 0 solid $white;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 30px;
+  @include border-radius(30px);
   background-color: $half-white;
   &:before {
     content: "";
@@ -920,10 +917,8 @@ header {
     top: 0;
     bottom: 0;
     right: 31px;
-    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-    border-radius: 30px;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow: 0 6px 12px 0 $half-white;
+    @include border-radius(30px);
+    @include box-shadow(2px, 5px, 15px, $black_20);
   }
 }
 .left-section {
@@ -1013,8 +1008,7 @@ header {
 .user-message {
   padding: 20px;
   background: $grayish;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 10px;
+  @include border-radius(10px);
   margin-bottom: 5px;
   text-align: justify;
   span {
@@ -1032,8 +1026,7 @@ header {
   }
   img {
     display: inline-block;
-    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-    border-radius: 50%;
+    @include border-radius(50%);
   }
 }
 .username-admin {
@@ -1059,8 +1052,7 @@ header {
   padding: 20px;
   margin-bottom: 5px;
   background: $main-red;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 10px;
+  @include border-radius(10px);
   color: $white;
   text-align: justify;
 }
@@ -1109,8 +1101,7 @@ header {
     z-index: 1;
     left: -100%;
     width: 100%;
-    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
-    transition: all 0.3s ease-in-out;
+    @include transition(all 0.3s ease-in-out);
     margin-top: 70px;
   }
   .left-section-visible {
@@ -1159,8 +1150,7 @@ header {
       margin-bottom: 0;
       padding-right: 55px;
       padding-left: 15px;
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0;
+      @include border-radius(0);
       border-right-width: 0;
       border-bottom-width: 0;
       border-left-width: 0;
@@ -1178,8 +1168,7 @@ header {
       display: none;
       .btn {
         width: 100%;
-        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-        border-radius: 0;
+        @include border-radius(0);
         padding-top: 12px;
         padding-bottom: 12px;
         font-weight: 700;
@@ -1416,7 +1405,6 @@ header {
   min-height: 30px;
   background: $alabaster;
   border: 1px dashed $grayish;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
   border: 1px dashed $half-white;
   min-height: 100px;
@@ -1438,7 +1426,6 @@ header {
   min-height: 30px;
   background: $alabaster;
   border: 1px dashed $grayish;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 .dd-handle {
@@ -1451,9 +1438,7 @@ header {
   font-weight: bold;
   border: 1px solid $light-gray;
   background: linear-gradient(top, $alabaster 0, $grayish 100%);
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 3px;
-  //Instead of the line below you could use @include box-sizing($bs)
+  @include border-radius(3px);
   box-sizing: border-box;
   &:hover {
     color: $main-red;
@@ -1473,8 +1458,7 @@ header {
     }
   }
   .dd-handle {
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow: 2px 4px 6px 0 $black_10;
+    @include box-shadow(2px, 4px, 6px, $black_10);
   }
 }
 .nestable-lists {
@@ -1497,7 +1481,6 @@ header {
   line-height: 1.333333em;
   font-family: $font_1, $font_2;
   padding: 5px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 #nestable2-output {
@@ -1507,7 +1490,6 @@ header {
   line-height: 1.333333em;
   font-family: $font_1, $font_2;
   padding: 5px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 #nestable2 {
@@ -1533,9 +1515,7 @@ header {
   font-weight: bold;
   border: 1px solid $light-gray;
   background: linear-gradient(top, $alabaster 0, $grayish 100%);
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 3px;
-  //Instead of the line below you could use @include box-sizing($bs)
+  @include border-radius(3px);
   box-sizing: border-box;
   &:hover {
     color: $main-red;
@@ -1554,9 +1534,8 @@ header {
   overflow: hidden;
   border: 1px solid $half-white;
   background: linear-gradient(top, $grayish 0, $half-white 100%);
-  //Instead of the line below you could use @include border-top-right-radius($radius)
   border-top-right-radius: 0;
-  //Instead of the line below you could use @include border-bottom-right-radius($radius)
+
   border-bottom-right-radius: 0;
   &:before {
     content: '≡';
@@ -1604,8 +1583,7 @@ header {
   color: $main-red;
 }
 ::-webkit-scrollbar-track {
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 0;
+  @include border-radius(0);
   background-color: $grayish;
 }
 ::-webkit-scrollbar {
@@ -1614,8 +1592,7 @@ header {
   background-color: $grayish;
 }
 ::-webkit-scrollbar-thumb {
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 10px;
+  @include border-radius(10px);
   background-color: $scroll;
   &:window-inactive {
     background-color: $scroll;
@@ -1642,19 +1619,15 @@ svg {
   right: 0;
 }
 .rotate-45 {
-  //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
-  transform-origin: center;
-  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-  transform: rotate(45deg);
+  @include transform-origin(center);
+  @include rotate(45);
 }
 .rotate {
-  //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
-  transform-origin: center;
+  @include transform-origin(center);
   animation: rotate 1s ease-in-out infinite;
 }
 .rotate-back {
-  //Instead of the line below you could use @include transform-origin($origin-x, $origin-y, $origin-z, $only3d)
-  transform-origin: center;
+  @include transform-origin(center);
   animation: rotate 1s ease-in-out infinite;
   animation-direction: reverse;
 }
@@ -1666,14 +1639,12 @@ svg {
 }
 @keyframes rotate {
   100% {
-    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
     transform: rotate(calc(90deg + 45deg));
   }
 }
 @keyframes move {
   50% {
-    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-    transform: translate(-30px,-30px);
+    @include translate(-30px, -30px);
   }
 }
 .modal-header {
@@ -1688,8 +1659,14 @@ svg {
   text-align: center;
   padding: 5px;
   .btn-primary {
-    padding: 2px 6px;
-    font-size: 10px;
+    background-color: #364150;
+    border-color: #364150;
+    padding: 0 6px;
+    font-size: 14px;
+  }
+  .table-pagination-input {
+    width: 50px;
+    text-align: center;
   }
 }
 .table th {
