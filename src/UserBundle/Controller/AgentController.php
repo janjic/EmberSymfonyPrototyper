@@ -43,7 +43,7 @@ class AgentController extends Controller
     }
 
     /**
-     * @Route("/agents/orgchart/root", name="api_agents_orgchart", options={"expose" = true}),
+     * @Route("/api/agents/orgchart/root", name="api_agents_orgchart", options={"expose" = true}),
      * @return Response
      */
     public function dataForOrgchartAction()
@@ -54,7 +54,7 @@ class AgentController extends Controller
     }
 
     /**
-     * @Route("/agents/orgchart/children/{id}", name="api_agents_orgchart_children", options={"expose" = true}, defaults={"id": null}),
+     * @Route("/api/agents/orgchart/children/{id}", name="api_agents_orgchart_children", options={"expose" = true}, defaults={"id": null}),
      * @return Response
      */
     public function dataForChildrenOrgchartAction($id)

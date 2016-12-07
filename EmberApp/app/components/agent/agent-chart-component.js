@@ -4,6 +4,12 @@ const {Routing} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     store: Ember.inject.service('store'),
+    session: Ember.inject.service('session'),
+
+    didInsertElement () {
+        this._super(...arguments);
+        this.generateChart();
+    },
 
     changeParent (elementId, newParentId, oldParentId) {
         if (newParentId === oldParentId) {
@@ -16,7 +22,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
         Ember.RSVP.allSettled([newParentPromise, agentPromise]).then(([npPromise, agPromise]) => {
             let newParent = npPromise.value;
-            var agent = agPromise.value;
+            let agent = agPromise.value;
 
             agent.set('superior', newParent);
             agent.save().then(() => {
@@ -24,24 +30,34 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.disableLoader();
             }, () => {
                 this.toast.error('Data not saved!');
+                this.generateChart();
                 this.disableLoader();
             });
-        }, function() {
+        }, () => {
             this.toast.error('Data not saved!');
             this.disableLoader();
+            this.generateChart();
         });
     },
 
+    generateChart () {
+        /** set access token to ajax requests sent by orgchart library */
+        let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
+        $.ajaxSetup({
+            beforeSend: (xhr) => {
+                accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
+                xhr.setRequestHeader('Authorization', accessToken);
+            },
+            headers: { 'Authorization': accessToken }
+        });
 
-    didInsertElement () {
-        this._super(...arguments);
-        let _this = this;
         var ajaxURLs = {
             'children': function(nodeData) {
                 return Routing.generate('api_agents_orgchart_children', {'id': nodeData.id});
             }
         };
 
+        this.$('#chart-container').html('');
         this.$('#chart-container').orgchart({
             'data' : Routing.generate('api_agents_orgchart'),
             'ajaxURL': ajaxURLs,
@@ -49,14 +65,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
             'nodeContent': 'id',
             'draggable': true,
             'depth': 2,
-            'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
-                // if($draggedNode.find('.content').text().indexOf('manager') > -1 && $dropZone.find('.content').text().indexOf('engineer') > -1) {
-                //     return false;
-                // }
-                return true;
-            }
-        }).children('.orgchart').on('nodedropped.orgchart', function(event) {
-            _this.changeParent(event.draggedNode.attr('id'), event.dropZone.attr('id'), event.dragZone.attr('id'));
+        }).children('.orgchart').on('nodedropped.orgchart', (event) => {
+            this.changeParent(event.draggedNode.attr('id'), event.dropZone.attr('id'), event.dragZone.attr('id'));
         });
     }
+
 });
