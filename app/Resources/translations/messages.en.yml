@@ -212,5 +212,6 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
-
-
+server-response:
+  server-error: 'Server error!'
+  role-title-unique: 'Role title must be unique!'

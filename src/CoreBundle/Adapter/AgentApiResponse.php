@@ -17,6 +17,8 @@ class AgentApiResponse
     const OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE  = array('status' => AgentApiCode::OLD_PASSWORD_IS_NOT_CORRECT);
     const AGENT_ALREADY_EXIST                   = array('user' => array('id' => null), 'meta' => array('status'=> AgentApiCode::AGENT_ALREADY_EXIST));
 
+    const ROLE_DELETED_SUCCESSFULLY             = array('data' => array('type'=> 'roles', 'id' => null), 'meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
+    const ROLE_ALREADY_EXIST                    = array('errors' => array(array('status'=> AgentApiCode::ROLE_ALREADY_EXIST)));
 
     /**
      * @param $ttl
@@ -52,6 +54,26 @@ class AgentApiResponse
         return array('status' => AgentApiCode::ERROR_MESSAGE, 'message'=> $exception->getMessage());
     }
 
+    /** -------- ROLES ---------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function ROLE_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'roles', 'id' => $id), 'meta' => array('status'=> AgentApiCode::ROLE_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function ROLE_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'roles', 'id' => $id), 'meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
+    }
 
 
+
+    /** -------- ROLES END ------------------------------------------------------------------------------------------- */
 }

@@ -19,8 +19,13 @@ class AgentApiCode
     const USER_WITH_EMAIL_DOES_NOT_EXIST            = 26;
     const OLD_PASSWORD_IS_NOT_CORRECT               = 27;
 
+    /** AGENT */
     const AGENT_ALREADY_EXIST                       = 28;
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
 
-
+    /** ROLE */
+    const ROLE_SAVED_SUCCESSFULLY                   = 2001;
+    const ROLE_EDITED_SUCCESSFULLY                  = 2002;
+    const ROLE_DELETED_SUCCESSFULLY                 = 2003;
+    const ROLE_ALREADY_EXIST                        = 2004;
 }

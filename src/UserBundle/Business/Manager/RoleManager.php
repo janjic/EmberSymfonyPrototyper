@@ -2,7 +2,9 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\RoleRepository;
 use UserBundle\Entity\Role;
@@ -32,16 +34,35 @@ class RoleManager implements JSONAPIEntityManagerInterface
         $this->fSerializer = $fSerializer;
     }
 
+    /**
+     * @param null $id
+     * @return array
+     */
     public function getResource($id = null)
     {
-        return $this->repository->findRole($id);
+        return $this->serializeRole($this->repository->findRole($id));
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     public function saveResource($data)
     {
-        return $this->repository->saveItem($this->deserializeRole($data));
+        $result = $this->repository->saveItem($this->deserializeRole($data));
+        if ($result instanceof Role) {
+            return AgentApiResponse::ROLE_SAVED_SUCCESSFULLY($result->getId());
+        } else if ($result instanceof UniqueConstraintViolationException) {
+            return AgentApiResponse::ROLE_ALREADY_EXIST;
+        }
+
+        return AgentApiResponse::ERROR_RESPONSE($result);
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     public function updateResource($data)
     {
         $rawData = json_decode($data, true);
@@ -50,22 +71,36 @@ class RoleManager implements JSONAPIEntityManagerInterface
             /** @var Role $role */
             $role = $this->deserializeRole($data);
             /** @var Role $roleDB */
-            $roleDB = $this->getResource($role->getId());
+            $roleDB = $this->repository->findRole($role->getId());
             $roleDB->setRole($role->getRole());
             $roleDB->setName($role->getName());
 
-            return $this->repository->simpleUpdate($roleDB);
+            $result = $this->repository->simpleUpdate($roleDB);
+        } else {
+            $prev = $rawData['data']['attributes']['prev'];
+            $parent = $rawData['data']['relationships']['parent']['data']['id'];
+
+            $result = $this->repository->changeNested($rawData['data']['id'], intval($prev), intval($parent));
         }
 
-        $prev = $rawData['data']['attributes']['prev'];
-        $parent = $rawData['data']['relationships']['parent']['data']['id'];
+        if ($result instanceof Role) {
+            return AgentApiResponse::ROLE_EDITED_SUCCESSFULLY($result->getId());
+        } else if ($result instanceof UniqueConstraintViolationException) {
+            return AgentApiResponse::ROLE_ALREADY_EXIST;
+        }
 
-        return $this->repository->changeNested($rawData['data']['id'], intval($prev), intval($parent));
+        return AgentApiResponse::ERROR_RESPONSE($result);
     }
 
     public function deleteResource($id)
     {
-        return $this->repository->removeNestedFromTree($id);
+        $result = $this->repository->removeNestedFromTree($id);
+
+        if ($result instanceof \Exception) {
+            return AgentApiResponse::ERROR_RESPONSE($result);
+        }
+
+        return AgentApiResponse::ROLE_DELETED_SUCCESSFULLY;
     }
 
     /**
@@ -96,7 +131,7 @@ class RoleManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        return $this->fSerializer->serialize($content, $mappings, ['parent']);
+        return $this->fSerializer->serialize($content, $mappings, ['parent'])->toArray();
     }
 
 }
