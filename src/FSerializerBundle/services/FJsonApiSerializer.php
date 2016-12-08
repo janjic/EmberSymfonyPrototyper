@@ -3,7 +3,6 @@ namespace FSerializerBundle\services;
 
 use ArrayAccess;
 use Countable;
-use Doctrine\Common\Persistence\Proxy;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
@@ -16,7 +15,6 @@ use FSerializerBundle\Serializer\JsonApiOne;
 use FSerializerBundle\Serializer\JsonApiRelationship;
 use FSerializerBundle\Serializer\JsonApiSerializerAbstract;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use UserBundle\Entity\Agent;
 
 /**
  * Class FJsonApiSerializer

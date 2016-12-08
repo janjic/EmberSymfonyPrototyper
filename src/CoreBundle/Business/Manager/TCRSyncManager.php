@@ -84,4 +84,9 @@ class TCRSyncManager implements BasicEntityManagerInterface
     {
         return str_replace('-', '_', $string);
     }
+
+    public function getEntityReference($id)
+    {
+        // TODO: Implement getEntityReference() method.
+    }
 }

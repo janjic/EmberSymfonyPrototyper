@@ -2,9 +2,8 @@
 
 namespace UserBundle\Business\Repository;
 
-use Doctrine\Common\Util\Debug;
+use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityRepository;
 use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\ORM\NoResultException;
@@ -14,7 +13,6 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
-use Doctrine\ORM\Query as Query;
 
 /**
  * Class GroupRepository
@@ -22,6 +20,8 @@ use Doctrine\ORM\Query as Query;
  */
 class AgentRepository extends NestedTreeRepository
 {
+    use BasicEntityRepositoryTrait;
+
     const ALIAS          = 'agent';
     const ADDRESS_ALIAS  = 'address';
     const GROUP_ALIAS    = 'g';

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { default as EmpireNestable } from '../../mixins/empire-nestable';
+const {ApiCode, Translator} = window;
 
 export default Ember.Component.extend(EmpireNestable, {
     store: Ember.inject.service('store'),
@@ -45,9 +46,9 @@ export default Ember.Component.extend(EmpireNestable, {
                 this.set('newRoleTitle', '');
                 this.get('items').pushObject(role);
                 this.toast.success('Saved!');
-            }, () => {
+            }, (response) => {
                 role.deleteRecord();
-                this.toast.error('Error occurred!');
+                this.processErrors(response.errors);
             });
         },
 
@@ -58,10 +59,10 @@ export default Ember.Component.extend(EmpireNestable, {
                 this.toast.success('Updated!');
                 this.set('currentEditing', null);
                 item.set('simpleUpdate', false);
-            }, () => {
-                this.toast.error('Error occurred!');
-                this.get('currentEditing').rollbackAttributes();
+            }, (response) => {
                 item.set('simpleUpdate', false);
+                this.get('currentEditing').rollbackAttributes();
+                this.processErrors(response.errors);
             });
         },
 
@@ -69,8 +70,8 @@ export default Ember.Component.extend(EmpireNestable, {
             item.destroyRecord().then(()=> {
                 this.toast.success('Deleted!');
                 this.deleteItemFromModel(item);
-            }, ()=> {
-                this.toast.error('Error occurred!');
+            }, (response)=> {
+                this.processErrors(response.errors);
             });
 
         },
@@ -91,5 +92,20 @@ export default Ember.Component.extend(EmpireNestable, {
             this.get('currentEditing').rollbackAttributes();
             this.set('currentEditing', null);
         },
+    },
+
+    processErrors(errors) {
+        errors.forEach((item) => {
+            switch (item.status) {
+                case ApiCode.ROLE_ALREADY_EXIST:
+                    this.toast.error(Translator.trans('server-response.role-title-unique'));
+                    break;
+                case ApiCode.ERROR_MESSAGE:
+                    this.toast.success(Translator.trans('server-response.server-error'));
+                    break;
+                default:
+                    return;
+            }
+        });
     }
 });

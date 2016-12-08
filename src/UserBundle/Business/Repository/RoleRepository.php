@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use UserBundle\Entity\Role;
 
@@ -12,12 +13,12 @@ use UserBundle\Entity\Role;
  */
 class RoleRepository extends NestedTreeRepository
 {
-    const ALIAS = 'roles';
+    const ALIAS        = 'roles';
     const PARENT_ALIAS = 'parent';
 
     /**
      * @param $id
-     * @return array|mixed
+     * @return array|Role|null
      */
     public function findRole($id)
     {
@@ -35,33 +36,32 @@ class RoleRepository extends NestedTreeRepository
     }
 
     /**
-     * @param Role $menuItem
-     * @return mixed
+     * @param Role $role
+     * @return Role|Exception
      */
-    public function saveItem(Role $menuItem)
+    public function saveItem(Role $role)
     {
         try {
-            $this->persistAsFirstChild($menuItem);
+            $this->persistAsFirstChild($role);
             $this->_em->flush();
-        } catch (\Exception $e) {
-            throw $e;
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
-        return $menuItem;
+        return $role;
     }
 
     /**
      * @param Role $role
-     * @return mixed
+     * @return Role|Exception
      */
     public function simpleUpdate(Role $role)
     {
         try {
             $this->_em->merge($role);
             $this->_em->flush();
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
         return $role;
@@ -69,7 +69,7 @@ class RoleRepository extends NestedTreeRepository
 
     /**
      * @param $id
-     * @return boolean
+     * @return boolean|Exception
      */
     public function removeNestedFromTree($id)
     {
@@ -78,8 +78,8 @@ class RoleRepository extends NestedTreeRepository
             $this->_em->remove($this->_em->getReference($className, $id));
             $this->_em->flush();
             $this->_em->clear();
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
         return true;
@@ -91,7 +91,7 @@ class RoleRepository extends NestedTreeRepository
      * @param int $id
      * @param int $prev
      * @param int $parent
-     * @return mixed
+     * @return Role|Exception
      */
     public function changeNested($id, $prev, $parent)
     {
@@ -121,30 +121,11 @@ class RoleRepository extends NestedTreeRepository
             }
 
             $this->_em->flush();
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
         return $entity;
     }
 
-
-//
-//    /**
-//     * @param $id
-//     * @return boolean
-//     */
-//    public function removeNestedFromTree($id)
-//    {
-//        $className = $this->getClassMetadata()->getReflectionClass()->getName();
-//        try {
-//            $this->_em->remove($this->_em->getReference($className, $id));
-//            $this->_em->flush();
-//            $this->_em->clear();
-//        } catch (\Exception $e) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
 }

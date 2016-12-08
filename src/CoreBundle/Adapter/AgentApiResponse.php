@@ -15,14 +15,20 @@ class AgentApiResponse
     const USER_WITH_EMAIL_NOT_EXIST_RESPONSE    = array('status' => AgentApiCode::USER_WITH_EMAIL_DOES_NOT_EXIST);
     const PASSWORDS_CHANGED_OK_RESPONSE         = array('status' => AgentApiCode::PASSWORDS_CHANGED_OK);
     const OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE  = array('status' => AgentApiCode::OLD_PASSWORD_IS_NOT_CORRECT);
-    const AGENT_ALREADY_EXIST                   = array('user' => array('id' => null), 'meta' => array('status'=> AgentApiCode::AGENT_ALREADY_EXIST));
+    const AGENT_NOT_FOUND_RESPONSE              = array('status' => AgentApiCode::AGENT_NOT_FOUND);
 
+    const AGENT_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::AGENT_ALREADY_EXIST)));
+    const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('errors' => array(array('status'=> AgentApiCode::FILE_SAVING_ERROR)));
+
+    const ROLE_DELETED_SUCCESSFULLY             = array('data' => array('type'=> 'roles', 'id' => null), 'meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
+    const ROLE_ALREADY_EXIST                    = array('errors' => array(array('status'=> AgentApiCode::ROLE_ALREADY_EXIST)));
 
     /**
      * @param $ttl
      * @return array
      */
-    public static function PASSWORD_ALREADY_REQUESTED($ttl){
+    public static function PASSWORD_ALREADY_REQUESTED($ttl)
+    {
         return array('status' => AgentApiCode::PASSWORD_ALREADY_REQUESTED, 'time'  => ($ttl/60));
     }
 
@@ -30,7 +36,8 @@ class AgentApiResponse
      * @param $email
      * @return array
      */
-    public static function PASSWORDS_CHANGED_OK_RESPONSE($email){
+    public static function PASSWORDS_CHANGED_OK_RESPONSE($email)
+    {
         return array('status' => AgentApiCode::PASSWORDS_CHANGED_OK, 'email'=> $email);
     }
 
@@ -43,6 +50,7 @@ class AgentApiResponse
         return array('data' => array('type'=> 'agents', 'id' => $id), 'meta' => array('status'=> AgentApiCode::AGENT_SAVED_SUCCESSFULLY));
     }
 
+
     /**
      * @param Exception $exception
      * @return array
@@ -52,6 +60,26 @@ class AgentApiResponse
         return array('status' => AgentApiCode::ERROR_MESSAGE, 'message'=> $exception->getMessage());
     }
 
+    /** -------- ROLES ---------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function ROLE_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'roles', 'id' => $id), 'meta' => array('status'=> AgentApiCode::ROLE_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function ROLE_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'roles', 'id' => $id), 'meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
+    }
 
 
+
+    /** -------- ROLES END ------------------------------------------------------------------------------------------- */
 }

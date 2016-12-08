@@ -3,6 +3,7 @@ import AgentValidations from '../../validations/add-new-agent';
 import AddressValidations from '../../validations/address';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
+const {ApiCode, Translator} = window;
 
 export default Ember.Component.extend({
     AgentValidations,
@@ -51,9 +52,23 @@ export default Ember.Component.extend({
                     this.get('addImage')(img);
                 }
                 agent.save().then(() => {
-                    this.toast.success('Agent saved!');
-                }, () => {
-                    this.toast.error('Data not saved!');
+                    this.toast.success(Translator.trans('models.agent.save.message'));
+                }, (response) => {
+                        response.errors.forEach(function (error) {
+                            switch (parseInt(error.status)) {
+                                case ApiCode.AGENT_ALREADY_EXIST:
+                                    this.toast.error(Translator.trans('models.agent.unique.entity'));
+                                    break;
+                                case ApiCode.FILE_SAVING_ERROR:
+                                    this.toast.error(Translator.trans('models.agent.file.error'));
+                                    break;
+                                case ApiCode.ERROR_MESSAGE:
+                                    this.toast.error(error.message);
+                                    break;
+                                default:
+                                    return;
+                            }
+                        });
                 });
             }
         },
