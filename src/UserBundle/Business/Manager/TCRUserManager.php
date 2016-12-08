@@ -249,6 +249,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
     /**
      * @param null $id
+     * @return mixed|void
      * @throws \Exception
      */
     public function deleteResource($id)

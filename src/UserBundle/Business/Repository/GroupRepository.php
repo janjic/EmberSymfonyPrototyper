@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Repository;
 
+use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use UserBundle\Entity\Group;
 
@@ -11,6 +12,8 @@ use UserBundle\Entity\Group;
  */
 class GroupRepository extends EntityRepository
 {
+    use BasicEntityRepositoryTrait;
+
     const ALIAS       = 'groups';
     const ROLES_ALIAS = 'roles';
 

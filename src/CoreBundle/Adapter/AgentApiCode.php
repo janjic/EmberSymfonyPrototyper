@@ -9,7 +9,8 @@ namespace CoreBundle\Adapter;
 class AgentApiCode
 {
 
-    const ERROR_MESSAGE                             = 897663421;
+    const ERROR_MESSAGE                             = 404;
+    const FILE_SAVING_ERROR                         = 401;
 
     const PASSWORD_ALREADY_REQUESTED                = 41;
     const MAIL_SENT_TO_USER                         = 21;
@@ -21,6 +22,7 @@ class AgentApiCode
 
     const AGENT_ALREADY_EXIST                       = 28;
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
+    const AGENT_NOT_FOUND                           = 30;
 
 
 }

@@ -16,24 +16,13 @@ class AgentController extends Controller
 {
 
     /**
-     * @Route("/api/agent-save", name="api_agent_save", options={"expose" = true}),
-     * @param ArrayCollection $agentSave
-     * @return JsonResponse
-     */
-    public function saveAgentAction(ArrayCollection $agentSave)
-    {
-        /**return JSON Response */
-        return new JsonResponse($agentSave->toArray());
-    }
-
-    /**
      * @Route("/api/agents/{id}", name="api_agents", options={"expose" = true}, defaults={"id": "all"}),
      * @param ArrayCollection $agentAPI
      * @return Response
      */
     public function agentAPIAction(ArrayCollection $agentAPI)
     {
-        return new JsonResponse($agentAPI[0]);
+        return new JsonResponse($agentAPI->toArray());
     }
 
 

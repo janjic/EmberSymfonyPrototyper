@@ -373,6 +373,7 @@ class JsonApiDocument implements JsonSerializable
         }
 
         // properties
+        //TODO: DISABLED THIS CHECK
         foreach ($reflectionClass->getProperties(\ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
             if ($reflectionProperty->isStatic() || $this->isAllowedAttribute($reflectionProperty->name, $serializerAttributes)) {
                 continue;

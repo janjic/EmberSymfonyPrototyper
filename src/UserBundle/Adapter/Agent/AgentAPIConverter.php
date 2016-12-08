@@ -3,20 +3,8 @@
 namespace UserBundle\Adapter\Agent;
 
 use CoreBundle\Adapter\JsonAPIConverter;
-use CoreBundle\Business\Serializer\FSDSerializer;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Proxy;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\AgentManager;
-use UserBundle\Business\Schema\Address\AddressSchema;
-use UserBundle\Business\Schema\Agent\AgentSchema;
-use UserBundle\Business\Schema\Group\GroupSchema;
-use UserBundle\Business\Schema\ImageSchema;
-use UserBundle\Entity\Address;
-use UserBundle\Entity\Agent;
-use UserBundle\Entity\Document\Image;
-use UserBundle\Entity\Group;
-use UserBundle\Entity\Role;
 
 /**
  * Class AgentAPIConverter
@@ -40,10 +28,7 @@ class AgentAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $agent = parent::convert();
-
-        $serializedObj = $this->manager->serializeAgent($agent);
-        $this->request->attributes->set($this->param, new ArrayCollection(array($serializedObj)));
+        $this->request->attributes->set($this->param, parent::convert());
     }
 
 }
