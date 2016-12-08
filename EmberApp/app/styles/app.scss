@@ -12,6 +12,7 @@ $main-red: #c0392b;
 $main-red-hover: #c0392b;
 $form-border: rgba(209, 69, 69, 0.6);
 $pale-red: #d14545;
+$form-control-shadow: rgb(238, 81, 81);
 
 $panel-bg: #3f4a59;
 $main-dark: #364150;
@@ -266,10 +267,12 @@ table {
   padding-left: 0;
 }
 .form-control {
+  @include border-radius(0);
   font-size: 13px;
   &:focus {
     border-color: $form-border;
     outline: 0;
+    @include box-shadow(0, 0, 5px, $form-control-shadow);
   }
 }
 .table-option {
@@ -1348,14 +1351,10 @@ header {
 .dd {
   position: relative;
   display: block;
-  margin: 0;
-  padding: 0;
-  max-width: 600px;
+  margin-bottom: 15px;
   list-style: none;
   font-size: 13px;
   line-height: 20px;
-  float: left;
-  width: 80%;
   + .dd {
     margin-left: 2%;
   }
@@ -1366,6 +1365,7 @@ header {
   margin: 0;
   padding: 0;
   list-style: none;
+  width: 90%;
   .dd-list {
     padding-left: 30px;
   }
@@ -1541,13 +1541,14 @@ header {
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
-  border: 1px solid $half-white;
+  border: 1px solid $light-gray;
   background: linear-gradient(top, $grayish 0, $half-white 100%);
   border-top-right-radius: 0;
 
   border-bottom-right-radius: 0;
   &:before {
-    content: '≡';
+    content: '\f047';
+    font-family: FontAwesome;
     display: block;
     position: absolute;
     left: 0;
@@ -1555,8 +1556,8 @@ header {
     width: 100%;
     text-align: center;
     text-indent: 0;
-    color: $white;
-    font-size: 20px;
+    color: $main-dark;
+    font-size: 14px;
     font-weight: normal;
   }
   &:hover {
@@ -1887,4 +1888,14 @@ input:focus {
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+}
+
+#chart-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .orgchart {
+    background-image: none;
+  }
 }

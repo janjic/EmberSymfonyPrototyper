@@ -166,11 +166,11 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{elements/country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
                         {{#if (get addressChangeset.error 'country')}}
-                                <ul class="error-list">
-                                    {{#each (get (get addressChangeset.error 'country') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
+                            <ul class="error-list">
+                                {{#each (get (get addressChangeset.error 'country') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     </div>
                 </div>
@@ -181,11 +181,11 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{elements/language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
                         {{#if (get changeset.error 'nationality')}}
-                                <ul class="error-list">
-                                    {{#each (get (get changeset.error 'nationality') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'nationality') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     </div>
                 </div>
@@ -197,11 +197,11 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
                         {{pikaday-input class="form-control" useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=model.birthDate yearRange="100"}}
                         {{#if (get changeset.error 'birthDate')}}
-                                <ul class="error-list">
-                                    {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     </div>
                 </div>
@@ -249,7 +249,9 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>{{trans 'button.save'}}</button>
+                    <div class="col-md-12">
+                        <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>{{trans 'button.save'}}</button>
+                    </div>
                 </div>
             </div>
         </div>
