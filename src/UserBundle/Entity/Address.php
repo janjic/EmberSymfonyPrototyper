@@ -2,9 +2,7 @@
 
 namespace UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\AddressRepository")
@@ -83,6 +81,7 @@ class Address
 
     /**
      * @param string $streetNumber
+     * @return $this
      */
     public function setStreetNumber($streetNumber)
     {
@@ -101,6 +100,7 @@ class Address
 
     /**
      * @param string $postcode
+     * @return $this
      */
     public function setPostcode($postcode)
     {
@@ -119,6 +119,7 @@ class Address
 
     /**
      * @param string $city
+     * @return $this
      */
     public function setCity($city)
     {
@@ -137,6 +138,7 @@ class Address
 
     /**
      * @param string $country
+     * @return $this
      */
     public function setCountry($country)
     {
@@ -155,6 +157,7 @@ class Address
 
     /**
      * @param string $phone
+     * @return $this
      */
     public function setPhone($phone)
     {

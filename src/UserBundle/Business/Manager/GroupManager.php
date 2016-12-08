@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Repository\GroupRepository;
@@ -14,6 +15,7 @@ use UserBundle\Entity\Role;
  */
 class GroupManager implements JSONAPIEntityManagerInterface
 {
+    use BasicEntityManagerTrait;
     /**
      * @var GroupRepository
      */

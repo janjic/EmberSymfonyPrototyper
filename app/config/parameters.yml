@@ -2,8 +2,6 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    router.request_context.host: vagrant.local
-    router.request_context.scheme: https
     database_name: agent_system
     database_user: root
     main_upload_dir: '%kernel.root_dir%/../web/uploads'

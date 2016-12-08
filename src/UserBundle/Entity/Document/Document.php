@@ -4,6 +4,7 @@ namespace UserBundle\Entity\Document;
 
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -133,24 +134,28 @@ class Document
      */
     public function saveToFile($base64String, $imageCode = null)
     {
-        list($type, $data) = explode(';', $base64String);
-        list(, $extension) = explode('/', $type);
-        list(, $data) = explode(',', $data);
+        try {
+            list($type, $data) = explode(';', $base64String);
+            list(, $extension) = explode('/', $type);
+            list(, $data) = explode(',', $data);
 
-        /** string the original data or false on failure */
-        $data = base64_decode($data);
+            /** string the original data or false on failure */
+            $data = base64_decode($data);
 
-        /** find unique name if file already exists */
-        $this->setName($this->name ? $this->name : (!$imageCode ? uniqid() : $imageCode) . '.' . $extension);
-        $path = $this->createProFolder() . $this->name;
-
-        while (file_exists($this->getAbsolutePathWithVersion())) {
-            $this->setName((!$imageCode ? uniqid() : $imageCode) . '.' . $extension);
+            /** find unique name if file already exists */
+            $this->setName($this->name ? $this->name : (!$imageCode ? uniqid() : $imageCode) . '.' . $extension);
             $path = $this->createProFolder() . $this->name;
-        }
 
-        /**returns the number of bytes that were written to the file, or false on failure */
-        return file_put_contents($path, $data);
+            while (file_exists($this->getAbsolutePathWithVersion())) {
+                $this->setName((!$imageCode ? uniqid() : $imageCode) . '.' . $extension);
+                $path = $this->createProFolder() . $this->name;
+            }
+
+            /**returns the number of bytes that were written to the file, or false on failure */
+            return file_put_contents($path, $data);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Manager;
 use CoreBundle\Adapter\JQGridInterface;
 use CoreBundle\Business\Manager\BasicEntityManagerInterface;
+use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use DateTime;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Business\Event\UserEventContainer;
@@ -19,6 +20,7 @@ use UserBundle\Entity\User;
  */
 class AddressManager implements BasicEntityManagerInterface
 {
+    use BasicEntityManagerTrait;
     /**
      * @var AddressRepository
      */
@@ -51,6 +53,4 @@ class AddressManager implements BasicEntityManagerInterface
     {
         return $this->repository->findOneById($id);
     }
-
-
 }

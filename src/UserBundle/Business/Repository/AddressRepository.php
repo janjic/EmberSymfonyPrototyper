@@ -2,11 +2,12 @@
 
 namespace UserBundle\Business\Repository;
 
+use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
 use Exception;
 use UserBundle\Entity\Address;
-use UserBundle\Entity\User;
+
 
 
 /**
@@ -15,6 +16,8 @@ use UserBundle\Entity\User;
  */
 class AddressRepository extends EntityRepository
 {
+    use BasicEntityRepositoryTrait;
+
     const ALIAS = 'address';
 
 
@@ -30,4 +33,5 @@ class AddressRepository extends EntityRepository
 
         return $address;
     }
+
 }
