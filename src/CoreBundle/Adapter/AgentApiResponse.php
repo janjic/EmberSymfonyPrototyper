@@ -15,9 +15,10 @@ class AgentApiResponse
     const USER_WITH_EMAIL_NOT_EXIST_RESPONSE    = array('status' => AgentApiCode::USER_WITH_EMAIL_DOES_NOT_EXIST);
     const PASSWORDS_CHANGED_OK_RESPONSE         = array('status' => AgentApiCode::PASSWORDS_CHANGED_OK);
     const OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE  = array('status' => AgentApiCode::OLD_PASSWORD_IS_NOT_CORRECT);
-    const AGENT_ALREADY_EXIST                   = array('user' => array('id' => null), 'meta' => array('status'=> AgentApiCode::AGENT_ALREADY_EXIST));
-    const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('status' => AgentApiCode::FILE_SAVING_ERROR);
     const AGENT_NOT_FOUND_RESPONSE              = array('status' => AgentApiCode::AGENT_NOT_FOUND);
+
+    const AGENT_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::AGENT_ALREADY_EXIST)));
+    const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('errors' => array(array('status'=> AgentApiCode::FILE_SAVING_ERROR)));
 
 
     /**

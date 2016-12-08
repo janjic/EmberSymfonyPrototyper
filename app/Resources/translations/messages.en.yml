@@ -213,4 +213,8 @@ validations:
   older-than-18: 'User must be 18 or older!'
 
 
-
+models:
+  agent:
+    unique.entity: 'Agent with email, username or id already exist!'
+    file.error:   'Error while saving file !'
+    save.message: 'Agent saved!'

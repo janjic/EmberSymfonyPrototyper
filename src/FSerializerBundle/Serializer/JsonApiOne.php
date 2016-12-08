@@ -399,7 +399,9 @@ class JsonApiOne implements JsonApiElementInterface
      */
     public function getDenormalizedData($relationShips, $included, $name)
     {
-
+        if (!array_key_exists($name, $relationShips)) {
+            return null;
+        }
         $thisRelationship = $relationShips[$name];
         $serializer = $this->serializer;
         $objectDecoded = $thisRelationship['data'];

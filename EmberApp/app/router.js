@@ -108,6 +108,8 @@ Router.map(function() {
                 this.route('add-new-agent');
             });
         });
+        
+        this.route('genealogy-tree');
     });
 
     this.route('files');
