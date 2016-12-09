@@ -1,4 +1,5 @@
 <div class="dd nestable col-md-6" id="nestable3">
+    <h1 class="main-heading">Role management</h1>
     {{#if needRefresh }}
         {{ role/role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
     {{else}}
