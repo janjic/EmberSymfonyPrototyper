@@ -1365,7 +1365,7 @@ header {
   margin: 0;
   padding: 0;
   list-style: none;
-  width: 90%;
+  width: 100%;
   .dd-list {
     padding-left: 30px;
   }
@@ -1567,13 +1567,13 @@ header {
 .button-delete {
   position: absolute;
   top: 4px;
-  right: -26px;
+  right: 5px;
   z-index: 999;
 }
 .button-edit {
   position: absolute;
   top: 4px;
-  right: -52px;
+  right: 30px;
   z-index: 999;
 }
 #menu-editor {
@@ -1895,8 +1895,54 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-x: scroll;
+  overflow-x: auto;
+  background-image: url(images/bg-pattern.png);
+  border: 1px solid #ddd;
+  border-radius: 5px;
   .orgchart {
     background-image: none;
+    .node {
+      &:hover {
+        cursor: pointer;
+        .second-menu-icon {
+          opacity: 1;
+        }
+      }
+      .second-menu {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: -70px;
+        box-shadow: 0 0 10px 1px #999;
+        background-color: #fff;
+        z-index: 1;
+        font-size: 12px;
+        padding: 5px;
+        border-radius: 4px;
+        .avatar {
+          width: 60px;
+          height: 60px;
+          border-radius: 30px;
+          float: left;
+          margin: 5px;
+        }
+      }
+    }
+    .focused {
+
+    }
+    .second-menu-icon {
+      transition: opacity .5s;
+      opacity: 0;
+      right: -5px;
+      top: -5px;
+      z-index: 2;
+      color: $main-dark;
+      font-size: 18px;
+      position: absolute;
+      &:hover {
+        color: $main-dark-hover;
+      }
+    }
   }
 }

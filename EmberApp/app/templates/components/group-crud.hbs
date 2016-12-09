@@ -46,8 +46,9 @@
                 <label for="{{addName}}">New group name</label>
                 {{input type="text" class="new-group form-control" value=addName}}
             </div>
-            {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
-
+            <div class="form-group clearfix">
+                {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
+            </div>
             <button class="btn btn-success pull-right" {{action "createGroup"}}>Add</button>
         {{/if}}
     {{/if}}

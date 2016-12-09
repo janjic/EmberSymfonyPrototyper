@@ -33,7 +33,7 @@ class AgentController extends Controller
     {
         $agents = $this->container->get('agent_system.agent.manager')->loadRootAndChildren();
 
-        return new Response(json_encode($agents[29]));
+        return new Response(json_encode($agents[1]));
     }
 
     /**
