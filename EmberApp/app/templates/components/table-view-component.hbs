@@ -34,3 +34,8 @@
     {{table-view-pagination-component model=model offset=offset filter=(action 'goToPage')}}
 </div>
 
+{{#if isLoading }}
+    <<div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}

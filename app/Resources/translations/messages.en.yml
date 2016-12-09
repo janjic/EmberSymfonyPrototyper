@@ -214,11 +214,16 @@ validations:
 
 
 models:
+  server-error: 'Server error!'
   agent:
     unique.entity: 'Agent with email, username or id already exist!'
     file.error:   'Error while saving file !'
     save.message: 'Agent saved!'
-
-server-response:
-  server-error: 'Server error!'
-  role-title-unique: 'Role title must be unique!'
+  role:
+    role-title-unique: 'Role title must be unique!'
+    save: 'Role saved!'
+    delete: 'Role removed!'
+  group:
+    group-name-unique: 'Group name must be unique!'
+    save: 'Group saved!'
+    delete: 'Group removed!'

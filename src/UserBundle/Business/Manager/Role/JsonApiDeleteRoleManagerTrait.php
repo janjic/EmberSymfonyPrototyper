@@ -30,13 +30,10 @@ trait JsonApiDeleteRoleManagerTrait
      */
     private function createJsonAPiDeleteResponse($data)
     {
-        switch (get_class($data)) {
-            case (Role::class && ($id = $data->getId())):
-                return AgentApiResponse::ROLE_DELETED_SUCCESSFULLY;
-            case Exception::class:
-                return AgentApiResponse::ERROR_RESPONSE($data);
-            default:
-                return false;
+        if ($data == true) {
+            return AgentApiResponse::ROLE_DELETED_SUCCESSFULLY;
         }
+
+        return AgentApiResponse::ERROR_RESPONSE($data);
     }
 }

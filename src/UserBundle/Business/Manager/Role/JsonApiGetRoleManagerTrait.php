@@ -1,8 +1,6 @@
 <?php
 
 namespace UserBundle\Business\Manager\Role;
-use CoreBundle\Adapter\AgentApiResponse;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class JsonApiGetRoleManagerTrait

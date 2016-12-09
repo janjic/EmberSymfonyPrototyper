@@ -65,6 +65,17 @@ export default Ember.Component.extend(LoadingStateMixin, {
             'nodeContent': 'id',
             'draggable': true,
             'depth': 2,
+            'toggleSiblingsResp': true,
+            'createNode': function($node, data) {
+                var secondMenuIcon = $('<i>', {
+                    'class': 'fa fa-info-circle second-menu-icon',
+                    click: function() {
+                        $(this).siblings('.second-menu').toggle();
+                    }
+                });
+                var secondMenu = '<div class="second-menu">ASDDDDDD</div>';
+                $node.append(secondMenuIcon);
+            }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
             this.changeParent(event.draggedNode.attr('id'), event.dropZone.attr('id'), event.dragZone.attr('id'));
         });

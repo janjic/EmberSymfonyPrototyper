@@ -28,15 +28,7 @@ class GroupAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        if ($resultConvert = $this->groupConvert()) {
-            if ($this->request->getMethod() == "DELETE") {
-                $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
-            } else {
-                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeGroup($resultConvert))));
-            }
-        } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 410)));
-        }
+        $this->request->attributes->set($this->param, new ArrayCollection($this->groupConvert()));
     }
 
     /**

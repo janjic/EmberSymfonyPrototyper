@@ -10,6 +10,7 @@ use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiGetAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
 use UserBundle\Business\Repository\AgentRepository;
@@ -32,6 +33,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     use JsonApiGetAgentManagerTrait;
     use JsonApiUpdateAgentManagerTrait;
     use JsonApiDeleteAgentManagerTrait;
+    use JsonApiJQGridAgentManagerTrait;
 
     /**
      * @var AgentRepository

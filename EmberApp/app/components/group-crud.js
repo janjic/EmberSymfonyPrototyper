@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import LoadingStateMixin from '../mixins/loading-state';
+const {ApiCode, Translator} = window;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(LoadingStateMixin, {
     groups: [],
     store: Ember.inject.service(),
 
@@ -32,39 +34,49 @@ export default Ember.Component.extend({
     }),
 
     actions: {
-        createGroup: function() {
+        createGroup() {
             var group = this.get('store').createRecord('group', {name: this.get('addName')});
             group.set('roles', this.get('selectedRolesList'));
+            this.showLoader();
             group.save().then(() => {
+                this.toast.success('models.group.save');
                 this.set('addName', '');
-            }, () => {
+                this.disableLoader();
+            }, (response) => {
                 group.deleteRecord();
+                this.disableLoader();
+                this.processErrors(response.errors);
             });
         },
 
         /** delete group */
-        deleteGroupActionStart: function (group) {
+        deleteGroupActionStart(group) {
             this.set('itemToDelete', group);
             this.set('editGroup', null);
         },
 
-        setNewParentGroup: function (group) {
+        setNewParentGroup(group) {
             this.set('newGroupForUsers', group);
         },
 
-        deleteGroup: function () {
+        deleteGroup() {
             var group = this.get('itemToDelete');
             group.set('newParent', this.get('newGroupForUsers'));
+            this.showLoader();
             group.destroyRecord().then(() => {
                 this.set('itemToDelete', null);
                 this.set('newGroupForUsers', null);
-            }, () => {
+                this.toast.success('models.group.delete');
+                this.disableLoader();
+            }, (response) => {
                 group.rollbackAttributes();
+                this.processErrors(response.errors);
+                this.disableLoader();
             });
         },
 
         /** edit group */
-        editGroupAction: function (group) {
+        editGroupAction(group) {
             if (this.get('editGroup')) {
                 this.get('editGroup').rollbackAttributes();
             }
@@ -73,27 +85,47 @@ export default Ember.Component.extend({
             this.set('selectedRolesList', group.get('roles'));
         },
 
-        editGroupSave: function () {
+        editGroupSave() {
             let editGroup = this.get('editGroup');
             editGroup.set('roles', this.get('selectedRolesList'));
-            editGroup.save().then(function () {
-
-            }, function () {
+            this.showLoader();
+            editGroup.save().then(() => {
+                this.toast.success('models.group.save');
+                this.disableLoader();
+            }, (response) => {
+                this.processErrors(response.errors);
+                this.disableLoader();
             });
         },
 
-        cancelEdit: function() {
+        cancelEdit() {
             this.get('editGroup').rollbackAttributes();
             this.set('editGroup', null);
         },
 
-        cancelDelete: function() {
+        cancelDelete() {
             this.set('itemToDelete', null);
             this.set('newGroupForUsers', null);
         },
 
-        roleSelect: function (value) {
+        roleSelect(value) {
             this.set('selectedRolesList', value);
         }
+    },
+
+    processErrors(errors) {
+        errors.forEach((item) => {
+            switch (item.status) {
+                case ApiCode.GROUP_ALREADY_EXIST:
+                    this.toast.error(Translator.trans('models.group.group-name-unique'));
+                    break;
+                case ApiCode.GROUP_CHANGE_FOR_USERS_FAILED:
+                case ApiCode.ERROR_MESSAGE:
+                    this.toast.success(Translator.trans('models.server-error'));
+                    break;
+                default:
+                    return;
+            }
+        });
     }
 });

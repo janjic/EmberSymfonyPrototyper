@@ -48,12 +48,12 @@ trait JsonApiUpdateRoleManagerTrait
     private function createJsonAPiUpdateResponse($data)
     {
         switch (get_class($data)) {
-            case (Role::class && ($id = $data->getId())):
-                return AgentApiResponse::ROLE_EDITED_SUCCESSFULLY($id);
             case UniqueConstraintViolationException::class:
                 return AgentApiResponse::ROLE_ALREADY_EXIST;
             case Exception::class:
                 return AgentApiResponse::ERROR_RESPONSE($data);
+            case (Role::class && ($id = $data->getId())):
+                return AgentApiResponse::ROLE_EDITED_SUCCESSFULLY($id);
             default:
                 return false;
         }

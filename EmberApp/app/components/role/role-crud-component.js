@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import { default as EmpireNestable } from '../../mixins/empire-nestable';
+import LoadingStateMixin from '../../mixins/loading-state';
 const {ApiCode, Translator} = window;
 
-export default Ember.Component.extend(EmpireNestable, {
+export default Ember.Component.extend(EmpireNestable, LoadingStateMixin, {
     store: Ember.inject.service('store'),
     items: [],
     getItems: Ember.computed('items.[]', function() {
@@ -31,7 +32,7 @@ export default Ember.Component.extend(EmpireNestable, {
                 maxDepth:1000
             }).on('change', (e, data)=> {
                 Ember.run.next(this, function() {
-                    this.whoIsMyPrev(data, e);
+                    this.whoIsMyPrev(data);
                 });
             });
         });
@@ -39,39 +40,48 @@ export default Ember.Component.extend(EmpireNestable, {
 
     actions: {
         addRole() {
+            this.showLoader();
             var role = this.get('store').createRecord('role', {name: this.get('newRoleName'), role: this.get('newRoleTitle')});
 
             role.save().then(() => {
                 this.set('newRoleName', '');
                 this.set('newRoleTitle', '');
                 this.get('items').pushObject(role);
-                this.toast.success('Saved!');
+                this.toast.success('models.role.save');
+                this.disableLoader();
             }, (response) => {
                 role.deleteRecord();
                 this.processErrors(response.errors);
+                this.disableLoader();
             });
         },
 
         editRole: function () {
+            this.showLoader();
             let item = this.get('currentEditing');
             item.set('simpleUpdate', true);
             item.save().then(() => {
-                this.toast.success('Updated!');
+                this.toast.success('models.role.save');
                 this.set('currentEditing', null);
                 item.set('simpleUpdate', false);
+                this.disableLoader();
             }, (response) => {
                 item.set('simpleUpdate', false);
                 this.get('currentEditing').rollbackAttributes();
                 this.processErrors(response.errors);
+                this.disableLoader();
             });
         },
 
         deleteItem(item) {
+            this.showLoader();
             item.destroyRecord().then(()=> {
-                this.toast.success('Deleted!');
                 this.deleteItemFromModel(item);
+                this.disableLoader();
+                this.toast.success('models.role.delete');
             }, (response)=> {
                 this.processErrors(response.errors);
+                this.disableLoader();
             });
 
         },
@@ -84,10 +94,6 @@ export default Ember.Component.extend(EmpireNestable, {
             this.set('serializedString', JSON.stringify(this.$('#nestable').nestable('serialize')));
         },
 
-        updateNested (item) {
-            this.findMyPrevAndUpdate(item);
-        },
-
         cancelEdit () {
             this.get('currentEditing').rollbackAttributes();
             this.set('currentEditing', null);
@@ -98,14 +104,28 @@ export default Ember.Component.extend(EmpireNestable, {
         errors.forEach((item) => {
             switch (item.status) {
                 case ApiCode.ROLE_ALREADY_EXIST:
-                    this.toast.error(Translator.trans('server-response.role-title-unique'));
+                    this.toast.error(Translator.trans('models.role.role-title-unique'));
                     break;
                 case ApiCode.ERROR_MESSAGE:
-                    this.toast.success(Translator.trans('server-response.server-error'));
+                    this.toast.success(Translator.trans('models.server-error'));
                     break;
                 default:
                     return;
             }
         });
-    }
+    },
+
+    processItemUpdate(item){
+        this.showLoader();
+        this.toggleProperty('needRefresh');
+        item.save().then(()=>{
+            this.toggleProperty('needRefresh');
+            this.toast.success('models.role.save');
+            this.disableLoader();
+        }, (response) => {
+            this.processErrors(response.errors);
+            this.toggleProperty('needRefresh');
+            this.disableLoader();
+        });
+    },
 });
