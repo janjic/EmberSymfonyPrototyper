@@ -73,7 +73,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                         $(this).siblings('.second-menu').toggle();
                     }
                 });
-                var secondMenu = '<div class="second-menu" hidden>23323 231</div>';
+                var secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: ipsum</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
