@@ -1895,6 +1895,7 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-x: scroll;
   .orgchart {
     background-image: none;
   }
