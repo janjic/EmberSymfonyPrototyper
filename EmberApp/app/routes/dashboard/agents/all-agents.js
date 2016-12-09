@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function () {
-
         return this.get('store').query('agent', {
             page: 1,
             offset: 10,
@@ -11,10 +10,9 @@ export default Ember.Route.extend({
         });
 
     },
-    setupController : function(controller, model){
+    setupController : function(controller){
         this._super(...arguments);
         this.get('store').findAll('group', { reload: true }).then(function (groups) {
-            // console.log(groups.getEach('name'));
             let array = [];
             groups.forEach(function (item) {
                 array.push({
@@ -25,7 +23,5 @@ export default Ember.Route.extend({
 
             controller.set('groupsModel', array);
         });
-        // controller.set('groups', model.groups);
-
     }
 });

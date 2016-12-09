@@ -78,15 +78,17 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $resp = $this->getContentFromTCR($url);
 
         $users = array();
-        foreach ($resp->items as $user) {
-            $new = new TCRUser();
-            foreach ($user as $key => $value) {
-                $key = $key == 'name' ? 'firstName' : $key;
-                $key = $key == 'surname' ? 'lastName' : $key;
+        if ($resp->items) {
+            foreach ($resp->items as $user) {
+                $new = new TCRUser();
+                foreach ($user as $key => $value) {
+                    $key = $key == 'name' ? 'firstName' : $key;
+                    $key = $key == 'surname' ? 'lastName' : $key;
 
-                $new->setPropertyValue($key, $value);
+                    $new->setPropertyValue($key, $value);
+                }
+                $users[] = $new;
             }
-            $users[] = $new;
         }
 
         $meta = [

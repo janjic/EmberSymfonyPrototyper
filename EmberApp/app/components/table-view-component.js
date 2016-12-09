@@ -39,9 +39,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
             paramsArray.rules = searchArrayFields;
             this.set('page', 1);
             this.loadData(paramsArray);
-            // this.get('filter')(paramsArray, 1, this.get('sortColumn'), this.get('sortType'))
-            //     .then((filterResults) => this.actions.dataLoaded(filterResults))
-            //     .catch((result) => console.error(result));
         }
     },
 
@@ -49,9 +46,15 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.showLoader();
         let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
         if (result) {
-            result
-                .then((filterResults) => this.set('model', filterResults) && this.set('maxPages', filterResults.meta.pages) && this.disableLoader())
-                .catch((result) => console.error(result) && this.disableLoader());
+            result.then((filterResults) => {
+                this.set('model', filterResults);
+                this.set('maxPages', filterResults.meta.pages);
+                this.disableLoader();
+            }).catch(() => {
+                this.disableLoader();
+            });
+        } else {
+            this.disableLoader();
         }
     }
 });
