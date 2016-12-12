@@ -69,7 +69,6 @@ class AgentRepository extends NestedTreeRepository
             ->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
         $qb->setMaxResults(3);
 //        $qb->setFirstResult(1);
-
         if(intval($id)) {
             $qb->where(self::ALIAS.'.id =:id')
                 ->setParameter('id', $id);
