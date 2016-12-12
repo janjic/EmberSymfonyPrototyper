@@ -18,7 +18,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{agent-picker-component changeset = changeset property="superior"}}
+                        {{agent-picker-component agents=agents changeset =changeset agents=agents property="superior"}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -249,9 +249,15 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <div class="col-md-12">
-                        <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>{{trans 'button.save'}}</button>
-                    </div>
+
+                    <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }}>
+                        {{#if isLoading }}
+                            <img src="../../assets/images/ring-alt.gif" class="loader" alt=""> {{trans loadingText }}
+                        {{else}}
+                            {{trans 'button.save'}}
+                        {{/if}}
+
+                        </button>
                 </div>
             </div>
         </div>

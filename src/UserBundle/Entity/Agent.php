@@ -402,7 +402,7 @@ class Agent extends BaseUser implements ParticipantInterface
     }
 
     /**
-     * @return mixed
+     * @return Address|null
      */
     public function getAddress()
     {

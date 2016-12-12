@@ -1,4 +1,4 @@
-<select class="form-control" onchange={{ action 'roleChanged'  value="target.value"}}>
+{{!-- <select class="form-control" onchange={{ action 'roleChanged'  value="target.value"}}>
     <option value="-1" disabled selected>Choose role</option>
     {{#each groupsFiltered as |group index|}}
         {{#if (eq selectedGroup.id group.id)}}
@@ -16,4 +16,14 @@
             {{/each}}
         </ul>
     </small>
-{{/if}}
+{{/if}} --}}
+
+{{#power-select
+        selected=selectedGroup
+        options=groups
+        searchEnabled=false
+        onchange=(action "chooseDestination")
+as |group|
+}}
+    {{group.name}}
+{{/power-select}}

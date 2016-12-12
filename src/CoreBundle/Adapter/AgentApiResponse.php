@@ -51,7 +51,7 @@ class AgentApiResponse
      */
     public static function AGENT_SAVED_SUCCESSFULLY($id)
     {
-        return array('data' => array('type'=> 'agents', 'id' => $id), 'meta' => array('status'=> AgentApiCode::AGENT_SAVED_SUCCESSFULLY));
+        return array('data' => array('type'=> 'agents', 'id' => $id));
     }
 
 
