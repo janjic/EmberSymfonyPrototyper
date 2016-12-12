@@ -3,8 +3,10 @@ import AgentValidations from '../../validations/edit-agent';
 import AddressValidations from '../../validations/address';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
+const {assign} = Ember;
+import LoadingStateMixin from '../../mixins/loading-state';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(LoadingStateMixin,{
     AgentValidations,
     AddressValidations,
     store: Ember.inject.service(),
@@ -14,12 +16,21 @@ export default Ember.Component.extend({
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
     },
+
+    didInsertElement() {
+        this._super(...arguments);
+        if (this.get('model.image.id')) {
+           this.set('image',Ember.Object.create({
+                base64Content: null,
+                name: null,
+            }));
+        } else {
+            this.set('image', this.get('model.image'));
+        }
+    },
     actions: {
         roleSelected(group){
             this.changeset.set('group', group);
-        },
-        agentSelected(agent){
-            this.changeset.set('superior', agent);
         },
         titleChanged(title){
             this.changeset.set('title', title);
@@ -27,15 +38,30 @@ export default Ember.Component.extend({
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            var agent = this.model;
-            agent.set('birthDate',date);
+            this.set('model.birthDate',date);
         },
-        editAgent(agent){
-            this.get('changeset').validate();
-            this.get('addressChangeset').validate();
-            if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
-                // console.log(agent.get('superior'));
+        removedFile() {
+            this.set('image.name', null);
+            this.set('image.base64Content', null);
+        },
+        editAgent(){
+            let agent = this.get('model');
+            this.changeset.validate();
+            this.addressChangeset.validate();
+            if (this.changeset.get('isValid') && this.addressChangeset.get('isValid')) {
                 agent.set('address', this.get('addressChangeset._content'));
+                let img = this.get('image');
+                //old removed image
+                if (img.get('id') && !img.get('base64Content')) {
+                    img.deleteRecord();
+                    agent.set('model.image', null);
+                    //it is a new image
+                } else if (!img.get('id') && img.get('base64Content')) {
+                    let newImage = this.store.createRecord('image');
+                    assign(newImage, img);
+                    agent.set('image', newImage);
+                    img = null;
+                }
                 agent.save().then(() => {
                     this.toast.success('Agent saved!');
                 }, () => {
@@ -43,22 +69,15 @@ export default Ember.Component.extend({
                 });
             }
         },
-        addedFile: function (file) {
-            this.set('model.image', null);
-            var img = this.get('store').createRecord('image');
+        addedFile(file) {
+            let img = this.get('image');
             img.set('name', file.name);
-            var reader = new FileReader();
+            let reader = new FileReader();
             reader.onloadend = function () {
-                var imgBase64 = reader.result;
+                let imgBase64 = reader.result;
                 img.set('base64Content', imgBase64);
-
             };
             reader.readAsDataURL(file);
-            this.set('model.image', img);
-        },
-
-        removedFile: function () {
-            this.set('model.image', null);
         },
         updateLanguage(lang){
             this.set('model.nationality', lang);
@@ -76,20 +95,4 @@ export default Ember.Component.extend({
         }
 
     },
-
-    validateDateInput(date)
-    {
-        if(date){
-            if(date < (new Date()).setYear((new Date().getFullYear()-18))) {
-                this.set('dateInputValid', true);
-                return true;
-            } else {
-                this.set('dateInputValid', false);
-                return true;
-            }
-        } else {
-            this.set('dateInputValid', false);
-            return true;
-        }
-    }
 });

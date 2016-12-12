@@ -6,6 +6,9 @@ export default Ember.Controller.extend({
             let image = this.store.createRecord('image');
             assign(image, imageObject);
             this.set('model.image', image);
+        },
+        goToRoute (route) {
+            this.transitionToRoute(route);
         }
     }
 });

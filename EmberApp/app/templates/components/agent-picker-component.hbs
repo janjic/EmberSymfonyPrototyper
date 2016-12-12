@@ -1,4 +1,4 @@
-<select class="form-control" onchange={{ action 'agentChanged'  value="target.value"}}>
+{{!--<select class="form-control" onchange={{ action 'agentChanged'  value="target.value"}}>
     <option value="-1" selected >Choose superior agent</option>
     {{#each agentsFiltered as |agent index|}}
         {{#if agent.id}}
@@ -26,3 +26,17 @@
         </ul>
     </small>
 {{/if}}
+--}}
+<div class="scrollable">
+{{#power-select
+        options=agents
+        selected=selected
+        search=(perform searchTask)
+        searchPlaceholder="Type to filter..."
+        onchange=(action (mut selected))
+as |agent|
+}}
+    {{agent.fullName}}
+    {{#if (eq lastId agent.id) }} {{infinity-loader infinityModel=agents loadingText="Loading..." loadedText=""}} {{/if}}
+{{/power-select}}
+</div>

@@ -1,30 +1,24 @@
 <section class="edit-agent">
     <h1 class="main-heading">{{trans 'admin-agent.edit.title'}}</h1>
     <form role="form">
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            {{#if model.image.webPath}}
+                <img src="{{model.image.webPath}}" alt="{{model.username}}" width="300" height="300">
+            {{/if}}
+            <div class="user-img">
+                <div class="insert-avatar-container text-center" >
+                    {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
+                </div>
+            </div>
+            <hr>
+            <div class="form-group clearfix">
+                <a href="change-password.html" class="btn btn-danger">Change password</a>
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-6 col-xs-12">
             <h3 class="sub-heading">Account information</h3>
             <div class="profile-settings">
                 <div class="row">
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">User image</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{#if model.image.webPath}}
-                                <img src="{{model.image.webPath}}" class="img-responsive" alt="{{model.username}}" width="300" height="300">
-                            {{else}}
-                                <img src="../assets/images/user-avatar.png" alt="">
-                            {{/if}}
-                            <div class="user-img">
-                                <div class="insert-avatar-container text-center" >
-                                    {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group clearfix">
-                        <a href="change-password.html" class="btn btn-danger">Change password</a>
-                    </div>
-
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.title'}}</label>
                         <div class="col-md-8 col-xs-8">
@@ -55,15 +49,58 @@
                                               validateProperty=(action 'validateProperty' changeset "email")}}
                         </div>
                     </div>
-
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.private-email'}}</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.phone'}}</label>
                         <div class="col-md-8 col-xs-8">
-                            {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
-                                              validateProperty=(action 'validateProperty' changeset "privateEmail")}}
+                            {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
+                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                         </div>
                     </div>
-
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.language'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements/language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.country'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{elements/country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.social-security-num'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.socialSecurityNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.bank'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.bankName }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.bank-account-num'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=model.bankAccountNumber }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.birthdate'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=changeset.birthDate}}
+                            {{#if (get changeset.error 'birthDate')}}
+                                <small>
+                                    <ul>
+                                        {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
+                                            <li>{{message}}</li>
+                                        {{/each}}
+                                    </ul>
+                                </small>
+                            {{/if}}
+                        </div>
+                    </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.status'}}</label>
                         <div class="col-md-8 col-xs-8">
@@ -79,17 +116,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <h3 class="sub-heading">Personal details</h3>
+        <div class="col-md-5 col-sm-6 col-xs-12">
+            <h3 class="sub-heading">Optional information</h3>
             <div class="profile-settings">
                 <div class="row">
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.phone'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{validated-field doNotShowLabel=true property="phone" changeset=addressChangeset type="text"
-                                              validateProperty=(action 'validateProperty' addressChangeset "phone")}}
-                        </div>
-                    </div>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.address'}}</label>
                         <div class="col-md-8 col-xs-8">
@@ -104,39 +134,17 @@
                                               validateProperty=(action 'validateProperty' addressChangeset "postcode")}}
                         </div>
                     </div>
-
                     <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.country'}}</label>
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.private-email'}}</label>
                         <div class="col-md-8 col-xs-8">
-                            {{elements.country-select selectedCountry=model.address.country onCountryChange=(action 'changeCountry')}}
+                            {{validated-field doNotShowLabel=true property="privateEmail" changeset=changeset type="text"
+                                              validateProperty=(action 'validateProperty' changeset "privateEmail")}}
                         </div>
                     </div>
-
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.language'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{elements.language-select selectedLanguage=model.nationality onLanguageSelected=(action 'updateLanguage')}}
-                        </div>
-                    </div>
-
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.birthdate'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{pikaday-input class="form-control" useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=changeset.birthDate}}
-                            {{#if (get changeset.error 'birthDate')}}
-                                <ul class="error-list">
-                                    {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}
-                                        <li>{{message}}</li>
-                                    {{/each}}
-                                </ul>
-                            {{/if}}
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-5 col-sm-6 col-xs-12">
             <h3 class="sub-heading">Genealogy tree</h3>
             <div class="profile-settings">
                 <div class="row">
@@ -158,31 +166,10 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-8 col-xs-8">
-                            {{agent-picker-component onAgentSelected=(action 'agentSelected') isValidated = false selectedAgent=model.superior currentEditingAgentId=model.id
-                                                     changeset = changeset property="superior" validateProperty=(action 'validateProperty' changeset "superior")}}
+                            {{agent-picker-component selectedAgent=changeset.superior currentEditingAgentId=model.id
+                                                     changeset=changeset property="superior"}}
                         </div>
                     </div>
-
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.social-security-num'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=model.socialSecurityNumber }}
-                        </div>
-                    </div>
-
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.bank'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=model.bankName }}
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.bank-account-num'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            {{input type="text" class="form-control" value=model.bankAccountNumber }}
-                        </div>
-                    </div>
-
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.num-of-agents-downline'}}</label>
                         <div class="col-md-8 col-xs-8">
@@ -201,10 +188,15 @@
                             <input class="form-control" type="text" placeholder="43534 CHF">
                         </div>
                     </div>
+
                     <div class="form-group clearfix">
-                        <div class="col-md-12">
-                            <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>{{trans 'button.save'}}</a>
-                        </div>
+                        <button class="btn btn-success pull-right" type="submit" {{action 'editAgent'}}>
+                            {{#if isLoading }}
+                                <img src="../../assets/images/ring-alt.gif" class="loader" alt=""> {{trans loadingText }}
+                            {{else}}
+                                {{trans 'button.save'}}
+                            {{/if}}
+                        </button>
                     </div>
                 </div>
             </div>
