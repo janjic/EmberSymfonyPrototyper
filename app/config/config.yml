@@ -71,8 +71,8 @@ doctrine:
 
 fos_message:
     db_driver: orm
-    thread_class: UserBundle\Entity\Message\Thread
-    message_class: UserBundle\Entity\Message\Message
+    thread_class: ConversationBundle\Entity\Thread
+    message_class: ConversationBundle\Entity\Message
 
 # Swiftmailer Configuration
 swiftmailer:

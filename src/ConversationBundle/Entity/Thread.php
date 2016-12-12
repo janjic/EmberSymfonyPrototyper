@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Entity\Message;
+namespace ConversationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;

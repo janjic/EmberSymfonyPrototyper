@@ -1,14 +1,14 @@
-conversation:
-    resource: "@ConversationBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 f_serializer:
     resource: "@FSerializerBundle/Resources/config/routing.yml"
     prefix:   /
 
 user:
     resource: "@UserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+conversation:
+    resource: "@ConversationBundle/Controller/"
     type:     annotation
     prefix:   /
 

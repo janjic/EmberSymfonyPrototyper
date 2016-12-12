@@ -1,17 +1,17 @@
 <?php
 
-namespace UserBundle\Entity\Message;
+namespace ConversationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
-use FOS\MessageBundle\Model\MessageInterface;
+use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use FOS\MessageBundle\Model\ThreadInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="as_message_metadata")
+ * @ORM\Table(name="as_thread_metadata")
  */
-class MessageMetadata extends BaseMessageMetadata
+class ThreadMetadata extends BaseThreadMetadata
 {
     /**
      * @ORM\Id
@@ -21,10 +21,10 @@ class MessageMetadata extends BaseMessageMetadata
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Message", inversedBy="metadata")
-     * @var MessageInterface
+     * @ORM\ManyToOne(targetEntity="Thread", inversedBy="metadata")
+     * @var ThreadInterface
      */
-    protected $message;
+    protected $thread;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
