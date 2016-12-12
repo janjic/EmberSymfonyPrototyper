@@ -68,6 +68,11 @@ doctrine:
                 alias: GedmoTree # this one is optional and will default to the name set for the mapping
                 is_bundle: false
 
+fos_message:
+    db_driver: orm
+    thread_class: UserBundle\Entity\Message\Thread
+    message_class: UserBundle\Entity\Message\Message
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

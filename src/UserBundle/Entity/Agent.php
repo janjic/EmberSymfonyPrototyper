@@ -3,6 +3,7 @@
 namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use FOS\MessageBundle\Model\ParticipantInterface;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Tree;
@@ -12,8 +13,6 @@ use Gedmo\Mapping\Annotation\TreeParent;
 use Gedmo\Mapping\Annotation\TreeRight;
 use Gedmo\Mapping\Annotation\TreeRoot;
 
-
-
 /**
  * Class Agent
  * @package UserBundle\Entity
@@ -21,7 +20,7 @@ use Gedmo\Mapping\Annotation\TreeRoot;
  * @ORM\Entity(repositoryClass="UserBundle\Business\Repository\AgentRepository")
  * @ORM\Table(name="as_agent")
  */
-class Agent extends BaseUser
+class Agent extends BaseUser implements ParticipantInterface
 {
     /**
      * @ORM\Id
