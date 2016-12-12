@@ -19,6 +19,18 @@ services:
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
 
+     # ------ File --------------------------------------------------------------------------------------------------- #
+    agent_system.file_repository:
+        class: UserBundle\Business\Repository\FileRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Document\Image
+
+    agent_system.file_manager:
+       class: UserBundle\Business\Manager\FileManager
+       arguments:
+             repository: "@agent_system.file_repository"
+
  # ------ Address --------------------------------------------------------------------------------------------------- #
     agent_system.address_repository:
         class: UserBundle\Business\Repository\AddressRepository
