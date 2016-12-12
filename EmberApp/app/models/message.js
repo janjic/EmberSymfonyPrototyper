@@ -1,10 +1,12 @@
 import DS from 'ember-data';
 
-const { Model } = DS;
+const { Model, attr } = DS;
 
 export default Model.extend({
     sender:          DS.belongsTo('agent'),
     thread:          DS.belongsTo('thread', {inverse:'messages'}),
-    messageMetadata: DS.hasMany('messageMetadata')
+    messageMetadata: DS.hasMany('messageMetadata'),
+    body:            attr('string'),
+    createdAt:       attr('custom-date'),
 
 });
