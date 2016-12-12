@@ -1,3 +1,44 @@
+$ember-power-select-border-color: #64A5ED;
+$ember-power-select-border-radius: 0;
+.Searchable-select-infinite {
+  .Searchable-select__options-list-scroll-wrapper {
+    max-height: 300px;
+    overflow: auto;
+  }
+  .Searchable-select__options-list {
+    overflow: visible;
+    max-height: auto;
+  }
+  .Searchable-select__options-list__has-more-item {
+    .Searchable-select__loader {
+      float:left;
+      margin-left: -20px;
+    }
+  }
+  .Searchable-select__more-label {
+    cursor: pointer;
+  }
+  .Searchable-select__clear-search {
+    border: none;
+    background: none;
+    color: #ccc;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+  }
+  .Searchable-select__result-count-label {
+    color: #ccc;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    &.Searchable-select__result-count-label__with-search-clear {
+      right: 50px;
+    }
+  }
+}
+@import 'ember-power-select/themes/bootstrap';
+@import 'ember-power-select';
+@import "ember-searchable-select/style";
 //colors
 $white: #fff;
 $alabaster: #fafafa;
@@ -698,6 +739,12 @@ table {
     }
   }
 }
+
+.loader {
+  width: 20px;
+  height: 20px;
+}
+
 .sign-in {
   width: 100%;
   background: $main-red;

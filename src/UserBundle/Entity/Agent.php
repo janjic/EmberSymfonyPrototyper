@@ -403,7 +403,7 @@ class Agent extends BaseUser
     }
 
     /**
-     * @return mixed
+     * @return Address|null
      */
     public function getAddress()
     {

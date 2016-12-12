@@ -11,8 +11,9 @@ password:
 
 
 loading:
-  sending.data: 'Sending data to server...'
-  logging.user: 'Logging user in...'
+  sending.data: 'Sending data...'
+  logging.user: 'Logging user...'
+  redirecting:  'Redirecting...'
 
 placeholder:
   email: 'Plese insert you email'

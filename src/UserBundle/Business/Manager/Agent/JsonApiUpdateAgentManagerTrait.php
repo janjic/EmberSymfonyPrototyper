@@ -30,17 +30,6 @@ trait JsonApiUpdateAgentManagerTrait
          * @var Agent $dbAgent
          */
         $dbAgent = $this->getEntityReference($agent->getId());
-        $dbAgent->setTitle($agent->getTitle());
-        $dbAgent->setFirstName($agent->getFirstName());
-        $dbAgent->setLastName($agent->getLastName());
-        $dbAgent->setEmail($agent->getEmail());
-        $dbAgent->setUsername($agent->getEmail());
-        $dbAgent->setNationality($agent->getNationality());
-        $dbAgent->setBankAccountNumber($agent->getBankAccountNumber());
-        $dbAgent->setBankName($agent->getBankName());
-        $dbAgent->setSocialSecurityNumber($agent->getSocialSecurityNumber());
-        $dbAgent->setBirthDate(new DateTime($agent->getBirthDate()));
-        $dbAgent->setUsername($agent->getEmail());
         /**
          * @var Address $dbAddress
          */
@@ -83,7 +72,7 @@ trait JsonApiUpdateAgentManagerTrait
         return $agent;
     }
 
-    private function prepare($data)
+    private function prepareUpdate($data)
     {
         /**
          * @var Agent $agent
@@ -92,6 +81,42 @@ trait JsonApiUpdateAgentManagerTrait
 
         $agent->setUsername($agent->getEmail());
         $agent->setBirthDate(new DateTime($agent->getBirthDate()));
+        /**
+         * @var Agent $dbAgent
+         */
+        $dbAgent = $this->getEntityReference($agent->getId());
+        /**
+         * @var Address $dbAddress
+         */
+        $dbAddress = $dbAgent->getAddress();
+        $agent->getAddress()->setId($dbAddress->getId());
+
+        if(!is_null($agent->getImage()) && $agent->getImage()->getId() == 0) {
+            $image = new Image();
+            $image->setBase64Content($agent->getImage()->getBase64Content());
+            $image->setName($agent->getImage()->getName());
+
+            $image->saveToFile($image->getBase64Content());
+
+            $dbAgent->setImage($image);
+        }
+
+
+        $dbSuperior = $dbAgent->getSuperior();
+        $newSuperior = null;
+        if(!is_null($agent->getSuperior())){
+            $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
+        }
+
+        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
+
+        if($agent->getId()){
+            $this->syncWithTCRPortal($agent, 'edit');
+        }
+
+        return $agent;
+
+
         $group = $this->groupManager->getEntityReference($agent->getGroup()->getId());
         /**
          * Populate agent object with relationships and image url

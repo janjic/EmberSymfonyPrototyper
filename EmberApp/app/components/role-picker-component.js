@@ -19,6 +19,7 @@ export default Ember.Component.extend({
         if(index !== -1){
             this.set('selectedGroupIndex', index);
         }
+        this.set('selectedGroup', this.get('groups.lastObject'));
     },
     actions: {
         roleChanged: function (groupIndex) {
@@ -26,6 +27,11 @@ export default Ember.Component.extend({
             this.set('changeset.'+this.get('property'), group);
             this.get('validateProperty')(this.get('changeset'), this.get('property'));
             this.get('onRoleSelected')(group);
+        },
+        chooseDestination(group) {
+            this.set('selectedGroup', group);
+            // this.calculateRoute();
+            // this.updatePrice();
         }
     }
 
