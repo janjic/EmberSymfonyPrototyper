@@ -8,8 +8,10 @@ use CoreBundle\Business\Manager\TCRSyncManager;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\User\UserInterface;
+use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiGetAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
 use UserBundle\Business\Repository\AgentRepository;
@@ -32,6 +34,8 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     use JsonApiGetAgentManagerTrait;
     use JsonApiUpdateAgentManagerTrait;
     use JsonApiDeleteAgentManagerTrait;
+    use JsonApiJQGridAgentManagerTrait;
+    use JsonApiAgentOrgchartManagerTrait;
 
     /**
      * @var AgentRepository
@@ -216,62 +220,5 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, AgentSerializerInfo::$mappings, AgentSerializerInfo::$relations);
 
     }
-
-    /**
-     * @return array
-     */
-    function loadRootAndChildren()
-    {
-        $data = $this->repository->loadRootAndChildren();
-        $helper = [];
-        foreach ($data as $agent) {
-
-            $superior = $agent['superior_id'];
-            $childrenCount = $agent['childrenCount'];
-            unset($agent['superior_id']);
-            unset($agent['childrenCount']);
-
-            /** if there is superior add element as child */
-            if ($superior != null) {
-                $agent['relationship'] = '1'.(sizeof($data) > 2 ? 1 : 0).((int) $childrenCount > 0 ? 1 : 0);
-                $helper[$superior]['children'][] = $agent;
-
-            } else if (array_key_exists($agent['id'], $helper)) {
-                /** element is root */
-                $agent['relationship'] = '001';
-                $children = $helper[$agent['id']]['children'];
-                $helper[$agent['id']] = $agent;
-                $helper[$agent['id']]['children'] = $children;
-
-            } else {
-                /** element is root */
-                $agent['relationship'] = '001';
-                $helper[$agent['id']] = $agent;
-            }
-
-        }
-
-        return $helper;
-    }
-
-    /**
-     * @param $parent
-     * @return array
-     */
-    function loadChildren($parent)
-    {
-        $data = $this->repository->loadChildren($parent);
-        $helper['children'] = [];
-        foreach ($data as $agent) {
-
-            $agent['relationship'] = '1'.(sizeof($data) > 1 ? 1 : 0).((int) $agent['childrenCount'] > 0 ? 1 : 0);
-            unset($agent['childrenCount']);
-
-            $helper['children'][] = $agent;
-        }
-
-        return $helper;
-    }
-
 
 }

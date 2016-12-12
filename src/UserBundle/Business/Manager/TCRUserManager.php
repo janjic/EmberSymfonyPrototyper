@@ -62,7 +62,8 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
         if ($filters = json_decode($request->get('filters'), true)) {
             foreach ($filters['rules'] as &$rule) {
-                $rule['field'] = $this->changeToTCRFormat($rule['field']);
+                $rule['field'] == 'firstName' ? $rule['field'] = "name" : null;
+                $rule['field'] == 'lastName' ? $rule['field'] = "surname" : null;
             }
             $url.= '&_search=true';
             $url.= '&filters='.json_encode($filters);
@@ -77,15 +78,17 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $resp = $this->getContentFromTCR($url);
 
         $users = array();
-        foreach ($resp->items as $user) {
-            $new = new TCRUser();
-            foreach ($user as $key => $value) {
-                $key = $key == 'name' ? 'firstName' : $key;
-                $key = $key == 'surname' ? 'lastName' : $key;
+        if ($resp->items) {
+            foreach ($resp->items as $user) {
+                $new = new TCRUser();
+                foreach ($user as $key => $value) {
+                    $key = $key == 'name' ? 'firstName' : $key;
+                    $key = $key == 'surname' ? 'lastName' : $key;
 
-                $new->setPropertyValue($key, $value);
+                    $new->setPropertyValue($key, $value);
+                }
+                $users[] = $new;
             }
-            $users[] = $new;
         }
 
         $meta = [
@@ -264,7 +267,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
             'avatar' => array('class' => Image::class, 'type'=>'images', 'jsonApiType'=> JsonApiOne::class)
         );
 
-        $serialized = $this->fSerializer->serialize($user, $mappings, ['agent', 'avatar']);
+        $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->serialize($user, $mappings, ['agent', 'avatar']);
 
         if ($meta) {
             foreach ($meta as $key => $value) {

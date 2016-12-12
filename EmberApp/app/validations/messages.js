@@ -1,5 +1,3 @@
-const Translator = window.Translator;
-
 export default {
 
     inclusion: `{description} is not included in the list`,

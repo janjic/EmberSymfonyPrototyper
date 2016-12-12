@@ -4,6 +4,7 @@ imports:
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@CoreBundle/Resources/config/services.yml" }
     - { resource: "@FSerializerBundle/Resources/config/services.yml" }
+    - { resource: "@ConversationBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -67,6 +68,11 @@ doctrine:
                 dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                 alias: GedmoTree # this one is optional and will default to the name set for the mapping
                 is_bundle: false
+
+fos_message:
+    db_driver: orm
+    thread_class: ConversationBundle\Entity\Thread
+    message_class: ConversationBundle\Entity\Message
 
 # Swiftmailer Configuration
 swiftmailer:

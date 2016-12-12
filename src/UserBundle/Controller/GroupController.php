@@ -5,19 +5,17 @@ namespace UserBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GroupController extends Controller
 {
     /**
      * @Route("/api/groups/{id}", name="api_groups", options={"expose" = true}, defaults={"id": "all"}),
      * @param ArrayCollection $groupAPI
-     * @return Response
+     * @return JSONResponse
      */
     public function groupAPIAction(ArrayCollection $groupAPI)
     {
-        $status = array_key_exists(1, $groupAPI->toArray()) ? $groupAPI[1] : 200;
-
-        return new Response($groupAPI[0], $status);
+        return new JSONResponse($groupAPI->toArray(), array_key_exists('errors', $groupAPI->toArray()) ? 422 : 200);
     }
 }

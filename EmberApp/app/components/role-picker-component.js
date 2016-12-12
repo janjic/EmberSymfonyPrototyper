@@ -6,7 +6,12 @@ export default Ember.Component.extend({
     groups: [],
     groupsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
         return this.get('groups').filter((item) =>{
-            return this.get('currentUser.user.roles').indexOf(item.get('roles').objectAt(0).get('role')) != -1;
+            let firstObject = item.get('roles').objectAt(0);
+            if (!Object.is(firstObject, undefined)) {
+                return !Object.is(this.get('currentUser.user.roles').indexOf(firstObject.get('role')), -1);
+            }
+
+            return false;
         });
     }),
     selectedGroupIndex: -1,

@@ -35,7 +35,7 @@
                 <div class="form-group clearfix">
                     {{input type="text" class="new-group form-control" placeholder="New group" value=editGroup.name}}
 
-                    {{elements.roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
+                    {{elements/roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
                 </div>
                 <button type="button" class="btn btn-success pull-right" {{action "editGroupSave"}}>Save</button>
                 <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>Cancel</button>
@@ -46,9 +46,16 @@
                 <label for="{{addName}}">New group name</label>
                 {{input type="text" class="new-group form-control" value=addName}}
             </div>
-            {{elements.roles-multipleselect onSelectAction=(action 'roleSelect')}}
-
+            <div class="form-group clearfix">
+                {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
+            </div>
             <button class="btn btn-success pull-right" {{action "createGroup"}}>Add</button>
         {{/if}}
     {{/if}}
 </div>
+
+{{#if isLoading }}
+    <<div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}

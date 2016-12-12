@@ -27,6 +27,8 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new CoreBundle\CoreBundle(),
             new FSerializerBundle\FSerializerBundle(),
+            new FOS\MessageBundle\FOSMessageBundle(),
+            new ConversationBundle\ConversationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import LoadingStateMixin from '../mixins/loading-state';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(LoadingStateMixin, {
     sortColumn: 'id',
     sortType: 'asc',
     paramsArray: {
@@ -13,12 +14,7 @@ export default Ember.Component.extend({
             page = (typeof page === 'string') ? (page === '+1' || page === '-1') ? (this.get('page') + parseInt(page)) : parseInt(page) : page;
             if (1 <= page && page <= this.get('maxPages')) {
                 this.set('page', page);
-                let result = this.get('filter')(this.get('paramsArray'), page, this.get('sortColumn'), this.get('sortType'));
-                if (result) {
-                    result
-                        .then((filterResults) => this.set('model', filterResults) && this.set('maxPages', filterResults.meta.pages))
-                        .catch((result) => console.error(result));
-                }
+                this.loadData(this.get('paramsArray'));
             }
         },
         handleFilterEntry(column, searchValue, compareType) {
@@ -42,9 +38,23 @@ export default Ember.Component.extend({
             let paramsArray = this.get('paramsArray');
             paramsArray.rules = searchArrayFields;
             this.set('page', 1);
-            this.get('filter')(paramsArray, 1, this.get('sortColumn'), this.get('sortType'))
-                .then((filterResults) => this.set('model', filterResults)  && this.set('maxPages', filterResults.meta.pages))
-                .catch((result) => console.error(result));
+            this.loadData(paramsArray);
+        }
+    },
+
+    loadData: function (paramsArray){
+        this.showLoader();
+        let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
+        if (result) {
+            result.then((filterResults) => {
+                this.set('model', filterResults);
+                this.set('maxPages', filterResults.meta.pages);
+                this.disableLoader();
+            }).catch(() => {
+                this.disableLoader();
+            });
+        } else {
+            this.disableLoader();
         }
     }
 });

@@ -18,10 +18,7 @@ export default Ember.Mixin.create({
     },
     deleteItemFromModel(item)
     {
-        let parent = item.get('parent');
-        if (parent && parent.get('id')) {
-            parent.get('children').removeAt( parent.get('children').indexOf(item));
-        } else {
+        if (!Object.is(this.get('items').indexOf(item), -1)) {
             this.get('items').removeAt(this.get('items').indexOf(item));
         }
     },
@@ -83,10 +80,14 @@ export default Ember.Mixin.create({
             item.set('prev', prevElement ?prevElement.get('id'):null);
             item.set('parent', newParent);
 
-            this.toggleProperty('needRefresh');
-            item.save().then(()=>{
-                this.toggleProperty('needRefresh');
-            });
+            this.processItemUpdate(item);
         }
+    },
+
+    processItemUpdate(item) {
+        this.toggleProperty('needRefresh');
+        item.save().then(()=>{
+            this.toggleProperty('needRefresh');
+        });
     },
 });

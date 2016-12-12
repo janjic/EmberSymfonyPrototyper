@@ -4,6 +4,7 @@ namespace UserBundle\Business\Repository;
 
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
+use Exception;
 use UserBundle\Entity\Group;
 
 /**
@@ -43,15 +44,15 @@ class GroupRepository extends EntityRepository
     /**
      * Save new group
      * @param Group $group
-     * @return mixed
+     * @return Group|Exception
      */
     public function saveGroup($group)
     {
         try {
             $this->_em->persist($group);
             $this->_em->flush();
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
         return $group;
@@ -59,15 +60,15 @@ class GroupRepository extends EntityRepository
 
     /**
      * @param Group $group
-     * @return mixed
+     * @return Group|Exception
      */
     public function editGroup($group)
     {
         try {
             $this->_em->merge($group);
             $this->_em->flush();
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            return $e;
         }
 
         return $group;
@@ -76,7 +77,7 @@ class GroupRepository extends EntityRepository
     /**
      * @param int $oldGroupId
      * @param int $newGroupId
-     * @return boolean
+     * @return boolean|Exception
      */
     public function changeUsersGroup($oldGroupId, $newGroupId)
     {
@@ -90,7 +91,7 @@ class GroupRepository extends EntityRepository
 
             return true;
         } catch (\Exception $e) {
-            return false;
+            return $e;
         }
     }
 
@@ -105,7 +106,7 @@ class GroupRepository extends EntityRepository
             $this->_em->remove($group);
             $this->_em->flush();
         } catch (\Exception $e) {
-            return false;
+            return $e;
         }
 
         return true;

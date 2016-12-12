@@ -2,10 +2,12 @@
 
 namespace UserBundle\Adapter\Role;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Adapter\JsonAPIConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Business\Manager\RoleManager;
+use UserBundle\Entity\Role;
 
 /**
  * Class RoleAPIConverter
@@ -28,14 +30,6 @@ class RoleAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        if ($resultConvert = parent::convert()) {
-            if ($this->request->getMethod() == "DELETE") {
-                $this->request->attributes->set($this->param, new ArrayCollection(array(null, 204)));
-            } else {
-                $this->request->attributes->set($this->param, new ArrayCollection(array($this->manager->serializeRole($resultConvert))));
-            }
-        } else {
-            $this->request->attributes->set($this->param, new ArrayCollection(array(json_encode(array('message' => 'Error!')), 410)));
-        }
+        $this->request->attributes->set($this->param, new ArrayCollection(parent::convert()));
     }
 }
