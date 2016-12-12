@@ -4,9 +4,8 @@ const { Model, attr } = DS;
 
 export default Model.extend({
     sender:          DS.belongsTo('agent'),
+    participants:    DS.hasMany('agent'),
     thread:          DS.belongsTo('thread', {inverse:'messages'}),
-    messageMetadata: DS.hasMany('message-metadata'),
     body:            attr('string'),
     createdAt:       attr('custom-date'),
-
 });

@@ -4,8 +4,8 @@ const {  attr, Model } = DS;
 
 export default Model.extend({
     createdBy:      DS.belongsTo('agent'),
+    participants:   DS.hasMany('agent'),
     messages:       DS.hasMany('message'),
-    threadMetadata: DS.hasMany('thread-metadata'),
-    createdAt:      attr('custom-date')
-
+    createdAt:      attr('custom-date'),
+    subject:        attr('string')
 });
