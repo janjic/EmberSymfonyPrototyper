@@ -10,8 +10,10 @@ export default Ember.Route.extend({
         });
 
     },
-    setupController : function(controller){
+    setupController : function(controller, model){
         this._super(...arguments);
+        controller.set('maxPages', model.meta.pages);
+        controller.set('totalItems', model.meta.totalItems);
         this.get('store').findAll('group', { reload: true }).then(function (groups) {
             let array = [];
             groups.forEach(function (item) {
