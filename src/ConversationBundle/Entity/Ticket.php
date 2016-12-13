@@ -44,6 +44,12 @@ class Ticket
     protected $status;
 
     /**
+     * @var string
+     * @ORM\Column(name="created_at", type="date", length=255, nullable=true)
+     */
+    protected $createdAt;
+
+    /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\File", cascade={"all"}, orphanRemoval=TRUE)
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      **/
@@ -145,6 +151,22 @@ class Ticket
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

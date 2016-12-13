@@ -251,4 +251,15 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
             ->toArray());
 
     }
+
+
+    /**
+     * @param $id
+     * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
+     */
+    public function getReference($id)
+    {
+        return $this->repository->getReference($id);
+    }
+
 }

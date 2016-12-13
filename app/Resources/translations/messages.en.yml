@@ -85,6 +85,7 @@ agent-menu:
   tickets:
     title: 'Tickets'
     history: 'Ticket history'
+    created.tickets: 'Created Tickets'
     new: 'Create ticket'
   reports:
     title: 'Reports'
@@ -229,4 +230,13 @@ models:
     save: 'Group saved!'
     delete: 'Group removed!'
   ticket:
+    all: 'All'
     save.message: 'Ticket saved!'
+    types:
+      bug.report: 'Bug report'
+      wrong.order: 'Wrong order'
+      order.inquiry: 'Order inquiry'
+    status:
+      new: 'New'
+      active: 'Active'
+      resolved: 'Resolved'

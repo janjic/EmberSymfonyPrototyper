@@ -1,12 +1,16 @@
 <?php
 
 namespace ConversationBundle\Business\Manager\Ticket;
+use ConversationBundle\Entity\Ticket;
+use ConversationBundle\Entity\TicketStatuses;
+use ConversationBundle\Entity\TicketTypes;
 use CoreBundle\Adapter\AgentApiResponse;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\File;
 use UserBundle\Entity\Document\Image;
 
 /**
@@ -20,63 +24,87 @@ trait JsonApiSaveTicketManagerTrait
      */
     public function saveResource($data)
     {
-//        var_dump($data);exit;
+        /**
+         * Deserialize ticket
+         */
         $ticket = $this->deserializeTicket($data);
-        var_dump($ticket);exit;
-//        $agent = $this->prepareSave($data);
-//        if ($this->saveMedia($agent)) {
-//            /** @var Agent|Exception $agent */
-//            $data = $this->save($agent, is_null($agent->getSuperior())? null:$this->getEntityReference($agent->getSuperior()->getId()));
-//            /** @var Image|null $image */;
-//            if ($data instanceof Exception) {
-//                !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
-//                return $this->createJsonAPiSaveResponse($data);
-//            }
-//        }
-//
-//        return $this->createJsonAPiSaveResponse($agent);
+
+        /**
+         * Prepare ticket object for saving
+         */
+        $ticket = $this->prepareSave($ticket);
+
+        /** @var Agent|Exception $agent */
+        $data = $this->save($ticket);
+
+        /** @var Image|null $image */;
+        if ($data instanceof Exception) {
+            !is_null($file = $ticket->getFile()) ? $file->deleteFile() : false;
+            return $this->createJsonAPiSaveResponse($data);
+        }
+
+
+        return $this->createJsonAPiSaveResponse($data);
     }
 
     /**
-     * @param $data
-     * @return Agent
+     * @param Ticket $ticket
+     * @return bool|Ticket
+     * @throws Exception
      */
-    private function prepareSave($data)
+    private function prepareSave(Ticket $ticket)
     {
-//        /**
-//         * @var Agent $agent
-//         */
-//        $agent = $this->deserializeAgent($data);
-//
-//        $agent->setUsername($agent->getEmail());
-//        $agent->setBirthDate(new DateTime($agent->getBirthDate()));
-//        $group = $this->groupManager->getEntityReference($agent->getGroup()->getId());
-//        /**
-//         * Populate agent object with relationships and image url
-//         */
-//        $agent->setGroup($group);
-//
-//        return $agent;
+        /**
+         * Check if ticket type is valid
+         */
+        if(!in_array($ticket->getType(), TicketTypes::getPossibleValues())) {
+            throw new Exception('Ticket type not supported');
+        }
+
+        /**
+         * Set createdAt date
+         */
+        $ticket->setCreatedAt(new DateTime());
+
+        /**
+         * Set ticket status to new on creation
+         */
+        $ticket->setStatus(TicketStatuses::STATUS_NEW);
+
+        /**
+         * Save ticket file if exists
+         */
+        $this->saveMedia($ticket);
+
+        /**
+         * Get agent reference
+         */
+        $agent = $this->agentManager->getReference($ticket->getCreatedBy()->getId());
+
+        /**
+         * Set agent to createdBy
+         */
+        $ticket->setCreatedBy($agent);
+
+        return $ticket;
     }
 
     /**
-     * @param Agent $agent
+     * @param Ticket $ticket
      * @return bool
      */
-    private function saveMedia($agent)
+    private function saveMedia($ticket)
     {
-//        /** @var Image|null $image */
-//        $image = $agent->getImage();
-//        if(!is_null($image)){
-//            if ($image->saveToFile($image->getBase64Content())) {
-//                $agent->setBaseImageUrl($image->getWebPath());
-//                return true;
-//            }
-//            return false;
-//        }
-//
-//        return true;
+        /** @var File $file */
+        $file = $ticket->getFile();
+        if(!is_null($file)){
+            if ($file->saveToFile($file->getBase64Content())) {
+                return true;
+            }
+            return false;
+        }
 
+        return true;
     }
 
     /**
@@ -85,19 +113,16 @@ trait JsonApiSaveTicketManagerTrait
      */
     private function createJsonAPiSaveResponse($data)
     {
-//        switch (get_class($data)) {
-//            case UniqueConstraintViolationException::class:
-//                return new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST);
-//            case Exception::class:
-//                return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
-//            case (Agent::class && ($id= $data->getId())):
-//                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
-//            case (Agent::class && !($id= $data->getId()) && $data->getImage()):
-//                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
-//            default:
-//                return false;
-//        }
+        switch (get_class($data)) {
+            case Exception::class:
+                return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
+            case (Ticket::class && ($id = $data->getId())):
+                return new ArrayCollection(AgentApiResponse::TICKET_SAVED_SUCCESSFULLY($id));
+            case (Ticket::class && !($id = $data->getId()) && $data->getFile()):
+                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
+            default:
+                return false;
+        }
     }
-
 
 }
