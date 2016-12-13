@@ -30,7 +30,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
                         case ApiCode.PASSWORDS_CHANGED_OK:
                             this.toast.success(Translator.trans('password.changed.successfully'));
                             this.setLoadingText('loading.logging.user');
-                            this.get('session').authenticate('authenticator:oauth2', response.email, changeset.get('password')).catch((reason) => {
+                            this.get('session').authenticate('authenticator:oauth2', response.email, changeset.get('password')).catch(() => {
                                 this.toast.error(Translator.trans('password.changed.invalid.token'));
                                 this.disableLoader();
                             });

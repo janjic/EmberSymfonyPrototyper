@@ -16,46 +16,23 @@ class AgentController extends Controller
 {
 
     /**
-     * @Route("/api/agent-save", name="api_agent_save", options={"expose" = true}),
-     * @param ArrayCollection $agentSave
-     * @return JsonResponse
-     */
-    public function saveAgentAction(ArrayCollection $agentSave)
-    {
-        /**return JSON Response */
-        return new JsonResponse($agentSave->toArray());
-    }
-
-    /**
      * @Route("/api/agents/{id}", name="api_agents", options={"expose" = true}, defaults={"id": "all"}),
      * @param ArrayCollection $agentAPI
      * @return Response
      */
     public function agentAPIAction(ArrayCollection $agentAPI)
     {
-        return new JsonResponse($agentAPI[0]);
+        return new JsonResponse(($data = $agentAPI->toArray()), array_key_exists('errors', $data)? 422:200);
     }
 
     /**
-     * @Route("/api/agents/orgchart/root", name="api_agents_orgchart", options={"expose" = true}),
+     * @Route("/api/agent_orgchart/{parentId}", name="api_orgchart_agents", options={"expose" = true}, defaults={"parentId": null}),
+     * @param ArrayCollection $agentOrgchart
      * @return Response
      */
-    public function dataForOrgchartAction()
+    public function orgchartAction(ArrayCollection $agentOrgchart)
     {
-        $agents = $this->container->get('agent_system.agent.manager')->loadRootAndChildren();
-
-        return new Response(json_encode($agents[29]));
-    }
-
-    /**
-     * @Route("/api/agents/orgchart/children/{id}", name="api_agents_orgchart_children", options={"expose" = true}, defaults={"id": null}),
-     * @return Response
-     */
-    public function dataForChildrenOrgchartAction($id)
-    {
-        $agents = $this->container->get('agent_system.agent.manager')->loadChildren($id);
-
-        return new Response(json_encode($agents));
+        return new JsonResponse($agentOrgchart->toArray());
     }
 
 }

@@ -4,7 +4,7 @@ import AjaxRequestMixin from 'ember-ajax/mixins/ajax-request';
 export default Ember.Service.extend(AjaxRequestMixin, {
     session: Ember.inject.service(),
 
-    sendAuthorizedRequest (data, type, url, callBack, context) {
+    sendAuthorizedRequest (data, type, url, callBack) {
         return this.get('session').authorize('authorizer:application', (headerName, headerValue) => {
             const headers = {};
             headers[headerName] = headerValue;

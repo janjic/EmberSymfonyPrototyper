@@ -54,6 +54,4 @@ class ImageManager implements BasicEntityManagerInterface
         return $this->repository->findOneById($id);
     }
 
-
-
 }

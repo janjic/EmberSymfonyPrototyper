@@ -2,8 +2,14 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FSerializerBundle\services\FJsonApiSerializer;
+use UserBundle\Business\Manager\Role\JsonApiDeleteRoleManagerTrait;
+use UserBundle\Business\Manager\Role\JsonApiGetRoleManagerTrait;
+use UserBundle\Business\Manager\Role\JsonApiSaveRoleManagerTrait;
+use UserBundle\Business\Manager\Role\JsonApiUpdateRoleManagerTrait;
 use UserBundle\Business\Repository\RoleRepository;
 use UserBundle\Entity\Role;
 
@@ -13,6 +19,11 @@ use UserBundle\Entity\Role;
  */
 class RoleManager implements JSONAPIEntityManagerInterface
 {
+    use JsonApiGetRoleManagerTrait;
+    use JsonApiSaveRoleManagerTrait;
+    use JsonApiUpdateRoleManagerTrait;
+    use JsonApiDeleteRoleManagerTrait;
+
     /**
      * @var RoleRepository
      */
@@ -30,42 +41,6 @@ class RoleManager implements JSONAPIEntityManagerInterface
     {
         $this->repository = $repository;
         $this->fSerializer = $fSerializer;
-    }
-
-    public function getResource($id = null)
-    {
-        return $this->repository->findRole($id);
-    }
-
-    public function saveResource($data)
-    {
-        return $this->repository->saveItem($this->deserializeRole($data));
-    }
-
-    public function updateResource($data)
-    {
-        $rawData = json_decode($data, true);
-
-        if ($rawData['data']['attributes']['simple-update']) {
-            /** @var Role $role */
-            $role = $this->deserializeRole($data);
-            /** @var Role $roleDB */
-            $roleDB = $this->getResource($role->getId());
-            $roleDB->setRole($role->getRole());
-            $roleDB->setName($role->getName());
-
-            return $this->repository->simpleUpdate($roleDB);
-        }
-
-        $prev = $rawData['data']['attributes']['prev'];
-        $parent = $rawData['data']['relationships']['parent']['data']['id'];
-
-        return $this->repository->changeNested($rawData['data']['id'], intval($prev), intval($parent));
-    }
-
-    public function deleteResource($id)
-    {
-        return $this->repository->removeNestedFromTree($id);
     }
 
     /**
@@ -96,7 +71,7 @@ class RoleManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        return $this->fSerializer->serialize($content, $mappings, ['parent']);
+        return $this->fSerializer->serialize($content, $mappings, ['parent'])->toArray();
     }
 
 }

@@ -1,6 +1,7 @@
 import Ember from 'ember';
-
-export default Ember.Component.extend({
+import InfinityBlock from "ember-infinity/mixins/route";
+import { task, timeout } from 'ember-concurrency';
+export default Ember.Component.extend(InfinityBlock, {
     store: Ember.inject.service(),
     currentUser: Ember.inject.service('current-user'),
     agents: [],
@@ -16,15 +17,24 @@ export default Ember.Component.extend({
 
     didInsertElement() {
         this._super(...arguments);
-        this.set('agents', this.get('store').findAll('agent'));
         this.set('selectedAgentId', this.get('selectedAgent.id'));
+        this.set('lastId', this.get('agents.firstObject.id'));
     },
+
+    searchTask: task(function* (term) {
+        yield timeout(1500);
+        return this.get('agents');
+    }),
     actions: {
-        agentChanged: function (agentIndex) {
+        agentChanged (agentIndex) {
             let agent = this.get('agents').objectAt(agentIndex);
-                this.set('changeset.'+this.get('property'), agent);
-                this.get('changeset').validate(this.get('property'));
-                this.set('changeset.superior', agent);
+            this.set('changeset.'+this.get('property'), agent);
+            this.get('changeset').validate(this.get('property'));
+        },
+        chooseDestination(selectedAgent) {
+            this.set('selected', selectedAgent);
+            // this.calculateRoute();
+            // this.updatePrice();
         }
     }
 });

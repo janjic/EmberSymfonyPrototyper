@@ -2,15 +2,21 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
-use DateTime;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\User\UserInterface;
+use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiGetAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Repository\GroupRepository;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
@@ -23,13 +29,23 @@ use UserBundle\Entity\Role;
  */
 class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterface
 {
+    use BasicEntityManagerTrait;
+    use JsonApiSaveAgentManagerTrait;
+    use JsonApiGetAgentManagerTrait;
+    use JsonApiUpdateAgentManagerTrait;
+    use JsonApiDeleteAgentManagerTrait;
+    use JsonApiJQGridAgentManagerTrait;
+    use JsonApiAgentOrgchartManagerTrait;
+
     /**
      * @var AgentRepository
      */
     protected $repository;
 
+    /**
+     * @var GroupManager
+     */
     protected $groupManager;
-
 
     /**
      * @var FJsonApiSerializer $fSerializer
@@ -91,145 +107,6 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
 
-    /**
-     * @param $request
-     * @return array
-     *
-     */
-    public function jqgridAction($request)
-    {
-        $params = null;
-        $searchParams = null;
-        if (($page = $request->get('page')) && ($offset = $request->get('offset'))) {
-            $searchFields = array('id' => 'agent.id', 'username' => 'agent.username', 'firstName' => 'agent.firstName',
-                'lastName' => 'agent.lastName', 'group.name' => 'group.name', 'enabled' => 'agent.enabled', 'address.country' => 'address.country');
-            $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
-            $params['page'] = $page;
-            $params['offset'] = $offset;
-
-            if ($filters = $request->get('filters')) {
-                $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());
-                foreach ($rules = json_decode($filters)->rules as $rule) {
-                    $searchParams[1][$searchFields[$rule->field]] = $rule->data;
-                }
-                $agents = $this->repository->searchForJQGRID($searchParams, $sortParams, null);
-            } else {
-                $agents = $this->repository->findAllForJQGRID($page, $offset, $sortParams, null);
-            }
-
-            $size = (int)$this->repository->searchForJQGRID($searchParams, $sortParams, null, true)[0][1];
-            $pageCount = ceil($size / $offset);
-
-            return $agents;
-
-            var_dump($agents);
-            exit;
-            /** @var \NilPortugues\Api\JsonApi\JsonApiTransformer $transformer */
-            $transformer = $serializer->getTransformer();
-            $transformer->addMeta('totalItems', $size);
-            $transformer->addMeta('pages', $pageCount);
-            $transformer->addMeta('page', $page);
-        }
-    }
-
-    /**
-     * @param null $id
-     * @return array
-     */
-    public function getResource($id = null)
-    {
-        return $this->repository->findAgentById($id);
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    public function saveResource($data)
-    {
-        // TODO: Implement saveResource() method.
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    public function updateResource($data)
-    {
-
-        /**
-         * @var Agent $agent
-         */
-        $agent = $this->deserializeAgent($data);
-
-        /**
-         * @var Agent $dbAgent
-         */
-        $dbAgent = $this->repository->findOneById($agent->getId());
-        $dbAgent->setTitle($agent->getTitle());
-        $dbAgent->setFirstName($agent->getFirstName());
-        $dbAgent->setLastName($agent->getLastName());
-        $dbAgent->setEmail($agent->getEmail());
-        $dbAgent->setUsername($agent->getEmail());
-        $dbAgent->setNationality($agent->getNationality());
-        $dbAgent->setBankAccountNumber($agent->getBankAccountNumber());
-        $dbAgent->setBankName($agent->getBankName());
-        $dbAgent->setSocialSecurityNumber($agent->getSocialSecurityNumber());
-        /**
-         * @var Address $dbAddress
-         */
-        $dbAddress = $dbAgent->getAddress();
-
-        /**
-         * @var Address $address
-         */
-        $address = $agent->getAddress();
-        if ($address) {
-            $dbAddress->setStreetNumber($address->getStreetNumber());
-            $dbAddress->setCity($address->getCity());
-            $dbAddress->setCountry($address->getCountry());
-            $dbAddress->setFixedPhone($address->getFixedPhone());
-            $dbAddress->setPhone($address->getPhone());
-            $dbAddress->setPostcode($address->getPostcode());
-        }
-
-        $dbAgent->setBirthDate(new DateTime($agent->getBirthDate()));
-        $dbAgent->setUsername($agent->getEmail());
-
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() == 0) {
-            $image = new Image();
-            $image->setBase64Content($agent->getImage()->getBase64Content());
-            $image->setName($agent->getImage()->getName());
-
-            $image->saveToFile($image->getBase64Content());
-
-            $dbAgent->setImage($image);
-        }
-
-
-        $dbSuperior = $dbAgent->getSuperior();
-        $newSuperior = null;
-        if(!is_null($agent->getSuperior())){
-            $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
-        }
-
-        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
-
-        if($agent->getId()){
-            $this->syncWithTCRPortal($agent, 'edit');
-        }
-
-        return $agent;
-    }
-
-    /**
-     * @param null $id
-     * @return mixed
-     */
-    public function deleteResource($id = null)
-    {
-        // TODO: Implement deleteResource() method.
-    }
 
 
     /**
@@ -279,7 +156,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      * @param $agent
      * @param $action
      */
-    function syncWithTCRPortal($agent, $action)
+    public function syncWithTCRPortal($agent, $action)
     {
         if($action == 'add'){
             $url = 'app_dev.php/en/json/add-agent';
@@ -296,7 +173,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      * @param null $id
      * @return string
      */
-    function createJsonFromAgentObject(Agent $agent, $id = null)
+    public function createJsonFromAgentObject(Agent $agent, $id = null)
     {
         $agentArray = [];
         if(!is_null($id)){
@@ -339,78 +216,9 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
     public function serializeAgent($agent)
     {
-        $relations = array('group', 'superior', 'group.roles', 'image', 'address');
-        //LINKS AND META ARE OPTIONALS
-        $mappings =
-            array(
-                'agent'    => array('class' => Agent::class, 'type'=>'agents'),
-                'group'    => array('class' => Group::class,  'type'=>'groups'),
-                'superior' => array('class' => Agent::class,  'type'=>'agents'),
-                'roles'    => array('class' => Role::class,   'type'=>'roles'),
-                'image'    => array('class' => Image::class,  'type'=>'images'),
-                'address'  => array('class' => Address::class, 'type'=>'address')
-            );
 
-        $serialized = $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, $mappings, $relations);
+        return $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, AgentSerializerInfo::$mappings, AgentSerializerInfo::$relations);
 
-        return $serialized;
     }
-
-    /**
-     * @return array
-     */
-    function loadRootAndChildren()
-    {
-        $data = $this->repository->loadRootAndChildren();
-        $helper = [];
-        foreach ($data as $agent) {
-
-            $superior = $agent['superior_id'];
-            $childrenCount = $agent['childrenCount'];
-            unset($agent['superior_id']);
-            unset($agent['childrenCount']);
-
-            /** if there is superior add element as child */
-            if ($superior != null) {
-                $agent['relationship'] = '1'.(sizeof($data) > 2 ? 1 : 0).((int) $childrenCount > 0 ? 1 : 0);
-                $helper[$superior]['children'][] = $agent;
-
-            } else if (array_key_exists($agent['id'], $helper)) {
-                /** element is root */
-                $agent['relationship'] = '001';
-                $children = $helper[$agent['id']]['children'];
-                $helper[$agent['id']] = $agent;
-                $helper[$agent['id']]['children'] = $children;
-
-            } else {
-                /** element is root */
-                $agent['relationship'] = '001';
-                $helper[$agent['id']] = $agent;
-            }
-
-        }
-
-        return $helper;
-    }
-
-    /**
-     * @param $parent
-     * @return array
-     */
-    function loadChildren($parent)
-    {
-        $data = $this->repository->loadChildren($parent);
-        $helper['children'] = [];
-        foreach ($data as $agent) {
-
-            $agent['relationship'] = '1'.(sizeof($data) > 1 ? 1 : 0).((int) $agent['childrenCount'] > 0 ? 1 : 0);
-            unset($agent['childrenCount']);
-
-            $helper['children'][] = $agent;
-        }
-
-        return $helper;
-    }
-
 
 }

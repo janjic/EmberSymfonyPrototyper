@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
             {value: 'enabled', compare:'eq', compareValues: [{name: Translator.trans('All'), value: -1}, {name: Translator.trans('Enabled'), value: 1}, {name: Translator.trans('Not Enabled'), value: 0}], formatter: function (value) {
                 return value ? Translator.trans('Enabled'): Translator.trans('Not enabled');
             }}
-        ]
+        ];
     }),
     actions: {
         filterModel: function (searchArray, page, column, sortType) {

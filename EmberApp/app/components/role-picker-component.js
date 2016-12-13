@@ -6,7 +6,12 @@ export default Ember.Component.extend({
     groups: [],
     groupsFiltered: Ember.computed('groups.@each.name', 'currentUser', function () {
         return this.get('groups').filter((item) =>{
-            return this.get('currentUser.user.roles').indexOf(item.get('roles').objectAt(0).get('role')) != -1;
+            let firstObject = item.get('roles').objectAt(0);
+            if (!Object.is(firstObject, undefined)) {
+                return !Object.is(this.get('currentUser.user.roles').indexOf(firstObject.get('role')), -1);
+            }
+
+            return false;
         });
     }),
     selectedGroupIndex: -1,
@@ -19,6 +24,7 @@ export default Ember.Component.extend({
         if(index !== -1){
             this.set('selectedGroupIndex', index);
         }
+        this.set('selectedGroup', this.get('groups.lastObject'));
     },
     actions: {
         roleChanged: function (groupIndex) {
@@ -26,6 +32,11 @@ export default Ember.Component.extend({
             this.set('changeset.'+this.get('property'), group);
             this.get('validateProperty')(this.get('changeset'), this.get('property'));
             this.get('onRoleSelected')(group);
+        },
+        chooseDestination(group) {
+            this.set('selectedGroup', group);
+            // this.calculateRoute();
+            // this.updatePrice();
         }
     }
 

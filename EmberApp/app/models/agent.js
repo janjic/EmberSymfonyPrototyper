@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 const { attr, Model } = DS;
@@ -28,6 +29,8 @@ export default Model.extend({
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),
     image:                DS.belongsTo('image'),
+    createdTickets:       DS.hasMany('ticket'),
+    forwardedTickets:     DS.hasMany('ticket'),
 
     fullName: computed('firstName', 'lastName', function() {
         if (!this.get('firstName') && !this.get('lastName')) {

@@ -11,5 +11,6 @@ export default {
     email:          validateFormat({ type: 'email' }),
     privateEmail:   validateFormat({ type: 'email' }),
     birthDate:      validateDate(true),
+    superior:       validatePresence(true),
 
 };

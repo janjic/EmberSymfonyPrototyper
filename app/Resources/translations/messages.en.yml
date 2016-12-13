@@ -11,8 +11,9 @@ password:
 
 
 loading:
-  sending.data: 'Sending data to server...'
-  logging.user: 'Logging user in...'
+  sending.data: 'Sending data...'
+  logging.user: 'Logging user...'
+  redirecting:  'Redirecting...'
 
 placeholder:
   email: 'Plese insert you email'
@@ -213,4 +214,17 @@ validations:
   older-than-18: 'User must be 18 or older!'
 
 
-
+models:
+  server-error: 'Server error!'
+  agent:
+    unique.entity: 'Agent with email, username or id already exist!'
+    file.error:   'Error while saving file !'
+    save.message: 'Agent saved!'
+  role:
+    role-title-unique: 'Role title must be unique!'
+    save: 'Role saved!'
+    delete: 'Role removed!'
+  group:
+    group-name-unique: 'Group name must be unique!'
+    save: 'Group saved!'
+    delete: 'Group removed!'

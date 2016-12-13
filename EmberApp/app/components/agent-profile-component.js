@@ -33,7 +33,8 @@ export default Ember.Component.extend({
             this.changeset.set('title', title);
         },
         editAgent(agent){
-            this.get('changeset').validate() && this.get('addressChangeset').validate();
+            this.get('changeset').validate();
+            this.get('addressChangeset').validate();
             if ( this.get('changeset').get('isValid') && this.get('addressChangeset').get('isValid')) {
                 agent.set('address', this.get('addressChangeset._content'));
                 agent.save().then(() => {
