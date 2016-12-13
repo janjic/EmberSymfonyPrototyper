@@ -19,8 +19,9 @@ export default Ember.Component.extend({
     selectedLanguage: null,
 
     actions: {
-        languageChanged: function (languageKey) {
-            this.get('onLanguageSelected')(languageKey);
+        languageChanged: function (language) {
+            this.set('selectedLanguage', language);
+            this.get('onLanguageSelected')(language ? language.key : language);
         }
     }
 
