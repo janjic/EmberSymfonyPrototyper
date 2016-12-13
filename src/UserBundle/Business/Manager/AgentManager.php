@@ -5,8 +5,10 @@ namespace UserBundle\Business\Manager;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -221,4 +223,32 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
     }
 
+    /**
+     * @param Request $request
+     */
+    public function getQueryResult($request)
+    {
+        $page = $request->query->get('page');
+        $offset = $request->query->get('rows');
+        $searchParams[0]['toolbar_search'] = true;
+        $searchParams[0]['page'] = $page;
+        $searchParams[0]['rows'] = $offset;
+
+        $searchParams[1][$request->query->get('field')] = $request->query->get('search');
+
+        $additionalParams['select'] = ['agent.email'];
+
+        $agents = $this->repository->searchForJQGRID($searchParams, null, $additionalParams);
+
+        $size = (int)$this->repository->searchForJQGRID($searchParams, null, $additionalParams, true)[0][1];
+        $pageCount = ceil($size / $offset);
+
+        return new ArrayCollection($agents);
+        return new ArrayCollection($this->serializeAgent($agents)
+            ->addMeta('totalItems', $size)
+            ->addMeta('pages', $pageCount)
+            ->addMeta('page', $page)
+            ->toArray());
+
+    }
 }

@@ -11,9 +11,9 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class=" col-xs-12">
-                        {{!--{{#power-select search=(perform searchTask) selected=selected onchange=(action (mut selected)) as |repo|}}--}}
-                            {{!--{{repo.id}}--}}
-                        {{!--{{/power-select}}--}}
+                        {{#power-select search=(perform searchTask) selected=selected onchange=(action (mut selected)) as |repo|}}
+                            {{repo.id}}
+                        {{/power-select}}
                         {{!--<input type="text" class="form-control" name="username">--}}
                     </div>
                 </div>
