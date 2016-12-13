@@ -11,10 +11,18 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class=" col-xs-12">
-                        {{#power-select search=(perform searchTask) selected=selected onchange=(action (mut selected)) as |repo|}}
-                            {{repo.id}}
-                        {{/power-select}}
-                        {{!--<input type="text" class="form-control" name="username">--}}
+                        {{inf-select
+                            optionLabelKey='email'
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                        }}
+                        {{#if (get changeset.error 'participants')}}
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'participants') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -22,7 +30,8 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class=" col-xs-12">
-                        {{input type="text" class="form-control" value=subject }}
+                        {{validated-field doNotShowLabel=true property="messageSubject" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "messageSubject")}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -30,7 +39,8 @@
                         <span class="required" aria-required="true"></span>
                     </label>
                     <div class="col-xs-12">
-                        {{textarea type="text" class="form-control" value=body }}
+                        {{validated-field doNotShowLabel=true property="body" changeset=changeset type="text"
+                        validateProperty=(action 'validateProperty' changeset "body")}}
                     </div>
                 </div>
                 <div class="form-group clearfix text-right">

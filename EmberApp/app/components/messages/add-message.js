@@ -1,48 +1,36 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 import LoadingStateMixin from '../../mixins/loading-state';
+import MessageValidations from '../../validations/message-new';
+import Changeset from 'ember-changeset';
+import lookupValidator from './../../utils/lookupValidator';
 
 const {ApiCode, Translator} = window;
 const { inject: { service }} = Ember;
 
 export default Ember.Component.extend(LoadingStateMixin, {
-    authorizedAjax: service('authorized-ajax'),
-    currentUser: Ember.inject.service('current-user'),
+    MessageValidations,
     store: service('store'),
-    participant: null,
-    searchTask: task(function* (term) {
-        yield timeout(1500);
+    currentUser: Ember.inject.service('current-user'),
 
-        let options = {
-            field: 'agent.email',
-            search: term,
-            page: 1,
-            rows: 10
-        };
-
-        this.get('authorizedAjax').sendAuthorizedRequest(options, 'GET', 'app_dev.php/api/agents', function (response) {
-            console.log(response);
-        }.bind(this), this);
-
+    search: task(function * (text, page, perPage) {
+        yield timeout(200);
+        return this.get('searchQuery')(page, text, perPage);
     }),
+
+    init() {
+        this._super(...arguments);
+        this.changeset = new Changeset(this.get('model'), lookupValidator(MessageValidations), MessageValidations);
+    },
 
     actions: {
         sendMessage() {
+            let changeSet = this.get('changeset');
+            if (changeSet.validate() && changeSet.get('isValid')) {
+                this.showLoader();
 
-            this.showLoader();
-
-            var agentPromise = this.get('store').findRecord('agent', 30);
-
-            Ember.RSVP.allSettled([agentPromise]).then(([pPromise]) => {
-                let reciver = pPromise.value;
-
-                let message = this.get('store').createRecord('message', {
-                    sender:          this.get('currentUser.user'),
-                    participants:    [reciver],
-                    body:            this.get('body'),
-                    messageSubject:  this.get('subject'),
-                });
-
+                let message = this.get('model');
+                message.set('sender', this.get('currentUser.user'));
                 message.save().then(() => {
                     this.toast.success('models.message.save');
                     this.disableLoader();
@@ -50,8 +38,21 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     this.processErrors(response.errors);
                     this.disableLoader();
                 });
-            });
-        }
+            }
+        },
+
+        agentSelected(agent){
+            this.set('changeset.participants', agent ? [agent] : null);
+            this.get('changeset').validate('sender');
+        },
+
+        /** validations */
+        reset(changeset) {
+            return changeset.rollback();
+        },
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        },
     },
 
     processErrors(errors) {
