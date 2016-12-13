@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
+import LoadingStateMixin from '../../mixins/loading-state';
 
+const {ApiCode, Translator} = window;
 const { inject: { service }} = Ember;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(LoadingStateMixin, {
     authorizedAjax: service('authorized-ajax'),
     currentUser: Ember.inject.service('current-user'),
     store: service('store'),
@@ -27,95 +29,40 @@ export default Ember.Component.extend({
     actions: {
         sendMessage() {
 
+            this.showLoader();
+
             var agentPromise = this.get('store').findRecord('agent', 30);
 
             Ember.RSVP.allSettled([agentPromise]).then(([pPromise]) => {
                 let reciver = pPromise.value;
 
-                let thread = this.get('store').createRecord('thread', {
-                    createdBy:      this.get('currentUser.user'),
-                    participants:   [reciver],
-                    subject:        this.get('subject'),
-                });
-
                 let message = this.get('store').createRecord('message', {
                     sender:          this.get('currentUser.user'),
                     participants:    [reciver],
                     body:            this.get('body'),
-                    thread:          thread
+                    messageSubject:  this.get('subject'),
                 });
 
-
-
-                message.save().then((res) => {
-                    console.log(res);
-                }, (res) => {
-                    console.log(res);
+                message.save().then(() => {
+                    this.toast.success('models.message.save');
+                    this.disableLoader();
+                }, (response) => {
+                    this.processErrors(response.errors);
+                    this.disableLoader();
                 });
             });
-
-           //  var agentPromise = this.get('store').findRecord('agent', 30);
-           //
-           //  Ember.RSVP.allSettled([agentPromise]).then(([pPromise]) => {
-           //
-           //  };
-           //
-           // .then((res) => {
-           //      this.set('participant',  res);
-           //
-           //      console.log(this.get('participant'));
-           //
-           //      let message = this.get('store').createRecord('message', {
-           //          sender:         this.get('currentUser.user'),
-           //          participants:   [participant],
-           //          body:           this.get('body')
-           //      });
-           //
-           //      let thread = this.get('store').createRecord('thread', {
-           //          createdBy:      this.get('currentUser.user'),
-           //          participants:   [participant],
-           //          subject:        this.get('subject'),
-           //          messages:       [message]
-           //      });
-           //  });
-
-
-            //
-            // console.log('asddsads');
-            // console.log(thread);
-
-            // let threadMetadata = this.get('store').createRecord('thread-metadata', {
-            //     'participant': this.get('store').findRecord('agent', 30),
-            // });
-            //
-            //
-            // let thread = this.get('store').createRecord('thread', {
-            //     'createdBy': this.get('currentUser.user'),
-            //     'threadMetadata': [threadMetadata],
-            //     'subject': this.get('subject'),
-            // });
-            //
-            // console.log(thread);
-            // let messageMetadata = this.get('store').createRecord('message-metadata', {
-            //     'participant': this.get('store').findRecord('agent', 30),
-            //
-            // });
-            //
-            // let message = this.get('store').createRecord('message', {
-            //     'sender': this.get('currentUser.user'),
-            //     'body': this.get('body')
-            // });
-            //
-            // console.log(message);
-            // message.save().then((res) => {
-            //     console.log(res);
-            // }, (res) => {
-            //     console.log(res);
-            // });
-
-            //     console.log('sendMessage');
-            //     console.log();
-            //     console.log(this.get('body'));
         }
-    }
+    },
+
+    processErrors(errors) {
+        errors.forEach((item) => {
+            switch (item.status) {
+                case ApiCode.ERROR_MESSAGE:
+                    this.toast.success(Translator.trans('models.server-error'));
+                    break;
+                default:
+                    return;
+            }
+        });
+    },
 });

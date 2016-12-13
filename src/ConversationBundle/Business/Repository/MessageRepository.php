@@ -6,6 +6,7 @@ use ConversationBundle\Entity\Message;
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use Exception;
+use FOS\MessageBundle\Model\MessageInterface;
 
 /**
  * Class MessageRepository
@@ -37,8 +38,8 @@ class MessageRepository extends EntityRepository
 
     /**
      * Save new message
-     * @param Message $message
-     * @return Message|Exception
+     * @param MessageInterface $message
+     * @return MessageInterface|Exception
      */
     public function saveMessage($message)
     {
@@ -53,8 +54,8 @@ class MessageRepository extends EntityRepository
     }
 
     /**
-     * @param Message $message
-     * @return Message|Exception
+     * @param MessageInterface $message
+     * @return MessageInterface|Exception
      */
     public function editMessage($message)
     {

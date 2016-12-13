@@ -8,4 +8,5 @@ export default Model.extend({
     thread:          DS.belongsTo('thread', {inverse:'messages'}),
     body:            attr('string'),
     createdAt:       attr('custom-date'),
+    messageSubject:  attr('string')
 });

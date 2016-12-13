@@ -11,6 +11,9 @@ services:
         arguments:
             repository: "@agent_system.message.repository"
             fSerializer: "@f_serializer"
+            messageComposer: "@fos_message.composer.default"
+            messageSender: "@fos_message.sender.default"
+            eventDispatcher: "@event_dispatcher"
 
     agent_system.message.adapter:
         class: ConversationBundle\Adapter\Message\MessageAdapter
