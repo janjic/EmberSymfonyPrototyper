@@ -9,6 +9,12 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{inf-select
+                                optionLabelKey='name'
+                                options=groups
+                                serchable=true
+                                on-change=(action 'roleSelected')
+                        }}
                         {{role-picker-component onRoleSelected=(action 'roleSelected') changeset = changeset
                                                 property="group" validateProperty=(action 'validateProperty' changeset "group")}}
                     </div>
