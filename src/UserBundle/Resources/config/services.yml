@@ -135,3 +135,23 @@ services:
         class: UserBundle\Business\Provider\AgentOauthProvider
         arguments:
                     - "@agent_system.agent.manager"
+
+    # ------ Invitation ---------------------------------------------------------------------------------------------- #
+    agent_system.invitation.repository:
+        class: UserBundle\Business\Repository\InvitationRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Invitation
+
+    agent_system.invitation.manager:
+        class: UserBundle\Business\Manager\InvitationManager
+        arguments:
+            repository: "@agent_system.invitation.repository"
+            fSerializer: "@f_serializer"
+
+    agent_system.invitation.adapter:
+        class: UserBundle\Adapter\Invitation\InvitationAdapter
+        arguments:
+            - "@agent_system.invitation.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }

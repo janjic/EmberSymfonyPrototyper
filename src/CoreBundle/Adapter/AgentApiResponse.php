@@ -101,4 +101,14 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'groups', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
     }
+
+    /** -------- INVITATIOB ----------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function INVITATION_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'invitations', 'id' => $id), 'meta' => array('status'=> AgentApiCode::INVITATION_SAVED_SUCCESSFULLY));
+    }
 }
