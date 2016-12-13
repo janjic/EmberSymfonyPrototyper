@@ -1,24 +1,23 @@
 <?php
 
-namespace UserBundle\Adapter\Group;
+namespace ConversationBundle\Adapter\Group;
 
 use CoreBundle\Adapter\JsonAPIConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
-use UserBundle\Business\Manager\GroupManager;
 
 /**
- * Class GroupAPIConverter
+ * Class TicketAPIConverter
  * @package UserBundle\Adapter\Group
  */
-class GroupAPIConverter extends JsonAPIConverter
+class TicketAPIConverter extends JsonAPIConverter
 {
     /**
-     * @param GroupManager $manager
-     * @param Request      $request
-     * @param string       $param
+     * @param TicketManager $manager
+     * @param Request       $request
+     * @param string        $param
      */
-    public function __construct(GroupManager $manager, Request $request, $param)
+    public function __construct(TicketManager $manager, Request $request, $param)
     {
         parent::__construct($manager, $request, $param);
     }
@@ -28,13 +27,13 @@ class GroupAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $this->request->attributes->set($this->param, new ArrayCollection($this->ticketConvert()));
+        $this->request->attributes->set($this->param, new ArrayCollection($this->groupConvert()));
     }
 
     /**
      * @return mixed
      */
-    public function ticketConvert()
+    public function groupConvert()
     {
         switch ($this->request->getMethod()) {
             case 'GET':
