@@ -9,6 +9,12 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{inf-select
+                                optionLabelKey='name'
+                                options=groups
+                                serchable=true
+                                on-change=(action 'roleSelected')
+                        }}
                         {{role-picker-component onRoleSelected=(action 'roleSelected') changeset = changeset
                                                 property="group" validateProperty=(action 'validateProperty' changeset "group")}}
                     </div>
@@ -18,7 +24,18 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{agent-picker-component agents=agents changeset =changeset agents=agents property="superior"}}
+                        {{inf-select
+                                optionLabelKey='email'
+                                on-search = (perform search)
+                                on-change=(action 'agentSelected')
+                        }}
+                        {{#if (get changeset.error 'superior')}}
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'superior') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -26,11 +43,10 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                            <option value="-1" disabled selected>{{trans 'admin-agent.label.choose-title'}}</option>
-                            <option value="MR" >{{trans 'admin-agent.label.mr'}}</option>
-                            <option value="MRS" >{{trans 'admin-agent.label.mrs'}}</option>
-                        </select>
+                        {{inf-select
+                                content=titles
+                                on-change=(action 'titleChanged')
+                        }}
                         {{#if (get changeset.error 'title')}}
                             <ul class="error-list">
                                 {{#each (get (get changeset.error 'title') "validation") as |message|}}

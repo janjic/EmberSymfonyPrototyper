@@ -17,13 +17,11 @@ use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
 use UserBundle\Business\Repository\AgentRepository;
-use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
-use UserBundle\Entity\Role;
 
 /**
  * Class AgentManager
@@ -224,7 +222,8 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
-     * @param Request $request
+     * @param $request
+     * @return ArrayCollection
      */
     public function getQueryResult($request)
     {
@@ -234,18 +233,14 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         $searchParams[0]['page'] = $page;
         $searchParams[0]['rows'] = $offset;
 
-        $searchParams[1][$request->query->get('field')] = $request->query->get('search');
+        $searchParams[1][$request->query->get('searchField')] = $request->query->get('search');
+        $agents = $this->repository->searchForJQGRID($searchParams, null, []);
 
-        $additionalParams['select'] = ['agent.email'];
-
-        $agents = $this->repository->searchForJQGRID($searchParams, null, $additionalParams);
-
-        $size = (int)$this->repository->searchForJQGRID($searchParams, null, $additionalParams, true)[0][1];
+        $size = (int)$this->repository->searchForJQGRID($searchParams, null, [], true)[0][1];
         $pageCount = ceil($size / $offset);
 
-        return new ArrayCollection($agents);
         return new ArrayCollection($this->serializeAgent($agents)
-            ->addMeta('totalItems', $size)
+            ->addMeta('total', $size)
             ->addMeta('pages', $pageCount)
             ->addMeta('page', $page)
             ->toArray());
