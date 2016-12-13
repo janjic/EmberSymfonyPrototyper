@@ -53,8 +53,8 @@ class MessageManager implements JSONAPIEntityManagerInterface
      */
     public function deserializeMessage($content, $mappings = null)
     {
-//        $relations = array('sender');
-        $relations = [];
+        $relations = array('sender');
+//        $relations = [];
         if (!$mappings) {
             $mappings = array(
                 'message' => array('class' => Message::class, 'type'=>'messages'),
