@@ -9,6 +9,9 @@ export default Ember.Controller.extend({
         },
         goToRoute (route) {
             this.transitionToRoute(route);
-        }
+        },
+        search (page, text, perPage) {
+            return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
+        },
     }
 });

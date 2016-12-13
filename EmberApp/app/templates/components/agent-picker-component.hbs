@@ -41,9 +41,5 @@ as |agent|
     {{#if (eq lastId agent.id) }} {{infinity-loader scrollable=".scrollable" infinityModel=agents loadingText="Loading..." loadedText=""}} {{/if}}
 {{/power-select}}
 --}}
- {{inf-select
-         optionLabelKey='email'
-         on-search = (perform search)
-         on-change=(action (mut selectedOption))
- }}
+
 </div>

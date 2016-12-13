@@ -246,9 +246,6 @@ class AgentRepository extends NestedTreeRepository
     public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
-        if ($additionalParams['select']) {
-            $oQ0->select($additionalParams['select']);
-        }
 
         $firstResult = 0;
         $offset = 0;

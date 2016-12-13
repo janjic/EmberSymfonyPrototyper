@@ -28,21 +28,15 @@ export default Ember.Component.extend(InfinityBlock, {
     },
     search: task(function * (text, page) {
         yield timeout(600);
-        return this.get('store').findAll('agent').then(results => results);
+        return this.get('store').query('agent', {page:page, rows:8, search: text, searchField: 'agent.email'}).then(results => results);
     }),
     actions: {
-        agentChanged (agentIndex) {
-            let agent = this.get('agents').objectAt(agentIndex);
-            this.set('changeset.'+this.get('property'), agent);
-            this.get('changeset').validate(this.get('property'));
+        agentChanged (agent) {
+            this.set('model.superior', agent);
         },
         chooseDestination(selectedAgent) {
             this.set('selected', selectedAgent);
         },
-
-        agentSearch(text, page) {
-            return this.get('store').findAll('agent');
-        }
     }
 
 });
