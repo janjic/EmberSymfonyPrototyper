@@ -228,3 +228,5 @@ models:
     group-name-unique: 'Group name must be unique!'
     save: 'Group saved!'
     delete: 'Group removed!'
+  ticket:
+    save.message: 'Ticket saved!'
