@@ -116,14 +116,14 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
             $user->setPropertyValue($this->dashesToCamelCase($key), $value);
         }
 
-        if ($avatar = $user->getAvatar()) {
-            $image = new Image();
-            $image->setId($avatar->id);
-            $image->setFilePath($avatar->web_path);
-            $image->setName($avatar->name);
-
-            $user->setAvatar($image);
+        if ( property_exists($resp, 'avatar') ) {
+            $avatar = $resp->avatar;
+            $user->setImageId($avatar->id);
+            $user->setImageName($avatar->name);
+            $user->setFilePath($avatar->web_path);
         }
+
+        unset($user->avatar);
 
         if ($agentObj = $user->getAgent()) {
             $agent = $this->agentManager->findAgentById($agentObj->id);
@@ -159,12 +159,17 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $data->phone_number = $data->phoneNumber;
         $data->money_add = "";
 
-        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
-            $data->avatar = $imgData->attributes;
-            $data->avatar->id = $imgData->id;
+        if( $data->imageName !=null ){
+            $data->avatar = array(
+                "name" => $data->imageName,
+                "base64_content" => $data->base64Content
+            );
         } else {
             $data->avatar = null;
         }
+
+        unset($data->base64Content);
+        unset($data->imageName);
 
         $date = new \DateTime($data->birthDate);
 
@@ -181,8 +186,10 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
         if($resp->code == 200) {
             return array(array('data' => array('id' => $resp->id, "type" => "tcr-users")), 201);
+        } else if($resp->code == 424){
+            return array(array('errors' => array(array('status' => 422, 'detail' => $resp->status))), 400);
         } else {
-            return array(array('errors' => array('message'=>'Error occurred')), 500);
+            return array(array('errors' => array(array('status' => 500, 'detail' => 'Internal server error. Data not saved.'))), 500);
         }
     }
 
@@ -214,16 +221,24 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $date = new \DateTime($data->birthDate);
         $data->birth_date = $date->format(DateTime::ISO8601);
 
-        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
-            $data->avatar = $imgData->attributes;
-            if ($imgData->id) {
-                $data->avatar->id = $imgData->id;
-                unset($data->avatar->base64_content);
-                unset($data->avatar->web_path);
+        if( $data->imageName != null){
+            if( $data->imageId ) {
+                $data->avatar = array(
+                    "id" => $data->imageId,
+                    "name" => $data->imageName
+                );
+            } else {
+                $data->avatar = array(
+                    "name" => $data->imageName,
+                    "base64_content" => $data->base64Content
+                );
             }
         } else {
             $data->avatar = null;
         }
+
+        unset($data->base64Content);
+        unset($data->imageName);
 
         unset($data->firstName);
         unset($data->lastName);
@@ -263,11 +278,10 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
     public function serializeTCRUser($user, $meta = null){
         $mappings = array(
             'tcr-users' => array('class' => TCRUser::class, 'type'=>'tcr-users'),
-            'agent' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class),
-            'avatar' => array('class' => Image::class, 'type'=>'images', 'jsonApiType'=> JsonApiOne::class)
+            'agent' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class)
         );
 
-        $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->serialize($user, $mappings, ['agent', 'avatar']);
+        $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->serialize($user, $mappings, ['agent']);
 
         if ($meta) {
             foreach ($meta as $key => $value) {

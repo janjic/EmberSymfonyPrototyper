@@ -82,9 +82,24 @@ class TCRUser extends BaseUser
     protected $comment;
 
     /**
-     * @var Image
+     * @var string
      */
-    private $avatar;
+    private $base64Content;
+
+    /**
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @var int
+     */
+    private $imageId;
+
+    /**
+     * @var string
+     */
+    private $filePath;
 
     /**
      * @var Agent
@@ -270,20 +285,77 @@ class TCRUser extends BaseUser
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAvatar()
+    public function getBase64Content()
     {
-        return $this->avatar;
+        return $this->base64Content;
     }
 
     /**
-     * @param mixed $avatar
+     * @param string $base64Content
      * @return $this
      */
-    public function setAvatar($avatar)
+    public function setBase64Content($base64Content)
     {
-        $this->avatar = $avatar;
+        $this->base64Content = $base64Content;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string $imageName
+     * @return $this
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @param string $filePath
+     * @return $this
+     */
+    public function setFilePath($filePath)
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getImageId()
+    {
+        return $this->imageId;
+    }
+
+    /**
+     * @param int $imageId
+     * @return $this
+     */
+    public function setImageId($imageId)
+    {
+        $this->imageId = $imageId;
 
         return $this;
     }
