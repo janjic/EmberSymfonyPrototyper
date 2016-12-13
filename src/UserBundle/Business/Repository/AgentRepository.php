@@ -67,7 +67,6 @@ class AgentRepository extends NestedTreeRepository
             ->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS)
             ->leftJoin(self::ALIAS.'.image', self::IMAGE_ALIAS)
             ->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
-        $qb->setMaxResults(3);
 //        $qb->setFirstResult(1);
 
         if(intval($id)) {

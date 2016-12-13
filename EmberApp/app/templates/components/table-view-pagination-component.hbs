@@ -2,7 +2,7 @@
     <button class="btn btn-primary" {{action 'handlePageChange' 1}}>{{fa-icon "angle-double-left"}}</button>
     <button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
 
-    {{input class="table-pagination-input" action='handlePageChange' value=model.meta.page}}
+    {{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
     {{model.meta.pages}}
 
     <button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
