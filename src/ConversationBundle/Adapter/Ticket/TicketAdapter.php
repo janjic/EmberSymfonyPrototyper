@@ -2,6 +2,7 @@
 
 namespace ConversationBundle\Adapter\Ticket;
 
+use ConversationBundle\Business\Manager\TicketManager;
 use CoreBundle\Adapter\BaseAdapter;
 use CoreBundle\Adapter\BasicConverter;
 use Symfony\Component\HttpFoundation\Request;

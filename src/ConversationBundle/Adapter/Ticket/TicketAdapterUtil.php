@@ -1,6 +1,6 @@
 <?php
 
-namespace ConversationBundle\Bundle\Adapter\Ticket;
+namespace ConversationBundle\Adapter\Ticket;
 
 use CoreBundle\Adapter\BaseAdapterUtil;
 

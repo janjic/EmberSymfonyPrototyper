@@ -3,15 +3,18 @@ import LoadingStateMixin from '../../mixins/loading-state';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 import TicketValidations from '../../validations/ticket/add-ticket';
+const { service } = Ember.inject;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     TicketValidations,
     store: Ember.inject.service(),
+    currentUser: service('current-user'),
     ticketTypes: ['BUG REPORT', 'WRONG ORDER', 'WRONG INQUIRY'],
     ticketType: 'BUG REPORT',
     init(){
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(TicketValidations), TicketValidations);
+        this.changeset.set('createdBy', this.get('currentUser.user'));
     },
     actions: {
         chooseType(type) {

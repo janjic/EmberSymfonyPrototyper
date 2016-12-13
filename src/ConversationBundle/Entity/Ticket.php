@@ -8,7 +8,7 @@ use FOS\MessageBundle\Model\ThreadInterface;
 use UserBundle\Entity\Agent;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ConversationBundle\Business\Repository\TicketRepository")
  * @ORM\Table(name="as_ticket")
  */
 class Ticket
@@ -67,6 +67,149 @@ class Ticket
      */
     protected $createdBy;
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return ThreadInterface
+     */
+    public function getThread()
+    {
+        return $this->thread;
+    }
+
+    /**
+     * @param ThreadInterface $thread
+     */
+    public function setThread($thread)
+    {
+        $this->thread = $thread;
+    }
+
+    /**
+     * @return Agent
+     */
+    public function getForwardedTo()
+    {
+        return $this->forwardedTo;
+    }
+
+    /**
+     * @param Agent $forwardedTo
+     */
+    public function setForwardedTo($forwardedTo)
+    {
+        $this->forwardedTo = $forwardedTo;
+    }
+
+    /**
+     * @return Agent
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param Agent $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
 
 
 }

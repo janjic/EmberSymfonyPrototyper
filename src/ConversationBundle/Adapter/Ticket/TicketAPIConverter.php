@@ -1,7 +1,8 @@
 <?php
 
-namespace ConversationBundle\Adapter\Group;
+namespace ConversationBundle\Adapter\Ticket;
 
+use ConversationBundle\Business\Manager\TicketManager;
 use CoreBundle\Adapter\JsonAPIConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
