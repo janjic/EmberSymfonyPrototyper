@@ -1,1 +1,2 @@
-{{#link-to 'dashboard.users.ticket-details' class='btn btn-success'}}Ticket details{{/link-to}}
+{{!--{{#link-to 'dashboard.users.ticket-details' class='btn btn-success'}}Ticket details{{/link-to}}--}}
+{{table-view-component mainTitle='Tickets history' model=model colNames=colNames colModels=colModels page=page offset=offset maxPages=maxPages filter=(action 'filterModel') editLink="dashboard.agents.agent-edit"}}

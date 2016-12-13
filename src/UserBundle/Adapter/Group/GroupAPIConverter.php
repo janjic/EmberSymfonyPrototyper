@@ -28,13 +28,13 @@ class GroupAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $this->request->attributes->set($this->param, new ArrayCollection($this->groupConvert()));
+        $this->request->attributes->set($this->param, new ArrayCollection($this->ticketConvert()));
     }
 
     /**
      * @return mixed
      */
-    public function groupConvert()
+    public function ticketConvert()
     {
         switch ($this->request->getMethod()) {
             case 'GET':

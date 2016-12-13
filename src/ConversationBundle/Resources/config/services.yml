@@ -1,1 +1,41 @@
 services:
+    # ------ Message ------------------------------------------------------------------------------------------------- #
+    agent_system.message.repository:
+        class: ConversationBundle\Business\Repository\MessageRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - ConversationBundle\Entity\Message
+
+    agent_system.message.manager:
+        class: ConversationBundle\Business\Manager\MessageManager
+        arguments:
+            repository: "@agent_system.message.repository"
+            fSerializer: "@f_serializer"
+
+    agent_system.message.adapter:
+        class: ConversationBundle\Adapter\Message\MessageAdapter
+        arguments:
+            - "@agent_system.message.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Ticket ------------------------------------------------------------------------------------------------- #
+    agent_system.ticket.repository:
+        class: ConversationBundle\Business\Repository\TicketRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - ConversationBundle\Entity\Ticket
+
+    agent_system.ticket.manager:
+        class: ConversationBundle\Business\Manager\TicketManager
+        arguments:
+            repository: "@agent_system.ticket.repository"
+            fSerializer: "@f_serializer"
+            agentManager: "@agent_system.agent.manager"
+
+    agent_system.ticket.adapter:
+        class: ConversationBundle\Adapter\Ticket\TicketAdapter
+        arguments:
+            - "@agent_system.ticket.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }

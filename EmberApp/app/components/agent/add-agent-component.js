@@ -4,27 +4,37 @@ import AddressValidations from '../../validations/address';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 const {ApiCode, Translator} = window;
+import { task, timeout } from 'ember-concurrency';
 import LoadingStateMixin from '../../mixins/loading-state';
 
 export default Ember.Component.extend(LoadingStateMixin,{
     AgentValidations,
     AddressValidations,
     dateInputValid: true,
+    titles: Ember.computed(function () {
+       return ['MR', 'MRS'];
+    }),
+
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
-        this.addressChangeset = new Changeset(this.get('model.address'), lookupValidator(AddressValidations), AddressValidations);
+        this.addressChangeset = new Changeset(this.get('changeset.address'), lookupValidator(AddressValidations), AddressValidations);
     },
+
     image: Ember.Object.create({
         base64Content: null,
         name: null,
     }),
+
+    search: task(function * (text, page, perPage) {
+        yield timeout(200);
+        return this.get('searchQuery')(page, text, perPage);
+    }),
     actions: {
+
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
-            let agent = this.model;
-            agent.set('birthDate', date);
         },
         addedFile (file) {
             this.set('image.name', file.name);
@@ -41,6 +51,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.set('image.name', null);
             this.set('image.base64Content', null);
         },
+
         saveAgent() {
             let agent = this.get('model');
             let changeSet = this.get('changeset');
@@ -82,23 +93,24 @@ export default Ember.Component.extend(LoadingStateMixin,{
         roleSelected(group){
             this.model.set('group', group);
         },
+
         agentSelected(agent){
-            this.model.set('superior', agent);
+            this.set('changeset.superior', agent);
+            this.get('changeset').validate('superior');
         },
+
         titleChanged(title){
             this.set('changeset.title', title);
             this.get('changeset').validate('title');
-            this.model.set('title', title);
         },
+
         updateLanguage(lang){
             this.set('changeset.nationality', lang);
             this.get('changeset').validate('nationality');
-            this.set('model.nationality', lang);
         },
         changeCountry(country){
             this.set('addressChangeset.country', country);
             this.get('addressChangeset').validate('country');
-            this.set('model.address.country', country);
         },
         /** validations */
         reset(changeset) {

@@ -84,6 +84,7 @@ class AgentApiResponse
     }
 
     /** -------- GROUPS --------------------------------------------------------------------------------------------- */
+
     /**
      * @param $id
      * @return array
@@ -101,6 +102,18 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'groups', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
     }
+
+    /** -------- TICKET --------------------------------------------------------------------------------------------- */
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function TICKET_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'tickets', 'id' => $id));
+    }
+
 
     /** -------- INVITATIOB ----------------------------------------------------------------------------------------- */
     /**

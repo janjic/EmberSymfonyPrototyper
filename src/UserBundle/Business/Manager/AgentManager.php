@@ -5,8 +5,10 @@ namespace UserBundle\Business\Manager;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -15,13 +17,11 @@ use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
 use UserBundle\Business\Repository\AgentRepository;
-use UserBundle\Business\Repository\GroupRepository;
 use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
-use UserBundle\Entity\Role;
 
 /**
  * Class AgentManager
@@ -219,6 +219,42 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
         return $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, AgentSerializerInfo::$mappings, AgentSerializerInfo::$relations);
 
+    }
+
+    /**
+     * @param $request
+     * @return ArrayCollection
+     */
+    public function getQueryResult($request)
+    {
+        $page = $request->query->get('page');
+        $offset = $request->query->get('rows');
+        $searchParams[0]['toolbar_search'] = true;
+        $searchParams[0]['page'] = $page;
+        $searchParams[0]['rows'] = $offset;
+
+        $searchParams[1][$request->query->get('searchField')] = $request->query->get('search');
+        $agents = $this->repository->searchForJQGRID($searchParams, null, []);
+
+        $size = (int)$this->repository->searchForJQGRID($searchParams, null, [], true)[0][1];
+        $pageCount = ceil($size / $offset);
+
+        return new ArrayCollection($this->serializeAgent($agents)
+            ->addMeta('total', $size)
+            ->addMeta('pages', $pageCount)
+            ->addMeta('page', $page)
+            ->toArray());
+
+    }
+
+
+    /**
+     * @param $id
+     * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
+     */
+    public function getReference($id)
+    {
+        return $this->repository->getReference($id);
     }
 
 }
