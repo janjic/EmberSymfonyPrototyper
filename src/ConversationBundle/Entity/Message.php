@@ -9,7 +9,7 @@ use FOS\MessageBundle\Model\ParticipantInterface;
 use FOS\MessageBundle\Model\ThreadInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ConversationBundle\Business\Repository\MessageRepository")
  * @ORM\Table(name="as_message")
  */
 class Message extends BaseMessage
