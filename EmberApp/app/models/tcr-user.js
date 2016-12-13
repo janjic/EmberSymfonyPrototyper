@@ -5,7 +5,6 @@ const { attr, Model } = DS;
 export default Model.extend({
     firstName:      attr('string'),
     lastName:       attr('string'),
-    // avatar:         DS.belongsTo('image'),
     imageName:      attr('string'),
     base64Content:  attr('string'),
     filePath:       attr('string'),

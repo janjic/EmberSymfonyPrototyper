@@ -81,11 +81,6 @@ class TCRUser extends BaseUser
      */
     protected $comment;
 
-//    /**
-//     * @var Image
-//     */
-//    private $avatar;
-
     /**
      * @var string
      */
@@ -364,27 +359,6 @@ class TCRUser extends BaseUser
 
         return $this;
     }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function getAvatar()
-//    {
-//        return $this->avatar;
-//    }
-
-//    /**
-//     * @param mixed $avatar
-//     * @return $this
-//     */
-//    public function setAvatar($avatar)
-//    {
-//        $this->avatar = $avatar;
-//
-//        return $this;
-//    }
-
-
 
     /**
      * @return mixed

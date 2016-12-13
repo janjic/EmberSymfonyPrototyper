@@ -39,7 +39,6 @@ export default Ember.Component.extend({
                 }, (resp) => {
                     let errorMessage = resp.errors[0].detail;
                     this.toast.error(Translator.trans(errorMessage));
-                    // this.toast.error(Translator.trans('Data not saved!'));
                 });
             }
         },
@@ -54,8 +53,6 @@ export default Ember.Component.extend({
             this.set('user.language', lang);
         },
         addedFile: function (file) {
-            // var img = this.user.get('image');
-            // img.set('name', file.name);
             let _user = this.user;
             _user.set('imageName', file.name);
             let reader = new FileReader();
@@ -64,7 +61,6 @@ export default Ember.Component.extend({
                 _user.set('base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
-            // this.set('user.avatar', img);
         },
 
         removedFile: function () {

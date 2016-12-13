@@ -114,12 +114,6 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         }
 
         if ( property_exists($resp, 'avatar') ) {
-//            $image = new Image();
-//            $image->setId($avatar->id);
-//            $image->setFilePath($avatar->web_path);
-//            $image->setName($avatar->name);
-//
-//            $user->setAvatar($image);
             $avatar = $resp->avatar;
             $user->setImageId($avatar->id);
             $user->setImageName($avatar->name);
@@ -161,13 +155,6 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $data->roleAdmin = $data->isAdmin;
         $data->phone_number = $data->phoneNumber;
         $data->money_add = "";
-
-//        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
-//            $data->avatar = $imgData->attributes;
-//            $data->avatar->id = $imgData->id;
-//        } else {
-//            $data->avatar = null;
-//        }
 
         if( $data->imageName !=null ){
             $data->avatar = array(
@@ -230,17 +217,6 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
         $date = new \DateTime($data->birthDate);
         $data->birth_date = $date->format(DateTime::ISO8601);
-
-//        if (property_exists($content->data->relationships,'avatar') && ($imgData = $content->data->relationships->avatar->data)) {
-//            $data->avatar = $imgData->attributes;
-//            if ($imgData->id) {
-//                $data->avatar->id = $imgData->id;
-//                unset($data->avatar->base64_content);
-//                unset($data->avatar->web_path);
-//            }
-//        } else {
-//            $data->avatar = null;
-//        }
 
         if( $data->imageName != null){
             if( $data->imageId ) {
