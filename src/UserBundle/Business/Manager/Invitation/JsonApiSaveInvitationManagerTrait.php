@@ -5,6 +5,7 @@ namespace UserBundle\Business\Manager\Invitation;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use UserBundle\Entity\Agent;
 use UserBundle\Entity\Invitation;
 use UserBundle\Entity\Role;
 
@@ -24,9 +25,7 @@ trait JsonApiSaveInvitationManagerTrait
         /** @var Invitation $invitation */
         $invitation = $this->deserializeInvitation($data);
 
-        $invitation->setAgent($this->repository->getEntityReference($invitation->getAgent()->getId()));
-
-        var_dump($invitation->getAgent());die();
+        $invitation->setAgent($this->repository->getReferenceForClass($invitation->getAgent()->getId(), Agent::class));
 
         $this->sendMail($invitation);
 

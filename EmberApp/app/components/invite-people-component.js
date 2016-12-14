@@ -18,10 +18,15 @@ export default Ember.Component.extend(LoadingStateMixin,{
         invitePeople(changeset) {
             if (changeset.validate() && changeset.get('isValid')) {
                 let cUser = this.get('currentUser').get('user');
+                let recipientsEmails = changeset.get('recipientEmail').trim().split(' ');
+                recipientsEmails = recipientsEmails.filter((email)=>{
+                    return email.length !== 0;
+                });
+
                 let invitation = this.get('store').createRecord('invitation', {
-                    recipientEmail: changeset.get('recipientEmail').split(';'),
+                    recipientEmail: recipientsEmails,
                     emailSubject:   changeset.get('emailSubject'),
-                    emailContent:   'content',
+                    emailContent:   changeset.get('emailContent'),
                     agent:          cUser
                 });
 
@@ -40,7 +45,17 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
         openModal() {
             this.set('isModalOpen', true);
-        }
+        },
+
+        addNew(text) {
+            alert('aa');
+            let newTag = {
+                id: 1,
+                email: text
+            };
+            this.get('items').addObject(newTag);
+            this.get('selectedTags').addObject(newTag);
+        },
     },
 
     _setUpDefault(context=this) {
@@ -54,8 +69,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
 
         let cUser = this.get('currentUser').get('user');
         let agentEmail = cUser.get('email');
-        let agentCode = cUser.get('id');
+        let agentCode = cUser.get('agentId');
         context.set('agentEmail', agentEmail);
         context.set('agentCode', agentCode);
+
+        context.set('items', A(['pera']));
+        context.set('selectedTags', A(['pera', 'mika']));
     }
 });

@@ -57,9 +57,6 @@ class InvitationManager implements JSONAPIEntityManagerInterface
     public function sendMail(Invitation $invitation)
     {
         $subject = $invitation->getEmailSubject();
-        /** @var Agent $agent */
-        $agent = $invitation->getAgent();
-        var_dump($agent->getEmail());die();
         $from = $invitation->getAgent()->getEmail();
         $body = $invitation->getEmailContent();
 
@@ -69,15 +66,10 @@ class InvitationManager implements JSONAPIEntityManagerInterface
             ->setFrom($from)
             ->setBody($body, 'text/html');
 
-        var_dump($message);die();
-
         foreach ($invitation->getRecipientEmail() as $recipient){
             $message->setTo($recipient);
-            var_dump($message);
+            $this->mailer->send($message);
         }
-        die();
-//        $this->mailer->send($message);
-
     }
 
     /**

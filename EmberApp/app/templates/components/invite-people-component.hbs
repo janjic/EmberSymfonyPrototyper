@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-danger" {{action 'openModal'}}>Invite people</button>
+<button type="button" class="btn btn-danger pull-right" {{action 'openModal'}}>Invite people</button>
 {{#bs-modal open=isModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="invitePeopleModal">
@@ -24,7 +24,7 @@
                         property="recipientEmail"
                         validateProperty=(action 'validateProperty' changeset "recipientEmail")
                 }}
-            </div>
+
             <div class="form-group">
                 <input class="form-control"
                        type="text"
@@ -44,12 +44,32 @@
                 }}
             </div>
             <div class="form-group">
-                <textarea class="form-control" name="content" id="textarea-emailContent" cols="30" rows="10"></textarea>
+                {{validated-field
+                        type="textarea"
+                        doNotShowLabel = true
+                        placeholder= 'Email Content'
+                        changeset=changeset
+                        property="emailContent"
+                        validateProperty=(action 'validateProperty' changeset "emailContent")
+                }}
+            </div>
+
+            </div> <div class="form-group">
+                {{inf-select
+                        content=items
+                        sortBy="email"
+                        optionLabelKey="email"
+                        multiple=true
+                        searchable=true
+                        selected=selectedTags
+                        prompt="Select emails"
+                        on-add=(action "addNew")
+                }}
             </div>
 
             <button {{action "invitePeople" changeset }} type="submit" class="sign-in">
                 {{#if isLoading }}
-                    <img src="../../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+                    <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
                 {{else}}
                     SEND MAIL
                 {{/if}}
