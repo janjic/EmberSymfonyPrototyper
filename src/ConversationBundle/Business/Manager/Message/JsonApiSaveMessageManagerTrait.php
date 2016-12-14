@@ -4,13 +4,11 @@ namespace ConversationBundle\Business\Manager\Message;
 
 use ConversationBundle\Entity\Message;
 use CoreBundle\Adapter\AgentApiResponse;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use FOS\MessageBundle\Event\FOSMessageEvents;
 use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use UserBundle\Entity\Agent;
-use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Document\File;
 
 /**
  * Class JsonApiSaveMessageManagerTrait
@@ -28,7 +26,6 @@ trait JsonApiSaveMessageManagerTrait
     {
         /** @var Message $message */
         $message = $this->deserializeMessage($data);
-
         /** @var NewThreadMessageBuilder $thread */
         $thread = $this->messageComposer->newThread();
         $thread->setSubject($message->getMessageSubject());
@@ -36,6 +33,7 @@ trait JsonApiSaveMessageManagerTrait
         $thread->addRecipient($this->repository->getReferenceForClass($message->getParticipants()[0]->getId(), Agent::class));
         $thread->setSender($this->repository->getReferenceForClass($message->getSender()->getId(), Agent::class));
 
+        /** @var Message $message */
         $newMessage = $thread->getMessage();
 
         try {
@@ -43,35 +41,36 @@ trait JsonApiSaveMessageManagerTrait
                 $this->saveEventResult = $e->getMessage();
             });
 
+            if ($message->getFile() && !$this->saveMedia($message)) {
+                return array(AgentApiResponse::MESSAGES_UNSUPPORTED_FORMAT);
+            }
+            $newMessage->setFile($message->getFile());
             $this->messageSender->send($newMessage);
 
             return $this->serializeMessage($this->saveEventResult);
 
         } catch (Exception $e) {
-            return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($e));
+            return array(AgentApiResponse::ERROR_RESPONSE($e));
         }
 
     }
 
     /**
-     * @param $data
-     * @return mixed
+     * @param Message $message
+     * @return bool
      */
-    private function createJsonAPiSaveResponse($data)
+    private function saveMedia($message)
     {
-//        switch (get_class($data)) {
-//            case UniqueConstraintViolationException::class:
-//                return new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST);
-//            case Exception::class:
-//                return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
-//            case (Agent::class && ($id= $data->getId())):
-//                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
-//            case (Agent::class && !($id= $data->getId()) && $data->getImage()):
-//                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
-//            default:
-//                return false;
-//        }
-    }
+        /** @var File|null $image */
+        $file = $message->getFile();
+        if(!is_null($file)){
+            if ($file->saveToFile($file->getBase64Content())) {
+                return true;
+            }
+            return false;
+        }
 
+        return true;
+    }
 
 }

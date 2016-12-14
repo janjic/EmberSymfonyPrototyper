@@ -250,3 +250,4 @@ models:
       resolved: 'Resolved'
   message:
     save: 'Group sent!'
+    unsupported.file.type: 'Current file type is not supported!'

@@ -37,4 +37,7 @@ class AgentApiCode
     const GROUP_DELETED_SUCCESSFULLY                 = 2103;
     const GROUP_ALREADY_EXIST                        = 2104;
     const GROUP_CHANGE_FOR_USERS_FAILED              = 2105;
+
+    /** MESSAGES */
+    const MESSAGES_UNSUPPORTED_FORMAT                = 2201;
 }

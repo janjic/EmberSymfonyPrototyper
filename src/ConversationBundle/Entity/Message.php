@@ -40,6 +40,12 @@ class Message extends BaseMessage
      */
     protected $metadata;
 
+    /**
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\File", cascade={"all"}, orphanRemoval=TRUE)
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     **/
+    protected $file;
+
     protected $participants;
 
     protected $messageSubject;
@@ -98,5 +104,20 @@ class Message extends BaseMessage
         $this->messageSubject = $messageSubject;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
 
 }

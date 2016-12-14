@@ -17,6 +17,7 @@ use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
+use UserBundle\Entity\Document\File;
 
 /**
  * Class ThreadManager
@@ -87,11 +88,12 @@ class ThreadManager implements JSONAPIEntityManagerInterface
      */
     public function serializeThread($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('messages', 'participants');
+        $relations = array('messages', 'participants', 'messages.file');
         if (!$mappings) {
             $mappings = array(
-                'thread' => array('class' => Thread::class, 'type'=>'threads'),
-                'messages' => array('class' => Message::class, 'type'=>'messages'),
+                'thread'       => array('class' => Thread::class, 'type'=>'threads'),
+                'messages'     => array('class' => Message::class, 'type'=>'messages'),
+                'file'         => array('class' => File::class, 'type'=>'files'),
                 'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class)
             );
         }
