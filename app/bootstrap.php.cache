@@ -1006,7 +1006,7 @@ return $this->getMethod() === strtoupper($method);
 }
 public function isMethodSafe()
 {
-return in_array($this->getMethod(), array('GET','HEAD','OPTIONS','TRACE'));
+return in_array($this->getMethod(), 0 < func_num_args() && !func_get_arg(0) ? array('GET','HEAD','OPTIONS','TRACE') : array('GET','HEAD'));
 }
 public function isMethodCacheable()
 {
