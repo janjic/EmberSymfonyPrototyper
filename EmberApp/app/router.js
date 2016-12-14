@@ -85,9 +85,10 @@ Router.map(function() {
                 this.route('profile-settings');
             });
             this.route('tickets', function() {
-                this.route('tickets-all');
-                this.route('new-ticket');
-                this.route('view-ticket');
+              this.route('tickets-all');
+              this.route('new-ticket');
+              this.route('view-ticket');
+              this.route('created-tickets');
             });
             this.route('reports', function() {
                 this.route('customer-orders');

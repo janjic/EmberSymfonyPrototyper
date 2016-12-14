@@ -9,7 +9,7 @@ export default Ember.Route.extend({
             offset: 10,
             sidx: 'id',
             sord: 'asc',
-            additionalData: {ticketsType: 'forwardedTo', agentId: this.get('currentUser.user.id')}
+            additionalData: {ticketsType: 'createdBy', agentId: this.get('currentUser.user.id')}
         });
 
     },

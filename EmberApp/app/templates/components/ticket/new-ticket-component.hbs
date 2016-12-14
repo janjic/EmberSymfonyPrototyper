@@ -4,7 +4,8 @@
         <div class="form-group clearfix">
             <label class="control-label col-md-5 col-sm-5 col-xs-12">Title</label>
             <div class="col-md-7 col-sm-7 col-xs-12">
-                <input class="form-control" type="text" placeholder="Enter ticket title">
+                {{validated-field doNotShowLabel=true property="title" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "title")}}
             </div>
         </div>
         <div class="form-group clearfix">
@@ -12,17 +13,17 @@
                 <span class="required" aria-required="true"> * </span>
             </label>
             <div class="col-md-7 col-sm-7 col-xs-12">
-                <select class="form-control">
-                    <option value="0" selected>Please choose ticket type</option>
-                    <option value="1">Bug report</option>
-                    <option value="2">Inquiry</option>
-                </select>
+                {{#power-select selected=ticketType options=ticketTypes onchange=(action "chooseType") as |name| }}
+                    {{name}}
+                {{/power-select}}
             </div>
         </div>
         <div class="form-group clearfix">
             <div class="col-md-12">
                 <label for="emails" class="control-label">Description</label>
-                <textarea class="form-control" name="emails" id="" cols="30" rows="5"></textarea>
+                {{!--<textarea class="form-control" name="emails" id="" cols="30" rows="5"></textarea>--}}
+                {{validated-field doNotShowLabel=true property="text" changeset=changeset type="textarea"
+                                  validateProperty=(action 'validateProperty' changeset "text")}}
             </div>
         </div>
         <div class="form-group">
@@ -33,7 +34,13 @@
 
         <div class="form-group">
             <div class="col-xs-6">
-                <a href="#" class="pull-right btn btn-success">Save</a>
+                <button class="pull-right btn btn-success" type="submit" {{action 'saveTicket' changeset}}>
+                    {{#if isLoading }}
+                        <img src="../../assets/images/ring-alt.gif" class="loader" alt=""> {{trans loadingText }}
+                    {{else}}
+                        {{trans 'button.save'}}
+                    {{/if}}
+                </button>
             </div>
         </div>
     </div>
