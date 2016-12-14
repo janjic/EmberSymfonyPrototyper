@@ -9,6 +9,7 @@
 namespace UserBundle\Business\Repository;
 
 
+use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use UserBundle\Entity\Invitation;
 use Exception;
@@ -19,6 +20,8 @@ use Exception;
  */
 class InvitationRepository extends EntityRepository
 {
+    use BasicEntityRepositoryTrait;
+
     const ALIAS       = 'invitation';
 
     /**

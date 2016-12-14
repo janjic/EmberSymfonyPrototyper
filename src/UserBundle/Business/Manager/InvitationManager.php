@@ -35,13 +35,49 @@ class InvitationManager implements JSONAPIEntityManagerInterface
     protected $fSerializer;
 
     /**
+     * @var \Swift_Mailer
+     */
+    protected $mailer;
+
+    /**
      * @param InvitationRepository $repository
      * @param FJsonApiSerializer $fSerializer
+     * @param \Swift_Mailer $mailer
      */
-    public function __construct(InvitationRepository $repository, FJsonApiSerializer $fSerializer)
+    public function __construct(InvitationRepository $repository, FJsonApiSerializer $fSerializer, \Swift_Mailer $mailer)
     {
         $this->repository = $repository;
         $this->fSerializer = $fSerializer;
+        $this->mailer = $mailer;
+    }
+
+    /**
+     * @param Invitation $invitation
+     */
+    public function sendMail(Invitation $invitation)
+    {
+        $subject = $invitation->getEmailSubject();
+        /** @var Agent $agent */
+        $agent = $invitation->getAgent();
+        var_dump($agent->getEmail());die();
+        $from = $invitation->getAgent()->getEmail();
+        $body = $invitation->getEmailContent();
+
+        /** @var \Swift_Message $message */
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setBody($body, 'text/html');
+
+        var_dump($message);die();
+
+        foreach ($invitation->getRecipientEmail() as $recipient){
+            $message->setTo($recipient);
+            var_dump($message);
+        }
+        die();
+//        $this->mailer->send($message);
+
     }
 
     /**

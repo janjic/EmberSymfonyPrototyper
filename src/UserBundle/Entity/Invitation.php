@@ -26,7 +26,7 @@ class Invitation
      */
     private $id;
     /**
-     * @var string
+     * @var array
      * @ORM\Column(name="recipient_email", type="simple_array", length=100)
      */
     private $recipientEmail;
@@ -79,7 +79,7 @@ class Invitation
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getRecipientEmail()
     {
@@ -87,7 +87,7 @@ class Invitation
     }
 
     /**
-     * @param string $recipientEmail
+     * @param array $recipientEmail
      */
     public function setRecipientEmail($recipientEmail)
     {

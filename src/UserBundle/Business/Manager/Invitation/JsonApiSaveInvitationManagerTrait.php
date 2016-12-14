@@ -24,6 +24,12 @@ trait JsonApiSaveInvitationManagerTrait
         /** @var Invitation $invitation */
         $invitation = $this->deserializeInvitation($data);
 
+        $invitation->setAgent($this->repository->getEntityReference($invitation->getAgent()->getId()));
+
+        var_dump($invitation->getAgent());die();
+
+        $this->sendMail($invitation);
+
         return $this->createJsonAPiSaveResponse($this->repository->saveInvitation($invitation));
     }
 

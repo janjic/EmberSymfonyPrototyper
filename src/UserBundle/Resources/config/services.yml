@@ -148,6 +148,7 @@ services:
         arguments:
             repository: "@agent_system.invitation.repository"
             fSerializer: "@f_serializer"
+            mailer: "@mailer"
 
     agent_system.invitation.adapter:
         class: UserBundle\Adapter\Invitation\InvitationAdapter
