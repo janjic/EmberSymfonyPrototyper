@@ -1753,11 +1753,12 @@ svg {
   border-top: 0;
   background-color: #364150;
   color: #fff;
+  font-size: 12px;
   .btn-primary {
     background-color: #364150;
     border-color: #364150;
     padding: 0 6px;
-    font-size: 14px;
+    font-size: 12px;
     i {
       font-weight: bold;
     }
@@ -2367,7 +2368,7 @@ body{
     }
   }
   .message-list-body {
-    max-height: calc(100vh - 330px);
+    max-height: calc(100vh - 180px);
     overflow: auto;
     .conversation-item {
       display: flex;
@@ -2414,8 +2415,8 @@ body{
   transition-property: opacity,top;
   transition-duration: 0.4s;
   animation: pop .5s forwards;
-  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.5);
-  height: calc(100vh - 200px);
+  box-shadow: 2px 3px 5px 0 rgba(0,0,0,0.5);
+  height: calc(100vh - 115px);
   .message-header {
     border-bottom: 1px solid #ddd;
     padding: 15px;
