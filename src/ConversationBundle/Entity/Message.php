@@ -63,6 +63,18 @@ class Message extends BaseMessage
     }
 
     /**
+     * @return mixed
+     */
+    public function getParticipantsFromMeta()
+    {
+        foreach ($this->metadata as $metadata) {
+            $this->participants[] = $metadata->getParticipant();
+        }
+
+        return $this->participants;
+    }
+
+    /**
      * @param mixed $participants
      */
     public function setParticipants($participants)

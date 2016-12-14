@@ -34,6 +34,8 @@ button:
 validation:
   email:
 
+general:
+  email: 'Email'
 
 # ADMIN MENU ITEMS
 
@@ -214,6 +216,12 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
+# ADMIN - AGENT PAGES
+admin-messages:
+  subject: 'Subject'
+  content: 'Content'
+  send: 'Send'
+  create: 'Create Message'
 
 models:
   server-error: 'Server error!'

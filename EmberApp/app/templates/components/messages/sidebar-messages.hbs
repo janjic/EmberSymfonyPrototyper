@@ -1,0 +1,7 @@
+{{#each model as |thread|}}
+    <h5>{{thread.createdAt}}</h5>
+    <h2 {{action 'threadSelected' thread}}>{{thread.subject}}</h2>
+    {{#each thread.participants as |participant|}}
+        <h3>to: {{participant.firstName}}</h3>
+    {{/each}}
+{{/each}}

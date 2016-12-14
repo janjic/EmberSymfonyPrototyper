@@ -18,6 +18,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
+use FOS\MessageBundle\Provider\Provider as MessageProvider;
 
 /**
  * Class MessageManager
@@ -52,6 +53,11 @@ class MessageManager implements JSONAPIEntityManagerInterface
     protected $messageSender;
 
     /**
+     * @var MessageProvider $messageProvider
+     */
+    protected $messageProvider;
+
+    /**
      * @var EventDispatcherInterface $eventDispatcher
      */
     protected $eventDispatcher;
@@ -61,15 +67,17 @@ class MessageManager implements JSONAPIEntityManagerInterface
      * @param FJsonApiSerializer       $fSerializer
      * @param MessageComposer          $messageComposer
      * @param MessageSender            $messageSender
+     * @param MessageProvider          $messageProvider
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(MessageRepository $repository, FJsonApiSerializer $fSerializer, MessageComposer $messageComposer,
-                                MessageSender $messageSender, EventDispatcherInterface $eventDispatcher)
+                                MessageSender $messageSender, MessageProvider $messageProvider, EventDispatcherInterface $eventDispatcher)
     {
         $this->repository       = $repository;
         $this->fSerializer      = $fSerializer;
         $this->messageComposer  = $messageComposer;
         $this->messageSender    = $messageSender;
+        $this->messageProvider  = $messageProvider;
         $this->eventDispatcher  = $eventDispatcher;
     }
 
