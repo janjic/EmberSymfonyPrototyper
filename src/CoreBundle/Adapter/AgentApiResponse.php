@@ -27,6 +27,8 @@ class AgentApiResponse
     const GROUP_CHANGE_FOR_USERS_FAILED         = array('errors' => array(array('status'=> AgentApiCode::GROUP_CHANGE_FOR_USERS_FAILED)));
     const GROUP_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::GROUP_ALREADY_EXIST)));
 
+    const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
+
     /**
      * @param $ttl
      * @return array
@@ -113,5 +115,6 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'tickets', 'id' => $id));
     }
+
 
 }

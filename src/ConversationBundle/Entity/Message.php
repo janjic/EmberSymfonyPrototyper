@@ -2,6 +2,7 @@
 
 namespace ConversationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use FOS\MessageBundle\Entity\Message as BaseMessage;
@@ -22,7 +23,7 @@ class Message extends BaseMessage
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Thread", inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity="Thread", inversedBy="messages", cascade={"persist", "merge"})
      * @var ThreadInterface
      */
     protected $thread;
@@ -38,4 +39,85 @@ class Message extends BaseMessage
      * @var MessageMetadata[]|Collection
      */
     protected $metadata;
+
+    /**
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\File", cascade={"all"}, orphanRemoval=TRUE)
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     **/
+    protected $file;
+
+    protected $participants;
+
+    protected $messageSubject;
+
+    /**
+     * Message constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->participants = new ArrayCollection();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParticipantsFromMeta()
+    {
+        foreach ($this->metadata as $metadata) {
+            $this->participants[] = $metadata->getParticipant();
+        }
+
+        return $this->participants;
+    }
+
+    /**
+     * @param mixed $participants
+     */
+    public function setParticipants($participants)
+    {
+        $this->participants = $participants;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessageSubject()
+    {
+        return $this->messageSubject;
+    }
+
+    /**
+     * @param mixed $messageSubject
+     */
+    public function setMessageSubject($messageSubject)
+    {
+        $this->messageSubject = $messageSubject;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
 }

@@ -9,13 +9,38 @@ services:
     agent_system.message.manager:
         class: ConversationBundle\Business\Manager\MessageManager
         arguments:
-            repository: "@agent_system.message.repository"
-            fSerializer: "@f_serializer"
+            repository:      "@agent_system.message.repository"
+            fSerializer:     "@f_serializer"
+            messageComposer: "@fos_message.composer.default"
+            messageSender:   "@fos_message.sender.default"
+            eventDispatcher: "@event_dispatcher"
 
     agent_system.message.adapter:
         class: ConversationBundle\Adapter\Message\MessageAdapter
         arguments:
             - "@agent_system.message.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Thread ------------------------------------------------------------------------------------------------- #
+    agent_system.thread.repository:
+        class: ConversationBundle\Business\Repository\ThreadRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - ConversationBundle\Entity\Thread
+
+    agent_system.thread.manager:
+        class: ConversationBundle\Business\Manager\ThreadManager
+        arguments:
+            repository:      "@agent_system.thread.repository"
+            fSerializer:     "@f_serializer"
+            messageProvider: "@fos_message.provider.default"
+            tokenStorrage:   "@security.token_storage"
+
+    agent_system.thread.adapter:
+        class: ConversationBundle\Adapter\Thread\ThreadAdapter
+        arguments:
+            - "@agent_system.thread.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
 
