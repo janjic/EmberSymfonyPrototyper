@@ -10,16 +10,29 @@ import LoadingStateMixin from '../../mixins/loading-state';
 export default Ember.Component.extend(LoadingStateMixin,{
     AgentValidations,
     AddressValidations,
+    items: [],
+    selectedTags: [],
     dateInputValid: true,
-
+    isEdit : Ember.computed ('changeset', function () {
+        return this.get('changeset.id');
+    }),
     titles: Ember.computed(function () {
        return ['MR', 'MRS'];
     }),
 
     init() {
         this._super(...arguments);
+        this._setUpEditing();
         this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
         this.addressChangeset = new Changeset(this.get('changeset.address'), lookupValidator(AddressValidations), AddressValidations);
+
+
+    },
+
+    _setUpEditing() {
+        if (this.get('isEdit')) {
+            Ember.defineProperty(this.get('model'), 'emailRepeat', this.get('model.email'));
+        }
     },
 
     currentImage: null,
@@ -60,6 +73,15 @@ export default Ember.Component.extend(LoadingStateMixin,{
         });
     },
     actions: {
+        addNew(text) {
+
+            let newTag = {
+                id: 1,
+                email: text
+            };
+            this.get('items').addObject(newTag);
+            this.get('selectedTags').addObject(newTag);
+        },
 
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
@@ -86,8 +108,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let agent = this.get('model');
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
-
-            if ((changeSet.validate() && addressChangeSet.validate()) &&changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
+            let validation = (changeSet.validate() && addressChangeSet.validate());
+            console.log(changeSet.get('isValid'));
+            console.log(changeSet.get('errors'));
+            if (validation && changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
                 let img = this.get('image');
                 if (img.get('base64Content')) {
                     this.get('addImage')(img);

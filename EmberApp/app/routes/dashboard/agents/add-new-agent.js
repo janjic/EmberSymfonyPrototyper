@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 export default Ember.Route.extend({
-
     model() {
         let agent = this.store.createRecord('agent');
         let address = this.store.createRecord('address');

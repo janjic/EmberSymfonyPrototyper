@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+const {computed} = Ember;
 export default Ember.Component.extend({
     languages: [{
             name: 'English',
@@ -17,6 +17,9 @@ export default Ember.Component.extend({
     ],
 
     selectedLanguage: null,
+    currentLanguage: computed('nationality', function() {
+        return this.get('languages').findBy('key', this.get('nationality'));
+    }),
 
     actions: {
         languageChanged: function (language) {
