@@ -66,6 +66,7 @@ trait JsonApiSaveAgentManagerTrait
         $image = $agent->getImage();
         if(!is_null($image)){
             if ($image->saveToFile($image->getBase64Content())) {
+                $image->updateFileSize();
                 $agent->setBaseImageUrl($image->getWebPath());
                 return true;
             }

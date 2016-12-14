@@ -195,13 +195,6 @@ export default SearchableSelect.extend({
 
         // meta should include keys for "total", "page" and "pages"
         this.set('meta', results.get('meta'));
-        //Example
-        // this.set('meta', {
-        //     total: 3,
-        //     page: 1,
-        //     pages: 10
-        // });
-        // done loading
         this.set('isLoading', false);
         this.set('isLoadingMore', false);
     },
@@ -275,7 +268,7 @@ export default SearchableSelect.extend({
 
     _handleKeyboardControls(e) {
         let component = this;
-        let $focussable = this.$('[tabindex]');
+        let $focussable = component.$('[tabindex]');
         let i = $focussable.index(e.target);
 
         if (e.keyCode === 40) {

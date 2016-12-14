@@ -11,6 +11,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
     AgentValidations,
     AddressValidations,
     dateInputValid: true,
+
     titles: Ember.computed(function () {
        return ['MR', 'MRS'];
     }),
@@ -21,6 +22,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
         this.addressChangeset = new Changeset(this.get('changeset.address'), lookupValidator(AddressValidations), AddressValidations);
     },
 
+    currentImage: null,
+
     image: Ember.Object.create({
         base64Content: null,
         name: null,
@@ -30,6 +33,32 @@ export default Ember.Component.extend(LoadingStateMixin,{
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);
     }),
+
+    processResponse(promise) {
+        promise.then(() => {
+            this.toast.success(Translator.trans('models.agent.save.message'));
+            this.setLoadingText('loading.redirecting');
+            this.get('goToRoute')('dashboard.agents.all-agents');
+
+        }, (response) => {
+            response.errors.forEach((error)=>{
+                switch (parseInt(error.status)) {
+                    case ApiCode.AGENT_ALREADY_EXIST:
+                        this.toast.error(Translator.trans('models.agent.unique.entity'));
+                        break;
+                    case ApiCode.FILE_SAVING_ERROR:
+                        this.toast.error(Translator.trans('models.agent.file.error'));
+                        break;
+                    case ApiCode.ERROR_MESSAGE:
+                        this.toast.error(error.message);
+                        break;
+                    default:
+                        return;
+                }
+                this.disableLoader();
+            });
+        });
+    },
     actions: {
 
         updateAgentBirthDate(date){
@@ -42,6 +71,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let $this = this;
             reader.onloadend = function () {
                 let imgBase64 = reader.result;
+                console.log(imgBase64);
                 $this.set('image.base64Content', imgBase64);
             };
             reader.readAsDataURL(file);
@@ -56,42 +86,18 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let agent = this.get('model');
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
-            let isValidated      =  changeSet.validate() && addressChangeSet.validate();
-            let isValid          = isValidated && changeSet.get('isValid') && addressChangeSet.get('isValid');
-            if (isValid ) {
-                agent.set('address', this.get('addressChangeset._content'));
+
+            if ((changeSet.validate() && addressChangeSet.validate()) &&changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
                 let img = this.get('image');
                 if (img.get('base64Content')) {
                     this.get('addImage')(img);
                 }
                 this.showLoader('loading.sending.data');
-                agent.save().then(() => {
-                    this.toast.success(Translator.trans('models.agent.save.message'));
-                    this.setLoadingText('loading.redirecting');
-                    this.get('goToRoute')('dashboard.agents.all-agents');
-
-                }, (response) => {
-                        response.errors.forEach((error)=>{
-                            switch (parseInt(error.status)) {
-                                case ApiCode.AGENT_ALREADY_EXIST:
-                                    this.toast.error(Translator.trans('models.agent.unique.entity'));
-                                    break;
-                                case ApiCode.FILE_SAVING_ERROR:
-                                    this.toast.error(Translator.trans('models.agent.file.error'));
-                                    break;
-                                case ApiCode.ERROR_MESSAGE:
-                                    this.toast.error(error.message);
-                                    break;
-                                default:
-                                    return;
-                            }
-                            this.disableLoader();
-                        });
-                });
+                this.processResponse(agent.save());
             }
         },
         roleSelected(group){
-            this.model.set('group', group);
+            this.set('changeset.group', group);
         },
 
         agentSelected(agent){

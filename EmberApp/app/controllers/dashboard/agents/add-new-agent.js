@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
         addNewImageToAgent (imageObject) {
             let image = this.store.createRecord('image');
             assign(image, imageObject);
-            this.set('model.image', image);
+            this.set('model.agent.image', image);
         },
         goToRoute (route) {
             this.transitionToRoute(route);

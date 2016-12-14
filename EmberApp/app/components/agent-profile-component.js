@@ -45,17 +45,20 @@ export default Ember.Component.extend({
             }
         },
         addedFile: function (file) {
-            this.set('currentUser.user.image', null);
-            var img = this.get('store').createRecord('image');
-            img.set('name', file.name);
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                var imgBase64 = reader.result;
-                img.set('base64Content', imgBase64);
+            if (!file.url) {
+                this.set('currentUser.user.image', null);
+                var img = this.get('store').createRecord('image');
+                img.set('name', file.name);
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    var imgBase64 = reader.result;
+                    img.set('base64Content', imgBase64);
 
-            };
-            reader.readAsDataURL(file);
-            this.set('currentUser.user.image', img);
+                };
+                reader.readAsDataURL(file);
+                this.set('currentUser.user.image', img);
+            }
+
         },
         removedFile: function () {
             this.set('currentUser.user.image', null);

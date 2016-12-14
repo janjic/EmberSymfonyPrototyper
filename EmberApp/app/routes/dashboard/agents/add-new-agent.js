@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 export default Ember.Route.extend({
 
     model() {
@@ -6,7 +7,10 @@ export default Ember.Route.extend({
         let address = this.store.createRecord('address');
         agent.set('address', address);
 
-        return agent;
+         return RSVP.hash({
+            agent,
+            groups:  this.get('store').findAll('group')
+        });
 
 
     },
