@@ -1,1 +1,2 @@
-{{agent/edit-agent-component model = model }}
+{{!--{{agent/edit-agent-component model=model }} --}}
+{{agent/add-agent-component model=model.agent groups=model.groups addImage=(action 'addNewImageToAgent') searchQuery = (action 'search') goToRoute = (action 'goToRoute')}}

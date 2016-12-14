@@ -195,13 +195,6 @@ export default SearchableSelect.extend({
 
         // meta should include keys for "total", "page" and "pages"
         this.set('meta', results.get('meta'));
-        //Example
-        // this.set('meta', {
-        //     total: 3,
-        //     page: 1,
-        //     pages: 10
-        // });
-        // done loading
         this.set('isLoading', false);
         this.set('isLoadingMore', false);
     },
@@ -261,7 +254,7 @@ export default SearchableSelect.extend({
         let component = this;
         let componentElem = this.get('element');
         component.$(window).on(`click.${component.elementId}`, function(e) {
-            if (!window.$.contains(componentElem, e.target)) {
+            if (!component.$.includes(componentElem, e.target)) {
                 component.send('hideMenu');
                 component.$('.Searchable-select__label').blur();
             }
@@ -275,7 +268,7 @@ export default SearchableSelect.extend({
 
     _handleKeyboardControls(e) {
         let component = this;
-        let $focussable = this.$('[tabindex]');
+        let $focussable = component.$('[tabindex]');
         let i = $focussable.index(e.target);
 
         if (e.keyCode === 40) {
@@ -308,7 +301,7 @@ export default SearchableSelect.extend({
     _toggleSelection(item) {
         if (item === null) {
             this.set('_selected', Ember.A([]));
-        } else if (Ember.A(this.get('_selected')).contains(item)) {
+        } else if (Ember.A(this.get('_selected')).includes(item)) {
             this.removeFromSelected(item);
         } else {
             this.addToSelected(item);
@@ -413,10 +406,10 @@ export default SearchableSelect.extend({
                 // replace selection
                 this.set('_selected', item);
             }
-            if (!this.get('_canChangeSelected')) {
-                throw new Error('on-change is not provided !');
+            if (this.get('_canChangeSelected')) {
+                this.get('on-change')(this.get('_selected'));
             }
-            this.get('on-change')(this.get('_selected'));
+
 
             if (this.get('closeOnSelection')) {
                 this.send('hideMenu');
@@ -483,13 +476,13 @@ export default SearchableSelect.extend({
         removeOption(option) {
             this.removeFromSelected(option);
             if (this.get('_canRemove')) {
-                throw new Error('On remove must be provided');
+                this.get('on-remove')(this.get('_selected'));
             }
-            this.get('on-remove')(this.get('_selected'));
+
         },
 
         addNew() {
-            if (!this.get('_canAddNew')) {
+            if (this.get('_canAddNew')) {
                 this.get('on-add')(this.get('_searchText'));
             }
             if (this.get('closeOnSelection')) {

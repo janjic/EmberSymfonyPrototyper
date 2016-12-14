@@ -9,14 +9,11 @@ const roles =  {
             name: 'dashboard',
             when: function (user, target) {
                 return  new RSVP.Promise((resolve, reject) =>{
-                    /**
-                     * Admin can only access profile page from agent route
-                     */
                     if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
                         /**
                          * Admin can not access agent pages
                          */
-                        if (target.match(/dashboard.agent\/.*/)) {
+                        if (target.match(/dashboard.agent\..*/)) {
                             reject(false);
                         }
 
