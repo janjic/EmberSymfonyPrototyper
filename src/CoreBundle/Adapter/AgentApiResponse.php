@@ -27,6 +27,9 @@ class AgentApiResponse
     const GROUP_CHANGE_FOR_USERS_FAILED         = array('errors' => array(array('status'=> AgentApiCode::GROUP_CHANGE_FOR_USERS_FAILED)));
     const GROUP_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::GROUP_ALREADY_EXIST)));
 
+    const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
+
+
     /**
      * @param $ttl
      * @return array
@@ -111,7 +114,7 @@ class AgentApiResponse
      */
     public static function TICKET_SAVED_SUCCESSFULLY($id)
     {
-        return array('data' => array('type'=> 'tickets', 'id' => $id));
+        return array('data' => array('type'=> 'tickets', 'id' => $id), 'meta' => array('status'=> AgentApiCode::TICKET_SAVED_SUCCESSFULLY));
     }
 
 }

@@ -60,15 +60,7 @@ class TicketManager implements JSONAPIEntityManagerInterface
         $this->agentManager = $agentManager;
     }
 
-    /**
-     * @param $content
-     * @param null $mappings
-     * @return mixed
-     */
-    public function deserializeTicket($content, $mappings = null)
-    {
-        return $this->fSerializer->setDeserializationClass(Ticket::class)->deserialize($content, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
-    }
+
 
     /**
      * @param Ticket $ticket
@@ -85,6 +77,15 @@ class TicketManager implements JSONAPIEntityManagerInterface
         return $ticket;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getTicketById($id)
+    {
+        return $this->repository->findTicketById($id);
+    }
+
 
     /**
      * @param $tickets
@@ -96,5 +97,15 @@ class TicketManager implements JSONAPIEntityManagerInterface
     {
         return $this->fSerializer->setType('tickets')->setDeserializationClass(Agent::class)->serialize($tickets, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
 
+    }
+
+    /**
+     * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
+    public function deserializeTicket($content, $mappings = null)
+    {
+        return $this->fSerializer->setDeserializationClass(Ticket::class)->deserialize($content, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
     }
 }

@@ -45,7 +45,7 @@ class Ticket
 
     /**
      * @var string
-     * @ORM\Column(name="created_at", type="date", length=255, nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", length=255, nullable=true)
      */
     protected $createdAt;
 

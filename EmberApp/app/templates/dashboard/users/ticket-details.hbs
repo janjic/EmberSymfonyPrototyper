@@ -10,24 +10,24 @@
                 <div class="row">
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Ticket ID</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>#21</p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.id}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Ticket type</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>Bug report</p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.type}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Date</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>24.12.2016.</p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.createdAtReadable}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Status</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>Seen</p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.status}}</p></div>
                     </div>
-                    <div class="group">
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Order</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>#1001</p></div>
-                    </div>
+                    {{!--<div class="group">--}}
+                        {{!--<div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Order</strong></p></div>--}}
+                        {{!--<div class="col-md-6 col-sm-6 col-xs-12"><p>#1001</p></div>--}}
+                    {{!--</div>--}}
                 </div>
 
             </div>
@@ -37,21 +37,21 @@
                 <h3 class="sub-heading">User information</h3>
                 <div class="col-md-2 col-sm-3 col-xs-3">
                     <div class="img-holder" style="height: 150px;">
-                        <img src="../../assets/images/user-avatar.png" alt="" class="img-responsive">
+                        <img src="{{model.createdBy.baseImageUrl}}" alt="" class="img-responsive">
                     </div>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-9">
                     <div class="group">
                         <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Username</strong></p></div>
-                        <div class="col-md-8 col-sm-8 col-xs-12"><p>John</p></div>
+                        <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.username}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Full name</strong></p></div>
-                        <div class="col-md-8 col-sm-8 col-xs-12"><p>Smith</p></div>
+                        <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.fullName}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Email</strong></p></div>
-                        <div class="col-md-8 col-sm-8 col-xs-12"><p>email@provider.com</p></div>
+                        <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.email}}s</p></div>
                     </div>
                 </div>
             </div>
@@ -62,54 +62,86 @@
             <article>
                 <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
                     <div class="username text-right">
-                        <h4>Username 1</h4>
-                        <img src="../../assets/images/user-avatar.png" title="Username">
+                        <h4>{{model.createdBy.fullName}}</h4>
+                        <img src="{{model.createdBy.baseImageUrl}}" title="Username">
                     </div>
                     <div class="user-message clearfix">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
+                        <p>{{model.text}}</p>
                     </div>
-                    <span>5 days ago</span>
+                    <span>{{moment-from-now model.createdAt hideSuffix=false interval=5000}}</span>
                 </div>
             </article>
+            {{#if model.thread }}
+                {{#each model.thread.messages as |message|}}
+                    {{# if (eq message.sender.id currentUser.user.id) }}
+                        <article>
+                            <div class="admin-comment col-xs-12 col-sm-8 ">
+                                <div class="username username-admin">
+                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
+                                    <h4>{{message.sender.fullName}}</h4>
+                                </div>
+                                <div class="admin-message clearfix">
+                                    <p>{{message.body}}</p>
+                                    {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+                                </div>
+                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                            </div>
+                        </article>
+                    {{else}}
+                        <article>
+                            <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
+                                <div class="username text-right">
+                                    <h4>{{message.sender.fullName}}</h4>
+                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
+                                </div>
+                                <div class="user-message clearfix">
+                                    <p>{{message.body}}</p>
+                                    {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+                                </div>
+                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                            </div>
+                        </article>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+            {{!--<article>--}}
+            {{!--<div class="admin-comment col-xs-12 col-sm-8 ">--}}
+            {{!--<div class="username username-admin">--}}
+            {{!--<img src="../../assets/images/user-avatar.png" title="Admin">--}}
+            {{!--<h4>Admin</h4>--}}
+            {{!--</div>--}}
+            {{!--<div class="admin-message clearfix">--}}
+            {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+            {{!--</div>--}}
+            {{!--<span>5 days ago</span>--}}
+            {{!--</div>--}}
+            {{!--</article>--}}
 
-            <article>
-                <div class="admin-comment col-xs-12 col-sm-8 ">
-                    <div class="username username-admin">
-                        <img src="../../assets/images/user-avatar.png" title="Admin">
-                        <h4>Admin</h4>
-                    </div>
-                    <div class="admin-message clearfix">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
-                    </div>
-                    <span>5 days ago</span>
-                </div>
-            </article>
+            {{!--<article>--}}
+            {{!--<div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">--}}
+            {{!--<div class="username text-right">--}}
+            {{!--<h4>Username 1</h4>--}}
+            {{!--<img src="../../assets/images/user-avatar.png" title="Username">--}}
+            {{!--</div>--}}
+            {{!--<div class="user-message clearfix">--}}
+            {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+            {{!--</div>--}}
+            {{!--<span>5 days ago</span>--}}
+            {{!--</div>--}}
+            {{!--</article>--}}
 
-            <article>
-                <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
-                    <div class="username text-right">
-                        <h4>Username 1</h4>
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                    <div class="user-message clearfix">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
-                    </div>
-                    <span>5 days ago</span>
-                </div>
-            </article>
-
-            <article>
-                <div class="admin-comment col-xs-12 col-sm-8 ">
-                    <div class="username username-admin">
-                        <img src="../../assets/images/user-avatar.png" title="Admin">
-                        <h4>Admin</h4>
-                    </div>
-                    <div class="admin-message clearfix">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>
-                    </div>
-                    <span>5 days ago</span>
-                </div>
-            </article>
+            {{!--<article>--}}
+            {{!--<div class="admin-comment col-xs-12 col-sm-8 ">--}}
+            {{!--<div class="username username-admin">--}}
+            {{!--<img src="../../assets/images/user-avatar.png" title="Admin">--}}
+            {{!--<h4>Admin</h4>--}}
+            {{!--</div>--}}
+            {{!--<div class="admin-message clearfix">--}}
+            {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+            {{!--</div>--}}
+            {{!--<span>5 days ago</span>--}}
+            {{!--</div>--}}
+            {{!--</article>--}}
         </section>
 
         <div class="send-message-mobile">

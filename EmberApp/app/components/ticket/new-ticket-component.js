@@ -4,6 +4,7 @@ import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 import TicketValidations from '../../validations/ticket/add-ticket';
 const { service } = Ember.inject;
+const {ApiCode, Translator} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     TicketValidations,
@@ -35,17 +36,14 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 }, (response) => {
                     response.errors.forEach((error)=>{
                         switch (parseInt(error.status)) {
-                            // case ApiCode.AGENT_ALREADY_EXIST:
-                            //     this.toast.error(Translator.trans('models.agent.unique.entity'));
-                            //     break;
-                            // case ApiCode.FILE_SAVING_ERROR:
-                            //     this.toast.error(Translator.trans('models.agent.file.error'));
-                            //     break;
-                            // case ApiCode.ERROR_MESSAGE:
-                            //     this.toast.error(error.message);
-                            //     break;
-                            // default:
-                            //     return;
+                            case ApiCode.FILE_SAVING_ERROR:
+                                this.toast.error(Translator.trans('models.agent.file.error'));
+                                break;
+                            case ApiCode.ERROR_MESSAGE:
+                                this.toast.error(Translator.trans(error.message));
+                                break;
+                            default:
+                                return;
                         }
                         this.disableLoader();
                     });
