@@ -1,11 +1,19 @@
-<h1 class="main-heading">Sent Messages</h1>
-<div class="clearfix">
-    {{#link-to 'dashboard.messages.create-message' class='pull-right btn btn-danger'}}Create Message{{/link-to}}
+<div class="inbox">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="message-list">
+                <div class="message-list-header">
+                    <h4>Received Messages</h4>
+                    {{#link-to 'dashboard.messages.create-message' class='pull-right btn-floating'}} <i class="fa fa-plus"></i> {{/link-to}}
+                </div>
+                <div class="message-list-body" id="side-messages">
+                    {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected')}}
+                    {{infinity-loader infinityModel=model scrollable="#side-messages"}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {{messages/sent-message thread=selectedThread}}
+        </div>
+    </div>
 </div>
-
-<div id="side-messages" style="height: 500px; overflow-y: scroll">
-    {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected')}}
-    {{infinity-loader infinityModel=model scrollable="#side-messages"}}
-</div>
-
-{{messages/sent-message thread=selectedThread}}

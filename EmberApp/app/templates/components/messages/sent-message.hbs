@@ -1,3 +1,83 @@
 {{#if thread}}
-    Ima nesto
+    <div class="message-full">
+        <div class="message-header">
+            <div class="message-active"></div>
+            <h3 class="name">Joh Smith</h3>
+            <h4 class="subject"><strong>Subject:</strong> Thanks, you are amazing</h4>
+        </div>
+        <div class="message-body">
+            <section class="view-message">
+
+                <section class="messages clearfix">
+                    {{#each thread.messages as |message|}}
+                        <article>
+                            <div class="user-comment">
+                                <div class="username">
+                                    <h4>Username</h4>
+                                    <div class="img-holder">
+                                        <img src="../../assets/images/user-avatar.png" title="Username">
+                                    </div>
+                                </div>
+                                <div class="user-message clearfix">
+                                    <p>{{message.body}}</p>
+                                    <span>5 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                    {{/each}}
+
+                    {{!--<article>--}}
+                        {{!--<div class="admin-comment">--}}
+                            {{!--<div class="admin-message clearfix">--}}
+                                {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+                                {{!--<span>5 days ago</span>--}}
+                            {{!--</div>--}}
+                            {{!--<div class="username username-admin">--}}
+                                {{!--<div class="img-holder">--}}
+                                    {{!--<img src="../../assets/images/user-avatar.png" title="Admin">--}}
+                                {{!--</div>--}}
+                                {{!--<h4>Admin</h4>--}}
+                            {{!--</div>--}}
+                        {{!--</div>--}}
+                    {{!--</article>--}}
+
+                    {{!--<article>--}}
+                        {{!--<div class="user-comment">--}}
+                            {{!--<div class="username">--}}
+                                {{!--<h4>Username</h4>--}}
+                                {{!--<div class="img-holder">--}}
+                                    {{!--<img src="../../assets/images/user-avatar.png" title="Username">--}}
+                                {{!--</div>--}}
+                            {{!--</div>--}}
+                            {{!--<div class="user-message clearfix">--}}
+                                {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+                                {{!--<span>5 days ago</span>--}}
+                            {{!--</div>--}}
+                        {{!--</div>--}}
+                    {{!--</article>--}}
+
+                    {{!--<article>--}}
+                        {{!--<div class="admin-comment">--}}
+                            {{!--<div class="admin-message clearfix">--}}
+                                {{!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat. Donec placerat nisl magna, et faucibus arcu condimentum sed.</p>--}}
+                                {{!--<span>5 days ago</span>--}}
+                            {{!--</div>--}}
+                            {{!--<div class="username username-admin">--}}
+                                {{!--<div class="img-holder">--}}
+                                    {{!--<img src="../../assets/images/user-avatar.png" title="Admin">--}}
+                                {{!--</div>--}}
+                                {{!--<h4>Admin</h4>--}}
+                            {{!--</div>--}}
+                        {{!--</div>--}}
+                    {{!--</article>--}}
+                </section>
+            </section>
+        </div>
+        <div class="send-message-mobile">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
+                <span class="input-group-addon" id="basic-addon2">Send message</span>
+            </div>
+        </div>
+    </div>
 {{/if}}

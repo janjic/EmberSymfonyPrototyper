@@ -88,13 +88,14 @@ class ThreadManager implements JSONAPIEntityManagerInterface
      */
     public function serializeThread($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('messages', 'participants', 'messages.file');
+        $relations = array('messages', 'participants', 'messages.file', 'createdBy');
         if (!$mappings) {
             $mappings = array(
                 'thread'       => array('class' => Thread::class, 'type'=>'threads'),
                 'messages'     => array('class' => Message::class, 'type'=>'messages'),
                 'file'         => array('class' => File::class, 'type'=>'files'),
-                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class)
+                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
+                'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
             );
         }
 
