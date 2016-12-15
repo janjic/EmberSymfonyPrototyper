@@ -11,9 +11,9 @@ export default Ember.Controller.extend({
         {
             return this.get('store').createRecord('thread');
         },
-        createNewMessage()
+        createNewMessage(hash)
         {
-            return this.get('store').createRecord('message');
+            return this.get('store').createRecord('message', hash);
         }
     }
 });

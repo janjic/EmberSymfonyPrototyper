@@ -2564,3 +2564,12 @@ input:focus {
   font-size: 12px;
   color: #333;
 }
+
+.ticket-details {
+  .message-full {
+    height: calc(100vh - 375px);
+    .message-body {
+      max-height: calc(100vh - 530px);
+    }
+  }
+}
