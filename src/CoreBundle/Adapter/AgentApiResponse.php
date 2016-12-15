@@ -30,6 +30,8 @@ class AgentApiResponse
     const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
 
 
+    const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
+
     /**
      * @param $ttl
      * @return array

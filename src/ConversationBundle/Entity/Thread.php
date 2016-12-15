@@ -8,7 +8,7 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
 use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ConversationBundle\Business\Repository\ThreadRepository")
  * @ORM\Table(name="as_thread")
  */
 class Thread extends BaseThread
@@ -37,4 +37,14 @@ class Thread extends BaseThread
      * @var ThreadMetadata[]|Collection
      */
     protected $metadata;
+
+    /**
+     * Thread constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->createdAt = new \DateTime();
+    }
+
 }
