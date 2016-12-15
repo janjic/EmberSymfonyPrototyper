@@ -108,4 +108,9 @@ class TicketManager implements JSONAPIEntityManagerInterface
     {
         return $this->fSerializer->setDeserializationClass(Ticket::class)->deserialize($content, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
     }
+
+    public function getAgentById($id)
+    {
+        return $this->agentManager->findAgentById($id);
+    }
 }

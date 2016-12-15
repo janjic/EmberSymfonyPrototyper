@@ -3,7 +3,6 @@
 namespace ConversationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use FOS\MessageBundle\Model\ThreadInterface;
 use UserBundle\Entity\Agent;
 

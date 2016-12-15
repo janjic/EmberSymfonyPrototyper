@@ -58,22 +58,21 @@ class TicketRepository extends EntityRepository
         return $ticket;
 
     }
-//
-//    /**
-//     * @param Message $message
-//     * @return Message|Exception
-//     */
-//    public function editMessage($message)
-//    {
-//        try {
-//            $this->_em->merge($message);
-//            $this->_em->flush();
-//        } catch (Exception $e) {
-//            return $e;
-//        }
-//
-//        return $message;
-//    }
+
+    /**
+     * @param Ticket $ticket
+     * @return Ticket|Exception
+     */
+    public function editTicket($ticket)
+    {
+        try {
+            $this->_em->merge($ticket);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return $ticket;
+    }
 //
 //    /**
 //     * Remove message
@@ -269,4 +268,6 @@ class TicketRepository extends EntityRepository
 //        var_dump($oQ0->getQuery()->getSQL());exit;
         return $oQ0->getQuery()->getResult();
     }
+
+
 }

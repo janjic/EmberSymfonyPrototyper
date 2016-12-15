@@ -29,8 +29,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.showLoader('loading.sending.data');
                 ticket.save().then(() => {
                     this.toast.success(Translator.trans('models.ticket.save.message'));
-                    // this.setLoadingText('loading.redirecting');
-                    // this.get('goToRoute')('dashboard.agents.all-agents');
                     this.disableLoader();
 
                 }, (response) => {

@@ -14,7 +14,7 @@ class TicketController extends Controller
      * @param ArrayCollection $ticketAPI
      * @return JSONResponse
      */
-    public function groupAPIAction(ArrayCollection $ticketAPI)
+    public function ticketAPIAction(ArrayCollection $ticketAPI)
     {
         return new JSONResponse($ticketAPI->toArray(), array_key_exists('errors', $ticketAPI->toArray()) ? 422 : 200);
     }
