@@ -95,24 +95,24 @@
                 </div>
 
 
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
-                            <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
-                                              validateProperty=(action 'validateProperty' changeset "plainPassword")}}
-                        </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
+                                          validateProperty=(action 'validateProperty' changeset "plainPassword")}}
                     </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-password'}}
-                            <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
-                                              validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
-                        </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-password'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
+                                          validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
                     </div>
+                </div>
 
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.email'}}
@@ -123,18 +123,18 @@
                                           validateProperty=(action 'validateProperty' changeset "email")}}
                     </div>
                 </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-email'}}
-                            <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-7 col-sm-7 col-xs-12">
-                                {{!--
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-email'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{!--
                                 {{validated-field doNotShowLabel=true property="emailRepeat" isDisabled=isEdit changeset=changeset type="text"
                                                   validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
                                                   --}}
 
-                        </div>
                     </div>
+                </div>
 
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.private-email'}}
@@ -289,7 +289,7 @@
                             {{trans 'button.save'}}
                         {{/if}}
 
-                        </button>
+                    </button>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
         <div class="sorting">
             <i class="fa {{sortClass}}" {{action 'sort'}}></i>
         </div>
-        <select {{action 'handleFilterEntry' on='change'}}>
+        <select class="form-control" {{action 'handleFilterEntry' on='change'}}>
             <option value="-1" disabled selected>Select</option>
             {{#each compareValues as |compareValue|}}
                 <option value="{{compareValue.value}}">{{compareValue.name}}</option>
