@@ -2378,6 +2378,7 @@ input:focus {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex: 0 0 80px;
       }
       .content {
         display: flex;
@@ -2388,14 +2389,23 @@ input:focus {
           font-size: 14px;
           font-weight: bold;
           margin: 5px 0;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
         }
         h4.subject {
           font-size: 13px;
           margin-bottom: 10px;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
         }
         h5.content-text {
           font-size: 11px;
           margin-bottom: 5px;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
         }
       }
     }
