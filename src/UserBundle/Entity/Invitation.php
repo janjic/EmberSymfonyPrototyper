@@ -56,10 +56,13 @@ class Invitation
 
     /**
      * @param mixed $agent
+     * @return $this
      */
     public function setAgent($agent)
     {
         $this->agent = $agent;
+
+        return $this;
     }
 
     /**
@@ -72,10 +75,13 @@ class Invitation
 
     /**
      * @param int $id
+     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -88,10 +94,13 @@ class Invitation
 
     /**
      * @param array $recipientEmail
+     * @return $this
      */
     public function setRecipientEmail($recipientEmail)
     {
         $this->recipientEmail = $recipientEmail;
+
+        return $this;
     }
 
     /**
@@ -104,10 +113,13 @@ class Invitation
 
     /**
      * @param string $emailSubject
+     * @return $this
      */
     public function setEmailSubject($emailSubject)
     {
         $this->emailSubject = $emailSubject;
+
+        return $this;
     }
 
     /**
@@ -120,9 +132,12 @@ class Invitation
 
     /**
      * @param string $emailContent
+     * @return $this
      */
     public function setEmailContent($emailContent)
     {
         $this->emailContent = $emailContent;
+
+        return $this;
     }
 }

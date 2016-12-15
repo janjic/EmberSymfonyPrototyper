@@ -407,7 +407,7 @@ export default SearchableSelect.extend({
                 this.set('_selected', item);
             }
             if (this.get('_canChangeSelected')) {
-                this.get('on-change')(this.get('_selected'));
+                this.get('on-change')(item);
             }
 
 
@@ -476,7 +476,7 @@ export default SearchableSelect.extend({
         removeOption(option) {
             this.removeFromSelected(option);
             if (this.get('_canRemove')) {
-                this.get('on-remove')(this.get('_selected'));
+                this.get('on-remove')(option);
             }
 
         },

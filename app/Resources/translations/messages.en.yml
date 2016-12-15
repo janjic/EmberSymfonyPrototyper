@@ -214,6 +214,14 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
+invitation:
+  message.save: 'Invitation send'
+  message.error: 'Error while sending invitation'
+  email:
+    invalid: 'Email Address in invalid format'
+    presence: 'Please enter recipient email address'
+    subject: 'Please enter email subject'
+    content: 'Please enter email content'
 
 models:
   server-error: 'Server error!'

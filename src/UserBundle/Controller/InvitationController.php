@@ -17,8 +17,8 @@ class InvitationController extends Controller
      */
     public function invitationsAPIAction(ArrayCollection $invitationAPI)
     {
-        $status = array_key_exists(1, $invitationAPI->toArray()) ? $invitationAPI[1] : 200;
+        $status = array_key_exists('errors', $invitationAPI->toArray()) ? $invitationAPI['errors'][0]['status'] : 201;
 
-        return new JsonResponse($invitationAPI->toArray(), 201);
+        return new JsonResponse($invitationAPI->toArray(), $status);
     }
 }

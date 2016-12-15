@@ -16,6 +16,10 @@ use UserBundle\Business\Repository\InvitationRepository;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Invitation;
 
+/**
+ * Class InvitationManager
+ * @package UserBundle\Business\Manager
+ */
 class InvitationManager implements JSONAPIEntityManagerInterface
 {
 
