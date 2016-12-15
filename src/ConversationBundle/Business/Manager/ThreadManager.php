@@ -2,20 +2,15 @@
 
 namespace ConversationBundle\Business\Manager;
 
-use ConversationBundle\Business\Repository\MessageRepository;
 use ConversationBundle\Business\Repository\ThreadRepository;
 use ConversationBundle\Entity\Message;
 use ConversationBundle\Entity\Thread;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use Doctrine\Common\Util\Debug;
 use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use UserBundle\Entity\Agent;
-use FOS\MessageBundle\Composer\Composer as MessageComposer;
-use FOS\MessageBundle\Sender\Sender as MessageSender;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
 use UserBundle\Entity\Document\File;
 
@@ -88,7 +83,7 @@ class ThreadManager implements JSONAPIEntityManagerInterface
      */
     public function serializeThread($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('messages', 'participants', 'messages.file', 'createdBy');
+        $relations = array('createdBy', 'messages', 'participants', 'messages.file', 'messages.sender');
         if (!$mappings) {
             $mappings = array(
                 'thread'       => array('class' => Thread::class, 'type'=>'threads'),
@@ -96,6 +91,7 @@ class ThreadManager implements JSONAPIEntityManagerInterface
                 'file'         => array('class' => File::class, 'type'=>'files'),
                 'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
                 'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
+                'sender'       => array('class' => Agent::class, 'type'=>'agents'),
             );
         }
 

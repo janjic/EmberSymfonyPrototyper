@@ -47,4 +47,12 @@ class Thread extends BaseThread
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
 }
