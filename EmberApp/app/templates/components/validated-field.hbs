@@ -2,14 +2,14 @@
     <label for={{concat type "-" property}}>{{property}}</label>
 {{/unless}}
 {{#if (eq type 'textarea')}}
-    <textarea cols="30" rows="5" class="form-control" placeholder={{placeholder}} id={{concat type "-" property}} value={{get changeset property}}
-            oninput={{action (mut (get changeset property)) value="target.value"}}
-              onblur={{action validateProperty}}> </textarea>
+    <textarea cols="30" rows="5" class="form-control" disabled={{isDisabled}} placeholder={{placeholder}} id={{concat type "-" property}} value={{get changeset property}}
+              oninput={{action (mut (get changeset property)) value="target.value"}}
+                      onblur={{action validateProperty}}> </textarea>
 
 {{else}}
-    <input class="form-control" placeholder={{placeholder}} type={{type}} id={{concat type "-" property}} value={{get changeset property}}
-           oninput={{action (mut (get changeset property)) value="target.value"}}
-                   onblur={{action validateProperty}}>
+    <input class="form-control" disabled={{isDisabled}} placeholder={{placeholder}} type={{type}} id={{concat type "-" property}} value={{get changeset property}}
+            oninput={{action (mut (get changeset property)) value="target.value"}}
+           onblur={{action validateProperty}}>
 
 {{/if}}
 

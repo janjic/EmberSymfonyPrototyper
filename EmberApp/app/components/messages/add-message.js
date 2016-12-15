@@ -1,121 +1,88 @@
 import Ember from 'ember';
+import LoadingStateMixin from '../../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
+import MessageValidations from '../../validations/message-new';
+import Changeset from 'ember-changeset';
+import lookupValidator from './../../utils/lookupValidator';
 
-const { inject: { service }} = Ember;
+const { ApiCode, Translator } = window;
 
-export default Ember.Component.extend({
-    authorizedAjax: service('authorized-ajax'),
+export default Ember.Component.extend(LoadingStateMixin, {
+    MessageValidations,
     currentUser: Ember.inject.service('current-user'),
-    store: service('store'),
-    participant: null,
-    searchTask: task(function* (term) {
-        yield timeout(1500);
+    fileTemp: null,
 
-        let options = {
-            field: 'agent.email',
-            search: term,
-            page: 1,
-            rows: 10
-        };
-
-        this.get('authorizedAjax').sendAuthorizedRequest(options, 'GET', 'app_dev.php/api/agents', function (response) {
-            console.log(response);
-        }.bind(this), this);
-
+    search: task(function * (text, page, perPage) {
+        yield timeout(200);
+        return this.get('searchQuery')(page, text, perPage);
     }),
+
+    init() {
+        this._super(...arguments);
+        this.changeset = new Changeset(this.get('model'), lookupValidator(MessageValidations), MessageValidations);
+    },
 
     actions: {
         sendMessage() {
+            if (this.get('changeset').validate() && this.get('changeset').get('isValid')) {
+                this.showLoader();
 
-            var agentPromise = this.get('store').findRecord('agent', 30);
-
-            Ember.RSVP.allSettled([agentPromise]).then(([pPromise]) => {
-                let reciver = pPromise.value;
-
-                let thread = this.get('store').createRecord('thread', {
-                    createdBy:      this.get('currentUser.user'),
-                    participants:   [reciver],
-                    subject:        this.get('subject'),
+                let message = this.get('model');
+                if (this.get('fileTemp')) {
+                    let fileObj = this.get('createFileAction')(this.get('fileTemp'));
+                    message.set('file', fileObj);
+                }
+                message.set('sender', this.get('currentUser.user'));
+                message.save().then(() => {
+                    this.toast.success('models.message.save');
+                    this.disableLoader();
+                    this.get('transitionToInbox')();
+                }, (response) => {
+                    this.processErrors(response.errors);
+                    this.disableLoader();
                 });
+            }
+        },
 
-                let message = this.get('store').createRecord('message', {
-                    sender:          this.get('currentUser.user'),
-                    participants:    [reciver],
-                    body:            this.get('body'),
-                    thread:          thread
-                });
+        addedFile (file) {
+            let reader = new FileReader();
+            this.set('fileTemp', {name: file.name});
+            reader.onloadend = () => {
+                this.set('fileTemp.base64Content', reader.result);
+            };
+            reader.readAsDataURL(file);
+        },
+        removedFile() {
+            this.set('fileTemp', null);
+        },
 
+        agentSelected(agent){
+            this.set('changeset.participants', agent ? [agent] : null);
+            this.get('changeset').validate('sender');
+        },
 
+        /** validations */
+        reset(changeset) {
+            return changeset.rollback();
+        },
 
-                message.save().then((res) => {
-                    console.log(res);
-                }, (res) => {
-                    console.log(res);
-                });
-            });
+        validateProperty(changeset, property) {
+            return changeset.validate(property);
+        },
+    },
 
-           //  var agentPromise = this.get('store').findRecord('agent', 30);
-           //
-           //  Ember.RSVP.allSettled([agentPromise]).then(([pPromise]) => {
-           //
-           //  };
-           //
-           // .then((res) => {
-           //      this.set('participant',  res);
-           //
-           //      console.log(this.get('participant'));
-           //
-           //      let message = this.get('store').createRecord('message', {
-           //          sender:         this.get('currentUser.user'),
-           //          participants:   [participant],
-           //          body:           this.get('body')
-           //      });
-           //
-           //      let thread = this.get('store').createRecord('thread', {
-           //          createdBy:      this.get('currentUser.user'),
-           //          participants:   [participant],
-           //          subject:        this.get('subject'),
-           //          messages:       [message]
-           //      });
-           //  });
-
-
-            //
-            // console.log('asddsads');
-            // console.log(thread);
-
-            // let threadMetadata = this.get('store').createRecord('thread-metadata', {
-            //     'participant': this.get('store').findRecord('agent', 30),
-            // });
-            //
-            //
-            // let thread = this.get('store').createRecord('thread', {
-            //     'createdBy': this.get('currentUser.user'),
-            //     'threadMetadata': [threadMetadata],
-            //     'subject': this.get('subject'),
-            // });
-            //
-            // console.log(thread);
-            // let messageMetadata = this.get('store').createRecord('message-metadata', {
-            //     'participant': this.get('store').findRecord('agent', 30),
-            //
-            // });
-            //
-            // let message = this.get('store').createRecord('message', {
-            //     'sender': this.get('currentUser.user'),
-            //     'body': this.get('body')
-            // });
-            //
-            // console.log(message);
-            // message.save().then((res) => {
-            //     console.log(res);
-            // }, (res) => {
-            //     console.log(res);
-            // });
-
-            //     console.log('sendMessage');
-            //     console.log();
-            //     console.log(this.get('body'));
-        }
-    }
+    processErrors(errors) {
+        errors.forEach((item) => {
+            switch (item.status) {
+                case ApiCode.ERROR_MESSAGE:
+                    this.toast.success(Translator.trans('models.server-error'));
+                    break;
+                case ApiCode.MESSAGES_UNSUPPORTED_FORMAT:
+                    this.toast.success(Translator.trans('models.message.unsupported.file.type'));
+                    break;
+                default:
+                    return;
+            }
+        });
+    },
 });

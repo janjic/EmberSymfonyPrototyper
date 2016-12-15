@@ -34,6 +34,9 @@ button:
 validation:
   email:
 
+general:
+  email: 'Email'
+
 
 # ADMIN MENU ITEMS
 
@@ -70,6 +73,7 @@ admin-menu:
     trash: 'Trash'
   settings:
     title: 'Settings'
+    my-settings: 'My settings'
     groups: 'Manage groups'
     roles: 'Manage roles'
 
@@ -214,6 +218,13 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
+# ADMIN - AGENT PAGES
+admin-messages:
+  subject: 'Subject'
+  content: 'Content'
+  send: 'Send'
+  create: 'Create Message'
+
 invitation:
   message.save: 'Invitation send'
   message.error: 'Error while sending invitation'
@@ -248,3 +259,30 @@ models:
       new: 'New'
       active: 'Active'
       resolved: 'Resolved'
+  message:
+    save: 'Group sent!'
+    unsupported.file.type: 'Current file type is not supported!'
+
+#SETTINGS
+
+settings:
+  labels:
+    facebook-link: 'Facebook link'
+    twitter-link: 'Twitter link'
+    confirmation-mail: 'Confirmation mail'
+    paypal: 'Paypal'
+    easycall: 'Easycall'
+    gplus-link: 'Google Plus link'
+    commissions: 'Commissions'
+    bonuses: 'Bonuses'
+    referral: 'Referral'
+    setup-fee: 'Setup fee'
+    packages: 'Packages'
+    connect: 'Connect'
+    stream: 'Stream'
+    active-agents: 'Active agents'
+    amount-chf: 'Amount - CHF'
+    amount-eur: 'Amount - EUR'
+    number-of-customers: 'Number of customers > xy'
+    for-period-less: 'For period of time less than'
+    month(s): 'month(s)'

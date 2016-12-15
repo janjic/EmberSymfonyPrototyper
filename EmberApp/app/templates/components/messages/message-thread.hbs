@@ -1,0 +1,65 @@
+{{#if thread}}
+    <div class="message-full">
+        <div class="message-header">
+            <div class="message-active"></div>
+            <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
+            <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
+        </div>
+        <div class="message-body">
+            <section class="view-message">
+                <section class="messages clearfix">
+                    {{#each thread.messages as |message|}}
+                        <article>
+                            {{#if (eq message.sender.id currentUser.user.id)}}
+                                <div class="admin-comment">
+                                    <div class="admin-message clearfix">
+                                        <p>{{message.body}}</p>
+                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                                    </div>
+                                    <div class="username username-admin">
+                                        <div class="img-holder">
+                                            {{#if currentUser.user.baseImageUrl}}
+                                                <img src="{{currentUser.user.baseImageUrl}}" title="Username">
+                                            {{else}}
+                                                <img src="../../assets/images/user-avatar.png" title="Username">
+                                            {{/if}}
+                                        </div>
+                                        <h4>{{currentUser.user.fullName}}</h4>
+                                    </div>
+                                </div>
+                            {{else}}
+                                <div class="user-comment">
+                                    <div class="username">
+                                        <h4>{{thread.otherParticipant.fullName}}</h4>
+                                        <div class="img-holder">
+                                            {{#if thread.otherParticipant.baseImageUrl}}
+                                                <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+                                            {{else}}
+                                                <img src="../../assets/images/user-avatar.png" title="Username">
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="user-message clearfix">
+                                        <p>{{message.body}}</p>
+                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </article>
+                    {{/each}}
+                </section>
+            </section>
+        </div>
+        <div class="send-message-mobile">
+            <div class="input-group">
+                {{input type="text" value=messageBody class="form-control" placeholder="Message"}}
+                <button class="input-group-addon" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+            </div>
+        </div>
+    </div>
+    {{#if isLoading }}
+        <<div class="loader-holder">
+            <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+        </div>
+    {{/if}}
+{{/if}}

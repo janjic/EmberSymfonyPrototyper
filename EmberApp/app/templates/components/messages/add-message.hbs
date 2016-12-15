@@ -1,44 +1,68 @@
 <section class="create-message">
     <div class="messages-heading clearfix">
-        <h1 class="main-heading">Create Message</h1>
+        <h1 class="main-heading">{{trans 'general.create'}}</h1>
     </div>
 
     <form role="form">
         <div class="row setup-content">
             <div class="col-xs-12 col-lg-8">
                 <div class="form-group clearfix">
-                    <label class="control-label col-xs-12 text-right">Email
+                    <label class="control-label col-xs-12 text-right">{{trans 'general.message'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class=" col-xs-12">
-                        {{#power-select search=(perform searchTask) selected=selected onchange=(action (mut selected)) as |repo|}}
-                            {{repo.id}}
-                        {{/power-select}}
-                        {{!--<input type="text" class="form-control" name="username">--}}
+                        {{inf-select
+                            optionLabelKey='email'
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                        }}
+                        {{#if (get changeset.error 'participants')}}
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'participants') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-xs-12 text-right">Subject
+                    <label class="control-label col-xs-12 text-right">{{trans 'admin-messages.subject'}}
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class=" col-xs-12">
-                        {{input type="text" class="form-control" value=subject }}
+                        {{validated-field doNotShowLabel=true property="messageSubject" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "messageSubject")}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label  col-xs-12 text-right">Content
+                    <label class="control-label  col-xs-12 text-right">{{trans 'admin-messages.content'}}
                         <span class="required" aria-required="true"></span>
                     </label>
                     <div class="col-xs-12">
-                        {{textarea type="text" class="form-control" value=body }}
+                        {{validated-field doNotShowLabel=true property="body" changeset=changeset type="textarea"
+                        validateProperty=(action 'validateProperty' changeset "body")}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label  col-xs-12 text-right">{{trans 'admin-messages.files'}}
+                        <span class="required" aria-required="true"></span>
+                    </label>
+                    <div class="col-xs-12">
+                        {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                     </div>
                 </div>
                 <div class="form-group clearfix text-right">
                     <div class="col-md-12">
-                        <a href="#" class="btn btn-danger" {{action 'sendMessage'}}>Send</a>
+                        <a href="#" class="btn btn-danger" {{action 'sendMessage'}}>{{trans 'admin-messages.send'}}</a>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 </section>
+
+{{#if isLoading }}
+    <<div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}

@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 const {  attr, Model } = DS;
 
@@ -7,5 +8,16 @@ export default Model.extend({
     participants:   DS.hasMany('agent'),
     messages:       DS.hasMany('message'),
     createdAt:      attr('custom-date'),
-    subject:        attr('string')
+    subject:        attr('string'),
+
+
+    otherParticipant: Ember.computed('createdBy', 'participants', function () {
+        return this.get('participants').find((item) => {
+            return item.id !== this.get('createdBy').get('id');
+        });
+    }),
+
+    firstMessage: Ember.computed('messages', 'participants', function () {
+        return this.get('messages').get('firstObject');
+    })
 });

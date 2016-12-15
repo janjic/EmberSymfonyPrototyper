@@ -16,7 +16,9 @@ trait JsonApiGetTicketManagerTrait
      */
     public function getResource($id = null)
     {
-//        return $this->createJsonApiGetResponse($this->repository->findAgentById($id));
+        $ticket = $this->repository->findTicketById($id);
+
+        return $this->createJsonApiGetResponse($ticket);
 
     }
 
@@ -26,12 +28,11 @@ trait JsonApiGetTicketManagerTrait
      */
     private function createJsonApiGetResponse($data)
     {
-//        if (!is_null($data))  {
-//            return new ArrayCollection($this->serializeAgent($data)->toArray());
-//        }
-//
-//        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
-    }
+        if (!is_null($data))  {
+            return new ArrayCollection($this->serializeTicket($data)->toArray());
+        }
 
+        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
+    }
 
 }
