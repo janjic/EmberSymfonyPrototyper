@@ -198,6 +198,10 @@ button {
   outline: 0;
 }
 
+h1, h2, h3, h4, h5 {
+  font-family: $Rubik;
+}
+
 h3 {
   font-weight: 300;
   margin-top: 0;
@@ -2318,6 +2322,7 @@ input:focus {
   transition-duration: 0.4s;
   animation: pop .5s forwards;
   box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.5);
+  margin-bottom: 30px;
   .message-list-header {
     padding: 15px;
     background-color: #c0392b;
@@ -2358,6 +2363,9 @@ input:focus {
   .message-list-body {
     max-height: calc(100vh - 180px);
     overflow: auto;
+    @media screen and (max-width: 1420px) {
+      max-height: calc(100vh - 800px);
+    }
     .conversation-item {
       display: flex;
       background-color: whitesmoke;
@@ -2406,6 +2414,12 @@ input:focus {
           @media screen and (max-width: 1420px) {
             margin: 0;
           }
+          @media screen and (max-width: 1225px) {
+            display: none;
+          }
+          @media screen and (max-width: 992px) {
+            display: block;
+          }
         }
       }
     }
@@ -2413,6 +2427,12 @@ input:focus {
 }
 
 .message-full {
+  @media screen and (max-width: 992px) {
+    max-height: calc(100vh - 360px);
+  }
+  @media screen and (max-width: 768px) {
+    max-height: calc(100vh - 420px);
+  }
   border: 1px solid #ddd;
   transition-property: opacity,top;
   transition-duration: 0.4s;
@@ -2445,6 +2465,12 @@ input:focus {
     }
   }
   .message-body {
+    @media screen and (max-width: 992px) {
+      max-height: calc(100vh - 500px);
+    }
+    @media screen and (max-width: 768px) {
+      max-height: calc(100vh - 570px);
+    }
     overflow: auto;
     max-height: calc(100vh - 270px);
     .view-message {
