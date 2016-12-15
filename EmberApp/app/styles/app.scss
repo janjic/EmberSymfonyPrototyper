@@ -37,6 +37,10 @@ $ember-power-select-border-radius: 0;
     }
   }
 }
+
+.Searchable-select__label {
+  height: 34px;
+}
 @import 'ember-power-select/themes/bootstrap';
 @import 'ember-power-select';
 @import "ember-searchable-select/style";
@@ -1320,14 +1324,22 @@ header {
 .ticket-info {
   padding: 15px;
   border: 1px solid $grayish;
-  background: $grayish;
   margin-bottom: 30px;
+  height: 150px;
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 }
 .user-info {
   padding: 15px;
   border: 1px solid $grayish;
-  background: $grayish;
   margin-bottom: 30px;
+  height: 150px;
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 }
 .ticket-messages {
   .user-img {
@@ -2345,7 +2357,7 @@ input:focus {
   .message-list-body {
     max-height: calc(100vh - 180px);
     overflow: auto;
-    @media screen and (max-width: 1420px) {
+    @media screen and (max-width: 768px) {
       max-height: calc(100vh - 800px);
     }
     .conversation-item {
