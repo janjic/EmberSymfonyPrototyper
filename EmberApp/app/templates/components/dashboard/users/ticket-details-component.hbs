@@ -78,37 +78,38 @@
                     <span>{{moment-from-now model.createdAt hideSuffix=false interval=5000}}</span>
                 </div>
             </article>
-            {{#if model.thread }}
-                {{#each model.thread.messages as |message|}}
-                    {{# if (eq message.sender.id currentUser.user.id) }}
-                        <article>
-                            <div class="admin-comment col-xs-12 col-sm-8 ">
-                                <div class="username username-admin">
-                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
-                                    <h4>{{message.sender.fullName}}</h4>
-                                </div>
-                                <div class="admin-message clearfix">
-                                    <p>{{message.body}}</p>
-                                </div>
-                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                            </div>
-                        </article>
-                    {{else}}
-                        <article>
-                            <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
-                                <div class="username text-right">
-                                    <h4>{{message.sender.fullName}}</h4>
-                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
-                                </div>
-                                <div class="user-message clearfix">
-                                    <p>{{message.body}}</p>
-                                </div>
-                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                            </div>
-                        </article>
-                    {{/if}}
-                {{/each}}
-            {{/if}}
+            {{messages/sent-message thread=selectedThread}}
+            {{!--{{#if model.thread }}--}}
+                {{!--{{#each model.thread.messages as |message|}}--}}
+                    {{!--{{# if (eq message.sender.id currentUser.user.id) }}--}}
+                        {{!--<article>--}}
+                            {{!--<div class="admin-comment col-xs-12 col-sm-8 ">--}}
+                                {{!--<div class="username username-admin">--}}
+                                    {{!--<img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">--}}
+                                    {{!--<h4>{{message.sender.fullName}}</h4>--}}
+                                {{!--</div>--}}
+                                {{!--<div class="admin-message clearfix">--}}
+                                    {{!--<p>{{message.body}}</p>--}}
+                                {{!--</div>--}}
+                                {{!--<span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>--}}
+                            {{!--</div>--}}
+                        {{!--</article>--}}
+                    {{!--{{else}}--}}
+                        {{!--<article>--}}
+                            {{!--<div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">--}}
+                                {{!--<div class="username text-right">--}}
+                                    {{!--<h4>{{message.sender.fullName}}</h4>--}}
+                                    {{!--<img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">--}}
+                                {{!--</div>--}}
+                                {{!--<div class="user-message clearfix">--}}
+                                    {{!--<p>{{message.body}}</p>--}}
+                                {{!--</div>--}}
+                                {{!--<span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>--}}
+                            {{!--</div>--}}
+                        {{!--</article>--}}
+                    {{!--{{/if}}--}}
+                {{!--{{/each}}--}}
+            {{!--{{/if}}--}}
         </section>
         <div class="send-message-mobile">
             <div class="row">
