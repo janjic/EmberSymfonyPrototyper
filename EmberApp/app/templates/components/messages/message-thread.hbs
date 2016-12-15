@@ -14,7 +14,7 @@
                                 <div class="admin-comment">
                                     <div class="admin-message clearfix">
                                         <p>{{message.body}}</p>
-                                        <span>5 days ago - {{currentUser.user.id}}</span>
+                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     </div>
                                     <div class="username username-admin">
                                         <div class="img-holder">
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="user-message clearfix">
                                         <p>{{message.body}}</p>
-                                        <span>5 days ago</span>
+                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     </div>
                                 </div>
                             {{/if}}
