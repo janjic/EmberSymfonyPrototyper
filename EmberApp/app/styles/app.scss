@@ -1161,25 +1161,7 @@ header {
   color: $white;
   text-align: justify;
 }
-.send-message-mobile {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  background: $white;
-  padding-top: 15px;
-  right: 45px;
-  textarea {
-    resize: vertical;
-    margin-bottom: 15px;
-  }
-  i {
-    display: none;
-    cursor: pointer;
-  }
-  .fa-paperclip {
-    right: 55px;
-  }
-}
+
 @media screen and(max-width: 769px) {
   .insert-avatar-container {
     position: relative;
@@ -2588,6 +2570,13 @@ input:focus {
       z-index: 20;
       right: 130px;
       top: 11px;
+    }
+    .file-attached {
+      background-color: #c0392b;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      top: 5px;
     }
   }
 
