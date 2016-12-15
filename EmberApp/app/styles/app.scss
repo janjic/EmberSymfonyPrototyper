@@ -2292,18 +2292,6 @@ input:focus {
   }
 }
 
-
-/* Boring body Style */
-body{
-  font-family:Helvetica;
-}
-
-.wrapper{
-  text-align:center;
-}
-
-
-
 /* Let's do some animations! */
 
 @keyframes pop{
@@ -2386,6 +2374,10 @@ body{
       .img-holder {
         height: 80px !important;
         margin-right: 15px;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .content {
         display: flex;
@@ -2444,14 +2436,14 @@ body{
   }
   .message-body {
     overflow: auto;
-    max-height: calc(100vh - 370px);
+    max-height: calc(100vh - 270px);
     .view-message {
       .messages {
         margin-bottom: 0;
         .user-comment {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-start;
           width: 100%;
           padding: 15px;
           span {
@@ -2470,6 +2462,7 @@ body{
             margin-right: 15px;
             .img-holder {
               width: 50px !important;
+              height: 50px !important;
             }
             h4 {
               margin: 0;
@@ -2481,7 +2474,7 @@ body{
         .admin-comment {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           width: 100%;
           padding: 15px;
           .admin-message {
@@ -2525,11 +2518,49 @@ body{
     border-top: 1px solid #ddd;
     background-color: whitesmoke;
     padding: 15px;
-    .input-group-addon {
-      background-color: #56b699;
-      color: #fff;
+    .input-group {
+      .dropzone-holder {
+        padding: 15px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        position: absolute;
+        bottom: 33px;
+        right: 127px;
+        transition-property: opacity,top;
+        transition-duration: 0.4s;
+        animation: pop .5s forwards;
+        box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.5);
+        width: 50%;
+        z-index: 999;
+        &:after {
+          content: "";
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 10px 10px 0 10px;
+          border-color: #ddd transparent transparent transparent;
+          position: absolute;
+          right: 0;
+          bottom: -10px;
+        }
+      }
+    }
+    i {
+      display: block;
       cursor: pointer;
+      position: absolute;
+      z-index: 20;
+      right: 130px;
+      top: 11px;
     }
   }
 
+}
+
+.input-span-addon {
+  position: absolute;
+  right: 20px;
+  bottom: 6px;
+  font-size: 12px;
+  color: #333;
 }
