@@ -37,6 +37,7 @@ validation:
 general:
   email: 'Email'
 
+
 # ADMIN MENU ITEMS
 
 admin-menu:
@@ -72,6 +73,7 @@ admin-menu:
     trash: 'Trash'
   settings:
     title: 'Settings'
+    my-settings: 'My settings'
     groups: 'Manage groups'
     roles: 'Manage roles'
 
@@ -251,3 +253,27 @@ models:
   message:
     save: 'Group sent!'
     unsupported.file.type: 'Current file type is not supported!'
+
+#SETTINGS
+
+settings:
+  labels:
+    facebook-link: 'Facebook link'
+    twitter-link: 'Twitter link'
+    confirmation-mail: 'Confirmation mail'
+    paypal: 'Paypal'
+    easycall: 'Easycall'
+    gplus-link: 'Google Plus link'
+    commissions: 'Commissions'
+    bonuses: 'Bonuses'
+    referral: 'Referral'
+    setup-fee: 'Setup fee'
+    packages: 'Packages'
+    connect: 'Connect'
+    stream: 'Stream'
+    active-agents: 'Active agents'
+    amount-chf: 'Amount - CHF'
+    amount-eur: 'Amount - EUR'
+    number-of-customers: 'Number of customers > xy'
+    for-period-less: 'For period of time less than'
+    month(s): 'month(s)'

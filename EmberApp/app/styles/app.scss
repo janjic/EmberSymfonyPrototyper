@@ -2292,18 +2292,6 @@ input:focus {
   }
 }
 
-
-/* Boring body Style */
-body{
-  font-family:Helvetica;
-}
-
-.wrapper{
-  text-align:center;
-}
-
-
-
 /* Let's do some animations! */
 
 @keyframes pop{
@@ -2567,4 +2555,12 @@ body{
     }
   }
 
+}
+
+.input-span-addon {
+  position: absolute;
+  right: 20px;
+  bottom: 6px;
+  font-size: 12px;
+  color: #333;
 }

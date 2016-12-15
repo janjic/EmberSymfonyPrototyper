@@ -23,6 +23,7 @@ Router.map(function() {
         this.route('settings', function() {
           this.route('manage-user-groups');
           this.route('manage-roles');
+          this.route('my-settings');
         });
         this.route('payments', function() {
             this.route('purchase-details');
