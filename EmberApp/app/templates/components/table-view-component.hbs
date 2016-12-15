@@ -20,12 +20,16 @@
                     <td>{{table-view-formatter-helper colModel.formatter (get m colModel.value)}}</td>
                 {{/each}}
                 <td>
-                    {{#link-to viewLink m.id class="table-user-link"}}
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                    {{/link-to}}
-                    {{#link-to editLink m.id class="table-user-link"}}
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    {{/link-to}}
+                    {{# if viewLink }}
+                        {{#link-to viewLink m.id class="table-user-link"}}
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        {{/link-to}}
+                    {{/if}}
+                    {{# if editLink }}
+                        {{#link-to editLink m.id class="table-user-link"}}
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        {{/link-to}}
+                    {{/if}}
                 </td>
             </tr>
         {{/each}}

@@ -12,12 +12,12 @@ export default Model.extend({
 
 
     otherParticipant: Ember.computed('createdBy', 'participants', function () {
-        let parts = this.get('participants').filter((item) => {
+        return this.get('participants').find((item) => {
             return item.id !== this.get('createdBy').get('id');
         });
+    }),
 
-        console.log(parts);
-
-        return parts;
+    firstMessage: Ember.computed('messages', 'participants', function () {
+        return this.get('messages').get('firstObject');
     })
 });

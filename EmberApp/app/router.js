@@ -62,7 +62,7 @@ Router.map(function() {
 
         this.route('users', function() {
             this.route('all-tickets');
-            this.route('ticket-details');
+            this.route('ticket-details', {path: '/ticket-details/:id'});
             this.route('user-view', {path: '/user-view/:id'});
             this.route('users-customers');
             this.route('users-all');

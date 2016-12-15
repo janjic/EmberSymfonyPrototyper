@@ -74,13 +74,14 @@ class MessageManager implements JSONAPIEntityManagerInterface
      */
     public function deserializeMessage($content, $mappings = null)
     {
-        $relations = array('sender', 'participants', 'file');
+        $relations = array('sender', 'thread', 'participants', 'file');
         if (!$mappings) {
             $mappings = array(
                 'message'      => array('class' => Message::class, 'type'=>'messages'),
                 'sender'       => array('class' => Agent::class, 'type'=>'agents'),
                 'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
                 'file'         => array('class' => File::class, 'type'=>'files'),
+                'thread'       => array('class' => Thread::class, 'type'=>'threads'),
             );
         }
 
@@ -94,7 +95,7 @@ class MessageManager implements JSONAPIEntityManagerInterface
      */
     public function serializeMessage($content, $mappings = null)
     {
-        $relations = array('thread', 'file');
+        $relations = array('sender', 'thread', 'file');
         if (!$mappings) {
             $mappings = array(
                 'message' => array('class' => Message::class, 'type'=>'messages'),

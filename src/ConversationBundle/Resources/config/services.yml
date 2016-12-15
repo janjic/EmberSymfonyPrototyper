@@ -57,6 +57,7 @@ services:
             repository: "@agent_system.ticket.repository"
             fSerializer: "@f_serializer"
             agentManager: "@agent_system.agent.manager"
+            tokenStorage: "@security.token_storage"
 
     agent_system.ticket.adapter:
         class: ConversationBundle\Adapter\Ticket\TicketAdapter

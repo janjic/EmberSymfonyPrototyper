@@ -7,5 +7,9 @@ export default Ember.Controller.extend({
         threadSelected (thread) {
             this.set('selectedThread', thread);
         },
+
+        createMessage(hash) {
+            return this.get('store').createRecord('message', hash);
+        }
     }
 });
