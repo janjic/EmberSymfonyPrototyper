@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import LoadingStateMixin from '../../../mixins/loading-state';
+const {Translator, ApiCode }= window;
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Component.extend(LoadingStateMixin, {
@@ -33,7 +34,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     }
                     this.disableLoader();
                 });
-            })
+            });
         },
         replyToTicket(){
             let threadObj = null;

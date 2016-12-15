@@ -25,6 +25,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             ticket.set('type', this.ticketType);
             let changeset = this.get('changeset');
             changeset.validate();
+            console.log(ticket.get('file.name'));
             if(changeset.get('isValid')) {
                 this.showLoader('loading.sending.data');
                 ticket.save().then(() => {
@@ -47,7 +48,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     });
                 });
             }
-
         },
         /** validations */
         reset(changeset) {
@@ -55,6 +55,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);
+        },
+        addedFile (file) {
+            this.set('model.file.name', file.name);
+            let reader = new FileReader();
+            let $this = this;
+            reader.onloadend = function () {
+                let fileBase64 = reader.result;
+                $this.set('model.file.base64Content', fileBase64);
+            };
+            reader.readAsDataURL(file);
+        },
+        removedFile() {
+            this.set('model.file.name', null);
+            this.set('model.file.base64Content', null);
         },
     },
 });

@@ -24,10 +24,12 @@
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Status</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.status}}</p></div>
                     </div>
-                    {{!--<div class="group">--}}
-                    {{!--<div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Order</strong></p></div>--}}
-                    {{!--<div class="col-md-6 col-sm-6 col-xs-12"><p>#1001</p></div>--}}
-                    {{!--</div>--}}
+                    {{#if model.file.webPath}}
+                        <div class="group">
+                            <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>File</strong></p></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12"><a href="{{model.file.webPath}}" target="_blank">{{model.file.name}}</a></div>
+                        </div>
+                    {{/if}}
                 </div>
             </div>
             {{inf-select

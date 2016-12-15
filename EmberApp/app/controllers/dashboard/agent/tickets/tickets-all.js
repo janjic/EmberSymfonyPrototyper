@@ -15,8 +15,7 @@ export default Ember.Controller.extend({
             {value: 'type', compare:'eq', compareValues: [{name: Translator.trans('models.ticket.all'), value: -1}, {name: Translator.trans('models.ticket.types.bug.report'), value: 'BUG_REPORT'}, {name: Translator.trans('models.ticket.types.wrong.order'), value: 'WRONG_ORDER'}, {name: Translator.trans('models.ticket.types.order.inquiry'), value: 'ORDER_INQUIRY'}]},
             {value: 'status', compare:'eq', compareValues: [{name: Translator.trans('models.ticket.all'), value: -1}, {name: Translator.trans('models.ticket.status.new'), value: 'NEW'}, {name: Translator.trans('models.ticket.status.active'), value: 'ACTIVE'}, {name: Translator.trans('models.ticket.status.resolved'), value: 'RESOLVED'}]},
             {value: 'createdAt', compare:'cn', formatter: function (value) {
-            console.log(value);
-                return '';
+                return value.split('.')[0];
             }}
         ];
     }),

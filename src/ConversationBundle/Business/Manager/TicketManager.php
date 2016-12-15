@@ -15,6 +15,7 @@ use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
@@ -49,15 +50,22 @@ class TicketManager implements JSONAPIEntityManagerInterface
     protected $agentManager;
 
     /**
+     * @var TokenStorage $tokenStorage
+     */
+    protected $tokenStorage;
+
+    /**
      * @param TicketRepository $repository
      * @param FJsonApiSerializer $fSerializer
      * @param AgentManager $agentManager
+     * @param TokenStorage $tokenStorage
      */
-    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager)
+    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager, TokenStorage $tokenStorage)
     {
         $this->repository   = $repository;
         $this->fSerializer  = $fSerializer;
         $this->agentManager = $agentManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
 
@@ -112,5 +120,13 @@ class TicketManager implements JSONAPIEntityManagerInterface
     public function getAgentById($id)
     {
         return $this->agentManager->findAgentById($id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 }

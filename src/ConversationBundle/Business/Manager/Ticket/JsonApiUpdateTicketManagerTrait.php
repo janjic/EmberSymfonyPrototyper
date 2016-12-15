@@ -42,9 +42,11 @@ trait JsonApiUpdateTicketManagerTrait
          */
         if(!is_null($ticket->getForwardedTo())){
             if($ticket->getForwardedTo()->getId() == $ticket->getCreatedBy()->getId()){
-                $ticket = new Exception('Author and Recipient can not be the same');
-                return $ticket;
+                $ticket = new Exception('Author and recipient can not be the same');
+            } else if($ticket->getForwardedTo()->getId() == $this->getCurrentUser()->getId()){
+                $ticket = new Exception('Can not set self as recipient');
             }
+            return $ticket;
         }
 
         /**
