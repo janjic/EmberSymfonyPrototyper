@@ -52,8 +52,14 @@
         </div>
         <div class="send-message-mobile">
             <div class="input-group">
-                {{input type="text" value=messageBody class="form-control" placeholder="Message"}}
-                <button class="input-group-addon" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+                {{input type="text" value=messageBody class="form-control" placeholder="Enter your message"}}
+                <i class="fa fa-paperclip" {{action 'toggleAttachDropzone'}}></i>
+                <div class="dropzone-holder" hidden={{hideAttachDropzone}}>
+                    {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
+                </div>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+                </span>
             </div>
         </div>
     </div>

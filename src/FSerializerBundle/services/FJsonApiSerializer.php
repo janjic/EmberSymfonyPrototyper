@@ -191,11 +191,17 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      * @param array $mappings
      * @param $relations
      * @param array $disabledAttributes
-     * @return JsonApiDocument
+     * @return JsonApiDocument|array
      * @throws Exception
      */
     public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
     {
+        if (is_null($data)) {
+            return new JsonApiDocument(new JsonApiOne(null, $this));
+        }
+        if (is_array($data) && empty($data)) {
+            return new JsonApiDocument(new JsonApiMany(array(), $this));
+        }
 
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
         //Make sure object is not proxy

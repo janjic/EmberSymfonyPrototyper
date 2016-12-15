@@ -117,9 +117,9 @@ class ThreadManager implements JSONAPIEntityManagerInterface
                 $threads = $this->repository->getSentThreads($currentUser, $request->query->get('page'), $perPage);
                 $totalItems = $this->repository->getSentThreads($currentUser, null, null, true)[0][1];
                 break;
-            case 'inbox':
-                $threads = $this->messageProvider->getInboxThreads();
-                $totalItems = 0;
+            case 'received':
+                $threads = $this->repository->getInboxThreads($currentUser, $request->query->get('page'), $perPage);
+                $totalItems = $this->repository->getInboxThreads($currentUser, null, null, true)[0][1];
                 break;
             default:
                 $threads = [];

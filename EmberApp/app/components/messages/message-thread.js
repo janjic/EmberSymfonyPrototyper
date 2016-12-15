@@ -8,8 +8,13 @@ export default Ember.Component.extend(LoadingStateMixin, {
     sendBtnDisabled: Ember.computed('messageBody', function () {
         return !(this.get('messageBody'));
     }),
+    hideAttachDropzone: true,
+    messageBodyChange: Ember.observer('messageBody', function () {
+        this.set('hideAttachDropzone', true);
+    }),
 
     currentUser: Ember.inject.service('current-user'),
+    fileTemp: null,
 
     actions:{
         sendMessage() {
@@ -18,6 +23,11 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 sender: this.get('currentUser.user'),
                 thread: this.get('thread')
             });
+
+            if (this.get('fileTemp')) {
+                let fileObj = this.get('createFileAction')(this.get('fileTemp'));
+                message.set('file', fileObj);
+            }
 
             this.showLoader();
             message.save().then(() => {
@@ -28,7 +38,23 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.processErrors(response.errors);
                 this.disableLoader();
             });
-        }
+        },
+
+        toggleAttachDropzone() {
+            this.toggleProperty('hideAttachDropzone');
+        },
+
+        addedFile (file) {
+            let reader = new FileReader();
+            this.set('fileTemp', {name: file.name});
+            reader.onloadend = () => {
+                this.set('fileTemp.base64Content', reader.result);
+            };
+            reader.readAsDataURL(file);
+        },
+        removedFile() {
+            this.set('fileTemp', null);
+        },
     },
 
     processErrors(errors) {
