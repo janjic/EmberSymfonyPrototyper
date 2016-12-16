@@ -39,25 +39,25 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                    {{#if isProfileView}}
+                        {{#if isProfileView}}
                             <select class="form-control" disabled>
                                 <option>{{changeset.superior.email}}</option>
                             </select>
-                    {{else}}
-                        {{inf-select
-                                optionLabelKey='email'
-                                selected = changeset.superior
-                                on-search = (perform search)
-                                on-change=(action 'agentSelected')
-                        }}
-                        {{#if (get changeset.error 'superior')}}
-                            <ul class="error-list">
-                                {{#each (get (get changeset.error 'superior') "validation") as |message|}}
-                                    <li>{{message}}</li>
-                                {{/each}}
-                            </ul>
+                        {{else}}
+                            {{inf-select
+                                    optionLabelKey='email'
+                                    selected = changeset.superior
+                                    on-search = (perform search)
+                                    on-change=(action 'agentSelected')
+                            }}
+                            {{#if (get changeset.error 'superior')}}
+                                <ul class="error-list">
+                                    {{#each (get (get changeset.error 'superior') "validation") as |message|}}
+                                        <li>{{message}}</li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -96,35 +96,35 @@
                     </div>
                 </div>
 
-                    {{#if isProfileView}}
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
-                                <span class="required" aria-required="true"> * </span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                {{change-password-component}}
-                            </div>
+                {{#if isProfileView}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{change-password-component}}
                         </div>
-                    {{else}}
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
-                                <span class="required" aria-required="true"> * </span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
-                                                  validateProperty=(action 'validateProperty' changeset "plainPassword")}}
-                            </div>
+                    </div>
+                {{else}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.password'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{validated-field doNotShowLabel=true property="plainPassword" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "plainPassword")}}
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-password'}}
-                                <span class="required" aria-required="true"> * </span>
-                            </label>
-                            <div class="col-md-7 col-sm-7 col-xs-12">
-                                {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
-                                                  validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
-                            </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.repeat-password'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            {{validated-field doNotShowLabel=true property="passwordRepeat" changeset=changeset type="password"
+                                              validateProperty=(action 'validateProperty' changeset "passwordRepeat")}}
                         </div>
-                    {{/if}}
+                    </div>
+                {{/if}}
 
 
                 <div class="form-group clearfix">
@@ -143,7 +143,7 @@
                     <div class="col-md-7 col-sm-7 col-xs-12">
 
                         {{validated-field doNotShowLabel=true property="emailRepeat" isDisabled=isEdit changeset=changeset type="text"
-                        validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
+                                          validateProperty=(action 'validateProperty' changeset "emailRepeat")}}
 
                     </div>
                 </div>
@@ -159,21 +159,6 @@
                     </div>
                 </div>
 
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-agent.label.status'}}</label>
-                    <div class="col-md-8 col-xs-8">
-                        <!-- Rectangular switch -->
-                        <label class="switch">
-                            {{input type="checkbox" checked=changeset.enabled change=(action "statusChanged")}}
-                            <div class="slider"></div>
-                        </label>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <h3 class="sub-heading">{{trans 'admin-agent.subheading.personal-details'}}</h3>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.phone'}}
                         <span class="required" aria-required="true"> * </span>
@@ -191,6 +176,22 @@
                                           validateProperty=(action 'validateProperty' addressChangeset "phone")}}
                     </div>
                 </div>
+
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-xs-5">{{trans 'admin-agent.label.status'}}</label>
+                    <div class="col-md-7 col-xs-7">
+                        <!-- Rectangular switch -->
+                        <label class="switch">
+                            {{input type="checkbox" checked=changeset.enabled change=(action "statusChanged")}}
+                            <div class="slider"></div>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3 class="sub-heading">{{trans 'admin-agent.subheading.personal-details'}}</h3>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.street-number'}}
                         <span class="required" aria-required="true"> * </span>
@@ -315,15 +316,22 @@
                             {{trans 'button.save'}}
                         {{/if}}
 
-                        </button>
+                    </button>
                 </div>
-
-                {{#if isProfileView}}
-                    {{agent/notification-setting}}
-                    {{agent/tree-info}}
-                {{/if}}
             </div>
         </div>
+        {{#if isProfileView}}
+            <div class="row setup-content">
+                <div class="col-md-6">
+                    {{agent/notification-setting}}
+                </div>
+                <div class="col-md-6">
+                    {{agent/tree-info}}
+                </div>
+            </div>
+        {{/if}}
+
+
     </form>
 </section>
 
