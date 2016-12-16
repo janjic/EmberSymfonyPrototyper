@@ -1,7 +1,7 @@
 {{#unless doNotShowLabel }}
     <label for={{concat type "-" property}}>{{property}}</label>
 {{/unless}}
-<input  {{#if idisabled}} disabled {{/if}}
+<input  disabled={{isDisabled}}
         class="form-control"
         placeholder={{placeholder}}
         type={{type}}

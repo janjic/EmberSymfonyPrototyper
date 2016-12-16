@@ -24,7 +24,7 @@ export default Ember.Component.extend({
         if (Array.isArray(this.get('selected'))) {
             return Ember.A(this.get('selected')).includes(this.get('option'));
         } else {
-            return this.get('selected') === this.get('option');
+            return this.get('selected') && this.get('selected') === this.get('option');
         }
     }),
     tabindex: Ember.computed('isDisabled', function() {

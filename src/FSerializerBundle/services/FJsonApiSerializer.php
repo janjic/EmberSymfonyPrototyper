@@ -45,6 +45,11 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     private  $propertyAccessor;
 
+    /**
+     * @var
+     */
+    private $attributesMapping = array();
+
 
     /**
      * @var FJsonApiGenerator
@@ -78,6 +83,23 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
 
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getAttributesMapping()
+    {
+        return $this->attributesMapping;
+    }
+
+    /**
+     * @param mixed $attributesMapping
+     */
+    public function setAttributesMapping($attributesMapping)
+    {
+        $this->attributesMapping = $attributesMapping;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -100,7 +122,9 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
                     if (!$relationships) {
                         $relationships[$method] = $this->mappings[$method]['jsonApiType'];
                     }
-                    return new JsonApiRelationship(new $relationships[$method]( $relationshipInstance, $this->buildSelfInstance($method)));
+                    $relationshipOnOrMany = new $relationships[$method]( $relationshipInstance, $this->buildSelfInstance($method));
+                    $relationshipOnOrMany->attributes($this->attributesMapping);
+                    return new JsonApiRelationship($relationshipOnOrMany);
                 }
                 throw new \Exception('Method does not exist in FJsonApiSerializer');
 
@@ -146,9 +170,13 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function getAttributes($model, array $fields = null)
     {
-        $data = $this->generator->generateMapping(get_class($model));
-        $attributes =  $data['attributes'];
+        $attributes = $fields;
+        if (!$fields) {
+            $data = $this->generator->generateMapping(get_class($model));
+            $attributes =  $data['attributes'];
+        }
         $attributes = array_diff($attributes, $this->disabledAttributes);
+
         $getAttributesReturnValue = array();
         foreach ($attributes as $attribute) {
             $getAttributesReturnValue[$attribute] =   $this->propertyAccessor->getValue($model, $attribute);
@@ -178,7 +206,6 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      * @param array $mappings
      * @param $relations
      * @return $this
-     * @throws Exception
      */
     public function deserialize($data, array $mappings, $relations)
     {
@@ -191,17 +218,19 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      * @param array $mappings
      * @param $relations
      * @param array $disabledAttributes
+     * @param array $attributeMappings
      * @return JsonApiDocument
      * @throws Exception
      */
-    public function serialize($data, array $mappings, $relations, $disabledAttributes = array())
+    public function serialize($data, array $mappings, $relations, $disabledAttributes = array(), $attributeMappings = array())
     {
-
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
         //Make sure object is not proxy
         $class   =  ($isArray && count($data) || is_object($data)) ? ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data)):null;
         $this->setMappings($mappings);
         $this->setDisabledAttributes($disabledAttributes);
+        $this->setAttributesMapping($attributeMappings);
+
         if (!$this->type || !$this->deserializationClass) {
             if(!$class) {
                 throw new Exception('Please set deserialization class');
@@ -216,7 +245,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
         }
         /** @var JsonApiElementInterface $resourceClass */
         $resourceClass = $isArray ? JsonApiMany::class : JsonApiOne::class;
-        return new JsonApiDocument((new $resourceClass($data, $this))->relations($relations));
+        return new JsonApiDocument((new $resourceClass($data, $this))->attributes($attributeMappings)->relations($relations));
     }
 
     /**
