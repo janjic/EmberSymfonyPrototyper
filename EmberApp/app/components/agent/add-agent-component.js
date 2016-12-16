@@ -65,7 +65,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.disableLoader();
             if (!this.get('isProfileView')) {
                 this.toast.success(Translator.trans('models.agent.save.message'));
-                this.get('goToRoute')('dashboard.agents.all-agents');
+                if (!this.get('isEdit')) {
+                    this.get('goToRoute')('dashboard.agents.all-agents');
+                }
+
             } else {
                 this.toast.success(Translator.trans('models.agent.updated.profile'));
             }
@@ -123,7 +126,6 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
 
         saveAgent() {
-            let agent = this.get('model');
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());
