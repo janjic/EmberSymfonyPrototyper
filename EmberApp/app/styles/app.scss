@@ -2479,6 +2479,19 @@ input:focus {
           padding-right: 20px;
           .admin-message {
             margin-right: 10px;
+            .attachment-download {
+              font-size: 12px;
+              display: block;
+              color: #fff;
+              border-top: 1px solid $grayish;
+              font-style: italic;
+              &:hover {
+                color: #ccc;
+              }
+              &:focus {
+                text-decoration: none;
+              }
+            }
           }
           span {
             color: #ddd;

@@ -9,7 +9,7 @@ export default Model.extend({
     messages:       DS.hasMany('message'),
     createdAt:      attr('custom-date'),
     subject:        attr('string'),
-
+    toBeDeleted:    attr('boolean'),
 
     otherParticipant: Ember.computed('createdBy', 'participants', function () {
         return this.get('participants').find((item) => {
@@ -17,7 +17,11 @@ export default Model.extend({
         });
     }),
 
-    firstMessage: Ember.computed('messages', 'participants', function () {
-        return this.get('messages').get('firstObject');
+    messagesInverseOrder: Ember.computed('messages', function () {
+        return this.get('messages').toArray().reverse();
+    }),
+
+    firstMessage: Ember.computed('messagesInverseOrder', function () {
+        return this.get('messagesInverseOrder').get('firstObject');
     })
 });

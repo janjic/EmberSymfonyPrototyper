@@ -38,6 +38,8 @@ class Thread extends BaseThread
      */
     protected $metadata;
 
+    protected $toBeDeleted = false;
+
     /**
      * Thread constructor.
      */
@@ -53,6 +55,22 @@ class Thread extends BaseThread
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isToBeDeleted()
+    {
+        return $this->toBeDeleted;
+    }
+
+    /**
+     * @param boolean $toBeDeleted
+     */
+    public function setToBeDeleted($toBeDeleted)
+    {
+        $this->toBeDeleted = $toBeDeleted;
     }
 
 }

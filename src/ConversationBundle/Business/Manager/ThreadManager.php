@@ -2,17 +2,14 @@
 
 namespace ConversationBundle\Business\Manager;
 
+use ConversationBundle\Business\Manager\Thread\JsonApiThreadSerializationTrait;
+use ConversationBundle\Business\Manager\Thread\JsonApiUpdateThreadManagerTrait;
 use ConversationBundle\Business\Repository\ThreadRepository;
-use ConversationBundle\Entity\Message;
-use ConversationBundle\Entity\Thread;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
-use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
-use UserBundle\Entity\Document\File;
 
 /**
  * Class ThreadManager
@@ -21,6 +18,8 @@ use UserBundle\Entity\Document\File;
 class ThreadManager implements JSONAPIEntityManagerInterface
 {
     use BasicEntityManagerTrait;
+    use JsonApiUpdateThreadManagerTrait;
+    use JsonApiThreadSerializationTrait;
 
     /**
      * @var ThreadRepository
@@ -58,60 +57,13 @@ class ThreadManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-     * @param $content
-     * @param null $mappings
-     * @return mixed
-     */
-    public function deserializeThread($content, $mappings = null)
-    {
-        $relations = array('sender', 'participants');
-        if (!$mappings) {
-            $mappings = array(
-                'thread' => array('class' => Thread::class, 'type'=>'threads'),
-                'messages' => array('class' => Message::class, 'type'=>'messages'),
-            );
-        }
-
-        return $this->fSerializer->setDeserializationClass(Thread::class)->deserialize($content, $mappings, $relations);
-    }
-
-    /**
-     * @param $content
-     * @param array $metaTags
-     * @param null $mappings
-     * @return mixed
-     */
-    public function serializeThread($content, $metaTags = [], $mappings = null)
-    {
-        $relations = array('createdBy', 'messages', 'participants', 'messages.file', 'messages.sender');
-        if (!$mappings) {
-            $mappings = array(
-                'thread'       => array('class' => Thread::class, 'type'=>'threads'),
-                'messages'     => array('class' => Message::class, 'type'=>'messages'),
-                'file'         => array('class' => File::class, 'type'=>'files'),
-                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
-                'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
-                'sender'       => array('class' => Agent::class, 'type'=>'agents'),
-            );
-        }
-
-        $serialize = $this->fSerializer->setDeserializationClass(Thread::class)->serialize($content, $mappings, $relations);
-
-        foreach ($metaTags as $key=>$meta) {
-            $serialize->addMeta($key, $meta);
-        }
-
-        return $serialize->toArray();
-    }
-
-    /**
      * @param $request
      * @return mixed
      */
     public function getQueryResult($request)
     {
         $perPage = $request->query->get('per_page');
-        $currentUser = $this->tokenStorage->getToken()->getUser();
+        $currentUser = $this->getCurrentUser();
         switch ($request->query->get('type')) {
             case 'sent':
                 $threads = $this->repository->getSentThreads($currentUser, $request->query->get('page'), $perPage);
@@ -121,6 +73,10 @@ class ThreadManager implements JSONAPIEntityManagerInterface
                 $threads = $this->repository->getInboxThreads($currentUser, $request->query->get('page'), $perPage);
                 $totalItems = $this->repository->getInboxThreads($currentUser, null, null, true)[0][1];
                 break;
+            case 'deleted':
+                $threads = $this->repository->getDeletedThreads($currentUser, $request->query->get('page'), $perPage);
+                $totalItems = $this->repository->getDeletedThreads($currentUser, null, null, true)[0][1];
+                break;
             default:
                 $threads = [];
                 $totalItems = 0;
@@ -128,6 +84,14 @@ class ThreadManager implements JSONAPIEntityManagerInterface
         }
 
         return $this->serializeThread($threads, ['total_pages'=>ceil($totalItems / $perPage)]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return  $this->tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -146,15 +110,6 @@ class ThreadManager implements JSONAPIEntityManagerInterface
     public function saveResource($data)
     {
         // TODO: Implement saveResource() method.
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    public function updateResource($data)
-    {
-        // TODO: Implement updateResource() method.
     }
 
     /**

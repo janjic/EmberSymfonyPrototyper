@@ -4,17 +4,23 @@
             <div class="message-active"></div>
             <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
             <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
+            <button {{action 'deleteThread'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
         <div class="message-body">
             <section class="view-message">
                 <section class="messages clearfix">
-                    {{#each thread.messages as |message|}}
+                    {{#each thread.messagesInverseOrder as |message|}}
                         <article>
                             {{#if (eq message.sender.id currentUser.user.id)}}
                                 <div class="admin-comment">
                                     <div class="admin-message clearfix">
                                         <p>{{message.body}}</p>
                                         <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                                        {{#if message.file}}
+                                            <a href="{{message.file.webPath}}" class="attachment-download" download="">
+                                                <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
+                                            </a>
+                                        {{/if}}
                                     </div>
                                     <div class="username username-admin">
                                         <div class="img-holder">

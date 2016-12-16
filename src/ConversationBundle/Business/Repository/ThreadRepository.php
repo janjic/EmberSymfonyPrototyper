@@ -2,11 +2,10 @@
 
 namespace ConversationBundle\Business\Repository;
 
-use ConversationBundle\Entity\Message;
+use ConversationBundle\Entity\Thread;
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use Exception;
-use FOS\MessageBundle\Model\MessageInterface;
 use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
@@ -86,5 +85,59 @@ class ThreadRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function getDeletedThreads(ParticipantInterface $participant, $page = 1 , $offset = 20, $isCountSearch = false)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS)
+            ->innerJoin(self::ALIAS.'.metadata', 'tm')
+            ->innerJoin('tm.participant', 'p')
 
+            // the participant is in the thread participants
+            ->andWhere('p.id = :user_id')
+            ->setParameter('user_id', $participant->getId())
+
+            // the thread is deleted by this participant
+            ->andWhere('tm.isDeleted = :isDeleted')
+            ->setParameter('isDeleted', true, \PDO::PARAM_BOOL)
+
+            // sort by date of last message
+            ->orderBy('tm.lastMessageDate', 'DESC');
+
+        if ($isCountSearch) {
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
+        } else {
+            $qb->setFirstResult(($page - 1) * $offset)->setMaxResults($offset);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param Thread $thread
+     * @return Thread|Exception
+     */
+    public function editThread($thread)
+    {
+        try {
+            $this->_em->merge($thread);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+
+        return $thread;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findThread($id)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, 'meta');
+        $qb->leftJoin(self::ALIAS.'.metadata', 'meta');
+        $qb->where(self::ALIAS.'.id =:id')->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

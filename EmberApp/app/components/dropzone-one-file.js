@@ -2,6 +2,9 @@ import Ember from 'ember';
 import EmberDropzone from 'ui-dropzone/components/drop-zone';
 const {Dropzone} = window;
 export default EmberDropzone.extend({
+
+    eventBus: Ember.inject.service('event-bus'),
+
     loadPreExistingFiles() {
         let file = this.get('currentImage');
         if (file) {
@@ -44,4 +47,20 @@ export default EmberDropzone.extend({
 
         });
     },
+
+
+    onEmptyDropzone: function() {
+        let dropZone = this.get('dropzone');
+        for(let i = 0; i < dropZone.files.length; i++) {
+            dropZone.removeFile(dropZone.files[i]);
+        }
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('emptyDropzone', this, 'onEmptyDropzone');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('emptyDropzone');
+    })
 });

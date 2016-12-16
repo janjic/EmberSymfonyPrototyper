@@ -251,7 +251,8 @@ models:
       active: 'Active'
       resolved: 'Resolved'
   message:
-    save: 'Group sent!'
+    save: 'Message sent!'
+    delete: 'Message deleted'
     unsupported.file.type: 'Current file type is not supported!'
 
 #SETTINGS

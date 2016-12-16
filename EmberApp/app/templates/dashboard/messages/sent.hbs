@@ -7,13 +7,18 @@
                     {{#link-to 'dashboard.messages.create-message' class='pull-right btn-floating'}} <i class="fa fa-plus"></i> {{/link-to}}
                 </div>
                 <div class="message-list-body" id="side-messages">
-                    {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected')}}
+                    {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected') selectedThread=selectedThread}}
                     {{infinity-loader infinityModel=model scrollable="#side-messages" loadingText="..." loadedText=''}}
                 </div>
             </div>
         </div>
         <div class="col-md-8">
-            {{messages/message-thread thread=selectedThread createMessageAction=(action 'createMessage') createFileAction = (action 'createFile')}}
+            {{messages/message-thread
+                thread=selectedThread
+                createMessageAction=(action 'createMessage')
+                createFileAction = (action 'createFile')
+                deleteThreadAction=(action 'deleteThread')
+            }}
         </div>
     </div>
 </div>

@@ -51,13 +51,10 @@ Router.map(function() {
 
         this.route('messages', function() {
             this.route('create-message');
-            this.route('drafts');
-            this.route('create-message-edit');
             this.route('received-messages');
             this.route('sent');
-            this.route('sent-messages');
             this.route('trash');
-            this.route('view-message');
+            this.route('drafts');
         });
 
         this.route('users', function() {
@@ -74,13 +71,10 @@ Router.map(function() {
             this.route('home');
             this.route('messages', function() {
                 this.route('create-message');
-                this.route('create-message-edit');
-                this.route('drafts');
                 this.route('received-messages');
                 this.route('sent');
-                this.route('sent-messages');
                 this.route('trash');
-                this.route('view-message');
+                this.route('drafts');
             });
             this.route('profile', function() {
                 this.route('profile-settings');

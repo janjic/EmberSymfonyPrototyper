@@ -14,11 +14,6 @@ export default Ember.Controller.extend({
 
         createFile(hash) {
             return this.get('store').createRecord('file', hash);
-        },
-
-        deleteThread(thread) {
-            this.set('selectedThread', null);
-            this.get('model').removeObject(thread);
         }
     }
 });

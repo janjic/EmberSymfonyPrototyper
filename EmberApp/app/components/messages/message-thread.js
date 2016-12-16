@@ -14,6 +14,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
     }),
 
     currentUser: Ember.inject.service('current-user'),
+    eventBus: Ember.inject.service('event-bus'),
     fileTemp: null,
 
     actions:{
@@ -33,6 +34,23 @@ export default Ember.Component.extend(LoadingStateMixin, {
             message.save().then(() => {
                 this.toast.success('models.message.save');
                 this.set('messageBody', null);
+                this.set('fileTemp', null);
+                this.get('eventBus').publish('emptyDropzone');
+                this.disableLoader();
+            }, (response) => {
+                this.processErrors(response.errors);
+                this.disableLoader();
+            });
+        },
+
+        deleteThread() {
+            let thread = this.get('thread');
+            thread.set('toBeDeleted', true);
+            this.showLoader();
+
+            thread.save().then(() => {
+                this.toast.success('models.message.delete');
+                this.get('deleteThreadAction')(thread);
                 this.disableLoader();
             }, (response) => {
                 this.processErrors(response.errors);
