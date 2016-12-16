@@ -18,15 +18,18 @@ export default Ember.Component.extend(LoadingStateMixin, {
         }
 
         this.showLoader();
-        var newParentPromise = this.get('store').findRecord('agent', newParentId);
-        var agentPromise = this.get('store').findRecord('agent', elementId);
+        let newParentPromise = this.get('store').findRecord('agent', newParentId);
+        let agentPromise = this.get('store').findRecord('agent', elementId);
 
         Ember.RSVP.allSettled([newParentPromise, agentPromise]).then(([npPromise, agPromise]) => {
             let newParent = npPromise.value;
             let agent = agPromise.value;
 
             agent.set('superior', newParent);
-            agent.save().then(() => {
+            agent.save({adapterOptions: {
+                isGenerologyTree: true
+            }
+            }).then(() => {
                 this.toast.success('Agent saved!');
                 this.disableLoader();
             }, () => {
@@ -52,7 +55,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             headers: { 'Authorization': accessToken }
         });
 
-        var ajaxURLs = {
+        let ajaxURLs = {
             'children': function(nodeData) {
                 return Routing.generate('api_orgchart_agents', {'parentId': nodeData.id});
             }
@@ -68,13 +71,13 @@ export default Ember.Component.extend(LoadingStateMixin, {
             'depth': 2,
             'toggleSiblingsResp': true,
             'createNode': ($node, data) => {
-                var secondMenuIcon = Ember.$('<i>', {
+                let secondMenuIcon = Ember.$('<i>', {
                     'class': 'fa fa-info-circle second-menu-icon',
                     hover: function() {
                         Ember.$(this).siblings('.second-menu').toggle();
                     }
                 });
-                var secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
+                let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
