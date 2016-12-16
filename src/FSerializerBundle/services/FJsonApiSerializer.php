@@ -119,7 +119,7 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
                     $data = $this->generator->generateMapping(get_class($object));
                     $relationshipInstance = $this->propertyAccessor->getValue($object,$method);
                     $relationships =  $data['relationships'];
-                    if (!$relationships) {
+                    if (!$relationships || !array_key_exists($method, $relationships)) {
                         $relationships[$method] = $this->mappings[$method]['jsonApiType'];
                     }
                     $relationshipOnOrMany = new $relationships[$method]( $relationshipInstance, $this->buildSelfInstance($method));

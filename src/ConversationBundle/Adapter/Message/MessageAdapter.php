@@ -1,11 +1,11 @@
 <?php
 
 namespace ConversationBundle\Adapter\Message;
+
 use ConversationBundle\Business\Manager\MessageManager;
 use CoreBundle\Adapter\BaseAdapter;
 use CoreBundle\Adapter\BasicConverter;
 use Symfony\Component\HttpFoundation\Request;
-
 
 /**
  * Class MessageAdapter

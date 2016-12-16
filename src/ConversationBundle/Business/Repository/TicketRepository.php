@@ -17,6 +17,10 @@ class TicketRepository extends EntityRepository
     use BasicEntityRepositoryTrait;
 
     const ALIAS = 'ticket';
+    const JOIN_WITH_AUTHOR = 'createdBy';
+    const JOIN_WITH_RECIPIENT = 'forwardedTo';
+    const JOIN_WITH_THREAD = 'thread';
+    const JOIN_WITH_FILE = 'file';
 
     /**
      * @param Ticket $ticket
@@ -33,22 +37,42 @@ class TicketRepository extends EntityRepository
 
         return $ticket;
     }
-//
-//    /**
-//     * @param Message $message
-//     * @return Message|Exception
-//     */
-//    public function editMessage($message)
-//    {
-//        try {
-//            $this->_em->merge($message);
-//            $this->_em->flush();
-//        } catch (Exception $e) {
-//            return $e;
-//        }
-//
-//        return $message;
-//    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findTicketById($id)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS);
+        $qb->leftJoin(self::ALIAS.'.'.self::JOIN_WITH_AUTHOR, self::JOIN_WITH_AUTHOR)
+            ->leftJoin(self::ALIAS.'.'.self::JOIN_WITH_RECIPIENT, self::JOIN_WITH_RECIPIENT)
+            ->leftJoin(self::ALIAS.'.'.self::JOIN_WITH_FILE, self::JOIN_WITH_FILE)
+            ->leftJoin(self::ALIAS.'.'.self::JOIN_WITH_THREAD, self::JOIN_WITH_THREAD);
+
+        $qb->where(self::ALIAS.'.id =:id')
+            ->setParameter('id', $id);
+        $ticket = $qb->getQuery()->getOneOrNullResult();
+
+        return $ticket;
+
+    }
+
+    /**
+     * @param Ticket $ticket
+     * @return Ticket|Exception
+     */
+    public function editTicket($ticket)
+    {
+        try {
+            $this->_em->merge($ticket);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return $ticket;
+    }
 //
 //    /**
 //     * Remove message
@@ -244,4 +268,6 @@ class TicketRepository extends EntityRepository
 //        var_dump($oQ0->getQuery()->getSQL());exit;
         return $oQ0->getQuery()->getResult();
     }
+
+
 }

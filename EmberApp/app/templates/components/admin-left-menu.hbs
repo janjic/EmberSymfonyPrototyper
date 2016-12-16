@@ -16,6 +16,11 @@
         {{#bs-accordion-item title="Settings" class="menu-settings"}}
             <ul class="table">
                 <li>
+                    {{#link-to 'dashboard.settings.my-settings' }}
+                        {{trans 'admin-menu.settings.my-settings'}}
+                    {{/link-to}}
+                </li>
+                <li>
                     {{#link-to 'dashboard.settings.manage-user-groups' }}
                         {{trans 'admin-menu.settings.groups'}}
                     {{/link-to}}

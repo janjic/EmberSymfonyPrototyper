@@ -3,7 +3,6 @@
 namespace ConversationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use FOS\MessageBundle\Model\ThreadInterface;
 use UserBundle\Entity\Agent;
 
@@ -45,7 +44,7 @@ class Ticket
 
     /**
      * @var string
-     * @ORM\Column(name="created_at", type="date", length=255, nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", length=255, nullable=true)
      */
     protected $createdAt;
 
