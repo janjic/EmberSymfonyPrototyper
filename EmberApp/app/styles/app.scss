@@ -1,6 +1,64 @@
 $ember-power-select-border-color: #64A5ED;
 $ember-power-select-border-radius: 0;
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 .Searchable-select-infinite {
   .Searchable-select__options-list-scroll-wrapper {
     max-height: 300px;
@@ -196,6 +254,10 @@ img {
 
 button {
   outline: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: $Rubik;
 }
 
 h3 {
@@ -1157,25 +1219,7 @@ header {
   color: $white;
   text-align: justify;
 }
-.send-message-mobile {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  background: $white;
-  padding-top: 15px;
-  right: 45px;
-  textarea {
-    resize: vertical;
-    margin-bottom: 15px;
-  }
-  i {
-    display: none;
-    cursor: pointer;
-  }
-  .fa-paperclip {
-    right: 55px;
-  }
-}
+
 @media screen and(max-width: 769px) {
   .insert-avatar-container {
     position: relative;
@@ -2318,6 +2362,7 @@ input:focus {
   transition-duration: 0.4s;
   animation: pop .5s forwards;
   box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.5);
+  margin-bottom: 30px;
   .message-list-header {
     padding: 15px;
     background-color: #c0392b;
@@ -2358,6 +2403,9 @@ input:focus {
   .message-list-body {
     max-height: calc(100vh - 180px);
     overflow: auto;
+    @media screen and (max-width: 1420px) {
+      max-height: calc(100vh - 800px);
+    }
     .conversation-item {
       display: flex;
       background-color: whitesmoke;
@@ -2378,6 +2426,7 @@ input:focus {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex: 0 0 80px;
       }
       .content {
         display: flex;
@@ -2388,14 +2437,29 @@ input:focus {
           font-size: 14px;
           font-weight: bold;
           margin: 5px 0;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
         }
         h4.subject {
           font-size: 13px;
           margin-bottom: 10px;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
         }
         h5.content-text {
           font-size: 11px;
           margin-bottom: 5px;
+          @media screen and (max-width: 1420px) {
+            margin: 0;
+          }
+          @media screen and (max-width: 1225px) {
+            display: none;
+          }
+          @media screen and (max-width: 992px) {
+            display: block;
+          }
         }
       }
     }
@@ -2403,6 +2467,12 @@ input:focus {
 }
 
 .message-full {
+  @media screen and (max-width: 992px) {
+    max-height: calc(100vh - 360px);
+  }
+  @media screen and (max-width: 768px) {
+    max-height: calc(100vh - 420px);
+  }
   border: 1px solid #ddd;
   transition-property: opacity,top;
   transition-duration: 0.4s;
@@ -2435,6 +2505,12 @@ input:focus {
     }
   }
   .message-body {
+    @media screen and (max-width: 992px) {
+      max-height: calc(100vh - 500px);
+    }
+    @media screen and (max-width: 768px) {
+      max-height: calc(100vh - 570px);
+    }
     overflow: auto;
     max-height: calc(100vh - 270px);
     .view-message {
@@ -2552,6 +2628,13 @@ input:focus {
       z-index: 20;
       right: 130px;
       top: 11px;
+    }
+    .file-attached {
+      background-color: #c0392b;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      top: 5px;
     }
   }
 

@@ -1,0 +1,12 @@
+{{inf-select
+        content=titles
+        selected = model.title
+        on-change=(action 'titleChanged')
+}}
+{{#if (get changeset.error 'title')}}
+    <ul class="error-list">
+        {{#each (get (get changeset.error 'title') "validation") as |message|}}
+            <li>{{message}}</li>
+        {{/each}}
+    </ul>
+{{/if}}

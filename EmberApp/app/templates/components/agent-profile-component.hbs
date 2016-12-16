@@ -15,10 +15,7 @@
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.title'}}</label>
                         <div class="col-md-8 col-xs-8">
-                            <select class="form-control" onchange={{ action 'titleChanged'  value="target.value"}}>
-                                {{#if (eq currentUser.user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
-                                {{#if (eq currentUser.user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
-                            </select>
+                            {{title-select model=changeset on-title-changed=(action 'titleChanged')}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -92,7 +89,6 @@
                                     </ul>
                                 </small>
                             {{/if}}
-                            {{!--{{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateAgentBirthDate') value=currentUser.user.birthDate}}--}}
 
                         </div>
                     </div>

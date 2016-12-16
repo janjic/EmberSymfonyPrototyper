@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import SearchableSelect from 'ember-searchable-select/components/searchable-select';
 import { task } from 'ember-concurrency';
+import {withoutProxies} from './../utils/proxy-helpers';
 const menuSelector = '.Searchable-select__options-list-scroll-wrapper';
 export default SearchableSelect.extend({
 
@@ -96,6 +97,9 @@ export default SearchableSelect.extend({
             } else if (this.get('multiple') && !Array.isArray(this.get('selected'))) {
                 throw new Error('passed in multiple selection must be an array');
             } else {
+                if (!withoutProxies(this.get('selected'))) {
+                    return undefined;
+                }
                 return this.get('selected');
             }
         },
@@ -254,7 +258,7 @@ export default SearchableSelect.extend({
         let component = this;
         let componentElem = this.get('element');
         component.$(window).on(`click.${component.elementId}`, function(e) {
-            if (!component.$.includes(componentElem, e.target)) {
+            if (!this.$.contains(componentElem, e.target)) {
                 component.send('hideMenu');
                 component.$('.Searchable-select__label').blur();
             }
@@ -384,11 +388,14 @@ export default SearchableSelect.extend({
         },
 
         toggleMenu() {
-            if (this.get('_isShowingMenu')) {
-                this.send('hideMenu');
-            } else {
-                this.send('showMenu');
+            if (!this.get('isDisabled')) {
+                if (this.get('_isShowingMenu')) {
+                    this.send('hideMenu');
+                } else {
+                    this.send('showMenu');
+                }
             }
+
         },
 
         selectItem(item) {
@@ -407,7 +414,7 @@ export default SearchableSelect.extend({
                 this.set('_selected', item);
             }
             if (this.get('_canChangeSelected')) {
-                this.get('on-change')(this.get('_selected'));
+                this.get('on-change')(item);
             }
 
 
@@ -476,7 +483,7 @@ export default SearchableSelect.extend({
         removeOption(option) {
             this.removeFromSelected(option);
             if (this.get('_canRemove')) {
-                this.get('on-remove')(this.get('_selected'));
+                this.get('on-remove')(option);
             }
 
         },
