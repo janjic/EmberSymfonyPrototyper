@@ -28,6 +28,7 @@ class AgentApiResponse
     const GROUP_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::GROUP_ALREADY_EXIST)));
 
     const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
+    const AGENT_INACTIVE_RESPONSE               = array('status' => AgentApiCode::AGENT_CURRENTLY_INACTIVE);
 
 
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));

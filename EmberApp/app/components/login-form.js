@@ -11,6 +11,10 @@ export default Component.extend(LoadingStateMixin,{
             this.get('session').authenticate('authenticator:oauth2', identification, password).catch((reason) => {
                 this.disableLoader();
                 this.set('errorMessage', reason.error);
+
+                Ember.run.later((()=> {
+                    this.set('errorMessage', null);
+                }), 2000);
             });
         }
     }

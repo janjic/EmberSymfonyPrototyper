@@ -31,6 +31,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
                         case ApiCode.USER_WITH_EMAIL_DOES_NOT_EXIST:
                             this.toast.error(Translator.trans('password.user.with.email.not.exist'));
                             break;
+                        case ApiCode.AGENT_CURRENTLY_INACTIVE:
+                            this.toast.success(Translator.trans('password.changed.account.inactive'));
+                            break;
                         default:
                             return;
                     }
