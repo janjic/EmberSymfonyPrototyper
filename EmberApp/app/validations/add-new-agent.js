@@ -11,8 +11,7 @@ const { Translator } = window;
 
 const { assign } = Ember;
 
-export const AddAgentValidation = {
-    emailRepeat:    validateConfirmation({on: 'email', message: Translator.trans('validations.email-repeat')}),
+ const AddAgentValidation = {
     plainPassword:  validateLength({min: 6, message: Translator.trans('validations.presence-password')}),
     passwordRepeat: validateConfirmation({on: 'plainPassword', message: Translator.trans('validations.password-repeat')}),
 };

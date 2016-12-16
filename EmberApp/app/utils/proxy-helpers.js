@@ -38,8 +38,8 @@ export function indexOfProxied(arr, object, fromIndex) {
     if (arr == null) {
         return -1;
     }
-    for (var i = fromIndex; i < arr.length; i++) {
-        var item = _itemAt(arr, i);
+    for (let i = fromIndex; i < arr.length; i++) {
+        let item = _itemAt(arr, i);
         if (isEqualProxied(item, object)) {
             return i;
         }

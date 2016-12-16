@@ -13,6 +13,7 @@ export default {
     firstName:      validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),
     lastName:       validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),
     email:          validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
+    emailRepeat:    validateConfirmation({on: 'email', message: Translator.trans('validations.email-repeat')}),
     privateEmail:   validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
     superior:       validatePresence(true),
     group:          validatePresence(true),

@@ -3,7 +3,6 @@
         <div class="col-md-12">
             <h1 class="main-heading">Ticket Details</h1>
         </div>
-        <!--<span class="pull-right"><a href="" class="btn btn-danger">Forward ticket</a></span>-->
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="ticket-info">
                 <h3 class="sub-heading">Ticket information</h3>
@@ -32,12 +31,15 @@
                     {{/if}}
                 </div>
             </div>
-            {{inf-select
-                    optionLabelKey='email'
-                    selected=model.forwardedTo
-                    on-search = (perform search)
-                    on-change=(action 'agentSelected')
-            }}
+            {{#if isAdmin}}
+                {{inf-select
+                        optionLabelKey='email'
+                        selected=model.forwardedTo
+                        on-search = (perform search)
+                        on-change=(action 'agentSelected')
+                }}
+            {{/if}}
+
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="user-info clearfix">
@@ -65,69 +67,10 @@
         </div>
     </div>
     <div class="row">
-        <section class="messages clearfix">
-            <article>
-                <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
-                    <div class="username text-right">
-                        <h4>{{model.createdBy.fullName}}</h4>
-                        <img src="{{model.createdBy.baseImageUrl}}" title="Username">
-                    </div>
-                    <div class="user-message clearfix">
-                        <p>{{model.text}}</p>
-                    </div>
-                    <span>{{moment-from-now model.createdAt hideSuffix=false interval=5000}}</span>
-                </div>
-            </article>
-            {{#if model.thread }}
-                {{#each model.thread.messages as |message|}}
-                    {{# if (eq message.sender.id currentUser.user.id) }}
-                        <article>
-                            <div class="admin-comment col-xs-12 col-sm-8 ">
-                                <div class="username username-admin">
-                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
-                                    <h4>{{message.sender.fullName}}</h4>
-                                </div>
-                                <div class="admin-message clearfix">
-                                    <p>{{message.body}}</p>
-                                </div>
-                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                            </div>
-                        </article>
-                    {{else}}
-                        <article>
-                            <div class="user-comment col-xs-12 col-sm-8 col-sm-offset-4">
-                                <div class="username text-right">
-                                    <h4>{{message.sender.fullName}}</h4>
-                                    <img src="{{message.sender.baseImageUrl}}" title="{{message.sender.fullName}}">
-                                </div>
-                                <div class="user-message clearfix">
-                                    <p>{{message.body}}</p>
-                                </div>
-                                <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                            </div>
-                        </article>
-                    {{/if}}
-                {{/each}}
-            {{/if}}
-        </section>
-        <div class="send-message-mobile">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-6 col-md-offset-6 no-padding-left-right no-border-radius">
-                    {{#if model.forwardedTo}}
-                        <textarea class="form-control" name="enter-message" placeholder="Enter Message" disabled></textarea>
-                    {{else}}
-                        {{textarea class="form-control"  name="enter-message" placeholder="Enter Message" value=replyMessage}}
-                    {{/if}}
-                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                    <i class="fa fa-paperclip" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div class="form-group clearfix text-right">
-                <div class="col-md-12 no-padding-left-right">
-                    <a href="#" class="btn btn-info ">Attach Files</a>
-                    <a href="#" class="btn btn-danger "{{action 'replyToTicket' }}>Send</a>
-                </div>
-            </div>
+        <div class="col-md-12">
+            <section class="ticket-details clearfix">
+                {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = model.forwardedTo}}
+            </section>
         </div>
     </div>
 </div>

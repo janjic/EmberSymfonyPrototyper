@@ -91,4 +91,13 @@ class GroupManager implements JSONAPIEntityManagerInterface
 
         return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
     }
+
+    /**
+     * @param $id
+     * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
+     */
+    public function getReference($id)
+    {
+        return $this->repository->getEntityReference($id);
+    }
 }

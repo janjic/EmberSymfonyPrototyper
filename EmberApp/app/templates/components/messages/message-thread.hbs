@@ -50,13 +50,17 @@
                 </section>
             </section>
         </div>
-        <div class="send-message-mobile">
-            <div class="input-group">
-                {{input type="text" value=messageBody class="form-control" placeholder="Message"}}
-                <button class="input-group-addon" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+        {{#unless disabledSendMessage}}
+            <div class="send-message-mobile">
+                <div class="input-group">
+                    {{input type="text" value=messageBody class="form-control" placeholder="Message"}}
+                    <button class="input-group-addon" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+                </div>
             </div>
-        </div>
+        {{/unless}}
     </div>
+
+
     {{#if isLoading }}
         <<div class="loader-holder">
             <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
