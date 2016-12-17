@@ -1,6 +1,8 @@
 import Ember from 'ember';
-import AgentValidations from '../../validations/add-new-agent';
+import AddAgentValidations from '../../validations/add-new-agent';
+import EditAgentValidations from '../../validations/edit-agent';
 import AddressValidations from '../../validations/address';
+import {withoutProxies} from './../../utils/proxy-helpers';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 const {ApiCode, Translator} = window;
@@ -8,13 +10,12 @@ import { task, timeout } from 'ember-concurrency';
 import LoadingStateMixin from '../../mixins/loading-state';
 
 export default Ember.Component.extend(LoadingStateMixin,{
-    AgentValidations,
-    AddressValidations,
     items: [],
     selectedTags: [],
     dateInputValid: true,
-    isEdit : Ember.computed ('changeset', function () {
-        return this.get('changeset.id');
+    currentUser: Ember.inject.service('current-user'),
+    isEdit : Ember.computed ('model', function () {
+        return this.get('model.id');
     }),
     titles: Ember.computed(function () {
        return ['MR', 'MRS'];
@@ -22,36 +23,57 @@ export default Ember.Component.extend(LoadingStateMixin,{
 
     init() {
         this._super(...arguments);
-        this._setUpEditing();
-        this.changeset = new Changeset(this.get('model'), lookupValidator(AgentValidations), AgentValidations);
-        this.addressChangeset = new Changeset(this.get('changeset.address'), lookupValidator(AddressValidations), AddressValidations);
-
+        this._setUpComponent();
 
     },
 
-    _setUpEditing() {
-        if (this.get('isEdit')) {
-            Ember.defineProperty(this.get('model'), 'emailRepeat', this.get('model.email'));
+    _setUpComponent() {
+        if (!this.get('model')) {
+            this.set('isProfileView', true);
+            this.set('model', this.get('currentUser.user'));
         }
+        if (this.get('isEdit')) {
+            this.set('model.emailRepeat', this.get('model.email'));
+            this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentValidations);
+        } else {
+            this.changeset = new Changeset(this.get('model'), lookupValidator(AddAgentValidations), AddAgentValidations);
+        }
+        this.addressChangeset = new Changeset(this.get('changeset.address'), lookupValidator(AddressValidations), AddressValidations);
     },
-
-    currentImage: null,
-
     image: Ember.Object.create({
         base64Content: null,
         name: null,
     }),
+    currentImage: null,
 
     search: task(function * (text, page, perPage) {
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);
     }),
 
+    getImage() {
+        if (this.get('changeset.image') && this.get('changeset.image.id')) {
+            return this.get('changeset.image');
+        }
+
+        return this.get('image');
+    },
+
     processResponse(promise) {
         promise.then(() => {
-            this.toast.success(Translator.trans('models.agent.save.message'));
             this.setLoadingText('loading.redirecting');
-            this.get('goToRoute')('dashboard.agents.all-agents');
+            this.disableLoader();
+            if (!this.get('isProfileView')) {
+                this.toast.success(Translator.trans('models.agent.save.message'));
+                if (!this.get('isEdit')) {
+                    this.get('goToRoute')('dashboard.agents.all-agents');
+                }
+
+            } else {
+                this.toast.success(Translator.trans('models.agent.updated.profile'));
+            }
+
+
 
         }, (response) => {
             response.errors.forEach((error)=>{
@@ -73,51 +95,52 @@ export default Ember.Component.extend(LoadingStateMixin,{
         });
     },
     actions: {
-        addNew(text) {
-
-            let newTag = {
-                id: 1,
-                email: text
-            };
-            this.get('items').addObject(newTag);
-            this.get('selectedTags').addObject(newTag);
-        },
-
         updateAgentBirthDate(date){
             this.set('changeset.birthDate', date);
             this.get('changeset').validate('birthDate');
         },
+
+        statusChanged() {
+            this.toggleProperty('changeset.enabled');
+        },
         addedFile (file) {
-            this.set('image.name', file.name);
-            let reader = new FileReader();
-            let $this = this;
-            reader.onloadend = function () {
-                let imgBase64 = reader.result;
-                console.log(imgBase64);
-                $this.set('image.base64Content', imgBase64);
-            };
-            reader.readAsDataURL(file);
+                if (!file.url) {
+                    let image = this.getImage();
+                    image.set('webPath', null);
+                    image.set('name', file.name);
+                    let reader = new FileReader();
+                    reader.onloadend = function () {
+                        let imgBase64 = reader.result;
+                        image.set('base64Content', imgBase64);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
         },
 
         removedFile() {
-            this.set('image.name', null);
-            this.set('image.base64Content', null);
+            let img = this.getImage();
+            img.set('name', null);
+            img.set('webPath', null);
+            img.set('base64Content', null);
         },
 
         saveAgent() {
-            let agent = this.get('model');
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());
-            console.log(changeSet.get('isValid'));
-            console.log(changeSet.get('errors'));
             if (validation && changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
-                let img = this.get('image');
-                if (img.get('base64Content')) {
-                    this.get('addImage')(img);
+                let img = this.getImage();
+                //WE can send image to server
+                if (!img.get('id') && ((img.get('base64Content')))) {
+                    this.get('addImage')(changeSet,img);
+                } else if (img.get('id') && !img.get('name') && !img.get('webPath') && !img.get('base64Content')) {
+                    img = withoutProxies(img);
+                    img.deleteRecord();
+                    changeSet.set('image', null);
                 }
                 this.showLoader('loading.sending.data');
-                this.processResponse(agent.save());
+                this.processResponse(changeSet.save());
             }
         },
         roleSelected(group){

@@ -85,7 +85,6 @@ class JsonApiOne implements JsonApiElementInterface
         if (count($relationships)) {
             $array['relationships'] = $relationships;
         }
-        $links = [];
         if (! empty($this->links)) {
             $links = $this->links;
         }
@@ -168,6 +167,7 @@ class JsonApiOne implements JsonApiElementInterface
     {
         $relationships = $this->getRelationships();
         $relationships = $this->convertRelationshipsToArray($relationships);
+
         return $this->mergeRelationships($relationships);
     }
 
@@ -198,6 +198,7 @@ class JsonApiOne implements JsonApiElementInterface
         foreach ($this->merged as $resource) {
             $relationships = array_replace_recursive($relationships, $resource->getRelationshipsAsArray());
         }
+
         return $relationships;
     }
 
@@ -209,7 +210,7 @@ class JsonApiOne implements JsonApiElementInterface
     public function getRelationships()
     {
         $relationships = $this->buildRelationships();
-        return $this->filterFields($relationships);
+        return $relationships;
     }
 
     /**
@@ -254,6 +255,7 @@ class JsonApiOne implements JsonApiElementInterface
         $relationships = [];
         foreach ($paths as $name => $nested) {
             $relationship = $this->serializer->getRelationship($this->data, $name);
+
             if ($relationship) {
                 $relationshipData = $relationship->getData();
                 if ($relationshipData instanceof JsonApiElementInterface) {
@@ -262,6 +264,7 @@ class JsonApiOne implements JsonApiElementInterface
                 $relationships[$name] = $relationship;
             }
         }
+
         return $this->relationships = $relationships;
     }
 

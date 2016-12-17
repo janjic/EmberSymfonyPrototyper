@@ -36,25 +36,26 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 });
             });
         },
-        replyToTicket(){
-            let threadObj = null;
-            if(!this.get('model.thread.id')){
-                threadObj = this.get('createNewThread')();
-                this.set('model.thread', threadObj);
-            }
-            let message = this.get('createNewMessage')();
-            message.set('sender', this.get('currentUser.user'));
-            message.set('body', this.get('replyMessage'));
-            this.get('model.thread.messages').pushObject(message);
-            console.log(this.get('model.thread.messages').objectAt(0));
-            console.log(this.get('model.thread.messages').objectAt(0).get('body'));
-            let thread =  this.get('model.thread');
-            thread.set('createdBy', this.get('model.createdBy'));
-            message.save().then(()=>{
-                console.log('sacuvao message');
-            }, (response) => {
-                console.log('nije');
-            });
+        createMessage(hash){
+            return this.get('createNewMessage')(hash);
+            // let threadObj = null;
+            // if(!this.get('model.thread.id')){
+            //     threadObj = this.get('createNewThread')();
+            //     this.set('model.thread', threadObj);
+            // }
+            // let message = this.get('createNewMessage')();
+            // message.set('sender', this.get('currentUser.user'));
+            // message.set('body', this.get('replyMessage'));
+            // this.get('model.thread.messages').pushObject(message);
+            // console.log(this.get('model.thread.messages').objectAt(0));
+            // console.log(this.get('model.thread.messages').objectAt(0).get('body'));
+            // let thread =  this.get('model.thread');
+            // thread.set('createdBy', this.get('model.createdBy'));
+            // message.save().then(()=>{
+            //     console.log('sacuvao message');
+            // }, (response) => {
+            //     console.log('nije');
+            // });
 
         }
     }

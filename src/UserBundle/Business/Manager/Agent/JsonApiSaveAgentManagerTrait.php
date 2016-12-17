@@ -15,6 +15,7 @@ use UserBundle\Entity\Document\Image;
  */
 trait JsonApiSaveAgentManagerTrait
 {
+    use SaveMediaTrait;
     /**
      * {@inheritdoc}
      */
@@ -46,7 +47,6 @@ trait JsonApiSaveAgentManagerTrait
         $agent = $this->deserializeAgent($data);
 
         $agent->setUsername($agent->getEmail());
-        $agent->setBirthDate(new DateTime($agent->getBirthDate()));
         $group = $this->groupManager->getEntityReference($agent->getGroup()->getId());
         /**
          * Populate agent object with relationships and image url
@@ -54,27 +54,6 @@ trait JsonApiSaveAgentManagerTrait
         $agent->setGroup($group);
 
         return $agent;
-    }
-
-    /**
-     * @param Agent $agent
-     * @return bool
-     */
-    private function saveMedia($agent)
-    {
-        /** @var Image|null $image */
-        $image = $agent->getImage();
-        if(!is_null($image)){
-            if ($image->saveToFile($image->getBase64Content())) {
-                $image->updateFileSize();
-                $agent->setBaseImageUrl($image->getWebPath());
-                return true;
-            }
-            return false;
-        }
-
-        return true;
-
     }
 
     /**

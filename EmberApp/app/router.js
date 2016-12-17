@@ -82,7 +82,7 @@ Router.map(function() {
             this.route('tickets', function() {
               this.route('tickets-all');
               this.route('new-ticket');
-              this.route('view-ticket');
+              this.route('view-ticket', {path: '/view-ticket/:id'});
               this.route('created-tickets');
             });
             this.route('reports', function() {

@@ -2,6 +2,7 @@
 
 namespace ConversationBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Model\ThreadInterface;
 use UserBundle\Entity\Agent;
@@ -55,7 +56,8 @@ class Ticket
     protected $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="Thread", inversedBy="messages")
+     * @ORM\OneToOne(targetEntity="Thread", inversedBy="messages", cascade={"persist"},)
+     * @ORM\JoinColumn(name="threadid", referencedColumnName="id", nullable=true)
      * @var ThreadInterface
      */
     protected $thread;
@@ -165,6 +167,9 @@ class Ticket
      */
     public function setCreatedAt($createdAt)
     {
+        if (!($createdAt instanceof DateTime)) {
+            $createdAt = new DateTime($createdAt);
+    }
         $this->createdAt = $createdAt;
     }
 

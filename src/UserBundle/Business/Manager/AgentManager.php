@@ -7,6 +7,7 @@ use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,6 +47,11 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      * @var GroupManager
      */
     protected $groupManager;
+
+    /**
+     * @var UserManipulator
+     */
+    protected $passwordManipulator;
 
     /**
      * @var FJsonApiSerializer $fSerializer
@@ -193,9 +199,12 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
 
-    public function deserializeAgent($content, $mappings = null, $relations = array())
+    public function deserializeAgent($content, $mappings = null, $relations = array(), $disabledAttributes = array())
     {
-        $relations = array('group', 'superior', 'image', 'address');
+
+        if (!$relations) {
+            $relations = array('group', 'superior', 'image', 'address');
+        }
 
         if(!$mappings){
             $mappings =
@@ -208,16 +217,24 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
                 );
         }
 
+        if (!$disabledAttributes) {
+            $disabledAttributes = AgentSerializerInfo::$disabledAttributes;
+        }
+
+        $this->fSerializer->setDisabledAttributes($disabledAttributes);
 
 
         return $this->fSerializer->deserialize($content,$mappings, $relations);
     }
 
-
+    /**
+     * @param $agent
+     * @return \FSerializerBundle\Serializer\JsonApiDocument
+     */
     public function serializeAgent($agent)
     {
 
-        return $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, AgentSerializerInfo::$mappings, AgentSerializerInfo::$relations);
+        return $this->fSerializer->setType('agents')->setDeserializationClass(Agent::class)->serialize($agent, AgentSerializerInfo::$mappings, AgentSerializerInfo::$relations, array(),AgentSerializerInfo::$basicFields);
 
     }
 
@@ -257,4 +274,8 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->getReference($id);
     }
 
+    public function changePassword(Agent $agent)
+    {
+         $this->passwordManipulator->changePassword($agent->getUsername(), $agent->getPlainPassword());
+    }
 }

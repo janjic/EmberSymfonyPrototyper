@@ -145,7 +145,7 @@ admin-user:
     agent-last-name: 'Agent last name'
     agent-email: 'Agent email'
     no-agent: 'No agent'
-    status: 'Status'
+    status: 'Is active ?'
     address: 'Address'
     social-security-num: 'Social security number'
     bank: 'Bank name'
@@ -210,7 +210,7 @@ admin-agent:
     genealogy-tree: 'Genealogy tree'
 
 validations:
-  presence-password: 'Password is too short (minimum is 5 characters)!'
+  presence-password: 'Password is too short (minimum is 6 characters)!'
   password-repeat: 'Password repeat doesn''t match password!'
   presence-email: 'Email must be a valid email address!'
   email-repeat: 'Email repeat doesn''t match email!'
@@ -228,6 +228,9 @@ admin-messages:
 models:
   server-error: 'Server error!'
   agent:
+    enabled:  'on'
+    disabled: 'off'
+    updated.profile: 'Successfully updated !'
     unique.entity: 'Agent with email, username or id already exist!'
     file.error:   'Error while saving file !'
     save.message: 'Agent saved!'

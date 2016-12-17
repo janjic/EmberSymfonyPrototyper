@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EmberDropzone from 'ui-dropzone/components/drop-zone';
+import {withoutProxies} from './../utils/proxy-helpers';
 const {Dropzone} = window;
 export default EmberDropzone.extend({
 
@@ -7,7 +8,7 @@ export default EmberDropzone.extend({
 
     loadPreExistingFiles() {
         let file = this.get('currentImage');
-        if (file) {
+        if (withoutProxies(file)) {
             let extension = /(?:\.([^.]+))?$/.exec(file.get('name'))[1];
             extension     = extension ? extension :'png';
             let dropFile = {

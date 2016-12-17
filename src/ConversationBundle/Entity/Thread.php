@@ -27,7 +27,7 @@ class Thread extends BaseThread
     protected $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread", cascade={"persist"})
      * @var Message[]|Collection
      */
     protected $messages;

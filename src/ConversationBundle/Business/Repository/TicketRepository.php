@@ -32,6 +32,7 @@ class TicketRepository extends EntityRepository
             $this->_em->persist($ticket);
             $this->_em->flush();
         } catch (Exception $e) {
+
             return $e;
         }
 
