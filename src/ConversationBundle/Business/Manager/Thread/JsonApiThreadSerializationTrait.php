@@ -45,15 +45,12 @@ trait JsonApiThreadSerializationTrait
      */
     public function serializeThread($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('createdBy', 'messages', 'participants', 'messages.file', 'messages.sender');
+        $relations = array('createdBy', 'participants');
         if (!$mappings) {
             $mappings = array(
                 'thread'       => array('class' => Thread::class, 'type'=>'threads'),
-                'messages'     => array('class' => Message::class, 'type'=>'messages'),
-                'file'         => array('class' => File::class, 'type'=>'files'),
                 'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
                 'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
-                'sender'       => array('class' => Agent::class, 'type'=>'agents'),
             );
         }
 

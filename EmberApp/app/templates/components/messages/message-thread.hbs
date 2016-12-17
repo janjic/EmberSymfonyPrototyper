@@ -1,62 +1,76 @@
-{{#if thread}}
-    <div class="message-full">
-        <div class="message-header">
-            <div class="message-active"></div>
-            <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
-            <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
-            <button {{action 'deleteThread'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-        </div>
-        <div class="message-body">
-            <section class="view-message">
-                <section class="messages clearfix">
-                    {{#each thread.messagesInverseOrder as |message|}}
-                        <article>
-                            {{#if (eq message.sender.id currentUser.user.id)}}
-                                <div class="admin-comment">
-                                    <div class="admin-message clearfix">
-                                        <p>{{message.body}}</p>
-                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                                        {{#if message.file}}
-                                            <a href="{{message.file.webPath}}" class="attachment-download" download="">
-                                                <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
-                                            </a>
+<div class="message-full">
+    <div class="message-header">
+        <div class="message-active"></div>
+        <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
+        <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
+        {{#if isDeletedDisplay}}
+            <button class="btn btn-danger" {{action 'deleteThread'}}><i class="fa fa-undo" aria-hidden="true"></i></button>
+        {{else}}
+            <button class="btn btn-danger" {{action 'deleteThread'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
+        {{/if}}
+    </div>
+    <div class="message-body" id="messages-list">
+        <section class="view-message" >
+            <section class="messages clearfix">
+
+                {{#infinity-loader infinityModel=messages scrollable="#messages-list" loadingText="..." loadedText='' _shouldLoadMore=_shouldLoadMore}}
+                    {{#if _canLoadMore}}
+                        <div id="loading-more-state">
+                            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                        </div>
+                    {{/if}}
+                {{/infinity-loader}}
+
+                {{#each messagesInverse as |message|}}
+                    <article>
+                        {{#if (eq message.sender.id currentUser.user.id)}}
+                            <div class="admin-comment">
+                                <div class="admin-message clearfix">
+                                    <p>{{message.body}}</p>
+                                    <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                                    {{#if message.file}}
+                                        <a href="{{message.file.webPath}}" class="attachment-download" download="">
+                                            <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
+                                        </a>
+                                    {{/if}}
+                                </div>
+                                <div class="username username-admin">
+                                    <div class="img-holder">
+                                        {{#if currentUser.user.baseImageUrl}}
+                                            <img src="{{currentUser.user.baseImageUrl}}" title="Username">
+                                        {{else}}
+                                            <img src="../../assets/images/user-avatar.png" title="Username">
                                         {{/if}}
                                     </div>
-                                    <div class="username username-admin">
-                                        <div class="img-holder">
-                                            {{#if currentUser.user.baseImageUrl}}
-                                                <img src="{{currentUser.user.baseImageUrl}}" title="Username">
-                                            {{else}}
-                                                <img src="../../assets/images/user-avatar.png" title="Username">
-                                            {{/if}}
-                                        </div>
-                                        <h4>{{currentUser.user.fullName}}</h4>
+                                    <h4>{{currentUser.user.fullName}}</h4>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="user-comment">
+                                <div class="username">
+                                    <h4>{{thread.otherParticipant.fullName}}</h4>
+                                    <div class="img-holder">
+                                        {{#if thread.otherParticipant.baseImageUrl}}
+                                            <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+                                        {{else}}
+                                            <img src="../../assets/images/user-avatar.png" title="Username">
+                                        {{/if}}
                                     </div>
                                 </div>
-                            {{else}}
-                                <div class="user-comment">
-                                    <div class="username">
-                                        <h4>{{thread.otherParticipant.fullName}}</h4>
-                                        <div class="img-holder">
-                                            {{#if thread.otherParticipant.baseImageUrl}}
-                                                <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
-                                            {{else}}
-                                                <img src="../../assets/images/user-avatar.png" title="Username">
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                    <div class="user-message clearfix">
-                                        <p>{{message.body}}</p>
-                                        <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
-                                    </div>
+                                <div class="user-message clearfix">
+                                    <p>{{message.body}}</p>
+                                    <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                 </div>
-                            {{/if}}
-                        </article>
-                    {{/each}}
-                </section>
+                            </div>
+                        {{/if}}
+                    </article>
+                {{/each}}
+
             </section>
-        </div>
-        <div class="send-message-mobile">
+        </section>
+    </div>
+    <div class="send-message-mobile">
+        <form {{action 'sendMessage' on="submit"}}>
             <div class="input-group">
                 {{input type="text" value=messageBody class="form-control" placeholder="Enter your message"}}
                 <i class="fa fa-paperclip" {{action 'toggleAttachDropzone'}}></i>
@@ -64,14 +78,14 @@
                     {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                 </div>
                 <span class="input-group-btn">
-                    <button class="btn btn-success" type="button" disabled={{sendBtnDisabled}} {{action 'sendMessage'}}>Send message</button>
+                    <button class="btn btn-success" type="submit" disabled={{sendBtnDisabled}}>Send message</button>
                 </span>
             </div>
-        </div>
+        </form>
     </div>
-    {{#if isLoading }}
-        <<div class="loader-holder">
-            <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
-        </div>
-    {{/if}}
+</div>
+{{#if isLoading }}
+    <div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
 {{/if}}

@@ -11,6 +11,7 @@ use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
@@ -90,10 +91,11 @@ class MessageManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $content
+     * @param array $metaTags
      * @param null $mappings
      * @return mixed
      */
-    public function serializeMessage($content, $mappings = null)
+    public function serializeMessage($content ,$metaTags = [], $mappings = null)
     {
         $relations = array('sender', 'thread', 'file');
         if (!$mappings) {
@@ -105,7 +107,27 @@ class MessageManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
+
+        foreach ($metaTags as $key=>$meta) {
+            $serialize->addMeta($key, $meta);
+        }
+
+        return $serialize->toArray();
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getQueryResult($request)
+    {
+        $perPage = $request->query->get('per_page');
+        $threadId = $request->query->get('thread');
+        $messages = $this->repository->getMessagesForThread($threadId, $request->query->get('page'), $perPage);
+        $totalItems = $this->repository->getMessagesForThread($threadId, null, null, true)[0][1];
+
+        return $this->serializeMessage($messages, ['total_pages'=>ceil($totalItems / $perPage)]);
     }
 
     /**

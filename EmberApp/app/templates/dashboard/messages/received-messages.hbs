@@ -13,7 +13,14 @@
             </div>
         </div>
         <div class="col-md-8">
-            {{messages/message-thread thread=selectedThread createMessageAction=(action 'createMessage') createFileAction = (action 'createFile')}}
+            {{#if selectedThread}}
+                {{messages/message-thread
+                thread=selectedThread
+                createMessageAction=(action 'createMessage')
+                createFileAction=(action 'createFile')
+                deleteThreadAction=(action 'deleteThread')
+                }}
+            {{/if}}
         </div>
     </div>
 </div>

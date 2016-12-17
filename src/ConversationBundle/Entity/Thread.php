@@ -38,7 +38,11 @@ class Thread extends BaseThread
      */
     protected $metadata;
 
-    protected $toBeDeleted = false;
+    /**
+     * Property used to determine if delete property should be changed
+     * @var bool
+     */
+    protected $changeDeleted = false;
 
     /**
      * Thread constructor.
@@ -60,17 +64,17 @@ class Thread extends BaseThread
     /**
      * @return boolean
      */
-    public function isToBeDeleted()
+    public function isChangeDeleted()
     {
-        return $this->toBeDeleted;
+        return $this->changeDeleted;
     }
 
     /**
-     * @param boolean $toBeDeleted
+     * @param boolean $changeDeleted
      */
-    public function setToBeDeleted($toBeDeleted)
+    public function setChangeDeleted($changeDeleted)
     {
-        $this->toBeDeleted = $toBeDeleted;
+        $this->changeDeleted = $changeDeleted;
     }
 
 }

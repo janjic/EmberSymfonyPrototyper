@@ -13,12 +13,15 @@
             </div>
         </div>
         <div class="col-md-8">
-            {{messages/message-thread
-            thread=selectedThread
-            createMessageAction=(action 'createMessage')
-            createFileAction = (action 'createFile')
-            threadSelectedAction=(action 'threadSelected')
-            }}
+            {{#if selectedThread}}
+                {{messages/message-thread
+                    thread=selectedThread
+                    createMessageAction=(action 'createMessage')
+                    createFileAction=(action 'createFile')
+                    deleteThreadAction=(action 'deleteThread')
+                    isDeletedDisplay=true
+                }}
+            {{/if}}
         </div>
     </div>
 </div>

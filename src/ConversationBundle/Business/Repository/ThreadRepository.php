@@ -18,7 +18,13 @@ class ThreadRepository extends EntityRepository
 
     const ALIAS = 'threads';
 
-
+    /**
+     * @param ParticipantInterface $participant
+     * @param int                  $page
+     * @param int                  $offset
+     * @param bool                 $isCountSearch
+     * @return mixed
+     */
     public function getSentThreads(ParticipantInterface $participant, $page = 1, $offset = 20, $isCountSearch = false)
     {
         $qb = $this->createQueryBuilder(self::ALIAS)
@@ -52,6 +58,13 @@ class ThreadRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * @param ParticipantInterface $participant
+     * @param int                  $page
+     * @param int                  $offset
+     * @param bool                 $isCountSearch
+     * @return mixed
+     */
     public function getInboxThreads(ParticipantInterface $participant, $page = 1 , $offset = 20, $isCountSearch = false)
     {
         $qb = $this->createQueryBuilder(self::ALIAS)
@@ -85,6 +98,13 @@ class ThreadRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * @param ParticipantInterface $participant
+     * @param int                  $page
+     * @param int                  $offset
+     * @param bool                 $isCountSearch
+     * @return mixed
+     */
     public function getDeletedThreads(ParticipantInterface $participant, $page = 1 , $offset = 20, $isCountSearch = false)
     {
         $qb = $this->createQueryBuilder(self::ALIAS)

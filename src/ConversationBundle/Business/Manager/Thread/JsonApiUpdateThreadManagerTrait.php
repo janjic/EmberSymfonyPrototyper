@@ -23,8 +23,8 @@ trait JsonApiUpdateThreadManagerTrait
         $thread = $this->deserializeThread($data);
         /** @var Thread $threadDB */
         $threadDB = $this->repository->findThread($thread->getId());
-        if ($thread->isToBeDeleted()) {
-            $threadDB->setIsDeletedByParticipant($this->getCurrentUser(), true);
+        if ($thread->isChangeDeleted()) {
+            $threadDB->setIsDeletedByParticipant($this->getCurrentUser(), !$threadDB->isDeletedByParticipant($this->getCurrentUser()));
         }
 
         $result = $this->repository->editThread($threadDB);

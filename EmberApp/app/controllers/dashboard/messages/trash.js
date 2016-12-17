@@ -1,19 +1,6 @@
 import Ember from 'ember';
+import MessageListingMixin from '../../../mixins/message-listing-actions';
 
-export default Ember.Controller.extend({
-    selectedThread: null,
+export default Ember.Controller.extend(MessageListingMixin, {
 
-    actions: {
-        threadSelected (thread) {
-            this.set('selectedThread', thread);
-        },
-
-        createMessage(hash) {
-            return this.get('store').createRecord('message', hash);
-        },
-
-        createFile(hash) {
-            return this.get('store').createRecord('file', hash);
-        }
-    }
 });

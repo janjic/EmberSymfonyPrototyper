@@ -2415,6 +2415,11 @@ input:focus {
     position: relative;
     padding-top: 30px;
     background-color: whitesmoke;
+    button {
+      position: absolute;
+      right: 15px;
+      top: 30px;
+    }
     h3.name {
       font-size: 16px;
       font-weight: bold;
@@ -2440,6 +2445,10 @@ input:focus {
     .view-message {
       .messages {
         margin-bottom: 0;
+        #loading-more-state {
+          text-align: center;
+          color: $main-red;
+        }
         .user-comment {
           display: flex;
           align-items: center;

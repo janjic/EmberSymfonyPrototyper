@@ -252,7 +252,8 @@ models:
       resolved: 'Resolved'
   message:
     save: 'Message sent!'
-    delete: 'Message deleted'
+    delete: 'Message moved to trash'
+    delete: 'Message removed from trash'
     unsupported.file.type: 'Current file type is not supported!'
 
 #SETTINGS
