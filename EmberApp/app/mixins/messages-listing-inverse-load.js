@@ -19,9 +19,9 @@ export default Ember.Mixin.create(InfinityRoute, {
     /**
      * When data is loaded scroll to bottom of div
      */
-    afterInfinityModel(messages) {
+    afterInfinityModel(data) {
         if (!this.get('isLoadedFirst')) {
-            let element = this.$('#messages-list');
+            let element = this.$(this.get('scrollContainder'));
             setTimeout(() => {
                 /** use difference of old and new height to calculate scroll */
                 element.scrollTop(element[0].scrollHeight - this.get('topScrollHolder'));
@@ -29,7 +29,7 @@ export default Ember.Mixin.create(InfinityRoute, {
             }, 1);
         }
 
-        this.set('_minId', messages.get('lastObject.id'));
+        this.set('_minId', data.get('lastObject.id'));
     },
 
     /**
@@ -52,8 +52,23 @@ export default Ember.Mixin.create(InfinityRoute, {
         if (this.get('_loadingMore') || !this.get('_canLoadMore') || !this.get('isLoadedFirst')) {
             return;
         }
-        this.set('topScrollHolder', this.$('#messages-list')[0].scrollHeight);
+        this.set('topScrollHolder', this.$(this.get('scrollContainder'))[0].scrollHeight);
         this.set('isLoadedFirst', false);
         this._loadNextPage();
     },
+
+    /**
+     * Override default to save scroll div height as parameter and stop mulpiple loads
+     */
+    _doUpdate(newObjects) {
+      let infinityModel = this._infinityModel();
+      return infinityModel.pushObjects(newObjects.toArray());
+    },
+
+    scrollToBottom(){
+      let element = this.$(this.get('scrollContainder'));
+      setTimeout(() => {
+          element.scrollTop(element[0].scrollHeight);
+      }, 1);
+    }
 });

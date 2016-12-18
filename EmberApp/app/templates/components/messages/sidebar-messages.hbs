@@ -11,7 +11,7 @@
             <h3 class="name">
                 {{thread.otherParticipant.fullName}}
             </h3>
-            <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
+            <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
             {{!--<h5 class="content-text">{{thread.firstMessage.body}}</h5>--}}
         </div>
         {{#if (eq thread.id selectedThread.id)}}

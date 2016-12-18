@@ -5,8 +5,12 @@ import ReveseLoadingMixin from '../../mixins/messages-listing-inverse-load';
 const { ApiCode, Translator } = window;
 
 export default Ember.Component.extend(LoadingStateMixin, ReveseLoadingMixin, {
-    /** id used for pagination */
+    /** ids used for pagination */
     _minId: undefined,
+    _maxId: undefined,
+
+    /** id of scroll container - used in inverse load mixin */
+    scrollContainder: '#messages-list',
 
     /** InfinityRoute mixin requires store */
     store: Ember.inject.service('store'),
@@ -31,11 +35,13 @@ export default Ember.Component.extend(LoadingStateMixin, ReveseLoadingMixin, {
     threadChange: Ember.observer('thread', function () {
         this._initialLoad();
         this._resetInverseLoadParams();
+        this.set('_minId', undefined);
     }),
 
     didInsertElement(){
         this._super(...arguments);
         this._initialLoad();
+        this.getNewMessages();
     },
 
     actions:{
@@ -54,12 +60,13 @@ export default Ember.Component.extend(LoadingStateMixin, ReveseLoadingMixin, {
 
             this.showLoader();
             message.save().then(() => {
-                // this.get('messages').insertAt(0, message);
+                this.get('messages').insertAt(0, message);
                 this.toast.success('models.message.save');
                 this.set('messageBody', null);
                 this.set('fileTemp', null);
                 /** push event to event bus to empty dropzone */
                 this.get('eventBus').publish('emptyDropzone');
+                this.scrollToBottom();
                 this.disableLoader();
             }, (response) => {
                 message.deleteRecord();
@@ -135,15 +142,69 @@ export default Ember.Component.extend(LoadingStateMixin, ReveseLoadingMixin, {
     _initialLoad() {
         this.set('messages', null);
         this.showLoader();
+        this.set('_modelPath', 'messages');
         this.infinityModel("message", { perPage: 10, thread: this.get('thread.id') }, {
             min_id: '_minId',
         }).then((messages) => {
-            this.set('messages', messages);
-            this.set('_modelPath', 'messages');
+            this.set('messages', messages.toArray());
+            this.set('_maxId', messages.get('firstObject.id'));
             this.disableLoader();
         }, () => {
             this.set('messages', []);
             this.disableLoader();
         });
     },
+
+    getNewMessages() {
+      return Ember.run.later(() => {
+         this.get('store').query('message', {
+            per_page: 10,
+            thread: this.get('thread.id'),
+            max_id: this.get('_maxId')
+         }).then((messages) => {
+           if(messages.toArray().length){
+             this.get('messages').pushObjects(messages.toArray());
+             this.set('_maxId', messages.get('firstObject.id'));
+           }
+         });
+         this.getNewMessages();
+      }, 5000);
+   },
+
+
+
+
+
+
+
+    // eventInterval: 10000,
+    //
+    // schedulePollEvent(event, interval) {
+    //   var eventInterval = interval || this.get('eventInterval');
+    //   return Ember.run.later(()=>{
+    //     event.apply(this);
+    //     this.set('timer', this.schedulePollEvent(event));
+    //   }, eventInterval);
+    // },
+    //
+    // startPolling(interval) {
+    //   this.set('timer', this.schedulePollEvent(this.get('onPollEvent'), interval));
+    // },
+    //
+    // stopPolling() {
+    //   Ember.run.cancel(this.get('timer'));
+    // },
+    //
+    // onPollEvent() {
+    //   console.log('asd')
+    //   // this.get('store').query('message', {
+    //     //  per_page: 10,
+    //     //  thread: this.get('thread.id'),
+    //   //    max_id: this.get('_maxId')
+    //   // }).then((messages) => {
+    //   //   this.get('messages').pushObjects(messages.toArray());
+    //   //   this.set('_maxId', messages.get('firstObject.id'));
+    //   // });
+    // }
+
 });

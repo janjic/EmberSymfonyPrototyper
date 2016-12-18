@@ -122,10 +122,16 @@ class MessageManager implements JSONAPIEntityManagerInterface
      */
     public function getQueryResult($request)
     {
-        $perPage = $request->query->get('per_page');
-        $threadId = $request->query->get('thread');
-        $messages = $this->repository->getMessagesForThread($threadId, $request->query->get('page'), $perPage);
-        $totalItems = $this->repository->getMessagesForThread($threadId, null, null, true)[0][1];
+        $perPage    = $request->query->get('per_page');
+        $threadId   = $request->query->get('thread');
+        $minId      = $request->query->get('min_id');
+        $maxId      = $request->query->get('max_id');
+        $page       = ($p = $request->query->get('page')) ? $p : 1;
+
+        $messages   = $this->repository->getMessagesForThread($threadId, $page,
+            $perPage, $minId, $maxId);
+
+        $totalItems = $this->repository->getMessagesForThread($threadId, null, null, null, null, true)[0][1];
 
         return $this->serializeMessage($messages, ['total_pages'=>ceil($totalItems / $perPage)]);
     }

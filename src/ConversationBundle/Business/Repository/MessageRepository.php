@@ -23,10 +23,11 @@ class MessageRepository extends EntityRepository
      * @param int  $page
      * @param int  $offset
      * @param null $minId
+     * @param null $maxId
      * @param bool $isCountSearch
      * @return array|mixed
      */
-    public function getMessagesForThread($threadId, $page = 1 , $offset = 10, $minId = null, $isCountSearch = false)
+    public function getMessagesForThread($threadId, $page = 1 , $offset = 10, $minId = null, $maxId = null, $isCountSearch = false)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS);
@@ -35,11 +36,17 @@ class MessageRepository extends EntityRepository
         $qb->orderBy(self::ALIAS.'.id', 'DESC');
 
         $qb->where('thread.id =:id')->setParameter('id', $threadId);
-        $qb->andWhere(self::ALIAS.'id < ?2')->setParameter(2, $minId);
+        if ($minId) {
+            $qb->andWhere(self::ALIAS . '.id < ?2')->setParameter(2, $minId);
+            $qb->setMaxResults($offset);
+        } else if ($maxId) {
+            $qb->andWhere(self::ALIAS . '.id > ?3')->setParameter(3, $maxId);
+        } else if (!$isCountSearch){
+            $qb->setFirstResult(($page - 1) * $offset);
+            $qb->setMaxResults($offset);
+        }
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id)');
-        } else {
-            $qb->setFirstResult(($page - 1) * $offset)->setMaxResults($offset);
         }
 
         return $qb->getQuery()->getResult();

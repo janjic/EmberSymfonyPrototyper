@@ -2,7 +2,7 @@
     <div class="message-header">
         <div class="message-active"></div>
         <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
-        <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
+        <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
         {{#if isDeletedDisplay}}
             <button class="btn btn-danger" {{action 'deleteThread'}}><i class="fa fa-undo" aria-hidden="true"></i></button>
         {{else}}
@@ -79,7 +79,7 @@
                         {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                     </div>
                     <span class="input-group-btn">
-                        <button class="btn btn-success" type="submit" disabled={{sendBtnDisabled}}>Send message</button>
+                        <button class="btn btn-success" type="submit" disabled={{sendBtnDisabled}}>{{trans 'admin-messages.send.message'}}</button>
                     </span>
                 </div>
             </form>
