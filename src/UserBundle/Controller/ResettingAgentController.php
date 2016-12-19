@@ -36,8 +36,13 @@ class ResettingAgentController extends Controller
         /** @var $user UserInterface */
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
-        if (!$user) {
+
+        if (!$user ) {
             return new JsonResponse(AgentApiResponse::USER_WITH_EMAIL_NOT_EXIST_RESPONSE);
+        }
+
+        if (!$user->isEnabled()) {
+            return new JsonResponse(AgentApiResponse::AGENT_INACTIVE_RESPONSE);
         }
         /** @var $dispatcher EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');

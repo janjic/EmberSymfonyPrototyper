@@ -3,11 +3,13 @@ password:
   changed:
     successfully:                'Password is changed successfully'
     invalid.token:               'Access token has expired, been revoked, or is otherwise invalid !'
+    account.inactive:              'Your account is currently inactive !'
     old.is.not.correct:          'Old password is not correct'
     are.not.same:                 'Entered passwords are not same'
   already.requested.%ttl%:       'Password already requested in last %ttl% minutes!'
   resetting.link.sent:           'Resetting link is sent to your email address !'
   user.with.email.not.exist:     'User with entered email does not exist !'
+  user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
 loading:
@@ -153,6 +155,16 @@ admin-user:
     address: 'Address'
     fixed: 'Fixed number'
     private-email: 'Private email'
+    show-notifications: 'Show notifications'
+    notifications-message: 'Select type of notifications which you want to see'
+    new-message: 'New message'
+    payment: 'Payment'
+    new-agent: 'New agent'
+    type: 'Type'
+    direct-superior: 'Direct Superior'
+    number-of-agents-downline: 'Number of agents down the line'
+    customers: 'Number of customers'
+
 
 
 

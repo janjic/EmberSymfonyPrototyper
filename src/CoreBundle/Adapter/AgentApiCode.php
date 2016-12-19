@@ -25,6 +25,7 @@ class AgentApiCode
     const AGENT_ALREADY_EXIST                       = 28;
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
     const AGENT_NOT_FOUND                           = 30;
+    const AGENT_CURRENTLY_INACTIVE                  = 31;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;

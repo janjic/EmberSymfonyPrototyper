@@ -39,6 +39,7 @@ class AgentRepository extends NestedTreeRepository
     public function saveAgent($agent, $superior)
     {
         try {
+            $agent ? ($agent = $this->loadUserRoles($agent)) :false;
             if(!is_null($superior)){
                 $this->persistAsFirstChildOf($agent, $superior);
             } else {
@@ -91,6 +92,7 @@ class AgentRepository extends NestedTreeRepository
     public function edit(Agent $agent, $dbSuperior=null, $newSuperior=null)
     {
         $isHQEdit = is_null($newSuperior) && is_null($dbSuperior);
+        $agent = $this->loadUserRoles($agent);
         try {
             if(!is_null($newSuperior)){
                 if(!is_null($dbSuperior) && in_array($newSuperior, $agent->getChildren()->getValues())){
@@ -136,7 +138,8 @@ class AgentRepository extends NestedTreeRepository
             $user = $q
                 ->getSingleResult();
 
-            return $this->loadUserRoles($user);
+            return $user;
+            //return $this->loadUserRoles($user);
 
         } catch (NoResultException $e) {
             $message = sprintf(
