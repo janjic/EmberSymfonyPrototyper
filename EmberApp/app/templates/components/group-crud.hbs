@@ -1,17 +1,19 @@
 <div class="col-md-6">
-    {{#each groups as |group|}}
-        <div class="form-group clearfix">
-            {{group.name}}
-            <button class="btn btn-danger pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
-            <button class="btn btn-success pull-right" style="margin-right: 5px;" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
-        </div>
-    {{/each}}
+    <div class="input-box">
+        {{#each groups as |group|}}
+            <div class="form-group clearfix">
+                {{group.name}}
+                <button class="btn btn-danger pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
+                <button class="btn btn-success pull-right" style="margin-right: 5px;" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
+            </div>
+        {{/each}}
+    </div>
 </div>
 
 <div class="col-md-6">
     {{#if displayDelete}}
-        <h3 class="sub-heading">Please select new group for users</h3>
-        <div>
+        <div class="input-box clearfix">
+            <h3 class="sub-heading">Please select new group for users</h3>
             {{#each availableParents as |group|}}
                 <div class="form-group clearfix">
                     <div class="row clearfix">
@@ -30,8 +32,8 @@
         </div>
     {{else}}
         {{#if displayEdit}}
-            <h1 class="main-heading">Edit group</h1>
-            <div>
+            <div class="input-box clearfix">
+                <h3 class="sub-heading">Edit group</h3>
                 <div class="form-group clearfix">
                     {{input type="text" class="new-group form-control" placeholder="New group" value=editGroup.name}}
 
@@ -41,15 +43,17 @@
                 <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>Cancel</button>
             </div>
         {{else}}
-            <h1 class="main-heading">Add new group</h1>
-            <div class="form-group clearfix">
-                <label for="{{addName}}">New group name</label>
-                {{input type="text" class="new-group form-control" value=addName}}
+            <div class="input-box clearfix">
+                <h3 class="sub-heading">Add new group</h3>
+                <div class="form-group clearfix">
+                    <label for="{{addName}}">New group name</label>
+                    {{input type="text" class="new-group form-control" value=addName}}
+                </div>
+                <div class="form-group clearfix">
+                    {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
+                </div>
+                <button class="btn btn-success pull-right" {{action "createGroup"}}>Add</button>
             </div>
-            <div class="form-group clearfix">
-                {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
-            </div>
-            <button class="btn btn-success pull-right" {{action "createGroup"}}>Add</button>
         {{/if}}
     {{/if}}
 </div>
