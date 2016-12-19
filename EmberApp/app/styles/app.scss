@@ -2532,6 +2532,23 @@ input:focus {
     overflow: auto;
     max-height: calc(100vh - 270px);
     .view-message {
+      .new-messages-alert {
+        position: absolute;
+        bottom: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 20px;
+        a {
+          &:hover {
+            text-decoration: none;
+          }
+          &:focus {
+            text-decoration: none;
+          }
+        }
+      }
       .messages {
         margin-bottom: 0;
         #loading-more-state {
