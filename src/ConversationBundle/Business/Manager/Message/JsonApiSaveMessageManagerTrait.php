@@ -29,10 +29,20 @@ trait JsonApiSaveMessageManagerTrait
     {
         /** @var Message $message */
         $message = $this->deserializeMessage($data);
-        if ($message->getThread()->getId()) {
+        if ($message->getThread() && $message->getThread()->getId()) {
             return $this->replyToMessage($message);
+        } else {
+            return $this->createThread($message);
         }
+    }
 
+    /**
+     * Create new thread
+     * @param $message
+     * @return array
+     */
+    public function createThread($message)
+    {
         /** @var NewThreadMessageBuilder $thread */
         $thread = $this->messageComposer->newThread();
         $thread->setSubject($message->getMessageSubject());
@@ -40,18 +50,40 @@ trait JsonApiSaveMessageManagerTrait
         $thread->addRecipient($this->repository->getReferenceForClass($message->getParticipants()[0]->getId(), Agent::class));
         $thread->setSender($this->repository->getReferenceForClass($message->getSender()->getId(), Agent::class));
 
-        /** @var Message $message */
-        $newMessage = $thread->getMessage();
+        return $this->processSave($thread->getMessage(), $message);
+    }
 
+    /**
+     * Replay to message in thread
+     * @param Message $msg
+     * @return array
+     */
+    public function replyToMessage(Message $msg) {
+        $thread = $this->repository->getReferenceForClass($msg->getThread()->getId(), Thread::class);
+        /** @var ReplyMessageBuilder $messageBuilder */
+        $messageBuilder = $this->messageComposer->reply($thread);
+        $messageBuilder->setBody($msg->getBody());
+        $messageBuilder->setSender($this->repository->getReferenceForClass($msg->getSender()->getId(), Agent::class));
+
+        return $this->processSave($messageBuilder->getMessage(), $msg);
+    }
+
+    /**
+     * @param MessageInterface $newMessage
+     * @param Message $messageFronted
+     * @return array
+     */
+    public function processSave($newMessage, $messageFronted)
+    {
         try {
             $this->eventDispatcher->addListener(FOSMessageEvents::POST_SEND, function($e) {
                 $this->saveEventResult = $e->getMessage();
             });
 
-            if ($message->getFile() && !$this->saveMedia($message)) {
+            if ($messageFronted->getFile() && !$this->saveMedia($messageFronted)) {
                 return array(AgentApiResponse::MESSAGES_UNSUPPORTED_FORMAT);
             }
-            $newMessage->setFile($message->getFile());
+            $newMessage->setFile($messageFronted->getFile());
             $this->messageSender->send($newMessage);
 
             return $this->serializeMessage($this->saveEventResult);
@@ -59,34 +91,7 @@ trait JsonApiSaveMessageManagerTrait
         } catch (Exception $e) {
             return array(AgentApiResponse::ERROR_RESPONSE($e));
         }
-
     }
-
-    public function replyToMessage(Message $msg) {
-        $thread = $this->repository->getReferenceForClass($msg->getThread()->getId(), Thread::class);
-        /** @var ReplyMessageBuilder $message */
-        $messageBuilder = $this->messageComposer->reply($thread);
-        $messageBuilder->setBody($msg->getBody());
-        $messageBuilder->setSender($this->repository->getReferenceForClass($msg->getSender()->getId(), Agent::class));
-
-        $this->eventDispatcher->addListener(FOSMessageEvents::POST_SEND, function($e) {
-            $this->saveEventResult = $e->getMessage();
-        });
-
-        try {
-            $this->eventDispatcher->addListener(FOSMessageEvents::POST_SEND, function($e) {
-                $this->saveEventResult = $e->getMessage();
-            });
-
-            $this->messageSender->send($messageBuilder->getMessage());
-
-            return $this->serializeMessage($this->saveEventResult);
-
-        } catch (Exception $e) {
-            return array(AgentApiResponse::ERROR_RESPONSE($e));
-        }
-    }
-
     /**
      * @param Message $message
      * @return bool

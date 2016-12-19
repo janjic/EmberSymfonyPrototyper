@@ -9,15 +9,11 @@ export default Model.extend({
     messages:       DS.hasMany('message'),
     createdAt:      attr('custom-date'),
     subject:        attr('string'),
-
+    changeDeleted:  attr('boolean'),
 
     otherParticipant: Ember.computed('createdBy', 'participants', function () {
         return this.get('participants').find((item) => {
             return item.id !== this.get('createdBy').get('id');
         });
     }),
-
-    firstMessage: Ember.computed('messages', 'participants', function () {
-        return this.get('messages').get('firstObject');
-    })
 });

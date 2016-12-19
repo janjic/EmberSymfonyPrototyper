@@ -11,6 +11,7 @@ class AgentApiCode
 
     const ERROR_MESSAGE                             = 404;
     const FILE_SAVING_ERROR                         = 401;
+    const ACCESS_DENIED                             = 403;
 
     const PASSWORD_ALREADY_REQUESTED                = 41;
     const MAIL_SENT_TO_USER                         = 21;
@@ -24,6 +25,7 @@ class AgentApiCode
     const AGENT_ALREADY_EXIST                       = 28;
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
     const AGENT_NOT_FOUND                           = 30;
+    const AGENT_CURRENTLY_INACTIVE                  = 31;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
@@ -46,10 +48,13 @@ class AgentApiCode
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
 
+    /** THREAD */
+    const THREAD_EDITED_SUCCESSFULLY                 = 2451;
+
     /** INVITATION */
-    const INVITATION_SAVED_SUCCESSFULLY              = 2401;
+    const INVITATION_SAVED_SUCCESSFULLY              = 2501;
 
     /** SETTINGS */
-    const SETTINGS_SAVED_SUCCESSFULLY                = 2501;
-    const SETTINGS_EDITED_SUCCESSFULLY               = 2502;
+    const SETTINGS_SAVED_SUCCESSFULLY                = 2601;
+    const SETTINGS_EDITED_SUCCESSFULLY               = 2602;
 }

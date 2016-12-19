@@ -64,7 +64,7 @@ trait JsonApiUpdateTicketManagerTrait
         /**
          * Convert string to date format
          */
-        $ticket->setCreatedAt(new DateTime($ticket->getCreatedAt()));
+        //$ticket->setCreatedAt(new DateTime($ticket->getCreatedAt()));
 
 
         return $ticket;

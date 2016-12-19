@@ -28,6 +28,8 @@ class AgentApiResponse
     const GROUP_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::GROUP_ALREADY_EXIST)));
 
     const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
+    const AGENT_INACTIVE_RESPONSE               = array('status' => AgentApiCode::AGENT_CURRENTLY_INACTIVE);
+    const ACCESS_TO_TICKET_DENIED               = array('errors' => array(array('status' => AgentApiCode::ACCESS_DENIED)));
 
 
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
@@ -117,6 +119,16 @@ class AgentApiResponse
     public static function TICKET_SAVED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'tickets', 'id' => $id), 'meta' => array('status'=> AgentApiCode::TICKET_SAVED_SUCCESSFULLY));
+    }
+
+    /** -------- THREAD --------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function THREAD_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'threads', 'id' => $id), 'meta' => array('status'=> AgentApiCode::THREAD_EDITED_SUCCESSFULLY));
     }
 
 

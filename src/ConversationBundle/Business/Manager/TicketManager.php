@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
+use FOS\MessageBundle\Composer\Composer as MessageComposer;
+
 
 
 /**
@@ -55,17 +57,24 @@ class TicketManager implements JSONAPIEntityManagerInterface
     protected $tokenStorage;
 
     /**
+     * @var MessageComposer $messageComposer
+     */
+    protected $messageComposer;
+
+    /**
      * @param TicketRepository $repository
      * @param FJsonApiSerializer $fSerializer
      * @param AgentManager $agentManager
      * @param TokenStorage $tokenStorage
+     * @param MessageComposer $messageComposer
      */
-    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager, TokenStorage $tokenStorage)
+    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager, TokenStorage $tokenStorage, MessageComposer $messageComposer)
     {
-        $this->repository   = $repository;
-        $this->fSerializer  = $fSerializer;
-        $this->agentManager = $agentManager;
-        $this->tokenStorage = $tokenStorage;
+        $this->repository      = $repository;
+        $this->fSerializer     = $fSerializer;
+        $this->agentManager    = $agentManager;
+        $this->tokenStorage    = $tokenStorage;
+        $this->messageComposer = $messageComposer;
     }
 
 

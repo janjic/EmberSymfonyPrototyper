@@ -2,11 +2,9 @@
 
 namespace UserBundle\Business\Manager\Agent;
 use CoreBundle\Adapter\AgentApiResponse;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
-use UserBundle\Entity\Address;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 
@@ -26,138 +24,130 @@ trait JsonApiUpdateAgentManagerTrait
          */
         $agent = $this->deserializeAgent($data);
 
-        /**
-         * @var Agent $dbAgent
-         */
+        /** @var Agent $dbAgent */
         $dbAgent = $this->getEntityReference($agent->getId());
-        /**
-         * @var Address $dbAddress
-         */
-        $dbAddress = $dbAgent->getAddress();
-
-        /**
-         * @var Address $address
-         */
-        $address = $agent->getAddress();
-        $dbAddress->setStreetNumber($address->getStreetNumber());
-        $dbAddress->setCity($address->getCity());
-        $dbAddress->setCountry($address->getCountry());
-        $dbAddress->setFixedPhone($address->getFixedPhone());
-        $dbAddress->setPhone($address->getPhone());
-        $dbAddress->setPostcode($address->getPostcode());
-
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() == 0) {
-            $image = new Image();
-            $image->setBase64Content($agent->getImage()->getBase64Content());
-            $image->setName($agent->getImage()->getName());
-
-            $image->saveToFile($image->getBase64Content());
-
-            $dbAgent->setImage($image);
-        }
-
-
+        $agent = $this->prepareUpdate($agent, $dbAgent, $data);
         $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
+
         if(!is_null($agent->getSuperior())){
-            $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
+            $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
+            $agent->setSuperior($newSuperior);
         }
+        $agentOrException = $this->edit($dbAgent, $dbSuperior, $newSuperior);
 
-        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
-
-        if($agent->getId()){
-            $this->syncWithTCRPortal($agent, 'edit');
+        if ($agentOrException instanceof Exception) {
+            !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
         }
+        return $this->createJsonAPiUpdateResponse($agentOrException);
+//        if($agent->getId()){
+//            $this->syncWithTCRPortal($agent, 'edit');
+//        }
 
-        return $agent;
+        //return $agent;
     }
 
-    private function prepareUpdate($data)
+
+    private function prepareUpdate(Agent $agent, Agent $dbAgent, $data)
     {
-        /**
-         * @var Agent $agent
-         */
-        $agent = $this->deserializeAgent($data);
+        AgentSerializerInfo::updateBasicFields($agent, $dbAgent);
+        $this->setAndValidatePassword($agent, $dbAgent, $data);
+        $this->setAndvalidateAddress($agent, $dbAgent);
+        $this->setAndValidateGroup($agent, $dbAgent);
+        $this->setAndValidateImage($agent, $dbAgent);
 
-        $agent->setUsername($agent->getEmail());
-        $agent->setBirthDate(new DateTime($agent->getBirthDate()));
-        /**
-         * @var Agent $dbAgent
-         */
-        $dbAgent = $this->getEntityReference($agent->getId());
-        /**
-         * @var Address $dbAddress
-         */
-        $dbAddress = $dbAgent->getAddress();
-        $agent->getAddress()->setId($dbAddress->getId());
-
-        if(!is_null($agent->getImage()) && $agent->getImage()->getId() == 0) {
-            $image = new Image();
-            $image->setBase64Content($agent->getImage()->getBase64Content());
-            $image->setName($agent->getImage()->getName());
-
-            $image->saveToFile($image->getBase64Content());
-
-            $dbAgent->setImage($image);
-        }
-
-
-        $dbSuperior = $dbAgent->getSuperior();
-        $newSuperior = null;
-        if(!is_null($agent->getSuperior())){
-            $newSuperior = $this->repository->getReference($agent->getSuperior()->getId());
-        }
-
-        $agent = $this->edit($dbAgent, $dbSuperior, $newSuperior);
-
-        if($agent->getId()){
-            $this->syncWithTCRPortal($agent, 'edit');
-        }
 
         return $agent;
-
-
-        $group = $this->groupManager->getEntityReference($agent->getGroup()->getId());
-        /**
-         * Populate agent object with relationships and image url
-         */
-        $agent->setGroup($group);
-
-        return $agent;
-    }
-
-    private function saveToFile($agent)
-    {
-        /**  */
-        if(!is_null($image = $agent->getImage())){
-            if ($image->saveToFile($image->getBase64Content())) {
-                $agent->setBaseImageUrl($image->getWebPath());
-                return true;
-            }
-            return false;
-        }
-
-        return true;
-
     }
 
     /**
      * @param $data
      * @return mixed
      */
-    private function createResponse($data):mixed
+    private function createJsonAPiUpdateResponse($data)
     {
         switch (get_class($data)) {
-            case UniqueConstraintViolationException::class:
-                return new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST);
-            case (Agent::class && ($id= $data->getId())):
-                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
             case Exception::class:
                 return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
+            case (Agent::class && ($id= $data->getId())):
+                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
+            case (Agent::class && !($id= $data->getId()) && $data->getImage()):
+                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
             default:
                 return false;
         }
     }
+
+    /**
+     * @param Agent $agent
+     * @param Agent $dbAgent
+     * @param $data
+     */
+    private function setAndValidatePassword (Agent $agent, Agent $dbAgent, $data)
+    {
+
+        if (!is_null($agent->getPlainPassword())) {
+            $decoded = $decoded = (array)json_decode($data,true);
+            $agent->setPropertyValue('passwordRepeat',$decoded['data']['attributes']['passwordRepeat']);
+            if (($agent->getPlainPassword() === $agent->getPropertyValue('passwordRepeat')) ) {
+                $dbAgent->setPlainPassword($agent->getPlainPassword());
+            }
+
+        }
+
+
+    }
+
+    private function setAndValidateAddress (Agent $agent, Agent $dbAgent)
+    {
+        $dbAddress = $dbAgent->getAddress();
+        if ($dbAddress) {
+            $agent->getAddress()?$agent->getAddress()->setId($dbAddress->getId()) : false;
+        }
+        $dbAgent->setAddress($agent->getAddress());
+
+
+    }
+
+    private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
+    {
+        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+       ;
+
+    }
+
+
+
+    /**
+     * @param Agent $agent
+     * @param Agent $dbAgent
+     */
+    private function setAndValidateImage (Agent $agent, Agent $dbAgent)
+    {
+        /**
+         * @var Image $dbImage
+         */
+        //AGENT ALREADY HAVE IMAGE
+        if ($dbImage = $dbAgent->getImage()) {
+            //Agent not have image, we must delete old image from file and DB
+            if (is_null($agent->getImage())) {
+                ($img = $dbAgent->getImage()) ? $img->deleteFile() :false;
+                $dbAgent->setImage(null);
+                $dbAgent->setBaseImageUrl(null);
+                //Agent changed his/her image, we must only update image
+            } else if ($agent->getImage()->getId() && !$agent->getImage()->getWebPath()) {
+                $dbImage->setBase64Content($agent->getImage()->getBase64Content());
+                $dbImage->deleteFile();
+                $this->saveMedia($dbAgent);
+            }
+            //DB AGENT IS WITHOUT IMAGE, we must add new
+        } else {
+            $dbAgent->setImage($agent->getImage());
+            $this->saveMedia($agent);
+        }
+
+    }
+
 
 
 

@@ -236,7 +236,6 @@ class JsonApiDocument implements JsonSerializable
             throw new \Exception('Please provide data to deserializer');
         }
         $decoded = (array)json_decode($string,true);
-
         $type = array_key_exists(0, $decoded['data']) ?$decoded['data'][0]['type']:$decoded['data']['type'];
         if (!$type) {
             throw new Exception('Document type does not exist in json api');
@@ -261,7 +260,7 @@ class JsonApiDocument implements JsonSerializable
             throw  new Exception('Set default document type for serializer before calling deserilization');
         }
 
-        if (! empty($this->data)) {
+        if (!empty($this->data)) {
             if (array_key_exists(0,$decoded['data'])) {
                 $objects = array();
                 $included = array_key_exists('included', $decoded) ? $decoded['included']:array();
@@ -319,7 +318,6 @@ class JsonApiDocument implements JsonSerializable
             }
 
             $newObject = $this->populateAttributes($resource, $decodedResource, $propertyAccessor);
-
             /** @var JsonApiRelationship $relationship Relationship must implement JsonApiElementInterface */
             foreach ($resource->getUnfilteredRelationships() as $relationship) {
                 $relationshipObject = $this->denormalize($relationship->getData(),$relationship->getDenormalizedData($decodedRelationships, $decodedIncludedData),$decodedIncludedData);

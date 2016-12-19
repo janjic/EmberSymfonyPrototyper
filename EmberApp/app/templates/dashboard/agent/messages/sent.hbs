@@ -1,47 +1,32 @@
-
-<h1 class="main-heading">Sent Messages</h1>
-<div class="clearfix">
-    {{#link-to 'dashboard.agent.messages.create-message' class='pull-right btn btn-danger'}}Create Message{{/link-to}}
-</div>
-
-
-<div class="table-responsive">
-    <table class="table table-striped table-bordered">
-        <tbody>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th> Username</th>
-            <th>Confirmed</th>
-            <th>Country</th>
-            <th><!----></th>
-        </tr>
-        <tr>
-            <td><div class="table-input"><input id="ember934" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember935" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember936" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember937" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember938" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember939" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input id="ember940" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-
-        </tr>
-
-        <tr>
-            <td>6</td>
-            <td><!----></td>
-            <td><!----></td>
-            <td>admin</td>
-            <td>true</td>
-            <td>5</td>
-            <td>
-                {{#link-to 'dashboard.agent.messages.sent-messages' class='table-user-link'}} <i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
-                <a href="profile-edit.html" class="table-user-link">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div class="inbox">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="message-list">
+                <div class="message-list-header">
+                    <h4>{{trans 'admin-messages.sent.listing'}}</h4>
+                    {{#link-to 'dashboard.messages.create-message' class='pull-right btn-floating'}} <i class="fa fa-plus"></i> {{/link-to}}
+                </div>
+                <div class="message-list-body" id="side-messages">
+                    {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected') selectedThread=selectedThread}}
+                    {{#infinity-loader infinityModel=model scrollable="#side-messages"}}
+                        {{#if _canLoadMore}}
+                            <div id="loading-more-state">
+                                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                            </div>
+                        {{/if}}
+                    {{/infinity-loader}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {{#if selectedThread}}
+                {{messages/message-thread
+                        thread=selectedThread
+                        createMessageAction=(action 'createMessage')
+                        createFileAction=(action 'createFile')
+                        deleteThreadAction=(action 'deleteThread')
+                }}
+            {{/if}}
+        </div>
+    </div>
 </div>

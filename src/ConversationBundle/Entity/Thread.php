@@ -27,7 +27,7 @@ class Thread extends BaseThread
     protected $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread", cascade={"persist"})
      * @var Message[]|Collection
      */
     protected $messages;
@@ -37,6 +37,12 @@ class Thread extends BaseThread
      * @var ThreadMetadata[]|Collection
      */
     protected $metadata;
+
+    /**
+     * Property used to determine if delete property should be changed
+     * @var bool
+     */
+    protected $changeDeleted = false;
 
     /**
      * Thread constructor.
@@ -53,6 +59,22 @@ class Thread extends BaseThread
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChangeDeleted()
+    {
+        return $this->changeDeleted;
+    }
+
+    /**
+     * @param boolean $changeDeleted
+     */
+    public function setChangeDeleted($changeDeleted)
+    {
+        $this->changeDeleted = $changeDeleted;
     }
 
 }

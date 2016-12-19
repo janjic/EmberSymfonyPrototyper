@@ -1,10 +1,14 @@
 import Ember from 'ember';
 import EmberDropzone from 'ui-dropzone/components/drop-zone';
+import {withoutProxies} from './../utils/proxy-helpers';
 const {Dropzone} = window;
 export default EmberDropzone.extend({
+
+    eventBus: Ember.inject.service('event-bus'),
+
     loadPreExistingFiles() {
         let file = this.get('currentImage');
-        if (file) {
+        if (withoutProxies(file)) {
             let extension = /(?:\.([^.]+))?$/.exec(file.get('name'))[1];
             extension     = extension ? extension :'png';
             let dropFile = {
@@ -44,4 +48,20 @@ export default EmberDropzone.extend({
 
         });
     },
+
+
+    onEmptyDropzone: function() {
+        let dropZone = this.get('dropzone');
+        for(let i = 0; i < dropZone.files.length; i++) {
+            dropZone.removeFile(dropZone.files[i]);
+        }
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('emptyDropzone', this, 'onEmptyDropzone');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('emptyDropzone');
+    })
 });

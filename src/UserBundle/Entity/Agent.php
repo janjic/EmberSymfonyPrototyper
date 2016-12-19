@@ -2,6 +2,7 @@
 
 namespace UserBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -334,6 +335,9 @@ class Agent extends BaseUser implements ParticipantInterface
      */
     public function setBirthDate($birthDate)
     {
+        if (!($birthDate instanceof DateTime)) {
+            $birthDate =  new DateTime($birthDate);
+        }
         $this->birthDate = $birthDate;
     }
 

@@ -47,11 +47,11 @@ export default Ember.Component.extend({
         addedFile: function (file) {
             if (!file.url) {
                 this.set('currentUser.user.image', null);
-                var img = this.get('store').createRecord('image');
+                let img = this.get('store').createRecord('image');
                 img.set('name', file.name);
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onloadend = function () {
-                    var imgBase64 = reader.result;
+                    let imgBase64 = reader.result;
                     img.set('base64Content', imgBase64);
 
                 };

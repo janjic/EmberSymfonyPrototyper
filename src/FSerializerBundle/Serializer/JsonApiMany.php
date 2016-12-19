@@ -147,10 +147,12 @@ class JsonApiMany implements JsonApiElementInterface
             $data = array_fill(0, $size, null);
             $this->resources = $this->buildResources($data, $this->serializer);
         }
-        $objects = array();
+        //$objects = array();
         foreach ($this->resources as $resource) {
-           $objects[] = $resource->getDenormalizedData($relationShips, $included, $name);
+           //$objects[] = $resource->getDenormalizedData($relationShips, $included, $name);
+           //break;
+            return  array($resource->getDenormalizedData($relationShips, $included, $name));
         }
-        return $objects;
+        //return $objects;
     }
 }
