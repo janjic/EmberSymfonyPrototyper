@@ -11,6 +11,7 @@ class AgentApiCode
 
     const ERROR_MESSAGE                             = 404;
     const FILE_SAVING_ERROR                         = 401;
+    const ACCESS_DENIED                             = 403;
 
     const PASSWORD_ALREADY_REQUESTED                = 41;
     const MAIL_SENT_TO_USER                         = 21;
@@ -46,4 +47,7 @@ class AgentApiCode
 
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2201;
+
+    /** THREAD */
+    const THREAD_EDITED_SUCCESSFULLY                 = 2251;
 }

@@ -2485,6 +2485,11 @@ input:focus {
     position: relative;
     padding-top: 30px;
     background-color: whitesmoke;
+    button {
+      position: absolute;
+      right: 15px;
+      top: 30px;
+    }
     h3.name {
       font-size: 16px;
       font-weight: bold;
@@ -2516,6 +2521,10 @@ input:focus {
     .view-message {
       .messages {
         margin-bottom: 0;
+        #loading-more-state {
+          text-align: center;
+          color: $main-red;
+        }
         .user-comment {
           display: flex;
           align-items: center;
@@ -2555,6 +2564,19 @@ input:focus {
           padding-right: 20px;
           .admin-message {
             margin-right: 10px;
+            .attachment-download {
+              font-size: 12px;
+              display: block;
+              color: #fff;
+              border-top: 1px solid $grayish;
+              font-style: italic;
+              &:hover {
+                color: #ccc;
+              }
+              &:focus {
+                text-decoration: none;
+              }
+            }
           }
           span {
             color: #ddd;
@@ -2646,4 +2668,13 @@ input:focus {
   bottom: 6px;
   font-size: 12px;
   color: #333;
+}
+
+.ticket-details {
+  .message-full {
+    height: calc(100vh - 375px);
+    .message-body {
+      max-height: calc(100vh - 530px);
+    }
+  }
 }

@@ -9,6 +9,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 use UserBundle\Entity\Document\Image;
@@ -76,15 +77,18 @@ trait JsonApiSaveTicketManagerTrait
          */
         $this->saveMedia($ticket);
 
-        /**
-         * Get agent reference
-         */
-        $agent = $this->agentManager->getReference($ticket->getCreatedBy()->getId());
-
+        /** @var NewThreadMessageBuilder $thread */
+        $thread = $this->messageComposer->newThread();
+        $thread->setSubject($ticket->getTitle());
+        $thread->setBody($ticket->getText());
+        $creator = $this->repository->getReferenceForClass($ticket->getCreatedBy()->getId(), Agent::class);
+        $thread->setSender($creator);
+        $ticket->setThread($thread->getMessage()->getThread());
+        $ticket->getThread()->setCreatedBy($creator);
         /**
          * Set agent to createdBy
          */
-        $ticket->setCreatedBy($agent);
+        $ticket->setCreatedBy($creator);
 
         return $ticket;
     }
