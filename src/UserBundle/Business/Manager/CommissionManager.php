@@ -4,6 +4,7 @@ namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
+use UserBundle\Business\Manager\Settings\JsonApiGetCommissionManagerTrait;
 use UserBundle\Business\Manager\Settings\JsonApiSaveCommisionManagerTrait;
 use UserBundle\Business\Repository\CommissionRepository;
 use UserBundle\Entity\Group;
@@ -17,7 +18,7 @@ use UserBundle\Entity\Settings\Settings;
 class CommissionManager implements JSONAPIEntityManagerInterface
 {
     use JsonApiSaveCommisionManagerTrait;
-    public function getResource($id = null){}
+    use JsonApiGetCommissionManagerTrait;
     public function deleteResource($id = null){}
     public function updateResource($id = null){}
 
@@ -54,11 +55,20 @@ class CommissionManager implements JSONAPIEntityManagerInterface
             $mappings = array(
                 'commission'  => array('class' => Commission::class, 'type'=>'commissions'),
                 'settings'    => array('class' => Settings::class,  'type'=>'settings'),
-                'group'    => array('class' => Group::class,  'type'=>'groups')
+                'group'       => array('class' => Group::class,  'type'=>'groups')
             );
         }
 
         return $this->fSerializer->setDeserializationClass(Commission::class)->deserialize($content, $mappings, $relations);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findCommissionById($id)
+    {
+        return $this->repository->findCommission($id);
     }
 
     /**
@@ -73,8 +83,8 @@ class CommissionManager implements JSONAPIEntityManagerInterface
         if (!$mappings) {
             $mappings = array(
                 'commission'    => array('class' => Commission::class,  'type'=>'commissions'),
-                'settings'  => array('class' => Settings::class, 'type'=>'settings'),
-                'group'    => array('class' => Group::class,  'type'=>'groups')
+                'settings'      => array('class' => Settings::class, 'type'=>'settings'),
+                'group'         => array('class' => Group::class,  'type'=>'groups')
             );
         }
 

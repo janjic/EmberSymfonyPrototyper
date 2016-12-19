@@ -33,4 +33,22 @@ class CommissionRepository extends EntityRepository
 
         return $commission;
     }
+
+    /**
+     * @param $id
+     * @return array|Commission|null
+     */
+    public function findCommission($id)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS);
+
+        if(intval($id)) {
+            $qb->where(self::ALIAS.'.id =:id')->setParameter('id', $id);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

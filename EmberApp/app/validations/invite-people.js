@@ -1,5 +1,4 @@
 import {
-    validateFormat,
     validatePresence
 } from 'ember-changeset-validations/validators';
 

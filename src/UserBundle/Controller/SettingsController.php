@@ -15,9 +15,9 @@ class SettingsController extends Controller
      * @param ArrayCollection $settingsAPI
      * @return Response
      */
-    public function invitationsAPIAction(ArrayCollection $settingsAPI)
+    public function settingsAPIAction(ArrayCollection $settingsAPI)
     {
-        $status = array_key_exists('errors', $settingsAPI->toArray()) ? $settingsAPI['errors'][0]['status'] : 201;
+        $status = array_key_exists('errors', $settingsAPI->toArray()) ? $settingsAPI['errors'][0]['status'] : 200;
 
         return new JsonResponse($settingsAPI->toArray(), $status);
     }

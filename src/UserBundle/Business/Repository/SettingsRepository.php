@@ -16,6 +16,8 @@ class SettingsRepository extends EntityRepository
     use BasicEntityRepositoryTrait;
 
     const ALIAS       = 'settings';
+    const COMMISSION  = 'commissions';
+    const BONUS       = 'bonuses';
 
     /**
      * Save new Settings
@@ -32,5 +34,24 @@ class SettingsRepository extends EntityRepository
         }
 
         return $settings;
+    }
+
+    /**
+     * @param $id
+     * @return array|Settings|null
+     */
+    public function findSettings($id)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS);
+
+        if(intval($id)) {
+            $qb->where(self::ALIAS.'.id =:id')->setParameter('id', $id)
+                ->leftJoin(self::ALIAS.'.'.self::BONUS, self::BONUS)
+                ->leftJoin(self::ALIAS.'.'.self::COMMISSION, self::COMMISSION);
+
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+        return $qb->getQuery()->getResult();
     }
 }

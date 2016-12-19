@@ -295,7 +295,7 @@ class Settings
      */
     public function addBonus(Bonus $bonus)
     {
-        $this->commissions->add($bonus);
+        $this->bonuses->add($bonus);
     }
 
     /**
@@ -303,7 +303,7 @@ class Settings
      */
     public function removeBonus(Bonus $bonus)
     {
-        $this->commissions->removeElement($bonus);
+        $this->bonuses->removeElement($bonus);
     }
 
 }

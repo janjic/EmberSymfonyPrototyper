@@ -156,3 +156,37 @@ services:
             - "@agent_system.invitation.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Settings ------------------------------------------------------------------------------------------------ #
+    agent_system.settings.repository:
+        class: UserBundle\Business\Repository\SettingsRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Settings\Settings
+
+    agent_system.settings.manager:
+        class: UserBundle\Business\Manager\SettingsManager
+        arguments:
+            repository: "@agent_system.settings.repository"
+            fSerializer: "@f_serializer"
+            commissionManager: "@agent_system.commission.manager"
+
+    agent_system.settings.adapter:
+        class: UserBundle\Adapter\Settings\SettingsAdapter
+        arguments:
+            - "@agent_system.settings.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    # ------ Commission ---------------------------------------------------------------------------------------------- #
+    agent_system.commission.repository:
+        class: UserBundle\Business\Repository\CommissionRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Settings\Commission
+
+    agent_system.commission.manager:
+        class: UserBundle\Business\Manager\CommissionManager
+        arguments:
+            repository: "@agent_system.commission.repository"
+            fSerializer: "@f_serializer"

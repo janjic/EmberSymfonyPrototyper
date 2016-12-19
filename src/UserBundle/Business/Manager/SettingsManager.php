@@ -4,9 +4,13 @@ namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
+use UserBundle\Business\Manager\Settings\JsonApiGetSettingsManagerTrait;
 use UserBundle\Business\Manager\Settings\JsonApiSaveSettingsManagerTrait;
+use UserBundle\Business\Manager\Settings\JsonApiUpdateSettingsManagerTrait;
 use UserBundle\Business\Repository\SettingsRepository;
 use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Settings\Bonus;
+use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
 
 /**
@@ -16,9 +20,9 @@ use UserBundle\Entity\Settings\Settings;
 class SettingsManager implements JSONAPIEntityManagerInterface
 {
     use JsonApiSaveSettingsManagerTrait;
-    public function getResource($id = null){}
+    use JsonApiGetSettingsManagerTrait;
     public function deleteResource($id = null){}
-    public function updateResource($id = null){}
+    use JsonApiUpdateSettingsManagerTrait;
 
     /**
      * @var SettingsRepository
@@ -31,13 +35,20 @@ class SettingsManager implements JSONAPIEntityManagerInterface
     protected $fSerializer;
 
     /**
+     * @var CommissionManager
+     */
+    protected $commissionManager;
+
+    /**
      * @param SettingsRepository $repository
      * @param FJsonApiSerializer $fSerializer
+     * @param CommissionManager $commissionManager
      */
-    public function __construct(SettingsRepository $repository, FJsonApiSerializer $fSerializer)
+    public function __construct(SettingsRepository $repository, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager)
     {
         $this->repository = $repository;
         $this->fSerializer = $fSerializer;
+        $this->commissionManager = $commissionManager;
     }
 
     /**
@@ -47,14 +58,17 @@ class SettingsManager implements JSONAPIEntityManagerInterface
      */
     public function deserializeSettings($content, $mappings = null)
     {
-        $relations = array('image');
+        $relations = array('image', 'bonuses', 'commissions');
 
         if (!$mappings) {
             $mappings = array(
                 'settings'  => array('class' => Settings::class, 'type'=>'settings'),
-                'image'    => array('class' => Image::class,  'type'=>'images')
+                'image'    => array('class' => Image::class,  'type'=>'images'),
+                'bonuses'    => array('class' => Bonus::class,  'type'=>'bonuses'),
+                'commissions'    => array('class' => Commission::class,  'type'=>'commissions')
             );
         }
+
 
         return $this->fSerializer->setDeserializationClass(Settings::class)->deserialize($content, $mappings, $relations);
     }
@@ -66,12 +80,14 @@ class SettingsManager implements JSONAPIEntityManagerInterface
      */
     public function serializeSettings($content, $mappings = null)
     {
-        $relations = array('image');
+        $relations = array('image', 'bonuses', 'commissions');
 
         if (!$mappings) {
             $mappings = array(
                 'settings'  => array('class' => Settings::class, 'type'=>'settings'),
-                'image'    => array('class' => Image::class,  'type'=>'images')
+                'image'    => array('class' => Image::class,  'type'=>'images'),
+                'bonuses'    => array('class' => Bonus::class,  'type'=>'bonuses'),
+                'commissions'    => array('class' => Commission::class,  'type'=>'commissions')
             );
         }
 

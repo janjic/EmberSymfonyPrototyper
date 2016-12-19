@@ -48,4 +48,8 @@ class AgentApiCode
 
     /** INVITATION */
     const INVITATION_SAVED_SUCCESSFULLY              = 2401;
+
+    /** SETTINGS */
+    const SETTINGS_SAVED_SUCCESSFULLY                = 2501;
+    const SETTINGS_EDITED_SUCCESSFULLY               = 2502;
 }

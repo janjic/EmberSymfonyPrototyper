@@ -1,0 +1,63 @@
+<h3 class="sub-heading">{{trans 'settings.labels.referral'}}</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-chf'}}
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field
+                        type="text"
+                        changeset=changeset
+                        property="amountCHF"
+                        doNotShowLabel=true
+                        validateProperty=(action 'validateProperty' changeset "amountCHF")
+                }}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-eur'}}
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field
+                        type="text"
+                        changeset=changeset
+                        property="amountEUR"
+                        doNotShowLabel=true
+                        validateProperty=(action 'validateProperty' changeset "amountEUR")
+                }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.number-of-customers'}}
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field
+                        type="text"
+                        changeset=changeset
+                        property="numberOfCustomers"
+                        doNotShowLabel=true
+                        validateProperty=(action 'validateProperty' changeset "numberOfCustomers")
+                }}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.for-period-less'}}
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field
+                        type="text"
+                        changeset=changeset
+                        property="period"
+                        doNotShowLabel=true
+                        validateProperty=(action 'validateProperty' changeset "period")
+                }} <span class="input-span-addon">{{trans 'settings.labels.month(s)'}}</span>
+            </div>
+        </div>
+    </div>
+</div>

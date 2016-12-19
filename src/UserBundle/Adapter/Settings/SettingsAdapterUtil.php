@@ -8,11 +8,13 @@
 
 namespace UserBundle\Adapter\Settings;
 
+use CoreBundle\Adapter\BaseAdapterUtil;
+
 /**
  * Class SettingsAdapterUtil
  * @package UserBundle\Adapter\Settings
  */
-class SettingsAdapterUtil
+class SettingsAdapterUtil extends BaseAdapterUtil
 {
     /** each adapter class MUST end with this */
     const BASE_CONVERTER_NAME = 'Converter';

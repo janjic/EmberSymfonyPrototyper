@@ -129,4 +129,23 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'invitations', 'id' => $id), 'meta' => array('status'=> AgentApiCode::INVITATION_SAVED_SUCCESSFULLY));
     }
+
+    /** -------- SETTINGS ------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'settings', 'id' => $id), 'meta' => array('status'=> AgentApiCode::SETTINGS_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'SETTINGS', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
+    }
 }

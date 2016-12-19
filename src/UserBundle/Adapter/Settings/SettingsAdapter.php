@@ -33,8 +33,8 @@ class SettingsAdapter extends BaseAdapter
      */
     public function buildConverterInstance($param, Request $request)
     {
-        $type = __NAMESPACE__."\\".ucfirst($param).InvitationAdapterUtil::BASE_CONVERTER_NAME;
+        $type = __NAMESPACE__."\\".ucfirst($param).SettingsAdapterUtil::BASE_CONVERTER_NAME;
 
-        return new $type($this->SettingsManager, $request, $param);
+        return new $type($this->settingsManager, $request, $param);
     }
 }
