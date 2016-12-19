@@ -23,11 +23,10 @@ trait JsonApiUpdateAgentManagerTrait
          * @var Agent $agent
          */
         $agent = $this->deserializeAgent($data);
-        $decoded = $decoded = (array)json_decode($data,true);
-        $agent->setPropertyValue('passwordRepeat',$decoded['data']['attributes']['passwordRepeat']);
+
         /** @var Agent $dbAgent */
         $dbAgent = $this->getEntityReference($agent->getId());
-        $agent = $this->prepareUpdate($agent, $dbAgent);
+        $agent = $this->prepareUpdate($agent, $dbAgent, $data);
         $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
 
@@ -49,10 +48,10 @@ trait JsonApiUpdateAgentManagerTrait
     }
 
 
-    private function prepareUpdate(Agent $agent, Agent $dbAgent)
+    private function prepareUpdate(Agent $agent, Agent $dbAgent, $data)
     {
         AgentSerializerInfo::updateBasicFields($agent, $dbAgent);
-        $this->setAndValidatePassword($agent, $dbAgent);
+        $this->setAndValidatePassword($agent, $dbAgent, $data);
         $this->setAndvalidateAddress($agent, $dbAgent);
         $this->setAndValidateGroup($agent, $dbAgent);
         $this->setAndValidateImage($agent, $dbAgent);
@@ -82,12 +81,20 @@ trait JsonApiUpdateAgentManagerTrait
     /**
      * @param Agent $agent
      * @param Agent $dbAgent
+     * @param $data
      */
-    private function setAndValidatePassword (Agent $agent, Agent $dbAgent)
+    private function setAndValidatePassword (Agent $agent, Agent $dbAgent, $data)
     {
-        if (!is_null($agent->getPlainPassword()) && ($agent->getPlainPassword() === $agent->getPropertyValue('passwordRepeat')) ) {
+
+        if (!is_null($agent->getPlainPassword())) {
+            $decoded = $decoded = (array)json_decode($data,true);
+            $agent->setPropertyValue('passwordRepeat',$decoded['data']['attributes']['passwordRepeat']);
+            if (($agent->getPlainPassword() === $agent->getPropertyValue('passwordRepeat')) ) {
                 $dbAgent->setPlainPassword($agent->getPlainPassword());
+            }
+
         }
+
 
     }
 
@@ -95,7 +102,7 @@ trait JsonApiUpdateAgentManagerTrait
     {
         $dbAddress = $dbAgent->getAddress();
         if ($dbAddress) {
-            $agent->getAddress()->setId($dbAddress->getId());
+            $agent->getAddress()?$agent->getAddress()->setId($dbAddress->getId()) : false;
         }
         $dbAgent->setAddress($agent->getAddress());
 
@@ -104,8 +111,8 @@ trait JsonApiUpdateAgentManagerTrait
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
     {
-        $dbGroup = $this->groupManager->getReference($agent->getGroup()->getId());
-        $dbAgent->setGroup($dbGroup);
+        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+       ;
 
     }
 
@@ -132,8 +139,6 @@ trait JsonApiUpdateAgentManagerTrait
                 $dbImage->setBase64Content($agent->getImage()->getBase64Content());
                 $dbImage->deleteFile();
                 $this->saveMedia($dbAgent);
-            } else {
-               //Nothing to change
             }
             //DB AGENT IS WITHOUT IMAGE, we must add new
         } else {

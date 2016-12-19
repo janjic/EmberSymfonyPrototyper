@@ -2,7 +2,6 @@
 
 namespace CoreBundle\Adapter;
 use Exception;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class AgentApiEvent
@@ -29,6 +28,7 @@ class AgentApiResponse
     const GROUP_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::GROUP_ALREADY_EXIST)));
 
     const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
+    const AGENT_INACTIVE_RESPONSE               = array('status' => AgentApiCode::AGENT_CURRENTLY_INACTIVE);
     const ACCESS_TO_TICKET_DENIED               = array('errors' => array(array('status' => AgentApiCode::ACCESS_DENIED)));
 
 

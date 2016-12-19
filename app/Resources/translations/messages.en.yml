@@ -3,11 +3,13 @@ password:
   changed:
     successfully:                'Password is changed successfully'
     invalid.token:               'Access token has expired, been revoked, or is otherwise invalid !'
+    account.inactive:              'Your account is currently inactive !'
     old.is.not.correct:          'Old password is not correct'
     are.not.same:                 'Entered passwords are not same'
   already.requested.%ttl%:       'Password already requested in last %ttl% minutes!'
   resetting.link.sent:           'Resetting link is sent to your email address !'
   user.with.email.not.exist:     'User with entered email does not exist !'
+  user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
 loading:
