@@ -39,6 +39,12 @@ class Thread extends BaseThread
     protected $metadata;
 
     /**
+     * Property used to determine if delete property should be changed
+     * @var bool
+     */
+    protected $changeDeleted = false;
+
+    /**
      * Thread constructor.
      */
     public function __construct()
@@ -53,6 +59,22 @@ class Thread extends BaseThread
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChangeDeleted()
+    {
+        return $this->changeDeleted;
+    }
+
+    /**
+     * @param boolean $changeDeleted
+     */
+    public function setChangeDeleted($changeDeleted)
+    {
+        $this->changeDeleted = $changeDeleted;
     }
 
 }

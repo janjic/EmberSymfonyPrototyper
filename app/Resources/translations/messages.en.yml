@@ -218,12 +218,17 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
-# ADMIN - AGENT PAGES
+# ADMIN - MESSAGES
 admin-messages:
   subject: 'Subject'
   content: 'Content'
   send: 'Send'
+  send.message: 'Send Message'
   create: 'Create Message'
+  deleted.listing: 'Deleted Messages'
+  sent.listing: 'Sent Messages'
+  received.listing: 'Received Messages'
+
 
 models:
   server-error: 'Server error!'
@@ -254,7 +259,9 @@ models:
       active: 'Active'
       resolved: 'Resolved'
   message:
-    save: 'Group sent!'
+    save: 'Message sent!'
+    delete: 'Message moved to trash'
+    undo: 'Message removed from trash'
     unsupported.file.type: 'Current file type is not supported!'
 
 #SETTINGS

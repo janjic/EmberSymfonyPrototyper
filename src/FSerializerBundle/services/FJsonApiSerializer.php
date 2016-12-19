@@ -224,6 +224,13 @@ class FJsonApiSerializer extends JsonApiSerializerAbstract
      */
     public function serialize($data, array $mappings, $relations, $disabledAttributes = array(), $attributeMappings = array())
     {
+        if (is_null($data)) {
+            return new JsonApiDocument(new JsonApiOne(null, $this));
+        }
+        if (is_array($data) && empty($data)) {
+            return new JsonApiDocument(new JsonApiMany(array(), $this));
+        }
+
         $isArray = (is_array($data) || $data instanceof Countable || $data instanceof ArrayAccess);
         //Make sure object is not proxy
         $class   =  ($isArray && count($data) || is_object($data)) ? ClassUtils::getRealClass($isArray ? get_class($data[0]): get_class($data)):null;

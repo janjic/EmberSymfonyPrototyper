@@ -6,16 +6,16 @@
             {{else}}
                 <img src="../../assets/images/user-avatar.png" title="Username">
             {{/if}}
-
-            {{!--<img src="https://s3.amazonaws.com/uifaces/faces/twitter/rem/128.jpg" alt="">--}}
         </div>
         <div class="content">
             <h3 class="name">
                 {{thread.otherParticipant.fullName}}
             </h3>
-            <h4 class="subject"><strong>Subject:</strong> {{thread.subject}}</h4>
-            <h5 class="content-text">{{thread.firstMessage.body}}</h5>
+            <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
+            {{!--<h5 class="content-text">{{thread.firstMessage.body}}</h5>--}}
         </div>
-        {{!--<div class="conversation-active"></div>--}}
+        {{#if (eq thread.id selectedThread.id)}}
+            <div class="conversation-active"></div>
+        {{/if}}
     </div>
 {{/each}}

@@ -122,4 +122,14 @@ class AgentApiResponse
         return array('data' => array('type'=> 'tickets', 'id' => $id), 'meta' => array('status'=> AgentApiCode::TICKET_SAVED_SUCCESSFULLY));
     }
 
+    /** -------- THREAD --------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function THREAD_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'threads', 'id' => $id), 'meta' => array('status'=> AgentApiCode::THREAD_EDITED_SUCCESSFULLY));
+    }
+
 }
