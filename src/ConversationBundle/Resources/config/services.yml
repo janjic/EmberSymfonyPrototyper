@@ -44,6 +44,14 @@ services:
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
 
+    agent_system.message.event.listener:
+        class: ConversationBundle\Business\Event\Thread\ThreadReadListener
+        arguments:
+            - "@agent_system.thread.manager"
+        tags:
+            - { name: kernel.event_listener, event: thread.read.action, method: setEvent }
+            - { name: kernel.event_listener, event: kernel.terminate, method: execute }
+
     # ------ Ticket ------------------------------------------------------------------------------------------------- #
     agent_system.ticket.repository:
         class: ConversationBundle\Business\Repository\TicketRepository

@@ -18,7 +18,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
 
     /** list of messages to be displayed */
     messages: [],
-    sortProperties: ['id:asc'],
+    sortProperties: ['createdAt:asc'],
     messagesInverse: Ember.computed.sort('messages', 'sortProperties'),
 
     /** create new message attributes */
@@ -32,6 +32,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     currentUser: Ember.inject.service('current-user'),
     eventBus: Ember.inject.service('event-bus'),
     fileTemp: null,
+    newMessagesDisplayToggle: false,
 
     threadChange: Ember.observer('thread', function () {
         this._initialLoad();
@@ -115,6 +116,11 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
         removedFile() {
             this.set('fileTemp', null);
         },
+
+        showNewMessages() {
+            this.set('newMessagesDisplayToggle', false);
+            this.scrollToBottom();
+        },
     },
 
     /**
@@ -158,15 +164,29 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
 
     getNewMessages: task(function * () {
         while (true) {
-            yield timeout(5000);
+            yield timeout(10000);
             this.get('store').query('message', {per_page: 10, thread: this.get('thread.id'), max_id: this.get('_maxId')})
                 .then((messages) => {
                     if(messages.toArray().length && this.get('messages')){
                         this.get('messages').pushObjects(messages.toArray());
                         this.set('_maxId', messages.get('firstObject.id'));
+                        this.set('newMessagesDisplayToggle',true);
                     }
                 });
         }
     }).on('init'),
 
+
+    /** hide messages when div is scrolled to bottom */
+    hideNewMessagesDisplay() {
+        this.set('newMessagesDisplayToggle', false);
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('hideNewMessagesText', this, 'hideNewMessagesDisplay');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('hideNewMessagesText');
+    })
 });

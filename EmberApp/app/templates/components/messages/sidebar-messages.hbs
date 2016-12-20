@@ -16,6 +16,14 @@
         </div>
         {{#if (eq thread.id selectedThread.id)}}
             <div class="conversation-active"></div>
+        {{else if thread.isRead}}
+
+        {{else}}
+            <div class="conversation-unread"></div>
         {{/if}}
     </div>
 {{/each}}
+
+{{#unless model}}
+    {{trans 'admin-messages.no-messages'}}
+{{/unless}}

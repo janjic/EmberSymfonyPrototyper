@@ -2,6 +2,8 @@
 
 namespace ConversationBundle\Business\Manager;
 
+use ConversationBundle\Business\Event\Thread\ThreadEvents;
+use ConversationBundle\Business\Event\Thread\ThreadReadEvent;
 use ConversationBundle\Business\Manager\Message\JsonApiSaveMessageManagerTrait;
 use ConversationBundle\Business\Repository\MessageRepository;
 use ConversationBundle\Entity\Message;
@@ -132,6 +134,12 @@ class MessageManager implements JSONAPIEntityManagerInterface
             $perPage, $minId, $maxId);
 
         $totalItems = $this->repository->getMessagesForThread($threadId, null, null, null, null, true)[0][1];
+
+        if (array_key_exists(0, $messages)) {
+            $messages[0]->getThread()->setIsRead(true);
+            $event = new ThreadReadEvent($messages[0]->getThread());
+            $this->eventDispatcher->dispatch(ThreadEvents::ON_THREAD_READ, $event);
+        }
 
         return $this->serializeMessage($messages, ['total_pages'=>ceil($totalItems / $perPage)]);
     }

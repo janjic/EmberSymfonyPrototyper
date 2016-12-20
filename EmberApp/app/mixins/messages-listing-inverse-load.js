@@ -42,6 +42,12 @@ export default Ember.Mixin.create(InfinityRoute, {
             return false;
         }
         let _topOffset = this.get('_scrollable').height() - this.get("_scrollable").scrollTop();
+
+        /** if scrolled to bottom */
+        if ((this._bottomOfScrollableOffset() >= this.get('_scrollable')[0].scrollHeight) && this.get('eventBus')) {
+            this.get('eventBus').publish('hideNewMessagesText');
+        }
+
         return this._bottomOfScrollableOffset() <= _topOffset;
     },
 

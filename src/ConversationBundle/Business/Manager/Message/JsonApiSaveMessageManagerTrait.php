@@ -2,6 +2,8 @@
 
 namespace ConversationBundle\Business\Manager\Message;
 
+use ConversationBundle\Business\Event\Thread\ThreadEvents;
+use ConversationBundle\Business\Event\Thread\ThreadReadEvent;
 use ConversationBundle\Entity\Message;
 use ConversationBundle\Entity\Thread;
 use CoreBundle\Adapter\AgentApiResponse;
@@ -50,6 +52,10 @@ trait JsonApiSaveMessageManagerTrait
         $thread->addRecipient($this->repository->getReferenceForClass($message->getParticipants()[0]->getId(), Agent::class));
         $thread->setSender($this->repository->getReferenceForClass($message->getSender()->getId(), Agent::class));
 
+        $thread->getMessage()->getThread()->setIsRead(true);
+        $event = new ThreadReadEvent($thread->getMessage()->getThread());
+        $this->eventDispatcher->dispatch(ThreadEvents::ON_THREAD_READ, $event);
+
         return $this->processSave($thread->getMessage(), $message);
     }
 
@@ -64,6 +70,8 @@ trait JsonApiSaveMessageManagerTrait
         $messageBuilder = $this->messageComposer->reply($thread);
         $messageBuilder->setBody($msg->getBody());
         $messageBuilder->setSender($this->repository->getReferenceForClass($msg->getSender()->getId(), Agent::class));
+
+        $messageBuilder->getMessage()->getThread()->setAsUnreadForOtherParticipants($msg->getSender());
 
         return $this->processSave($messageBuilder->getMessage(), $msg);
     }
@@ -86,6 +94,7 @@ trait JsonApiSaveMessageManagerTrait
             $newMessage->setFile($messageFronted->getFile());
             $this->messageSender->send($newMessage);
 
+            $this->saveEventResult->getThread()->setIsRead(true);
             return $this->serializeMessage($this->saveEventResult);
 
         } catch (Exception $e) {

@@ -240,7 +240,8 @@ admin-messages:
   deleted.listing: 'Deleted Messages'
   sent.listing: 'Sent Messages'
   received.listing: 'Received Messages'
-
+  no-messages: 'You have no messages'
+  new-messages: 'You have new messages'
 
 models:
   server-error: 'Server error!'

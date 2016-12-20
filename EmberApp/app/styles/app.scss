@@ -2432,6 +2432,13 @@ input:focus {
         right: 0;
         background-color: #56b699;
       }
+      .conversation-unread {
+        position: absolute;
+        width: 5px;
+        height: 100%;
+        right: 0;
+        background-color: $main-red;
+      }
       .img-holder {
         height: 80px !important;
         margin-right: 15px;
@@ -2540,6 +2547,7 @@ input:focus {
         justify-content: center;
         width: 100%;
         padding: 20px;
+        background-color: #fff;
         a {
           &:hover {
             text-decoration: none;
