@@ -8,7 +8,7 @@ export default Ember.Route.extend({
             return ticket;
         }, (response) => {
             response.errors.forEach((error)=>{
-                if(parseInt(error.status) == 403){
+                if(parseInt(error.status) === 403){
                     ctx.transitionTo('dashboard');
                 }
             });

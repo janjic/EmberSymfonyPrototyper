@@ -38,3 +38,36 @@
   become: true
   become_method: sudo
 
+- name: Check if python is already latest
+  command: python3 --version
+  register: python_version_result
+  failed_when: "{{ python_version_result.stdout | replace('Python ', '') | version_compare(python_version, '>=') }}"
+
+- name: Install prerequisites
+  apt: name=python-software-properties state=present
+  become: true
+
+- name: Add deadsnakes repo
+  apt_repository: repo="ppa:fkrull/deadsnakes"
+  become: true
+
+- name: Install python
+  apt: name="python{{ python_version }}-dev" state=present
+  become: true
+
+- name: Add Java 8 repository
+  apt_repository: repo='ppa:webupd8team/java'
+
+- name: Agree to oracle license
+  debconf: name=oracle-java8-installer question=shared/accepted-oracle-license-v1-1 vtype=select value=true
+
+- name: Install Java 8
+  apt: name=oracle-java8-installer force=yes
+
+- name: download openfire
+  get_url: url=http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_4.0.4_all.deb dest=/opt/openfire.deb
+
+- name: install openfire
+  apt: deb=/opt/openfire.deb
+
+
