@@ -160,4 +160,27 @@ class ThreadRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * @param ParticipantInterface $participant
+     * @return array
+     */
+    public function getNumberOfUnread(ParticipantInterface $participant)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS)
+            ->innerJoin(self::ALIAS.'.metadata', 'tm')
+            ->innerJoin('tm.participant', 'p')
+
+            // the participant is in the thread participants
+            ->andWhere('p.id = :user_id')
+            ->setParameter('user_id', $participant->getId())
+
+            // the thread is not deleted by this participant
+            ->andWhere('tm.isReadByParticipant = :isRead')
+            ->setParameter('isRead', false);
+
+        $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
+
+        return $qb->getQuery()->getResult();
+    }
 }

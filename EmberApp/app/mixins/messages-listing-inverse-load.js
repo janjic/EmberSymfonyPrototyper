@@ -21,7 +21,7 @@ export default Ember.Mixin.create(InfinityRoute, {
      */
     afterInfinityModel(data) {
         if (!this.get('isLoadedFirst')) {
-            let element = this.$(this.get('scrollContainder'));
+            let element = this.$(this.get('scrollContainer'));
             setTimeout(() => {
                 /** use difference of old and new height to calculate scroll */
                 element.scrollTop(element[0].scrollHeight - this.get('topScrollHolder'));
@@ -42,6 +42,12 @@ export default Ember.Mixin.create(InfinityRoute, {
             return false;
         }
         let _topOffset = this.get('_scrollable').height() - this.get("_scrollable").scrollTop();
+
+        /** if scrolled to bottom */
+        if ((this._bottomOfScrollableOffset() >= this.get('_scrollable')[0].scrollHeight) && this.get('eventBus')) {
+            this.get('eventBus').publish('hideNewMessagesText');
+        }
+
         return this._bottomOfScrollableOffset() <= _topOffset;
     },
 
@@ -52,7 +58,7 @@ export default Ember.Mixin.create(InfinityRoute, {
         if (this.get('_loadingMore') || !this.get('_canLoadMore') || !this.get('isLoadedFirst')) {
             return;
         }
-        this.set('topScrollHolder', this.$(this.get('scrollContainder'))[0].scrollHeight);
+        this.set('topScrollHolder', this.$(this.get('scrollContainer'))[0].scrollHeight);
         this.set('isLoadedFirst', false);
         this._loadNextPage();
     },
@@ -66,7 +72,7 @@ export default Ember.Mixin.create(InfinityRoute, {
     },
 
     scrollToBottom(){
-      let element = this.$(this.get('scrollContainder'));
+      let element = this.$(this.get('scrollContainer'));
       setTimeout(() => {
           element.scrollTop(element[0].scrollHeight);
       }, 1);

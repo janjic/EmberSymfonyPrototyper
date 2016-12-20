@@ -45,6 +45,12 @@ class Thread extends BaseThread
     protected $changeDeleted = false;
 
     /**
+     * Property used to determine if thread has been read by current participant
+     * @var bool
+     */
+    protected $isRead;
+
+    /**
      * Thread constructor.
      */
     public function __construct()
@@ -75,6 +81,54 @@ class Thread extends BaseThread
     public function setChangeDeleted($changeDeleted)
     {
         $this->changeDeleted = $changeDeleted;
+    }
+
+    /**
+     * If thread is fully read
+     * @param ParticipantInterface $participant
+     * @return mixed
+     */
+    public function isReadByParticipantCustom(ParticipantInterface $participant)
+    {
+        /** @var ThreadMetadata $meta */
+        $meta = $this->getMetadataForParticipant($participant);
+        if ($meta) {
+            return $meta->isIsReadByParticipant();
+        }
+
+        return false;
+    }
+
+    /**
+     * If thread is fully read
+     * @param ParticipantInterface $participant
+     */
+    public function setAsUnreadForOtherParticipants(ParticipantInterface $participant)
+    {
+        /** @var ThreadMetadata $meta */
+        foreach ($this->getAllMetadata() as $meta) {
+            if ($meta->getParticipant()->getId() != $participant->getId()) {
+                $meta->setIsReadByParticipant(false);
+            } else {
+                $meta->setIsReadByParticipant(true);
+            }
+        }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsRead()
+    {
+        return $this->isRead;
+    }
+
+    /**
+     * @param boolean $isRead
+     */
+    public function setIsRead($isRead)
+    {
+        $this->isRead = $isRead;
     }
 
 }

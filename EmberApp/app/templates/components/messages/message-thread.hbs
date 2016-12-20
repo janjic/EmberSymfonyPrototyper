@@ -13,7 +13,7 @@
         <section class="view-message" >
             <section class="messages clearfix">
 
-                {{#infinity-loader infinityModel=messages scrollable="#messages-list" loadingText="..." loadedText='' _shouldLoadMore=_shouldLoadMore}}
+                {{#infinity-loader infinityModel=messages scrollable="#messages-list" _shouldLoadMore=_shouldLoadMore eventBus=eventBus}}
                     {{#if _canLoadMore}}
                         <div id="loading-more-state">
                             <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
@@ -67,9 +67,11 @@
                 {{/each}}
 
             </section>
-            <div class="new-messages-alert">
-                <a href="#">You have new messages <i class="fa fa-chevron-down"></i></a>
-            </div>
+            {{#if newMessagesDisplayToggle}}
+                <div class="new-messages-alert">
+                    <a {{action 'showNewMessages'}}>{{trans 'admin-messages.new-messages'}} <i class="fa fa-chevron-down"></i></a>
+                </div>
+            {{/if}}
         </section>
     </div>
     {{#unless disabledSendMessage}}

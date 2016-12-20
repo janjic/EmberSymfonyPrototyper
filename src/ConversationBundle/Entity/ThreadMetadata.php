@@ -31,4 +31,29 @@ class ThreadMetadata extends BaseThreadMetadata
      * @var ParticipantInterface
      */
     protected $participant;
+
+    /**
+     * Custom field used for optimization
+     * @var boolean
+     * @ORM\Column(name="is_read_by_participant", type="boolean")
+     */
+    protected $isReadByParticipant = false;
+
+    /**
+     * @return boolean
+     */
+    public function isIsReadByParticipant()
+    {
+        return $this->isReadByParticipant;
+    }
+
+    /**
+     * @param boolean $isReadByParticipant
+     */
+    public function setIsReadByParticipant($isReadByParticipant)
+    {
+        $this->isReadByParticipant = $isReadByParticipant;
+    }
+
+
 }

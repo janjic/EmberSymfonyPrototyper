@@ -256,7 +256,6 @@ class AgentRepository extends NestedTreeRepository
                 $firstResult = 0;
                 if ($page != 1) {
                     $firstResult = ($page - 1) * $offset;
-                    $offset = $page * $offset;
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
@@ -285,7 +284,6 @@ class AgentRepository extends NestedTreeRepository
                 $firstResult = 0;
                 if ($page != 1) {
                     $firstResult = ($page - 1) * $offset;
-                    $offset = $page * $offset;
                 }
                 //numeric fields
                 if (is_numeric($searchString)) {
