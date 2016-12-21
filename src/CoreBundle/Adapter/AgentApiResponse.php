@@ -44,6 +44,16 @@ class AgentApiResponse
     }
 
     /**
+     * @param $childCount
+     * @param $numberOfUsers
+     * @return array
+     */
+    public static function AGENT_INFO_OK_RESPONSE($childCount, $numberOfUsers)
+    {
+        return array('data' => array('childCount'=> $childCount, 'usersCount' => $numberOfUsers), 'status' => AgentApiCode::AGENT_INFO_CALCULATED_OK);
+    }
+
+    /**
      * @param $email
      * @return array
      */
@@ -60,7 +70,6 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'agents', 'id' => $id));
     }
-
 
 
     /**
@@ -132,4 +141,33 @@ class AgentApiResponse
         return array('data' => array('type'=> 'threads', 'id' => $id), 'meta' => array('status'=> AgentApiCode::THREAD_EDITED_SUCCESSFULLY));
     }
 
+
+    /** -------- INVITATION ----------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function INVITATION_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'invitations', 'id' => $id), 'meta' => array('status'=> AgentApiCode::INVITATION_SAVED_SUCCESSFULLY));
+    }
+
+    /** -------- SETTINGS ------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'settings', 'id' => $id), 'meta' => array('status'=> AgentApiCode::SETTINGS_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'SETTINGS', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
+    }
 }

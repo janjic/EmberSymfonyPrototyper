@@ -65,11 +65,12 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.disableLoader();
             if (!this.get('isProfileView')) {
                 this.toast.success(Translator.trans('models.agent.save.message'));
+                this.get('model').reload();
                 if (!this.get('isEdit')) {
                     this.get('goToRoute')('dashboard.agents.all-agents');
                 }
-
             } else {
+                this.get('model').reload();
                 this.toast.success(Translator.trans('models.agent.updated.profile'));
             }
 
