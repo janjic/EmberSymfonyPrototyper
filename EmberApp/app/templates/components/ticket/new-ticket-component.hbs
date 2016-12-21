@@ -21,7 +21,6 @@
         <div class="form-group clearfix">
             <div class="col-md-12">
                 <label for="emails" class="control-label">Description</label>
-                {{!--<textarea class="form-control" name="emails" id="" cols="30" rows="5"></textarea>--}}
                 {{validated-field doNotShowLabel=true property="text" changeset=changeset type="textarea"
                                   validateProperty=(action 'validateProperty' changeset "text")}}
             </div>

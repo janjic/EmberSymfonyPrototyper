@@ -50,4 +50,7 @@ class AgentApiCode
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;
+
+    /** TICKET */
+    const MAIL_LIST_SAVED_SUCCESSFULLY               = 2301;
 }

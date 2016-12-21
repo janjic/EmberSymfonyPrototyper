@@ -132,4 +132,13 @@ class AgentApiResponse
         return array('data' => array('type'=> 'threads', 'id' => $id), 'meta' => array('status'=> AgentApiCode::THREAD_EDITED_SUCCESSFULLY));
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function MAIL_LIST_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'mailLists', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_LIST_SAVED_SUCCESSFULLY));
+    }
+
 }
