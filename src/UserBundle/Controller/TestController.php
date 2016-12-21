@@ -2,6 +2,7 @@
 
 namespace UserBundle\Controller;
 
+use CoreBundle\Model\XmppPrebind;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,7 +21,7 @@ class TCRUserController extends Controller
      */
     public function testAction()
     {
-        $this->container->get('agent_system.user_manager')->getAllTCRUsers();
+
 
         die('kraj');
         /**return JSON Response */

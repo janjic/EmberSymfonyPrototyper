@@ -1,0 +1,300 @@
+<section class="settings">
+    <h1 class="main-heading">Settings</h1>
+
+    <form action="">
+
+        <h3 class="sub-heading">Personal settings</h3>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.agent-image'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12 user-img">
+                        {{dropzone-one-file currentImage=changeset.image autoProcessQueue=false changesetkeepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.facebook-link'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="facebookLink"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "facebookLink")
+                        }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.twitter-link'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="twitterLink"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "twitterLink")
+                        }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.language'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{elements/language-select nationality=changeset.language onLanguageSelected=(action 'updateLanguage')}}
+                        {{#if (get changeset.error 'language')}}
+                            <ul class="error-list">
+                                {{#each (get (get changeset.error 'language') "validation") as |message|}}
+                                    <li>{{message}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.confirmation-mail'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="confirmationMail"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "confirmationMail")
+                        }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.paypal'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="payPal"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "payPal")
+                        }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.easycall'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="easycall"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "easycall")
+                        }}
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.gplus-link'}}
+                        <span class="required" aria-required="true"> * </span>
+                    </label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{validated-field
+                                type="text"
+                                changeset=changeset
+                                property="gPlusLink"
+                                doNotShowLabel=true
+                                validateProperty=(action 'validateProperty' changeset "gPlusLink")
+                        }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 class="main-heading">{{trans 'settings.labels.commissions'}}</h1>
+        {{#each changeset.commissions as |commiss index|}}
+                {{my-settings-commission-component commission=commiss index=index setValid=(action "validateCommissionsProperty")}}
+        {{/each}}
+        {{!--<h3 class="sub-heading">{{trans 'settings.labels.referral'}}</h3>--}}
+        {{!--<div class="row">--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.setup-fee'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.packages'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.connect'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.stream'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+        {{!--</div>--}}
+        {{!--<h3 class="sub-heading">{{trans 'settings.labels.active-agents'}}</h3>--}}
+        {{!--<div class="row">--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.setup-fee'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.packages'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.connect'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.stream'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+        {{!--</div>--}}
+        <h1 class="main-heading">{{trans 'settings.labels.bonuses'}}</h1>
+        {{#each changeset.bonuses as |bon index|}}
+            {{my-settings-bonus-component bonus=bon index=index setValid=(action "validateBonusProperty")}}
+        {{/each}}
+        {{!--<h3 class="sub-heading">{{trans 'settings.labels.referral'}}</h3>--}}
+        {{!--<div class="row">--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-chf'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-eur'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.number-of-customers'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.for-period-less'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }} <span class="input-span-addon">{{trans 'settings.labels.month(s)'}}</span>--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+        {{!--</div>--}}
+        {{!--<h3 class="sub-heading">{{trans 'settings.labels.active-agents'}}</h3>--}}
+        {{!--<div class="row">--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-chf'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-eur'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+            {{!--<div class="col-md-6">--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.number-of-customers'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }}--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+                {{!--<div class="form-group clearfix">--}}
+                    {{!--<label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.for-period-less'}}--}}
+                        {{!--<span class="required" aria-required="true"> * </span>--}}
+                    {{!--</label>--}}
+                    {{!--<div class="col-md-7 col-sm-7 col-xs-12">--}}
+                        {{!--{{input type="text" class="form-control" }} <span class="input-span-addon">{{trans 'settings.labels.month(s)'}}</span>--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+        {{!--</div>--}}
+        <div class="form-group clearfix">
+            <button class="btn btn-success pull-right" type="submit" disabled={{isLoading}} {{action 'saveSettings' }}>
+                {{#if isLoading }}
+                    {{inf-loading}}
+                {{else}}
+                    {{trans 'button.save'}}
+                {{/if}}
+
+            </button>
+        </div>
+    </form>
+</section>
