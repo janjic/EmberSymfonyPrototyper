@@ -4,6 +4,7 @@ namespace FSerializerBundle\Controller;
 
 use CoreBundle\Adapter\AgentApiCode;
 use CoreBundle\Dumper\ApiCodeDumper;
+use CoreBundle\Model\XmppPrebind;
 use FSerializerBundle\Serializer\JsonApiDocument;
 use FSerializerBundle\Serializer\JsonApiOne;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,6 +24,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
+
         var_dump((new ApiCodeDumper($this->get('templating'), $this->get('filesystem')))->dump());
         exit;
         //Object from DB
