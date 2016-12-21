@@ -48,10 +48,30 @@ class SettingsRepository extends EntityRepository
         if(intval($id)) {
             $qb->where(self::ALIAS.'.id =:id')->setParameter('id', $id)
                 ->leftJoin(self::ALIAS.'.'.self::BONUS, self::BONUS)
-                ->leftJoin(self::ALIAS.'.'.self::COMMISSION, self::COMMISSION);
+                ->leftJoin(self::ALIAS.'.'.self::COMMISSION, self::COMMISSION)
+                ->leftJoin(self::BONUS.'.group','bonusGroup')
+                ->leftJoin(self::COMMISSION.'.group','commissionGroup');
 
             return $qb->getQuery()->getOneOrNullResult();
         }
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Settings $settings
+     * @return Settings|Exception
+     */
+    public function editSettings($settings)
+    {
+//        var_dump($settings);
+        try {
+            $this->_em->merge($settings);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            var_dump($e->getMessage());die();
+//            return $e;
+        }
+
+        return $settings;
     }
 }

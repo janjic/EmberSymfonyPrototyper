@@ -32,6 +32,12 @@ class Commission
     protected $group;
 
     /**
+     * @var string
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     */
+    protected $name;
+
+    /**
      * @ORM\Column(name="setup_fee", type="float")
      */
     protected $setupFee;
@@ -183,6 +189,23 @@ class Commission
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
 
 
 

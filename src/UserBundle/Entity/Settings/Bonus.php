@@ -32,6 +32,12 @@ class Bonus
     protected $group;
 
     /**
+     * @var string
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     */
+    protected $name;
+
+    /**
      * @ORM\Column(name="amount_chf", type="float")
      */
     protected $amountCHF;
@@ -183,6 +189,23 @@ class Bonus
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
 
 
 }

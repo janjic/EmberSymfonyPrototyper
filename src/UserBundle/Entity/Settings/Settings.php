@@ -269,7 +269,7 @@ class Settings
     /**
      * @param Commission $commission
      */
-    public function addCommision(Commission $commission)
+    public function addCommission(Commission $commission)
     {
         $this->commissions->add($commission);
     }

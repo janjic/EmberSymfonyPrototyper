@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { attr, hasMany, Model } = DS;
+const { attr, hasMany, belongsTo, Model } = DS;
 
 export default Model.extend({
     language:           attr('string'),
@@ -10,6 +10,7 @@ export default Model.extend({
     easycall:           attr('string'),
     twitterLink:        attr('string'),
     gPlusLink:          attr('string'),
-    commissions:        hasMany('commission', {inverse: 'settings'}),
-    bonuses:            hasMany('bonus', {inverse: 'settings'})
+    image:              belongsTo('image'),
+    commissions:        hasMany('commission', {inverse: 'settings'}, {async: true}),
+    bonuses:            hasMany('bonus', {inverse: 'settings'}, {async: true})
 });

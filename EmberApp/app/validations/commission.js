@@ -1,10 +1,11 @@
 import {
-    validatePresence
+    validateNumber
 } from 'ember-changeset-validations/validators';
+const Translator = window.Translator;
 
 export default {
-    setupFee:       validatePresence(true),
-    packages:       validatePresence(true),
-    connect:        validatePresence(true),
-    stream:         validatePresence(true)
+    setupFee:       validateNumber({ number: true, message: Translator.trans('settings.validations.number-validation') }),
+    packages:       validateNumber({ number: true, message: Translator.trans('settings.validations.number-validation') }),
+    connect:        validateNumber({ number: true, message: Translator.trans('settings.validations.number-validation') }),
+    stream:         validateNumber({ number: true, message: Translator.trans('settings.validations.number-validation') })
 };

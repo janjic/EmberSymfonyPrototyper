@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Manager\Settings\JsonApiGetSettingsManagerTrait;
@@ -19,6 +20,7 @@ use UserBundle\Entity\Settings\Settings;
  */
 class SettingsManager implements JSONAPIEntityManagerInterface
 {
+    use BasicEntityManagerTrait;
     use JsonApiSaveSettingsManagerTrait;
     use JsonApiGetSettingsManagerTrait;
     public function deleteResource($id = null){}
@@ -62,10 +64,10 @@ class SettingsManager implements JSONAPIEntityManagerInterface
 
         if (!$mappings) {
             $mappings = array(
-                'settings'  => array('class' => Settings::class, 'type'=>'settings'),
-                'image'    => array('class' => Image::class,  'type'=>'images'),
-                'bonuses'    => array('class' => Bonus::class,  'type'=>'bonuses'),
-                'commissions'    => array('class' => Commission::class,  'type'=>'commissions')
+                'settings'          => array('class' => Settings::class, 'type'=>'settings'),
+                'image'             => array('class' => Image::class,  'type'=>'images'),
+                'bonuses'           => array('class' => Bonus::class,  'type'=>'bonuses'),
+                'commissions'       => array('class' => Commission::class,  'type'=>'commissions')
             );
         }
 
@@ -84,10 +86,10 @@ class SettingsManager implements JSONAPIEntityManagerInterface
 
         if (!$mappings) {
             $mappings = array(
-                'settings'  => array('class' => Settings::class, 'type'=>'settings'),
-                'image'    => array('class' => Image::class,  'type'=>'images'),
-                'bonuses'    => array('class' => Bonus::class,  'type'=>'bonuses'),
-                'commissions'    => array('class' => Commission::class,  'type'=>'commissions')
+                'settings'          => array('class' => Settings::class, 'type'=>'settings'),
+                'image'             => array('class' => Image::class,  'type'=>'images'),
+                'bonuses'           => array('class' => Bonus::class,  'type'=>'bonuses'),
+                'commissions'       => array('class' => Commission::class,  'type'=>'commissions')
             );
         }
 

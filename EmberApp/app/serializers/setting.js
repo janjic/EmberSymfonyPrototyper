@@ -3,7 +3,6 @@ import isEnabled from 'ember-data/-private/features';
 
 export default DS.JSONAPISerializer.extend({
     keyForAttribute: function(attr) {
-        console.log('attttributi');
         return attr;
     },
 
@@ -18,7 +17,6 @@ export default DS.JSONAPISerializer.extend({
      @param {Object} relationship
      */
     serializeHasMany(snapshot, json, relationship) {
-        console.log('usao');
         var key = relationship.key;
         var shouldSerializeHasMany = '_shouldSerializeHasMany';
         if (isEnabled("ds-check-should-serialize-relationships")) {
@@ -36,8 +34,6 @@ export default DS.JSONAPISerializer.extend({
             }
 
             let data = new Array(hasMany.length);
-
-            console.log(hasMany);
 
             for (let i = 0; i < hasMany.length; i++) {
                 let item = hasMany[i];
@@ -62,11 +58,68 @@ export default DS.JSONAPISerializer.extend({
 
                 data[i] = {
                     type: payloadType,
-                    id: item.id
+                    id: item.id,
+                    attributes: item._attributes
                 };
             }
 
             json.relationships[payloadKey] = { data };
         }
-    }
+    },
+
+    /**
+     @method serializeBelongsTo
+     @param {DS.Snapshot} snapshot
+     @param {Object} json
+     @param {Object} relationship
+     */
+    serializeBelongsTo(snapshot, json, relationship) {
+        var key = relationship.key;
+
+        if (this._canSerialize(key)) {
+            var belongsTo = snapshot.belongsTo(key);
+            if (belongsTo !== undefined) {
+
+                json.relationships = json.relationships || {};
+
+                var payloadKey = this._getMappedKey(key, snapshot.type);
+                if (payloadKey === key) {
+                    payloadKey = this.keyForRelationship(key, 'belongsTo', 'serialize');
+                }
+
+                var data = null;
+                if (belongsTo) {
+                    let payloadType;
+
+                    if (isEnabled("ds-payload-type-hooks")) {
+                        payloadType = this.payloadTypeFromModelName(belongsTo.modelName);
+                        let deprecatedPayloadTypeLookup = this.payloadKeyFromModelName(belongsTo.modelName);
+
+                        if (payloadType !== deprecatedPayloadTypeLookup && this._hasCustomPayloadKeyFromModelName()) {
+
+                            payloadType = deprecatedPayloadTypeLookup;
+                        }
+                    } else {
+                        payloadType = this.payloadKeyFromModelName(belongsTo.modelName);
+                    }
+
+                    var belongsToAttrs = belongsTo.attributes();
+                    var belongsData = {};
+
+                    for (var attr in belongsToAttrs) {
+                        if (belongsToAttrs.hasOwnProperty(attr)) {
+                            belongsData[attr] = belongsToAttrs[attr];
+                        }
+                    }
+
+                    data = {
+                        type: payloadType,
+                        id: belongsTo.id,
+                        attributes: belongsData
+                    };
+                }
+                json.relationships[payloadKey] = { data };
+            }
+        }
+    },
 });

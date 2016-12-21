@@ -278,6 +278,9 @@ models:
 #SETTINGS
 
 settings:
+  validations:
+    number-validation: 'This field must be a number'
+    integer-validation: 'This field must be an integer number'
   labels:
     facebook-link: 'Facebook link'
     twitter-link: 'Twitter link'

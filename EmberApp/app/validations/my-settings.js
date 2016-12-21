@@ -9,4 +9,5 @@ export default {
     easycall:           validatePresence(true),
     twitterLink:        validatePresence(true),
     gPlusLink:          validatePresence(true),
+    language:           validatePresence(true),
 };

@@ -5,6 +5,9 @@ namespace UserBundle\Business\Manager\Settings;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use UserBundle\Business\Manager\Agent\SaveMediaTrait;
+use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
 
 /**
@@ -19,25 +22,34 @@ trait JsonApiUpdateSettingsManagerTrait
      */
     public function updateResource($data)
     {
-//        $data = json_decode($data);
-////        var_dump($data->data->relationships->commissions->data[0]);
-////        var_dump($data->data->relationships->bonuses->data[0]);die();
-//
-//        unset($data->data->relationships->commissions);
-//
-//        var_dump($data->data->relationships);die();
-//        $data = json_encode($data);
-
-
         /** @var Settings $settings */
         $settings = $this->deserializeSettings($data);
-var_dump('aa');
-        var_dump($settings->getBonuses());die();
 
-//        $commission = $this->commissionManager->findCommission($settings->getCommissions());
+        $dbSettings = $this->getEntityReference($settings->getId());
 
+        $this->setAndValidateImage($settings, $dbSettings);
 
-        return $this->createJsonAPiSettingsResponse($this->repository->editSettings($settings));
+        /** @var Commission $commission */
+        $commission = $settings->getCommissions()[0];
+
+        /** @var Commission $commissionDB */
+        $commissionDB = $this->commissionManager->findCommissionById($commission->getId());
+
+        $commissionDB->setSetupFee($commission->getSetupFee())
+            ->setPackages($commission->getPackages())
+            ->setConnect($commission->getConnect())
+            ->setStream($commission->getStream());
+
+        $settingsOrException = $this->repository->editSettings($settings);
+
+        if ($settingsOrException instanceof Exception) {
+            !is_null($image = $settings->getImage()) ? $image->deleteFile() : false;
+        }
+
+//        var_dump($settings);
+//        var_dump($settingsOrException);die();
+
+        return $this->createJsonAPiSettingsResponse($settingsOrException);
     }
 
     /**
@@ -56,5 +68,58 @@ var_dump('aa');
             default:
                 return false;
         }
+    }
+
+    /**
+     * @param Settings $settings
+     * @param Settings $dbSettings
+     */
+    private function setAndValidateImage (Settings $settings, Settings $dbSettings)
+    {
+        /**
+         * @var Image $dbImage
+         */
+        //SETTINGS ALREADY HAVE IMAGE
+        if ($dbImage = $dbSettings->getImage()) {
+            //Agent not have image, we must delete old image from file and DB
+            if (is_null($settings->getImage())) {
+                ($img = $dbSettings->getImage()) ? $img->deleteFile() :false;
+                $dbSettings->setImage(null);
+                //Agent changed his/her image, we must only update image
+            } else if ( !$settings->getImage()->getId() ) {
+                $dbImage->setBase64Content($settings->getImage()->getBase64Content());
+                $settings->setImage($dbImage);
+                $settings->getImage()->setId(null);
+//                var_dump('usao');
+                $dbImage->deleteFile();
+                $this->saveMedia($settings);
+            }
+            //DB AGENT IS WITHOUT IMAGE, we must add new
+        } else {
+            $settings->setImage($settings->getImage());
+            if( $settings->getImage() != null ) {
+                $settings->getImage()->setId(null);
+            }
+            $this->saveMedia($settings);
+        }
+
+    }
+
+    /**
+     * @param Settings $settings
+     * @return bool
+     */
+    protected function saveMedia($settings)
+    {
+        /** @var Image|null $image */
+        $image = $settings->getImage();
+        if(!is_null($image)){
+            if ($image->saveToFile($image->getBase64Content())) {
+                $image->updateFileSize();
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 }
