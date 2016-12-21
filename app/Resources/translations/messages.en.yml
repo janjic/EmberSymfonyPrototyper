@@ -32,6 +32,9 @@ button:
   save: 'Save'
   edit: 'Edit'
   change-pass: 'Change password'
+  cancel: 'Cancel'
+  delete: 'Delete'
+  add: 'Add'
 
 validation:
   email:
@@ -248,6 +251,7 @@ admin-messages:
   received.listing: 'Received Messages'
   no-messages: 'You have no messages'
   new-messages: 'You have new messages'
+  enter: 'Enter your message'
 
 models:
   server-error: 'Server error!'
@@ -339,3 +343,21 @@ tickets:
     full-name: 'Full name'
     email: 'Email'
     file: 'File'
+
+#MANAGE GROUPS
+
+manage-groups:
+  select-new: 'Please select new group for users'
+  set-parent: 'Set as a new parent'
+  edit: 'Edit group'
+  add: 'Add new group'
+  new-name: 'New group name'
+
+#MANAGE ROLES
+
+manage-roles:
+  role-management: 'Role management'
+  name: 'Name'
+  role: 'Role'
+  add-new: 'Add new role'
+  title: 'Title'
