@@ -8,6 +8,9 @@ export default Ember.Component.extend({
         handleOffsetChange: function () {
             this.set('offset', this.$('select')[0].value);
             this.get('filter')(1);
+        },
+        resetTable: function () {
+            this.get('resetTableAction')();
         }
     }
 });

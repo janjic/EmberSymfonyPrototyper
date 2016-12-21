@@ -4,11 +4,14 @@ import LoadingStateMixin from '../mixins/loading-state';
 export default Ember.Component.extend(LoadingStateMixin, {
     sortColumn: 'id',
     sortType: 'asc',
+    defaultSortType: null,
     paramsArray: {
         groupOp: 'AND',
         rules: []
     },
     searchArray: [],
+    eventBus: Ember.inject.service('event-bus'),
+
     actions: {
         goToPage: function (page) {
             page = (typeof page === 'string') ? (page === '+1' || page === '-1') ? (this.get('page') + parseInt(page)) : parseInt(page) : page;
@@ -39,6 +42,10 @@ export default Ember.Component.extend(LoadingStateMixin, {
             paramsArray.rules = searchArrayFields;
             this.set('page', 1);
             this.loadData(paramsArray);
+        },
+
+        resetTableAction(){
+            this.resetTable();
         }
     },
 
@@ -56,5 +63,28 @@ export default Ember.Component.extend(LoadingStateMixin, {
         } else {
             this.disableLoader();
         }
-    }
+    },
+
+    resetTable() {
+        this.setProperties({
+            sortColumn: 'id',
+            sortType: this.get('defaultSortType') ? this.get('defaultSortType') : 'asc',
+            page: 1,
+            paramsArray: {
+                groupOp: 'AND',
+                rules: []
+            },
+            searchArray: []
+        });
+
+        this.loadData(this.get('paramsArray'));
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('resetTableEvent', this, 'resetTable');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('resetTableEvent');
+    })
 });

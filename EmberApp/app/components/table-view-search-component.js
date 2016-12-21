@@ -26,7 +26,7 @@ export default Ember.Component.extend({
                 this.set('searchValue', '');
             }
             this.set('sortColumn', 'id');
-            this.set('sortType', 'asc');
+            this.set('sortType', this.get('defaultSortType') ? this.get('defaultSortType') : 'asc');
             this.set('sortClass', 'fa-sort');
             this.send('handleFilterEntry');
         },
