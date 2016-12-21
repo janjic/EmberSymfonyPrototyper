@@ -12,7 +12,7 @@
         </tr>
         <tr>
             {{#each colModels as |colName|}}
-                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=(action 'handleFilterEntry')}}
+                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=handleFilterEntry}}
             {{/each}}
             <td></td>
         </tr>
