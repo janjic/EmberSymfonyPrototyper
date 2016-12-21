@@ -95,6 +95,10 @@ input:checked + .slider:before {
     }
   }
 }
+
+.Searchable-select__label {
+  height: 34px;
+}
 @import 'ember-power-select/themes/bootstrap';
 @import 'ember-power-select';
 @import "ember-searchable-select/style";
@@ -1102,6 +1106,7 @@ header {
   margin-bottom: 30px;
   color: $white;
   position: relative;
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
   span {
     display: block;
     text-align: right;
@@ -1378,14 +1383,22 @@ header {
 .ticket-info {
   padding: 15px;
   border: 1px solid $grayish;
-  background: $grayish;
   margin-bottom: 30px;
+  height: 150px;
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 }
 .user-info {
   padding: 15px;
   border: 1px solid $grayish;
-  background: $grayish;
   margin-bottom: 30px;
+  height: 150px;
+  box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 }
 .ticket-messages {
   .user-img {
@@ -2038,9 +2051,13 @@ input:focus {
   background-image: url(images/bg-pattern.png);
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
   .orgchart {
     background-image: none;
     .node {
+      .title {
+        font-weight: normal;
+      }
       &:hover {
         cursor: pointer;
         .second-menu-icon {
@@ -2360,7 +2377,6 @@ input:focus {
 .message-list {
   transition-property: opacity,top;
   transition-duration: 0.4s;
-  animation: pop .5s forwards;
   box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.5);
   margin-bottom: 30px;
   .message-list-header {
@@ -2403,7 +2419,7 @@ input:focus {
   .message-list-body {
     max-height: calc(100vh - 180px);
     overflow: auto;
-    @media screen and (max-width: 1420px) {
+    @media screen and (max-width: 768px) {
       max-height: calc(100vh - 800px);
     }
     .conversation-item {
@@ -2418,6 +2434,13 @@ input:focus {
         height: 100%;
         right: 0;
         background-color: #56b699;
+      }
+      .conversation-unread {
+        position: absolute;
+        width: 5px;
+        height: 100%;
+        right: 0;
+        background-color: $main-red;
       }
       .img-holder {
         height: 80px !important;
@@ -2476,7 +2499,6 @@ input:focus {
   border: 1px solid #ddd;
   transition-property: opacity,top;
   transition-duration: 0.4s;
-  animation: pop .5s forwards;
   box-shadow: 2px 3px 5px 0 rgba(0,0,0,0.5);
   height: calc(100vh - 115px);
   .message-header {
@@ -2519,6 +2541,24 @@ input:focus {
     overflow: auto;
     max-height: calc(100vh - 270px);
     .view-message {
+      .new-messages-alert {
+        position: absolute;
+        bottom: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 20px;
+        background-color: #fff;
+        a {
+          &:hover {
+            text-decoration: none;
+          }
+          &:focus {
+            text-decoration: none;
+          }
+        }
+      }
       .messages {
         margin-bottom: 0;
         #loading-more-state {
@@ -2677,4 +2717,27 @@ input:focus {
       max-height: calc(100vh - 530px);
     }
   }
+}
+
+.dropzone {
+  padding: 10px;
+  .dz-preview {
+    min-height: 80px;
+    .dz-image {
+      border-radius: 20px;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+      position: relative;
+      display: block;
+      z-index: 10;
+    }
+  }
+}
+
+.input-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
+  margin-bottom: 30px;
 }

@@ -155,6 +155,16 @@ admin-user:
     address: 'Address'
     fixed: 'Fixed number'
     private-email: 'Private email'
+    show-notifications: 'Show notifications'
+    notifications-message: 'Select type of notifications which you want to see'
+    new-message: 'New message'
+    payment: 'Payment'
+    new-agent: 'New agent'
+    type: 'Type'
+    direct-superior: 'Direct Superior'
+    number-of-agents-downline: 'Number of agents down the line'
+    customers: 'Number of customers'
+
 
 
 
@@ -230,7 +240,8 @@ admin-messages:
   deleted.listing: 'Deleted Messages'
   sent.listing: 'Sent Messages'
   received.listing: 'Received Messages'
-
+  no-messages: 'You have no messages'
+  new-messages: 'You have new messages'
 
 invitation:
   message.save: 'Invitation send'

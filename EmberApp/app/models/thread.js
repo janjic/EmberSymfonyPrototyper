@@ -10,6 +10,7 @@ export default Model.extend({
     createdAt:      attr('custom-date'),
     subject:        attr('string'),
     changeDeleted:  attr('boolean'),
+    isRead:         attr('boolean'),
 
     otherParticipant: Ember.computed('createdBy', 'participants', function () {
         return this.get('participants').find((item) => {

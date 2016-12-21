@@ -5,8 +5,11 @@ namespace ConversationBundle\Business\Manager;
 use ConversationBundle\Business\Manager\Thread\JsonApiThreadSerializationTrait;
 use ConversationBundle\Business\Manager\Thread\JsonApiUpdateThreadManagerTrait;
 use ConversationBundle\Business\Repository\ThreadRepository;
+use ConversationBundle\Entity\Thread;
+use ConversationBundle\Entity\ThreadMetadata;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use FOS\MessageBundle\Model\ParticipantInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
@@ -83,6 +86,12 @@ class ThreadManager implements JSONAPIEntityManagerInterface
                 break;
         }
 
+        $user = $this->getCurrentUser();
+        /** @var Thread $thread */
+        foreach ($threads as $thread) {
+            $thread->setIsRead($thread->isReadByParticipantCustom($user));
+        }
+
         return $this->serializeThread($threads, ['total_pages'=>ceil($totalItems / $perPage)]);
     }
 
@@ -91,7 +100,33 @@ class ThreadManager implements JSONAPIEntityManagerInterface
      */
     public function getCurrentUser()
     {
-        return  $this->tokenStorage->getToken()->getUser();
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
+     * @param Thread $thread
+     * @return Thread|\Exception
+     */
+    public function setAsRead(Thread $thread)
+    {
+        $user = $this->getCurrentUser();
+        /** @var ThreadMetadata $meta */
+        foreach ($thread->getAllMetadata() as $meta) {
+            if ($meta->getParticipant()->getId() == $user->getId()) {
+                $meta->setIsReadByParticipant(true);
+            }
+        }
+
+        return $this->repository->editThread($thread);
+    }
+
+    /**
+     * @param ParticipantInterface $participant
+     * @return array
+     */
+    public function getNumberOfUnread(ParticipantInterface $participant)
+    {
+        return $this->repository->getNumberOfUnread($participant);
     }
 
     /**

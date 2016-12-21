@@ -44,6 +44,16 @@ class AgentApiResponse
     }
 
     /**
+     * @param $childCount
+     * @param $numberOfUsers
+     * @return array
+     */
+    public static function AGENT_INFO_OK_RESPONSE($childCount, $numberOfUsers)
+    {
+        return array('data' => array('childCount'=> $childCount, 'usersCount' => $numberOfUsers), 'status' => AgentApiCode::AGENT_INFO_CALCULATED_OK);
+    }
+
+    /**
      * @param $email
      * @return array
      */
