@@ -32,12 +32,14 @@
                 </div>
             </div>
             {{#if isAdmin}}
-                {{inf-select
-                        optionLabelKey='email'
-                        selected=model.forwardedTo
-                        on-search = (perform search)
-                        on-change=(action 'agentSelected')
-                }}
+                <div class="form-group">
+                    {{inf-select
+                            optionLabelKey='email'
+                            selected=model.forwardedTo
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                    }}
+                </div>
             {{/if}}
 
         </div>

@@ -197,12 +197,10 @@
 
                         </div>
                     </div>
+                    {{#if isProfileView}}
+                            {{agent/notification-setting}}
+                    {{/if}}
                 </div>
-                {{#if isProfileView}}
-                    <div class="input-box">
-                        {{agent/notification-setting}}
-                    </div>
-                {{/if}}
             </div>
 
             <div class="col-md-6">

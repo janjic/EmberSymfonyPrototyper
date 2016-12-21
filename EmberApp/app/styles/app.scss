@@ -2713,6 +2713,7 @@ input:focus {
 .ticket-details {
   .message-full {
     height: calc(100vh - 375px);
+    position: relative;
     .message-body {
       max-height: calc(100vh - 530px);
     }
