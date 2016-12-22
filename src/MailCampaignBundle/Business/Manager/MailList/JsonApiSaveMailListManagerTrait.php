@@ -38,7 +38,6 @@ trait JsonApiSaveMailListManagerTrait
         $data = json_decode(json_encode($data));
         switch (get_class($data)) {
             case Exception::class:
-                var_dump('error');exit;
                 return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
             case (\stdClass::class && $id = $data->id):
                 return new ArrayCollection(AgentApiResponse::MAIL_LIST_SAVED_SUCCESSFULLY($id));

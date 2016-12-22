@@ -3,8 +3,9 @@ import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 import MailListValidations from '../../validations/mail-list/mail-list';
 import { task, timeout } from 'ember-concurrency';
-
-export default Ember.Component.extend({
+import LoadingStateMixin from '../../mixins/loading-state';
+const {ApiCode, Translator} = window;
+export default Ember.Component.extend(LoadingStateMixin, {
     additionalMails : [],
     items : [],
     init() {
@@ -16,7 +17,24 @@ export default Ember.Component.extend({
             mailList.validate();
             if(mailList.get('isValid')){
                 this.set('model.subscribers', this.get('items'));
-                this.get('saveMailListAction')(this.get('model'));
+                this.showLoader('loading.sending.data');
+                let list = this.get('model');
+                list.save().then(()=> function () {
+                    this.toast.success(Translator.trans('models.mailList.save'));
+                    this.disableLoader();
+                }, function (response) {
+                    response.errors.forEach((error)=> {
+                        switch (parseInt(error.status)) {
+                            case ApiCode.ERROR_MESSAGE:
+                                this.toast.error(Translator.trans(error.details));
+                                break;
+                            default:
+                                return;
+                        }
+                        this.disableLoader();
+                    });
+                    this.disableLoader();
+                });
             }
         },
         agentSelected(agent){
