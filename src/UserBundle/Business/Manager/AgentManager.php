@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -59,15 +59,22 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     protected $fSerializer;
 
     /**
+     * @var EventDispatcherInterface $eventDispatcher
+     */
+    protected $eventDispatcher;
+
+    /**
      * @param AgentRepository $repository
      * @param GroupManager $groupManager
      * @param FJsonApiSerializer $fSerializer
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher)
     {
-        $this->repository   = $repository;
-        $this->groupManager = $groupManager;
-        $this->fSerializer  = $fSerializer;
+        $this->repository       = $repository;
+        $this->groupManager     = $groupManager;
+        $this->fSerializer      = $fSerializer;
+        $this->eventDispatcher  = $eventDispatcher;
     }
 
     public function getGroupById($id)
@@ -112,8 +119,6 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     {
         return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
-
-
 
     /**
      * @param $string
@@ -264,6 +269,13 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
     }
 
+    /**
+     * @return null|Agent
+     */
+    public function findAgentByRole()
+    {
+        return $this->repository->findAgentByRole();
+    }
 
     /**
      * @param $id

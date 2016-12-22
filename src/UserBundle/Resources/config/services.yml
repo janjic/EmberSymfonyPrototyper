@@ -123,6 +123,7 @@ services:
             repository:  "@agent_system.agent.repository"
             roleManager: "@agent_system.group.manager"
             fSerializer: "@f_serializer"
+            eventDispatcher: "@event_dispatcher"
 
     agent_system.agent.adapter:
         class: UserBundle\Adapter\Agent\AgentAdapter
@@ -190,3 +191,32 @@ services:
         arguments:
             repository: "@agent_system.commission.repository"
             fSerializer: "@f_serializer"
+
+    # ------ Notification -------------------------------------------------------------------------------------------- #
+    agent_system.notification.repository:
+        class: UserBundle\Business\Repository\NotificationRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Notification
+
+    agent_system.notification.manager:
+        class: UserBundle\Business\Manager\NotificationManager
+        arguments:
+            repository: "@agent_system.notification.repository"
+            fSerializer: "@f_serializer"
+
+    agent_system.notification.adapter:
+        class: UserBundle\Adapter\Notification\NotificationAdapter
+        arguments:
+            - "@agent_system.notification.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    agent_system.notification.event.listener:
+        class: UserBundle\Business\Event\Notification\NotificationListener
+        arguments:
+            - "@agent_system.notification.manager"
+        tags:
+            - { name: kernel.event_listener, event: notification.action, method: setEvent }
+            - { name: kernel.event_listener, event: uradi.odma, method: execute }
+#            - { name: kernel.event_listener, event: kernel.terminate, method: execute }

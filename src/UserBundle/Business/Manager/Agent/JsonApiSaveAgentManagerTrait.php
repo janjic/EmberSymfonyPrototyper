@@ -6,8 +6,12 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use UserBundle\Business\Event\Notification\NotificationEvent;
+use UserBundle\Business\Event\Notification\NotificationEvents;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Notification;
 
 /**
  * Class JsonApiAgentSaveManagerTrait
@@ -29,6 +33,21 @@ trait JsonApiSaveAgentManagerTrait
             if ($data instanceof Exception) {
                 !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
                 return $this->createJsonAPiSaveResponse($data);
+            } else {
+                /** @var Agent $superAgent */
+                $notification = NotificationManager::createNewAgentNotification($data);
+                $event = new NotificationEvent();
+                $event->addNotification($notification);
+
+                $superAgent = $this->findAgentByRole();
+
+                if( $superAgent->getId() !== $agent->getSuperior()->getId() ){
+                    $superAgentNotification = NotificationManager::createNewAgentNotification($data, $superAgent);
+                    $event->addNotification($superAgentNotification);
+                }
+
+                $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
+                $this->eventDispatcher->dispatch("uradi.odma");
             }
         }
 

@@ -437,4 +437,33 @@ class AgentRepository extends NestedTreeRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param $roleName
+     * @return Agent|null
+     */
+    public function findAgentByRole($roleName = "ROLE_SUPER_ADMIN")
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS)
+//            ->where(self::ALIAS.'.roles LIKE :role_name')
+//            ->setParameter('role_name', '\'%ROLE_SUPER_ADMIN%\'');
+            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
+//            ->setParameter("role_name", '\'%ROLE_SUPER_ADMIN%\'');
+
+//        var_dump($qb->getQuery()->getOneOrNullResult());die();
+        return $qb->getQuery()->getOneOrNullResult();
+
+//        $filteredAgents = array_filter($agents, function ($agent){
+//            foreach ($agent['roles'] as $role){
+//                if ( $role == "ROLE_SUPER_ADMIN" ){
+//                    return true;
+//                }
+//            }
+//            return false;
+//        });
+//        var_dump($filteredAgents);
+//        var_dump($agents);
+//        die();
+    }
 }
