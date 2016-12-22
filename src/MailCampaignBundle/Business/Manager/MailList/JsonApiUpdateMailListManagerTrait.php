@@ -22,6 +22,8 @@ trait JsonApiUpdateMailListManagerTrait
      */
     public function updateResource($data)
     {
+
+        var_dump(json_decode($data));exit;
 //        $ticket = $this->deserializeTicket($data);
 //        $ticket = $this->prepareUpdate($ticket);
 //        if(get_class($ticket) == Ticket::class){

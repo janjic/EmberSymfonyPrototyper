@@ -19,33 +19,22 @@ trait JsonApiGetMailListManagerTrait
      */
     public function getResource($id = null)
     {
-//        /**
-//         * @var Ticket $ticket
-//         */
-//        $ticket = $this->repository->findTicketById($id);
-//        /**
-//         * @var  Agent $currentUser
-//         */
-//        $currentUser = $this->getCurrentUser();
-//
-//        if(!is_null($ticket->getThread())){
-//            /**
-//             * @var ArrayCollection $participants
-//             */
-//            $participants = new ArrayCollection($ticket->getThread()->getParticipants());
-//            /**
-//             * Check if current user is participant
-//             */
-//            $canViewThread = $participants->exists(function ($key, $element) use ($currentUser){
-//                return $element->getId() == $currentUser->getId();
-//            });
-//
-//            if(!$canViewThread && !$currentUser->hasRole('SUPER_ADMIN')){
-//                $ticket = new AccessDeniedException();
-//            }
-//        }
-//
-//        return $this->createJsonApiGetResponse($ticket);
+        $list = $this->mailChimp->get('lists/'.$id);
+        $list['fromAddress'] = $list['campaign_defaults']['from_email'];
+        $list['fromName'] = $list['campaign_defaults']['from_name'];
+
+        $members = $this->mailChimp->get('/lists/'.$id.'/members');
+        $subscribers = [];
+        if(count($members['members'])){
+            foreach ($members['members'] as $member){
+                $subscribers[] = array('email'=>$member['email_address']);
+            }
+
+            $list['subscribers'] = $subscribers;
+        }
+
+        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists')));
+
 
     }
 
@@ -55,13 +44,13 @@ trait JsonApiGetMailListManagerTrait
      */
     private function createJsonApiGetResponse($data)
     {
-//        if (!is_null($data) && get_class($data) == Ticket::class)  {
-//            return new ArrayCollection($this->serializeTicket($data)->toArray());
-//        } else if(!is_null($data) && get_class($data) == AccessDeniedException::class) {
-//            return new ArrayCollection(AgentApiResponse::ACCESS_TO_TICKET_DENIED);
-//        }
-//
-//        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
+        if (!is_null($data) && get_class($data) == Ticket::class)  {
+            return new ArrayCollection($this->serializeMailList($data)->toArray());
+        } else if(!is_null($data) && get_class($data) == AccessDeniedException::class) {
+            return new ArrayCollection(AgentApiResponse::ACCESS_TO_TICKET_DENIED);
+        }
+
+        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
     }
 
 }

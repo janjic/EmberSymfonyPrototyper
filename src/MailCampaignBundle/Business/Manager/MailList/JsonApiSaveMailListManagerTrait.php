@@ -35,14 +35,10 @@ trait JsonApiSaveMailListManagerTrait
      */
     private function createJsonAPiSaveResponse($data)
     {
-        $data = json_decode(json_encode($data));
-        switch (get_class($data)) {
-            case Exception::class:
-                return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
-            case (\stdClass::class && $id = $data->id):
-                return new ArrayCollection(AgentApiResponse::MAIL_LIST_SAVED_SUCCESSFULLY($id));
-            default:
-                return false;
+        if(is_array($data) && $id = $data['id']){
+            return new ArrayCollection(AgentApiResponse::MAIL_LIST_SAVED_SUCCESSFULLY($id));
+        } else {
+            return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
         }
     }
 

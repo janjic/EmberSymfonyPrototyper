@@ -38,17 +38,10 @@
                         optionLabelKey='email'
                         on-search = (perform search)
                         on-change=(action 'agentSelected')
-                        multiple = true
-                }}
-
-                {{inf-select
-                        optionLabelKey='email'
-                        content = items
-                        selected = additionalMails
-                        on-change = (action 'agentSelected')
                         on-add = (action 'agentAdded')
-                        searchable = true
                         multiple = true
+                        selected = additionalMails
+                        searchable = true
                 }}
             </div>
         </div>

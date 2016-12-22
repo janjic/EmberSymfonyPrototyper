@@ -16,6 +16,8 @@ use MailCampaignBundle\Util\MailCampaignSerializerInfo;
 use MailCampaignBundle\Util\MailChimp;
 use MailCampaignBundle\Util\MailListSerializerInfo;
 use stdClass;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use UserBundle\Entity\Address;
 
 
 /**
@@ -42,12 +44,19 @@ class MailListManager implements JSONAPIEntityManagerInterface
     protected $mailChimp;
 
     /**
+     * @var TokenStorage
+     */
+    protected $tokenStorage;
+
+    /**
      * MailListManager constructor.
      * @param FJsonApiSerializer $fSerializer
+     * @param TokenStorage $tokenStorage
      */
-    public function __construct(FJsonApiSerializer $fSerializer)
+    public function __construct(FJsonApiSerializer $fSerializer, TokenStorage $tokenStorage)
     {
         $this->fSerializer   = $fSerializer;
+        $this->tokenStorage  = $tokenStorage;
         $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
     }
 
@@ -58,19 +67,24 @@ class MailListManager implements JSONAPIEntityManagerInterface
      */
     public function save($mailCampaign)
     {
+        $currentUser = $this->getCurrentUser();
+        /**
+         * @var Address $address
+         */
+        $address = $currentUser->getAddress();
         $response = $this->mailChimp->post('lists', [
             'name' => $mailCampaign->name,
             'permission_reminder' => $mailCampaign->permission_reminder,
             'email_type_option' => false,
             'contact' => [
-                'company' => 'Doe Ltd.',
-                'address1' => 'DoeStreet 1',
+                'company' => '',
+                'address1' => $address->getStreetNumber(),
                 'address2' => '',
-                'city' => 'Doesy',
-                'state' => 'Doedoe',
-                'zip' => '1672-12',
-                'country' => 'US',
-                'phone' => '55533344412'
+                'city' => $address->getCity(),
+                'state' => $address->getCountry(),
+                'zip' => $address->getPostcode(),
+                'country' => $address->getCountry(),
+                'phone' => $address->getPhone()
             ],
             'campaign_defaults' => [
                 'from_name' => $mailCampaign->fromName,
@@ -80,6 +94,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
             ]
         ]);
         if($this->mailChimp->success()){
+
             $id = $response['id'];
 
             if(count($mailCampaign->subscribers)){
@@ -102,7 +117,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
             }
 
         } else {
-
             return new Exception($this->mailChimp->getLastError());
         }
 
@@ -121,12 +135,12 @@ class MailListManager implements JSONAPIEntityManagerInterface
 
 
     /**
-     * @param $campaigns
+     * @param $mailLists
      * @return \FSerializerBundle\Serializer\JsonApiDocument
      */
-    public function serializeMailList($campaigns)
+    public function serializeMailList($mailLists)
     {
-        return $this->fSerializer->setType('mailLists')->setDeserializationClass(MailList::class)->serialize($campaigns, MailListSerializerInfo::$mappings, MailListSerializerInfo::$relations);
+        return $this->fSerializer->setType('mailLists')->setDeserializationClass(MailList::class)->serialize($mailLists, MailListSerializerInfo::$mappings, MailListSerializerInfo::$relations);
 
     }
 
@@ -140,11 +154,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
         return $this->fSerializer->setDeserializationClass(MailList::class)->deserialize($content, MailListSerializerInfo::$mappings, MailListSerializerInfo::$relations);
     }
 
-//    public function getAgentById($id)
-//    {
-//        return $this->agentManager->findAgentById($id);
-//    }
-//
     /**
      * @return mixed
      */

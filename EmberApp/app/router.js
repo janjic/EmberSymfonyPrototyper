@@ -44,7 +44,7 @@ Router.map(function() {
           this.route('all-mail-lists');
           this.route('add-new-campaign');
           this.route('all-campaigns');
-          this.route('edit-mail-list');
+          this.route('edit-mail-list', {path: '/mail-list-edit/:id'});
           this.route('edit-campaign');
       });
 

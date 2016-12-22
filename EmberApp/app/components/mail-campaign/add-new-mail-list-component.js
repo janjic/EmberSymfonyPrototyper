@@ -16,17 +16,17 @@ export default Ember.Component.extend(LoadingStateMixin, {
         saveMailList(mailList) {
             mailList.validate();
             if(mailList.get('isValid')){
-                this.set('model.subscribers', this.get('items'));
+                this.set('model.subscribers', this.get('additionalMails'));
                 this.showLoader('loading.sending.data');
                 let list = this.get('model');
-                list.save().then(()=> function () {
+                list.save().then((response) => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
-                }, function (response) {
+                }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {
                             case ApiCode.ERROR_MESSAGE:
-                                this.toast.error(Translator.trans(error.details));
+                                this.toast.error(Translator.trans(error.detail));
                                 break;
                             default:
                                 return;
@@ -38,12 +38,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
         },
         agentSelected(agent){
-            // this.get('additionalMails').addObject({email: agent.get('email')});
-            this.get('items').addObject({email: agent.get('email')});
+            if (agent) {
+                this.get('additionalMails').addObject({email: agent.get('email')});
+            }
         },
         agentAdded(value){
             this.get('additionalMails').addObject({email: value});
-            this.get('items').addObject({email: value});
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);

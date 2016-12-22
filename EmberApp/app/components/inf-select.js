@@ -155,7 +155,7 @@ export default SearchableSelect.extend({
         'optionLabelKey',
         function() {
             let optKey = this.get('optionLabelKey');
-            return optKey ? Ember.A(this.get('_filteredContent').mapBy(optKey)) : Ember.A(this.get('_filteredContent'));
+            return optKey ? (this.get('_filteredContent') ? Ember.A(this.get('_filteredContent').mapBy(optKey)):Ember.A(this.get('_filteredContent'))) : Ember.A(this.get('_filteredContent'));
         }
     ),
 
