@@ -1,0 +1,72 @@
+<button type="button" class="btn btn-danger pull-right" {{action 'openModal'}}>Invite people</button>
+{{#bs-modal open=isModalOpen header=false body=false footer=false }}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="invitePeopleModal">
+            Invite people
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        {{#with (changeset this validations) as |changeset|}}
+            <div class="form-group">
+                <!--<label for="text-agentEmail">Sender Email</label>-->
+                <input class="form-control"
+                       type="text"
+                       id="text-agentEmail"
+                               value={{agentEmail}}
+                        disabled
+                >
+            </div>
+            <div class="form-group">
+                {{inf-select
+                        content=items
+                        sortBy="email"
+                        optionLabelKey="email"
+                        multiple=true
+                        searchable=true
+                        selected=selectedTags
+                        prompt="Select emails"
+                        on-add=(action "addNew")
+                        on-change=(action "itemChanged")
+                        on-remove=(action "itemRemoved")
+                }}
+            </div>
+            <div class="form-group">
+                <!--<label for="text-agentCode">Agent Code</label>-->
+                <input class="form-control"
+                       type="text"
+                       id="text-agentCode"
+                               value={{agentCode}}
+                       disabled
+                >
+            </div>
+            <div class="form-group">
+                {{validated-field
+                        type="text"
+                        doNotShowLabel = true
+                        placeholder= 'Subject'
+                        changeset=changeset
+                        property="emailSubject"
+                        validateProperty=(action 'validateProperty' changeset "emailSubject")
+                }}
+            </div>
+            <div class="form-group">
+                {{validated-field
+                        type="textarea"
+                        doNotShowLabel = true
+                        placeholder= 'Email Content'
+                        changeset=changeset
+                        property="emailContent"
+                        validateProperty=(action 'validateProperty' changeset "emailContent")
+                }}
+            </div>
+
+            <button {{action "invitePeople" changeset }} type="submit" class="sign-in">
+                {{#if isLoading }}
+                    <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+                {{else}}
+                    SEND MAIL
+                {{/if}}
+            </button>
+        {{/with}}
+    {{/bs-modal-body}}
+{{/bs-modal}}

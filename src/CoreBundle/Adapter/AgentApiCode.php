@@ -21,11 +21,13 @@ class AgentApiCode
     const USER_WITH_EMAIL_DOES_NOT_EXIST            = 26;
     const OLD_PASSWORD_IS_NOT_CORRECT               = 27;
 
+
     /** AGENT */
     const AGENT_ALREADY_EXIST                       = 28;
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
     const AGENT_NOT_FOUND                           = 30;
     const AGENT_CURRENTLY_INACTIVE                  = 31;
+    const AGENT_INFO_CALCULATED_OK                  = 32;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
@@ -47,8 +49,15 @@ class AgentApiCode
 
 
     /** MESSAGES */
-    const MESSAGES_UNSUPPORTED_FORMAT                = 2201;
+    const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
 
     /** THREAD */
-    const THREAD_EDITED_SUCCESSFULLY                 = 2251;
+    const THREAD_EDITED_SUCCESSFULLY                 = 2451;
+
+    /** INVITATION */
+    const INVITATION_SAVED_SUCCESSFULLY              = 2501;
+
+    /** SETTINGS */
+    const SETTINGS_SAVED_SUCCESSFULLY                = 2601;
+    const SETTINGS_EDITED_SUCCESSFULLY               = 2602;
 }

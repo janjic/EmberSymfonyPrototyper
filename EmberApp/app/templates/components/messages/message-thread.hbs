@@ -101,7 +101,7 @@
         <div class="send-message-mobile">
             <form {{action 'sendMessage' on="submit"}}>
                 <div class="input-group">
-                    {{input type="text" value=messageBody class="form-control" placeholder="Enter your message"}}
+                    {{input type="text" value=messageBody class="form-control" placeholder=(trans "admin-messages.enter")}}
                     {{#if fileTemp}}
                         <i class="fa fa-paperclip file-attached" {{action 'toggleAttachDropzone'}}></i>
                     {{else}}

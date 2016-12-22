@@ -1,54 +1,60 @@
+<h1 class="main-heading">{{trans 'manage-roles.role-management'}}</h1>
 <div class="dd nestable col-md-6" id="nestable3">
-    <h1 class="main-heading">Role management</h1>
-    {{#if needRefresh }}
-        {{ role/role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
-    {{else}}
-        {{ role/role-crud-items-component items=getItems setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
-    {{/if}}
+    <div class="input-box">
+        {{#if needRefresh }}
+            {{ role/role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+        {{else}}
+            {{ role/role-crud-items-component items=getItems setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
+        {{/if}}
+    </div>
 </div>
 
-<div class="col-md-6 add-edit-menu-item">
-    {{#if currentEditing}}
-        <form class="">
-            <h1 class="main-heading">Edit</h1>
-            <div class="form-group">
-                <label for="editName">Name</label>
-                <div class="input-group">
-                    {{input type="text" value=currentEditing.name class="form-control" placeholder="Role name"}}
-                    {{#if currentEditing.name}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="editRole">Role</label>
-                <div class="input-group">
-                    {{input type="text" value=currentEditing.role class="form-control" placeholder="Item link"}}
-                    {{#if currentEditing.role}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
-                </div>
-            </div>
-            <button class="btn btn-info" disabled={{editButtonDisabled}} {{action 'editRole'}}>Edit</button>
-            <button class="btn btn-info" {{action 'cancelEdit'}}>Cancel</button>
-        </form>
-    {{else}}
-        <form class="">
-            <h1 class="main-heading">Add new role</h1>
-            <div class="form-group">
-                <label for="addInputName">Name</label>
-                <div class="input-group">
-                    {{input type="text" value=newRoleName class="form-control" placeholder="Role name"}}
-                    {{#if newRoleName}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="addInputSlug">Title</label>
-                <div class="input-group">
-                    {{input type="text" value=newRoleTitle class="form-control" placeholder="Role title"}}
-                    {{#if newRoleTitle}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
-                </div>
 
-            </div>
-            <button class="btn btn-info" disabled={{addButtonDisabled}} {{action 'addRole'}}>Add</button>
-        </form>
-    {{/if}}
+
+<div class="col-md-6 add-edit-menu-item">
+    <div class="input-box">
+        {{#if currentEditing}}
+            <form class="">
+                <h1 class="main-heading">{{trans 'button.edit'}}</h1>
+                <div class="form-group">
+                    <label for="editName">{{trans 'manage-roles.name'}}</label>
+                    <div class="input-group">
+                        {{input type="text" value=currentEditing.name class="form-control" placeholder="Role name"}}
+                        {{#if currentEditing.name}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editRole">{{trans 'manage-roles.role'}}</label>
+                    <div class="input-group">
+                        {{input type="text" value=currentEditing.role class="form-control" placeholder="Item link"}}
+                        {{#if currentEditing.role}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                    </div>
+                </div>
+                <button class="btn btn-info" disabled={{editButtonDisabled}} {{action 'editRole'}}>{{trans 'button.edit'}}</button>
+                <button class="btn btn-info" {{action 'cancelEdit'}}>{{trans 'button.cancel'}}</button>
+            </form>
+        {{else}}
+            <form class="">
+                <h1 class="main-heading">{{trans 'manage-roles.add-new'}}</h1>
+                <div class="form-group">
+                    <label for="addInputName">{{trans 'manage-roles.name'}}</label>
+                    <div class="input-group">
+                        {{input type="text" value=newRoleName class="form-control" placeholder="Role name"}}
+                        {{#if newRoleName}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="addInputSlug">{{trans 'manage-roles.title'}}</label>
+                    <div class="input-group">
+                        {{input type="text" value=newRoleTitle class="form-control" placeholder="Role title"}}
+                        {{#if newRoleTitle}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
+                    </div>
+
+                </div>
+                <button class="btn btn-info" disabled={{addButtonDisabled}} {{action 'addRole'}}>{{trans 'button.add'}}</button>
+            </form>
+        {{/if}}
+    </div>
 </div>
 
 {{#if isLoading }}

@@ -26,6 +26,4 @@ trait BasicEntityRepositoryTrait
     {
         return $this->_em->getReference($class, intval($id));
     }
-
-
 }

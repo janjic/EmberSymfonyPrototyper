@@ -1,38 +1,37 @@
 <h3 class="sub-heading">{{trans 'admin-agent.profile.genealogy-tree'}}</h3>
-<div class="profile-settings">
-    <div class="form-group clearfix">
-        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
-        <div class="col-md-8 col-xs-8">
-            <p>{{currentUser.user.agentId}}</p>
+{{#if info}}
+    <div class="profile-settings">
+        <div class="form-group clearfix">
+            <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
+            <div class="col-md-8 col-xs-8">
+                <p>{{currentUser.user.agentId}}</p>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.type'}}</label>
+            <div class="col-md-8 col-xs-8">
+                {{currentUser.user.group.name}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.direct-superior'}}</label>
+            <div class="col-md-8 col-xs-8">
+                {{currentUser.user.superior.fullName}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.number-of-agents-downline'}}</label>
+            <div class="col-md-8 col-xs-8">
+                <p>{{info.childCount}}</p>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.customers'}}</label>
+            <div class="col-md-8 col-xs-8">
+                <p>{{info.usersCount}}</p>
+            </div>
         </div>
     </div>
-    <div class="form-group clearfix">
-        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.type'}}</label>
-        <div class="col-md-8 col-xs-8">
-            {{currentUser.user.group.name}}
-        </div>
-    </div>
-    <div class="form-group clearfix">
-        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.direct-superior'}}</label>
-        <div class="col-md-8 col-xs-8">
-            {{currentUser.user.superior.firstName}} {{currentUser.user.superior.lastName}}
-        </div>
-    </div>
-    <div class="form-group clearfix">
-        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.number-of-agents-downline'}}</label>
-        <div class="col-md-8 col-xs-8">
-            <p>7</p>
-        </div>
-    </div>
-    <div class="form-group clearfix">
-        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.customers'}}</label>
-        <div class="col-md-8 col-xs-8">
-            <p>15</p>
-        </div>
-    </div>
-    <div class="form-group clearfix">
-        <div class="col-md-12">
-            <a href="#" class="btn btn-success pull-right" {{action 'editAgent' changeset}}>{{trans 'button.edit'}}</a>
-        </div>
-    </div>
-</div>
+{{else}}
+    {{inf-loading}}
+{{/if}}

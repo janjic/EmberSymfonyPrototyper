@@ -1,4 +1,7 @@
 <h1 class="main-heading">{{mainTitle}}</h1>
+{{#if isLoading }}
+    {{inf-loading}}
+{{/if}}
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <tbody>
@@ -9,7 +12,7 @@
         </tr>
         <tr>
             {{#each colModels as |colName|}}
-                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn defaultSortType=defaultSortType filter=(action 'handleFilterEntry')}}
+                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=handleFilterEntry}}
             {{/each}}
             {{#if (or viewLink editLink)}}
                 <td></td>
@@ -45,9 +48,3 @@
         </tbody>
     </table>
 </div>
-
-{{#if isLoading }}
-    <<div class="loader-holder">
-        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
-    </div>
-{{/if}}

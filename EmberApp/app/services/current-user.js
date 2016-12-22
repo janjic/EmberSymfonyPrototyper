@@ -12,7 +12,7 @@ export default Ember.Service.extend({
             if (!isEmpty(userId)) {
                 this.get('store').findRecord('agent', userId).then((user) => {
                     this.set('user', user);
-                    resolve();
+                    resolve(user);
                 }, reject);
             } else {
                 resolve();

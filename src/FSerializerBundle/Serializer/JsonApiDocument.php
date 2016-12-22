@@ -324,6 +324,7 @@ class JsonApiDocument implements JsonSerializable
                 try {
                     $propertyAccessor->setValue($newObject, $relationship->getName(), $relationshipObject);
                 } catch (Exception $exception) {
+                    throw $exception;
                     // Properties not found are ignored
                 }
 
