@@ -73,7 +73,7 @@ export default SearchableSelect.extend({
     }),
 
     _canChangeSelected: Ember.computed('on-change', function() {
-        return this.get('on-change') !== Ember.K;
+        return (this.get('on-change') !== Ember.K) && (!this.get('multiple'));
     }),
 
     _itemsPerPage : Ember.computed('perPage',function () {
@@ -303,6 +303,7 @@ export default SearchableSelect.extend({
     },
 
     _toggleSelection(item) {
+
         if (item === null) {
             this.set('_selected', Ember.A([]));
         } else if (Ember.A(this.get('_selected')).includes(item)) {
@@ -484,14 +485,14 @@ export default SearchableSelect.extend({
         removeOption(option) {
             this.removeFromSelected(option);
             if (this.get('_canRemove')) {
-                this.get('on-remove')(option);
+                this.get('on-remove')(option, this.get('_selected'));
             }
 
         },
 
         addNew() {
             if (this.get('_canAddNew')) {
-                this.get('on-add')(this.get('_searchText'));
+                this.get('on-add')(this.get('_searchText'), this.get('_selected'));
             }
             if (this.get('closeOnSelection')) {
                 this.send('hideMenu');
