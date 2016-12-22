@@ -78,7 +78,7 @@
         <div class="send-message-mobile">
             <form {{action 'sendMessage' on="submit"}}>
                 <div class="input-group">
-                    {{input type="text" value=messageBody class="form-control" placeholder="Enter your message"}}
+                    {{input type="text" value=messageBody class="form-control" placeholder=(trans "admin-messages.enter")}}
                     <i class="fa fa-paperclip" {{action 'toggleAttachDropzone'}}></i>
                     <div class="dropzone-holder" hidden={{hideAttachDropzone}}>
                         {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}

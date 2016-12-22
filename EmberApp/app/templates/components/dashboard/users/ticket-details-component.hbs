@@ -1,49 +1,51 @@
 <div class="tickets">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="main-heading">Ticket Details</h1>
+            <h1 class="main-heading">{{trans 'tickets.labels.title'}}</h1>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="ticket-info">
-                <h3 class="sub-heading">Ticket information</h3>
+                <h3 class="sub-heading">{{trans 'tickets.labels.info'}}</h3>
                 <div class="row">
                     <div class="group">
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Ticket ID</strong></p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.id'}}</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.id}}</p></div>
                     </div>
                     <div class="group">
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Ticket type</strong></p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.type'}}</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.type}}</p></div>
                     </div>
                     <div class="group">
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Date</strong></p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.date'}}</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.createdAtReadable}}</p></div>
                     </div>
                     <div class="group">
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>Status</strong></p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.status'}}</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.status}}</p></div>
                     </div>
                     {{#if model.file.webPath}}
                         <div class="group">
-                            <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>File</strong></p></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.file'}}</strong></p></div>
                             <div class="col-md-6 col-sm-6 col-xs-12"><a href="{{model.file.webPath}}" target="_blank">{{model.file.name}}</a></div>
                         </div>
                     {{/if}}
                 </div>
             </div>
             {{#if isAdmin}}
-                {{inf-select
-                        optionLabelKey='email'
-                        selected=model.forwardedTo
-                        on-search = (perform search)
-                        on-change=(action 'agentSelected')
-                }}
+                <div class="form-group">
+                    {{inf-select
+                            optionLabelKey='email'
+                            selected=model.forwardedTo
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                    }}
+                </div>
             {{/if}}
 
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="user-info clearfix">
-                <h3 class="sub-heading">User information</h3>
+                <h3 class="sub-heading">{{trans 'tickets.labels.user-info'}}</h3>
                 <div class="col-md-2 col-sm-3 col-xs-3">
                     <div class="img-holder">
                         <img src="{{model.createdBy.baseImageUrl}}" alt="" class="img-responsive">
@@ -51,15 +53,15 @@
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-9">
                     <div class="group">
-                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Username</strong></p></div>
+                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>{{trans 'tickets.labels.username'}}</strong></p></div>
                         <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.username}}</p></div>
                     </div>
                     <div class="group">
-                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Full name</strong></p></div>
+                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>{{trans 'tickets.labels.full-name'}}</strong></p></div>
                         <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.fullName}}</p></div>
                     </div>
                     <div class="group">
-                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>Email</strong></p></div>
+                        <div class="col-md-4 col-sm-4 col-xs-12"><p><strong>{{trans 'tickets.labels.email'}}</strong></p></div>
                         <div class="col-md-8 col-sm-8 col-xs-12"><p>{{model.createdBy.email}}s</p></div>
                     </div>
                 </div>

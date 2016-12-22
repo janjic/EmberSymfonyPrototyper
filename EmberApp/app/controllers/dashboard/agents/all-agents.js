@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
     groupsModel: [],
     page: 1,
     offset: 10,
-    colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Agent Type', 'Country', 'Status', 'Actions'],
+    colNames: [Translator.trans('ID'), Translator.trans('First Name'), Translator.trans('Last Name'), Translator.trans('Username'), Translator.trans('Agent Type'), Translator.trans('Country'), 'Status', 'Actions'],
     colModels: Ember.computed('groupsModel', function () {
         return [{value: 'id', compare:'cn'},
             {value: 'firstName', compare:'cn'},

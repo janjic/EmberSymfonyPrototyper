@@ -7,17 +7,19 @@ export default Ember.Component.extend({
     sortClass: 'fa-sort',
     compareType: '',
     searchValue: '',
+    defaultDelayTime: 250,
     isSelect: Ember.computed('compareType', function () {
         return this.get('compareType')  === 'eq';
     }),
     actions: {
-        handleFilterEntry: function () {
-            var search = this.get('searchValue').trim();
+        handleFilterEntry: function (delayTime) {
+            delayTime = (delayTime === 0) ? 0 : this.get('defaultDelayTime');
+            let search = this.get('searchValue').trim();
             if (this.get('isSelect')) {
                 let selectedIndex = this.$('select')[0].selectedIndex;
                 search = (this.get('compareValues')[selectedIndex - 1]) ? (this.get('compareValues')[selectedIndex - 1]).value : null;
             }
-            this.get('filter')(this.get('column'), search, this.get('compareType'));
+            this.get('filter').perform(this.get('column'), search, this.get('compareType'), delayTime);
         },
         removeSearch: function () {
             if (this.get('isSelect')) {
@@ -28,12 +30,12 @@ export default Ember.Component.extend({
             this.set('sortColumn', 'id');
             this.set('sortType', 'asc');
             this.set('sortClass', 'fa-sort');
-            this.send('handleFilterEntry');
+            this.send('handleFilterEntry', 0);
         },
         sort: function () {
             Ember.$('.sorting i').removeClass('fa-sort-asc').removeClass('fa-sort-desc').addClass('fa-sort');
-            var sortType = 'asc';
-            var className = 'fa-sort-asc';
+            let sortType = 'asc';
+            let className = 'fa-sort-asc';
             if (this.get('sortClass') !== 'fa-sort' && this.get('sortClass') === 'fa-sort-asc') {
                 sortType = 'desc';
                 className = 'fa-sort-desc';
@@ -41,7 +43,7 @@ export default Ember.Component.extend({
             this.set('sortColumn', this.get('column'));
             this.set('sortType', sortType);
             this.set('sortClass', className);
-            this.send('handleFilterEntry');
+            this.send('handleFilterEntry', 0);
         }
     }
 });

@@ -2055,14 +2055,34 @@ input:focus {
   .orgchart {
     background-image: none;
     .node {
+      width: 150px;
       .title {
         font-weight: normal;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        i {
+          margin: 0;
+          margin-right: 5px;
+        }
       }
       &:hover {
         cursor: pointer;
         .second-menu-icon {
           opacity: 1;
         }
+      }
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        height: 30px;
+      }
+      .bottomEdge, .topEdge, .leftEdge, .rightEdge {
+        font-size: 25px;
       }
       .second-menu {
         display: none;
@@ -2713,6 +2733,7 @@ input:focus {
 .ticket-details {
   .message-full {
     height: calc(100vh - 375px);
+    position: relative;
     .message-body {
       max-height: calc(100vh - 530px);
     }
@@ -2735,9 +2756,41 @@ input:focus {
   }
 }
 
+.user-add {
+  .input-box {
+    height: 660px;
+  }
+}
+
 .input-box {
   border: 1px solid #ddd;
   padding: 15px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
   margin-bottom: 30px;
+}
+
+.input-box.agent-details {
+  height: 1050px;
+}
+
+.input-box.agent-personal {
+  height: 364px;
+}
+
+.input-box.agent-bank {
+  height:291px;
+}
+
+.input-box.agent-tree {
+  position: relative;
+  height: 333px;
+  .btn-success {
+    position: absolute;
+    right: 0;
+    bottom: -15px;
+  }
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  padding: 15px 5px;
 }
