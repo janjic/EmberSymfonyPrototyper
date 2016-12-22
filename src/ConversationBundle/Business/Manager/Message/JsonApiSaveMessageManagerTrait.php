@@ -32,8 +32,14 @@ trait JsonApiSaveMessageManagerTrait
      */
     public function saveResource($data)
     {
+        $d = json_decode($data, true);
+        if (array_key_exists('thread', $d['data']['relationships']) && $d['data']['relationships']['thread']['data']) {
+            $message = $this->deserializeMessage($data);
+        } else {
+            $message = $this->deserializeMessageWithoutThread($data);
+        }
+
         /** @var Message $message */
-        $message = $this->deserializeMessage($data);
         if ($message->getThread() && $message->getThread()->getId()) {
             return $this->replyToMessage($message);
         } else {

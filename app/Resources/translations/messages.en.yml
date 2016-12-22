@@ -229,6 +229,21 @@ admin-agent:
     optional-info: 'Optional information'
     notification-settings: 'Notification settings'
     genealogy-tree: 'Genealogy tree'
+  history:
+    agent.id: 'Agent ID'
+    agent.name: 'Agent Name'
+    changed.by: 'Changed By'
+    changed.from: 'Changed From'
+    changed.to: 'Changed To'
+    is.suspended: 'Is suspended'
+    date: 'Date'
+    actions: 'Actions'
+    upgread.title: 'Agent upgrade history'
+    downgrade.title: 'Agent downgrade history'
+    suspension.title: 'Agent suspension history'
+    suspended: 'Suspended'
+    not.suspended: 'Not suspended'
+    all: 'All'
 
 validations:
   presence-password: 'Password is too short (minimum is 6 characters)!'

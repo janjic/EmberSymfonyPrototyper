@@ -5,11 +5,14 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Component.extend(LoadingStateMixin, {
     sortColumn: 'id',
     sortType: 'asc',
+    defaultSortType: null,
     paramsArray: {
         groupOp: 'AND',
         rules: []
     },
     searchArray: [],
+    eventBus: Ember.inject.service('event-bus'),
+
     actions: {
         goToPage: function (page) {
             let currentPage = this.get('page');
@@ -19,6 +22,10 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.set('page', page === '=1' ? 1 : page === '='+maxPages ? maxPages : parseInt(page));
                 this.loadData(this.get('paramsArray'));
             }
+        },
+
+        resetTableAction(){
+            this.resetTable();
         }
     },
     loadData: function (paramsArray){
@@ -59,5 +66,28 @@ export default Ember.Component.extend(LoadingStateMixin, {
         paramsArray.rules = searchArrayFields;
         this.set('page', 1);
         this.loadData(paramsArray);
-    }).restartable()
+    }).restartable(),
+
+    resetTable() {
+        this.setProperties({
+            sortColumn: 'id',
+            sortType: this.get('defaultSortType') ? this.get('defaultSortType') : 'asc',
+            page: 1,
+            paramsArray: {
+                groupOp: 'AND',
+                rules: []
+            },
+            searchArray: []
+        });
+
+        this.loadData(this.get('paramsArray'));
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('resetTableEvent', this, 'resetTable');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('resetTableEvent');
+    })
 });

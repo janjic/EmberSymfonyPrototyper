@@ -56,7 +56,7 @@ class Ticket
     protected $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="Thread", inversedBy="messages", cascade={"persist"},)
+     * @ORM\OneToOne(targetEntity="Thread", inversedBy="ticket", cascade={"persist"})
      * @ORM\JoinColumn(name="threadid", referencedColumnName="id", nullable=true)
      * @var ThreadInterface
      */

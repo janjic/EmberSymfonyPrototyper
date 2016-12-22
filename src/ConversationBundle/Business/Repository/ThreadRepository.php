@@ -49,6 +49,9 @@ class ThreadRepository extends EntityRepository
             // sort by date of last message written by this participant
             ->orderBy('tm.lastParticipantMessageDate', 'DESC');
 
+        $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
+        $qb->andWhere('ticket.id IS NULL');
+
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -89,6 +92,9 @@ class ThreadRepository extends EntityRepository
             // sort by date of last message written by an other participant
             ->orderBy('tm.lastMessageDate', 'DESC');
 
+        $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
+        $qb->andWhere('ticket.id IS NULL');
+
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -121,6 +127,9 @@ class ThreadRepository extends EntityRepository
 
             // sort by date of last message
             ->orderBy('tm.lastMessageDate', 'DESC');
+
+        $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
+        $qb->andWhere('ticket.id IS NULL');
 
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
@@ -180,6 +189,9 @@ class ThreadRepository extends EntityRepository
             ->setParameter('isRead', false);
 
         $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
+
+        $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
+        $qb->andWhere('ticket.id IS NULL');
 
         return $qb->getQuery()->getResult();
     }

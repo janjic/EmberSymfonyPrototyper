@@ -67,6 +67,8 @@ services:
             agentManager: "@agent_system.agent.manager"
             tokenStorage: "@security.token_storage"
             messageComposer: "@fos_message.composer.default"
+            messageSender:   "@fos_message.sender.default"
+            eventDispatcher: "@event_dispatcher"
 
     agent_system.ticket.adapter:
         class: ConversationBundle\Adapter\Ticket\TicketAdapter

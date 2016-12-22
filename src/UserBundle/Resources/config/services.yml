@@ -192,6 +192,36 @@ services:
             repository: "@agent_system.commission.repository"
             fSerializer: "@f_serializer"
 
+    # ------ AgentHistory -------------------------------------------------------------------------------------------- #
+
+    agent_system.agent.history.repository:
+        class: UserBundle\Business\Repository\AgentHistoryRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\AgentHistory
+
+    agent_system.agent.history.manager:
+        class: UserBundle\Business\Manager\AgentHistoryManager
+        arguments:
+            repository:      "@agent_system.agent.history.repository"
+            fSerializer:     "@f_serializer"
+            tokenStorrage:   "@security.token_storage"
+
+    agent_system.agent.history.adapter:
+        class: UserBundle\Adapter\AgentHistory\AgentHistoryAdapter
+        arguments:
+            - "@agent_system.agent.history.manager"
+        tags:
+            - { name: request.param_converter, converter:attribute priority: 10 }
+
+    agent_system.agent.history.event.listener:
+        class: UserBundle\Business\Event\Agent\AgentGroupChangeListener
+        arguments:
+            - "@agent_system.agent.history.manager"
+        tags:
+            - { name: kernel.event_listener, event: agent.group.change.action, method: setEvent }
+            - { name: kernel.event_listener, event: kernel.terminate, method: execute }
+
     # ------ Notification -------------------------------------------------------------------------------------------- #
     agent_system.notification.repository:
         class: UserBundle\Business\Repository\NotificationRepository

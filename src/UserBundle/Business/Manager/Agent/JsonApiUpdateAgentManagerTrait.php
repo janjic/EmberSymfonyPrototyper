@@ -4,6 +4,8 @@ namespace UserBundle\Business\Manager\Agent;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use UserBundle\Business\Event\Agent\AgentEvents;
+use UserBundle\Business\Event\Agent\AgentGroupChangeEvent;
 use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
@@ -25,7 +27,10 @@ trait JsonApiUpdateAgentManagerTrait
         $agent = $this->deserializeAgent($data);
 
         /** @var Agent $dbAgent */
-        $dbAgent = $this->getEntityReference($agent->getId());
+        $dbAgent       = $this->getEntityReference($agent->getId());
+        $dbAgentGroup  = $dbAgent->getGroup();
+        $dbAgentLocked = $dbAgent->isEnabled();
+
         $agent = $this->prepareUpdate($agent, $dbAgent, $data);
         $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
@@ -38,7 +43,26 @@ trait JsonApiUpdateAgentManagerTrait
 
         if ($agentOrException instanceof Exception) {
             !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
+        } else {
+            $changeGroup     = null;
+            $changeSuspended = null;
+
+            /** is there a change in group */
+            if ($dbAgentGroup->getId() !== $agentOrException->getGroup()->getId()) {
+                $changeGroup = $dbAgentGroup;
+            }
+            /** is there a change in status */
+            if ($dbAgentLocked !== $agentOrException->isEnabled()) {
+                $changeSuspended = $agentOrException->isEnabled();
+            }
+            /** if there are changes record them */
+            if ($changeGroup !== null || $changeSuspended !== null) {
+                $event = new AgentGroupChangeEvent($agentOrException, $changeGroup, $changeSuspended);
+                $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
+            }
+
         }
+
         return $this->createJsonAPiUpdateResponse($agentOrException);
 //        if($agent->getId()){
 //            $this->syncWithTCRPortal($agent, 'edit');

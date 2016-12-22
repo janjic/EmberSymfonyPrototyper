@@ -51,6 +51,12 @@ class Thread extends BaseThread
     protected $isRead;
 
     /**
+     * @var Ticket
+     * @ORM\OneToOne(targetEntity="Ticket", mappedBy="thread")
+     */
+    protected $ticket;
+
+    /**
      * Thread constructor.
      */
     public function __construct()

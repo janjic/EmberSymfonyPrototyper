@@ -10,6 +10,7 @@ use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -119,6 +120,8 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     {
         return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
+
+
 
     /**
      * @param $string
