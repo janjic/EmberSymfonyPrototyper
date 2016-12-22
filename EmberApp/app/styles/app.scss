@@ -2945,6 +2945,10 @@ ul.notification-list {
   }
 }
 
+#navbar {
+  padding: 0 20px;
+}
+
 //NOTIFICATIONS DROPDOWN
 
 ul.dropdown-menu.header-notifications {
@@ -2970,6 +2974,12 @@ ul.dropdown-menu.header-notifications {
         width: 40px;
         height: 40px !important;
         margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i.fa {
+          font-size: 30px;
+        }
       }
       .notification-item-content {
         color: #333;
