@@ -11,18 +11,7 @@ $ember-power-select-border-radius: 0;
 /* Hide default HTML checkbox */
 .switch input {display:none;}
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+
 
 .slider:before {
   position: absolute;
@@ -36,9 +25,6 @@ $ember-power-select-border-radius: 0;
   transition: .4s;
 }
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
 
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
@@ -119,7 +105,7 @@ $pale-red: #d14545;
 $form-control-shadow: rgb(238, 81, 81);
 
 $panel-bg: #3f4a59;
-$main-dark: #364150;
+$main-dark: #34495e;
 $main-dark-hover: #2f3844;
 $text-color-dark: #333;
 $half-black: rgba(0, 0, 0, 0.5);
@@ -320,6 +306,10 @@ p {
   }
 }
 
+.btn {
+  transition: all 300ms ease-in-out;
+}
+
 table {
   font-family: 'Rubik', sans-serif;
   text-align: left;
@@ -359,9 +349,36 @@ table {
   }
 }
 
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $main-red;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: $main-green;
+}
+
 .table-responsive {
   margin-top: 30px;
   margin-bottom: 30px;
+  position: relative;
+  .wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.4);
+  }
 }
 .table-user-link {
   color: $main-red;
@@ -575,7 +592,7 @@ table {
     font-size: 15px;
     font-weight: 300;
     background: $main-dark;
-    color: $light-gray;
+    color: $white;
     &:hover {
       background: $text-color-dark;
       text-decoration: none;
@@ -1149,9 +1166,6 @@ header {
 .create-message {
   .messages-heading {
     margin-bottom: 30px;
-  }
-  input {
-    width: 75%;
   }
   textarea {
     resize: vertical;
@@ -2442,6 +2456,9 @@ input:focus {
     @media screen and (max-width: 768px) {
       max-height: calc(100vh - 800px);
     }
+    .no-messages {
+      padding: 10px;
+    }
     .conversation-item {
       display: flex;
       background-color: whitesmoke;
@@ -2521,6 +2538,7 @@ input:focus {
   transition-duration: 0.4s;
   box-shadow: 2px 3px 5px 0 rgba(0,0,0,0.5);
   height: calc(100vh - 115px);
+  position: relative;
   .message-header {
     border-bottom: 1px solid #ddd;
     padding: 15px;
@@ -2613,6 +2631,19 @@ input:focus {
               margin: 0;
               font-size: 14px;
               margin-bottom: 10px;
+            }
+          }
+          .attachment-download {
+            font-size: 12px;
+            display: block;
+            color: $main-dark;
+            border-top: 1px solid $white;
+            font-style: italic;
+            &:hover {
+              color: $main-dark-hover;
+            }
+            &:focus {
+              text-decoration: none;
             }
           }
         }
@@ -2758,7 +2789,7 @@ input:focus {
 
 .user-add {
   .input-box {
-    height: 660px;
+    min-height: 660px;
   }
 }
 
@@ -2770,20 +2801,20 @@ input:focus {
 }
 
 .input-box.agent-details {
-  height: 1050px;
+  min-height: 1050px;
 }
 
 .input-box.agent-personal {
-  height: 364px;
+  min-height: 364px;
 }
 
 .input-box.agent-bank {
-  height:291px;
+  min-height:291px;
 }
 
 .input-box.agent-tree {
   position: relative;
-  height: 333px;
+  min-height: 333px;
   .btn-success {
     position: absolute;
     right: 0;
@@ -2793,4 +2824,85 @@ input:focus {
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   padding: 15px 5px;
+}
+
+.button {
+  display: inline-block;
+  margin: 0.3em;
+  padding: 10px 20px;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 3px;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  border: none;
+  font-size: 15px;
+  text-align: center;
+}
+
+.button:hover {
+  box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+}
+
+.green {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.red {
+  background-color: #F44336;
+  color: white;
+}
+
+.blue {
+  background-color: #03A9F4;
+  color: white;
+}
+
+.ripple {
+  position: absolute;
+  background: rgba(0,0,0,.25);
+  border-radius: 100%;
+  transform: scale(0.2);
+  opacity:0;
+  pointer-events: none;
+  -webkit-animation: ripple .75s ease-out;
+  -moz-animation: ripple .75s ease-out;
+  animation: ripple .75s ease-out;
+}
+
+@-webkit-keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
