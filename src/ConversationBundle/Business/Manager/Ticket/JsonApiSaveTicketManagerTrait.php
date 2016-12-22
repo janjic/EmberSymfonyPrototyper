@@ -9,6 +9,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use FOS\MessageBundle\Event\FOSMessageEvents;
 use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
@@ -34,6 +35,9 @@ trait JsonApiSaveTicketManagerTrait
          * Prepare ticket object for saving
          */
         $ticket = $this->prepareSave($ticket);
+        if ($ticket === AgentApiResponse::TICKET_THREAD_NOT_SAVED) {
+            return new ArrayCollection($ticket);
+        }
 
         /** @var Agent|Exception $agent */
         $data = $this->save($ticket);
@@ -50,7 +54,7 @@ trait JsonApiSaveTicketManagerTrait
 
     /**
      * @param Ticket $ticket
-     * @return bool|Ticket
+     * @return bool|Ticket|array
      * @throws Exception
      */
     private function prepareSave(Ticket $ticket)
@@ -75,7 +79,11 @@ trait JsonApiSaveTicketManagerTrait
         /**
          * Save ticket file if exists
          */
-        $this->saveMedia($ticket);
+        if ($ticket->getFile() && $ticket->getFile()->getBase64Content()) {
+            $this->saveMedia($ticket);
+        } else {
+            $ticket->setFile(null);
+        }
 
         /** @var NewThreadMessageBuilder $thread */
         $thread = $this->messageComposer->newThread();
@@ -83,6 +91,18 @@ trait JsonApiSaveTicketManagerTrait
         $thread->setBody($ticket->getText());
         $creator = $this->repository->getReferenceForClass($ticket->getCreatedBy()->getId(), Agent::class);
         $thread->setSender($creator);
+
+
+        $this->eventDispatcher->addListener(FOSMessageEvents::POST_SEND, function($e) {
+            $this->saveEventResult = $e->getMessage();
+        });
+
+        $this->messageSender->send($thread->getMessage());
+
+        if (!$this->saveEventResult) {
+            return AgentApiResponse::TICKET_THREAD_NOT_SAVED;
+        }
+
         $ticket->setThread($thread->getMessage()->getThread());
         $ticket->getThread()->setCreatedBy($creator);
         /**
@@ -101,14 +121,11 @@ trait JsonApiSaveTicketManagerTrait
     {
         /** @var File $file */
         $file = $ticket->getFile();
-        if(!is_null($file)){
-            if ($file->saveToFile($file->getBase64Content())) {
-                return true;
-            }
-            return false;
+        if ($file->saveToFile($file->getBase64Content())) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

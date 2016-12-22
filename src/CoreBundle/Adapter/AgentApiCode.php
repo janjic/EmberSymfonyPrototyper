@@ -43,6 +43,7 @@ class AgentApiCode
     /** TICKET */
     const TICKET_SAVED_SUCCESSFULLY                  = 2201;
     const TICKET_NOT_FOUND                           = 2230;
+    const TICKET_THREAD_NOT_SAVED                    = 2231;
 
 
     /** MESSAGES */
