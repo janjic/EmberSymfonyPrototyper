@@ -27,18 +27,23 @@ class NotificationRepository extends EntityRepository
 
     /**
      * Save new $notification
-     * @param Notification $notification
-     * @return Notification|Exception
+     * @param array $notifications
+     * @return boolean
+     * @throws Exception
      */
-    public function saveNotification($notification)
+    public function saveNotification($notifications)
     {
         try {
-            $this->_em->persist($notification);
+            foreach ($notifications as $notification) {
+                $this->_em->persist($notification);
+            }
             $this->_em->flush();
         } catch (Exception $e) {
             throw $e;
         }
 
-        return $notification;
+        return true;
     }
+
+
 }

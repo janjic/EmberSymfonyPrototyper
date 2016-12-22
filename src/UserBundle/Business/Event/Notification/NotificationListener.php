@@ -49,9 +49,7 @@ class NotificationListener
     public function execute()
     {
         if ($this->event) {
-            foreach ($this->event->getNotifications() as $notification) {
-                $this->manager->saveResource($notification);
-            }
+            $this->manager->saveNotifications($this->event);
         }
     }
 }

@@ -106,10 +106,9 @@ trait JsonApiSaveMessageManagerTrait
             $this->saveEventResult->getThread()->setIsRead(true);
 
             // SENDING NOTIFICATION
-            $user = $newMessage->getSender();
-//            $user = $messageFronted->getParticipantsFromMeta();
-            $notification = NotificationManager::createNewMessageNotification($user, 'You got new message!');
+            $notification = NotificationManager::createNewMessageNotification();
             $event = new NotificationEvent();
+            $event->setMessage($newMessage);
             $event->addNotification($notification);
 
             $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);

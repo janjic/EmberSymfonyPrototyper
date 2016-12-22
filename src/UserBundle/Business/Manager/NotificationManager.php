@@ -9,8 +9,11 @@
 namespace UserBundle\Business\Manager;
 
 
+use ConversationBundle\Business\Manager\MessageManager;
+use ConversationBundle\Entity\Message;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
+use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Manager\Notification\JsonApiSaveNotificationManagerTrait;
 use UserBundle\Business\Repository\NotificationRepository;
 use UserBundle\Entity\Agent;
@@ -40,13 +43,20 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     protected $fSerializer;
 
     /**
+     * @var MessageManager
+     */
+    protected $messageManager;
+
+    /**
      * @param NotificationRepository $repository
+     * @param MessageManager $messageManager
      * @param FJsonApiSerializer $fSerializer
      */
-    public function __construct(NotificationRepository $repository, FJsonApiSerializer $fSerializer)
+    public function __construct(NotificationRepository $repository, MessageManager $messageManager, FJsonApiSerializer $fSerializer)
     {
-        $this->repository = $repository;
-        $this->fSerializer = $fSerializer;
+        $this->repository       = $repository;
+        $this->messageManager   = $messageManager;
+        $this->fSerializer      = $fSerializer;
     }
 
     /**
@@ -76,20 +86,31 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-     * @param $agent
      * @param $message
      * @return Notification
      */
-    public static function createNewMessageNotification($agent, $message)
+    public static function createNewMessageNotification()
     {
         $notification = new Notification();
         $notification->setType(NotificationType::NEW_MESSAGE_NOTIFICATION);
         $notification->setNewAgent(null);
-        $notification->setMessage($message);
+        $notification->setMessage('You got new message!');
         $notification->setCreatedAt(new \DateTime());
-        $notification->setAgent($agent);
 
         return $notification;
+    }
+
+    public function saveNotifications(NotificationEvent $event)
+    {
+        /** @var Message $message */
+        $message        = $event->getMessage();
+        $agentRecipient = $message->getParticipantsFromMeta()[0];
+
+        foreach ($event->getNotifications() as $notification) {
+            $notification->setAgent($agentRecipient);
+        }
+
+        $this->repository->saveNotification($event->getNotifications());
     }
 
     /**
@@ -104,7 +125,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         if (!$mappings) {
             $mappings = array(
                 'notification'  => array('class' => Notification::class, 'type'=>'notifications'),
-                'agent'        => array('class' => Agent::class, 'type' => 'agents')
+                'agent'         => array('class' => Agent::class, 'type' => 'agents')
             );
         }
 
@@ -123,7 +144,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         if (!$mappings) {
             $mappings = array(
                 'notification'  => array('class' => Notification::class, 'type'=>'notifications'),
-                'agent'        => array('class' => Agent::class, 'type' => 'agents')
+                'agent'         => array('class' => Agent::class, 'type' => 'agents')
             );
         }
 

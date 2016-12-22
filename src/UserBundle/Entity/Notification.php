@@ -43,7 +43,7 @@ class Notification
     protected $isSeen = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent", cascade={"all"})
      * @ORM\JoinColumn(name="new_agent_id", referencedColumnName="id")
      */
     protected $newAgent;

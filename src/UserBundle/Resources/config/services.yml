@@ -233,6 +233,7 @@ services:
         class: UserBundle\Business\Manager\NotificationManager
         arguments:
             repository: "@agent_system.notification.repository"
+            messageManager: "@agent_system.message.manager"
             fSerializer: "@f_serializer"
 
     agent_system.notification.adapter:

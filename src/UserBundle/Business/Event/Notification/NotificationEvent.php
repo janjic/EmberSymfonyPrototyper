@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Event\Notification;
 
+use FOS\MessageBundle\Model\MessageInterface;
 use Symfony\Component\EventDispatcher\Event;
 use UserBundle\Entity\Notification;
 
@@ -17,6 +18,11 @@ class NotificationEvent extends Event
     protected $notification;
 
     /**
+     * @var MessageInterface
+     */
+    protected $message;
+
+    /**
      * NotificationEvent constructor.
      */
     public function __construct()
@@ -25,7 +31,7 @@ class NotificationEvent extends Event
     }
 
     /**
-     * @return Notification
+     * @return array
      */
     public function getNotifications()
     {
@@ -39,4 +45,24 @@ class NotificationEvent extends Event
     {
         $this->notification[] = $notification;
     }
+
+    /**
+     * @return MessageInterface
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param MessageInterface $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+
+
+
 }

@@ -20,12 +20,6 @@ trait JsonApiSaveNotificationManagerTrait
     public function saveResource($data)
     {
         $this->repository->saveNotification($data);
-        /** @var Notification $notification */
-//        $notification = $this->deserializeNotification($data);
-
-       // $notification->setAgent($this->repository->getReferenceForClass($notification->getAgent()->getId(), Agent::class));
-
-//        return $this->createJsonAPiSaveResponse($this->repository->saveNotification($data));
     }
 
     /**
