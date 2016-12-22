@@ -45,7 +45,7 @@ class AgentRepository extends NestedTreeRepository
             } else {
                 $this->persistAsFirstChild($agent);
             }
-            $this->_em->flush();
+//            $this->_em->flush();
         } catch (UniqueConstraintViolationException $e) {
             return $e;
         } catch (Exception $e) {
@@ -106,12 +106,17 @@ class AgentRepository extends NestedTreeRepository
             } else {
                 $isHQEdit? $this->_em->merge($agent):$this->persistAsFirstChild($agent);
             }
-            $this->_em->flush();
+//            $this->_em->flush();
         } catch (\Exception $e) {
             return $e;
         }
 
         return $agent;
+    }
+
+    public function flushDb()
+    {
+        $this->_em->flush();
     }
 
 

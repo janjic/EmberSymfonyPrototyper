@@ -28,6 +28,7 @@ class AgentApiCode
     const AGENT_NOT_FOUND                           = 30;
     const AGENT_CURRENTLY_INACTIVE                  = 31;
     const AGENT_INFO_CALCULATED_OK                  = 32;
+    const AGENT_SYNC_ERROR                          = 33;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
