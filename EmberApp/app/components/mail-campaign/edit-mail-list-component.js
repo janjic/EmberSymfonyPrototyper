@@ -12,7 +12,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailListValidations), MailListValidations);
-        this.additionalMails = this.get('model.subscribers');
+        console.log(this.get('model.subscribers'));
+        // this.additionalMails = this.get('model.subscribers');
     },
     actions: {
         saveMailList(mailList) {
@@ -39,26 +40,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 });
             }
         },
-        agentSelected(agent){
-            if(agent) {
-                let itemInArray = (this.get('additionalMails').filter(function (element) {
-                    return agent? element.email == agent.get('email'): false;
-                }).length)?1:0;
-                if (!itemInArray) {
-                    this.get('additionalMails').addObject({email: agent.get('email')});
-                } else {
-                   this.set('additionalMails', []);
-                }
-            } else {
-                this.set('additionalMails', []);
-            }
-        },
         agentAdded(value, selectedItems){
              selectedItems = selectedItems.addObject({email: value});
             this.set('additionalMails', selectedItems);
-        },
-        agentRemoved(item){
-
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);

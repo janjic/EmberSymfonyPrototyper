@@ -25,15 +25,17 @@ trait JsonApiGetMailListManagerTrait
 
         $members = $this->mailChimp->get('/lists/'.$id.'/members');
         $subscribers = [];
+        $subscribersIncluded = [];
+        $relationships = [];
         if(count($members['members'])){
             foreach ($members['members'] as $member){
-                $subscribers[] = array('email'=>$member['email_address']);
+                $subscribers[] = array('type'=>'subscribers', 'id' => $member['id']);
+                $subscribersIncluded[] = array('attributes'=> array('email'=>$member['email_address']), 'id' => $member['id'], 'type'=> 'subscribers');
             }
-
-            $list['subscribers'] = $subscribers;
+            $relationships['subscribers']['data'] = $subscribers;
         }
 
-        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists')));
+        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists', 'relationships' => $relationships), 'included' => $subscribersIncluded));
 
 
     }

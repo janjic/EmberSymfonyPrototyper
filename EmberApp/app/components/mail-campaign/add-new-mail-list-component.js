@@ -37,13 +37,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 });
             }
         },
-        agentSelected(agent){
-            if (agent) {
-                this.get('additionalMails').addObject({email: agent.get('email')});
-            }
-        },
-        agentAdded(value){
-            this.get('additionalMails').addObject({email: value});
+        agentAdded(value, selectedItems){
+            selectedItems = selectedItems.addObject({email: value});
+            this.set('additionalMails', selectedItems);
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);

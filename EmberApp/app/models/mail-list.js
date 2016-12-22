@@ -7,7 +7,7 @@ export default DS.Model.extend({
     fromAddress:         attr('string'),
     fromName:            attr('string'),
     permission_reminder: attr('string'),
-    subscribers:         attr('array'),
+    subscribers:         DS.hasMany('subscriber', {inverse: 'mailLists'}),
     mailCampaign:        DS.belongsTo('mail-campaign', {inverse: 'mailList'}),
     campaign_defaults:   computed('name', 'fromAddress', 'fromName', function () {
         return {
