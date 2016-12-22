@@ -2938,3 +2938,46 @@ ul.notification-list {
     border-left: 5px solid $main-green;
   }
 }
+
+ul.dropdown-menu.header-notifications {
+  min-width: 300px;
+  padding: 0;
+  li {
+    &:last-child {
+      a.notification-item {
+        border-bottom: none;
+      }
+    }
+    a.notification-item {
+      padding: 10px;
+      border-left: 5px solid $main-red;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      &:hover {
+        background-color: #ecf0f1;
+      }
+      .img-holder {
+        width: 40px;
+        height: 40px !important;
+        margin-right: 10px;
+      }
+      .notification-item-content {
+        color: #333;
+        flex: 1;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+      }
+      .date {
+        font-size: 11px;
+        color: #666;
+      }
+    }
+  }
+  li a.notification-item.seen {
+    border-left: 5px solid $main-green;
+  }
+}
