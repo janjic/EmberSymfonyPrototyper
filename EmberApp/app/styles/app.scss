@@ -2787,6 +2787,8 @@ input:focus {
   }
 }
 
+//INPUT BOXES
+
 .user-add {
   .input-box {
     min-height: 660px;
@@ -2825,6 +2827,8 @@ input:focus {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   padding: 15px 5px;
 }
+
+//MATERIAL BUTTONS
 
 .button {
   display: inline-block;
@@ -2909,6 +2913,8 @@ input:focus {
   }
 }
 
+//ALL NOTIFICATIONS PAGE
+
 ul.notification-list {
   margin: 0;
   padding: 0;
@@ -2938,6 +2944,8 @@ ul.notification-list {
     border-left: 5px solid $main-green;
   }
 }
+
+//NOTIFICATIONS DROPDOWN
 
 ul.dropdown-menu.header-notifications {
   min-width: 300px;
@@ -2998,6 +3006,8 @@ ul.dropdown-menu.header-notifications {
     }
   }
 }
+
+//MESSAGES DROPDOWN
 
 ul.dropdown-menu.header-messages {
   min-width: 300px;
