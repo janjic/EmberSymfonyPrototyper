@@ -8,5 +8,6 @@ export default DS.Model.extend({
     filePath:       attr('string'),
     fileSize:       attr('string'),
     base64Content:  attr('string'),
-    agent:          DS.belongsTo('agent', {inverse: 'image' })
+    agent:          DS.belongsTo('agent', {inverse: 'image' }),
+    settings:       DS.belongsTo('setting', {inverse: 'image' })
 });

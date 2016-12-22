@@ -30,6 +30,7 @@ class AgentApiResponse
     const TICKET_NOT_FOUND_RESPONSE             = array('status' => AgentApiCode::TICKET_NOT_FOUND);
     const AGENT_INACTIVE_RESPONSE               = array('status' => AgentApiCode::AGENT_CURRENTLY_INACTIVE);
     const ACCESS_TO_TICKET_DENIED               = array('errors' => array(array('status' => AgentApiCode::ACCESS_DENIED)));
+    const TICKET_THREAD_NOT_SAVED               = array('errors' => array(array('status' => AgentApiCode::TICKET_THREAD_NOT_SAVED)));
 
 
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
@@ -41,6 +42,16 @@ class AgentApiResponse
     public static function PASSWORD_ALREADY_REQUESTED($ttl)
     {
         return array('status' => AgentApiCode::PASSWORD_ALREADY_REQUESTED, 'time'  => ($ttl/60));
+    }
+
+    /**
+     * @param $childCount
+     * @param $numberOfUsers
+     * @return array
+     */
+    public static function AGENT_INFO_OK_RESPONSE($childCount, $numberOfUsers)
+    {
+        return array('data' => array('childCount'=> $childCount, 'usersCount' => $numberOfUsers), 'status' => AgentApiCode::AGENT_INFO_CALCULATED_OK);
     }
 
     /**
@@ -60,7 +71,6 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'agents', 'id' => $id));
     }
-
 
 
     /**
@@ -141,4 +151,33 @@ class AgentApiResponse
         return array('data' => array('type'=> 'mailLists', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_LIST_SAVED_SUCCESSFULLY));
     }
 
+
+    /** -------- INVITATION ----------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function INVITATION_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'invitations', 'id' => $id), 'meta' => array('status'=> AgentApiCode::INVITATION_SAVED_SUCCESSFULLY));
+    }
+
+    /** -------- SETTINGS ------------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'settings', 'id' => $id), 'meta' => array('status'=> AgentApiCode::SETTINGS_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function SETTINGS_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'SETTINGS', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
+    }
 }

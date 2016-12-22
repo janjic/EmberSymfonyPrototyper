@@ -32,6 +32,9 @@ button:
   save: 'Save'
   edit: 'Edit'
   change-pass: 'Change password'
+  cancel: 'Cancel'
+  delete: 'Delete'
+  add: 'Add'
 
 validation:
   email:
@@ -164,6 +167,12 @@ admin-user:
     direct-superior: 'Direct Superior'
     number-of-agents-downline: 'Number of agents down the line'
     customers: 'Number of customers'
+    user-details: 'User details'
+    personal-details: 'Personal details'
+    username: 'Username'
+    agent-type: 'Agent type'
+    actions: 'Actions'
+
 
 
 
@@ -220,6 +229,21 @@ admin-agent:
     optional-info: 'Optional information'
     notification-settings: 'Notification settings'
     genealogy-tree: 'Genealogy tree'
+  history:
+    agent.id: 'Agent ID'
+    agent.name: 'Agent Name'
+    changed.by: 'Changed By'
+    changed.from: 'Changed From'
+    changed.to: 'Changed To'
+    is.suspended: 'Is suspended'
+    date: 'Date'
+    actions: 'Actions'
+    upgread.title: 'Agent upgrade history'
+    downgrade.title: 'Agent downgrade history'
+    suspension.title: 'Agent suspension history'
+    suspended: 'Suspended'
+    not.suspended: 'Not suspended'
+    all: 'All'
 
 validations:
   presence-password: 'Password is too short (minimum is 6 characters)!'
@@ -242,6 +266,16 @@ admin-messages:
   received.listing: 'Received Messages'
   no-messages: 'You have no messages'
   new-messages: 'You have new messages'
+  enter: 'Enter your message'
+
+invitation:
+  message.save: 'Invitation send'
+  message.error: 'Error while sending invitation'
+  email:
+    invalid: 'Email Address in invalid format'
+    presence: 'Please enter recipient email address'
+    subject: 'Please enter email subject'
+    content: 'Please enter email content'
 
 models:
   server-error: 'Server error!'
@@ -282,6 +316,9 @@ models:
 #SETTINGS
 
 settings:
+  validations:
+    number-validation: 'This field must be a number'
+    integer-validation: 'This field must be an integer number'
   labels:
     facebook-link: 'Facebook link'
     twitter-link: 'Twitter link'
@@ -302,3 +339,54 @@ settings:
     number-of-customers: 'Number of customers > xy'
     for-period-less: 'For period of time less than'
     month(s): 'month(s)'
+
+#HOME
+
+dashboard:
+  labels:
+    new-customers: 'New customers'
+    new-agents: 'New agents'
+    new-orders: 'New orders'
+    new-commissions: 'New commissions'
+    today: 'Today'
+    this-month: 'This month'
+    total: 'Total'
+    financial-analytics: 'Financial analytics chart'
+    top-agents: 'Top agents'
+    top-customers: 'Top customers'
+    top-sellers: 'Top sellers'
+
+
+#TICKETS
+
+tickets:
+  labels:
+    title: 'Ticket details'
+    info: 'Ticket information'
+    id: 'Ticket ID'
+    type: 'Ticket type'
+    date: 'Date'
+    status: 'Status'
+    user-info: 'User information'
+    username: 'Username'
+    full-name: 'Full name'
+    email: 'Email'
+    file: 'File'
+
+#MANAGE GROUPS
+
+manage-groups:
+  select-new: 'Please select new group for users'
+  set-parent: 'Set as a new parent'
+  edit: 'Edit group'
+  add: 'Add new group'
+  new-name: 'New group name'
+
+#MANAGE ROLES
+
+manage-roles:
+  role-management: 'Role management'
+  name: 'Name'
+  role: 'Role'
+  add-new: 'Add new role'
+  title: 'Title'

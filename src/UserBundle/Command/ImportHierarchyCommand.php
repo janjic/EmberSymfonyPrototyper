@@ -7,6 +7,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use UserBundle\Entity\Group;
 use UserBundle\Entity\Role;
+use UserBundle\Entity\Settings\Bonus;
+use UserBundle\Entity\Settings\Commission;
+use UserBundle\Entity\Settings\Settings;
 
 /**
  * Class ImportHierarchyCommand
@@ -75,6 +78,55 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         $refereeGroup->addRole($refereeRole);
 
         /**
+         * SETTINGS + COMMISSIONS AND BONUSES
+         */
+        $settings = new Settings();
+        $settings->setConfirmationMail('email@provider.com')
+            ->setPayPal('www.paypal.com')
+            ->setFacebookLink('www.facebook.com')
+            ->setEasycall('www.easycall.com')
+            ->setTwitterLink('www.twitter.com')
+            ->setGPlusLink('www.google.com');
+
+        $commissionReferral = new Commission();
+        $commissionReferral->setSettings($settings)
+            ->setGroup($refereeGroup)
+            ->setSetupFee(4)
+            ->setPackages(3)
+            ->setConnect(1)
+            ->setStream(0);
+
+        $commissionActiveAgent = new Commission();
+        $commissionActiveAgent->setSettings($settings)
+            ->setGroup($activeGroup)
+            ->setSetupFee(5)
+            ->setPackages(4)
+            ->setConnect(0)
+            ->setStream(6);
+
+        $settings->addCommision($commissionReferral);
+        $settings->addCommision($commissionActiveAgent);
+
+        $bonusReferral = new Bonus();
+        $bonusReferral->setSettings($settings)
+            ->setGroup($refereeGroup)
+            ->setAmountCHF(200)
+            ->setAmountEUR(200)
+            ->setNumberOfCustomers(20)
+            ->setPeriod(3);
+
+        $bonusActiveAgent = new Bonus();
+        $bonusActiveAgent->setSettings($settings)
+            ->setGroup($activeGroup)
+            ->setAmountCHF(300)
+            ->setAmountEUR(300)
+            ->setNumberOfCustomers(30)
+            ->setPeriod(3);
+
+        $settings->addBonus($bonusReferral);
+        $settings->addBonus($bonusActiveAgent);
+
+        /**
          * PERSISTING ROLES
          */
         $em->persist($adminRole);
@@ -93,14 +145,13 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         $em->persist($activeGroup);
         $em->persist($refereeGroup);
 
+        /**
+         * PERSISTING SETTINGS
+         */
+        $em->persist($settings);
+
         $em->flush();
 
-        $output->writeln('Successfully imported groups and roles');
-
-
-
-
-
-
+        $output->writeln('Successfully imported groups, roles and settings');
     }
 }

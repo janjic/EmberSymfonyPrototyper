@@ -17,6 +17,11 @@ conversation:
     type:     annotation
     prefix:   /
 
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
 

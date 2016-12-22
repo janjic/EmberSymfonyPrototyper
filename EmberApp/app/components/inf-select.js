@@ -194,7 +194,7 @@ export default SearchableSelect.extend({
             const previousResults = this.get('content');
             this.set('content', results.toArray().unshiftObjects(previousResults));
         } else {
-            this.set('content', results);
+            this.set('content', results.toArray());
         }
 
         // meta should include keys for "total", "page" and "pages"
@@ -472,6 +472,7 @@ export default SearchableSelect.extend({
             } else if (search.then) {
                 this.get('handleAsyncSearchTask').perform(text, page, search);
             } else {
+                console.log("USAO OPET");
                 this.setDataAfterSearch(search);
             }
 

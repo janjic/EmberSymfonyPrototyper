@@ -26,6 +26,7 @@ class AgentApiCode
     const AGENT_SAVED_SUCCESSFULLY                  = 29;
     const AGENT_NOT_FOUND                           = 30;
     const AGENT_CURRENTLY_INACTIVE                  = 31;
+    const AGENT_INFO_CALCULATED_OK                  = 32;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
@@ -43,14 +44,22 @@ class AgentApiCode
     /** TICKET */
     const TICKET_SAVED_SUCCESSFULLY                  = 2201;
     const TICKET_NOT_FOUND                           = 2230;
+    const TICKET_THREAD_NOT_SAVED                    = 2231;
 
 
     /** MESSAGES */
-    const MESSAGES_UNSUPPORTED_FORMAT                = 2201;
+    const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;
 
     /** TICKET */
     const MAIL_LIST_SAVED_SUCCESSFULLY               = 2301;
+
+    /** INVITATION */
+    const INVITATION_SAVED_SUCCESSFULLY              = 2501;
+
+    /** SETTINGS */
+    const SETTINGS_SAVED_SUCCESSFULLY                = 2601;
+    const SETTINGS_EDITED_SUCCESSFULLY               = 2602;
 }

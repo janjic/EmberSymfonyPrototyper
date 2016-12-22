@@ -129,7 +129,7 @@ assetic:
         bin:  /usr/local/lib/npm/bin/uglifyjs
 
 bazinga_js_translation:
-    locale_fallback:      en
+    locale_fallback: null
 
 fos_oauth_server:
     db_driver: orm

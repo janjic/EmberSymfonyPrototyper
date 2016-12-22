@@ -1,17 +1,22 @@
 <h1 class="main-heading">{{mainTitle}}</h1>
 <div class="table-responsive">
+    {{#if isLoading }}
+        {{inf-loading}}
+    {{/if}}
     <table class="table table-striped table-bordered">
         <tbody>
         <tr>
             {{#each colNames as |colName|}}
-                <th>{{colName}}</th>
+                <th>{{trans colName}}</th>
             {{/each}}
         </tr>
         <tr>
             {{#each colModels as |colName|}}
-                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=(action 'handleFilterEntry')}}
+                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=handleFilterEntry}}
             {{/each}}
-            <td></td>
+            {{#if (or viewLink editLink)}}
+                <td></td>
+            {{/if}}
         </tr>
 
         {{#each model as |m|}}
@@ -19,27 +24,27 @@
                 {{#each colModels as |colModel|}}
                     <td>{{table-view-formatter-helper colModel.formatter (get m colModel.value)}}</td>
                 {{/each}}
-                <td>
-                    {{# if viewLink }}
-                        {{#link-to viewLink m.id class="table-user-link"}}
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                        {{/link-to}}
-                    {{/if}}
-                    {{# if editLink }}
-                        {{#link-to editLink m.id class="table-user-link"}}
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        {{/link-to}}
-                    {{/if}}
-                </td>
+                {{#if (or viewLink editLink)}}
+                    <td>
+                        {{# if viewLink }}
+                            {{#link-to viewLink m.id class="table-user-link"}}
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            {{/link-to}}
+                        {{/if}}
+                        {{# if editLink }}
+                            {{#link-to editLink m.id class="table-user-link"}}
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            {{/link-to}}
+                        {{/if}}
+                    </td>
+                {{/if}}
             </tr>
         {{/each}}
+        <tr>
+            <td class="table-pagination" colspan="100">
+                {{table-view-pagination-component model=model offset=offset filter=(action 'goToPage') resetTableAction=(action 'resetTableAction')}}
+            </td>
+        </tr>
         </tbody>
     </table>
-    {{table-view-pagination-component model=model offset=offset filter=(action 'goToPage')}}
 </div>
-
-{{#if isLoading }}
-    <<div class="loader-holder">
-        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
-    </div>
-{{/if}}

@@ -1,7 +1,12 @@
 <div class="message-full">
     <div class="message-header">
         <div class="message-active"></div>
-        <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
+        {{#if (eq thread.createdBy.id currentUser.user.id)}}
+            <h3 class="name">{{thread.otherParticipant.fullName}}</h3>
+        {{else}}
+            <h3 class="name">{{thread.createdBy.fullName}}</h3>
+        {{/if}}
+
         <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
         {{#if isDeletedDisplay}}
             <button class="btn btn-danger" {{action 'deleteThread'}}><i class="fa fa-undo" aria-hidden="true"></i></button>
@@ -48,18 +53,36 @@
                         {{else}}
                             <div class="user-comment">
                                 <div class="username">
-                                    <h4>{{thread.otherParticipant.fullName}}</h4>
+                                    {{#if (eq thread.createdBy.id currentUser.user.id)}}
+                                        <h4>{{thread.otherParticipant.fullName}}</h4>
+                                    {{else}}
+                                        <h4>{{thread.createdBy.fullName}}</h4>
+                                    {{/if}}
+
                                     <div class="img-holder">
-                                        {{#if thread.otherParticipant.baseImageUrl}}
-                                            <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+                                        {{#if (eq thread.createdBy.id currentUser.user.id)}}
+                                            {{#if thread.otherParticipant.baseImageUrl}}
+                                                <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+                                            {{else}}
+                                                <img src="../../assets/images/user-avatar.png" title="Username">
+                                            {{/if}}
                                         {{else}}
-                                            <img src="../../assets/images/user-avatar.png" title="Username">
+                                            {{#if thread.createdBy.baseImageUrl}}
+                                                <img src="{{thread.createdBy.baseImageUrl}}" title="Username">
+                                            {{else}}
+                                                <img src="../../assets/images/user-avatar.png" title="Username">
+                                            {{/if}}
                                         {{/if}}
                                     </div>
                                 </div>
                                 <div class="user-message clearfix">
                                     <p>{{message.body}}</p>
                                     <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
+                                    {{#if message.file}}
+                                        <a href="{{message.file.webPath}}" class="attachment-download" download="">
+                                            <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
+                                        </a>
+                                    {{/if}}
                                 </div>
                             </div>
                         {{/if}}
@@ -78,8 +101,12 @@
         <div class="send-message-mobile">
             <form {{action 'sendMessage' on="submit"}}>
                 <div class="input-group">
-                    {{input type="text" value=messageBody class="form-control" placeholder="Enter your message"}}
-                    <i class="fa fa-paperclip" {{action 'toggleAttachDropzone'}}></i>
+                    {{input type="text" value=messageBody class="form-control" placeholder=(trans "admin-messages.enter")}}
+                    {{#if fileTemp}}
+                        <i class="fa fa-paperclip file-attached" {{action 'toggleAttachDropzone'}}></i>
+                    {{else}}
+                        <i class="fa fa-paperclip" {{action 'toggleAttachDropzone'}}></i>
+                    {{/if}}
                     <div class="dropzone-holder" hidden={{hideAttachDropzone}}>
                         {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                     </div>

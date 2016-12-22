@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
@@ -59,15 +60,22 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     protected $fSerializer;
 
     /**
-     * @param AgentRepository $repository
-     * @param GroupManager $groupManager
-     * @param FJsonApiSerializer $fSerializer
+     * @var EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer)
+    protected $eventDispatcher;
+
+    /**
+     * @param AgentRepository          $repository
+     * @param GroupManager             $groupManager
+     * @param FJsonApiSerializer       $fSerializer
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $dispatcher)
     {
-        $this->repository   = $repository;
-        $this->groupManager = $groupManager;
-        $this->fSerializer  = $fSerializer;
+        $this->repository      = $repository;
+        $this->groupManager    = $groupManager;
+        $this->fSerializer     = $fSerializer;
+        $this->eventDispatcher = $dispatcher;
     }
 
     public function getGroupById($id)

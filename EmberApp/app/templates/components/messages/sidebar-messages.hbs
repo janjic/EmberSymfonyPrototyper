@@ -1,15 +1,27 @@
 {{#each model as |thread|}}
     <div class="conversation-item" {{action 'threadSelected' thread}}>
         <div class="img-holder">
-            {{#if thread.otherParticipant.baseImageUrl}}
-                <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+            {{#if (eq thread.createdBy.id currentUser.user.id)}}
+                {{#if thread.otherParticipant.baseImageUrl}}
+                    <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
+                {{else}}
+                    <img src="../../assets/images/user-avatar.png" title="Username">
+                {{/if}}
             {{else}}
-                <img src="../../assets/images/user-avatar.png" title="Username">
+                {{#if thread.createdBy.baseImageUrl}}
+                    <img src="{{thread.createdBy.baseImageUrl}}" title="Username">
+                {{else}}
+                    <img src="../../assets/images/user-avatar.png" title="Username">
+                {{/if}}
             {{/if}}
         </div>
         <div class="content">
             <h3 class="name">
-                {{thread.otherParticipant.fullName}}
+                {{#if (eq thread.createdBy.id currentUser.user.id)}}
+                    {{thread.otherParticipant.fullName}}
+                {{else}}
+                    {{thread.createdBy.fullName}}
+                {{/if}}
             </h3>
             <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
             {{!--<h5 class="content-text">{{thread.firstMessage.body}}</h5>--}}
@@ -25,5 +37,7 @@
 {{/each}}
 
 {{#unless model}}
-    {{trans 'admin-messages.no-messages'}}
+    <p class="no-messages">
+        {{trans 'admin-messages.no-messages'}}
+    </p>
 {{/unless}}

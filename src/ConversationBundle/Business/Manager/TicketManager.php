@@ -15,13 +15,13 @@ use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
-
-
+use FOS\MessageBundle\Sender\Sender as MessageSender;
 
 /**
  * Class TicketManager
@@ -62,22 +62,41 @@ class TicketManager implements JSONAPIEntityManagerInterface
     protected $messageComposer;
 
     /**
-     * @param TicketRepository $repository
-     * @param FJsonApiSerializer $fSerializer
-     * @param AgentManager $agentManager
-     * @param TokenStorage $tokenStorage
-     * @param MessageComposer $messageComposer
+     * @var MessageSender $messageSender
      */
-    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager, TokenStorage $tokenStorage, MessageComposer $messageComposer)
+    protected $messageSender;
+
+    /**
+     * @var EventDispatcherInterface $eventDispatcher
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @param TicketRepository         $repository
+     * @param FJsonApiSerializer       $fSerializer
+     * @param AgentManager             $agentManager
+     * @param TokenStorage             $tokenStorage
+     * @param MessageComposer          $messageComposer
+     * @param MessageSender            $messageSender
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(TicketRepository $repository, FJsonApiSerializer $fSerializer, AgentManager $agentManager,
+                                TokenStorage $tokenStorage, MessageComposer $messageComposer, MessageSender $messageSender,
+                                EventDispatcherInterface $eventDispatcher)
     {
         $this->repository      = $repository;
         $this->fSerializer     = $fSerializer;
         $this->agentManager    = $agentManager;
         $this->tokenStorage    = $tokenStorage;
         $this->messageComposer = $messageComposer;
+        $this->messageSender   = $messageSender;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
-
+    /**
+     * Placeholder for thread save result
+     */
+    protected $saveEventResult;
 
     /**
      * @param Ticket $ticket
@@ -86,10 +105,6 @@ class TicketManager implements JSONAPIEntityManagerInterface
     public function save(Ticket $ticket)
     {
         $ticket = $this->repository->saveTicket($ticket);
-
-        if ($ticket instanceof Exception) {
-            return $ticket;
-        }
 
         return $ticket;
     }
