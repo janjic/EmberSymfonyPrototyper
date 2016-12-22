@@ -12,6 +12,9 @@ use FOS\MessageBundle\Event\FOSMessageEvents;
 use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use FOS\MessageBundle\MessageBuilder\ReplyMessageBuilder;
 use FOS\MessageBundle\Model\MessageInterface;
+use UserBundle\Business\Event\Notification\NotificationEvent;
+use UserBundle\Business\Event\Notification\NotificationEvents;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 
@@ -95,6 +98,17 @@ trait JsonApiSaveMessageManagerTrait
             $this->messageSender->send($newMessage);
 
             $this->saveEventResult->getThread()->setIsRead(true);
+
+            // SENDING NOTIFICATION
+            $user = $newMessage->getSender();
+//            $user = $messageFronted->getParticipantsFromMeta();
+            $notification = NotificationManager::createNewMessageNotification($user, 'You got new message!');
+            $event = new NotificationEvent();
+            $event->addNotification($notification);
+
+            $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
+            $this->eventDispatcher->dispatch("uradi.odma");
+
             return $this->serializeMessage($this->saveEventResult);
 
         } catch (Exception $e) {
