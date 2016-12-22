@@ -2846,8 +2846,10 @@ input:focus {
   text-align: center;
 }
 
-.button:hover {
+.button:hover, .button:focus {
   box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+  color: #fff;
+  text-decoration: none;
 }
 
 .green {
@@ -2904,5 +2906,35 @@ input:focus {
   to {
     transform: scale(2);
     opacity: 0;
+  }
+}
+
+ul.notification-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li.single-notification {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-left: 5px solid $main-red;
+    margin-bottom: 15px;
+    box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    .notification-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+      .content-left {
+        h5 {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+  li.single-notification.seen {
+    border-left: 5px solid $main-green;
   }
 }
