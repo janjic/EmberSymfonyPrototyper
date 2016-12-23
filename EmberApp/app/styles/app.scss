@@ -2787,6 +2787,8 @@ input:focus {
   }
 }
 
+//INPUT BOXES
+
 .user-add {
   .input-box {
     min-height: 660px;
@@ -2825,6 +2827,8 @@ input:focus {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   padding: 15px 5px;
 }
+
+//MATERIAL BUTTONS
 
 .button {
   display: inline-block;
@@ -2909,6 +2913,8 @@ input:focus {
   }
 }
 
+//ALL NOTIFICATIONS PAGE
+
 ul.notification-list {
   margin: 0;
   padding: 0;
@@ -2936,5 +2942,139 @@ ul.notification-list {
   }
   li.single-notification.seen {
     border-left: 5px solid $main-green;
+  }
+}
+
+#navbar {
+  padding: 0 20px;
+}
+
+//NOTIFICATIONS DROPDOWN
+
+ul.dropdown-menu.header-notifications {
+  min-width: 300px;
+  padding: 0;
+  li {
+    &:last-child {
+      a.notification-item {
+        border-bottom: none;
+      }
+    }
+    a.notification-item {
+      padding: 10px;
+      border-left: 5px solid $main-red;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      &:hover {
+        background-color: #ecf0f1;
+      }
+      .img-holder {
+        width: 40px;
+        height: 40px !important;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i.fa {
+          font-size: 30px;
+        }
+      }
+      .notification-item-content {
+        color: #333;
+        flex: 1;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+      }
+      .date {
+        font-size: 11px;
+        color: #666;
+      }
+    }
+  }
+  li a.notification-item.seen {
+    border-left: 5px solid $main-green;
+  }
+  li.view-all-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    a.view-all {
+      padding: 5px 10px;
+      font-size: 12px;
+      color: #fff;
+      &:hover, &:focus {
+        background-color: #4CAF50;
+        box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+//MESSAGES DROPDOWN
+
+ul.dropdown-menu.header-messages {
+  min-width: 300px;
+  padding: 0;
+  li {
+    &:last-child {
+      a.message-item {
+        border-bottom: none;
+      }
+    }
+    a.message-item {
+      padding: 10px;
+      border-left: 5px solid $main-red;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      &:hover {
+        background-color: #ecf0f1;
+      }
+      .img-holder {
+        width: 40px;
+        height: 40px !important;
+        margin-right: 10px;
+      }
+      .message-item-content {
+        color: #333;
+        flex: 1;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+      }
+      .date {
+        font-size: 11px;
+        color: #666;
+      }
+    }
+  }
+  li a.message-item.seen {
+    border-left: 5px solid $main-green;
+  }
+  li.view-all-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    a.view-all {
+      padding: 5px 10px;
+      font-size: 12px;
+      color: #fff;
+      &:hover, &:focus {
+        background-color: #4CAF50;
+        box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+        color: #fff;
+        text-decoration: none;
+      }
+    }
   }
 }
