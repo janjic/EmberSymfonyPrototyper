@@ -25,17 +25,37 @@ trait JsonApiGetMailListManagerTrait
 
         $members = $this->mailChimp->get('/lists/'.$id.'/members');
         $subscribers = [];
-        $subscribersIncluded = [];
-        $relationships = [];
+
+        /**
+         * ------ Subscribers as objects serialization
+         */
+
+//        $subscribersIncluded = [];
+//        $relationships = [];
+//        if(count($members['members'])){
+//            foreach ($members['members'] as $member){
+//                $subscribers[] = array('type'=>'subscribers', 'id' => $member['id']);
+//                $subscribersIncluded[] = array('attributes'=> array('email'=>$member['email_address']), 'id' => $member['id'], 'type'=> 'subscribers');
+//            }
+//            $relationships['subscribers']['data'] = $subscribers;
+//        }
+//
+//        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists', 'relationships' => $relationships), 'included' => $subscribersIncluded));
+
+        /**
+         * ------ End subscribers as objects serialization
+         */
+
         if(count($members['members'])){
             foreach ($members['members'] as $member){
-                $subscribers[] = array('type'=>'subscribers', 'id' => $member['id']);
-                $subscribersIncluded[] = array('attributes'=> array('email'=>$member['email_address']), 'id' => $member['id'], 'type'=> 'subscribers');
+                if($member['status'] == 'subscribed'){
+                    $subscribers[] = $member['email_address'];
+                }
             }
-            $relationships['subscribers']['data'] = $subscribers;
         }
+        $list['subscribers'] = $subscribers;
 
-        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists', 'relationships' => $relationships), 'included' => $subscribersIncluded));
+        return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists')));
 
 
     }

@@ -310,6 +310,7 @@ export default SearchableSelect.extend({
             this.removeFromSelected(item);
         } else {
             this.addToSelected(item);
+            this.get('on-change')(item, this.get('_selected'));
         }
     },
 

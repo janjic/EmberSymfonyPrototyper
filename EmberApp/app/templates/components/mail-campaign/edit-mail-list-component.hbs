@@ -35,14 +35,15 @@
             </label>
             <div class="col-md-7 col-sm-7 col-xs-12">
                 {{inf-select
+                        content = model.subscribers
                         optionLabelKey='email'
                         on-search = (perform search)
                         on-add = (action 'agentAdded')
+                        on-remove = (action 'agentRemoved')
+                        on-change= (action 'agentSelected')
                         multiple = true
                         selected = additionalMails
-                        searchable = true
                 }}
-
             </div>
         </div>
         <div class="form-group">
@@ -51,9 +52,4 @@
             </div>
         </div>
     </div>
-    {{!--<div class="col-md-6">--}}
-        {{!--{{#each model.subscribers as |sub|}}--}}
-            {{!--<h4><span class="label label-default">{{sub.email}}<span {{action 'unSubscribe' sub}}><i class="fa fa-close"></i></span></span></h4>--}}
-        {{!--{{/each}}--}}
-    {{!--</div>--}}
 </div>

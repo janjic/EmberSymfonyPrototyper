@@ -12,8 +12,13 @@ export default Ember.Component.extend(LoadingStateMixin, {
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailListValidations), MailListValidations);
-        console.log(this.get('model.subscribers'));
-        // this.additionalMails = this.get('model.subscribers');
+        let ctx = this;
+        this.get('model.subscribers').forEach(function (element, index) {
+            ctx.get('model.subscribers')[index] = {email: element};
+        });
+        this.set('additionalMails', this.get('model.subscribers'));
+        this.set('model.newSubscribers', []);
+        this.set('model.removedSubscribers', []);
     },
     actions: {
         saveMailList(mailList) {
@@ -41,12 +46,54 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
         },
         agentAdded(value, selectedItems){
-             selectedItems = selectedItems.addObject({email: value});
+            selectedItems = selectedItems.addObject({email: value});
             this.set('additionalMails', selectedItems);
+            this.get('model.newSubscribers').pushObject({email:value});
+        },
+        agentSelected(agent, selectedItems){
+            if(agent.hasOwnProperty('email')){
+                this.get('model.newSubscribers').pushObject({email:agent.email});
+            }else {
+                this.get('model.newSubscribers').pushObject({email:agent.get('email')});
+            }
+        },
+        agentRemoved(agent){
+            let newSubsIndex = this.itemInArray(this.get('model.newSubscribers'), agent);
+            if( newSubsIndex == -1){
+                if(this.itemInArray(this.get('model.removedSubscribers'), agent)==-1){
+                    this.get('model.removedSubscribers').pushObject({email:agent.email});
+                }
+            } else {
+                this.get('model.newSubscribers').removeAt(newSubsIndex);
+            }
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);
         },
+    },
+
+    /**
+     *
+     * @param array
+     * @param item
+     * @returns {number}
+     */
+    itemInArray(array, item){
+        let elIndex = -1;
+        array.forEach(function (element, index) {
+            if(item.hasOwnProperty('email')){
+                if (element.email == item.email){
+                    elIndex = index;
+                }
+            } else {
+                if (element.email == item.get('email')){
+                    elIndex = index;
+                }
+            }
+
+        });
+
+        return elIndex
     },
     search: task(function * (text, page, perPage) {
         yield timeout(200);

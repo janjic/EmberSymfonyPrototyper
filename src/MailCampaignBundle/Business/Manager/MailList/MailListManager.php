@@ -62,10 +62,10 @@ class MailListManager implements JSONAPIEntityManagerInterface
 
 
     /**
-     * @param $mailCampaign
+     * @param $mailList
      * @return array|Exception|false
      */
-    public function save($mailCampaign)
+    public function save($mailList)
     {
         $currentUser = $this->getCurrentUser();
         /**
@@ -73,9 +73,10 @@ class MailListManager implements JSONAPIEntityManagerInterface
          */
         $address = $currentUser->getAddress();
         $response = $this->mailChimp->post('lists', [
-            'name' => $mailCampaign->name,
-            'permission_reminder' => $mailCampaign->permission_reminder,
+            'name' => $mailList->name,
+            'permission_reminder' => $mailList->permission_reminder,
             'email_type_option' => false,
+            'visibility'=> 'prv',
             'contact' => [
                 'company' => '',
                 'address1' => $address->getStreetNumber(),
@@ -87,9 +88,9 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 'phone' => $address->getPhone()
             ],
             'campaign_defaults' => [
-                'from_name' => $mailCampaign->fromName,
-                'from_email' => $mailCampaign->fromAddress,
-                'subject' => $mailCampaign->name,
+                'from_name' => $mailList->fromName,
+                'from_email' => $mailList->fromAddress,
+                'subject' => $mailList->name,
                 'language' => 'US'
             ]
         ]);
@@ -97,10 +98,10 @@ class MailListManager implements JSONAPIEntityManagerInterface
 
             $id = $response['id'];
 
-            if(count($mailCampaign->subscribers)){
+            if(count($mailList->subscribers)){
                 $members =  array();
 
-                foreach ($mailCampaign->subscribers as $sub){
+                foreach ($mailList->subscribers as $sub){
                     $member = array();
                     $member['status'] = 'subscribed';
                     $member['email_address'] = $sub->email;
@@ -124,14 +125,80 @@ class MailListManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * @param $mailList
+     * @return array|Exception|false
      */
-    public function getMailCampaignById($id)
-    {
+    public function edit($mailList){
 
-//        return $this->repository->findTicketById($id);
+        $mailList = json_decode($mailList)->data;
+
+        $currentUser = $this->getCurrentUser();
+        $id = $mailList->id;
+        /**
+         * @var Address $address
+         */
+        $address = $currentUser->getAddress();
+
+        $response = $this->mailChimp->patch('lists/'.$id, [
+            'name' => $mailList->attributes->name,
+            'permission_reminder' => $mailList->attributes->permission_reminder,
+            'email_type_option' => false,
+            'contact' => [
+                'company' => '',
+                'address1' => $address->getStreetNumber(),
+                'address2' => '',
+                'city' => $address->getCity(),
+                'state' => $address->getCountry(),
+                'zip' => $address->getPostcode(),
+                'country' => $address->getCountry(),
+                'phone' => $address->getPhone()
+            ],
+            'campaign_defaults' => [
+                'from_name' => $mailList->attributes->fromName,
+                'from_email' => $mailList->attributes->fromAddress,
+                'subject' => $mailList->attributes->name,
+                'language' => 'US'
+            ]
+        ]);
+
+        if($this->mailChimp->success()){
+
+            $id = $response['id'];
+
+            if(count($mailList->attributes->removedSubscribers) || count($mailList->attributes->newSubscribers)){
+
+                $members =  array();
+
+                foreach ($mailList->attributes->removedSubscribers as $sub){
+                    $member = array();
+                    $member['status'] = 'unsubscribed';
+                    $member['email_address'] = $sub->email;
+                    $members[] = $member;
+                }
+
+                foreach ($mailList->attributes->newSubscribers as $sub){
+                    $member = array();
+                    $member['status'] = 'subscribed';
+                    $member['email_address'] = $sub->email;
+                    $members[] = $member;
+                }
+                $subscribers = $this->mailChimp->post('lists/'.$id, [
+                    'members' => $members,
+                    'update_existing' => true
+                ]);
+
+                if(!$this->mailChimp->success()){
+                    return new Exception($this->mailChimp->getLastError());
+                }
+            }
+
+        } else {
+            return new Exception($this->mailChimp->getLastError());
+        }
+
+        return $response;
     }
+
 
 
     /**
@@ -161,4 +228,5 @@ class MailListManager implements JSONAPIEntityManagerInterface
     {
         return $this->tokenStorage->getToken()->getUser();
     }
+
 }
