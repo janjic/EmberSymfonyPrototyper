@@ -998,6 +998,29 @@ header {
   align-items: center;
   justify-content: center;
 }
+
+.dropzone .dz-preview .dz-details {
+  font-size: 10px;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename span, .dropzone .dz-preview .dz-details .dz-size span {
+  font-size: 12px;
+}
+
+.dropzone .dz-progress {
+  display: none;
+}
+
+.dropzone .dz-preview .dz-remove {
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+  border: none;
+  color: #c0392b;
+  margin-top: 5px;
+}
+
 .insert-avatar {
   display: block;
   border: 1px solid $main-red;
@@ -2848,6 +2871,7 @@ input:focus {
   border: none;
   font-size: 15px;
   text-align: center;
+  min-width: 138px;
 }
 
 .button:hover, .button:focus {
@@ -3077,4 +3101,20 @@ ul.dropdown-menu.header-messages {
       }
     }
   }
+}
+
+.heading-button {
+  position: absolute;
+  right: 30px;
+  top: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.Searchable-select__option:hover, .Searchable-select__option:focus {
+  background-color: #ecf0f1;
+}
+
+.modal-body {
+  padding: 30px;
 }
