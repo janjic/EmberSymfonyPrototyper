@@ -151,6 +151,15 @@ class AgentApiResponse
         return array('data' => array('type'=> 'mailLists', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_LIST_SAVED_SUCCESSFULLY));
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function MAIL_CAMPAIGN_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'mailCampaigns', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_CAMPAIGN_SAVED_SUCCESSFULLY));
+    }
+
 
     /** -------- INVITATION ----------------------------------------------------------------------------------------- */
     /**

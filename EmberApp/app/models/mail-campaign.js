@@ -2,10 +2,9 @@ import DS from 'ember-data';
 const { attr } = DS;
 
 export default DS.Model.extend({
-    name:        attr('string'),
-    subject:     attr('string'),
-    fromEmail:   attr('string'),
-    fromName:    attr('string'),
-    template:    attr('string'),
-    mailList:    DS.belongsTo('mail-list', {inverse: 'mailCampaign'})
+    subject_line: attr('string'),
+    reply_to:     attr('string'),
+    from_name:    attr('string'),
+    template:     DS.belongsTo('mail-template'),
+    mailList:     DS.belongsTo('mail-list')
 });

@@ -18,4 +18,14 @@ class MailCampaignController extends Controller
     {
         return new JSONResponse($mailCampaignAPI->toArray(), array_key_exists('errors', $mailCampaignAPI->toArray()) ? 422 : 200);
     }
+
+    /**
+     * @Route("/api/mail-templates/{id}", name="api_mail_templates", options={"expose" = true}, defaults={"id": "all"}),
+     * @param ArrayCollection $mailTemplateAPI
+     * @return JSONResponse
+     */
+    public function templateAPIAction(ArrayCollection $mailTemplateAPI)
+    {
+        return new JSONResponse($mailTemplateAPI->toArray(), array_key_exists('errors', $mailTemplateAPI->toArray()) ? 422 : 200);
+    }
 }

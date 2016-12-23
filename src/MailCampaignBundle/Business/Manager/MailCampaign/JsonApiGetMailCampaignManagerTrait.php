@@ -19,33 +19,7 @@ trait JsonApiGetMailCampaignManagerTrait
      */
     public function getResource($id = null)
     {
-//        /**
-//         * @var Ticket $ticket
-//         */
-//        $ticket = $this->repository->findTicketById($id);
-//        /**
-//         * @var  Agent $currentUser
-//         */
-//        $currentUser = $this->getCurrentUser();
-//
-//        if(!is_null($ticket->getThread())){
-//            /**
-//             * @var ArrayCollection $participants
-//             */
-//            $participants = new ArrayCollection($ticket->getThread()->getParticipants());
-//            /**
-//             * Check if current user is participant
-//             */
-//            $canViewThread = $participants->exists(function ($key, $element) use ($currentUser){
-//                return $element->getId() == $currentUser->getId();
-//            });
-//
-//            if(!$canViewThread && !$currentUser->hasRole('SUPER_ADMIN')){
-//                $ticket = new AccessDeniedException();
-//            }
-//        }
-//
-//        return $this->createJsonApiGetResponse($ticket);
+
 
     }
 

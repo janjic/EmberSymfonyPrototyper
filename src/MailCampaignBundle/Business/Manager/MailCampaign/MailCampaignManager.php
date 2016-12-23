@@ -12,6 +12,7 @@ use MailCampaignBundle\Business\Manager\MailCampaign\JsonApiSaveMailCampaignMana
 use MailCampaignBundle\Business\Manager\MailCampaign\JsonApiUpdateMailCampaignManagerTrait;
 use MailCampaignBundle\Entity\MailCampaign;
 use MailCampaignBundle\Util\MailCampaignSerializerInfo;
+use MailCampaignBundle\Util\MailChimp;
 
 
 /**
@@ -32,7 +33,10 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     protected $fSerializer;
 
-
+    /**
+     * @var MailChimp $mailChimp
+     */
+    protected $mailChimp;
 
     /**
      * MailCampaignManager constructor.
@@ -41,33 +45,53 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
     public function __construct(FJsonApiSerializer $fSerializer)
     {
         $this->fSerializer     = $fSerializer;
+        $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
     }
 
 
     /**
-     * @param MailCampaign $mailCampaign
-     * @return Exception|MailCampaign
-     * @internal param MailCampaign $ticket
-     */
-    public function save(MailCampaign $mailCampaign)
-    {
-//        $ticket = $this->repository->saveTicket($ticket);
-
-        if ($mailCampaign instanceof Exception) {
-            return $mailCampaign;
-        }
-
-        return $mailCampaign;
-    }
-
-    /**
-     * @param $id
+     * @param $mailCampaign
      * @return mixed
      */
-    public function getMailCampaignById($id)
+    public function save($mailCampaign)
     {
+        $campaign = $this->mailChimp->post('campaigns', [
+            'recipients' => [
+                'list_id'=> $mailCampaign->relationships->mailList->data->id
+            ],
+            'type' => 'regular',
+            'settings' => [
+                'subject_line' => $mailCampaign->attributes->subject_line,
+                'reply_to'    => $mailCampaign->attributes->reply_to,
+                'from_name'    => $mailCampaign->attributes->from_name
+            ]
+        ]);
 
-//        return $this->repository->findTicketById($id);
+        if($this->mailChimp->success()){
+            $this->mailChimp->put('campaigns/'.$campaign['id'].'/content',[
+                'template' => [
+                    'id' => intval($mailCampaign->relationships->template->data->id)
+                ]
+            ]);
+            if($this->mailChimp->success()) {
+                $this->mailChimp->post('campaigns/'.$campaign['id'].'/actions/send');
+                if($this->mailChimp->success()) {
+                   return $mailCampaign;
+                } else {
+                    return new Exception($this->mailChimp->getLastError());
+                }
+            }
+            else {
+                $exception = new Exception($this->mailChimp->getLastError());
+
+                $this->mailChimp->delete('campaigns/'.$campaign['id']);
+
+                return $exception;
+            }
+        }
+        else {
+            return new Exception($this->mailChimp->getLastError());
+        }
     }
 
 
@@ -91,16 +115,23 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
         return $this->fSerializer->setDeserializationClass(MailCampaign::class)->deserialize($content, MailCampaignSerializerInfo::$mappings, MailCampaignSerializerInfo::$relations);
     }
 
-//    public function getAgentById($id)
-//    {
-//        return $this->agentManager->findAgentById($id);
-//    }
-//
-//    /**
-//     * @return mixed
-//     */
-//    public function getCurrentUser()
-//    {
-//        return $this->tokenStorage->getToken()->getUser();
-//    }
+    /**
+     * @return array|false
+     */
+    public function getCampaignTemplates()
+    {
+        $templates = $this->mailChimp->get('/templates');
+
+        $templatesArray = [];
+        foreach ($templates['templates'] as $template){
+            if($template['type'] == 'user'){
+                $item = [];
+                $item['id'] = $template['id'];
+                $item['name'] = $template['name'];
+                $templatesArray[] = array('attributes' =>$item, 'id' => $item['id'], 'type' => 'mail-template');
+            }
+        }
+
+        return  array('data'=>$templatesArray);
+    }
 }

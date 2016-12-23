@@ -53,8 +53,9 @@ class AgentApiCode
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;
 
-    /** TICKET */
+    /** MAIL LIST */
     const MAIL_LIST_SAVED_SUCCESSFULLY               = 2301;
+    const MAIL_CAMPAIGN_SAVED_SUCCESSFULLY           = 2401;
 
     /** INVITATION */
     const INVITATION_SAVED_SUCCESSFULLY              = 2501;

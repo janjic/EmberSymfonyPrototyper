@@ -19,6 +19,23 @@ trait JsonApiGetMailListManagerTrait
      */
     public function getResource($id = null)
     {
+        if($id == 'all'){
+            $lists = $this->mailChimp->get('lists');
+            $array = [];
+            foreach ($lists['lists'] as $list){
+
+                $item = [];
+                $item['fromAddress'] = $list['campaign_defaults']['from_email'];
+                $item['fromName'] = $list['campaign_defaults']['from_name'];
+                $item['name'] = $list['name'];
+                $item['permission_reminder'] = $list['permission_reminder'];
+                $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
+            }
+
+            return new ArrayCollection(array('data'=>$array));
+        }
+
+
         $list = $this->mailChimp->get('lists/'.$id);
         $list['fromAddress'] = $list['campaign_defaults']['from_email'];
         $list['fromName'] = $list['campaign_defaults']['from_name'];
@@ -60,19 +77,5 @@ trait JsonApiGetMailListManagerTrait
 
     }
 
-    /**
-     * @param $data
-     * @return mixed
-     */
-    private function createJsonApiGetResponse($data)
-    {
-        if (!is_null($data) && get_class($data) == Ticket::class)  {
-            return new ArrayCollection($this->serializeMailList($data)->toArray());
-        } else if(!is_null($data) && get_class($data) == AccessDeniedException::class) {
-            return new ArrayCollection(AgentApiResponse::ACCESS_TO_TICKET_DENIED);
-        }
-
-        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
-    }
 
 }

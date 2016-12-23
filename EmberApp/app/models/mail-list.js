@@ -10,6 +10,4 @@ export default DS.Model.extend({
     subscribers:         attr('array'),
     removedSubscribers:  attr('array'),
     newSubscribers:      attr('array'),
-    // subscribers:      DS.hasMany('subscriber', {inverse: 'mailLists'}),
-    mailCampaign:        DS.belongsTo('mail-campaign', {inverse: 'mailList'}),
 });

@@ -3,16 +3,16 @@
 namespace MailCampaignBundle\Adapter\MailCampaign;
 
 use ConversationBundle\Business\Manager\MessageManager;
-use CoreBundle\Adapter\JsonAPIConverter;
+use CoreBundle\Adapter\BasicConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use MailCampaignBundle\Business\Manager\MailCampaign\MailCampaignManager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class MailCampaignAPIConverter
+ * Class MailTemplateAPIConverter
  * @package MailCampaignBundle\Adapter\MailCampaign
  */
-class MailCampaignAPIConverter extends JsonAPIConverter
+class MailTemplateAPIConverter extends BasicConverter
 {
     /**
      * @param MailCampaignManager $manager
@@ -29,6 +29,8 @@ class MailCampaignAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $this->request->attributes->set($this->param, parent::convert());
+        $templates = $this->manager->getCampaignTemplates();
+
+        $this->request->attributes->set($this->param, new ArrayCollection($templates));
     }
 }
