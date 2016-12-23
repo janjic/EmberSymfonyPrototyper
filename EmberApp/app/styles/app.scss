@@ -3123,6 +3123,8 @@ ul.dropdown-menu.header-messages {
   padding: 30px;
 }
 
+//Searchable select component
+
 $searchable-select-clear-bg: #c0392b;
 $searchable-select-clear-color: #fff;
 $searchable-select-add-bg: #e2e2e2;
@@ -3357,4 +3359,16 @@ $searchable-select-spacer-horizontal: 1em;
   &__matched-text {
     font-weight: bold;
   }
+}
+
+.icon-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  width: auto;
+  min-width: inherit;
+}
+
+.btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
 }

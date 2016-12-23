@@ -62,9 +62,9 @@
 
             <button {{action "invitePeople" changeset }} type="submit" class="button green pull-right">
                 {{#if isLoading }}
-                    <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+                    {{inf-loading}}
                 {{else}}
-                    SEND MAIL
+                    {{trans 'button.send-mail'}}
                 {{/if}}
             </button>
         {{/with}}

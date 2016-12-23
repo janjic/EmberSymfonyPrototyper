@@ -36,6 +36,7 @@ button:
   delete: 'Delete'
   add: 'Add'
   view-all: 'View all'
+  send-mail: 'Send mail'
 
 validation:
   email:
