@@ -45,6 +45,11 @@ class MailList
     protected $subscribers;
 
     /**
+     * @var
+     */
+    protected $subscribersCount;
+
+    /**
      * @return int
      */
     public function getId()
@@ -53,11 +58,14 @@ class MailList
     }
 
     /**
-     * @param int $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -69,11 +77,14 @@ class MailList
     }
 
     /**
-     * @param string $name
+     * @param $name
+     * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
 
@@ -91,6 +102,8 @@ class MailList
     public function setFromName($fromName)
     {
         $this->fromName = $fromName;
+
+        return $this;
     }
 
     /**
@@ -102,11 +115,14 @@ class MailList
     }
 
     /**
-     * @param string $fromAddress
+     * @param $fromAddress
+     * @return $this
      */
     public function setFromAddress($fromAddress)
     {
         $this->fromAddress = $fromAddress;
+
+        return $this;
     }
 
     /**
@@ -152,4 +168,22 @@ class MailList
     public function __construct(){
         $this->subscribers = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSubscribersCount()
+    {
+        return $this->subscribersCount;
+    }
+
+    /**
+     * @param mixed $subscribersCount
+     */
+    public function setSubscribersCount($subscribersCount)
+    {
+        $this->subscribersCount = $subscribersCount;
+    }
+
+
 }

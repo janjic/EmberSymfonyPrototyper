@@ -4,6 +4,7 @@ namespace MailCampaignBundle\Business\Manager\MailList;
 
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
 use MailCampaignBundle\Business\Manager\MailList\JsonApiDeleteMailListManagerTrait;
@@ -31,6 +32,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
     use JsonApiDeleteMailListManagerTrait;
     use JsonApiGetMailListManagerTrait;
     use JsonApiUpdateMailListManagerTrait;
+    use JsonApiJQGridMailListManagerTrait;
 
 
     /**
@@ -229,4 +231,69 @@ class MailListManager implements JSONAPIEntityManagerInterface
         return $this->tokenStorage->getToken()->getUser();
     }
 
+
+
+    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    {
+
+    }
+
+    public function findAllForJQGRID($page, $offset, $isCount = false)
+    {
+        if($isCount){
+            $lists = $this->mailChimp->get('lists');
+
+            return intval($lists['total_items']);
+        } else {
+            $firstResult = 0;
+            if (intval($page) !=1 ) {
+                $firstResult = ($page-1)*$offset;
+            }
+
+            $lists = $this->mailChimp->get('lists',[
+                'fields' => 'lists.id,lists.name,lists.stats.member_count,lists.permission_reminder,lists.campaign_defaults.from_name,lists.campaign_defaults.from_email',
+                'offset' => $firstResult,
+                'count' => $offset
+            ]);
+
+            $lists = $this->serializeListsArray($lists['lists']);
+
+            return $lists;
+        }
+
+    }
+
+    /**
+     * @param $lists
+     * @return ArrayCollection
+     */
+    public function deserializeListsArray($lists)
+    {
+        $listCollection = new ArrayCollection();
+        foreach ($lists as $list){
+            $mailList = new MailList();
+            $mailList->setId($list['id'])->setName($list['name'])->setFromAddress($list['campaign_defaults']['from_email'])
+                ->setFromName($list['campaign_defaults']['from_name'])->setSubscribersCount($list['stats']['member_count']);
+            $listCollection->add($mailList);
+
+
+        }
+        return $listCollection;
+    }
+
+    public function serializeListsArray($lists)
+    {
+        $array = [];
+        foreach ($lists as $list){
+
+            $item = [];
+            $item['fromAddress'] = $list['campaign_defaults']['from_email'];
+            $item['fromName'] = $list['campaign_defaults']['from_name'];
+            $item['name'] = $list['name'];
+            $item['permission_reminder'] = $list['permission_reminder'];
+            $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
+        }
+
+        return new ArrayCollection(array('data'=>$array));
+    }
 }

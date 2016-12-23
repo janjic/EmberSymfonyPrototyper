@@ -22,6 +22,7 @@ class MailListAPIConverter extends JsonAPIConverter
      */
     public function __construct(MailListManager $manager, Request $request, $param)
     {
+
         parent::__construct($manager, $request, $param);
     }
 
