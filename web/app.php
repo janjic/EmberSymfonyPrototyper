@@ -9,6 +9,14 @@ $kernel->loadClassCache();
 // When using the HttpCache, you need to call the method in your front controller instead of relying on the configuration parameter
 //Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();
+
+//if (isset($_SERVER['HTTP_CLIENT_IP'])
+//    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+//    || !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) || php_sapi_name() === 'cli-server')
+//) {
+//    header('HTTP/1.0 403 Forbidden');
+//    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+//}
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);

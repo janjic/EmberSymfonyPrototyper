@@ -10,8 +10,6 @@ const {
     }
     } = Ember;
 
-const Translator = window.Translator;
-
 export default Ember.Route.extend(ApplicationRouteMixin, {
     currentUser: service('current-user'),
     routeAfterAuthentication: computed('currentUser', function () {
@@ -24,9 +22,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     sessionAuthenticated() {
         //wait first for resolving loading promise then redirect
         new RSVP.Promise((resolve, reject) =>{
-            this._loadCurrentUser().then((user)=>  {
-                this.set('currentUser.session.data.locale', user.get('nationality'));
-                Translator.locale   = user.get('nationality');
+            this._loadCurrentUser().then(()=>  {
                 resolve(true);
             }).catch(() => this.get('session').invalidate() && reject(false));
         }).then(()=>{

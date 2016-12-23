@@ -12,6 +12,7 @@ export default Ember.Service.extend({
             if (!isEmpty(userId)) {
                 this.get('store').findRecord('agent', userId).then((user) => {
                     this.set('user', user);
+                    this.get('session').set('data.locale', user.get('nationality'));
                     resolve(user);
                 }, reject);
             } else {

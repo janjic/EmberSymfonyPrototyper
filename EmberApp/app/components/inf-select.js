@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import SearchableSelect from 'ember-searchable-select/components/searchable-select';
 import { task } from 'ember-concurrency';
 import {withoutProxies} from './../utils/proxy-helpers';
 const menuSelector = '.Searchable-select__options-list-scroll-wrapper';
-export default SearchableSelect.extend({
+export default Ember.Component.extend({
 
     classNames: ['Searchable-select-infinite'],
     classNameBindings: [
@@ -309,6 +308,9 @@ export default SearchableSelect.extend({
             this.removeFromSelected(item);
         } else {
             this.addToSelected(item);
+            if (this.get('_canChangeSelected')) {
+                this.get('on-change')(item, this.get('_selected'));
+            }
         }
     },
 
@@ -335,7 +337,7 @@ export default SearchableSelect.extend({
 
     _unbindMenuScroll() {
         const component = this;
-        component.$(menuSelector).off(`scroll.${component.elementId}`);
+        this.$(menuSelector).off(`scroll.${component.elementId}`);
     },
 
     _debouncedMenuScroll(target) {
