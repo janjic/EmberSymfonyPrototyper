@@ -93,6 +93,26 @@ class MessageManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $content
+     * @param null $mappings
+     * @return mixed
+     */
+    public function deserializeMessageWithoutThread($content, $mappings = null)
+    {
+        $relations = array('sender', 'participants', 'file');
+        if (!$mappings) {
+            $mappings = array(
+                'message'      => array('class' => Message::class, 'type'=>'messages'),
+                'sender'       => array('class' => Agent::class, 'type'=>'agents'),
+                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
+                'file'         => array('class' => File::class, 'type'=>'files'),
+            );
+        }
+
+        return $this->fSerializer->setDeserializationClass(Message::class)->deserialize($content, $mappings, $relations);
+    }
+
+    /**
+     * @param $content
      * @param array $metaTags
      * @param null $mappings
      * @return mixed

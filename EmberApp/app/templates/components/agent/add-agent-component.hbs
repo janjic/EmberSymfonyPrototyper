@@ -3,7 +3,7 @@
     <form role="form">
         <div class="row setup-content">
             <div class="col-md-6">
-                <div class="input-box">
+                <div class="input-box agent-details">
                     <h3 class="sub-heading">{{trans 'admin-agent.subheading.user-details'}}</h3>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.agent-image'}}
@@ -197,16 +197,14 @@
 
                         </div>
                     </div>
+                    {{#if isProfileView}}
+                            {{agent/notification-setting}}
+                    {{/if}}
                 </div>
-                {{#if isProfileView}}
-                    <div class="input-box">
-                        {{agent/notification-setting}}
-                    </div>
-                {{/if}}
             </div>
 
             <div class="col-md-6">
-                <div class="input-box">
+                <div class="input-box agent-personal">
                     <h3 class="sub-heading">{{trans 'admin-agent.subheading.personal-details'}}</h3>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'admin-agent.label.street-number'}}
@@ -282,7 +280,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="input-box">
+                <div class="input-box agent-bank">
 
                     <h3 class="sub-heading">{{trans 'admin-agent.subheading.bank-info'}}</h3>
 
@@ -318,26 +316,24 @@
                             {{textarea class="form-control" value=changeset.agentBackground}}
                         </div>
                     </div>
-                    <div class="form-group clearfix">
-                        <button class="btn btn-success pull-right" type="submit" {{action 'saveAgent' changeset }} disabled={{isLoading}}>
-                            {{#if isLoading }}
-                                {{inf-loading}}
-                            {{else}}
-                                {{trans 'button.save'}}
-                            {{/if}}
-
-                        </button>
-                    </div>
                 </div>
                 {{#if isProfileView}}
-                    <div class="input-box">
+                    <div class="input-box agent-tree">
                         {{agent/tree-info agent=changeset}}
                     </div>
                 {{/if}}
             </div>
         </div>
+        <div class="form-group clearfix">
+            <button class="button green pull-right" type="submit" {{action 'saveAgent' changeset }} disabled={{isLoading}}>
+                {{#if isLoading }}
+                    {{inf-loading}}
+                {{else}}
+                    {{trans 'button.save'}}
+                {{/if}}
 
-
+            </button>
+        </div>
     </form>
 </section>
 

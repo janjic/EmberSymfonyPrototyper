@@ -1,16 +1,17 @@
-<div class="table-pagination">
-    <button class="btn btn-primary" {{action 'handlePageChange' 1}}>{{fa-icon "angle-double-left"}}</button>
-    <button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
 
-    {{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
-    {{model.meta.pages}}
+<button class="btn btn-primary pull-left" {{action 'resetTable'}}>{{fa-icon "refresh"}}</button>
 
-    <button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
-    <button class="btn btn-primary" {{action 'handlePageChange' model.meta.pages}}>{{fa-icon "angle-double-right"}}</button>
+<button class="btn btn-primary" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
+<button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
 
-    <select {{action 'handleOffsetChange' on='change'}}>
-        <option value="10" selected>10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-    </select>
-</div>
+{{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
+{{model.meta.pages}}
+
+<button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
+<button class="btn btn-primary" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
+
+<select {{action 'handleOffsetChange' on='change'}}>
+    <option value="10" selected>10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+</select>

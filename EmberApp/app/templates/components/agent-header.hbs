@@ -20,8 +20,77 @@
                             <li><a {{action 'logout'}}>Logout</a></li>
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
-                    <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></a></li>
+                    {{#bs-dropdown tagName="li"}}
+                        {{#bs-dropdown-toggle}}<a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>{{/bs-dropdown-toggle}}
+                        {{#bs-dropdown-menu class="header-notifications"}}
+                            <li>
+                                <a class="notification-item" href="#">
+                                <div class="img-holder">
+                                    {{fa-icon "user"}}
+                                </div>
+                                <div class="notification-item-content">
+                                    <p>New order has been confirmed by <span>username@mail.com</span></p>
+                                    <span class="date">December 20, 2016 14:57</span>
+                                </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="notification-item seen" href="#">
+                                    <div class="img-holder">
+                                       {{fa-icon "credit-card"}}
+                                    </div>
+                                    <div class="notification-item-content">
+                                        <p>New order has been confirmed by <span>username@mail.com</span></p>
+                                        <span class="date">December 20, 2016 14:57</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="notification-item seen" href="#">
+                                    <div class="img-holder">
+                                        {{fa-icon "envelope-o"}}
+                                    </div>
+                                    <div class="notification-item-content">
+                                        <p>New order has been confirmed by <span>username@mail.com</span></p>
+                                        <span class="date">December 20, 2016 14:57</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="view-all-button">
+                                <a href="#" class="view-all button green">{{trans "button.view-all"}}</a>
+                            </li>
+                        {{/bs-dropdown-menu}}
+                    {{/bs-dropdown}}
+                    {{#bs-dropdown tagName="li"}}
+                        {{#bs-dropdown-toggle}}<a href="#"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></a>{{/bs-dropdown-toggle}}
+                        {{#bs-dropdown-menu class="header-messages"}}
+                            <li>
+                                <a class="message-item" href="#">
+                                    <div class="img-holder">
+                                        <img src="../assets/images/user-avatar.png" title="Username">
+                                    </div>
+                                    <div class="message-item-content">
+                                        <p>New message sent by <span><strong>username@mail.com</strong></span></p>
+                                        <span class="date">December 20, 2016 14:57</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="message-item seen" href="#">
+                                    <div class="img-holder">
+                                        <img src="../assets/images/user-avatar.png" title="Username">
+                                    </div>
+                                    <div class="message-item-content">
+                                        <p>New message sent by <span><strong>username@mail.com</strong></span></p>
+                                        <span class="date">December 20, 2016 14:57</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="view-all-button">
+                                <a href="#" class="view-all button green">{{trans "button.view-all"}}</a>
+                            </li>
+                        {{/bs-dropdown-menu}}
+                    {{/bs-dropdown}}
                 </ul>
             </div>
         </div>
