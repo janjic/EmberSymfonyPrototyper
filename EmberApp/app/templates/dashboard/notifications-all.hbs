@@ -1,78 +1,29 @@
 {{admin-left-menu}}
-<div class=" right-section">
+<div class=" right-section" >
+
     <h1 class="main-heading">All notifications</h1>
 
-    <ul class="notification-list">
-        <li class="single-notification seen">
-            <div class="img-holder">
-                <img src="../assets/images/user-avatar.png" title="Username">
-            </div>
-            <div class="notification-content">
-                <div class="content-left">
-                    <h5>New order has been confirmed by <span>username@mail.com</span></h5>
-                    <span class="date">December 20, 2016 14:57</span>
-                </div>
-                <div class="content-right">
-                    <a href="#" class="button green">View now</a>
-                </div>
-            </div>
-        </li>
-        <li class="single-notification">
-            <div class="img-holder">
-                <img src="../assets/images/user-avatar.png" title="Username">
-            </div>
-            <div class="notification-content">
-                <div class="content-left">
-                    <h5>New order has been confirmed by <span>username@mail.com</span></h5>
-                    <span class="date">December 20, 2016 14:57</span>
-                </div>
-                <div class="content-right">
-                    <a href="#" class="button green">View now</a>
-                </div>
-            </div>
-        </li>
-        <li class="single-notification">
-            <div class="img-holder">
-                <img src="../assets/images/user-avatar.png" title="Username">
-            </div>
-            <div class="notification-content">
-                <div class="content-left">
-                    <h5>New order has been confirmed by <span>username@mail.com</span></h5>
-                    <span class="date">December 20, 2016 14:57</span>
-                </div>
-                <div class="content-right">
-                    <a href="#" class="button green">View now</a>
-                </div>
-            </div>
-        </li>
-        <li class="single-notification">
-            <div class="img-holder">
-                <img src="../assets/images/user-avatar.png" title="Username">
-            </div>
-            <div class="notification-content">
-                <div class="content-left">
-                    <h5>New order has been confirmed by <span>username@mail.com</span></h5>
-                    <span class="date">December 20, 2016 14:57</span>
-                </div>
-                <div class="content-right">
-                    <a href="#" class="button green">View now</a>
-                </div>
-            </div>
-        </li>
-        <li class="single-notification">
-            <div class="img-holder">
-                <img src="../assets/images/user-avatar.png" title="Username">
-            </div>
-            <div class="notification-content">
-                <div class="content-left">
-                    <h5>New order has been confirmed by <span>username@mail.com</span></h5>
-                    <span class="date">December 20, 2016 14:57</span>
-                </div>
-                <div class="content-right">
-                    <a href="#" class="button green">View now</a>
-                </div>
-            </div>
-        </li>
-    </ul>
+    <div id="scrollable_loader" style="height: 400px; overflow-y: scroll">
+        <ul class="notification-list">
+            {{#each model as |notification|}}
+                <li class="single-notification {{if notification.isSeen "seen"}}" >
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                    <div class="notification-content">
+                        <div class="content-left">
+                            <h5>{{ notification.type }} <span>{{ notification.agent.email }}</span></h5>
+                            <span class="date">{{ notification.createdAt }}</span>
+                        </div>
+                        <div class="content-right">
+                            <a href="#" class="button green">View now</a>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
 
+        {{infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
+
+    </div>
 </div>

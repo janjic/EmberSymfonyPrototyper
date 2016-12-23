@@ -12,13 +12,13 @@ class NotificationController extends Controller
 {
     /**
      * @Route("/api/notifications/{id}", name="api_notifications", options={"expose" = true}, defaults={"id": "all"}),
-     * @param ArrayCollection $notificationsAPI
+     * @param ArrayCollection $notificationAPI
      * @return Response
      */
-    public function invitationsAPIAction(ArrayCollection $notificationsAPI)
+    public function invitationsAPIAction(ArrayCollection $notificationAPI)
     {
-        $status = array_key_exists('errors', $notificationsAPI->toArray()) ? $notificationsAPI['errors'][0]['status'] : 201;
+        $status = array_key_exists('errors', $notificationAPI->toArray()) ? $notificationAPI['errors'][0]['status'] : 201;
 
-        return new JsonResponse($notificationsAPI->toArray(), $status);
+        return new JsonResponse($notificationAPI->toArray(), $status);
     }
 }

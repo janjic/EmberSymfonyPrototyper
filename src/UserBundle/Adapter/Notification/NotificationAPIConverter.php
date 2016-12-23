@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: filip
- * Date: 21.12.16.
- * Time: 14.47
- */
 
 namespace UserBundle\Adapter\Notification;
 
@@ -12,21 +6,22 @@ use CoreBundle\Adapter\JsonAPIConverter;
 use UserBundle\Business\Manager\InvitationManager;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
+use UserBundle\Business\Manager\NotificationManager;
 
 /**
- * Class NotificationApiConverter
+ * Class NotificationAPIConverter
  * @package UserBundle\Adapter\Notification
  */
-class NotificationApiConverter extends JsonAPIConverter
+class NotificationAPIConverter extends JsonAPIConverter
 {
     /**
-     * @param InvitationManager $invitationManager
+     * @param NotificationManager $notificationManager
      * @param Request        $request
      * @param string         $param
      */
-    public function __construct(InvitationManager $invitationManager, Request $request, $param)
+    public function __construct(NotificationManager $notificationManager, Request $request, $param)
     {
-        parent::__construct($invitationManager, $request, $param);
+        parent::__construct($notificationManager, $request, $param);
     }
 
     /**

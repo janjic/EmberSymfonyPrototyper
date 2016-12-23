@@ -20,5 +20,5 @@ class NotificationAdapterUtil extends BaseAdapterUtil
     const BASE_CONVERTER_NAME = 'Converter';
 
     /** parameters for user entity */
-    const notifications_API = 'notificationsAPI';
+    const notification_API = 'notificationAPI';
 }

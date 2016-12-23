@@ -235,6 +235,7 @@ services:
             repository: "@agent_system.notification.repository"
             messageManager: "@agent_system.message.manager"
             fSerializer: "@f_serializer"
+            tokenStorrage: "@security.token_storage"
 
     agent_system.notification.adapter:
         class: UserBundle\Adapter\Notification\NotificationAdapter

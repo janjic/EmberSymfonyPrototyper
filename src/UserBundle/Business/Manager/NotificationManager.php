@@ -14,11 +14,13 @@ use ConversationBundle\Entity\Message;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Event\Notification\NotificationEvent;
+use UserBundle\Business\Manager\Notification\JsonApiGetQueryResultNotificationManagerTrait;
 use UserBundle\Business\Manager\Notification\JsonApiSaveNotificationManagerTrait;
 use UserBundle\Business\Repository\NotificationRepository;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Notification;
 use UserBundle\Entity\NotificationType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class NotificationManager
@@ -28,6 +30,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
 {
 
     use JsonApiSaveNotificationManagerTrait;
+    use JsonApiGetQueryResultNotificationManagerTrait;
     public function getResource($id = null){}
     public function deleteResource($id = null){}
     public function updateResource($id = null){}
@@ -48,15 +51,23 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     protected $messageManager;
 
     /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
      * @param NotificationRepository $repository
      * @param MessageManager $messageManager
      * @param FJsonApiSerializer $fSerializer
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(NotificationRepository $repository, MessageManager $messageManager, FJsonApiSerializer $fSerializer)
+    public function __construct(NotificationRepository $repository, MessageManager $messageManager,
+                                FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage)
     {
         $this->repository       = $repository;
         $this->messageManager   = $messageManager;
         $this->fSerializer      = $fSerializer;
+        $this->tokenStorage     = $tokenStorage;
     }
 
     /**
@@ -65,6 +76,14 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     public function execute(Notification $notification)
     {
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -134,10 +153,11 @@ class NotificationManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $content
+     * @param $metaTags
      * @param null $mappings
      * @return mixed
      */
-    public function serializeNotification($content, $mappings = null)
+    public function serializeNotification($content, $metaTags = [], $mappings = null)
     {
         $relations = array('agent');
 
@@ -147,7 +167,12 @@ class NotificationManager implements JSONAPIEntityManagerInterface
                 'agent'         => array('class' => Agent::class, 'type' => 'agents')
             );
         }
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
 
-        return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
+        foreach ($metaTags as $key=>$meta) {
+            $serialize->addMeta($key, $meta);
+        }
+
+        return $serialize->toArray();
     }
 }

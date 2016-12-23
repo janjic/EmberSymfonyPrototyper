@@ -22,7 +22,8 @@ class NotificationRepository extends EntityRepository
 {
     use BasicEntityRepositoryTrait;
 
-    const ALIAS       = 'notification';
+    const ALIAS             = 'notification';
+    const AGENT_ALIAS       = 'agent';
 
 
     /**
@@ -45,5 +46,40 @@ class NotificationRepository extends EntityRepository
         return true;
     }
 
+    /**
+     * @param int  $page
+     * @param int  $offset
+     * @param null $minId
+     * @param null $maxId
+     * @param bool $isCountSearch
+     * @param int  $user_id
+     * @return array|mixed
+     */
+    public function getNotificationsForInfinityScroll($user_id, $page = 1 , $offset = 10, $minId = null, $maxId = null, $isCountSearch = false)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS);
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+
+        $qb->orderBy(self::ALIAS.'.id', 'DESC');
+
+        $qb->where('agent.id = :id')->setParameter('id', $user_id);
+
+        if ($minId) {
+            $qb->andWhere(self::ALIAS . '.id < ?2')->setParameter(2, $minId);
+            $qb->setMaxResults($offset);
+        } else if ($maxId) {
+            $qb->andWhere(self::ALIAS . '.id > ?3')->setParameter(3, $maxId);
+        } else if (!$isCountSearch){
+            $qb->setFirstResult(($page - 1) * $offset);
+            $qb->setMaxResults($offset);
+        }
+
+        if ($isCountSearch) {
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id)');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 
 }
