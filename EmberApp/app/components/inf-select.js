@@ -4,10 +4,10 @@ import {withoutProxies} from './../utils/proxy-helpers';
 const menuSelector = '.Searchable-select__options-list-scroll-wrapper';
 export default Ember.Component.extend({
 
-    classNames: ['Searchable-select-infinite'],
+    classNames: ['searchable-select searchable-select-infinite'],
     classNameBindings: [
-        '_isShowingMenu:Searchable-select--menu-open',
-        'multiple:Searchable-select--multiple'
+        '_isShowingMenu:searchable-select-menu-open',
+        'multiple:searchable-select-multiple'
     ],
 
     content: null,
