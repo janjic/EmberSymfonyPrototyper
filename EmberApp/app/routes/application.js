@@ -22,8 +22,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     sessionAuthenticated() {
         //wait first for resolving loading promise then redirect
         new RSVP.Promise((resolve, reject) =>{
-            this._loadCurrentUser().then((user)=>  {
-                this.get('session').set('data.locale', user.get('nationality'));
+            this._loadCurrentUser().then(()=>  {
                 resolve(true);
             }).catch(() => this.get('session').invalidate() && reject(false));
         }).then(()=>{
