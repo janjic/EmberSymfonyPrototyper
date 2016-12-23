@@ -63,13 +63,11 @@ class SettingsRepository extends EntityRepository
      */
     public function editSettings($settings)
     {
-//        var_dump($settings);
         try {
             $this->_em->merge($settings);
             $this->_em->flush();
         } catch (Exception $e) {
-            var_dump($e->getMessage());die();
-//            return $e;
+           return $e;
         }
 
         return $settings;

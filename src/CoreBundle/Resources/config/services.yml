@@ -1,4 +1,13 @@
 services:
+    doctrine.dbal.connection_factory:
+      class: CoreBundle\Connection\ConnectionFactory
+      arguments:  ['%doctrine.dbal.connection_factory.types%', '@request_stack']
+#    dynamic.doctrine.connection:
+#        class:      CoreBundle\Event\DbSwitcher
+#        arguments:  ['@doctrine.dbal.default_connection']
+#        scope:      request
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     api.codes.dumper:
         class: CoreBundle\Dumper\ApiCodeDumper
         arguments: ["@templating.engine.twig", "@filesystem"]

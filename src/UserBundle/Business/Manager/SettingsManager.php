@@ -23,8 +23,9 @@ class SettingsManager implements JSONAPIEntityManagerInterface
     use BasicEntityManagerTrait;
     use JsonApiSaveSettingsManagerTrait;
     use JsonApiGetSettingsManagerTrait;
-    public function deleteResource($id = null){}
     use JsonApiUpdateSettingsManagerTrait;
+    public function deleteResource($id = null){}
+
 
     /**
      * @var SettingsRepository

@@ -77,9 +77,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         $activeGroup->addRole($activeRole);
         $refereeGroup->addRole($refereeRole);
 
-        /**
-         * SETTINGS + COMMISSIONS AND BONUSES
-         */
+        /** @var Settings $settings */
         $settings = new Settings();
         $settings->setConfirmationMail('email@provider.com')
             ->setPayPal('www.paypal.com')
@@ -104,8 +102,8 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setConnect(0)
             ->setStream(6);
 
-        $settings->addCommision($commissionReferral);
-        $settings->addCommision($commissionActiveAgent);
+        $settings->addCommission($commissionReferral);
+        $settings->addCommission($commissionActiveAgent);
 
         $bonusReferral = new Bonus();
         $bonusReferral->setSettings($settings)
