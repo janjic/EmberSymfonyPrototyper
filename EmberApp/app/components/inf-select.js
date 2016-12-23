@@ -337,7 +337,7 @@ export default Ember.Component.extend({
 
     _unbindMenuScroll() {
         const component = this;
-        component.$(menuSelector).off(`scroll.${component.elementId}`);
+        this.$(menuSelector).off(`scroll.${component.elementId}`);
     },
 
     _debouncedMenuScroll(target) {
