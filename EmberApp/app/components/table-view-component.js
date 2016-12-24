@@ -6,6 +6,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
     sortColumn: 'id',
     sortType: 'asc',
     defaultSortType: null,
+    showSearchSortBar: true,
     paramsArray: {
         groupOp: 'AND',
         rules: []

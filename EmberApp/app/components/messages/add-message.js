@@ -26,7 +26,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
         sendMessage() {
             if (this.get('changeset').validate() && this.get('changeset').get('isValid')) {
                 this.showLoader();
-
                 let message = this.get('model');
                 if (this.get('fileTemp')) {
                     let fileObj = this.get('createFileAction')(this.get('fileTemp'));

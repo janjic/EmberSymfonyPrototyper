@@ -313,6 +313,8 @@ models:
     delete: 'Message moved to trash'
     undo: 'Message removed from trash'
     unsupported.file.type: 'Current file type is not supported!'
+  mailList:
+    save: 'Mail list saved!'
 
 #SETTINGS
 

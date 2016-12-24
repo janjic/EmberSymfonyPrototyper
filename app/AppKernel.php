@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new FSerializerBundle\FSerializerBundle(),
             new FOS\MessageBundle\FOSMessageBundle(),
             new ConversationBundle\ConversationBundle(),
+            new MailCampaignBundle\MailCampaignBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
