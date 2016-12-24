@@ -3295,6 +3295,10 @@ $searchable-select-spacer-horizontal: 1em;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 6px rgba(0, 0, 0, 0.23);
   }
 
+  .searchable-select-menu.search-disabled .select-search {
+    display: none;
+  }
+
   .select-options-list {
     max-height: 300px;
     overflow-y: auto;
