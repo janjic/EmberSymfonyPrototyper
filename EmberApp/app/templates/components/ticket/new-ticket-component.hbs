@@ -37,7 +37,7 @@
             <div class="col-xs-6">
                 <button class="pull-right btn btn-success" type="submit" {{action 'saveTicket' changeset}}>
                     {{#if isLoading }}
-                        <img src="../../assets/images/ring-alt.gif" class="loader" alt=""> {{trans loadingText }}
+                       {{inf-loading}}
                     {{else}}
                         {{trans 'button.save'}}
                     {{/if}}

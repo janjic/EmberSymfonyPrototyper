@@ -474,7 +474,6 @@ export default Ember.Component.extend({
             } else if (search.then) {
                 this.get('handleAsyncSearchTask').perform(text, page, search);
             } else {
-                console.log("USAO OPET");
                 this.setDataAfterSearch(search);
             }
 

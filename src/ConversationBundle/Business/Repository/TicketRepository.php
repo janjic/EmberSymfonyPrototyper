@@ -74,23 +74,6 @@ class TicketRepository extends EntityRepository
         }
         return $ticket;
     }
-//
-//    /**
-//     * Remove message
-//     * @param Message $message
-//     * @return mixed
-//     */
-//    public function removeMessage($message)
-//    {
-//        try {
-//            $this->_em->remove($message);
-//            $this->_em->flush();
-//        } catch (\Exception $e) {
-//            return $e;
-//        }
-//
-//        return true;
-//    }
 
     /**
      * @param mixed $page
@@ -131,6 +114,7 @@ class TicketRepository extends EntityRepository
     public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
+        $oQ0->join(self::ALIAS.'.'.self::JOIN_WITH_AUTHOR, self::JOIN_WITH_AUTHOR);
         if ($additionalParams && array_key_exists('ticketsType', $additionalParams)) {
             $additionalParams['agentId'] == 'null'?
                 $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' is NULL'):
@@ -150,7 +134,7 @@ class TicketRepository extends EntityRepository
                 }
                 array_shift($searchParams);
                 foreach ($searchParams[0] as $key => $param) {
-                    if(!(($key == 'ticket.status' || $key == 'ticket.type') && $param == -1)){
+                    if(!(($key == 'ticket.status' || $key == 'ticket.type' || $key == 'createdBy.username') && $param == -1)){
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
                     }
                 }
@@ -266,7 +250,6 @@ class TicketRepository extends EntityRepository
         if ($sortParams) {
             $oQ0->orderBy($sortParams[0], $sortParams[1]);
         }
-//        var_dump($oQ0->getQuery()->getSQL());exit;
         return $oQ0->getQuery()->getResult();
     }
 
