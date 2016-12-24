@@ -1,22 +1,22 @@
 <h3 class="sub-heading">{{trans 'admin-agent.profile.genealogy-tree'}}</h3>
-{{#if info}}
+{{#if isLoaded}}
     <div class="profile-settings">
         <div class="form-group clearfix">
             <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
             <div class="col-md-8 col-xs-8">
-                <p>{{currentUser.user.agentId}}</p>
+                <p>{{agent.agentId}}</p>
             </div>
         </div>
         <div class="form-group clearfix">
             <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.type'}}</label>
             <div class="col-md-8 col-xs-8">
-                {{currentUser.user.group.name}}
+                {{agent.group.name}}
             </div>
         </div>
         <div class="form-group clearfix">
             <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.direct-superior'}}</label>
             <div class="col-md-8 col-xs-8">
-                {{currentUser.user.superior.fullName}}
+                {{agent.superior.fullName}}
             </div>
         </div>
         <div class="form-group clearfix">

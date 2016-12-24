@@ -74,8 +74,6 @@ trait JsonApiUpdateAgentManagerTrait
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);
-
-        //return $agent;
     }
 
 

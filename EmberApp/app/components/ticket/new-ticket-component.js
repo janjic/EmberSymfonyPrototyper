@@ -30,6 +30,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 ticket.save().then(() => {
                     this.toast.success(Translator.trans('models.ticket.save.message'));
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.agent.tickets.created-tickets');
+
                 }, (response) => {
                     response.errors.forEach((error)=>{
                         switch (parseInt(error.status)) {
