@@ -2,7 +2,7 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: agent_test_db_3
+    database_name: ember_symfony_proto
     database_user: root
     main_upload_dir: '%kernel.root_dir%/../web/uploads'
     database_password: root
