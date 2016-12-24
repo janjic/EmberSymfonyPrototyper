@@ -22,6 +22,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     sortProperties: ['createdAt:asc'],
     messagesInverse: Ember.computed.sort('messages', 'sortProperties'),
 
+
     /** create new message attributes */
     messageBody: '',
     sendBtnDisabled: Ember.computed.empty('messageBody'),
@@ -149,7 +150,6 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
                 this.set('newMessagesDisplayToggle',true);
             }
             yield timeout(10000);
-
         }
     }).restartable(),
 
