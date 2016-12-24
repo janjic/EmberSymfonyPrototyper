@@ -5,7 +5,6 @@ namespace UserBundle\Business\Manager\Settings;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
-use UserBundle\Business\Manager\Agent\SaveMediaTrait;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
@@ -25,20 +24,10 @@ trait JsonApiUpdateSettingsManagerTrait
         /** @var Settings $settings */
         $settings = $this->deserializeSettings($data);
 
+        //1. reference
         $dbSettings = $this->getEntityReference($settings->getId());
 
         $this->setAndValidateImage($settings, $dbSettings);
-
-        /** @var Commission $commission */
-        $commission = $settings->getCommissions()[0];
-
-        /** @var Commission $commissionDB */
-        $commissionDB = $this->commissionManager->findCommissionById($commission->getId());
-
-        $commissionDB->setSetupFee($commission->getSetupFee())
-            ->setPackages($commission->getPackages())
-            ->setConnect($commission->getConnect())
-            ->setStream($commission->getStream());
 
         $settingsOrException = $this->repository->editSettings($settings);
 
@@ -46,8 +35,6 @@ trait JsonApiUpdateSettingsManagerTrait
             !is_null($image = $settings->getImage()) ? $image->deleteFile() : false;
         }
 
-//        var_dump($settings);
-//        var_dump($settingsOrException);die();
 
         return $this->createJsonAPiSettingsResponse($settingsOrException);
     }
@@ -80,6 +67,7 @@ trait JsonApiUpdateSettingsManagerTrait
          * @var Image $dbImage
          */
         //SETTINGS ALREADY HAVE IMAGE
+        //2, managed by entity manager
         if ($dbImage = $dbSettings->getImage()) {
             //Agent not have image, we must delete old image from file and DB
             if (is_null($settings->getImage())) {
@@ -90,7 +78,6 @@ trait JsonApiUpdateSettingsManagerTrait
                 $dbImage->setBase64Content($settings->getImage()->getBase64Content());
                 $settings->setImage($dbImage);
                 $settings->getImage()->setId(null);
-//                var_dump('usao');
                 $dbImage->deleteFile();
                 $this->saveMedia($settings);
             }

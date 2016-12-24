@@ -35,6 +35,8 @@ button:
   cancel: 'Cancel'
   delete: 'Delete'
   add: 'Add'
+  view-all: 'View all'
+  send-mail: 'Send mail'
 
 validation:
   email:
@@ -253,6 +255,7 @@ validations:
   presence-value: 'This field can''t be blank!'
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
+
 
 # ADMIN - MESSAGES
 admin-messages:

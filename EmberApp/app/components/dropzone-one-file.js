@@ -5,7 +5,6 @@ const {Dropzone} = window;
 export default EmberDropzone.extend({
 
     eventBus: Ember.inject.service('event-bus'),
-
     loadPreExistingFiles() {
         let file = this.get('currentImage');
         if (withoutProxies(file)) {
@@ -32,7 +31,7 @@ export default EmberDropzone.extend({
             }
 
             this.get('dropzone').emit('complete', dropFile);
-            this.get('dropzone').files.push(file);
+            this.get('dropzone').files.push(dropFile);
         }
 
     },

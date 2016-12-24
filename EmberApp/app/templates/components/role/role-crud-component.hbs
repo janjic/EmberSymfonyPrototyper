@@ -30,8 +30,8 @@
                         {{#if currentEditing.role}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
                     </div>
                 </div>
-                <button class="btn btn-info" disabled={{editButtonDisabled}} {{action 'editRole'}}>{{trans 'button.edit'}}</button>
-                <button class="btn btn-info" {{action 'cancelEdit'}}>{{trans 'button.cancel'}}</button>
+                <button class="button green" disabled={{editButtonDisabled}} {{action 'editRole'}}>{{trans 'button.edit'}}</button>
+                <button class="button red" {{action 'cancelEdit'}}>{{trans 'button.cancel'}}</button>
             </form>
         {{else}}
             <form class="">
@@ -51,7 +51,7 @@
                     </div>
 
                 </div>
-                <button class="btn btn-info" disabled={{addButtonDisabled}} {{action 'addRole'}}>{{trans 'button.add'}}</button>
+                <button class="button green" disabled={{addButtonDisabled}} {{action 'addRole'}}>{{trans 'button.add'}}</button>
             </form>
         {{/if}}
     </div>

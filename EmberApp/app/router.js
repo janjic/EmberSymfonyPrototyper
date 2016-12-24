@@ -106,6 +106,7 @@ Router.map(function() {
       });
 
       this.route('genealogy-tree');
+      this.route('notifications-all');
   });
 
   this.route('files');
