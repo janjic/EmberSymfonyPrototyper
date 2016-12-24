@@ -35,6 +35,7 @@ class AgentApiResponse
 
 
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
+    const MESSAGES_DRAFT_ERROR                  = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_DRAFT_ERROR)));
 
     /**
      * @param $ttl

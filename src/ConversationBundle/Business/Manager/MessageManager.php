@@ -7,13 +7,17 @@ use ConversationBundle\Business\Event\Thread\ThreadReadEvent;
 use ConversationBundle\Business\Manager\Message\JsonApiSaveMessageManagerTrait;
 use ConversationBundle\Business\Repository\MessageRepository;
 use ConversationBundle\Entity\Message;
+use ConversationBundle\Entity\MessageMetadata;
 use ConversationBundle\Entity\Thread;
+use ConversationBundle\Entity\ThreadMetadata;
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
@@ -54,20 +58,28 @@ class MessageManager implements JSONAPIEntityManagerInterface
     protected $eventDispatcher;
 
     /**
+     * @var TokenStorageInterface $tokenStorage
+     */
+    protected $tokenStorage;
+
+    /**
      * @param MessageRepository        $repository
      * @param FJsonApiSerializer       $fSerializer
      * @param MessageComposer          $messageComposer
      * @param MessageSender            $messageSender
      * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface    $tokenStorage
      */
     public function __construct(MessageRepository $repository, FJsonApiSerializer $fSerializer, MessageComposer $messageComposer,
-                                MessageSender $messageSender, EventDispatcherInterface $eventDispatcher)
+                                MessageSender $messageSender, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
     {
         $this->repository       = $repository;
         $this->fSerializer      = $fSerializer;
         $this->messageComposer  = $messageComposer;
         $this->messageSender    = $messageSender;
         $this->eventDispatcher  = $eventDispatcher;
+        $this->tokenStorage     = $tokenStorage;
+
     }
 
     /**
@@ -174,12 +186,71 @@ class MessageManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * Message update means draft is being sent
      * @param $data
      * @return mixed
      */
     public function updateResource($data)
     {
-        // TODO: Implement updateResource() method.
+        /** @var Message $message */
+        $message   = $this->deserializeMessage($data);
+
+        /** @var Message $messageDB */
+        $messageDB = $this->repository->findOneById($message->getId());
+        $messageDB->getThread()->setIsDraft($message->isIsDraft());
+
+        $messageDB->setBody($message->getBody());
+        $messageDB->getThread()->setSubject($message->getMessageSubject());
+
+        /** @var MessageMetadata $meta */
+        foreach ($messageDB->getAllMetadata() as $meta) {
+            if ($meta->getParticipant()->getId() != $this->getCurrentUser()->getId() &&
+                $meta->getParticipant()->getId() != ($newId = $message->getParticipants()[0]->getId())
+            ) {
+                $meta->setParticipant($this->repository->getReferenceForClass($newId, Agent::class));
+            }
+        }
+
+        /** @var ThreadMetadata $meta */
+        foreach ($messageDB->getThread()->getAllMetadata() as $meta) {
+            if ($meta->getParticipant()->getId() != $this->getCurrentUser()->getId() &&
+                $meta->getParticipant()->getId() != ($newId = $message->getParticipants()[0]->getId())
+            ) {
+                $meta->setParticipant($this->repository->getReferenceForClass($newId, Agent::class));
+            }
+        }
+
+        /** File management */
+        $oldFile = null;
+        if ((!$message->getFile() || !$message->getFile()->getId()) && $messageDB->getFile()) {
+            $oldFile = $messageDB->getFile();
+            $oldFile->getName(); // fucking proxy
+        }
+        if ($message->getFile() && $message->getFile()->getId() === 0) {
+            $message->getFile()->setId(null);
+        }
+        if ($message->getFile() && !$message->getFile()->getId() && !$this->saveMedia($message)) {
+            return array(AgentApiResponse::MESSAGES_UNSUPPORTED_FORMAT);
+        }
+
+        $messageDB->setFile($message->getFile());
+        $result = $this->repository->editMessage($messageDB);
+
+        if ($result instanceof \Exception) {
+            /** @var File $file */
+            if ($file = $message->getFile()) {
+                $file->deleteFile();
+            }
+
+            return array(AgentApiResponse::ERROR_RESPONSE($result));
+        }
+
+        if ($oldFile) {
+            $oldFile->deleteFile();
+        }
+
+        return $this->serializeMessage($messageDB);
+
     }
 
     /**
@@ -189,5 +260,31 @@ class MessageManager implements JSONAPIEntityManagerInterface
     public function deleteResource($id)
     {
         // TODO: Implement deleteResource() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
+     * @param Message $message
+     * @return bool
+     */
+    private function saveMedia($message)
+    {
+        /** @var File|null $image */
+        $file = $message->getFile();
+        if(!is_null($file)){
+            if ($file->saveToFile($file->getBase64Content())) {
+                return true;
+            }
+            return false;
+        }
+
+        return true;
     }
 }

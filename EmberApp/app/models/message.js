@@ -10,4 +10,5 @@ export default Model.extend({
     body:            attr('string'),
     createdAt:       attr('custom-date'),
     messageSubject:  attr('string'),
+    isDraft:         attr('boolean', { defaultValue: false }),
 });

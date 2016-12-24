@@ -51,6 +51,7 @@ class AgentApiCode
 
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
+    const MESSAGES_DRAFT_ERROR                       = 2302;
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2451;

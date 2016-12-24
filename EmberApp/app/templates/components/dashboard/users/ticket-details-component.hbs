@@ -71,7 +71,9 @@
     <div class="row">
         <div class="col-md-12">
             <section class="ticket-details clearfix">
-                {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = model.forwardedTo}}
+                {{#if model.thread}}
+                    {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = model.forwardedTo}}
+                {{/if}}
             </section>
         </div>
     </div>
