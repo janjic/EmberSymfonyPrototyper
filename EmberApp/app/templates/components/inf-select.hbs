@@ -29,7 +29,7 @@
 </a>
 
 {{#if _isShowingMenu}}
-    <div class="searchable-select-menu">
+    <div class="searchable-select-menu {{if _isSearchable 'search-enabled' 'search-disabled'}}">
         <div class="select-search" {{action "noop" bubbles=false}}>
             {{#if _isShowingResultCount}}
                 <span class="select-result-count-label {{if _isShowingSearchClear "select-result-count-label-with-search-clear"}}" {{action "clickResultCountLabel"}}>{{pluralize _resultCount resultCountMessage}}</span>
