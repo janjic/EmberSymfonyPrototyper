@@ -17,10 +17,11 @@ class TicketSerializerInfo
         'forwardedTo'  => array('class' => Agent::class, 'type'=>'agents'),
         'file'         => array('class' => File::class, 'type'=>'files'),
         'thread'       => array('class' => Thread::class, 'type'=>'threads'),
-        'messages'     => array('class' => Message::class, 'type'=>'messages'),
-        'sender'       => array('class' => Agent::class, 'type'=>'agents'),
+//        'messages'     => array('class' => Message::class, 'type'=>'messages'),
+//        'sender'       => array('class' => Agent::class, 'type'=>'agents'),
     );
 
-    public static $relations = array('createdBy', 'forwardedTo', 'file', 'thread', 'thread.messages', 'thread.messages.sender');
+    public static $relations = array('createdBy', 'forwardedTo', 'file', 'thread');
+//    public static $relations = array('createdBy', 'forwardedTo', 'file', 'thread', 'thread.messages', 'thread.messages.sender');
 
 }
