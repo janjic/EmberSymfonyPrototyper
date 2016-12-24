@@ -1,15 +1,20 @@
 {{#bs-accordion-item title="Messages" class="menu-messages"}}
     <ul class="table">
         <li>
+            {{#link-to 'dashboard.agent.messages.create-message'}}
+                {{trans 'agent-menu.messages.create'}}
+            {{/link-to}}
+        </li>
+        <li>
             {{#link-to 'dashboard.agent.messages.received-messages'}}
                 {{trans 'agent-menu.messages.received' }}
             {{/link-to}}
         </li>
-        <li>
-            {{#link-to 'dashboard.agent.messages.drafts'}}
-                {{trans 'agent-menu.messages.drafts' }}
-            {{/link-to}}
-        </li>
+        {{!--<li>--}}
+            {{!--{{#link-to 'dashboard.agent.messages.drafts'}}--}}
+                {{!--{{trans 'agent-menu.messages.drafts' }}--}}
+            {{!--{{/link-to}}--}}
+        {{!--</li>--}}
         <li>
             {{#link-to 'dashboard.agent.messages.sent'}}
                 {{trans 'agent-menu.messages.sent' }}

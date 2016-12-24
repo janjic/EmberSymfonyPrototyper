@@ -1,8 +1,8 @@
 <section class="create-message">
-    <h1 class="main-heading">{{trans 'general.create'}}</h1>
+    <h1 class="main-heading">Send Draft</h1>
     <form role="form">
         <div class="row setup-content">
-            <div class="col-md-6">
+            <div class="col-xs-12 col-lg-8">
                 <div class="input-box">
                     <div class="form-group clearfix">
                         <label class="control-label col-xs-12 text-right">{{trans 'general.message'}}
@@ -10,9 +10,10 @@
                         </label>
                         <div class=" col-xs-12">
                             {{inf-select
-                                    optionLabelKey='email'
-                                    on-search = (perform search)
-                                    on-change=(action 'agentSelected')
+                            optionLabelKey='email'
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                            selected = changeset.participants.[0]
                             }}
                             {{#if (get changeset.error 'participants')}}
                                 <ul class="error-list">
@@ -29,7 +30,7 @@
                         </label>
                         <div class=" col-xs-12">
                             {{validated-field doNotShowLabel=true property="messageSubject" changeset=changeset type="text"
-                                              validateProperty=(action 'validateProperty' changeset "messmyageSubject")}}
+                            validateProperty=(action 'validateProperty' changeset "messageSubject")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -38,7 +39,7 @@
                         </label>
                         <div class="col-xs-12">
                             {{validated-field doNotShowLabel=true property="body" changeset=changeset type="textarea"
-                                              validateProperty=(action 'validateProperty' changeset "body")}}
+                            validateProperty=(action 'validateProperty' changeset "body")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -46,25 +47,20 @@
                             <span class="required" aria-required="true"></span>
                         </label>
                         <div class="col-xs-12">
-                            {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
+                            {{dropzone-one-file
+                            keepLocal=true
+                            addRemoveLinks=true
+                            maxFiles=1
+                            currentImage=changeset.file
+                            onRemovedFile=(action 'removedFile')
+                            onAddedFile=(action 'addedFile')
+                            }}
                         </div>
                     </div>
                     <div class="form-group clearfix text-right">
                         <div class="col-md-12">
-                            <a href="#" class="btn btn-green" {{action 'saveAsDraft'}}>
-                                {{#if isLoading }}
-                                    {{inf-loading}}
-                                {{else}}
-                                    Save as draft
-                                {{/if}}
-                            </a>
-                            <a href="#" class="button green" {{action 'sendMessage'}}>
-                                {{#if isLoading }}
-                                    {{inf-loading}}
-                                {{else}}
-                                    {{trans 'admin-messages.send'}}
-                                {{/if}}
-                            </a>
+                            <a href="#" class="btn btn-danger" {{action 'saveAsDraft'}}>Save as draft</a>
+                            <a href="#" class="btn btn-danger" {{action 'sendMessage'}}>{{trans 'admin-messages.send'}}</a>
                         </div>
                     </div>
                 </div>

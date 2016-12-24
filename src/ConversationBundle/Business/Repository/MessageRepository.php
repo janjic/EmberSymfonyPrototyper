@@ -19,6 +19,38 @@ class MessageRepository extends EntityRepository
     const ALIAS = 'messages';
 
     /**
+     * @param Message $message
+     * @return Message|Exception
+     */
+    public function saveMessage($message)
+    {
+        try {
+            $this->_em->persist($message);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param Message $message
+     * @return Message|Exception
+     */
+    public function editMessage($message)
+    {
+        try {
+            $this->_em->merge($message);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+
+        return $message;
+    }
+
+    /**
      * @param int  $threadId
      * @param int  $page
      * @param int  $offset

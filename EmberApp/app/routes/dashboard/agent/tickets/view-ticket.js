@@ -4,7 +4,6 @@ export default Ember.Route.extend({
     model: function (params) {
         let ctx = this;
         return this.store.findRecord('ticket', params.id).then((ticket) => {
-            console.log(ticket);
             return ticket;
         }, (response) => {
             response.errors.forEach((error)=>{

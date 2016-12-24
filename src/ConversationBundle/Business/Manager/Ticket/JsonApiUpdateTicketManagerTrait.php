@@ -61,28 +61,7 @@ trait JsonApiUpdateTicketManagerTrait
          */
         $ticket->setCreatedBy($this->repository->getReferenceForClass($ticket->getCreatedBy()->getId(), Agent::class));
 
-        /**
-         * Convert string to date format
-         */
-        //$ticket->setCreatedAt(new DateTime($ticket->getCreatedAt()));
-
-
         return $ticket;
-
-    }
-
-    private function saveToFile($agent)
-    {
-//        /**  */
-//        if(!is_null($image = $agent->getImage())){
-//            if ($image->saveToFile($image->getBase64Content())) {
-//                $agent->setBaseImageUrl($image->getWebPath());
-//                return true;
-//            }
-//            return false;
-//        }
-//
-//        return true;
 
     }
 

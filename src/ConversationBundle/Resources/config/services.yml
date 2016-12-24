@@ -14,6 +14,7 @@ services:
             messageComposer: "@fos_message.composer.default"
             messageSender:   "@fos_message.sender.default"
             eventDispatcher: "@event_dispatcher"
+            tokenStorrage:   "@security.token_storage"
 
     agent_system.message.adapter:
         class: ConversationBundle\Adapter\Message\MessageAdapter

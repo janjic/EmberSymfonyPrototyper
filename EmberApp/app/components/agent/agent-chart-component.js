@@ -77,7 +77,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
                         Ember.$(this).siblings('.second-menu').toggle();
                     }
                 });
-                let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
+                // let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
+                let secondMenu = '<div class="second-menu" hidden><img class="avatar" src="'+data.baseImageUrl+'"></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
@@ -87,10 +88,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.$('#chart-container').dblclick('.node', (event) => {
             let id = this.$(event.target).closest('.node').attr('id');
             if (parseInt(id)) {
-                // TODO
-
-                /** ne radi redirectTo */
-                this.get('routing').transitionTo('dashboard.agents.agent-edit', this.get('store').findRecord('agent', id));
+                this.get('redirectToEdit')(id);
             }
         });
     }

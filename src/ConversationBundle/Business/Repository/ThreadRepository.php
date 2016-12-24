@@ -52,6 +52,8 @@ class ThreadRepository extends EntityRepository
         $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
         $qb->andWhere('ticket.id IS NULL');
 
+        $qb->andWhere(self::ALIAS.'.isDraft = false');
+
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -95,6 +97,8 @@ class ThreadRepository extends EntityRepository
         $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
         $qb->andWhere('ticket.id IS NULL');
 
+        $qb->andWhere(self::ALIAS.'.isDraft = false');
+
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -130,6 +134,42 @@ class ThreadRepository extends EntityRepository
 
         $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
         $qb->andWhere('ticket.id IS NULL');
+
+        $qb->andWhere(self::ALIAS.'.isDraft = false');
+
+        if ($isCountSearch) {
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
+        } else {
+            $qb->setFirstResult(($page - 1) * $offset)->setMaxResults($offset);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param ParticipantInterface $participant
+     * @param int                  $page
+     * @param int                  $offset
+     * @param bool                 $isCountSearch
+     * @return mixed
+     */
+    public function getDraftThreads(ParticipantInterface $participant, $page = 1 , $offset = 20, $isCountSearch = false)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS)
+            ->innerJoin(self::ALIAS.'.metadata', 'tm')
+            ->innerJoin('tm.participant', 'p')
+
+            // the participant is in the thread participants
+            ->andWhere('p.id = :user_id')
+            ->setParameter('user_id', $participant->getId())
+
+            // sort by date of last message
+            ->orderBy('tm.lastMessageDate', 'DESC');
+
+        $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
+        $qb->andWhere('ticket.id IS NULL');
+
+        $qb->andWhere(self::ALIAS.'.isDraft = true');
 
         if ($isCountSearch) {
             $qb->select('COUNT(DISTINCT '.self::ALIAS.')');
@@ -192,6 +232,8 @@ class ThreadRepository extends EntityRepository
 
         $qb->leftJoin(self::ALIAS.'.ticket', 'ticket');
         $qb->andWhere('ticket.id IS NULL');
+
+        $qb->andWhere(self::ALIAS.'.isDraft = false');
 
         return $qb->getQuery()->getResult();
     }

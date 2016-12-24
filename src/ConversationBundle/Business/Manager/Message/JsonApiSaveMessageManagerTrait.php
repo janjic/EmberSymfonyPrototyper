@@ -31,12 +31,17 @@ trait JsonApiSaveMessageManagerTrait
     {
         $d = json_decode($data, true);
         if (array_key_exists('thread', $d['data']['relationships']) && $d['data']['relationships']['thread']['data']) {
+            /** @var Message $message */
             $message = $this->deserializeMessage($data);
         } else {
+            /** @var Message $message */
             $message = $this->deserializeMessageWithoutThread($data);
         }
 
-        /** @var Message $message */
+        if ($message->isIsDraft()) {
+            return $this->saveDraft($message);
+        }
+
         if ($message->getThread() && $message->getThread()->getId()) {
             return $this->replyToMessage($message);
         } else {
@@ -104,25 +109,44 @@ trait JsonApiSaveMessageManagerTrait
             return $this->serializeMessage($this->saveEventResult);
 
         } catch (Exception $e) {
+            /** @var File $file */
+            if ($file = $messageFronted->getFile()) {
+                $file->deleteFile();
+            }
+
             return array(AgentApiResponse::ERROR_RESPONSE($e));
         }
     }
+
     /**
      * @param Message $message
-     * @return bool
+     * @return array
      */
-    private function saveMedia($message)
+    public function saveDraft($message)
     {
-        /** @var File|null $image */
-        $file = $message->getFile();
-        if(!is_null($file)){
-            if ($file->saveToFile($file->getBase64Content())) {
-                return true;
-            }
-            return false;
+        /** @var File $file */
+        if (($file = $message->getFile()) && $file->getBase64Content() && !$this->saveMedia($message)) {
+            return array(AgentApiResponse::MESSAGES_UNSUPPORTED_FORMAT);
         }
 
-        return true;
+        /** @var NewThreadMessageBuilder $thread */
+        $thread = $this->messageComposer->newThread();
+        if ($message->getMessageSubject()) {
+            $thread->setSubject($message->getMessageSubject());
+        }
+
+        if ($message->getBody()) {
+            $thread->setBody($message->getBody());
+        }
+
+        if ($message->getParticipants()[0]) {
+            $thread->addRecipient($this->repository->getReferenceForClass($message->getParticipants()[0]->getId(), Agent::class));
+        }
+
+        $thread->setSender($this->repository->getReferenceForClass($message->getSender()->getId(), Agent::class));
+        $thread->getMessage()->getThread()->setIsDraft(true);
+
+        return $this->processSave($thread->getMessage(), $message);
     }
 
 }

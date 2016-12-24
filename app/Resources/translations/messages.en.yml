@@ -73,6 +73,7 @@ admin-menu:
     new.campaign: 'Add new mass mail campaign'
     all.campaigns: 'All mass mail campaings'
   messages:
+    create: 'Create Message'
     title: 'Messages'
     received: 'Received messages'
     drafts: 'Drafts'
@@ -110,6 +111,7 @@ agent-menu:
     title: 'My profile'
     settings: 'My profile settings'
   messages:
+    create: 'Create Message'
     title: 'Messages'
     received: 'Received messages'
     drafts: 'Drafts'
@@ -267,6 +269,7 @@ admin-messages:
   deleted.listing: 'Deleted Messages'
   sent.listing: 'Sent Messages'
   received.listing: 'Received Messages'
+  drafts.listing: 'Draft Messages'
   no-messages: 'You have no messages'
   new-messages: 'You have new messages'
   enter: 'Enter your message'

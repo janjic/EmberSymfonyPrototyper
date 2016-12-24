@@ -51,6 +51,11 @@ class Message extends BaseMessage
     protected $messageSubject;
 
     /**
+     * @var boolean
+     */
+    protected $isDraft;
+
+    /**
      * Message constructor.
      */
     public function __construct()
@@ -59,6 +64,21 @@ class Message extends BaseMessage
         $this->participants = new ArrayCollection();
     }
 
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -120,4 +140,19 @@ class Message extends BaseMessage
         $this->file = $file;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isIsDraft()
+    {
+        return $this->isDraft;
+    }
+
+    /**
+     * @param boolean $isDraft
+     */
+    public function setIsDraft($isDraft)
+    {
+        $this->isDraft = $isDraft;
+    }
 }

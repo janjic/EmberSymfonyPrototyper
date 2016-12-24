@@ -259,7 +259,7 @@ export default Ember.Component.extend({
         component.$(window).on(`click.${component.elementId}`, function(e) {
             if (!this.$.contains(componentElem, e.target)) {
                 component.send('hideMenu');
-                component.$('.Searchable-select__label').blur();
+                component.$('.select-label').blur();
             }
         });
     },
@@ -279,7 +279,7 @@ export default Ember.Component.extend({
             e.preventDefault();
             $focussable.eq(i + 1).focus();
 
-            if (component.$(e.target).is('.Searchable-select__label')) {
+            if (component.$(e.target).is('.select-label')) {
                 this.send('showMenu');
             }
         } else if (e.keyCode === 38) {
@@ -350,7 +350,7 @@ export default Ember.Component.extend({
         }
 
         const menu = this.$(target);
-        const more = menu.find('.Searchable-select__more-label');
+        const more = menu.find('.select-more-label');
         const height = this.get('_menuHeight');
 
         if (!more.length || !menu.length || !height) {
@@ -380,7 +380,7 @@ export default Ember.Component.extend({
 
         clearSearch() {
             this.set('_searchText', '');
-            this.$('.Searchable-select__input').val('').focus().keyup();
+            this.$('.select-input').val('').focus().keyup();
         },
 
         searchMore() {
@@ -431,7 +431,7 @@ export default Ember.Component.extend({
             this.set('_isShowingMenu', true);
 
             Ember.run.scheduleOnce('afterRender', this, function() {
-                this.$('.Searchable-select__input').focus();
+                this.$('.select-input').focus();
             });
 
             Ember.run.next(this, function() {
@@ -447,11 +447,11 @@ export default Ember.Component.extend({
 
             this.set('_isShowingMenu', false);
             this.set('_searchText', '');
-            this.$('.Searchable-select__label').focus();
+            this.$('.select-label').focus();
         },
 
         clickResultCountLabel() {
-            this.$('.Searchable-select__input').focus();
+            this.$('.select-input').focus();
         },
 
         search(text, page = 1) {
@@ -475,7 +475,6 @@ export default Ember.Component.extend({
             } else if (search.then) {
                 this.get('handleAsyncSearchTask').perform(text, page, search);
             } else {
-                console.log("USAO OPET");
                 this.setDataAfterSearch(search);
             }
 

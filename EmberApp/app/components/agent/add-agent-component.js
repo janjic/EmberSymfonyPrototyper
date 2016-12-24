@@ -130,6 +130,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());
+            console.log(changeSet.get('errors'));
+            console.log(addressChangeSet.get('errors'));
             if (validation && changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
                 let img = this.getImage();
                 //WE can send image to server

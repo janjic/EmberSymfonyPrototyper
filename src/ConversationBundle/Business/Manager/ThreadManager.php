@@ -5,14 +5,18 @@ namespace ConversationBundle\Business\Manager;
 use ConversationBundle\Business\Manager\Thread\JsonApiThreadSerializationTrait;
 use ConversationBundle\Business\Manager\Thread\JsonApiUpdateThreadManagerTrait;
 use ConversationBundle\Business\Repository\ThreadRepository;
+use ConversationBundle\Entity\Message;
 use ConversationBundle\Entity\Thread;
 use ConversationBundle\Entity\ThreadMetadata;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
+use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\File;
 
 /**
  * Class ThreadManager
@@ -65,8 +69,11 @@ class ThreadManager implements JSONAPIEntityManagerInterface
      */
     public function getQueryResult($request)
     {
-        $perPage = $request->query->get('per_page');
+        $mappings    = null;
+        $relations   = null;
+        $perPage     = $request->query->get('per_page');
         $currentUser = $this->getCurrentUser();
+
         switch ($request->query->get('type')) {
             case 'sent':
                 $threads = $this->repository->getSentThreads($currentUser, $request->query->get('page'), $perPage);
@@ -80,19 +87,30 @@ class ThreadManager implements JSONAPIEntityManagerInterface
                 $threads = $this->repository->getDeletedThreads($currentUser, $request->query->get('page'), $perPage);
                 $totalItems = $this->repository->getDeletedThreads($currentUser, null, null, true)[0][1];
                 break;
+            case 'drafts':
+                $threads = $this->repository->getDraftThreads($currentUser, $request->query->get('page'), $perPage);
+                $totalItems = $this->repository->getDraftThreads($currentUser, null, null, true)[0][1];
+                $mappings = array(
+                    'thread'       => array('class' => Thread::class, 'type'=>'threads'),
+                    'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
+                    'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
+                    'messages'     => array('class' => Message::class, 'type'=>'messages'),
+                    'file'         => array('class' => File::class, 'type'=>'files'),
+                );
+                $relations = array('createdBy', 'participants', 'messages', 'messages.file');
+                break;
             default:
                 $threads = [];
                 $totalItems = 0;
                 break;
         }
 
-        $user = $this->getCurrentUser();
         /** @var Thread $thread */
         foreach ($threads as $thread) {
-            $thread->setIsRead($thread->isReadByParticipantCustom($user));
+            $thread->setIsRead($thread->isReadByParticipantCustom($currentUser));
         }
 
-        return $this->serializeThread($threads, ['total_pages'=>ceil($totalItems / $perPage)]);
+        return $this->serializeThread($threads, ['total_pages'=>ceil($totalItems / $perPage)], $mappings, $relations);
     }
 
     /**
