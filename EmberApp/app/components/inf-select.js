@@ -431,7 +431,7 @@ export default Ember.Component.extend({
             this.set('_isShowingMenu', true);
 
             Ember.run.scheduleOnce('afterRender', this, function() {
-                this.$('.Searchable-select__input').focus();
+                this.$('.select-input').focus();
             });
 
             Ember.run.next(this, function() {

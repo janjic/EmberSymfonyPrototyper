@@ -64,11 +64,6 @@ trait JsonApiUpdateAgentManagerTrait
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);
-//        if($agent->getId()){
-//            $this->syncWithTCRPortal($agent, 'edit');
-//        }
-
-        //return $agent;
     }
 
 
