@@ -84,6 +84,7 @@ class TicketRepository extends EntityRepository
      */
     public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams)
     {
+
         $firstResult =0;
         if ($page !=1) {
             $firstResult = ($page-1)*$offset;

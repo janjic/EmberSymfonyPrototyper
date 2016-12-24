@@ -5,12 +5,13 @@ imports:
     - { resource: "@CoreBundle/Resources/config/services.yml" }
     - { resource: "@FSerializerBundle/Resources/config/services.yml" }
     - { resource: "@ConversationBundle/Resources/config/services.yml" }
+    - { resource: "@MailCampaignBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 #    doctrine.dbal.connection_factory.class: CoreBundle\Connection\ConnectionFactory
-    locale: en
+    locale: null
 
 framework:
     #esi:             ~
@@ -144,7 +145,6 @@ fos_oauth_server:
           refresh_token_lifetime: 1209600
 
 stof_doctrine_extensions:
-    default_locale: "%locale%"
     orm:
         default:
             tree: true

@@ -4,10 +4,10 @@ import {withoutProxies} from './../utils/proxy-helpers';
 const menuSelector = '.Searchable-select__options-list-scroll-wrapper';
 export default Ember.Component.extend({
 
-    classNames: ['Searchable-select-infinite'],
+    classNames: ['searchable-select searchable-select-infinite'],
     classNameBindings: [
-        '_isShowingMenu:Searchable-select--menu-open',
-        'multiple:Searchable-select--multiple'
+        '_isShowingMenu:searchable-select-menu-open',
+        'multiple:searchable-select-multiple'
     ],
 
     content: null,
@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     }),
 
     _canChangeSelected: Ember.computed('on-change', function() {
-        return this.get('on-change') !== Ember.K;
+        return (this.get('on-change') !== Ember.K) && (!this.get('multiple'));
     }),
 
     _itemsPerPage : Ember.computed('perPage',function () {
@@ -154,7 +154,7 @@ export default Ember.Component.extend({
         'optionLabelKey',
         function() {
             let optKey = this.get('optionLabelKey');
-            return optKey ? Ember.A(this.get('_filteredContent').mapBy(optKey)) : Ember.A(this.get('_filteredContent'));
+            return optKey ? (this.get('_filteredContent') ? Ember.A(this.get('_filteredContent').mapBy(optKey)):Ember.A(this.get('_filteredContent'))) : Ember.A(this.get('_filteredContent'));
         }
     ),
 
@@ -302,6 +302,7 @@ export default Ember.Component.extend({
     },
 
     _toggleSelection(item) {
+
         if (item === null) {
             this.set('_selected', Ember.A([]));
         } else if (Ember.A(this.get('_selected')).includes(item)) {
@@ -337,7 +338,7 @@ export default Ember.Component.extend({
 
     _unbindMenuScroll() {
         const component = this;
-        this.$(menuSelector).off(`scroll.${component.elementId}`);
+        component.$(menuSelector).off(`scroll.${component.elementId}`);
     },
 
     _debouncedMenuScroll(target) {
@@ -485,14 +486,14 @@ export default Ember.Component.extend({
         removeOption(option) {
             this.removeFromSelected(option);
             if (this.get('_canRemove')) {
-                this.get('on-remove')(option);
+                this.get('on-remove')(option, this.get('_selected'));
             }
 
         },
 
         addNew() {
             if (this.get('_canAddNew')) {
-                this.get('on-add')(this.get('_searchText'));
+                this.get('on-add')(this.get('_searchText'), this.get('_selected'));
             }
             if (this.get('closeOnSelection')) {
                 this.send('hideMenu');
