@@ -27,7 +27,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.set('model.subscribers', this.get('additionalMails'));
                 this.showLoader('loading.sending.data');
                 let list = this.get('model');
-                list.save().then((response) => {
+                list.save().then(() => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
                 }, (response) => {
@@ -50,7 +50,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.set('additionalMails', selectedItems);
             this.get('model.newSubscribers').pushObject({email:value});
         },
-        agentSelected(agent, selectedItems){
+        agentSelected(agent){
             if(agent.hasOwnProperty('email')){
                 this.get('model.newSubscribers').pushObject({email:agent.email});
             }else {
@@ -59,8 +59,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
         },
         agentRemoved(agent){
             let newSubsIndex = this.itemInArray(this.get('model.newSubscribers'), agent);
-            if( newSubsIndex == -1){
-                if(this.itemInArray(this.get('model.removedSubscribers'), agent)==-1){
+            if( newSubsIndex === -1){
+                if(this.itemInArray(this.get('model.removedSubscribers'), agent)===-1){
                     this.get('model.removedSubscribers').pushObject({email:agent.email});
                 }
             } else {
@@ -82,18 +82,18 @@ export default Ember.Component.extend(LoadingStateMixin, {
         let elIndex = -1;
         array.forEach(function (element, index) {
             if(item.hasOwnProperty('email')){
-                if (element.email == item.email){
+                if (element.email === item.email){
                     elIndex = index;
                 }
             } else {
-                if (element.email == item.get('email')){
+                if (element.email === item.get('email')){
                     elIndex = index;
                 }
             }
 
         });
 
-        return elIndex
+        return elIndex;
     },
     search: task(function * (text, page, perPage) {
         yield timeout(200);

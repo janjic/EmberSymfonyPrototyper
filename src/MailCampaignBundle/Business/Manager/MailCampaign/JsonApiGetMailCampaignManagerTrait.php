@@ -19,23 +19,15 @@ trait JsonApiGetMailCampaignManagerTrait
      */
     public function getResource($id = null)
     {
+        $campaign = $this->mailChimp->get('campaigns/'.$id);
+        $campaignSerialized = $this->serializeCampaignsArray($campaign);
 
+        $relationships = [];
+        $relationships['template'] = array('data' => array('id' => $campaign['settings']['template_id'], 'type' => 'mail-templates'));
+        $relationships['mailList'] = array('data' => array('id' => $campaign['recipients']['list_id'], 'type' => 'mail-lists'));
 
-    }
+        return new ArrayCollection(array('data' => array('attributes' =>$campaignSerialized, 'relationships'=> $relationships, 'id' => $id, 'type' => 'mail-campaigns')));
 
-    /**
-     * @param $data
-     * @return mixed
-     */
-    private function createJsonApiGetResponse($data)
-    {
-//        if (!is_null($data) && get_class($data) == Ticket::class)  {
-//            return new ArrayCollection($this->serializeTicket($data)->toArray());
-//        } else if(!is_null($data) && get_class($data) == AccessDeniedException::class) {
-//            return new ArrayCollection(AgentApiResponse::ACCESS_TO_TICKET_DENIED);
-//        }
-//
-//        return new ArrayCollection(AgentApiResponse::AGENT_NOT_FOUND_RESPONSE);
     }
 
 }

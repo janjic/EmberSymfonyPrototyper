@@ -315,6 +315,8 @@ models:
     unsupported.file.type: 'Current file type is not supported!'
   mailList:
     save: 'Mail list saved!'
+  campaign:
+    save: 'Mail campaign saved!'
 
 #SETTINGS
 

@@ -157,7 +157,7 @@ class AgentApiResponse
      */
     public static function MAIL_CAMPAIGN_SAVED_SUCCESSFULLY($id)
     {
-        return array('data' => array('type'=> 'mailCampaigns', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_CAMPAIGN_SAVED_SUCCESSFULLY));
+        return array('data' => array('type'=> 'mail-campaigns', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_CAMPAIGN_SAVED_SUCCESSFULLY));
     }
 
 
