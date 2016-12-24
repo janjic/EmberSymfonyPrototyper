@@ -7,9 +7,10 @@ server {
         listen 8888;
 
         # SSL
-          ssl on;
+         ssl on;
          ssl_certificate /etc/ssl/fsd.dev/fsd.dev.pem;
          ssl_certificate_key /etc/ssl/fsd.dev/fsd.dev.key;
+         ssl_verify_client true;
 	     ssl_session_cache shared:SSL:10m;
          ssl_session_timeout 5m;
 

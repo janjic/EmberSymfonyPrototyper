@@ -1,11 +1,12 @@
 <h1 class="main-heading">{{trans 'admin-menu.settings.groups'}}</h1>
 <div class="col-md-6">
     <div class="input-box">
+        <h3 class="sub-heading">Groups</h3>
         {{#each groups as |group|}}
             <div class="form-group clearfix">
                 {{group.name}}
-                <button class="btn btn-danger pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
-                <button class="btn btn-success pull-right" style="margin-right: 5px;" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
+                <button class="button red icon-btn pull-right" {{action "deleteGroupActionStart" group}}><i class="fa fa-trash"></i></button>
+                <button class="button green icon-btn pull-right" style="margin-right: 5px;" {{action "editGroupAction" group}}><i class="fa fa-pencil"></i></button>
             </div>
         {{/each}}
     </div>
@@ -22,14 +23,14 @@
                             {{group.name}}
                         </div>
                         <div class="col-md-6 text-right">
-                            <button class="btn btn-primary" {{action "setNewParentGroup" group}}>{{trans 'manage-groups.set-parent'}}</button>
+                            <button class="button blue btn-small" {{action "setNewParentGroup" group}}>{{trans 'manage-groups.set-parent'}}</button>
                         </div>
                     </div>
                 </div>
             {{/each}}
 
-            <button class="btn btn-danger pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >{{trans 'button.delete'}}</button>
-            <button class="btn btn-success pull-right" style="margin-right: 5px;" {{action "cancelDelete"}}>{{trans 'button.cancel'}}</button>
+            <button class="button red pull-right" {{action "deleteGroup"}} disabled={{isDeleteButtonDisabled}} >{{trans 'button.delete'}}</button>
+            <button class="button green pull-right" style="margin-right: 5px;" {{action "cancelDelete"}}>{{trans 'button.cancel'}}</button>
         </div>
     {{else}}
         {{#if displayEdit}}
@@ -40,8 +41,8 @@
 
                     {{elements/roles-multipleselect selectedRoles=editGroup.roles onSelectAction=(action 'roleSelect')}}
                 </div>
-                <button type="button" class="btn btn-success pull-right" {{action "editGroupSave"}}>{{trans 'button.save'}}</button>
-                <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>{{trans 'button.cancel'}}</button>
+                <button type="button" class="button green pull-right" {{action "editGroupSave"}}>{{trans 'button.save'}}</button>
+                <button type="button" class="button red pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>{{trans 'button.cancel'}}</button>
             </div>
         {{else}}
             <div class="input-box clearfix">
@@ -53,7 +54,7 @@
                 <div class="form-group clearfix">
                     {{elements/roles-multipleselect onSelectAction=(action 'roleSelect')}}
                 </div>
-                <button class="btn btn-success pull-right" {{action "createGroup"}}>{{trans 'button.add'}}</button>
+                <button class="button green pull-right" {{action "createGroup"}}>{{trans 'button.add'}}</button>
             </div>
         {{/if}}
     {{/if}}

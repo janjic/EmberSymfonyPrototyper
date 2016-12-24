@@ -1,8 +1,14 @@
 import Ember from 'ember';
 const Translator = window.Translator;
-
-export function trans([value], namedArgs) {
-  return Translator.trans(value, namedArgs);
-}
-
-export default Ember.Helper.helper(trans);
+const {
+    inject: {
+        service
+    }
+} = Ember;
+export default Ember.Helper.extend({
+    session: service('session'),
+    compute([value], namedArgs) {
+        Translator.locale = this.get('session.data.locale');
+        return Translator.trans(value, namedArgs);
+    }
+});

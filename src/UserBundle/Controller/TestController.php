@@ -2,17 +2,14 @@
 
 namespace UserBundle\Controller;
 
-use CoreBundle\Model\XmppPrebind;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use UserBundle\Entity\User;
 
+/**
+ * Class TCRUserController
+ * @package UserBundle\Controller
+ */
 class TCRUserController extends Controller
 {
     /**
@@ -21,8 +18,6 @@ class TCRUserController extends Controller
      */
     public function testAction()
     {
-
-
         die('kraj');
         /**return JSON Response */
         return new JsonResponse($userJqgrid->toArray());

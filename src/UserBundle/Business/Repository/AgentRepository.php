@@ -36,7 +36,7 @@ class AgentRepository extends NestedTreeRepository
      * @return Agent|Exception
      * @throws \Exception
      */
-    public function saveAgent($agent, $superior)
+    public function saveAgent($agent, $superior=null)
     {
         try {
             $agent ? ($agent = $this->loadUserRoles($agent)) :false;

@@ -7,9 +7,19 @@ export default Ember.Component.extend({
     sortClass: 'fa-sort',
     compareType: '',
     searchValue: '',
+    searchable: true,
+    sortable: true,
     defaultDelayTime: 250,
     isSelect: Ember.computed('compareType', function () {
         return this.get('compareType')  === 'eq';
+    }),
+    isSearchable: Ember.computed('searchable', function () {
+        return this.get('searchable')===undefined?true: this.get('searchable');
+
+    }),
+    isSortable: Ember.computed('sortable', function () {
+        return this.get('sortable')===undefined?true: this.get('sortable');
+
     }),
     actions: {
         handleFilterEntry: function (delayTime) {

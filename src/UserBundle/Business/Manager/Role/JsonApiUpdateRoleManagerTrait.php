@@ -22,7 +22,7 @@ trait JsonApiUpdateRoleManagerTrait
     {
         $rawData = json_decode($data, true);
 
-        if ($rawData['data']['attributes']['simple-update']) {
+        if (array_key_exists('simple-update',$rawData['data']['attributes'])) {
             /** @var Role $role */
             $role = $this->deserializeRole($data);
             /** @var Role $roleDB */

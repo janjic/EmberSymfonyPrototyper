@@ -35,6 +35,8 @@ button:
   cancel: 'Cancel'
   delete: 'Delete'
   add: 'Add'
+  view-all: 'View all'
+  send-mail: 'Send mail'
 
 validation:
   email:
@@ -256,6 +258,7 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
+
 # ADMIN - MESSAGES
 admin-messages:
   subject: 'Subject'
@@ -313,6 +316,8 @@ models:
     delete: 'Message moved to trash'
     undo: 'Message removed from trash'
     unsupported.file.type: 'Current file type is not supported!'
+  mailList:
+    save: 'Mail list saved!'
 
 #SETTINGS
 
