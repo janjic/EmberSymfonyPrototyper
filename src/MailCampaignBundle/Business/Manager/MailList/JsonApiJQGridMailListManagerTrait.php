@@ -27,31 +27,14 @@ trait JsonApiJQGridMailListManagerTrait
         $page = $request->get('page');
         $offset = $request->get('offset');
 
-        $searchFields = array(
-            'id'        => 'ticket.id',
-            'title'     => 'ticket.title',
-            'type'      => 'ticket.type',
-            'status'    => 'ticket.status',
-            'createdAt' => 'ticket.createdAt',
-            'author'    => 'createdBy.username',
-        );
 
-        $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
         $params['page'] = $page;
         $params['offset'] = $offset;
 
-        $additionalParams['ticketsType'] = $request->get('additionalData')['ticketsType'];
-        $additionalParams['agentId'] = $request->get('additionalData')['agentId'];
-
         $agents = $this->findAllForJQGRID($page, $offset);
-        $size = (int)$this->findAllForJQGRID($searchParams, $sortParams, true);
+        $size = (int)$this->findAllForJQGRID($page, $offset, true);
         $pageCount = ceil($size / $offset);
 
-        return $agents;
-        return new ArrayCollection($this->serializeTicket($agents)
-            ->addMeta('totalItems', $size)
-            ->addMeta('pages', $pageCount)
-            ->addMeta('page', $page)
-            ->toArray());
+        return new ArrayCollection(array('data' => $agents, 'meta' => array('totalItems'=>$size, 'pages' => $pageCount, 'page' => $page)));
     }
 }

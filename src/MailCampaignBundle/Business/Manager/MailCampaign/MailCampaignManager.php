@@ -26,6 +26,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
     use JsonApiDeleteMailCampaignManagerTrait;
     use JsonApiGetMailCampaignManagerTrait;
     use JsonApiUpdateMailCampaignManagerTrait;
+    use JsonApiJQGridMailCampaignManagerTrait;
 
 
     /**
@@ -133,5 +134,57 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
         }
 
         return  array('data'=>$templatesArray);
+    }
+
+    /**
+     * @param $page
+     * @param $offset
+     * @param bool $isCount
+     * @return array|false|int
+     */
+    public function findAllForJQGRID($page, $offset, $isCount = false)
+    {
+        if($isCount){
+            $campaigns = $this->mailChimp->get('campaigns');
+
+            return intval($campaigns['total_items']);
+        } else {
+            $firstResult = 0;
+            if (intval($page) !=1 ) {
+                $firstResult = ($page-1)*$offset;
+            }
+
+            $campaigns = $this->mailChimp->get('campaigns',[
+                'fields' => 'campaigns.id,campaigns.status,campaigns.recipients.list_name,campaigns.recipients.recipient_count,'.
+                    'campaigns.settings.subject_line,campaigns.settings.from_name,campaigns.settings.reply_to,campaigns.report_summary.unique_opens,',
+                'offset' => $firstResult,
+                'count' => $offset
+            ]);
+            $lists = $this->serializeCampaignsArray($campaigns['campaigns']);
+
+            return $lists;
+        }
+
+    }
+
+    /**
+     * @param $campaigns
+     * @return array
+     */
+    public function serializeCampaignsArray($campaigns)
+    {
+        $array = [];
+        foreach ($campaigns as $campaign){
+
+            $item = [];
+            $item['id'] = $campaign['id'];
+            $item['subject_line'] = $campaign['settings']['subject_line'];
+            $item['reply_to'] = $campaign['settings']['reply_to'];
+            $item['from_name'] = $campaign['settings']['from_name'];
+
+            $array[] = array('attributes' =>$item, 'id' => $campaign['id'], 'type' => 'mail-campaigns');
+        }
+
+        return $array;
     }
 }

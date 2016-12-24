@@ -294,6 +294,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
             $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
         }
 
-        return new ArrayCollection(array('data'=>$array));
+        return $array;
     }
 }
