@@ -25,20 +25,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
     actions: {
         sendMessage() {
-            this.set('changeset.isDraft', false);
+            this.set('model.isDraft', false);
             this.send('processSave');
         },
 
         saveAsDraft() {
-            this.set('changeset.isDraft', true);
+            this.set('model.isDraft', true);
             this.send('processSave');
         },
 
         processSave() {
             if (this.get('changeset').validate() && this.get('changeset').get('isValid')) {
                 this.showLoader();
-
                 let message = this.get('changeset');
+                let shouldTransition = !message.get('isDraft');
                 if (this.get('fileTemp')) {
                     let fileObj = this.get('createFileAction')(this.get('fileTemp'));
                     message.set('file', fileObj);
@@ -47,7 +47,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 message.save().then(() => {
                     this.toast.success('models.message.save');
                     this.disableLoader();
-                    this.get('transitionToInbox')();
+                    if(shouldTransition) {
+                        this.get('transitionToInbox')();
+                    }
                 }, (response) => {
                     this.processErrors(response.errors);
                     this.disableLoader();
