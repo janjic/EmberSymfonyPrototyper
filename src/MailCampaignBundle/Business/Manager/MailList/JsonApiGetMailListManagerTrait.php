@@ -44,7 +44,6 @@ trait JsonApiGetMailListManagerTrait
             return new ArrayCollection(array('data'=>$array));
         }
 
-
         $list = $this->mailChimp->get('lists/'.$id);
         $list['fromAddress'] = $list['campaign_defaults']['from_email'];
         $list['fromName'] = $list['campaign_defaults']['from_name'];
@@ -62,7 +61,6 @@ trait JsonApiGetMailListManagerTrait
         $list['subscribers'] = $subscribers;
 
         return new ArrayCollection(array('data' => array('attributes' =>$list, 'id' => $id, 'type' => 'mail-lists')));
-
 
     }
 

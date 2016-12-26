@@ -2,9 +2,6 @@ services:
     # ------ MailCampaign ------------------------------------------------------------------------------------------------- #
     agent_system.mail.campaign.manager:
         class: MailCampaignBundle\Business\Manager\MailCampaign\MailCampaignManager
-        arguments:
-            fSerializer:     "@f_serializer"
-
     agent_system.mail.campaign.adapter:
         class: MailCampaignBundle\Adapter\MailCampaign\MailCampaignAdapter
         arguments:
@@ -16,7 +13,6 @@ services:
     agent_system.mail.list.manager:
         class: MailCampaignBundle\Business\Manager\MailList\MailListManager
         arguments:
-            fSerializer:     "@f_serializer"
             tokenStorage:    "@security.token_storage"
     agent_system.mail.list.adapter:
         class: MailCampaignBundle\Adapter\MailList\MailListAdapter
