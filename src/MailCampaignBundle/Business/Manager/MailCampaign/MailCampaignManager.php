@@ -70,7 +70,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
                 $this->mailChimp->post('campaigns/'.$campaign['id'].'/actions/send');
                 if($this->mailChimp->success()) {
 
-                   return $campaign;
+                    return $campaign;
                 } else {
                     return new Exception($this->mailChimp->getLastError());
                 }
@@ -93,7 +93,11 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     public function getCampaignTemplates()
     {
-        $templates = $this->mailChimp->get('/templates');
+        $templatesCount = $this->mailChimp->get('/templates', ['fields' => 'total_items']);
+
+        $templates = $this->mailChimp->get('/templates', [
+            'count' => $templatesCount['total_items']
+        ]);
 
         $templatesArray = [];
         foreach ($templates['templates'] as $template){

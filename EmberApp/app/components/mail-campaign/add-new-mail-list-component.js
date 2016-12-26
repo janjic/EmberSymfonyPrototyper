@@ -44,7 +44,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         },
         agentSelected(agent, selectedItems){
             if(agent.hasOwnProperty('email')){
-                selectedItems = selectedItems.addObject({email: value});
+                selectedItems = selectedItems.addObject({email: agent});
             }else {
                 selectedItems = selectedItems.addObject({email: agent.get('email')});
             }

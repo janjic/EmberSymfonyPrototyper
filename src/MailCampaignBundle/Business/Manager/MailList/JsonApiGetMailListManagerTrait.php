@@ -28,8 +28,9 @@ trait JsonApiGetMailListManagerTrait
             ]);
 
             $lists = $this->mailChimp->get('lists', [
-                'count' => $listCount
+                'count' => $listCount['total_items']
             ]);
+
             $array = [];
 
             foreach ($lists['lists'] as $list){
