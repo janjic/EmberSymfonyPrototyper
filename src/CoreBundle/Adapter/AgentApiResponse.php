@@ -171,4 +171,14 @@ class AgentApiResponse
     {
         return array('data' => array('type'=> 'SETTINGS', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
     }
+
+    /** -------- NOTIFICATIONS -------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function NOTIFICATION_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'notifications', 'id' => $id), 'meta' => array('status'=> AgentApiCode::NOTIFICATION_EDITED_SUCCESSFULLY));
+    }
 }

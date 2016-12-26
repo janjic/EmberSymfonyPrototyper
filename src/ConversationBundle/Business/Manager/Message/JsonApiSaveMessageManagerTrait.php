@@ -106,13 +106,12 @@ trait JsonApiSaveMessageManagerTrait
             $this->saveEventResult->getThread()->setIsRead(true);
 
             // SENDING NOTIFICATION
-            $notification = NotificationManager::createNewMessageNotification();
+            $notification = NotificationManager::createNewMessageNotification($newMessage);
             $event = new NotificationEvent();
             $event->setMessage($newMessage);
             $event->addNotification($notification);
 
             $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
-            $this->eventDispatcher->dispatch("uradi.odma");
 
             return $this->serializeMessage($this->saveEventResult);
 

@@ -20,7 +20,8 @@ class Notification
     protected $id;
 
     /**
-     * @ORM\Column(name="message", type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="ConversationBundle\Entity\Message", cascade={"all"})
+     * @ORM\JoinColumn(name="message_id", referencedColumnName="id")
      */
     protected $message;
 
@@ -53,6 +54,11 @@ class Notification
      * @ORM\JoinColumn(name="agent_id", referencedColumnName="id")
      */
     protected $agent;
+
+    /**
+     * @ORM\Column(name="link", type="string", length= 70, nullable=true)
+     */
+    protected $link;
 
     /**
      * @return mixed
@@ -164,6 +170,22 @@ class Notification
     public function setNewAgent($newAgent)
     {
         $this->newAgent = $newAgent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param mixed $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
     }
 
 

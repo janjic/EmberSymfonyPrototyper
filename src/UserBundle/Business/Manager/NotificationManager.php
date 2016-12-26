@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: filip
- * Date: 21.12.16.
- * Time: 14.21
- */
 
 namespace UserBundle\Business\Manager;
 
 
+use ConversationBundle\Business\Event\Thread\ThreadReadEvent;
 use ConversationBundle\Business\Manager\MessageManager;
 use ConversationBundle\Entity\Message;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
@@ -16,6 +11,7 @@ use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Manager\Notification\JsonApiGetQueryResultNotificationManagerTrait;
 use UserBundle\Business\Manager\Notification\JsonApiSaveNotificationManagerTrait;
+use UserBundle\Business\Manager\Notification\JsonApiUpdateNotificationManagerTrait;
 use UserBundle\Business\Repository\NotificationRepository;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Notification;
@@ -33,7 +29,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     use JsonApiGetQueryResultNotificationManagerTrait;
     public function getResource($id = null){}
     public function deleteResource($id = null){}
-    public function updateResource($id = null){}
+    use JsonApiUpdateNotificationManagerTrait;
 
     /**
      * @var NotificationRepository
@@ -97,7 +93,13 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         $notification = new Notification();
         $notification->setType(NotificationType::NEW_AGENT_NOTIFICATION);
         $notification->setNewAgent($agent);
-        $notification->setMessage("New agent added");
+
+        /**
+         *  TO DO
+         *
+         *  CHECK IF HE IS ADMIN OR AGENT AND SET CORRECT LINK
+         */
+        $notification->setLink('dashboard.agents.agent-edit');
         $notification->setCreatedAt(new \DateTime());
         $notification->setAgent($superiorAgent);
 
@@ -105,15 +107,16 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     }
 
     /**
-     * @param $message
+     * @param Message $message
      * @return Notification
      */
-    public static function createNewMessageNotification()
+    public static function createNewMessageNotification($message)
     {
         $notification = new Notification();
         $notification->setType(NotificationType::NEW_MESSAGE_NOTIFICATION);
         $notification->setNewAgent(null);
-        $notification->setMessage('You got new message!');
+        $notification->setLink('dashboard.messages.received-messages');
+        $notification->setMessage($message);
         $notification->setCreatedAt(new \DateTime());
 
         return $notification;
@@ -122,14 +125,26 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     public function saveNotifications(NotificationEvent $event)
     {
         /** @var Message $message */
-        $message        = $event->getMessage();
-        $agentRecipient = $message->getParticipantsFromMeta()[0];
+        if( $message = $event->getMessage() ) {
+//            $message = $event->getMessage();
+            $user = $this->getCurrentUser();
 
-        foreach ($event->getNotifications() as $notification) {
-            $notification->setAgent($agentRecipient);
+            $agentRecipient = $message->getParticipantsFromMeta()[0]->getId() == $user->getId() ?
+                $message->getParticipantsFromMeta()[1] : $message->getParticipantsFromMeta()[0];
+
+            foreach ($event->getNotifications() as $notification) {
+                $notification->setAgent($agentRecipient);
+            }
         }
 
         $this->repository->saveNotification($event->getNotifications());
+    }
+
+    public function updateNotificationsToSeen(ThreadReadEvent $event)
+    {
+        $user = $this->getCurrentUser();
+
+        $this->repository->updateNotificationsToSeen($event->getThread(), $user);
     }
 
     /**
@@ -139,12 +154,13 @@ class NotificationManager implements JSONAPIEntityManagerInterface
      */
     public function deserializeNotification($content, $mappings = null)
     {
-        $relations = array('agent');
+        $relations = array('agent', 'newAgent');
 
         if (!$mappings) {
             $mappings = array(
                 'notification'  => array('class' => Notification::class, 'type'=>'notifications'),
-                'agent'         => array('class' => Agent::class, 'type' => 'agents')
+                'agent'         => array('class' => Agent::class, 'type' => 'agents'),
+                'newAgent'      => array('class' => Agent::class, 'type' => 'agents')
             );
         }
 
@@ -159,12 +175,13 @@ class NotificationManager implements JSONAPIEntityManagerInterface
      */
     public function serializeNotification($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('agent');
+        $relations = array('agent', 'newAgent');
 
         if (!$mappings) {
             $mappings = array(
                 'notification'  => array('class' => Notification::class, 'type'=>'notifications'),
-                'agent'         => array('class' => Agent::class, 'type' => 'agents')
+                'agent'         => array('class' => Agent::class, 'type' => 'agents'),
+                'newAgent'      => array('class' => Agent::class, 'type' => 'agents')
             );
         }
         $serialize = $this->fSerializer->serialize($content, $mappings, $relations);

@@ -15,7 +15,6 @@ trait JsonApiSaveNotificationManagerTrait
 {
     /**
      * @param string $data
-     * @return mixed
      */
     public function saveResource($data)
     {

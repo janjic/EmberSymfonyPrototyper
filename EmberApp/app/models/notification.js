@@ -1,11 +1,13 @@
 import DS from 'ember-data';
 
-const { Model, attr } = DS;
+const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
     type:            attr('string'),
     createdAt:       attr('custom-date'),
-    isSeen:          attr(),
+    isSeen:          attr('boolean'),
     message:         attr('string'),
-    agent:           DS.belongsTo('agent')
+    link:            attr('string'),
+    newAgent:        belongsTo('agent'),
+    agent:           belongsTo('agent')
 });

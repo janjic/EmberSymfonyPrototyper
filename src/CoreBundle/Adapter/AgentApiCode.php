@@ -60,4 +60,7 @@ class AgentApiCode
     /** SETTINGS */
     const SETTINGS_SAVED_SUCCESSFULLY                = 2601;
     const SETTINGS_EDITED_SUCCESSFULLY               = 2602;
+
+    /** NOTIFICATION */
+    CONST NOTIFICATION_EDITED_SUCCESSFULLY           = 2701;
 }
