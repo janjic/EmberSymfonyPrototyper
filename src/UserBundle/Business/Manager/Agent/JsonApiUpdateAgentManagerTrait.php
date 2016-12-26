@@ -62,12 +62,12 @@ trait JsonApiUpdateAgentManagerTrait
             }
 
             try {
-                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
-                if (is_object($syncResult) && $syncResult->code == 200) {
-                    $this->flushDb();
-                } else {
-                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-                }
+//                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
+//                if (is_object($syncResult) && $syncResult->code == 200) {
+                   $this->flushDb();
+//                } else {
+//                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//                }
             } catch (\Exception $exception) {
                 return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
             }
