@@ -1,18 +1,23 @@
 {{#bs-accordion-item title=(trans "admin-menu.messages.title") class="menu-messages"}}
     <ul class="table">
         <li>
+            {{#link-to 'dashboard.messages.create-message'}}
+                {{trans 'admin-menu.messages.create'}}
+            {{/link-to}}
+        </li>
+        <li>
             {{#link-to 'dashboard.messages.received-messages'}}
                 {{trans 'admin-menu.messages.received'}}
             {{/link-to}}
         </li>
         <li>
-            {{#link-to 'dashboard.messages.drafts'}}
-                {{trans 'admin-menu.messages.drafts'}}
+            {{#link-to 'dashboard.messages.sent'}}
+                {{trans 'admin-menu.messages.sent'}}
             {{/link-to}}
         </li>
         <li>
-            {{#link-to 'dashboard.messages.sent'}}
-                {{trans 'admin-menu.messages.sent'}}
+            {{#link-to 'dashboard.messages.drafts'}}
+                {{trans 'admin-menu.messages.drafts'}}
             {{/link-to}}
         </li>
         <li>

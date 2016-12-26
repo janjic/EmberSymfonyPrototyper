@@ -4,5 +4,9 @@ import InfinityRoute from "ember-infinity/mixins/route";
 export default Ember.Route.extend(InfinityRoute, {
     model() {
         return this.infinityModel("thread", { perPage: 10, startingPage: 1, type: 'sent' });
+    },
+
+    deactivate: function() {
+        this.controllerFor('dashboard.agent.messages.sent').set('selectedThread', null);
     }
 });

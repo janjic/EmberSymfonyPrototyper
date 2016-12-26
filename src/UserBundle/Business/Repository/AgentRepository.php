@@ -36,7 +36,7 @@ class AgentRepository extends NestedTreeRepository
      * @return Agent|Exception
      * @throws \Exception
      */
-    public function saveAgent($agent, $superior)
+    public function saveAgent($agent, $superior=null)
     {
         try {
             $agent ? ($agent = $this->loadUserRoles($agent)) :false;
@@ -45,7 +45,7 @@ class AgentRepository extends NestedTreeRepository
             } else {
                 $this->persistAsFirstChild($agent);
             }
-            $this->_em->flush();
+//            $this->_em->flush();
         } catch (UniqueConstraintViolationException $e) {
             return $e;
         } catch (Exception $e) {
@@ -106,12 +106,17 @@ class AgentRepository extends NestedTreeRepository
             } else {
                 $isHQEdit? $this->_em->merge($agent):$this->persistAsFirstChild($agent);
             }
-            $this->_em->flush();
+//            $this->_em->flush();
         } catch (\Exception $e) {
             return $e;
         }
 
         return $agent;
+    }
+
+    public function flushDb()
+    {
+        $this->_em->flush();
     }
 
 
@@ -407,7 +412,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
-            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount',  self::ALIAS.'.email', self::SUPERIOR_ALIAS.'.id as superior_id');
+            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount',  self::ALIAS.'.email', self::SUPERIOR_ALIAS.'.id as superior_id',
+            self::ALIAS.'.baseImageUrl');
         $qb->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
 

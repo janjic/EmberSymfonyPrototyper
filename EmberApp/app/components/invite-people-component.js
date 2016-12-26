@@ -39,7 +39,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
                     this.toast.success(Translator.trans('invitation.message.save'));
                     this._setUpFields(changeset);
                     this.send('closeModal');
-                    }, (response) => {
+                    }, () => {
                     this.toast.error(Translator.trans('invitation.message.error'));
                 });
                 this.disableLoader();

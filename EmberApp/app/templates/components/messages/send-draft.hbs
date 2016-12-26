@@ -1,0 +1,76 @@
+<section class="create-message">
+    <h1 class="main-heading">Send Draft</h1>
+    <form role="form">
+        <div class="row setup-content">
+            <div class="col-xs-12 col-lg-8">
+                <div class="input-box">
+                    <div class="form-group clearfix">
+                        <label class="control-label col-xs-12 text-right">{{trans 'general.message'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class=" col-xs-12">
+                            {{inf-select
+                            optionLabelKey='email'
+                            on-search = (perform search)
+                            on-change=(action 'agentSelected')
+                            selected = changeset.participants.[0]
+                            }}
+                            {{#if (get changeset.error 'participants')}}
+                                <ul class="error-list">
+                                    {{#each (get (get changeset.error 'participants') "validation") as |message|}}
+                                        <li>{{message}}</li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-xs-12 text-right">{{trans 'admin-messages.subject'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class=" col-xs-12">
+                            {{validated-field doNotShowLabel=true property="messageSubject" changeset=changeset type="text"
+                            validateProperty=(action 'validateProperty' changeset "messageSubject")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label  col-xs-12 text-right">{{trans 'admin-messages.content'}}
+                            <span class="required" aria-required="true"></span>
+                        </label>
+                        <div class="col-xs-12">
+                            {{validated-field doNotShowLabel=true property="body" changeset=changeset type="textarea"
+                            validateProperty=(action 'validateProperty' changeset "body")}}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label  col-xs-12 text-right">{{trans 'admin-messages.files'}}
+                            <span class="required" aria-required="true"></span>
+                        </label>
+                        <div class="col-xs-12">
+                            {{dropzone-one-file
+                            keepLocal=true
+                            addRemoveLinks=true
+                            maxFiles=1
+                            currentImage=changeset.file
+                            onRemovedFile=(action 'removedFile')
+                            onAddedFile=(action 'addedFile')
+                            }}
+                        </div>
+                    </div>
+                    <div class="form-group clearfix text-right">
+                        <div class="col-md-12">
+                            <a href="#" class="button green" {{action 'saveAsDraft'}}>Save as draft</a>
+                            <a href="#" class="button green" {{action 'sendMessage'}}>{{trans 'admin-messages.send'}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+{{#if isLoading }}
+    <<div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}

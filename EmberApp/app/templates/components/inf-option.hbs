@@ -1,11 +1,10 @@
 {{#if isSelected}}
-    <span class="Searchable-select__icon Searchable-select__icon--check
-    Searchable-select__option-indicator--selected">
+    <span class="select-icon select-icon-check selected-option">
     &#10003;
   </span>
 {{/if}}
 
-<span class="Searchable-select__option-label
-  {{if isSelected 'Searchable-select__option-label--selected'}}">
+<span class="select-option-label
+  {{if isSelected 'select-option-label-selected'}}">
     <span>{{#if optionLabelKey}} {{get option optionLabelKey}}  {{else}} {{option}}{{/if}}</span>
 </span>

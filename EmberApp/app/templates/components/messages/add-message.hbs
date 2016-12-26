@@ -2,7 +2,7 @@
     <h1 class="main-heading">{{trans 'general.create'}}</h1>
     <form role="form">
         <div class="row setup-content">
-            <div class="col-xs-12 col-lg-8">
+            <div class="col-md-6">
                 <div class="input-box">
                     <div class="form-group clearfix">
                         <label class="control-label col-xs-12 text-right">{{trans 'general.message'}}
@@ -29,7 +29,7 @@
                         </label>
                         <div class=" col-xs-12">
                             {{validated-field doNotShowLabel=true property="messageSubject" changeset=changeset type="text"
-                                              validateProperty=(action 'validateProperty' changeset "messageSubject")}}
+                                              validateProperty=(action 'validateProperty' changeset "messmyageSubject")}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -51,7 +51,20 @@
                     </div>
                     <div class="form-group clearfix text-right">
                         <div class="col-md-12">
-                            <a href="#" class="btn btn-danger" {{action 'sendMessage'}}>{{trans 'admin-messages.send'}}</a>
+                            <a href="#" class="button green" {{action 'saveAsDraft'}}>
+                                {{#if isLoading }}
+                                    {{inf-loading}}
+                                {{else}}
+                                    Save as draft
+                                {{/if}}
+                            </a>
+                            <a href="#" class="button green" {{action 'sendMessage'}}>
+                                {{#if isLoading }}
+                                    {{inf-loading}}
+                                {{else}}
+                                    {{trans 'admin-messages.send'}}
+                                {{/if}}
+                            </a>
                         </div>
                     </div>
                 </div>

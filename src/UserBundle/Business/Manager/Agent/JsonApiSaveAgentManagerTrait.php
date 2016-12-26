@@ -27,10 +27,11 @@ trait JsonApiSaveAgentManagerTrait
     {
         $agent = $this->prepareSave($data);
         if ($this->saveMedia($agent)) {
-            /** @var Agent|Exception $agent */
+            /** @var Agent|Exception|array $agent */
             $data = $this->save($agent, is_null($agent->getSuperior())? null:$this->getEntityReference($agent->getSuperior()->getId()));
-            /** @var Image|null $image */;
-            if ($data instanceof Exception) {
+
+            if ($data instanceof Exception || is_array($data)) {
+                /** @var Image|null $image */;
                 !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
                 return $this->createJsonAPiSaveResponse($data);
             } else {
@@ -81,17 +82,21 @@ trait JsonApiSaveAgentManagerTrait
      */
     private function createJsonAPiSaveResponse($data)
     {
-        switch (get_class($data)) {
-            case UniqueConstraintViolationException::class:
-                return new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST);
-            case Exception::class:
-                return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
-            case (Agent::class && ($id= $data->getId())):
-                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
-            case (Agent::class && !($id= $data->getId()) && $data->getImage()):
-                return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
-            default:
-                return false;
+        if (is_array($data)) {
+            return new ArrayCollection($data);
+        } else {
+            switch (get_class($data)) {
+                case UniqueConstraintViolationException::class:
+                    return new ArrayCollection(AgentApiResponse::AGENT_ALREADY_EXIST);
+                case Exception::class:
+                    return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
+                case (Agent::class && ($id= $data->getId())):
+                    return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
+                case (Agent::class && !($id= $data->getId()) && $data->getImage()):
+                    return new ArrayCollection(AgentApiResponse::AGENT_SAVED_FILE_FAILED_RESPONSE);
+                default:
+                    return false;
+            }
         }
     }
 

@@ -1,8 +1,8 @@
 <a href="#"
-   class="Searchable-select__label
-    {{if _isShowingMenu 'Searchable-select__label--menu-open'}}
-       {{if multiple 'Searchable-select__label--multiple'}}
-       {{if _hasMultipleSelection 'Searchable-select__label--multiple-selected'}}"
+   class="select-label
+    {{if _isShowingMenu 'select-label-menu-open'}}
+       {{if multiple 'select-label-multiple'}}
+       {{if _hasMultipleSelection 'select-label-multiple-selected'}}"
     {{action "toggleMenu"}}>
 
     {{#if _hasSingleSelection}}
@@ -12,10 +12,10 @@
 
     {{#if _hasMultipleSelection}}
         {{#each _selected as |selectedOption|}}
-            <span class="Searchable-select__selected-pill">
+            <span class="selected-pill">
                  {{#if optionLabelKey}} {{get selectedOption optionLabelKey}}  {{else}} {{selectedOption}}{{/if}}
                 <span
-                        class="Searchable-select__selected-pill-clear"
+                        class="selected-pill-clear"
                     {{action "removeOption" selectedOption bubbles=false}}>
           &times;
                 </span>
@@ -29,17 +29,17 @@
 </a>
 
 {{#if _isShowingMenu}}
-    <div class="Searchable-select__menu">
-        <div class="Searchable-select__search" {{action "noop" bubbles=false}}>
+    <div class="searchable-select-menu {{if _isSearchable 'search-enabled' 'search-disabled'}}">
+        <div class="select-search" {{action "noop" bubbles=false}}>
             {{#if _isShowingResultCount}}
-                <span class="Searchable-select__result-count-label {{if _isShowingSearchClear "Searchable-select__result-count-label__with-search-clear"}}" {{action "clickResultCountLabel"}}>{{pluralize _resultCount resultCountMessage}}</span>
+                <span class="select-result-count-label {{if _isShowingSearchClear "select-result-count-label-with-search-clear"}}" {{action "clickResultCountLabel"}}>{{pluralize _resultCount resultCountMessage}}</span>
             {{/if}}
             {{#if _isShowingSearchClear}}
-                <button class="Searchable-select__clear-search" {{action "clearSearch" bubbles=false}}>&times;</button>
+                <button class="clear-search" {{action "clearSearch" bubbles=false}}>&times;</button>
             {{/if}}
             {{#if _isSearchable}}
                 {{input
-                        class="Searchable-select__input"
+                        class="select-input form-control"
                         type="text"
                         placeholder=searchPrompt
                         key-up="updateSearch"
@@ -50,11 +50,11 @@
         </div>
 
         {{#if _isShowingClear}}
-            <div class="Searchable-select__clear"
+            <div class="select-clear"
                  tabindex=-1
                  data-enter-key-action="clear"
                 {{action "clear" bubbles=false}}>
-        <span class="Searchable-select__icon Searchable-select__icon--clear">
+        <span class="select-icon select-icon-clear">
           &times;
         </span>
                 {{clearLabel}}
@@ -62,7 +62,7 @@
         {{/if}}
 
         {{#if _isShowingAddNew}}
-            <div class="Searchable-select__add-new"
+            <div class="select-add-new"
                  tabindex=-1
                  data-enter-key-action="addNew"
                 {{action "addNew" bubbles=false}}>
@@ -71,26 +71,27 @@
         {{/if}}
 
         {{#if _isShowingNoResultsMessage}}
-            <div class="Searchable-select__info">
+            <div class="select-info">
                 {{noResultsMessage}}
             </div>
         {{/if}}
 
         {{#if _isLoading}}
-            <div class="Searchable-select__info">
+            <div class="select-info">
                 {{inf-loading}}
-                <span class="Searchable-select__loader-text">
+                <span class="select-loader-text">
                     {{loadingMessage}}
                 </span>
             </div>
         {{/if}}
 
-        <div class="Searchable-select__options-list-scroll-wrapper">
+        <div class="select-list-scroll-wrapper">
             {{#if _hasResults}}
-                <ul class="Searchable-select__options-list">
+                <ul class="select-options-list">
                     {{#each _filteredContent as |option|}}
                         {{inf-option
                                 option=option
+                                class="select-option"
                                 selected=_selected
                                 searchText=_searchText
                                 optionLabelKey=optionLabelKey
@@ -100,17 +101,17 @@
                     {{#unless _isLoading}}
                         {{#if _hasMeta}}
                             {{#if _hasMore}}
-                                <li class="Searchable-select__options-list__has-more-item">
+                                <li class="option-list-more-items">
                                     {{#if isLoadingMore}}
                                         {{inf-loading}}
-                                        <span class="Searchable-select__loading-more-label text-muted">{{loadingMoreMessage}}</span>
+                                        <span class="select-loading-more-label text-muted">{{loadingMoreMessage}}</span>
                                     {{else}}
-                                        <span class="Searchable-select__more-label text-muted" {{action "searchMore" bubbles=false}}>{{moreMessage}}</span>
+                                        <span class="select-more-label text-muted" {{action "searchMore" bubbles=false}}>{{moreMessage}}</span>
                                     {{/if}}
                                 </li>
                             {{/if}}
                             {{#if _hasNoMore}}
-                                <li><span class="Searchable-select__no-more-label text-muted">{{noMoreMessage}}</span></li>
+                                <li><span class="select-no-more-label text-muted">{{noMoreMessage}}</span></li>
                             {{/if}}
                         {{/if}}
                     {{/unless}}

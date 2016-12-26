@@ -1,0 +1,55 @@
+<h1 class="main-heading">Add new mail list</h1>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Mail list name</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="name" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "name")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Mail list from name</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="fromName" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "fromName")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Mail list from email</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="fromAddress" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "fromAddress")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Note</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="permission_reminder" changeset=changeset type="textarea"
+                                  validateProperty=(action 'validateProperty' changeset "permission_reminder")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose email addresses
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{inf-select
+                        content = model.subscribers
+                        optionLabelKey='email'
+                        on-search = (perform search)
+                        on-add = (action 'agentAdded')
+                        on-remove = (action 'agentRemoved')
+                        on-change= (action 'agentSelected')
+                        multiple = true
+                        selected = additionalMails
+                }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-6">
+                <a href="#" class="pull-right btn btn-success" {{action 'saveMailList' changeset}}>Save</a>
+            </div>
+        </div>
+    </div>
+</div>

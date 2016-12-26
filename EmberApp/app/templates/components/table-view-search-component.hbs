@@ -1,20 +1,35 @@
-<div class="table-input">
-    {{#if isSelect}}
-        <div class="sorting">
-            <i class="fa {{sortClass}}" {{action 'sort'}}></i>
+{{#if isSelect}}
+    {{# if (or isSortable isSearchable)}}
+        <div class="table-input">
+            {{#if isSortable}}
+                <div class="sorting">
+                    <i class="fa {{sortClass}}" {{action 'sort'}}></i>
+                </div>
+            {{/if}}
+            {{#if isSearchable}}
+                <select class="form-control" {{action 'handleFilterEntry' on='change'}}>
+                    <option value="-1" disabled selected>Select</option>
+                    {{#each compareValues as |compareValue|}}
+                        <option value="{{compareValue.value}}">{{compareValue.name}}</option>
+                    {{/each}}
+                </select>
+                <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
+            {{/if}}
         </div>
-        <select class="form-control" {{action 'handleFilterEntry' on='change'}}>
-            <option value="-1" disabled selected>Select</option>
-            {{#each compareValues as |compareValue|}}
-                <option value="{{compareValue.value}}">{{compareValue.name}}</option>
-            {{/each}}
-        </select>
-        <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
-    {{else}}
-        <div class="sorting">
-            <i class="fa {{sortClass}}" {{action 'sort'}}></i>
-        </div>
-        {{input class="form-control" value=searchValue key-up=(action 'handleFilterEntry')}}
-        <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
     {{/if}}
-</div>
+{{else}}
+    {{# if (or isSortable isSearchable)}}
+        <div class="table-input">
+            {{#if isSortable}}
+                <div class="sorting">
+                    <i class="fa {{sortClass}}" {{action 'sort'}}></i>
+                </div>
+            {{/if}}
+            {{#if isSearchable}}
+                {{input class="form-control" value=searchValue key-up=(action 'handleFilterEntry')}}
+                <a {{action 'removeSearch'}}><i class="fa fa-times" aria-hidden="true"></i></a>
+            {{/if}}
+        </div>
+    {{/if}}
+{{/if}}
+

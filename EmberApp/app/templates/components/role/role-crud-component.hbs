@@ -1,6 +1,7 @@
 <h1 class="main-heading">{{trans 'manage-roles.role-management'}}</h1>
 <div class="dd nestable col-md-6" id="nestable3">
     <div class="input-box">
+        <h3 class="sub-heading">Roles</h3>
         {{#if needRefresh }}
             {{ role/role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
         {{else}}
@@ -15,7 +16,7 @@
     <div class="input-box">
         {{#if currentEditing}}
             <form class="">
-                <h1 class="main-heading">{{trans 'button.edit'}}</h1>
+                <h3 class="sub-heading">{{trans 'button.edit'}}</h3>
                 <div class="form-group">
                     <label for="editName">{{trans 'manage-roles.name'}}</label>
                     <div class="input-group">
@@ -30,12 +31,12 @@
                         {{#if currentEditing.role}}<span class="glyphicon glyphicon-ok input-group-addon"></span>{{/if}}
                     </div>
                 </div>
-                <button class="btn btn-info" disabled={{editButtonDisabled}} {{action 'editRole'}}>{{trans 'button.edit'}}</button>
-                <button class="btn btn-info" {{action 'cancelEdit'}}>{{trans 'button.cancel'}}</button>
+                <button class="button green" disabled={{editButtonDisabled}} {{action 'editRole'}}>{{trans 'button.edit'}}</button>
+                <button class="button red" {{action 'cancelEdit'}}>{{trans 'button.cancel'}}</button>
             </form>
         {{else}}
             <form class="">
-                <h1 class="main-heading">{{trans 'manage-roles.add-new'}}</h1>
+                <h3 class="sub-heading">{{trans 'manage-roles.add-new'}}</h3>
                 <div class="form-group">
                     <label for="addInputName">{{trans 'manage-roles.name'}}</label>
                     <div class="input-group">
@@ -51,7 +52,7 @@
                     </div>
 
                 </div>
-                <button class="btn btn-info" disabled={{addButtonDisabled}} {{action 'addRole'}}>{{trans 'button.add'}}</button>
+                <button class="button green" disabled={{addButtonDisabled}} {{action 'addRole'}}>{{trans 'button.add'}}</button>
             </form>
         {{/if}}
     </div>

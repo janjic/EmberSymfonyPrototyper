@@ -1,0 +1,73 @@
+<h1 class="main-heading">Replicate mass mail campaign</h1>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Subject</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="subject_line" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "subject_line")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">From name</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="from_name" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "from_name")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Replay to:</label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{validated-field doNotShowLabel=true property="reply_to" changeset=changeset type="text"
+                                  validateProperty=(action 'validateProperty' changeset "reply_to")}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose mail list
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{inf-select
+                        optionLabelKey="name"
+                        searchable=true
+                        content=lists
+                        selected = changeset.mailList
+                        on-change=(action 'changeList')
+                }}
+                {{#if (get changeset.error 'mailList')}}
+                    <ul class="error-list">
+                        {{#each (get (get changeset.error 'mailList') "validation") as |message|}}
+                            <li>{{message}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose mail tempalte
+                <span class="required" aria-required="true"> * </span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                {{inf-select
+                        optionLabelKey="name"
+                        searchable=true
+                        content=templates
+                        selected = changeset.template
+                        on-change=(action 'changeTemplate')
+                }}
+                {{#if (get changeset.error 'template')}}
+                    <ul class="error-list">
+                        {{#each (get (get changeset.error 'template') "validation") as |message|}}
+                            <li>{{message}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <a href="#" class="pull-right btn btn-success" {{action 'save'}}>Save</a>
+            </div>
+        </div>
+    </div>
+</div>

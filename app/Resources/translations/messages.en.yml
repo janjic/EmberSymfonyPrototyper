@@ -36,6 +36,7 @@ button:
   delete: 'Delete'
   add: 'Add'
   view-all: 'View all'
+  send-mail: 'Send mail'
 
 validation:
   email:
@@ -72,6 +73,7 @@ admin-menu:
     new.campaign: 'Add new mass mail campaign'
     all.campaigns: 'All mass mail campaings'
   messages:
+    create: 'Create Message'
     title: 'Messages'
     received: 'Received messages'
     drafts: 'Drafts'
@@ -109,6 +111,7 @@ agent-menu:
     title: 'My profile'
     settings: 'My profile settings'
   messages:
+    create: 'Create Message'
     title: 'Messages'
     received: 'Received messages'
     drafts: 'Drafts'
@@ -255,6 +258,7 @@ validations:
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
 
+
 # ADMIN - MESSAGES
 admin-messages:
   subject: 'Subject'
@@ -265,6 +269,7 @@ admin-messages:
   deleted.listing: 'Deleted Messages'
   sent.listing: 'Sent Messages'
   received.listing: 'Received Messages'
+  drafts.listing: 'Draft Messages'
   no-messages: 'You have no messages'
   new-messages: 'You have new messages'
   enter: 'Enter your message'
@@ -311,6 +316,10 @@ models:
     delete: 'Message moved to trash'
     undo: 'Message removed from trash'
     unsupported.file.type: 'Current file type is not supported!'
+  mailList:
+    save: 'Mail list saved!'
+  campaign:
+    save: 'Mail campaign saved!'
 
 #SETTINGS
 

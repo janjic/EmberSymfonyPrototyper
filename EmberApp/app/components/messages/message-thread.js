@@ -9,6 +9,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     /** ids used for pagination */
     _minId: undefined,
     _maxId: undefined,
+    first: false,
 
     /** id of scroll container - used in inverse load mixin */
     scrollContainer: '#messages-list',
@@ -20,6 +21,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     messages: [],
     sortProperties: ['createdAt:asc'],
     messagesInverse: Ember.computed.sort('messages', 'sortProperties'),
+
 
     /** create new message attributes */
     messageBody: '',
@@ -34,16 +36,9 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     fileTemp: null,
     newMessagesDisplayToggle: false,
 
-    threadChange: Ember.observer('thread', function () {
-        this._initialLoad();
-        this._resetInverseLoadParams();
-        this.set('_minId', undefined);
-    }),
-
-    didInsertElement(){
-        this._super(...arguments);
-        this._initialLoad();
-    },
+    threadChange: Ember.on('init',Ember.observer('thread', function () {
+        this.get('getNewMessages').perform();
+    })),
 
     actions:{
         /** create message and file if it is present and save it */
@@ -142,40 +137,39 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
         });
     },
 
-    /**
-     * Load messages using infinity loader
-     * @private
-     */
-    _initialLoad() {
-        this.set('messages', null);
-        this.showLoader();
-        this.set('_modelPath', 'messages');
-        this.infinityModel("message", { perPage: 10, thread: this.get('thread.id') }, {
-            min_id: '_minId',
-        }).then((messages) => {
-            this.set('messages', messages.toArray());
-            this.set('_maxId', messages.get('firstObject.id'));
-            this.disableLoader();
-        }, () => {
-            this.set('messages', []);
-            this.disableLoader();
-        });
-    },
-
     getNewMessages: task(function * () {
+        this.showLoader();
+
+        this.set('messages', []);
+        this._resetInverseLoadParams();
+        this.set('_minId', undefined);
+        this.set('_maxId', undefined);
+        this.set('_modelPath', 'messages');
+
+        let messages = yield this.infinityModel("message", { perPage: 10, thread: this.get('thread.id') }, {
+          min_id: '_minId',
+        }).finally(() => {
+          this.disableLoader();
+        });
+        this.set('messages', messages.toArray());
+        this.set('_maxId', messages.get('firstObject.id'));
+
         while (true) {
             yield timeout(10000);
-            this.get('store').query('message', {per_page: 10, thread: this.get('thread.id'), max_id: this.get('_maxId')})
-                .then((messages) => {
-                    if(messages.toArray().length && this.get('messages')){
-                        this.get('messages').pushObjects(messages.toArray());
-                        this.set('_maxId', messages.get('firstObject.id'));
-                        this.set('newMessagesDisplayToggle',true);
-                    }
-                });
+            let messages = yield this.get('store').query('message', {per_page: 10, thread: this.get('thread.id'), max_id: this.get('_maxId')});
+            if(messages.toArray().length){
+                this.get('messages').pushObjects(this.filterOutMyMessages(messages));
+                this.set('_maxId', messages.get('firstObject.id'));
+                this.set('newMessagesDisplayToggle',true);
+            }
         }
-    }).on('init'),
+    }).restartable(),
 
+    filterOutMyMessages(messages) {
+      return messages.filter((item) => {
+        return item.get('sender.id') !== this.get('currentUser.user.id');
+      }).toArray();
+    },
 
     /** hide messages when div is scrolled to bottom */
     hideNewMessagesDisplay() {

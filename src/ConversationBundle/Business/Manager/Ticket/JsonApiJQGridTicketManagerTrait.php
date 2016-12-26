@@ -33,7 +33,7 @@ trait JsonApiJQGridTicketManagerTrait
             'type'      => 'ticket.type',
             'status'    => 'ticket.status',
             'createdAt' => 'ticket.createdAt',
-            'author'    => 'createdBy.username',
+            'createdBy' => 'createdBy.username',
         );
 
         $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));

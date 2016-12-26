@@ -77,9 +77,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         $activeGroup->addRole($activeRole);
         $refereeGroup->addRole($refereeRole);
 
-        /**
-         * SETTINGS + COMMISSIONS AND BONUSES
-         */
+        /** @var Settings $settings */
         $settings = new Settings();
         $settings->setConfirmationMail('email@provider.com')
             ->setPayPal('www.paypal.com')
@@ -89,6 +87,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setGPlusLink('www.google.com');
 
         $commissionReferral = new Commission();
+        $commissionReferral->setName($refereeGroup->getName());
         $commissionReferral->setSettings($settings)
             ->setGroup($refereeGroup)
             ->setSetupFee(4)
@@ -97,6 +96,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setStream(0);
 
         $commissionActiveAgent = new Commission();
+        $commissionActiveAgent->setName($activeGroup->getName());
         $commissionActiveAgent->setSettings($settings)
             ->setGroup($activeGroup)
             ->setSetupFee(5)
@@ -104,10 +104,11 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setConnect(0)
             ->setStream(6);
 
-        $settings->addCommision($commissionReferral);
-        $settings->addCommision($commissionActiveAgent);
+        $settings->addCommission($commissionReferral);
+        $settings->addCommission($commissionActiveAgent);
 
         $bonusReferral = new Bonus();
+        $bonusReferral ->setName($refereeGroup->getName());
         $bonusReferral->setSettings($settings)
             ->setGroup($refereeGroup)
             ->setAmountCHF(200)
@@ -116,6 +117,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setPeriod(3);
 
         $bonusActiveAgent = new Bonus();
+        $bonusActiveAgent ->setName($activeGroup->getName());
         $bonusActiveAgent->setSettings($settings)
             ->setGroup($activeGroup)
             ->setAmountCHF(300)

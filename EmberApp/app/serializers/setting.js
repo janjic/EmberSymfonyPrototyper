@@ -17,18 +17,18 @@ export default DS.JSONAPISerializer.extend({
      @param {Object} relationship
      */
     serializeHasMany(snapshot, json, relationship) {
-        var key = relationship.key;
-        var shouldSerializeHasMany = '_shouldSerializeHasMany';
+        let key = relationship.key;
+        let shouldSerializeHasMany = '_shouldSerializeHasMany';
         if (isEnabled("ds-check-should-serialize-relationships")) {
             shouldSerializeHasMany = 'shouldSerializeHasMany';
         }
 
-        var hasMany = snapshot.hasMany(key);
+        let hasMany = snapshot.hasMany(key);
         if (hasMany !== undefined) {
 
             json.relationships = json.relationships || {};
 
-            var payloadKey = this._getMappedKey(key, snapshot.type);
+            let payloadKey = this._getMappedKey(key, snapshot.type);
             if (payloadKey === key && this.keyForRelationship) {
                 payloadKey = this.keyForRelationship(key, 'hasMany', 'serialize');
             }
@@ -45,11 +45,6 @@ export default DS.JSONAPISerializer.extend({
                     let deprecatedPayloadTypeLookup = this.payloadKeyFromModelName(item.modelName);
 
                     if (payloadType !== deprecatedPayloadTypeLookup && this._hasCustomPayloadKeyFromModelName()) {
-                        deprecate("You used payloadKeyFromModelName to serialize type for belongs-to relationship. Use payloadTypeFromModelName instead.", false, {
-                            id: 'ds.json-api-serializer.deprecated-payload-type-for-has-many',
-                            until: '3.0.0'
-                        });
-
                         payloadType = deprecatedPayloadTypeLookup;
                     }
                 } else {
@@ -74,20 +69,20 @@ export default DS.JSONAPISerializer.extend({
      @param {Object} relationship
      */
     serializeBelongsTo(snapshot, json, relationship) {
-        var key = relationship.key;
+        let key = relationship.key;
 
         if (this._canSerialize(key)) {
-            var belongsTo = snapshot.belongsTo(key);
+            let belongsTo = snapshot.belongsTo(key);
             if (belongsTo !== undefined) {
 
                 json.relationships = json.relationships || {};
 
-                var payloadKey = this._getMappedKey(key, snapshot.type);
+                let payloadKey = this._getMappedKey(key, snapshot.type);
                 if (payloadKey === key) {
                     payloadKey = this.keyForRelationship(key, 'belongsTo', 'serialize');
                 }
 
-                var data = null;
+                let data = null;
                 if (belongsTo) {
                     let payloadType;
 
@@ -103,10 +98,10 @@ export default DS.JSONAPISerializer.extend({
                         payloadType = this.payloadKeyFromModelName(belongsTo.modelName);
                     }
 
-                    var belongsToAttrs = belongsTo.attributes();
-                    var belongsData = {};
+                    let belongsToAttrs = belongsTo.attributes();
+                    let belongsData = {};
 
-                    for (var attr in belongsToAttrs) {
+                    for (let attr in belongsToAttrs) {
                         if (belongsToAttrs.hasOwnProperty(attr)) {
                             belongsData[attr] = belongsToAttrs[attr];
                         }

@@ -19,6 +19,7 @@ class AgentApiResponse
 
     const AGENT_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::AGENT_ALREADY_EXIST)));
     const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('errors' => array(array('status'=> AgentApiCode::FILE_SAVING_ERROR)));
+    const AGENT_SYNC_ERROR_RESPONSE             = array('errors' => array(array('status'=> AgentApiCode::AGENT_SYNC_ERROR)));
 
     const ROLE_DELETED_SUCCESSFULLY             = array('meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
     const ROLE_ALREADY_EXIST                    = array('errors' => array(array('status'=> AgentApiCode::ROLE_ALREADY_EXIST)));
@@ -34,6 +35,7 @@ class AgentApiResponse
 
 
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
+    const MESSAGES_DRAFT_ERROR                  = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_DRAFT_ERROR)));
 
     /**
      * @param $ttl
@@ -140,6 +142,24 @@ class AgentApiResponse
     public static function THREAD_EDITED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'threads', 'id' => $id), 'meta' => array('status'=> AgentApiCode::THREAD_EDITED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function MAIL_LIST_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'mailLists', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_LIST_SAVED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function MAIL_CAMPAIGN_SAVED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'mail-campaigns', 'id' => $id), 'meta' => array('status'=> AgentApiCode::MAIL_CAMPAIGN_SAVED_SUCCESSFULLY));
     }
 
 

@@ -7,17 +7,17 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-    this.route('login', function() {
-        this.route('forgot');
-        this.route('new-password', { path: '/new-password/:token' });
-    });
-    this.route('protected');
-    this.route('auth-error');
-    this.route('about');
-    this.route('simple');
-    this.route('user-profile');
+  this.route('login', function() {
+      this.route('forgot');
+      this.route('new-password', { path: '/new-password/:token' });
+  });
+  this.route('protected');
+  this.route('auth-error');
+  this.route('about');
+  this.route('simple');
+  this.route('user-profile');
 
-    this.route('dashboard', function() {
+  this.route('dashboard', function() {
       this.route('home');
       this.route('profile-settings');
       this.route('settings', function() {
@@ -44,8 +44,8 @@ Router.map(function() {
           this.route('all-mail-lists');
           this.route('add-new-campaign');
           this.route('all-campaigns');
-          this.route('edit-mail-list');
-          this.route('edit-campaign');
+          this.route('edit-mail-list', {path: '/mail-list-edit/:id'});
+          this.route('edit-campaign', {path: '/replicate-campaign/:id'});
       });
 
 
@@ -107,9 +107,9 @@ Router.map(function() {
 
       this.route('genealogy-tree');
       this.route('notifications-all');
-    });
+  });
 
-    this.route('files');
+  this.route('files');
 });
 
 export default Router;

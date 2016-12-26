@@ -75,6 +75,13 @@
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
                             {{title-select model=changeset on-title-changed=(action 'titleChanged')}}
+                            {{#if (get changeset.error 'title')}}
+                                <ul class="error-list">
+                                    {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                        <li>{{message}}</li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="form-group clearfix">
@@ -198,7 +205,7 @@
                         </div>
                     </div>
                     {{#if isProfileView}}
-                            {{agent/notification-setting}}
+                        {{agent/notification-setting}}
                     {{/if}}
                 </div>
             </div>
@@ -317,11 +324,10 @@
                         </div>
                     </div>
                 </div>
-                {{#if isProfileView}}
+
                     <div class="input-box agent-tree">
                         {{agent/tree-info agent=changeset}}
                     </div>
-                {{/if}}
             </div>
         </div>
         <div class="form-group clearfix">

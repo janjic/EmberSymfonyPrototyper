@@ -1,11 +1,10 @@
 import Ember from 'ember';
+const { ApiCode, Translator } = window;
 import LoadingStateMixin from '../../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
-import MessageValidations from '../../validations/message-new';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
-
-const { ApiCode, Translator } = window;
+import MessageValidations from './../../validations/message-new';
 
 export default Ember.Component.extend(LoadingStateMixin, {
     MessageValidations,
@@ -24,10 +23,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
     actions: {
         sendMessage() {
+            this.set('model.isDraft', false);
+            this.send('processSave');
+        },
+
+        saveAsDraft() {
+            this.set('model.isDraft', true);
+            this.send('processSave');
+        },
+
+        processSave() {
             if (this.get('changeset').validate() && this.get('changeset').get('isValid')) {
                 this.showLoader();
-
                 let message = this.get('model');
+                let shouldTransition = !message.get('isDraft');
                 if (this.get('fileTemp')) {
                     let fileObj = this.get('createFileAction')(this.get('fileTemp'));
                     message.set('file', fileObj);
@@ -36,24 +45,14 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 message.save().then(() => {
                     this.toast.success('models.message.save');
                     this.disableLoader();
-                    this.get('transitionToInbox')();
+                    if(shouldTransition) {
+                        this.get('transitionToInbox')();
+                    }
                 }, (response) => {
                     this.processErrors(response.errors);
                     this.disableLoader();
                 });
             }
-        },
-
-        addedFile (file) {
-            let reader = new FileReader();
-            this.set('fileTemp', {name: file.name});
-            reader.onloadend = () => {
-                this.set('fileTemp.base64Content', reader.result);
-            };
-            reader.readAsDataURL(file);
-        },
-        removedFile() {
-            this.set('fileTemp', null);
         },
 
         agentSelected(agent){
@@ -69,6 +68,18 @@ export default Ember.Component.extend(LoadingStateMixin, {
         validateProperty(changeset, property) {
             return changeset.validate(property);
         },
+
+        addedFile (file) {
+            let reader = new FileReader();
+            this.set('fileTemp', {name: file.name});
+            reader.onloadend = () => {
+                this.set('fileTemp.base64Content', reader.result);
+            };
+            reader.readAsDataURL(file);
+        },
+        removedFile() {
+            this.set('fileTemp', null);
+        }
     },
 
     processErrors(errors) {

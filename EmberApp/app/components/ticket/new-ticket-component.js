@@ -25,12 +25,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
             ticket.set('type', this.ticketType);
             let changeset = this.get('changeset');
             changeset.validate();
-            console.log(ticket.get('file.name'));
             if(changeset.get('isValid')) {
                 this.showLoader('loading.sending.data');
                 ticket.save().then(() => {
                     this.toast.success(Translator.trans('models.ticket.save.message'));
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.agent.tickets.created-tickets');
 
                 }, (response) => {
                     response.errors.forEach((error)=>{

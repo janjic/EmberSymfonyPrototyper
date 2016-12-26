@@ -10,15 +10,16 @@
                 <th>{{trans colName}}</th>
             {{/each}}
         </tr>
-        <tr>
-            {{#each colModels as |colName|}}
-                {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=handleFilterEntry}}
-            {{/each}}
-            {{#if (or viewLink editLink)}}
-                <td></td>
-            {{/if}}
-        </tr>
-
+        {{#if showSearchSortBar}}
+            <tr>
+                {{#each colModels as |colName|}}
+                    {{table-view-search-component column=colName.value compareType=colName.compare compareValues=colName.compareValues sortType=sortType sortColumn=sortColumn filter=handleFilterEntry searchable = colName.searchable sortable = colName.sortable}}
+                {{/each}}
+                {{#if (or viewLink editLink)}}
+                    <td></td>
+                {{/if}}
+            </tr>
+        {{/if}}
         {{#each model as |m|}}
             <tr>
                 {{#each colModels as |colModel|}}
