@@ -61,16 +61,16 @@ trait JsonApiUpdateAgentManagerTrait
                 $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
             }
 
-            try {
-                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
-                if (is_object($syncResult) && $syncResult->code == 200) {
+//            try {
+//                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
+//                if (is_object($syncResult) && $syncResult->code == 200) {
                     $this->flushDb();
-                } else {
-                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-                }
-            } catch (\Exception $exception) {
-                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-            }
+//                } else {
+//                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//                }
+//            } catch (\Exception $exception) {
+//                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//            }
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);
@@ -97,6 +97,7 @@ trait JsonApiUpdateAgentManagerTrait
     {
         switch (get_class($data)) {
             case Exception::class:
+                var_dump($data->getMessage());die();
                 return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
             case (Agent::class && ($id= $data->getId())):
                 return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));
