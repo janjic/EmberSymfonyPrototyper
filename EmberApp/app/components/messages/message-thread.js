@@ -138,21 +138,38 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
     },
 
     getNewMessages: task(function * () {
+        this.showLoader();
+
         this.set('messages', []);
         this._resetInverseLoadParams();
         this.set('_minId', undefined);
         this.set('_maxId', undefined);
+        this.set('_modelPath', 'messages');
+
+        let messages = yield this.infinityModel("message", { perPage: 10, thread: this.get('thread.id') }, {
+          min_id: '_minId',
+        }).finally(() => {
+          this.disableLoader();
+        });
+        this.set('messages', messages.toArray());
+        this.set('_maxId', messages.get('firstObject.id'));
+
         while (true) {
+            yield timeout(10000);
             let messages = yield this.get('store').query('message', {per_page: 10, thread: this.get('thread.id'), max_id: this.get('_maxId')});
             if(messages.toArray().length){
-                this.get('messages').pushObjects(messages.toArray());
+                this.get('messages').pushObjects(this.filterOutMyMessages(messages));
                 this.set('_maxId', messages.get('firstObject.id'));
                 this.set('newMessagesDisplayToggle',true);
             }
-            yield timeout(10000);
         }
     }).restartable(),
 
+    filterOutMyMessages(messages) {
+      return messages.filter((item) => {
+        return item.get('sender.id') !== this.get('currentUser.user.id');
+      }).toArray();
+    },
 
     /** hide messages when div is scrolled to bottom */
     hideNewMessagesDisplay() {

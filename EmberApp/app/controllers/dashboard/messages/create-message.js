@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import PermissionCheckerMixin from './../../../mixins/permission-checker';
 
-export default Ember.Controller.extend(PermissionCheckerMixin, {
+export default Ember.Controller.extend({
     actions: {
         search (page, text, perPage) {
             return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
@@ -12,11 +11,7 @@ export default Ember.Controller.extend(PermissionCheckerMixin, {
         },
 
         transitionToInbox() {
-            if (this.get('currentUser.user.roles').includes('ROLE_SUPER_ADMIN')) {
-                this.transitionToRoute('dashboard.messages.sent');
-            } else {
-                this.transitionToRoute('dashboard.agent.messages.sent');
-            }
+            this.transitionToRoute('dashboard.messages.sent');
         }
     }
 });
