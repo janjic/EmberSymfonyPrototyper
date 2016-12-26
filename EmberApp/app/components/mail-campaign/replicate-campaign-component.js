@@ -1,14 +1,16 @@
 import Ember from 'ember';
-import LoadingStateMixin from '../../mixins/loading-state';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
 import MailCampaignValidations from '../../validations/mail-list/mail-campaign';
+import LoadingStateMixin from '../../mixins/loading-state';
 const {ApiCode, Translator} = window;
+
 
 export default Ember.Component.extend(LoadingStateMixin, {
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailCampaignValidations), MailCampaignValidations);
+        console.log(this.get('changeset'));
     },
     actions: {
         changeList(list){
@@ -41,6 +43,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
         },
         validateProperty(changeset, property) {
+            console.log(this.get('changeset'));
             return changeset.validate(property);
         },
     },

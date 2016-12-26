@@ -18,7 +18,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
     init() {
         this._super(...arguments);
-        this.changeset = new Changeset(this.get('model'), lookupValidator(MessageValidations), MessageValidations);
+        this.set('changeset', new Changeset(this.get('thread.messages.firstObject'), lookupValidator(MessageValidations), MessageValidations));
+        this.set('changeset.messageSubject', this.get('thread.subject'));
+        this.set('changeset.participants', [this.get('thread.otherParticipant')]);
     },
 
     actions: {
@@ -35,7 +37,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         processSave() {
             if (this.get('changeset').validate() && this.get('changeset').get('isValid')) {
                 this.showLoader();
-                let message = this.get('model');
+                let message = this.get('changeset');
                 let shouldTransition = !message.get('isDraft');
                 if (this.get('fileTemp')) {
                     let fileObj = this.get('createFileAction')(this.get('fileTemp'));
@@ -70,15 +72,19 @@ export default Ember.Component.extend(LoadingStateMixin, {
         },
 
         addedFile (file) {
-            let reader = new FileReader();
-            this.set('fileTemp', {name: file.name});
-            reader.onloadend = () => {
-                this.set('fileTemp.base64Content', reader.result);
-            };
-            reader.readAsDataURL(file);
+            if (!file.url) {
+                let reader = new FileReader();
+                this.set('fileTemp', {name: file.name});
+                reader.onloadend = () => {
+                    this.set('fileTemp.base64Content', reader.result);
+                    this.set('changeset.file', null);
+                };
+                reader.readAsDataURL(file);
+            }
         },
         removedFile() {
             this.set('fileTemp', null);
+            this.set('changeset.file', null);
         }
     },
 

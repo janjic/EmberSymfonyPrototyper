@@ -7,6 +7,6 @@ export default Ember.Route.extend({
         let templates =this.store.findAll('mail-template');
         return {
             lists,campaign, templates
-        }
+        };
     }
 });

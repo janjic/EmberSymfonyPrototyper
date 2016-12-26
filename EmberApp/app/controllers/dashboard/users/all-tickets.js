@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
                 return value.split('.')[0];
             }},
             {value: 'createdBy', compare:'cn', formatter: function (value) {
-                return value.get('fullName');
+                return value.get('username');
             }},
         ];
     }),

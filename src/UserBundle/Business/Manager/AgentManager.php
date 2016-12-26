@@ -2,6 +2,7 @@
 
 namespace UserBundle\Business\Manager;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use CoreBundle\Business\Manager\TCRSyncManager;
@@ -86,7 +87,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     /**
      * @param Agent $agent
      * @param Agent $superior
-     * @return Agent
+     * @return Agent|Exception|array
      */
     public function save(Agent $agent, Agent $superior)
     {
@@ -95,9 +96,18 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         if ($agent instanceof Exception) {
             return $agent;
         } else {
-            //TODO: CHECK SYNC
-            //$this->syncWithTCRPortal($agent, 'add');
+            try {
+                $syncResult = $this->syncWithTCRPortal($agent, 'add');
+                if (is_object($syncResult) && $syncResult->code == 200) {
+                    $this->flushDb();
+                } else {
+                    return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+                }
+            } catch (\Exception $exception) {
+                return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+            }
         }
+
         return $agent;
     }
 
@@ -121,6 +131,12 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->edit($agent, $dbSuperior, $newSuperior);
     }
 
+    /**
+     * Flush the db
+     */
+    public function flushDb(){
+        $this->repository->flushDb();
+    }
 
 
     /**
@@ -169,6 +185,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     /**
      * @param $agent
      * @param $action
+     * @return mixed
      */
     public function syncWithTCRPortal($agent, $action)
     {
@@ -180,7 +197,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
         $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
 
-        $this->sendDataToTCR($url, $agentJson);
+        return $this->sendDataToTCR($url, $agentJson);
     }
     /**
      * @param Agent $agent

@@ -41,9 +41,38 @@ trait JsonApiThreadSerializationTrait
      * @param $content
      * @param array $metaTags
      * @param null $mappings
+     * @param null $relations
      * @return mixed
      */
-    public function serializeThread($content, $metaTags = [], $mappings = null)
+    public function serializeThread($content, $metaTags = [], $mappings = null, $relations = null)
+    {
+        if (!$relations) {
+            $relations = array('createdBy', 'participants');
+        }
+        if (!$mappings) {
+            $mappings = array(
+                'thread'       => array('class' => Thread::class, 'type'=>'threads'),
+                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class),
+                'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
+            );
+        }
+
+        $serialize = $this->fSerializer->setDeserializationClass(Thread::class)->serialize($content, $mappings, $relations);
+
+        foreach ($metaTags as $key=>$meta) {
+            $serialize->addMeta($key, $meta);
+        }
+
+        return $serialize->toArray();
+    }
+
+    /**
+     * @param $content
+     * @param array $metaTags
+     * @param null $mappings
+     * @return mixed
+     */
+    public function serializeThreadWithMessages($content, $metaTags = [], $mappings = null)
     {
         $relations = array('createdBy', 'participants');
         if (!$mappings) {

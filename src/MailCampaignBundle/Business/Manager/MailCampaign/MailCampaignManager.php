@@ -77,7 +77,8 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
             if($this->mailChimp->success()) {
                 $this->mailChimp->post('campaigns/'.$campaign['id'].'/actions/send');
                 if($this->mailChimp->success()) {
-                   return $mailCampaign;
+
+                   return $campaign;
                 } else {
                     return new Exception($this->mailChimp->getLastError());
                 }
@@ -173,18 +174,28 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     public function serializeCampaignsArray($campaigns)
     {
-        $array = [];
-        foreach ($campaigns as $campaign){
+        if(!array_key_exists('id', $campaigns)){
+            $array = [];
+            foreach ($campaigns as $campaign){
 
+                $item = [];
+                $item['id'] = $campaign['id'];
+                $item['subject_line'] = $campaign['settings']['subject_line'];
+                $item['reply_to'] = $campaign['settings']['reply_to'];
+                $item['from_name'] = $campaign['settings']['from_name'];
+
+                $array[] = array('attributes' =>$item, 'id' => $campaign['id'], 'type' => 'mail-campaigns');
+            }
+
+            return $array;
+        } else {
             $item = [];
-            $item['id'] = $campaign['id'];
-            $item['subject_line'] = $campaign['settings']['subject_line'];
-            $item['reply_to'] = $campaign['settings']['reply_to'];
-            $item['from_name'] = $campaign['settings']['from_name'];
+            $item['id'] = $campaigns['id'];
+            $item['subject_line'] = $campaigns['settings']['subject_line'];
+            $item['reply_to'] = $campaigns['settings']['reply_to'];
+            $item['from_name'] = $campaigns['settings']['from_name'];
 
-            $array[] = array('attributes' =>$item, 'id' => $campaign['id'], 'type' => 'mail-campaigns');
+            return $item;
         }
-
-        return $array;
     }
 }

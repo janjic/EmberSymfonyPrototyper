@@ -27,6 +27,7 @@ class AgentApiCode
     const AGENT_NOT_FOUND                           = 30;
     const AGENT_CURRENTLY_INACTIVE                  = 31;
     const AGENT_INFO_CALCULATED_OK                  = 32;
+    const AGENT_SYNC_ERROR                          = 33;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
@@ -49,6 +50,7 @@ class AgentApiCode
 
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
+    const MESSAGES_DRAFT_ERROR                       = 2302;
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;

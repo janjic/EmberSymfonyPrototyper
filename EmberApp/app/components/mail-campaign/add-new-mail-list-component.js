@@ -19,7 +19,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.set('model.subscribers', this.get('additionalMails'));
                 this.showLoader('loading.sending.data');
                 let list = this.get('model');
-                list.save().then((response) => {
+                list.save().then(() => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
                 }, (response) => {

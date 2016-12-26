@@ -51,6 +51,12 @@ class Thread extends BaseThread
     protected $isRead;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    protected $isDraft = false;
+
+    /**
      * @var Ticket
      * @ORM\OneToOne(targetEntity="Ticket", mappedBy="thread")
      */
@@ -137,4 +143,19 @@ class Thread extends BaseThread
         $this->isRead = $isRead;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIsDraft()
+    {
+        return $this->isDraft;
+    }
+
+    /**
+     * @param mixed $isDraft
+     */
+    public function setIsDraft($isDraft)
+    {
+        $this->isDraft = $isDraft;
+    }
 }

@@ -27,18 +27,17 @@ trait JsonApiSaveMailCampaignManagerTrait
     {
         $data = json_decode($data)->data;
         $campaign = $this->save($data);
-
         return $this->createJsonAPiSaveResponse($campaign);
     }
 
     /**
      * @param $data
-     * @return mixed
+     * @return ArrayCollection
      */
     private function createJsonAPiSaveResponse($data)
     {
-        if(is_array($data) && $id = $data['id']){
-            return new ArrayCollection(AgentApiResponse::MAIL_LIST_SAVED_SUCCESSFULLY($id));
+        if((is_array($data) && $id = $data['id'])){
+            return new ArrayCollection(AgentApiResponse::MAIL_CAMPAIGN_SAVED_SUCCESSFULLY(($id)));
         } else {
             return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
         }
