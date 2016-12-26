@@ -105,14 +105,21 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 $subscribers = $this->mailChimp->post('lists/'.$id, [
                     'members' => $members
                 ]);
-
                 if(!$this->mailChimp->success()){
-                    return new Exception($this->mailChimp->getLastError());
+                    $message = '';
+                    foreach ($response['errors'] as $error) {
+                        $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];
+                    }
+                    return new Exception($message);
                 }
             }
 
         } else {
-            return new Exception($this->mailChimp->getLastError());
+            $message = '';
+            foreach ($response['errors'] as $error) {
+                $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];
+            }
+            return new Exception($message);
         }
 
         return $response;
