@@ -97,7 +97,6 @@ trait JsonApiUpdateAgentManagerTrait
     {
         switch (get_class($data)) {
             case Exception::class:
-                var_dump($data->getMessage());die();
                 return new ArrayCollection(AgentApiResponse::ERROR_RESPONSE($data));
             case (Agent::class && ($id= $data->getId())):
                 return new ArrayCollection(AgentApiResponse::AGENT_SAVED_SUCCESSFULLY($id));

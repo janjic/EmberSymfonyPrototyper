@@ -1,0 +1,44 @@
+<div class="all-agents-card-view">
+    <div class="row">
+        {{#each model as |agent|}}
+            <div class="col-md-3">
+                <div class="input-box">
+                    <div class="upper-box">
+                        <div class="info-box-icons">
+                            {{#link-to viewLink agent.id class="button green icon-btn rounded-btn"}}
+                                {{fa-icon 'eye'}}
+                            {{/link-to}}
+                            <div class="img-holder">
+                                {{#if agent.image.webPath }}
+                                    <img class="img-circle" src="{{agent.image.webPath}}" alt="">
+                                {{else}}
+                                    <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
+                                {{/if}}
+                            </div>
+                            {{#link-to editLink agent.id class="button red icon-btn rounded-btn"}}
+                                {{fa-icon 'pencil'}}
+                            {{/link-to}}
+                        </div>
+                        <h5>{{agent.fullName}}</h5>
+                        <span>{{agent.group.name}}</span>
+                    </div>
+                    <div class="lower-box">
+                        <p><span>Country</span> <br>
+                            {{agent.nationality}}
+                        </p>
+                        <p><span>Email</span> <br>
+                            {{agent.email}}
+                        </p>
+                        <p><span>Status</span> <br>
+                            {{#if agent.enabled}}
+                                Enabled
+                            {{else}}
+                                Not enabled
+                            {{/if}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

@@ -85,6 +85,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
                     case ApiCode.FILE_SAVING_ERROR:
                         this.toast.error(Translator.trans('models.agent.file.error'));
                         break;
+                    case ApiCode.AGENT_SYNC_ERROR:
+                        this.toast.error(Translator.trans('models.agent.sync.error'));
+                        break;
                     case ApiCode.ERROR_MESSAGE:
                         this.toast.error(error.message);
                         break;

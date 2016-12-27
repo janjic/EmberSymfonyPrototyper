@@ -3,6 +3,7 @@ const { inject: { service }, Component, computed } = Ember;
 
 export default Component.extend({
     session: service('session'),
+    currentUser: service('current-user'),
     profileRoute: computed('user',function () {
         if (this.get('user.roles').includes('ROLE_SUPER_ADMIN')) {
                 return 'dashboard.profile-settings';
