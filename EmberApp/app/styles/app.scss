@@ -310,6 +310,7 @@ table {
         }
         .img-holder {
           height: 80px !important;
+          flex: 1;
           img {
             width: 80px;
             height: 80px;
@@ -3625,6 +3626,16 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .all-agents-card-view {
+  .input-box.first {
+    padding: 15px;
+    border: 1px solid #ddd;
+    .button.green.add-agent {
+      margin-left: 30px;
+    }
+    .action-buttons {
+      margin-right: 30px;
+    }
+  }
   .input-box {
     padding: 0;
     border: none;
@@ -3706,6 +3717,18 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .agent-view {
+  .dl-horizontal {
+    dt {
+      @media screen and (max-width: 1350px) {
+        float: none !important;
+      }
+    }
+    dd {
+      @media screen and (max-width: 1350px) {
+        margin-left: 0 !important;
+      }
+    }
+  }
   .img-holder {
     height: 270px !important;
     border: 1px solid #ddd;
@@ -3773,5 +3796,42 @@ $searchable-select-spacer-horizontal: 1em;
   .form-group {
     margin-bottom: 0;
     flex: 1;
+  }
+}
+
+.agents-card-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  input.form-control {
+    width: 40px;
+    text-align: center;
+  }
+  .item {
+    outline: none;
+    border: none;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-right: none;
+    background-color: #34495e;
+    color: #fff;
+    &:hover, &:focus {
+      background-color: $main-red;
+    }
+    i.fa {
+      font-size: 18px;
+    }
+  }
+  .item-span {
+    padding: 0 15px;
+    background-color: #4caf50;
+    color: #fff;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
