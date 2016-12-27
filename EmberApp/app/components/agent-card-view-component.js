@@ -21,7 +21,7 @@ export default Ember.Component.extend({
     secondBtnClasses: "button dark icon-btn",
     inputClasses:  Ember.computed('focusable', function () {
         if (!this.get('focusable')) {
-            return 'form-control search-input';
+            return 'form-control search-input clicked';
         }
         return 'form-control search-input clicked';
 
@@ -93,10 +93,8 @@ export default Ember.Component.extend({
         },
         setSearch (input) {
             if (Object.is(parseInt(input), 1)) {
-                if (Object.is(this.get('limitAll'), false)) {
-                    this.set('searchValue', '');
-                    this.loadData(this.get('paramsArray'));
-                }
+                this.set('searchValue', '');
+                this.get('handleFilterEntry').perform();
                 this.set('limitAll', true);
                 this.set('firstBtnClasses', "button dark icon-btn green");
                 this.set('secondBtnClasses', "button dark icon-btn");
