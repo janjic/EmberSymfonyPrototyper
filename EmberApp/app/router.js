@@ -69,6 +69,7 @@ Router.map(function() {
 
       this.route('agent', function() {
           this.route('home');
+          this.route('genealogy-tree');
           this.route('messages', function() {
               this.route('create-message');
               this.route('received-messages');

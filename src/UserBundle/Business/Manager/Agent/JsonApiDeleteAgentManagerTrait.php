@@ -19,6 +19,7 @@ trait JsonApiDeleteAgentManagerTrait
 
     /**
      * @param $content
+     * @return ArrayCollection
      */
     public function deleteResource($content)
     {
@@ -30,20 +31,25 @@ trait JsonApiDeleteAgentManagerTrait
         $newParent = $this->repository->getEntityReference($content->newParent);
 
         if ($agent->getChildren()) {
-            $changeParentResult = $this->repository->changeParent($agent, $newParent, false);
-            if (!$changeParentResult) {
-                // vrati da je doslo do greske prolikom promene roditelja
+            $changeParentResult = $this->repository->changeParent($agent, $newParent);
+            if ($changeParentResult instanceof Exception) {
+                /** error while changing parent */
+                return new ArrayCollection(AgentApiResponse::AGENT_PARENT_CHANGE_ERROR_RESPONSE($changeParentResult));
             }
         }
 
-        $result =  $this->repository->deleteAgent($agent, false);
 
-        if ($result) {
-            $this->repository->flushDb();
-
+        $syncResult = $this->syncDelete($agent);
+        if ($syncResult !== true) {
+            return new ArrayCollection($syncResult);
         }
 
-        var_dump($result);die();
-        // TODO: Implement deleteResource() method.
+
+        $result = $this->repository->deleteAgent($agent);
+        if ($result) {
+            return new ArrayCollection(AgentApiResponse::AGENT_DELETED_SUCCESSFULLY);
+        } else {
+            return new ArrayCollection(AgentApiResponse::AGENT_DELETE_ERROR($result));
+        }
     }
 }
