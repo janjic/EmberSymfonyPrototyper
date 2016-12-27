@@ -1,44 +1,71 @@
+<h1 class="main-heading">{{mainTitle}}</h1>
 <div class="all-agents-card-view">
-    <div class="row">
-        {{#each model as |agent|}}
-            <div class="col-md-3">
-                <div class="input-box">
-                    <div class="upper-box">
-                        <div class="info-box-icons">
-                            {{#link-to viewLink agent.id class="button green icon-btn rounded-btn"}}
-                                {{fa-icon 'eye'}}
-                            {{/link-to}}
-                            <div class="img-holder">
-                                {{#if agent.image.webPath }}
-                                    <img class="img-circle" src="{{agent.image.webPath}}" alt="">
-                                {{else}}
-                                    <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
-                                {{/if}}
-                            </div>
-                            {{#link-to editLink agent.id class="button red icon-btn rounded-btn"}}
-                                {{fa-icon 'pencil'}}
-                            {{/link-to}}
-                        </div>
-                        <h5>{{agent.fullName}}</h5>
-                        <span>{{agent.group.name}}</span>
-                    </div>
-                    <div class="lower-box">
-                        <p><span>Country</span> <br>
-                            {{agent.nationality}}
-                        </p>
-                        <p><span>Email</span> <br>
-                            {{agent.email}}
-                        </p>
-                        <p><span>Status</span> <br>
-                            {{#if agent.enabled}}
-                                Enabled
+
+    <div class="all-agents-search">
+        <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
+        <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
+        {{#if limitAll}}
+            <div class="form-group">
+                {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+            </div>
+        {{else}}
+            <div class="form-group">
+                {{abc-buttons}}
+            </div>
+        {{/if}}
+    </div>
+
+
+    {{#each model as |agent|}}
+        <div class="col-md-3">
+            <div class="input-box">
+                <div class="upper-box">
+                    <div class="info-box-icons">
+                        {{#link-to viewLink agent.id class="button icon-btn rounded-btn"}}
+                            {{fa-icon 'eye'}}
+                        {{/link-to}}
+                        <div class="img-holder">
+                            {{#if agent.image.webPath }}
+                                <img class="img-circle" src="{{agent.image.webPath}}" alt="">
                             {{else}}
-                                Not enabled
+                                <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
                             {{/if}}
-                        </p>
+                        </div>
+                        {{#link-to editLink agent.id class="button icon-btn rounded-btn"}}
+                            {{fa-icon 'pencil'}}
+                        {{/link-to}}
                     </div>
+                    <h5>{{agent.fullName}}</h5>
+                    <span>{{agent.group.name}}</span>
+                </div>
+                <div class="lower-box">
+                    <p><span>Country</span> <br>
+                        {{agent.nationality}}
+                    </p>
+                    <p><span>Email</span> <br>
+                        {{agent.email}}
+                    </p>
+                    <p><span>Status</span> <br>
+                        {{#if agent.enabled}}
+                            Enabled
+                        {{else}}
+                            Not enabled
+                        {{/if}}
+                    </p>
                 </div>
             </div>
-        {{/each}}
+        </div>
+    {{/each}}
+
+    <div class="agents-card-pagination">
+        <button class="btn btn-primary" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
+        <button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
+
+        {{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
+        {{model.meta.pages}}
+
+        <button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
+        <button class="btn btn-primary" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
     </div>
 </div>
+
