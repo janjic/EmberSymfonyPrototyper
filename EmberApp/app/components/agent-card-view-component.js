@@ -41,10 +41,19 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.disableLoader();
         }
     },
-    handleFilterEntry: task(function * () {
-        let searchValue = this.get('searchValue').trim();
-        let delayTime =  this.get('defaultDelayTime');
-        yield timeout(delayTime);
+    handleFilterEntry: task(function * (letter) {
+        let searchValue;
+        if (letter) {
+             searchValue = letter.trim();
+            this.set('searchValue', searchValue);
+        } else {
+            searchValue = this.get('searchValue').trim();
+        }
+
+        if (!letter) {
+            let delayTime =  this.get('defaultDelayTime');
+            yield timeout(delayTime);
+        }
         let searchArrayFields = this.get('searchArray');
         if (searchValue !== '') {
             this.get('columns').forEach((column) => {
@@ -88,13 +97,18 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
         setSearch (input) {
             if (Object.is(parseInt(input), 1)) {
+                if (Object.is(this.get('limitAll'), false)) {
+                    this.set('searchValue', '');
+                    this.loadData(this.get('paramsArray'));
+                }
+                this.set('limitAll', true);
                 this.set('firstBtnClasses', "button dark icon-btn green");
                 this.set('secondBtnClasses', "button dark icon-btn");
             } else {
+                this.set('limitAll', false);
                 this.set('firstBtnClasses', "button dark icon-btn");
                 this.set('secondBtnClasses', "button dark icon-btn green");
             }
-            this.toggleProperty('limitAll');
         }
     }
 });
