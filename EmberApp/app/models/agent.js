@@ -33,7 +33,7 @@ export default Model.extend({
     forwardedTickets:     DS.hasMany('ticket'),
 
     /** property used for agent delete */
-    newParentForDeleteId: attr('int'),
+    newParentForDeleteId: attr(),
 
     fullName: computed('firstName', 'lastName', function() {
         if (!this.get('firstName') && !this.get('lastName')) {

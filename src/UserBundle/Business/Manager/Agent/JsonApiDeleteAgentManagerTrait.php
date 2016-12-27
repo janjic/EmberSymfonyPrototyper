@@ -18,11 +18,32 @@ trait JsonApiDeleteAgentManagerTrait
 {
 
     /**
-     * @param Request $request
+     * @param $content
      */
-    public function deleteResource($request)
+    public function deleteResource($content)
     {
-        var_dump($request);die();
+        $content = json_decode($content);
+
+        /** @var Agent $agent */
+        $agent = $this->repository->findAgentById($content->id);
+        /** @var Agent $newParent */
+        $newParent = $this->repository->getEntityReference($content->newParent);
+
+        if ($agent->getChildren()) {
+            $changeParentResult = $this->repository->changeParent($agent, $newParent, false);
+            if (!$changeParentResult) {
+                // vrati da je doslo do greske prolikom promene roditelja
+            }
+        }
+
+        $result =  $this->repository->deleteAgent($agent, false);
+
+        if ($result) {
+            $this->repository->flushDb();
+
+        }
+
+        var_dump($result);die();
         // TODO: Implement deleteResource() method.
     }
 }

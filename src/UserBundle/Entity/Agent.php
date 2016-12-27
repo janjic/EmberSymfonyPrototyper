@@ -145,7 +145,7 @@ class Agent extends BaseUser implements ParticipantInterface
 
     /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Address", cascade={"all"})
-     * @ORM\JoinColumn(name="address_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id", nullable=true)
      **/
     protected $address;
 
