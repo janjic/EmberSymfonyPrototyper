@@ -1,0 +1,222 @@
+<div class="agent-view">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-box">
+                <h3 class="sub-heading">{{fa-icon "user"}} {{agent.fullName}}</h3>
+                <h5>{{agent.group.name}}</h5>
+                <div class="img-holder">
+                    {{#if agent.image.webPath}}
+                        <img src="{{agent.image.webPath}}" alt="">
+                    {{else}}
+                        <img src="../../../assets/images/user-avatar.png" alt="Avatar">
+                    {{/if}}
+                    {{#link-to editLink agent.id class="button red icon-btn"}}{{fa-icon "pencil"}}{{/link-to}}
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Email</dt>
+                    <dd>{{agent.email}}</dd>
+                    <dt>Username</dt>
+                    <dd>{{agent.username}}</dd>
+                    <dt>Birthday</dt>
+                    <dd>{{agent.birthDate}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-box">
+                <h3 class="sub-heading">{{fa-icon "address-card"}} Personal details</h3>
+                <dl class="dl-horizontal">
+                    <dt>Street number</dt>
+                    <dd>{{agent.address.streetNumber}}</dd>
+                    <dt>Postcode</dt>
+                    <dd>{{agent.address.postcode}}</dd>
+                    <dt>City</dt>
+                    <dd>{{agent.address.city}}</dd>
+                    <dt>Country</dt>
+                    <dd>{{agent.address.country}}</dd>
+                    <dt>Phone</dt>
+                    <dd>{{agent.address.phone}}</dd>
+                </dl>
+            </div>
+            <div class="input-box">
+                <h3 class="sub-heading">{{fa-icon "info-circle"}} Quick info</h3>
+                <dl class="dl-horizontal">
+                    <dt>Social security number</dt>
+                    <dd>{{agent.socialSecurityNumber}}</dd>
+                    <dt>Bank name</dt>
+                    <dd>{{agent.bankName}}</dd>
+                    <dt>Bank account number</dt>
+                    <dd>{{agent.bankAccountNumber}}</dd>
+                    <dt>Agent background</dt>
+                    <dd>{{agent.agentBackground}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-box">
+                <h3 class="sub-heading">{{fa-icon "bell"}} Notification settings</h3>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-xs-5">New message</label>
+                    <div class="col-md-7 col-xs-7">
+                        <!-- Rectangular switch -->
+                        <label class="switch">
+                            {{input type="checkbox"}}
+                            <div class="slider"></div>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-xs-5">Payment</label>
+                    <div class="col-md-7 col-xs-7">
+                        <!-- Rectangular switch -->
+                        <label class="switch">
+                            {{input type="checkbox"}}
+                            <div class="slider"></div>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-xs-5">New agent</label>
+                    <div class="col-md-7 col-xs-7">
+                        <!-- Rectangular switch -->
+                        <label class="switch">
+                            {{input type="checkbox"}}
+                            <div class="slider"></div>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="input-box">
+                <h3 class="sub-heading">{{fa-icon "tree"}} Genealogy tree</h3>
+                <dl class="dl-horizontal">
+                    <dt>{{trans 'admin-user.label.agent-id'}}</dt>
+                    <dd>{{agent.agentId}}</dd>
+                    <dt>{{trans 'admin-user.label.direct-superior'}}</dt>
+                    <dd>{{agent.superior.fullName}}</dd>
+                    <dt>{{trans 'admin-user.label.number-of-agents-downline'}}</dt>
+                    <dd>
+                        {{#if info.childCount}}
+                            {{info.childCount}}
+                        {{else}}
+                            Not specified.
+                        {{/if}}
+                    </dd>
+                    <dt>{{trans 'admin-user.label.customers'}}</dt>
+                    <dd>
+                        {{#if info.usersCount}}
+                            {{info.usersCount}}
+                        {{else}}
+                            Not specified.
+                        {{/if}}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-box home-table">
+                <h3 class="sub-heading">{{fa-icon "users"}} Agents</h3>
+                <div class="flex-table">
+                    <div class="flex-row fixed">
+                        <div class="flex-item">
+                            <span>Agent</span>
+                        </div>
+                        <div class="flex-item">
+                            <span>Order</span>
+                        </div>
+                        <div class="flex-item">
+                            <span>Agent type</span>
+                        </div>
+                        <div class="flex-item">
+                            <span>Actions</span>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-item user-item">
+                            <div class="img-holder">
+                                <img src="../../../assets/images/user-avatar.png" alt="" class="img-circle">
+                            </div>
+                            <div class="info">
+                                <h5>John Doe</h5>
+                                <span>January 12, 2017</span>
+                            </div>
+                        </div>
+                        <div class="flex-item">
+                            <span>Package 25</span>
+                        </div>
+                        <div class="flex-item">
+                            <h6 class="label label-success">master</h6>
+                        </div>
+                        <div class="flex-item">
+                            <a href="#" class="button red icon-btn">Edit</a>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-item user-item">
+                            <div class="img-holder">
+                                <img src="../../../assets/images/user-avatar.png" alt="" class="img-circle">
+                            </div>
+                            <div class="info">
+                                <h5>John Doe</h5>
+                                <p>January 12, 2017</p>
+                            </div>
+                        </div>
+                        <div class="flex-item">
+                            <span>Package 25</span>
+                        </div>
+                        <div class="flex-item">
+                            <h6 class="label label-success">master</h6>
+                        </div>
+                        <div class="flex-item">
+                            <a href="#" class="button red icon-btn">Edit</a>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-item user-item">
+                            <div class="img-holder">
+                                <img src="../../../assets/images/user-avatar.png" alt="" class="img-circle">
+                            </div>
+                            <div class="info">
+                                <h5>John Doe</h5>
+                                <p>January 12, 2017</p>
+                            </div>
+                        </div>
+                        <div class="flex-item">
+                            <span>Package 25</span>
+                        </div>
+                        <div class="flex-item">
+                            <h6 class="label label-success">master</h6>
+                        </div>
+                        <div class="flex-item">
+                            <a href="#" class="button red icon-btn">Edit</a>
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-item user-item">
+                            <div class="img-holder">
+                                <img src="../../../assets/images/user-avatar.png" alt="" class="img-circle">
+                            </div>
+                            <div class="info">
+                                <h5>John Doe</h5>
+                                <p>January 12, 2017</p>
+                            </div>
+                        </div>
+                        <div class="flex-item">
+                            <span>Package 25</span>
+                        </div>
+                        <div class="flex-item">
+                            <h6 class="label label-success">master</h6>
+                        </div>
+                        <div class="flex-item">
+                            <a href="#" class="button red icon-btn">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

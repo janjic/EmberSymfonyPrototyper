@@ -310,6 +310,7 @@ table {
         }
         .img-holder {
           height: 80px !important;
+          flex: 1;
           img {
             width: 80px;
             height: 80px;
@@ -1307,6 +1308,8 @@ header {
   align-items: center;
   padding: 20px 15px;
   margin-bottom: 15px;
+  overflow: hidden;
+  position: relative;
   &:hover {
     box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
     .img-holder > i.fa {
@@ -1317,6 +1320,13 @@ header {
       -o-transition: all 300ms ease-in-out;
       transition: all 300ms ease-in-out;
     }
+  }
+  .icon-bg {
+    position: absolute;
+    z-index: 0;
+    font-size: 170px;
+    opacity: 0.2;
+    right: 0;
   }
   .img-holder {
     height: auto !important;
@@ -1332,6 +1342,7 @@ header {
     justify-content: center;
     flex-direction: column;
     flex: 1;
+    z-index: 1;
     h4 {
       margin: 0;
       font-size: 40px;
@@ -3067,8 +3078,13 @@ input:focus {
   text-decoration: none;
 }
 
+.dark {
+  background-color: $main-dark;
+  color: $white;
+}
+
 .green {
-  background-color: #4CAF50;
+  background-color: #4CAF50 !important;
   color: white;
 }
 
@@ -3610,6 +3626,16 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .all-agents-card-view {
+  .input-box.first {
+    padding: 15px;
+    border: 1px solid #ddd;
+    .button.green.add-agent {
+      margin-left: 30px;
+    }
+    .action-buttons {
+      margin-right: 30px;
+    }
+  }
   .input-box {
     padding: 0;
     border: none;
@@ -3630,7 +3656,6 @@ $searchable-select-spacer-horizontal: 1em;
         padding: 10px 0;
         .img-holder {
           height: 80px !important;
-          margin: 0 20px;
           img {
             width: 80px;
             height: 80px;
@@ -3667,7 +3692,7 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .rounded-btn {
-  background-color: transparent;
+  background-color: #34495e;
   border: 2px solid #fff;
   width: 35px;
   height: 35px;
@@ -3675,6 +3700,8 @@ $searchable-select-spacer-horizontal: 1em;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  display: inline-block;
+  color: #fff;
 }
 
 .button.green.icon-btn.rounded-btn {
@@ -3686,5 +3713,125 @@ $searchable-select-spacer-horizontal: 1em;
 .button.red.icon-btn.rounded-btn {
   &:hover {
     background-color: #F44336;
+  }
+}
+
+.agent-view {
+  .dl-horizontal {
+    dt {
+      @media screen and (max-width: 1350px) {
+        float: none !important;
+      }
+    }
+    dd {
+      @media screen and (max-width: 1350px) {
+        margin-left: 0 !important;
+      }
+    }
+  }
+  .img-holder {
+    height: 270px !important;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    position: relative;
+    .icon-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+    }
+  }
+  h2 {
+    margin: 0;
+  }
+  h5 {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+  dt {
+    color: #c0392b;
+    padding: 5px;
+    text-align: left;
+    font-weight: normal;
+  }
+  dd {
+    color: #444;
+    border-bottom: 1px dashed #ddd;
+    padding: 5px;
+    text-align: left;
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+.search-input {
+  width: 250px;
+}
+
+.search-input.clicked {
+  width: 100%;
+  -webkit-transition: all 300ms ease-in-out;
+  -moz-transition: all 300ms ease-in-out;
+  -ms-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+
+.input-box.all-ags {
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.all-agents-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+  .button.red{
+    margin-right: 30px;
+  }
+  .form-group {
+    margin-bottom: 0;
+    flex: 1;
+  }
+}
+
+.agents-card-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  input.form-control {
+    width: 40px;
+    text-align: center;
+  }
+  .item {
+    outline: none;
+    border: none;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-right: none;
+    background-color: #34495e;
+    color: #fff;
+    &:hover, &:focus {
+      background-color: $main-red;
+    }
+    i.fa {
+      font-size: 18px;
+    }
+  }
+  .item-span {
+    padding: 0 15px;
+    background-color: #4caf50;
+    color: #fff;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

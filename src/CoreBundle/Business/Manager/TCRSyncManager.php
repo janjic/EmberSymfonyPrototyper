@@ -15,7 +15,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
 {
     const TCR_SERVER = 'https://tcr-media.fsd.rs:105/';
 
-    public function getContentFromTCR($url)
+    public function getContentFromTCR($url, $method = 'POST')
     {
         $client = new Client();
         $url = self::TCR_SERVER . $url;
@@ -29,7 +29,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
             ]
         ];
 
-        $promise = $client->requestAsync('POST', $url, $options);
+        $promise = $client->requestAsync($method, $url, $options);
 
         $answer = null;
         $promise->then(
@@ -45,7 +45,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
         return json_decode($answer);
     }
 
-    public function sendDataToTCR($url, $data)
+    public function sendDataToTCR($url, $data, $method = 'POST')
     {
         $client = new Client();
         $url = self::TCR_SERVER . $url;
@@ -56,7 +56,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
             'Accept-Language' => "sr-RS,sr;q=0.8,en-US;q=0.6,en;q=0.4"
         ];
 
-        $request = new Request('POST', $url, $headers, $data);
+        $request = new Request($method, $url, $headers, $data);
         $response = $client->send($request, ['verify' => false]);
 
         return json_decode($response->getBody()->getContents());

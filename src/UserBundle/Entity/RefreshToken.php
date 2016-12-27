@@ -26,6 +26,7 @@ class RefreshToken extends BaseRefreshToken
 
     /**
      * @ORM\ManyToOne(targetEntity="Agent")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $user;
 }

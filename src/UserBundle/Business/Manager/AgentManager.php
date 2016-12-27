@@ -140,6 +140,27 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
+     * @param Agent $agent
+     * @return bool|array
+     */
+    public function syncDelete(Agent $agent)
+    {
+        $url = 'en/json/agent-delete/'.$agent->getId();
+        try {
+            $syncResult = $this->getContentFromTCR($url, 'DELETE');
+            if (is_object($syncResult) && $syncResult->code == 200) {
+                return true;
+            } else if (is_object($syncResult) && $syncResult->code == 403) {
+                return AgentApiResponse::AGENT_DELETE_SYNC_ERROR($syncResult->message);
+            } else {
+                return AgentApiResponse::AGENT_DELETE_SYNC_ERROR('UNKNOWN');
+            }
+        } catch (\Exception $exception) {
+            return AgentApiResponse::AGENT_DELETE_SYNC_ERROR('UNKNOWN');
+        }
+    }
+
+    /**
      * Flush the db
      */
     public function flushDb(){

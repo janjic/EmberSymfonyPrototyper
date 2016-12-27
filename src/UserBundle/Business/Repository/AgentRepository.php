@@ -102,7 +102,6 @@ class AgentRepository extends NestedTreeRepository
                     $this->_em->flush();
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 } else {
-
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 }
             } else {
@@ -260,6 +259,7 @@ class AgentRepository extends NestedTreeRepository
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
 
+
         $firstResult = 0;
         $offset = 0;
         if ($searchParams) {
@@ -271,20 +271,39 @@ class AgentRepository extends NestedTreeRepository
                     $firstResult = ($page - 1) * $offset;
                 }
                 array_shift($searchParams);
+
                 foreach ($searchParams[0] as $key => $param) {
                     if ($key == 'agent.enabled') {
                         if ($param != -1) {
-                            $oQ0->andWhere('agent.enabled = '.$param);
+                            if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                                $oQ0->orWhere('agent.enabled = '.$param);
+                            } else {
+                                $oQ0->andWhere('agent.enabled = '.$param);
+                            }
+
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
-                        $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        }
                     }  else if($key == 'group.name'){
                         $oQ0->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-                        $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        } else {
+                            $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        }
+
                     }
                     else {
-                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        }
                     }
                 }
             } else {
@@ -459,25 +478,18 @@ class AgentRepository extends NestedTreeRepository
     /**
      * @param Agent $oldParent
      * @param Agent $newParent
-     * @param bool $flush
-     * @return bool
+     * @return bool|Exception
      */
-    public function changeParent($oldParent, $newParent, $flush = true)
+    public function changeParent($oldParent, $newParent)
     {
         try {
 
             foreach ($oldParent->getChildren() as $agent) {
                 $this->persistAsFirstChildOf($agent, $newParent);
-
-            }
-
-            if ($flush) {
-                $this->flushDb();
             }
 
         } catch (\Exception $e) {
-            throw $e;
-            return false;
+            return $e;
         }
 
         return true;
@@ -485,19 +497,23 @@ class AgentRepository extends NestedTreeRepository
 
     /**
      * @param Agent $agent
-     * @param bool $flush
-     * @return bool
+     * @return bool|Exception
      */
-    public function deleteAgent($agent, $flush = true)
+    public function deleteAgent($agent)
     {
+        $connection = $this->_em->getConnection();
+        $connection->beginTransaction();
         try {
+            $this->flushDb();
+
             $this->removeFromTree($agent);
-            if ($flush) {
-                $this->flushDb();
-            }
+
+            $this->flushDb();
+
+            $connection->commit();
         } catch (\Exception $e) {
-            throw $e;
-            return false;
+            $connection->rollBack();
+            return $e;
         }
 
         return true;

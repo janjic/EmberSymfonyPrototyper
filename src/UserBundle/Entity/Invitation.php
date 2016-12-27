@@ -42,7 +42,7 @@ class Invitation
     private $emailContent;
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
-     * @@ORM\JoinColumn(name="agent_id", referencedColumnName="id")
+     * @@ORM\JoinColumn(name="agent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $agent;
 

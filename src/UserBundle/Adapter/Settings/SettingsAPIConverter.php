@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: filip
- * Date: 15.12.16.
- * Time: 13.07
- */
 
 namespace UserBundle\Adapter\Settings;
 
