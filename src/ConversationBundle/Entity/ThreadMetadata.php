@@ -28,6 +28,7 @@ class ThreadMetadata extends BaseThreadMetadata
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\JoinColumn(name="participant_id", referencedColumnName="id", onDelete="CASCADE")
      * @var ParticipantInterface
      */
     protected $participant;

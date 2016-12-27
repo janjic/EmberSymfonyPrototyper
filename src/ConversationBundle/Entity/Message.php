@@ -30,6 +30,7 @@ class Message extends BaseMessage
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", onDelete="CASCADE")
      * @var ParticipantInterface
      */
     protected $sender;

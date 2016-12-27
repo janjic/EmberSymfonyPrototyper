@@ -28,6 +28,10 @@ class AgentApiCode
     const AGENT_CURRENTLY_INACTIVE                  = 31;
     const AGENT_INFO_CALCULATED_OK                  = 32;
     const AGENT_SYNC_ERROR                          = 33;
+    const AGENT_PARENT_CHANGE_ERROR_RESPONSE        = 34;
+    const AGENT_DELETED_SUCCESSFULLY                = 35;
+    const AGENT_DELETE_ERROR                        = 36;
+    const AGENT_DELETE_SYNC_ERROR                   = 37;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;

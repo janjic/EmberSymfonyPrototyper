@@ -44,11 +44,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.showLoader();
             var agent = this.get('agentToDelete');
             agent.set('newParentForDeleteId', this.get('agentToReplaceId'));
-            console.log('asdssssss', agent.get('newParentForDeleteId'));
 
             agent.destroyRecord().then(() => {
                 this.set('newParentForDelete', null);
                 this.set('agentToReplaceId', null);
+                this.set('isModalOpen', false);
+                this.generateChart();
                 this.toast.success('models.agent.delete');
                 this.disableLoader();
             }, (response) => {

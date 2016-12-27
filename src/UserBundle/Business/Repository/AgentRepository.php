@@ -102,7 +102,6 @@ class AgentRepository extends NestedTreeRepository
                     $this->_em->flush();
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 } else {
-
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 }
             } else {
@@ -469,25 +468,18 @@ class AgentRepository extends NestedTreeRepository
     /**
      * @param Agent $oldParent
      * @param Agent $newParent
-     * @param bool $flush
-     * @return bool
+     * @return bool|Exception
      */
-    public function changeParent($oldParent, $newParent, $flush = true)
+    public function changeParent($oldParent, $newParent)
     {
         try {
 
             foreach ($oldParent->getChildren() as $agent) {
                 $this->persistAsFirstChildOf($agent, $newParent);
-
-            }
-
-            if ($flush) {
-                $this->flushDb();
             }
 
         } catch (\Exception $e) {
-            throw $e;
-            return false;
+            return $e;
         }
 
         return true;
@@ -495,19 +487,23 @@ class AgentRepository extends NestedTreeRepository
 
     /**
      * @param Agent $agent
-     * @param bool $flush
-     * @return bool
+     * @return bool|Exception
      */
-    public function deleteAgent($agent, $flush = true)
+    public function deleteAgent($agent)
     {
+        $connection = $this->_em->getConnection();
+        $connection->beginTransaction();
         try {
+            $this->flushDb();
+
             $this->removeFromTree($agent);
-            if ($flush) {
-                $this->flushDb();
-            }
+
+            $this->flushDb();
+
+            $connection->commit();
         } catch (\Exception $e) {
-            throw $e;
-            return false;
+            $connection->rollBack();
+            return $e;
         }
 
         return true;
