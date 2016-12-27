@@ -5,19 +5,19 @@
                 <div class="input-box">
                     <div class="upper-box">
                         <div class="info-box-icons">
-                            {{# if viewLink }}
-                                {{#link-to viewLink m.id class="button green icon-btn"}}
-                                    {{fa-icon 'eye'}}
-                                {{/link-to}}
-                            {{/if}}
+                            {{#link-to viewLink agent.id class="button green icon-btn"}}
+                                {{fa-icon 'eye'}}
+                            {{/link-to}}
                             <div class="img-holder">
-                                <img class="img-circle" src="{{agent.image.webPath}}" alt="">
+                                {{#if agent.image.webPath }}
+                                    <img class="img-circle" src="{{agent.image.webPath}}" alt="">
+                                {{else}}
+                                    <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
+                                {{/if}}
                             </div>
-                            {{# if editLink }}
-                                {{#link-to editLink m.id class="button red icon-btn"}}
-                                    {{fa-icon 'pencil'}}
-                                {{/link-to}}
-                            {{/if}}
+                            {{#link-to editLink agent.id class="button red icon-btn"}}
+                                {{fa-icon 'pencil'}}
+                            {{/link-to}}
                         </div>
                         <h5>{{agent.fullName}}</h5>
                         <span>{{agent.group.name}}</span>

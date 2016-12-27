@@ -3661,3 +3661,14 @@ $searchable-select-spacer-horizontal: 1em;
     }
   }
 }
+
+.rounded-btn {
+  background-color: transparent;
+  border: 2px solid #fff;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
