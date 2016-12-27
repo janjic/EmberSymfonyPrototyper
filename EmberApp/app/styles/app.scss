@@ -1307,6 +1307,8 @@ header {
   align-items: center;
   padding: 20px 15px;
   margin-bottom: 15px;
+  overflow: hidden;
+  position: relative;
   &:hover {
     box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
     .img-holder > i.fa {
@@ -1317,6 +1319,13 @@ header {
       -o-transition: all 300ms ease-in-out;
       transition: all 300ms ease-in-out;
     }
+  }
+  .icon-bg {
+    position: absolute;
+    z-index: 0;
+    font-size: 170px;
+    opacity: 0.2;
+    right: 0;
   }
   .img-holder {
     height: auto !important;
@@ -1332,6 +1341,7 @@ header {
     justify-content: center;
     flex-direction: column;
     flex: 1;
+    z-index: 1;
     h4 {
       margin: 0;
       font-size: 40px;
