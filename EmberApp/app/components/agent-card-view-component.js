@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
-import LoadingStateMixin from '../mixins/loading-state';
-export default Ember.Component.extend(LoadingStateMixin,{
+
+
+export default Ember.Component.extend({
     limitAll: true,
     sortType: 'asc',
     defaultDelayTime: 250,
@@ -27,18 +28,13 @@ export default Ember.Component.extend(LoadingStateMixin,{
     }),
 
     loadData: function (paramsArray){
-        this.showLoader();
         let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
         if (result) {
             result.then((filterResults) => {
                 this.set('model', filterResults);
                 this.set('maxPages', filterResults.meta.pages);
-                this.disableLoader();
             }).catch(() => {
-                this.disableLoader();
             });
-        } else {
-            this.disableLoader();
         }
     },
     handleFilterEntry: task(function * (letter) {
