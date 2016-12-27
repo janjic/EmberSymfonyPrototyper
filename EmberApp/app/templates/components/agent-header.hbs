@@ -14,10 +14,24 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     {{#bs-dropdown tagName="li"}}
-                        {{#bs-dropdown-toggle}}{{user.username }}<i class="fa fa-caret-down"></i>{{/bs-dropdown-toggle}}
-                        {{#bs-dropdown-menu}}
-                            <li>{{#link-to profileRoute }}My profile{{/link-to}}</li>
-                            <li><a {{action 'logout'}}>Logout</a></li>
+                        {{#bs-dropdown-toggle}} <img  src="../assets/images/user-avatar.png" class="img-circle" alt=""> {{user.username }}<i class="fa fa-caret-down"></i>{{/bs-dropdown-toggle}}
+                        {{#bs-dropdown-menu class="header-user-info"}}
+                            <li class="top-section">
+                                <div class="img-holder">
+                                    <img  src="../assets/images/user-avatar.png" class="img-circle" alt="">
+                                </div>
+                                <div class="info-actions">
+                                    <p>{{user.username }}</p>
+                                    <p>{{user.email}}</p>
+                                    {{#link-to profileRoute class="button green icon-btn" }}View profile{{/link-to}}
+                                </div>
+                            </li>
+                            <li class="bottom-section">
+                                <a href="#" class="button red icon-btn">Edit profile</a>
+                                <a href="#" class="button red icon-btn" {{action 'logout'}}>Logout</a>
+                            </li>
+
+
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
                     {{#bs-dropdown tagName="li"}}
@@ -25,19 +39,19 @@
                         {{#bs-dropdown-menu class="header-notifications"}}
                             <li>
                                 <a class="notification-item" href="#">
-                                <div class="img-holder">
-                                    {{fa-icon "user"}}
-                                </div>
-                                <div class="notification-item-content">
-                                    <p>New order has been confirmed by <span>username@mail.com</span></p>
-                                    <span class="date">December 20, 2016 14:57</span>
-                                </div>
+                                    <div class="img-holder">
+                                        {{fa-icon "user"}}
+                                    </div>
+                                    <div class="notification-item-content">
+                                        <p>New order has been confirmed by <span>username@mail.com</span></p>
+                                        <span class="date">December 20, 2016 14:57</span>
+                                    </div>
                                 </a>
                             </li>
                             <li>
                                 <a class="notification-item seen" href="#">
                                     <div class="img-holder">
-                                       {{fa-icon "credit-card"}}
+                                        {{fa-icon "credit-card"}}
                                     </div>
                                     <div class="notification-item-content">
                                         <p>New order has been confirmed by <span>username@mail.com</span></p>

@@ -1,7 +1,30 @@
 <h1 class="main-heading">{{trans 'admin-menu.genealogy.tree.title' }}</h1>
 <div id="chart-container"></div>
 {{#if isLoading }}
-    <<div class="loader-holder">
+    <div class="loader-holder">
         <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
     </div>
 {{/if}}
+
+{{#bs-modal open=isModalOpen header=false body=false footer=false closedAction=(action 'closedAction')}}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="changePassModal">
+            Change password
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        {{inf-select
+            optionLabelKey='email'
+            on-search = (perform search)
+            on-change=(action 'agentSelected')
+        }}
+    {{/bs-modal-body}}
+
+    <a {{action "deleteAgent" }} type="submit" class="sign-in" disabled="{{isDeleteDisabled}}">
+        {{#if isLoading }}
+            {{inf-loading}}
+        {{else}}
+            Delete user
+        {{/if}}
+    </a>
+{{/bs-modal}}

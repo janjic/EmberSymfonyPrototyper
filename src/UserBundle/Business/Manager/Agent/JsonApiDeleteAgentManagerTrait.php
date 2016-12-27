@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
+use Symfony\Component\HttpFoundation\Request;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 
@@ -17,10 +18,11 @@ trait JsonApiDeleteAgentManagerTrait
 {
 
     /**
-     * {@inheritdoc}
+     * @param Request $request
      */
-    public function deleteResource($id = null)
+    public function deleteResource($request)
     {
+        var_dump($request);die();
         // TODO: Implement deleteResource() method.
     }
 }
