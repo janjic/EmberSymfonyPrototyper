@@ -41,10 +41,19 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.disableLoader();
         }
     },
-    handleFilterEntry: task(function * () {
-        let searchValue = this.get('searchValue').trim();
-        let delayTime =  this.get('defaultDelayTime');
-        yield timeout(delayTime);
+    handleFilterEntry: task(function * (letter) {
+        let searchValue;
+        if (letter) {
+             searchValue = letter.trim();
+            this.set('searchValue', searchValue);
+        } else {
+            searchValue = this.get('searchValue').trim();
+        }
+
+        if (!letter) {
+            let delayTime =  this.get('defaultDelayTime');
+            yield timeout(delayTime);
+        }
         let searchArrayFields = this.get('searchArray');
         if (searchValue !== '') {
             this.get('columns').forEach((column) => {

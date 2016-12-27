@@ -10,7 +10,7 @@
             </div>
         {{else}}
             <div class="form-group">
-                {{abc-buttons}}
+                {{abc-buttons filter=(perform handleFilterEntry) }}
             </div>
         {{/if}}
     </div>
@@ -62,7 +62,12 @@
         <button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
 
         {{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
-        {{model.meta.pages}}
+        {{#if model.meta.pages }}
+            {{model.meta.pages}}
+        {{else}}
+            1
+        {{/if}}
+
 
         <button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
         <button class="btn btn-primary" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
