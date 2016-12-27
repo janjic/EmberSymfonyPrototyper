@@ -13,6 +13,7 @@ use UserBundle\Business\Manager\Notification\JsonApiGetQueryResultNotificationMa
 use UserBundle\Business\Manager\Notification\JsonApiSaveNotificationManagerTrait;
 use UserBundle\Business\Manager\Notification\JsonApiUpdateNotificationManagerTrait;
 use UserBundle\Business\Repository\NotificationRepository;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Notification;
 use UserBundle\Entity\NotificationType;
@@ -85,21 +86,22 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     /**
      * @param Agent $agent
      * @param Agent|null $superiorAgent
+     * @param mixed $isSuperAdmin
      * @return Notification
      */
-    public static function createNewAgentNotification($agent, $superiorAgent = null)
+    public static function createNewAgentNotification($agent, $superiorAgent = null, $isSuperAdmin = false)
     {
         $superiorAgent = is_null($superiorAgent) ? $agent->getSuperior(): $superiorAgent;
         $notification = new Notification();
         $notification->setType(NotificationType::NEW_AGENT_NOTIFICATION);
         $notification->setNewAgent($agent);
 
-        /**
-         *  TO DO
-         *
-         *  CHECK IF HE IS ADMIN OR AGENT AND SET CORRECT LINK
-         */
-        $notification->setLink('dashboard.agents.agent-edit');
+        if( $isSuperAdmin ) {
+            $notification->setLink('dashboard.agent-genealogy-tree');
+        } else {
+            $notification->setLink('dashboard.agent.agent-genealogy-tree');
+        }
+
         $notification->setCreatedAt(new \DateTime());
         $notification->setAgent($superiorAgent);
 
@@ -108,14 +110,19 @@ class NotificationManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param Message $message
+     * @param mixed $isSuperAdmin
      * @return Notification
      */
-    public static function createNewMessageNotification($message)
+    public static function createNewMessageNotification($message, $isSuperAdmin = false)
     {
         $notification = new Notification();
         $notification->setType(NotificationType::NEW_MESSAGE_NOTIFICATION);
         $notification->setNewAgent(null);
-        $notification->setLink('dashboard.messages.received-messages');
+        if( $isSuperAdmin ) {
+            $notification->setLink('dashboard.messages.received-messages');
+        } else {
+            $notification->setLink('dashboard.agent.messages.received-messages');
+        }
         $notification->setMessage($message);
         $notification->setCreatedAt(new \DateTime());
 
@@ -126,13 +133,19 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     {
         /** @var Message $message */
         if( $message = $event->getMessage() ) {
-//            $message = $event->getMessage();
+
             $user = $this->getCurrentUser();
 
             $agentRecipient = $message->getParticipantsFromMeta()[0]->getId() == $user->getId() ?
                 $message->getParticipantsFromMeta()[1] : $message->getParticipantsFromMeta()[0];
 
             foreach ($event->getNotifications() as $notification) {
+                $superAdmin = in_array("ROLE_SUPER_ADMIN", $agentRecipient->getRoles());
+                if( $superAdmin ) {
+                    $notification->setLink('dashboard.messages.received-messages');
+                } else {
+                    $notification->setLink('dashboard.agent.messages.received-messages');
+                }
                 $notification->setAgent($agentRecipient);
             }
         }
@@ -184,7 +197,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
                 'newAgent'      => array('class' => Agent::class, 'type' => 'agents')
             );
         }
-        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);
 
         foreach ($metaTags as $key=>$meta) {
             $serialize->addMeta($key, $meta);

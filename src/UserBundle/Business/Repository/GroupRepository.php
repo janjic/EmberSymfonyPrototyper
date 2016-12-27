@@ -42,6 +42,22 @@ class GroupRepository extends EntityRepository
     }
 
     /**
+     * @param $groupName
+     * @return mixed
+     */
+    public function findGroupByName($groupName)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::ROLES_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.roles', self::ROLES_ALIAS);
+
+        $qb->where(self::ALIAS.'.name = :group_name')
+            ->setParameter('group_name', $groupName);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * Save new group
      * @param Group $group
      * @return Group|Exception

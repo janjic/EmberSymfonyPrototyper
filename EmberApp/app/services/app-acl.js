@@ -18,7 +18,7 @@ const roles =  {
                         }
 
                     } else {
-                        if (target.match(/dashboard.agent.*/)) {
+                        if (target.match(/dashboard\.agent\/.*/)) {
                             resolve(true);
                         } else {
                             reject(false);

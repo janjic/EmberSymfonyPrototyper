@@ -101,6 +101,11 @@ class Agent extends BaseUser implements ParticipantInterface
     protected $agentBackground;
 
     /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
      * @TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -160,6 +165,7 @@ class Agent extends BaseUser implements ParticipantInterface
     {
         parent::__construct();
         $this->children = new ArrayCollection();
+        $this->createdAt = new DateTime();
     }
 
     /**
@@ -550,6 +556,23 @@ class Agent extends BaseUser implements ParticipantInterface
         $this->children->removeElement($child);
         $child->setSuperior(null);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
 
 
     /**

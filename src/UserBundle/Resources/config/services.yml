@@ -124,6 +124,7 @@ services:
             roleManager: "@agent_system.group.manager"
             fSerializer: "@f_serializer"
             eventDispatcher: "@event_dispatcher"
+            tokenStorage: '@security.token_storage'
 
     agent_system.agent.adapter:
         class: UserBundle\Adapter\Agent\AgentAdapter

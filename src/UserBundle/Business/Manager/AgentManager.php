@@ -12,6 +12,7 @@ use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -66,17 +67,24 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     protected $eventDispatcher;
 
     /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
      * @param AgentRepository $repository
      * @param GroupManager $groupManager
      * @param FJsonApiSerializer $fSerializer
      * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface $tokenStorage,
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
     {
         $this->repository       = $repository;
         $this->groupManager     = $groupManager;
         $this->fSerializer      = $fSerializer;
         $this->eventDispatcher  = $eventDispatcher;
+        $this->tokenStorage     = $tokenStorage;
     }
 
     public function getGroupById($id)

@@ -1,0 +1,14 @@
+{{#bs-accordion-item title=(trans "admin-menu.agents.title") class="menu-agents"}}
+    <ul class="table">
+        <li>
+            {{#link-to 'dashboard.agent.agents.add-new-agent' }}
+                {{trans 'admin-menu.agents.new'}}
+            {{/link-to}}
+        </li>
+        <li>
+            {{#link-to 'dashboard.agent.agents.all-agents' }}
+                {{trans 'admin-menu.agents.all' }}
+            {{/link-to}}
+        </li>
+    </ul>
+{{/bs-accordion-item}}

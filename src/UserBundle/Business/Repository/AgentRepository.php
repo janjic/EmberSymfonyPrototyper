@@ -227,9 +227,10 @@ class AgentRepository extends NestedTreeRepository
      * @param mixed $offset
      * @param mixed $sortParams
      * @param mixed $additionalParams
+     * @param mixed $promoCode
      * @return array
      */
-    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams)
+    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams, $promoCode = false)
     {
         $firstResult =0;
         if ($page !=1) {
@@ -240,6 +241,10 @@ class AgentRepository extends NestedTreeRepository
         if (array_key_exists('search_param', $additionalParams)) {
             $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
         }
+        if ( $promoCode ) {
+            $qb->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
+            $qb->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
+        }
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
         return $qb->getQuery()->getResult();
     }
@@ -248,9 +253,10 @@ class AgentRepository extends NestedTreeRepository
      * @param mixed $sortParams
      * @param mixed $additionalParams
      * @param bool  $isCountSearch
+     * @param mixed $promoCode
      * @return array
      */
-    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false, $promoCode= false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
 
@@ -383,6 +389,10 @@ class AgentRepository extends NestedTreeRepository
                     }
                 }
             }
+        }
+        if( $promoCode ){
+            $oQ0->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
+            $oQ0->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
         }
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');

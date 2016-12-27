@@ -36,11 +36,14 @@ trait JsonApiSaveAgentManagerTrait
                 return $this->createJsonAPiSaveResponse($data);
             } else {
                 /** @var Agent $superAgent */
-                $notification = NotificationManager::createNewAgentNotification($data);
+                $superAgent = $this->findAgentByRole();
+                if( $agent->getId() == $superAgent->getId() ) {
+                    $notification = NotificationManager::createNewAgentNotification($data, null, true);
+                } else {
+                    $notification = NotificationManager::createNewAgentNotification($data);
+                }
                 $event = new NotificationEvent();
                 $event->addNotification($notification);
-
-                $superAgent = $this->findAgentByRole();
 
                 if( $superAgent->getId() !== $agent->getSuperior()->getId() ){
                     $superAgentNotification = NotificationManager::createNewAgentNotification($data, $superAgent);
@@ -48,7 +51,6 @@ trait JsonApiSaveAgentManagerTrait
                 }
 
                 $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
-                $this->eventDispatcher->dispatch("uradi.odma");
             }
         }
 

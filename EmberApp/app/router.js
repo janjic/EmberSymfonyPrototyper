@@ -101,7 +101,8 @@ Router.map(function() {
               this.route('user-view');
           });
           this.route('agents', function() {
-              this.route('add-new-agent');
+            this.route('add-new-agent');
+            this.route('all-agents');
           });
       });
 

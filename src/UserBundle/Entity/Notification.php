@@ -45,13 +45,13 @@ class Notification
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent", cascade={"all"})
-     * @ORM\JoinColumn(name="new_agent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="new_agent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $newAgent;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
-     * @ORM\JoinColumn(name="agent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="agent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $agent;
 
