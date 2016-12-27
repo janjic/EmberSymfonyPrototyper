@@ -1302,7 +1302,7 @@ header {
 
 .home-card-secondary {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  background-color: #3fbae4;
+  background-color: #34495e;
   display: flex;
   align-items: center;
   padding: 20px 15px;
@@ -3672,4 +3672,16 @@ $searchable-select-spacer-horizontal: 1em;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+.button.green.icon-btn.rounded-btn {
+  &:hover {
+    background-color: #4CAF50;
+  }
+}
+
+.button.red.icon-btn.rounded-btn {
+  &:hover {
+    background-color: #F44336;
+  }
 }
