@@ -59,6 +59,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $url.= '&page='.$request->get('page');
         $url.= '&sidx='.$request->get('sidx');
         $url.= '&sord='.$request->get('sord');
+        $promoCode = $request->get('promoCode');//AGENT ID FOR FILTER
 
         if ($filters = json_decode($request->get('filters'), true)) {
             foreach ($filters['rules'] as &$rule) {
@@ -69,11 +70,15 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
             $url.= '&filters='.json_encode($filters);
         }
 
-        /** @var Agent $user */
-        $user = $this->tokenStorage->getToken()->getUser();
-        if (!$user->hasRole('ROLE_ADMIN')){
-            $url.= '&agentId='.$user->getAgentId();
-        };
+        if( $promoCode ){
+            $url .= '&agentId=' . $promoCode;
+        } else {
+            /** @var Agent $user */
+            $user = $this->tokenStorage->getToken()->getUser();
+            if (!$user->hasRole('ROLE_SUPER_ADMIN')) {
+                $url .= '&agentId=' . $user->getAgentId();
+            };
+        }
 
         $resp = $this->getContentFromTCR($url);
 
@@ -144,6 +149,8 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $content = json_decode($data);
         $data = $content->data->attributes;
 
+        $promoCode = $content->data->relationships->agent->data->attributes->agent_id;
+
         foreach ($data as $key => $value) {
             $newKey = $this->middleDashesToLower($key);
             if (!property_exists($data, $newKey)) {
@@ -158,6 +165,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $data->roleAdmin = $data->isAdmin;
         $data->phone_number = $data->phoneNumber;
         $data->money_add = "";
+        $data->promoCode = $promoCode;
 
         if( $data->imageName !=null ){
             $data->avatar = array(

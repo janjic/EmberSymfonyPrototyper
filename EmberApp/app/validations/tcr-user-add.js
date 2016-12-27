@@ -19,6 +19,6 @@ export default {
     birthDate:      validateDate({minAge:18, message: Translator.trans('validations.older-than-18')}),
     country:        validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),
     language:       validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),
-    title:          validatePresence({ presence: true, message: Translator.trans('validations.presence-value') })
-
+    title:          validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),
+    agent:          validatePresence(true)
 };
