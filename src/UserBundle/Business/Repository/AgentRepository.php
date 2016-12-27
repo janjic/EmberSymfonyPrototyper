@@ -22,13 +22,15 @@ class AgentRepository extends NestedTreeRepository
 {
     use BasicEntityRepositoryTrait;
 
-    const ALIAS          = 'agent';
-    const ADDRESS_ALIAS  = 'address';
-    const GROUP_ALIAS    = 'g';
-    const ROLE_ALIAS     = 'r';
-    const IMAGE_ALIAS    = 'image';
-    const SUPERIOR_ALIAS = 'superior';
-    const CHILDREN_ALIAS = 'children';
+    const ALIAS              = 'agent';
+    const ADDRESS_ALIAS      = 'address';
+    const GROUP_ALIAS        = 'g';
+    const ROLE_ALIAS         = 'r';
+    const IMAGE_ALIAS        = 'image';
+    const SUPERIOR_ALIAS     = 'superior';
+    const CHILDREN_ALIAS     = 'children';
+    const AGENT_TABLE_NAME   = 'as_agent';
+    const SUPERIOR_ATTRIBUTE = 'superior';
 
     /**
      * @param Agent $agent
@@ -443,4 +445,52 @@ class AgentRepository extends NestedTreeRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param Agent $oldParent
+     * @param Agent $newParent
+     * @param bool $flush
+     * @return bool
+     */
+    public function changeParent($oldParent, $newParent, $flush = true)
+    {
+        try {
+
+            foreach ($oldParent->getChildren() as $agent) {
+                $this->persistAsFirstChildOf($agent, $newParent);
+
+            }
+
+            if ($flush) {
+                $this->flushDb();
+            }
+
+        } catch (\Exception $e) {
+            throw $e;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Agent $agent
+     * @param bool $flush
+     * @return bool
+     */
+    public function deleteAgent($agent, $flush = true)
+    {
+        try {
+            $this->removeFromTree($agent);
+            if ($flush) {
+                $this->flushDb();
+            }
+        } catch (\Exception $e) {
+            throw $e;
+            return false;
+        }
+
+        return true;
+    }
+
 }
