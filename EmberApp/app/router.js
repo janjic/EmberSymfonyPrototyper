@@ -88,7 +88,7 @@ Router.map(function() {
           this.route('reports', function() {
               this.route('customer-orders');
               this.route('commissions');
-              this.route('purchase-details');
+              this.route('purchase-details', {path: '/purchase-details/:id'});
           });
           this.route('wallet', function() {
               this.route('wallet-summary');
