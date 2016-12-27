@@ -37,24 +37,18 @@ class SettingsRepository extends EntityRepository
     }
 
     /**
-     * @param $id
      * @return array|Settings|null
      */
-    public function findSettings($id)
+    public function findSettings()
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS);
+        $qb->leftJoin(self::ALIAS.'.'.self::BONUS, self::BONUS)
+            ->leftJoin(self::ALIAS.'.'.self::COMMISSION, self::COMMISSION)
+            ->leftJoin(self::BONUS.'.group','bonusGroup')
+            ->leftJoin(self::COMMISSION.'.group','commissionGroup');
 
-        if(intval($id)) {
-            $qb->where(self::ALIAS.'.id =:id')->setParameter('id', $id)
-                ->leftJoin(self::ALIAS.'.'.self::BONUS, self::BONUS)
-                ->leftJoin(self::ALIAS.'.'.self::COMMISSION, self::COMMISSION)
-                ->leftJoin(self::BONUS.'.group','bonusGroup')
-                ->leftJoin(self::COMMISSION.'.group','commissionGroup');
-
-            return $qb->getQuery()->getOneOrNullResult();
-        }
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

@@ -83,6 +83,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setPayPal('www.paypal.com')
             ->setFacebookLink('www.facebook.com')
             ->setEasycall('www.easycall.com')
+            ->setLanguage('en')
             ->setTwitterLink('www.twitter.com')
             ->setGPlusLink('www.google.com');
 
@@ -112,6 +113,7 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         $bonusReferral->setSettings($settings)
             ->setGroup($refereeGroup)
             ->setAmountCHF(200)
+            ->setAmountEUR(200)
             ->setAmountEUR(200)
             ->setNumberOfCustomers(20)
             ->setPeriod(3);
