@@ -1,0 +1,118 @@
+<div class="agent-view">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-box">
+                <h2>{{fa-icon "user"}} {{agent.fullName}}</h2>
+                <h5>{{agent.group.name}}</h5>
+                <div class="img-holder">
+                    {{#if agent.image.webPath}}
+                        <img src="{{agent.image.webPath}}" alt="">
+                    {{else}}
+                        <img src="../../../assets/images/user-avatar.png" alt="Avatar">
+                    {{/if}}
+                </div>
+                <div class="text-center">
+                    {{#link-to editLink agent.id class="button green"}}Change photo{{/link-to}}
+                </div>
+                <dl>
+                    <dt>Email</dt>
+                    <dd>{{agent.email}}</dd>
+                    <dt>Username</dt>
+                    <dd>{{agent.username}}</dd>
+                    <dt>Birthday</dt>
+                    <dd>{{agent.birthDate}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-box">
+                <h3 class="sub-heading">Personal details</h3>
+                <dl>
+                    <dt>Street number</dt>
+                    <dd>{{agent.address.streetNumber}}</dd>
+                    <dt>Postcode</dt>
+                    <dd>{{agent.address.postcode}}</dd>
+                    <dt>City</dt>
+                    <dd>{{agent.address.city}}</dd>
+                    <dt>Country</dt>
+                    <dd>{{agent.address.country}}</dd>
+                    <dt>Phone</dt>
+                    <dd>{{agent.address.phone}}</dd>
+                </dl>
+            </div>
+            <div class="input-box">
+                <h3 class="sub-heading">Quick info</h3>
+                <dl>
+                    <dt>Social security number</dt>
+                    <dd>{{agent.socialSecurityNumber}}</dd>
+                    <dt>Bank name</dt>
+                    <dd>{{agent.bankName}}</dd>
+                    <dt>Bank account number</dt>
+                    <dd>{{agent.bankAccountNumber}}</dd>
+                    <dt>Agent background</dt>
+                    <dd>{{agent.agentBackground}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-box">
+                <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+            </div>
+            <script>
+                $(function () {
+
+                    $(document).ready(function () {
+
+                        // Build the chart
+                        Highcharts.chart('container', {
+                            chart: {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false,
+                                type: 'pie'
+                            },
+                            title: {
+                                text: 'Profit from agents below'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    showInLegend: true
+                                }
+                            },
+                            series: [{
+                                name: 'Agents',
+                                colorByPoint: true,
+                                data: [{
+                                    name: 'Agent Smith',
+                                    y: 56.33
+                                }, {
+                                    name: 'Agent Doe',
+                                    y: 24.03,
+                                    sliced: true,
+                                    selected: true
+                                }, {
+                                    name: 'Agent Taylor',
+                                    y: 10.38
+                                }, {
+                                    name: 'Agent Mulder',
+                                    y: 4.77
+                                }, {
+                                    name: 'Agent Scully',
+                                    y: 0.91
+                                }, {
+                                    name: 'Agent Malvo',
+                                    y: 0.2
+                                }]
+                            }],
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

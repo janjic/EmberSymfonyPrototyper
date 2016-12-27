@@ -3630,7 +3630,6 @@ $searchable-select-spacer-horizontal: 1em;
         padding: 10px 0;
         .img-holder {
           height: 80px !important;
-          margin: 0 20px;
           img {
             width: 80px;
             height: 80px;
@@ -3686,5 +3685,27 @@ $searchable-select-spacer-horizontal: 1em;
 .button.red.icon-btn.rounded-btn {
   &:hover {
     background-color: #F44336;
+  }
+}
+
+.agent-view {
+  .img-holder {
+    height: 270px !important;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  h2 {
+    margin: 0;
+  }
+  h5 {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+  dt {
+    color: #444;
   }
 }
