@@ -1,3 +1,4 @@
+<h1 class="main-heading">{{mainTitle}}</h1>
 <div class="all-agents-card-view">
 
     <div class="all-agents-search">
@@ -5,7 +6,7 @@
         <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
         {{#if limitAll}}
             <div class="form-group">
-                {{input class= inputClasses value=filter focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
             </div>
         {{else}}
             <div class="form-group">
@@ -55,4 +56,16 @@
             </div>
         </div>
     {{/each}}
+
+    <div class="agents-card-pagination">
+        <button class="btn btn-primary" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
+        <button class="btn btn-primary" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
+
+        {{input class="table-pagination-input" enter='handlePageChange' value=model.meta.page}}
+        {{model.meta.pages}}
+
+        <button class="btn btn-primary" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
+        <button class="btn btn-primary" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
+    </div>
 </div>
+
