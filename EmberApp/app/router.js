@@ -35,7 +35,7 @@ Router.map(function() {
           this.route('add-new-agent');
           this.route('all-agents');
           this.route('agent-update-history');
-          this.route('agent-view');
+          this.route('agent-view', {path: '/agent-view/:id'});
           this.route('agent-edit', {path: '/agent-edit/:id'});
       });
 

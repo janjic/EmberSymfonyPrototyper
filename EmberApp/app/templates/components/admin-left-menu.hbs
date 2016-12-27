@@ -1,6 +1,6 @@
 <div class="left-section">
     <div class="menu-user-info">
-        {{#link-to 'dashboard.profile-settings' class='button icon-btn green rounded-btn'}}
+        {{#link-to 'dashboard.profile-settings' class='button icon-btn rounded-btn'}}
             {{fa-icon 'eye'}}
         {{/link-to}}
         {{#if currentUser.user.image.webPath}}
@@ -12,7 +12,7 @@
                 <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
             </div>
         {{/if}}
-        {{#link-to 'dashboard.profile-settings' class='button icon-btn red rounded-btn'}}
+        {{#link-to 'dashboard.profile-settings' class='button icon-btn rounded-btn'}}
             {{fa-icon 'pencil'}}
         {{/link-to}}
     </div>
