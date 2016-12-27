@@ -3,7 +3,8 @@ const { inject: { service }, Component, computed } = Ember;
 import { task, timeout } from 'ember-concurrency';
 
 export default Component.extend({
-    session:                service('session'),
+    session: service('session'),
+    currentUser: service('current-user'),
     store:                  service('store'),
     agentNotifications:     [],
     messageNotifications:   [],
