@@ -28,7 +28,7 @@ class AgentHistory
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
-     * @ORM\JoinColumn(name="changed_by_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="changed_by_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $changedByAgent;
 

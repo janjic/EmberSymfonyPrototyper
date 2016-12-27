@@ -64,12 +64,14 @@ class Ticket
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\JoinColumn(name="forwarded_to_id", referencedColumnName="id", onDelete="SET NULL")
      * @var Agent
      */
     protected $forwardedTo;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
+     * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id", onDelete="CASCADE")
      * @var Agent
      */
     protected $createdBy;
