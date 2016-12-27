@@ -266,7 +266,7 @@ table {
 
 .navbar-nav > li.dropdown > .dropdown-menu {
   display: block !important;
-  transform: translateX(600px);
+  transform: translateX(2000px);
   -webkit-transition: all 300ms ease-in-out;
   -moz-transition: all 300ms ease-in-out;
   -ms-transition: all 300ms ease-in-out;
@@ -3613,6 +3613,9 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box {
     padding: 0;
     border: none;
+    &:hover {
+      box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
+    }
     .upper-box {
       background-color: #34495e;
       display: flex;
