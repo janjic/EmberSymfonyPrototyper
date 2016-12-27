@@ -1,19 +1,23 @@
 <h1 class="main-heading">{{mainTitle}}</h1>
 <div class="all-agents-card-view">
 
-    <div class="all-agents-search">
-        <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
-        <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
-        {{#if limitAll}}
-            <div class="form-group">
-                {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+        <div class="col-md-12">
+            <div class="input-box all-ags">
+                <div class="all-agents-search">
+                    <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
+                    <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
+                    {{#if limitAll}}
+                        <div class="form-group">
+                            {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                        </div>
+                    {{else}}
+                        <div class="form-group">
+                            {{abc-buttons}}
+                        </div>
+                    {{/if}}
+                </div>
             </div>
-        {{else}}
-            <div class="form-group">
-                {{abc-buttons}}
-            </div>
-        {{/if}}
-    </div>
+        </div>
 
 
     {{#each model as |agent|}}

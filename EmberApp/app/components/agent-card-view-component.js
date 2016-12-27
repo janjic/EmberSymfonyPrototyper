@@ -20,9 +20,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
     secondBtnClasses: "button dark icon-btn",
     inputClasses:  Ember.computed('focusable', function () {
         if (!this.get('focusable')) {
-            return 'form-control input-lg search-input';
+            return 'form-control search-input';
         }
-        return 'form-control input-lg search-input clicked';
+        return 'form-control search-input clicked';
 
     }),
 

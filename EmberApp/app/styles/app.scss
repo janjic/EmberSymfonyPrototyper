@@ -3714,6 +3714,12 @@ $searchable-select-spacer-horizontal: 1em;
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
+    position: relative;
+    .icon-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+    }
   }
   h2 {
     margin: 0;
@@ -3723,7 +3729,18 @@ $searchable-select-spacer-horizontal: 1em;
     margin-bottom: 15px;
   }
   dt {
+    color: #c0392b;
+    padding: 5px;
+    text-align: left;
+    font-weight: normal;
+  }
+  dd {
     color: #444;
+    border-bottom: 1px dashed #ddd;
+    padding: 5px;
+    text-align: left;
+    display: flex;
+    align-items: flex-end;
   }
 }
 
@@ -3738,6 +3755,11 @@ $searchable-select-spacer-horizontal: 1em;
   -ms-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
+}
+
+.input-box.all-ags {
+  padding: 15px;
+  border: 1px solid #ddd;
 }
 
 .all-agents-search {
