@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     currentUser : Ember.inject.service('current-user'),
+    agentRule: [],
     page: 1,
     offset: 10,
     colNames: ['ID', 'Name', 'Surname', 'Order total', 'Date', 'Actions'],
@@ -18,14 +19,6 @@ export default Ember.Controller.extend({
     }),
     actions: {
         filterModel: function (searchArray, page, column, sortType) {
-            /**
-             * Always add agent condition
-             */
-            searchArray.rules.pushObject({
-                field: 'user.agent.agent_id',
-                op: 'cn',
-                data: this.get('currentUser.user.agentId')
-            });
 
             return this.get('store').query('customer-order', {
                 page: page,
@@ -35,5 +28,12 @@ export default Ember.Controller.extend({
                 filters: searchArray,
             });
         }
+    },
+    init(){
+      this.get('agentRule').pushObject({
+          field: 'user.agent.agent_id',
+          op: 'cn',
+          data: this.get('currentUser.user.agentId')
+      });
     }
 });

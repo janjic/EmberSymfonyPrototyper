@@ -2,7 +2,7 @@
 import DS from 'ember-data';
 
 export default DS.JSONAPISerializer.extend({
-    normalizeQueryResponse (store, primaryModelClass, payload, id, requestType){
+    normalizeQueryResponse (store, primaryModelClass, payload){
         let responseData = {};
         responseData['data']= [];
         responseData['meta'] = {
@@ -97,9 +97,7 @@ export default DS.JSONAPISerializer.extend({
         };
 
         responseData['included'] = included;
-
-        console.log(responseData);
-
+        
         return responseData;
     }
 });
