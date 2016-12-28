@@ -81,7 +81,7 @@ trait JsonApiUpdateAgentManagerTrait
     {
         AgentSerializerInfo::updateBasicFields($agent, $dbAgent);
         $this->setAndValidatePassword($agent, $dbAgent, $data);
-        $this->setAndvalidateAddress($agent, $dbAgent);
+        $this->setAndValidateAddress($agent, $dbAgent);
         $this->setAndValidateGroup($agent, $dbAgent);
         $this->setAndValidateImage($agent, $dbAgent);
 
@@ -130,11 +130,14 @@ trait JsonApiUpdateAgentManagerTrait
     private function setAndValidateAddress (Agent $agent, Agent $dbAgent)
     {
         $dbAddress = $dbAgent->getAddress();
-        if ($dbAddress) {
-            $agent->getAddress()?$agent->getAddress()->setId($dbAddress->getId()) : false;
-        }
-        $dbAgent->setAddress($agent->getAddress());
+        $newAddress = $agent->getAddress();
 
+        $dbAddress->setCity($newAddress->getCity());
+        $dbAddress->setCountry($newAddress->getCountry());
+        $dbAddress->setFixedPhone($newAddress->getFixedPhone());
+        $dbAddress->setPhone($newAddress->getPhone());
+        $dbAddress->setPostcode($newAddress->getPostcode());
+        $dbAddress->setStreetNumber($newAddress->getStreetNumber());
 
     }
 

@@ -22,13 +22,15 @@ class AgentRepository extends NestedTreeRepository
 {
     use BasicEntityRepositoryTrait;
 
-    const ALIAS          = 'agent';
-    const ADDRESS_ALIAS  = 'address';
-    const GROUP_ALIAS    = 'g';
-    const ROLE_ALIAS     = 'r';
-    const IMAGE_ALIAS    = 'image';
-    const SUPERIOR_ALIAS = 'superior';
-    const CHILDREN_ALIAS = 'children';
+    const ALIAS              = 'agent';
+    const ADDRESS_ALIAS      = 'address';
+    const GROUP_ALIAS        = 'g';
+    const ROLE_ALIAS         = 'r';
+    const IMAGE_ALIAS        = 'image';
+    const SUPERIOR_ALIAS     = 'superior';
+    const CHILDREN_ALIAS     = 'children';
+    const AGENT_TABLE_NAME   = 'as_agent';
+    const SUPERIOR_ATTRIBUTE = 'superior';
 
     /**
      * @param Agent $agent
@@ -100,7 +102,6 @@ class AgentRepository extends NestedTreeRepository
                     $this->_em->flush();
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 } else {
-
                     $this->persistAsFirstChildOf($agent, $newSuperior);
                 }
             } else {
@@ -225,9 +226,10 @@ class AgentRepository extends NestedTreeRepository
      * @param mixed $offset
      * @param mixed $sortParams
      * @param mixed $additionalParams
+     * @param mixed $promoCode
      * @return array
      */
-    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams)
+    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams, $promoCode = false)
     {
         $firstResult =0;
         if ($page !=1) {
@@ -238,6 +240,10 @@ class AgentRepository extends NestedTreeRepository
         if (array_key_exists('search_param', $additionalParams)) {
             $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
         }
+        if ( $promoCode ) {
+            $qb->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
+            $qb->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
+        }
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
         return $qb->getQuery()->getResult();
     }
@@ -246,11 +252,13 @@ class AgentRepository extends NestedTreeRepository
      * @param mixed $sortParams
      * @param mixed $additionalParams
      * @param bool  $isCountSearch
+     * @param mixed $promoCode
      * @return array
      */
-    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false, $promoCode= false)
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
+
 
         $firstResult = 0;
         $offset = 0;
@@ -263,20 +271,39 @@ class AgentRepository extends NestedTreeRepository
                     $firstResult = ($page - 1) * $offset;
                 }
                 array_shift($searchParams);
+
                 foreach ($searchParams[0] as $key => $param) {
                     if ($key == 'agent.enabled') {
                         if ($param != -1) {
-                            $oQ0->andWhere('agent.enabled = '.$param);
+                            if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                                $oQ0->orWhere('agent.enabled = '.$param);
+                            } else {
+                                $oQ0->andWhere('agent.enabled = '.$param);
+                            }
+
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
-                        $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like(self::ADDRESS_ALIAS.'.country', $oQ0->expr()->literal('%'.$param.'%')));
+                        }
                     }  else if($key == 'group.name'){
                         $oQ0->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-                        $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        } else {
+                            $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
+                        }
+
                     }
                     else {
-                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        }
                     }
                 }
             } else {
@@ -382,6 +409,10 @@ class AgentRepository extends NestedTreeRepository
                 }
             }
         }
+        if( $promoCode ){
+            $oQ0->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
+            $oQ0->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
+        }
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -442,5 +473,63 @@ class AgentRepository extends NestedTreeRepository
         $qb->groupBy(self::ALIAS.'.id');
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Agent $oldParent
+     * @param Agent $newParent
+     * @return bool|Exception
+     */
+    public function changeParent($oldParent, $newParent)
+    {
+        try {
+
+            foreach ($oldParent->getChildren() as $agent) {
+                $this->persistAsFirstChildOf($agent, $newParent);
+            }
+
+        } catch (\Exception $e) {
+            return $e;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Agent $agent
+     * @return bool|Exception
+     */
+    public function deleteAgent($agent)
+    {
+        $connection = $this->_em->getConnection();
+        $connection->beginTransaction();
+        try {
+            $this->flushDb();
+
+            $this->removeFromTree($agent);
+
+            $this->flushDb();
+
+            $connection->commit();
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            return $e;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @param $roleName
+     * @return Agent|null
+     */
+    public function findAgentByRole($roleName = "ROLE_SUPER_ADMIN")
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS)
+            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
+
+       return $qb->getQuery()->getOneOrNullResult();
     }
 }

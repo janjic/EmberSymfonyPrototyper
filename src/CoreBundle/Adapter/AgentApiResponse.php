@@ -20,6 +20,7 @@ class AgentApiResponse
     const AGENT_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::AGENT_ALREADY_EXIST)));
     const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('errors' => array(array('status'=> AgentApiCode::FILE_SAVING_ERROR)));
     const AGENT_SYNC_ERROR_RESPONSE             = array('errors' => array(array('status'=> AgentApiCode::AGENT_SYNC_ERROR)));
+    const AGENT_DELETED_SUCCESSFULLY            = array('meta' => array('status'=> AgentApiCode::AGENT_DELETED_SUCCESSFULLY));
 
     const ROLE_DELETED_SUCCESSFULLY             = array('meta' => array('status'=> AgentApiCode::ROLE_EDITED_SUCCESSFULLY));
     const ROLE_ALREADY_EXIST                    = array('errors' => array(array('status'=> AgentApiCode::ROLE_ALREADY_EXIST)));
@@ -72,6 +73,33 @@ class AgentApiResponse
     public static function AGENT_SAVED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'agents', 'id' => $id));
+    }
+
+    /**
+     * @param $exception
+     * @return array
+     */
+    public static function AGENT_DELETE_ERROR($exception)
+    {
+        return array('errors' => array(array('status'=> AgentApiCode::AGENT_DELETE_ERROR, 'detail'=> $exception->getMessage())));
+    }
+
+    /**
+     * @param $message
+     * @return array
+     */
+    public static function AGENT_DELETE_SYNC_ERROR($message)
+    {
+        return array('errors' => array(array('status'=> AgentApiCode::AGENT_DELETE_SYNC_ERROR, 'detail'=> $message)));
+    }
+
+    /**
+     * @param $exception
+     * @return array
+     */
+    public static function AGENT_PARENT_CHANGE_ERROR_RESPONSE($exception)
+    {
+        return array('errors' => array(array('status'=> AgentApiCode::AGENT_PARENT_CHANGE_ERROR_RESPONSE, 'detail'=> $exception->getMessage())));
     }
 
 
@@ -190,5 +218,15 @@ class AgentApiResponse
     public static function SETTINGS_EDITED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'SETTINGS', 'id' => $id), 'meta' => array('status'=> AgentApiCode::GROUP_EDITED_SUCCESSFULLY));
+    }
+
+    /** -------- NOTIFICATIONS -------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function NOTIFICATION_EDITED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'notifications', 'id' => $id), 'meta' => array('status'=> AgentApiCode::NOTIFICATION_EDITED_SUCCESSFULLY));
     }
 }

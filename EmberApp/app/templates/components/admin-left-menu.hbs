@@ -1,4 +1,25 @@
 <div class="left-section">
+    <div class="menu-user-info">
+        {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class='button icon-btn rounded-btn'}}
+            {{fa-icon 'eye'}}
+        {{/link-to}}
+        {{#if currentUser.user.image.webPath}}
+            <div class="img-holder">
+                <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
+            </div>
+        {{else}}
+            <div class="img-holder">
+                <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
+            </div>
+        {{/if}}
+        {{#link-to 'dashboard.profile-settings' class='button icon-btn rounded-btn'}}
+            {{fa-icon 'pencil'}}
+        {{/link-to}}
+    </div>
+    <div class="menu-user-info-bottom">
+        <h5>{{currentUser.user.fullName}}</h5>
+        <span>{{currentUser.user.group.name}}</span>
+    </div>
     {{#bs-accordion selected=selected class="panel-group"}}
         <div class="panel panel-default menu-dashboard">
             <div class="panel-heading">

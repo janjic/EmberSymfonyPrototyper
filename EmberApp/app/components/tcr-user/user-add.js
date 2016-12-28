@@ -2,6 +2,7 @@ import Ember from 'ember';
 import TCRUserValidations from '../../validations/tcr-user-add';
 import Changeset from 'ember-changeset';
 import lookupValidator from './../../utils/lookupValidator';
+import { task, timeout } from 'ember-concurrency';
 
 const { Translator } = window;
 
@@ -9,6 +10,17 @@ export default Ember.Component.extend({
     TCRUserValidations,
     store: Ember.inject.service('store'),
     routing: Ember.inject.service('-routing'),
+    current_user: Ember.inject.service('current-user'),
+
+    isUserAdmin: Ember.computed('current_user.user', function() {
+        return this.get('current_user.user').get('roles').includes('ROLE_SUPER_ADMIN');
+    }),
+
+    search: task(function * (text, page, perPage) {
+        yield timeout(200);
+        return this.searchQuery(page, text, perPage);
+    }),
+
     userCity: null,
     userStreet: null,
     address: Ember.computed('userCity', 'userStreet', function() {
@@ -17,6 +29,9 @@ export default Ember.Component.extend({
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('user'), lookupValidator(TCRUserValidations), TCRUserValidations);
+        if( !this.get('isUserAdmin') ){
+            this.changeset.set('agent', this.get('current_user.user'));
+        }
     },
     actions: {
         titleChanged(title){
@@ -72,8 +87,17 @@ export default Ember.Component.extend({
             return changeset.rollback();
         },
 
+        agentSelected(agent){
+            this.set('changeset.agent', agent);
+            this.get('changeset').validate('agent');
+        },
+
         validateProperty(changeset, property) {
             return changeset.validate(property);
         }
+    },
+
+    searchQuery(page, text, perPage) {
+        return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
     }
 });

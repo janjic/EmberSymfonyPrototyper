@@ -12,6 +12,9 @@ use FOS\MessageBundle\Event\FOSMessageEvents;
 use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use FOS\MessageBundle\MessageBuilder\ReplyMessageBuilder;
 use FOS\MessageBundle\Model\MessageInterface;
+use UserBundle\Business\Event\Notification\NotificationEvent;
+use UserBundle\Business\Event\Notification\NotificationEvents;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 
@@ -106,6 +109,15 @@ trait JsonApiSaveMessageManagerTrait
             $this->messageSender->send($newMessage);
 
             $this->saveEventResult->getThread()->setIsRead(true);
+
+            // SENDING NOTIFICATION
+            $notification = NotificationManager::createNewMessageNotification($newMessage);
+            $event = new NotificationEvent();
+            $event->setMessage($newMessage);
+            $event->addNotification($notification);
+
+            $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
+
             return $this->serializeMessage($this->saveEventResult);
 
         } catch (Exception $e) {

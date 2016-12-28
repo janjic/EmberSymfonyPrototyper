@@ -40,6 +40,8 @@ class GroupAPIConverter extends JsonAPIConverter
             case 'GET':
                 if($this->request->get('filters')){
                     return $this->manager->jqgridAction($this->request);
+                } else if( $this->request->get('group_name')){
+                    return $this->manager->getGroupByName($this->request->get('group_name'));
                 } else {
                     return $this->manager->getResource($this->request->get('id'));
                 }

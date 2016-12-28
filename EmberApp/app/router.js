@@ -35,7 +35,7 @@ Router.map(function() {
           this.route('add-new-agent');
           this.route('all-agents');
           this.route('agent-update-history');
-          this.route('agent-view');
+          this.route('agent-view', {path: '/agent-view/:id'});
           this.route('agent-edit', {path: '/agent-edit/:id'});
       });
 
@@ -69,6 +69,7 @@ Router.map(function() {
 
       this.route('agent', function() {
           this.route('home');
+          this.route('genealogy-tree');
           this.route('messages', function() {
               this.route('create-message');
               this.route('received-messages');
@@ -101,7 +102,8 @@ Router.map(function() {
               this.route('user-view');
           });
           this.route('agents', function() {
-              this.route('add-new-agent');
+            this.route('add-new-agent');
+            this.route('all-agents');
           });
       });
 

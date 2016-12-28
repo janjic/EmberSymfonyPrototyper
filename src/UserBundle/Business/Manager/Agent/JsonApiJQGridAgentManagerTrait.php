@@ -40,18 +40,34 @@ trait JsonApiJQGridAgentManagerTrait
         $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
         $params['page'] = $page;
         $params['offset'] = $offset;
+        $additionalParams = array('or'=>false);
+
+        /** @var Agent $user */
+        $user = $this->tokenStorage->getToken()->getUser();
+        /**
+         * CHECK IF SUPER ADMIN AND DONT ADD FILTERS
+         */
+        if ( $this->repository->findAgentByRole() && $this->repository->findAgentByRole()->getId() == $user->getId()) {
+            $promoCode = null;
+        }else{
+            $promoCode = $user->getAgentId();
+        }
 
         if ($filters = $request->get('filters')) {
             $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());
-            foreach ($rules = json_decode($filters)->rules as $rule) {
+            $filters = json_decode($filters);
+            if ($filters->groupOp == 'or') {
+                $additionalParams['or'] = true;
+            }
+            foreach ($rules = $filters->rules as $rule) {
                 $searchParams[1][$searchFields[$rule->field]] = $rule->data;
             }
-            $agents = $this->repository->searchForJQGRID($searchParams, $sortParams, []);
+            $agents = $this->repository->searchForJQGRID($searchParams, $sortParams, $additionalParams, false, $promoCode);
         } else {
-            $agents = $this->repository->findAllForJQGRID($page, $offset, $sortParams, []);
+            $agents = $this->repository->findAllForJQGRID($page, $offset, $sortParams, $additionalParams, $promoCode);
         }
 
-        $size = (int)$this->repository->searchForJQGRID($searchParams, $sortParams, null, true)[0][1];
+        $size = (int)$this->repository->searchForJQGRID($searchParams, $sortParams, $additionalParams, true, $promoCode)[0][1];
         $pageCount = ceil($size / $offset);
 
         return new ArrayCollection($this->serializeAgent($agents)

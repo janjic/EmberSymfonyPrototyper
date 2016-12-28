@@ -21,6 +21,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
        return ['MR', 'MRS'];
     }),
 
+    isUserAdmin: Ember.computed('currentUser.user', function() {
+        return this.get('currentUser.user').get('roles').includes('ROLE_SUPER_ADMIN');
+    }),
+
     init() {
         this._super(...arguments);
         this._setUpComponent();
@@ -67,7 +71,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
                 this.toast.success(Translator.trans('models.agent.save.message'));
                 this.get('model').reload();
                 if (!this.get('isEdit')) {
-                    this.get('goToRoute')('dashboard.agents.all-agents');
+                    if( this.get('isUserAdmin')) {
+                        this.get('goToRoute')('dashboard.agents.all-agents');
+                    } else {
+                        this.get('goToRoute')('dashboard.agent.agents.all-agents');
+                    }
                 }
             } else {
                 this.get('model').reload();
@@ -84,6 +92,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
                         break;
                     case ApiCode.FILE_SAVING_ERROR:
                         this.toast.error(Translator.trans('models.agent.file.error'));
+                        break;
+                    case ApiCode.AGENT_SYNC_ERROR:
+                        this.toast.error(Translator.trans('models.agent.sync.error'));
                         break;
                     case ApiCode.ERROR_MESSAGE:
                         this.toast.error(error.message);
@@ -130,8 +141,6 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());
-            console.log(changeSet.get('errors'));
-            console.log(addressChangeSet.get('errors'));
             if (validation && changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
                 let img = this.getImage();
                 //WE can send image to server

@@ -11,3 +11,9 @@ filter=(action 'filterModel')
 viewLink="dashboard.users.user-view"
 editLink="dashboard.users.user-edit"
 }}
+{{inf-select
+        optionLabelKey='email'
+        selected = changeset.superior
+        on-search = (perform search)
+        on-change=(action 'agentSelected')
+}}

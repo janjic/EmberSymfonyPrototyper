@@ -12,6 +12,7 @@ use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\Agent\JsonApiAgentOrgchartManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiDeleteAgentManagerTrait;
@@ -66,17 +67,24 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     protected $eventDispatcher;
 
     /**
-     * @param AgentRepository          $repository
-     * @param GroupManager             $groupManager
-     * @param FJsonApiSerializer       $fSerializer
-     * @param EventDispatcherInterface $dispatcher
+     * @var TokenStorageInterface
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $dispatcher)
+    protected $tokenStorage;
+
+    /**
+     * @param AgentRepository $repository
+     * @param GroupManager $groupManager
+     * @param FJsonApiSerializer $fSerializer
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface $tokenStorage,
+     */
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
     {
-        $this->repository      = $repository;
-        $this->groupManager    = $groupManager;
-        $this->fSerializer     = $fSerializer;
-        $this->eventDispatcher = $dispatcher;
+        $this->repository       = $repository;
+        $this->groupManager     = $groupManager;
+        $this->fSerializer      = $fSerializer;
+        $this->eventDispatcher  = $eventDispatcher;
+        $this->tokenStorage     = $tokenStorage;
     }
 
     public function getGroupById($id)
@@ -129,6 +137,27 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function edit(Agent $agent, $dbSuperior, $newSuperior)
     {
         return $this->repository->edit($agent, $dbSuperior, $newSuperior);
+    }
+
+    /**
+     * @param Agent $agent
+     * @return bool|array
+     */
+    public function syncDelete(Agent $agent)
+    {
+        $url = 'en/json/agent-delete/'.$agent->getId();
+        try {
+            $syncResult = $this->getContentFromTCR($url, 'DELETE');
+            if (is_object($syncResult) && $syncResult->code == 200) {
+                return true;
+            } else if (is_object($syncResult) && $syncResult->code == 403) {
+                return AgentApiResponse::AGENT_DELETE_SYNC_ERROR($syncResult->message);
+            } else {
+                return AgentApiResponse::AGENT_DELETE_SYNC_ERROR('UNKNOWN');
+            }
+        } catch (\Exception $exception) {
+            return AgentApiResponse::AGENT_DELETE_SYNC_ERROR('UNKNOWN');
+        }
     }
 
     /**
@@ -289,6 +318,13 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
     }
 
+    /**
+     * @return null|Agent
+     */
+    public function findAgentByRole()
+    {
+        return $this->repository->findAgentByRole();
+    }
 
     /**
      * @param $id

@@ -101,6 +101,11 @@ class Agent extends BaseUser implements ParticipantInterface
     protected $agentBackground;
 
     /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    protected $createdAt;
+
+    /**
      * @TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -127,7 +132,7 @@ class Agent extends BaseUser implements ParticipantInterface
     /**
      * @TreeParent
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent", inversedBy="children")
-     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id", nullable=true)
      */
     private $superior;
 
@@ -139,13 +144,13 @@ class Agent extends BaseUser implements ParticipantInterface
 
     /**
      * @ORM\OneToOne(targetEntity="UserBundle\Entity\Document\Image", cascade={"all"}, orphanRemoval=TRUE)
-     * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id", nullable=true)
      **/
     protected $image;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Address", cascade={"all"})
-     * @ORM\JoinColumn(name="address_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Address", cascade={"all"}, orphanRemoval=TRUE)
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id", nullable=true)
      **/
     protected $address;
 
@@ -160,6 +165,7 @@ class Agent extends BaseUser implements ParticipantInterface
     {
         parent::__construct();
         $this->children = new ArrayCollection();
+        $this->createdAt = new DateTime();
     }
 
     /**
@@ -550,6 +556,23 @@ class Agent extends BaseUser implements ParticipantInterface
         $this->children->removeElement($child);
         $child->setSuperior(null);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
 
 
     /**
