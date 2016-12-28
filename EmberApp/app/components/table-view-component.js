@@ -7,6 +7,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
     sortType: 'asc',
     defaultSortType: null,
     showSearchSortBar: true,
+    defaultRules: [],
     paramsArray: {
         groupOp: 'AND',
         rules: []
@@ -47,6 +48,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
     handleFilterEntry: task(function * (column, searchValue, compareType, delayTime) {
         yield timeout(delayTime);
         let searchArrayFields = this.get('searchArray');
+        console.log(searchArrayFields);
+        console.log(column);
         let exists = searchArrayFields.findBy('field', column);
         if (exists !== undefined) {
             if (searchValue === '') {
@@ -78,13 +81,14 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 groupOp: 'AND',
                 rules: []
             },
-            searchArray: []
+            searchArray: this.get('defaultRules')
         });
 
         this.loadData(this.get('paramsArray'));
     },
 
     _initialize: Ember.on('init', function(){
+        this.set('searchArray', this.get('defaultRules'));
         this.get('eventBus').subscribe('resetTableEvent', this, 'resetTable');
     }),
 

@@ -34,12 +34,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
     use JsonApiUpdateMailListManagerTrait;
     use JsonApiJQGridMailListManagerTrait;
 
-
-    /**
-     * @var FJsonApiSerializer $fSerializer
-     */
-    protected $fSerializer;
-
     /**
      * @var MailChimp $mailChimp
      */
@@ -52,12 +46,10 @@ class MailListManager implements JSONAPIEntityManagerInterface
 
     /**
      * MailListManager constructor.
-     * @param FJsonApiSerializer $fSerializer
      * @param TokenStorage $tokenStorage
      */
-    public function __construct(FJsonApiSerializer $fSerializer, TokenStorage $tokenStorage)
+    public function __construct(TokenStorage $tokenStorage)
     {
-        $this->fSerializer   = $fSerializer;
         $this->tokenStorage  = $tokenStorage;
         $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
     }
@@ -113,14 +105,21 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 $subscribers = $this->mailChimp->post('lists/'.$id, [
                     'members' => $members
                 ]);
-
                 if(!$this->mailChimp->success()){
-                    return new Exception($this->mailChimp->getLastError());
+                    $message = '';
+                    foreach ($response['errors'] as $error) {
+                        $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];
+                    }
+                    return new Exception($message);
                 }
             }
 
         } else {
-            return new Exception($this->mailChimp->getLastError());
+            $message = '';
+            foreach ($response['errors'] as $error) {
+                $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];
+            }
+            return new Exception($message);
         }
 
         return $response;
@@ -201,28 +200,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
         return $response;
     }
 
-
-
-    /**
-     * @param $mailLists
-     * @return \FSerializerBundle\Serializer\JsonApiDocument
-     */
-    public function serializeMailList($mailLists)
-    {
-        return $this->fSerializer->setType('mailLists')->setDeserializationClass(MailList::class)->serialize($mailLists, MailListSerializerInfo::$mappings, MailListSerializerInfo::$relations);
-
-    }
-
-    /**
-     * @param $content
-     * @param null $mappings
-     * @return mixed
-     */
-    public function deserializeMailList($content, $mappings = null)
-    {
-        return $this->fSerializer->setDeserializationClass(MailList::class)->deserialize($content, MailListSerializerInfo::$mappings, MailListSerializerInfo::$relations);
-    }
-
     /**
      * @return mixed
      */
@@ -231,12 +208,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
         return $this->tokenStorage->getToken()->getUser();
     }
 
-
-
-    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
-    {
-
-    }
 
     public function findAllForJQGRID($page, $offset, $isCount = false)
     {
@@ -265,22 +236,8 @@ class MailListManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $lists
-     * @return ArrayCollection
+     * @return array
      */
-    public function deserializeListsArray($lists)
-    {
-        $listCollection = new ArrayCollection();
-        foreach ($lists as $list){
-            $mailList = new MailList();
-            $mailList->setId($list['id'])->setName($list['name'])->setFromAddress($list['campaign_defaults']['from_email'])
-                ->setFromName($list['campaign_defaults']['from_name'])->setSubscribersCount($list['stats']['member_count']);
-            $listCollection->add($mailList);
-
-
-        }
-        return $listCollection;
-    }
-
     public function serializeListsArray($lists)
     {
         $array = [];
