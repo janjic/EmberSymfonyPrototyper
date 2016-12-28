@@ -44,6 +44,10 @@ validation:
 general:
   email: 'Email'
 
+agent:
+  change:
+    status: 'Change status'
+
 
 # ADMIN MENU ITEMS
 

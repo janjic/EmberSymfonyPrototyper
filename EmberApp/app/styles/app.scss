@@ -2284,6 +2284,9 @@ input:focus {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
   .orgchart {
     background-image: none;
+    table {
+      background-color: transparent;
+    }
     .node {
       width: 150px;
       .title {
@@ -2325,6 +2328,27 @@ input:focus {
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
+        width: 260px;
+        .flex-view {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .img-holder {
+          height: auto !important;
+          position: relative;
+          .linkToEdit {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+          }
+        }
+        .actions {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          flex-direction: column;
+        }
         ul {
           padding: 0;
           margin: 0;
@@ -2333,8 +2357,8 @@ input:focus {
           }
         }
         .avatar {
-          width: 60px;
-          height: 60px;
+          width: 100px;
+          height: 100px;
           border-radius: 30px;
           float: left;
           margin: 5px;
@@ -3147,28 +3171,143 @@ ul.notification-list {
   padding: 0;
   list-style: none;
   li.single-notification {
+    &:hover {
+      background-color: #efefef;
+    }
+    &:nth-child(2) {
+      border-top: 1px solid #ddd;
+    }
     list-style: none;
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
+    border-top: none;
     padding: 10px;
     border-left: 5px solid $main-red;
-    margin-bottom: 15px;
-    box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 0;
+    a {
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex: 1;
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+    .img-holder {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      height: 70px !important;
+      img {
+        width: 70px;
+        height: 70px;
+      }
+      .icon-circle {
+        padding: 10px;
+        border-radius: 50%;
+        background-color: #4caf50;
+        border: none;
+        color: #fff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 0;
+        right: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        i.fa {
+          font-size: 12px;
+        }
+      }
+    }
     .notification-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex: 1;
       .content-left {
-        h5 {
-          margin-bottom: 5px;
+        h4 {
+          margin: 0;
+        }
+        p {
+          margin: 0;
+        }
+        span {
+          font-size: 11px;
+          color: #666;
         }
       }
     }
   }
   li.single-notification.seen {
     border-left: 5px solid $main-green;
+  }
+}
+
+.user-heading {
+  height: 130px;
+  background: $main-dark url('images/profile-bg-material.png');
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 6px rgba(0, 0, 0, 0.23);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-size: cover;
+  .left-side {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .right-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .img-holder {
+    height: 70px !important;
+    margin-right: 15px;
+    img {
+      width: 70px;
+      height: 70px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+  }
+  h5 {
+    margin: 0;
+    color: #fff;
+  }
+  p {
+    color: #fff;
+  }
+}
+
+.input-box.notifications {
+  p {
+    padding: 5px;
+    color: #333;
+    i.fa {
+      margin-right: 10px;
+      font-size: 20px;
+      color: #333;
+    }
+  }
+}
+
+.input-box.agent-list {
+  .img-holder {
+    height: 70px !important;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
   }
 }
 
@@ -3702,6 +3841,7 @@ $searchable-select-spacer-horizontal: 1em;
   border-radius: 50%;
   display: inline-block;
   color: #fff;
+  margin: 2px;
 }
 
 .button.green.icon-btn.rounded-btn {
@@ -3764,6 +3904,15 @@ $searchable-select-spacer-horizontal: 1em;
     text-align: left;
     display: flex;
     align-items: flex-end;
+    min-height: 31px;
+  }
+  .switch {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .slider {
+    pointer-events: none;
+    background-color: #ccc;
   }
 }
 

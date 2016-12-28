@@ -147,12 +147,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 });
                 // let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
                 let secondMenu =
-                    '<div class="second-menu" hidden data-id="'+data.id+'">' +
-                    '<img class="avatar" src="'+data.baseImageUrl+'">' +
-                    '<a class="button green icon-btn linkToEdit">'+Translator.trans('agent.edit')+'</a>' +
-                    '<a class="button green icon-btn linkToSuspend">'+Translator.trans('agent.change.status')+'</a>' +
-                    '<a class="button green icon-btn linkToDelete">'+Translator.trans('agent.delete')+'</a>' +
-                    '</div>';
+                    '<div class="second-menu" hidden data-id="'+data.id+'"><div class="flex-view">' +
+                    '<div class="img-holder"><img class="avatar" src="'+data.baseImageUrl+'">' +
+                    '<a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a></div>' +
+                    '<div class="actions"><a class="button green icon-btn linkToSuspend">'+Translator.trans('agent.change.status')+'</a>' +
+                    '<a class="button red icon-btn linkToDelete"><i class="fa fa-trash"></i></a></div>' +
+                    '</div></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {

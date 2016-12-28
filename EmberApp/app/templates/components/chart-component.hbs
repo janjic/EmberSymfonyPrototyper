@@ -11,6 +11,9 @@
                     text: 'Monthly Average Temperature',
                     x: -20 //center
                 },
+                credits: {
+                    enabled: false
+                },
                 subtitle: {
                     text: 'Source: WorldClimate.com',
                     x: -20
@@ -65,6 +68,9 @@
         Highcharts.chart('highchart', {
             title: {
                 text: 'Combination chart'
+            },
+            credits: {
+                enabled: false
             },
             xAxis: {
                 categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']

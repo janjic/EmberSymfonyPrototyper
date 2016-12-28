@@ -18,13 +18,12 @@
             on-search = (perform search)
             on-change=(action 'agentSelected')
         }}
+        <a {{action "deleteAgent" }} type="submit" class="sign-in" disabled="{{isDeleteDisabled}}">
+            {{#if isLoading }}
+                {{inf-loading}}
+            {{else}}
+                Delete user
+            {{/if}}
+        </a>
     {{/bs-modal-body}}
-
-    <a {{action "deleteAgent" }} type="submit" class="sign-in" disabled="{{isDeleteDisabled}}">
-        {{#if isLoading }}
-            {{inf-loading}}
-        {{else}}
-            Delete user
-        {{/if}}
-    </a>
 {{/bs-modal}}
