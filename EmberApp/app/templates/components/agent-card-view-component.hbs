@@ -19,6 +19,13 @@
                 {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
             </div>
         </div>
+        {{#if showAgentFilter}}
+            {{inf-select
+                    optionLabelKey='email'
+                    on-search = (perform search)
+                    on-change=(action 'agentSelected')
+            }}
+        {{/if}}
     </div>
 
     {{#each model as |agent|}}

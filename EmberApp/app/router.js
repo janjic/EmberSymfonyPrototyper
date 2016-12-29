@@ -27,7 +27,7 @@ Router.map(function() {
         this.route('test-commissions');
       });
       this.route('payments', function() {
-          this.route('purchase-details');
+          this.route('purchase-details', {path: '/purchase-details/:id'});
           this.route('reports');
           this.route('payouts-to-agents');
       });
@@ -106,10 +106,15 @@ Router.map(function() {
             this.route('add-new-agent');
             this.route('all-agents');
           });
+          this.route('notifications', function () {
+              this.route('notifications-all');
+          });
       });
 
       this.route('genealogy-tree');
-      this.route('notifications-all');
+      this.route('notifications', function () {
+          this.route('notifications-all');
+      });
   });
 
   this.route('files');

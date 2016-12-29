@@ -9,11 +9,11 @@
                 <div class="message-list-body" id="side-messages">
                     {{messages/sidebar-messages model=model threadSelectedAction=(action 'threadSelected') selectedThread=selectedThread}}
                     {{#infinity-loader infinityModel=model scrollable="#side-messages"}}
-                        {{#if _canLoadMore}}
+                        {{#unless model.reachedInfinity}}
                             <div id="loading-more-state">
                                 <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
                             </div>
-                        {{/if}}
+                        {{/unless}}
                     {{/infinity-loader}}
                 </div>
             </div>
