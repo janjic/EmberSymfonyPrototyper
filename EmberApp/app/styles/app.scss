@@ -289,8 +289,8 @@ table {
       float: right;
     }
     img {
-      width: 25px;
-      height: 25px;
+      width: 21px;
+      height: 21px;
       border: 1px solid #fff;
       margin-right: 5px;
     }
@@ -2275,7 +2275,7 @@ input:focus {
   height: 100%;
   min-height: 600px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   overflow-x: auto;
   background-image: url(images/bg-pattern.png);
