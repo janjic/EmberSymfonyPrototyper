@@ -1,30 +1,19 @@
 <div class="agent-view">
     <div class="user-heading">
         <div class="left-side">
-            {{#if currentUser.user.image.webPath}}
-                <div class="img-holder">
-                    <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
-                </div>
-            {{else}}
-                <div class="img-holder">
-                    <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
-                </div>
-            {{/if}}
             <div class="info">
-                <h5>{{currentUser.user.fullName}}</h5>
-                <p>{{currentUser.user.email}}</p>
+                <h5>{{agent.fullName}}</h5>
+                <p>{{agent.email}}</p>
             </div>
         </div>
         <div class="right-side">
-            {{#link-to 'dashboard.profile-settings'  class='button red'}}
-                Edit profile
-            {{/link-to}}
+            {{#link-to editLink agent.id class="button red icon-btn"}}Edit profile{{/link-to}}
         </div>
     </div>
     <div class="row agent-view-cards">
         <div class="col-md-4">
             <div class="input-box high clearfix">
-                <h3 class="sub-heading">{{fa-icon "user"}} {{agent.fullName}}</h3>
+                <h3 class="sub-heading">{{fa-icon "user"}} Basic info</h3>
                 <h5>{{agent.group.name}}</h5>
                 <div class="img-holder">
                     {{#if agent.image.webPath}}

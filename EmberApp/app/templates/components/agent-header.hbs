@@ -41,7 +41,7 @@
                                 </div>
                             </li>
                             <li class="bottom-section">
-                                <a href="#" class="button red icon-btn">Edit profile</a>
+                                {{#link-to 'dashboard.agents.agent-edit' currentUser.user.id class="button red icon-btn" }}Edit profile{{/link-to}}
                                 <a href="#" class="button red icon-btn" {{action 'logout'}}>Logout</a>
                             </li>
 

@@ -1,0 +1,12 @@
+services:
+    agent_system.payment_info.repository:
+        class: PaymentBundle\Business\Repository\PaymentInfoRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - PaymentBundle\Entity\PaymentInfo
+
+    agent_system.payment_info.manager:
+       class: PaymentBundle\Business\Manager\PaymentInfoManager
+       arguments:
+             repository: "@agent_system.payment_info.repository"
+             agentManager: "@agent_system.agent.manager"
