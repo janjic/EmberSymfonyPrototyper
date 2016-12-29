@@ -4,7 +4,6 @@ namespace UserBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Controller\TokenController as BaseController;
-use FOS\OAuthServerBundle\Entity\RefreshTokenManager;
 use FOS\OAuthServerBundle\Storage\OAuthStorage;
 use FOS\UserBundle\Model\UserManagerInterface;
 use OAuth2\OAuth2;
