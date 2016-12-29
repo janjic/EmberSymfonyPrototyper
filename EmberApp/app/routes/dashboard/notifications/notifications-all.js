@@ -23,5 +23,10 @@ export default Ember.Route.extend(InfinityRoute, {
 
             this.transitionTo(link);
         }
+    },
+
+    beforeModel(){
+        this.set('_minId', undefined);
+        this.set('_maxId', undefined);
     }
 });
