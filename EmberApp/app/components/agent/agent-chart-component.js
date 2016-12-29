@@ -151,7 +151,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     '<div class="img-holder"><img class="avatar" src="'+data.baseImageUrl+'">' +
                     '<a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a></div>' +
                     '<div class="actions"><a class="button green icon-btn linkToSuspend">'+Translator.trans('agent.change.status')+'</a>' +
-                    '<a class="button red icon-btn linkToDelete"><i class="fa fa-trash"></i></a></div>' +
+                    '<a class="button red icon-btn linkToDelete">Delete</a></div>' +
                     '</div></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }

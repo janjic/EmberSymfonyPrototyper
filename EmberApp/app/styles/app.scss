@@ -2345,7 +2345,6 @@ input:focus {
         }
         .actions {
           display: flex;
-          align-items: flex-end;
           justify-content: space-between;
           flex-direction: column;
         }
@@ -3448,7 +3447,7 @@ ul.dropdown-menu.header-messages {
 .heading-button {
   position: absolute;
   right: 30px;
-  top: 20px;
+  top: 90px;
   padding: 5px 10px;
   font-size: 12px;
 }
@@ -4036,3 +4035,16 @@ $searchable-select-spacer-horizontal: 1em;
     color: #fff;
   }
 }
+
+.home-table-wrap {
+  @media screen and (max-width: 1199px) {
+    width: 100% !important;
+  }
+}
+
+.dark-cards {
+  @media screen and (max-width: 1199px) {
+    width: 100% !important;
+  }
+}
+

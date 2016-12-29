@@ -13,17 +13,21 @@
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body}}
-        {{inf-select
-            optionLabelKey='email'
-            on-search = (perform search)
-            on-change=(action 'agentSelected')
-        }}
-        <a {{action "deleteAgent" }} type="submit" class="sign-in" disabled="{{isDeleteDisabled}}">
-            {{#if isLoading }}
-                {{inf-loading}}
-            {{else}}
-                Delete user
-            {{/if}}
-        </a>
+        <div class="form-group clearfix">
+            {{inf-select
+                    optionLabelKey='email'
+                    on-search = (perform search)
+                    on-change=(action 'agentSelected')
+            }}
+        </div>
+        <div class="form-group clearfix">
+            <a {{action "deleteAgent" }} class="button red" type="submit"  disabled="{{isDeleteDisabled}}">
+                {{#if isLoading }}
+                    {{inf-loading}}
+                {{else}}
+                    Delete user
+                {{/if}}
+            </a>
+        </div>
     {{/bs-modal-body}}
 {{/bs-modal}}
