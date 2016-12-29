@@ -14,7 +14,7 @@ export default DS.JSONAPIAdapter.extend( {
         clonedQuery['rows'] = clonedQuery['offset'];
         clonedQuery['_search'] = true;
 
-        if(typeof clonedQuery['filters'] !== 'undefined' && clonedQuery['filters'].rules.length){
+        if(typeof clonedQuery['filters'] !== 'undefined' && typeof clonedQuery['filters'].rules !== 'undefined' && clonedQuery['filters'].rules.length){
             clonedQuery['filters'].rules.forEach(function (item, index, array) {
                 if(item.field === 'name'){
                     array[index].field = 'user.name';
@@ -33,7 +33,6 @@ export default DS.JSONAPIAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
-        console.log(options);
         return this.get('ajax').request(url, options).then(response => {
 
 

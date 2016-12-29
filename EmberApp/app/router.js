@@ -26,7 +26,7 @@ Router.map(function() {
         this.route('my-settings');
       });
       this.route('payments', function() {
-          this.route('purchase-details');
+          this.route('purchase-details', {path: '/purchase-details/:id'});
           this.route('reports');
           this.route('payouts-to-agents');
       });
