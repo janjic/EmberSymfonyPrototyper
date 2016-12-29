@@ -43,6 +43,7 @@ validation:
 
 general:
   email: 'Email'
+  message: 'Recepient'
 
 agent:
   change:
