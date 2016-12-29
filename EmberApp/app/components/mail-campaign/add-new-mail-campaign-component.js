@@ -26,6 +26,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 campaign.save().then(() => {
                     this.toast.success('models.campaign.save');
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.mass-mails.all-campaigns');
                 }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {

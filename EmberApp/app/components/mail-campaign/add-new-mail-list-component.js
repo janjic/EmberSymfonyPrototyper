@@ -22,6 +22,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 list.save().then(() => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.mass-mails.all-mail-lists');
                 }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {
@@ -39,6 +40,14 @@ export default Ember.Component.extend(LoadingStateMixin, {
         },
         agentAdded(value, selectedItems){
             selectedItems = selectedItems.addObject({email: value});
+            this.set('additionalMails', selectedItems);
+        },
+        agentSelected(agent, selectedItems){
+            if(agent.hasOwnProperty('email')){
+                selectedItems = selectedItems.addObject({email: agent});
+            }else {
+                selectedItems = selectedItems.addObject({email: agent.get('email')});
+            }
             this.set('additionalMails', selectedItems);
         },
         validateProperty(changeset, property) {

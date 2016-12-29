@@ -30,25 +30,17 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
 
 
     /**
-     * @var FJsonApiSerializer $fSerializer
-     */
-    protected $fSerializer;
-
-    /**
      * @var MailChimp $mailChimp
      */
     protected $mailChimp;
 
     /**
      * MailCampaignManager constructor.
-     * @param FJsonApiSerializer $fSerializer
      */
-    public function __construct(FJsonApiSerializer $fSerializer)
+    public function __construct()
     {
-        $this->fSerializer     = $fSerializer;
         $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
     }
-
 
     /**
      * @param $mailCampaign
@@ -78,7 +70,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
                 $this->mailChimp->post('campaigns/'.$campaign['id'].'/actions/send');
                 if($this->mailChimp->success()) {
 
-                   return $campaign;
+                    return $campaign;
                 } else {
                     return new Exception($this->mailChimp->getLastError());
                 }
@@ -96,33 +88,16 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
         }
     }
 
-
-    /**
-     * @param $campaigns
-     * @return \FSerializerBundle\Serializer\JsonApiDocument
-     */
-    public function serializeMailCampaign($campaigns)
-    {
-        return $this->fSerializer->setType('campaigns')->setDeserializationClass(MailCampaign::class)->serialize($campaigns, MailCampaignSerializerInfo::$mappings, MailCampaignSerializerInfo::$relations);
-
-    }
-
-    /**
-     * @param $content
-     * @param null $mappings
-     * @return mixed
-     */
-    public function deserializeMailCampaign($content, $mappings = null)
-    {
-        return $this->fSerializer->setDeserializationClass(MailCampaign::class)->deserialize($content, MailCampaignSerializerInfo::$mappings, MailCampaignSerializerInfo::$relations);
-    }
-
     /**
      * @return array|false
      */
     public function getCampaignTemplates()
     {
-        $templates = $this->mailChimp->get('/templates');
+        $templatesCount = $this->mailChimp->get('/templates', ['fields' => 'total_items']);
+
+        $templates = $this->mailChimp->get('/templates', [
+            'count' => $templatesCount['total_items']
+        ]);
 
         $templatesArray = [];
         foreach ($templates['templates'] as $template){
@@ -188,6 +163,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
             }
 
             return $array;
+
         } else {
             $item = [];
             $item['id'] = $campaigns['id'];

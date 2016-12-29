@@ -68,46 +68,46 @@ Router.map(function() {
       });
 
       this.route('agent', function() {
-        this.route('home');
-        this.route('genealogy-tree');
-        this.route('messages', function() {
-            this.route('create-message');
-            this.route('received-messages');
-            this.route('sent');
-            this.route('trash');
-            this.route('drafts');
-        });
-        this.route('profile', function() {
-            this.route('profile-settings');
-        });
-        this.route('tickets', function() {
-          this.route('tickets-all');
-          this.route('new-ticket');
-          this.route('view-ticket', {path: '/view-ticket/:id'});
-          this.route('created-tickets');
-        });
-        this.route('reports', function() {
-            this.route('customer-orders');
-            this.route('commissions');
-            this.route('purchase-details');
-        });
-        this.route('wallet', function() {
-            this.route('wallet-summary');
-            this.route('payout-history');
-        });
-        this.route('users', function() {
-            this.route('add-new-user');
-            this.route('users-customers');
-            this.route('user-edit');
-            this.route('user-view');
-        });
-        this.route('agents', function() {
-          this.route('add-new-agent');
-          this.route('all-agents');
-        });
-        this.route('notifications', function () {
-            this.route('notifications-all');
-        });
+          this.route('home');
+          this.route('genealogy-tree');
+          this.route('messages', function() {
+              this.route('create-message');
+              this.route('received-messages');
+              this.route('sent');
+              this.route('trash');
+              this.route('drafts');
+          });
+          this.route('profile', function() {
+              this.route('profile-settings');
+          });
+          this.route('tickets', function() {
+            this.route('tickets-all');
+            this.route('new-ticket');
+            this.route('view-ticket', {path: '/view-ticket/:id'});
+            this.route('created-tickets');
+          });
+          this.route('reports', function() {
+              this.route('customer-orders');
+              this.route('commissions');
+              this.route('purchase-details', {path: '/purchase-details/:id'});
+          });
+          this.route('wallet', function() {
+              this.route('wallet-summary');
+              this.route('payout-history');
+          });
+          this.route('users', function() {
+              this.route('add-new-user');
+              this.route('users-customers');
+              this.route('user-edit');
+              this.route('user-view');
+          });
+          this.route('agents', function() {
+            this.route('add-new-agent');
+            this.route('all-agents');
+          });
+          this.route('notifications', function () {
+              this.route('notifications-all');
+          });
       });
 
       this.route('genealogy-tree');

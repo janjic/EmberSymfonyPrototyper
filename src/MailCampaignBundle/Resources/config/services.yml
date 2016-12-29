@@ -2,20 +2,21 @@ services:
     # ------ MailCampaign ------------------------------------------------------------------------------------------------- #
     agent_system.mail.campaign.manager:
         class: MailCampaignBundle\Business\Manager\MailCampaign\MailCampaignManager
-        arguments: ["@f_serializer"]
-
     agent_system.mail.campaign.adapter:
         class: MailCampaignBundle\Adapter\MailCampaign\MailCampaignAdapter
-        arguments: ["@agent_system.mail.campaign.manager"]
+        arguments:
+            - "@agent_system.mail.campaign.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }
 
     # ------ MailList ------------------------------------------------------------------------------------------------- #
     agent_system.mail.list.manager:
         class: MailCampaignBundle\Business\Manager\MailList\MailListManager
-        arguments: ["@f_serializer", "@security.token_storage" ]
+        arguments:
+            tokenStorage:    "@security.token_storage"
     agent_system.mail.list.adapter:
         class: MailCampaignBundle\Adapter\MailList\MailListAdapter
-        arguments: ["@agent_system.mail.list.manager"]
+        arguments:
+            - "@agent_system.mail.list.manager"
         tags:
             - { name: request.param_converter, converter:attribute priority: 10 }

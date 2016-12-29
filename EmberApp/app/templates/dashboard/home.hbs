@@ -182,7 +182,7 @@
 
         </script>
         <div class="row">
-            <div class="col-md-9 col-sm-12">
+            <div class="col-md-9 col-sm-12 home-table-wrap">
                 <div class="input-box home-table">
                     <h3 class="sub-heading">Latest transactions</h3>
                     <div class="flex-table">
@@ -283,7 +283,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-3 col-sm-12 dark-cards">
                 <div class="home-card-secondary">
                     {{fa-icon "user icon-bg"}}
                     <div class="img-holder">
@@ -318,8 +318,44 @@
         </div>
 
         {{chart-component}}
+        <div class="input-box">
+            <h3 class="sub-heading">{{fa-icon 'user'}} User activity</h3>
+            <div id="basic_choropleth" style="cursor:pointer; position: relative; width: 100%; height: 600px;"></div>
+        </div>
+
+        <script>
+            var basic_choropleth = new Datamap({
+                element: document.getElementById("basic_choropleth"),
+                projection: 'mercator',
+                fills: {
+                    defaultFill: "#34495e",
+                    authorHasTraveledTo: "#c0392b"
+                },
+                data: {
+                    USA: { fillKey: "authorHasTraveledTo" },
+                    JPN: { fillKey: "authorHasTraveledTo" },
+                    ITA: { fillKey: "authorHasTraveledTo" },
+                    CRI: { fillKey: "authorHasTraveledTo" },
+                    KOR: { fillKey: "authorHasTraveledTo" },
+                    DEU: { fillKey: "authorHasTraveledTo" },
+                }
+            });
+
+            var colors = d3.scale.category10();
+
+//            window.setInterval(function() {
+//                basic_choropleth.updateChoropleth({
+//                    USA: colors(Math.random() * 10),
+//                    RUS: colors(Math.random() * 100),
+//                    AUS: { fillKey: 'authorHasTraveledTo' },
+//                    BRA: colors(Math.random() * 50),
+//                    CAN: colors(Math.random() * 50),
+//                    ZAF: colors(Math.random() * 50),
+//                    IND: colors(Math.random() * 50),
+//                });
+//            }, 2000);
 
 
-
+        </script>
     </section>
 </div>
