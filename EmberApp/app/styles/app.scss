@@ -3858,13 +3858,13 @@ $searchable-select-spacer-horizontal: 1em;
 .agent-view {
   .dl-horizontal {
     dt {
-      @media screen and (max-width: 1350px) {
-        float: none !important;
+      @media screen and (max-width: 1300px) {
+        width: 100px;
       }
     }
     dd {
-      @media screen and (max-width: 1350px) {
-        margin-left: 0 !important;
+      @media screen and (max-width: 1300px) {
+        margin-left: 100px;
       }
     }
   }
@@ -3986,6 +3986,7 @@ $searchable-select-spacer-horizontal: 1em;
 
 .mt-action-buttons {
   cursor: not-allowed;
+  min-width: 140px;
   .switch-green {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -4034,6 +4035,14 @@ $searchable-select-spacer-horizontal: 1em;
     background-color: $main-red;
     color: #fff;
   }
+  @media screen and (max-width: 1190px) {
+    .switch-green, .switch-red {
+      padding: 10px;
+    }
+    .switch-green span, .switch-red span {
+      display: none;
+    }
+  }
 }
 
 .home-table-wrap {
@@ -4045,6 +4054,15 @@ $searchable-select-spacer-horizontal: 1em;
 .dark-cards {
   @media screen and (max-width: 1199px) {
     width: 100% !important;
+  }
+}
+
+.agent-view-cards {
+  .input-box.high {
+    height: 520px;
+  }
+  .input-box {
+    height: 245px;
   }
 }
 
