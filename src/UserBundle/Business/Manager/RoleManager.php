@@ -24,6 +24,12 @@ class RoleManager implements JSONAPIEntityManagerInterface
     use JsonApiUpdateRoleManagerTrait;
     use JsonApiDeleteRoleManagerTrait;
 
+    const ROLE_SUPER_ADMIN  = "ROLE_SUPER_ADMIN";
+    const ROLE_AMBASSADOR   = "ROLE_AMBASSADOR";
+    const ROLE_MASTER_AGENT = "ROLE_MASTER_AGENT";
+    const ROLE_ACTIVE_AGENT = "ROLE_ACTIVE_AGENT";
+    const ROLE_REFEREE      = "ROLE_REFEREE";
+
     /**
      * @var RoleRepository
      */

@@ -37,11 +37,11 @@
                                 <div class="info-actions">
                                     <p>{{currentUser.user.fullName }}</p>
                                     <p>{{currentUser.user.email}}</p>
-                                    {{#link-to profileRoute class="button green icon-btn" }}View profile{{/link-to}}
+                                    {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class="button green icon-btn" }}View profile{{/link-to}}
                                 </div>
                             </li>
                             <li class="bottom-section">
-                                <a href="#" class="button red icon-btn">Edit profile</a>
+                                {{#link-to 'dashboard.agents.agent-edit' currentUser.user.id class="button red icon-btn" }}Edit profile{{/link-to}}
                                 <a href="#" class="button red icon-btn" {{action 'logout'}}>Logout</a>
                             </li>
 

@@ -24,6 +24,7 @@ Router.map(function() {
         this.route('manage-user-groups');
         this.route('manage-roles');
         this.route('my-settings');
+        this.route('test-commissions');
       });
       this.route('payments', function() {
           this.route('purchase-details', {path: '/purchase-details/:id'});

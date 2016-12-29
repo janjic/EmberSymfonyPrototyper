@@ -289,8 +289,8 @@ table {
       float: right;
     }
     img {
-      width: 25px;
-      height: 25px;
+      width: 21px;
+      height: 21px;
       border: 1px solid #fff;
       margin-right: 5px;
     }
@@ -2275,7 +2275,7 @@ input:focus {
   height: 100%;
   min-height: 600px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   overflow-x: auto;
   background-image: url(images/bg-pattern.png);
@@ -3252,11 +3252,17 @@ ul.notification-list {
   background: $main-dark url('images/profile-bg-material.png');
   margin-bottom: 30px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 6px rgba(0, 0, 0, 0.23);
-  padding: 10px;
+  padding: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-size: cover;
+  .info {
+    h5 {
+      font-size: 25px;
+      margin-bottom: 0;
+    }
+  }
   .left-side {
     display: flex;
     align-items: center;
@@ -3858,13 +3864,13 @@ $searchable-select-spacer-horizontal: 1em;
 .agent-view {
   .dl-horizontal {
     dt {
-      @media screen and (max-width: 1350px) {
-        float: none !important;
+      @media screen and (max-width: 1300px) {
+        width: 100px;
       }
     }
     dd {
-      @media screen and (max-width: 1350px) {
-        margin-left: 0 !important;
+      @media screen and (max-width: 1300px) {
+        margin-left: 100px;
       }
     }
   }
@@ -3986,6 +3992,7 @@ $searchable-select-spacer-horizontal: 1em;
 
 .mt-action-buttons {
   cursor: not-allowed;
+  min-width: 140px;
   .switch-green {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -4034,6 +4041,14 @@ $searchable-select-spacer-horizontal: 1em;
     background-color: $main-red;
     color: #fff;
   }
+  @media screen and (max-width: 1190px) {
+    .switch-green, .switch-red {
+      padding: 10px;
+    }
+    .switch-green span, .switch-red span {
+      display: none;
+    }
+  }
 }
 
 .home-table-wrap {
@@ -4045,6 +4060,15 @@ $searchable-select-spacer-horizontal: 1em;
 .dark-cards {
   @media screen and (max-width: 1199px) {
     width: 100% !important;
+  }
+}
+
+.agent-view-cards {
+  .input-box.high {
+    height: 520px;
+  }
+  .input-box {
+    height: 245px;
   }
 }
 

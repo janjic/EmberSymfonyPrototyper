@@ -1,0 +1,50 @@
+
+{{inf-select
+    optionLabelKey='email'
+    on-search = (perform search)
+    on-change=(action 'agentSelected')
+}}
+
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        sumPackages
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=sumPackages type=number}}
+    </div>
+</div>
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        sumConnection
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=sumConnection type=number}}
+    </div>
+</div>
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        sumOneTimeSetupFee
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=sumOneTimeSetupFee type=number}}
+    </div>
+</div>
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        sumStreams
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=sumStreams type=number}}
+    </div>
+</div>
+
+<div class="form-group clearfix">
+    <button class="button green pull-right" type="submit" {{action 'sendAjax' changeset }} disabled={{isLoading}}>
+        {{#if isLoading }}
+            {{inf-loading}}
+        {{else}}
+            {{trans 'button.save'}}
+        {{/if}}
+
+    </button>
+</div>
