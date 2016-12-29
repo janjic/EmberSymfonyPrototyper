@@ -43,6 +43,11 @@ validation:
 
 general:
   email: 'Email'
+  message: 'Recepient'
+
+agent:
+  change:
+    status: 'Change status'
 
 
 # ADMIN MENU ITEMS

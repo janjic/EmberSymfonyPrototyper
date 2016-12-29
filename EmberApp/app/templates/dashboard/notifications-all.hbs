@@ -1,28 +1,136 @@
 {{admin-left-menu user=user}}
 <div class=" right-section">
-    <h1 class="main-heading">All notifications</h1>
+    <div class="user-heading">
+        <div class="left-side">
+            {{#if currentUser.user.image.webPath}}
+                <div class="img-holder">
+                    <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
+                </div>
+            {{else}}
+                <div class="img-holder">
+                    <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
+                </div>
+            {{/if}}
+            <div class="info">
+                <h5>{{currentUser.user.fullName}}</h5>
+                <p>{{currentUser.user.email}}</p>
+            </div>
+        </div>
+        <div class="right-side">
+            {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class='button green'}}
+                View profile
+            {{/link-to}}
+            {{#link-to 'dashboard.profile-settings'  class='button red'}}
+                Edit profile
+            {{/link-to}}
+        </div>
+    </div>
 
-    <div id="scrollable_loader" style="height: calc(100vh - 260px); overflow-y: scroll">
-        <ul class="notification-list">
-            {{#each model as |notification|}}
-                <li class="single-notification {{if notification.isSeen "seen"}}" >
+    <div class="col-md-4">
+        <div class="input-box notifications">
+            <h3 class="sub-heading">{{fa-icon "user"}} About</h3>
+            <p>{{fa-icon "envelope"}} mail@provider.com</p>
+            <p>{{fa-icon "phone"}} +381 064 456 66 44</p>
+            <p>{{fa-icon "map-marker"}} Hollywood Hills, California</p>
+        </div>
+        <div class="input-box agent-list clearfix">
+            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Agents</h3>
+            <div class="col-md-4">
+                <a href="#">
                     <div class="img-holder">
                         <img src="../assets/images/user-avatar.png" title="Username">
                     </div>
-                    <div class="notification-content">
-                        <div class="content-left">
-                            <h5>{{ notification.type }} <span>{{ notification.agent.email }}</span></h5>
-                            <span class="date">{{ notification.createdAt }}</span>
-                        </div>
-                        <div class="content-right">
-                            <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}class="button green">View now</a>
-                        </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
                     </div>
-                </li>
-            {{/each}}
-        </ul>
-
-        {{infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
-
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="img-holder">
+                        <img src="../assets/images/user-avatar.png" title="Username">
+                    </div>
+                </a>
+            </div>
+            <div class="text-center">
+                <a href="#" class="button green btn-small">View all</a>
+            </div>
+        </div>
     </div>
+    <div class="col-md-8">
+        <div class="input-box">
+            <div id="scrollable_loader" style="height: calc(100vh - 385px); overflow-y: auto">
+                <ul class="notification-list">
+                    <h3 class="sub-heading">{{fa-icon "bell"}} All notifications</h3>
+                    {{#each model as |notification|}}
+                        <li class="single-notification {{if notification.isSeen "seen"}}" >
+                            <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}>
+                                <div class="img-holder">
+                                    <img class="img-circle" src="../assets/images/user-avatar.png" title="Username">
+                                    <span class="icon-circle">{{fa-icon "envelope"}}</span>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="content-left">
+                                        <h4>Admin Adminovic</h4>
+                                        <p>{{ notification.type }} <span>{{ notification.agent.email }}</span></p>
+                                        <span class="date">{{ notification.createdAt }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {{/each}}
+                </ul>
+
+                {{infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
+
+            </div>
+        </div>
+    </div>
+
 </div>

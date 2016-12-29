@@ -112,8 +112,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.get('changeset').validate('birthDate');
         },
 
-        statusChanged() {
-            this.toggleProperty('changeset.enabled');
+        statusChanged(status) {
+            this.set('changeset.enabled', status);
         },
         addedFile (file) {
                 if (!file.url) {

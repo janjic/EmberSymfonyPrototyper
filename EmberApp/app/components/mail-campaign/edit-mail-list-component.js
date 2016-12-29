@@ -30,6 +30,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 list.save().then(() => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.mass-mails.all-mail-lists');
                 }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {
