@@ -37,6 +37,8 @@ button:
   add: 'Add'
   view-all: 'View all'
   send-mail: 'Send mail'
+  edit-profile: 'Edit profile'
+  view-profile: 'View profile'
 
 validation:
   email:

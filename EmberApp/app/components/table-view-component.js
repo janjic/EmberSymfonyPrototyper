@@ -48,8 +48,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
     handleFilterEntry: task(function * (column, searchValue, compareType, delayTime) {
         yield timeout(delayTime);
         let searchArrayFields = this.get('searchArray');
-        console.log(searchArrayFields);
-        console.log(column);
         let exists = searchArrayFields.findBy('field', column);
         if (exists !== undefined) {
             if (searchValue === '') {

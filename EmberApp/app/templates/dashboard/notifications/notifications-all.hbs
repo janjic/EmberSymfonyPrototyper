@@ -16,11 +16,11 @@
             </div>
         </div>
         <div class="right-side">
-            {{#link-to 'dashboard.agent.agents.agent-view' currentUser.user.id class='button green'}}
-                View profile
+            {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class='button green'}}
+                {{trans 'button.view-profile'}}
             {{/link-to}}
             {{#link-to 'dashboard.profile-settings'  class='button red'}}
-                Edit profile
+                {{trans 'button.edit-profile'}}
             {{/link-to}}
         </div>
     </div>
