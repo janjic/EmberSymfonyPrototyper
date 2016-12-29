@@ -241,8 +241,8 @@ class MailListManager implements JSONAPIEntityManagerInterface
     public function serializeListsArray($lists)
     {
         $array = [];
-        foreach ($lists as $list){
 
+        foreach ($lists as $list){
             $item = [];
             $item['fromAddress'] = $list['campaign_defaults']['from_email'];
             $item['fromName'] = $list['campaign_defaults']['from_name'];
