@@ -9,7 +9,7 @@
                 </div>
                 {{#if limitAll}}
                     <div class="form-group">
-                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
                     </div>
                 {{else}}
                     <div class="form-group">

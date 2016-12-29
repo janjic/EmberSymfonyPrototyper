@@ -7,7 +7,6 @@ export default Ember.Controller.extend(AgentControllerActionsMixin, {
     groupsModel: [],
     page: 1,
     offset: 8,
-    offset: 10,
     promoCode: undefined,
     searchArray: undefined,
     colNames: [Translator.trans('ID'), Translator.trans('First Name'), Translator.trans('Last Name'), Translator.trans('Username'), Translator.trans('Agent Type'), Translator.trans('Country'), 'Status', 'Actions'],
