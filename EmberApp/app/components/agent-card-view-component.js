@@ -105,6 +105,14 @@ export default Ember.Component.extend({
                 this.set('firstBtnClasses', "button dark icon-btn");
                 this.set('secondBtnClasses', "button dark icon-btn green");
             }
+        },
+        agentSelected(agent){
+            this.get('agentSelected')(agent);
         }
-    }
+    },
+
+    search: task(function * (text, page, perPage) {
+        yield timeout(200);
+        return this.get('searchQuery')(page, text, perPage);
+    })
 });

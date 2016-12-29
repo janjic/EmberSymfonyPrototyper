@@ -44,8 +44,6 @@
                                 <a href="#" class="button red icon-btn">Edit profile</a>
                                 <a href="#" class="button red icon-btn" {{action 'logout'}}>Logout</a>
                             </li>
-
-
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
                     {{#bs-dropdown tagName="li"}}
@@ -53,7 +51,7 @@
                         {{#bs-dropdown-menu class="header-notifications"}}
                             {{#each agentNotifications as |notification|}}
                                 <li>
-                                    <a class="notification-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link notification.newAgent}} href="#">
+                                    <a class="notification-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link}} href="#">
                                         <div class="img-holder">
                                             {{fa-icon "user"}}
                                         </div>
@@ -64,30 +62,12 @@
                                     </a>
                                 </li>
                             {{/each}}
-                            <li>
-                                <a class="notification-item seen" href="#">
-                                    <div class="img-holder">
-                                        {{fa-icon "credit-card"}}
-                                    </div>
-                                    <div class="notification-item-content">
-                                        <p>New order has been confirmed by <span>username@mail.com</span></p>
-                                        <span class="date">December 20, 2016 14:57</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="notification-item seen" href="#">
-                                    <div class="img-holder">
-                                        {{fa-icon "envelope-o"}}
-                                    </div>
-                                    <div class="notification-item-content">
-                                        <p>New order has been confirmed by <span>username@mail.com</span></p>
-                                        <span class="date">December 20, 2016 14:57</span>
-                                    </div>
-                                </a>
-                            </li>
                             <li class="view-all-button">
-                                <a href="#" {{action "transitionToRoute" "dashboard.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{#if isUserAdmin}}
+                                    <a href="#" {{action "transitionToRoute" "dashboard.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{else}}
+                                    <a href="#" {{action "transitionToRoute" "dashboard.agent.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{/if}}
                             </li>
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
@@ -107,30 +87,12 @@
                                     </a>
                                 </li>
                             {{/each}}
-                            <li>
-                                <a class="message-item" href="#">
-                                    <div class="img-holder">
-                                        <img src="../assets/images/user-avatar.png" title="Username">
-                                    </div>
-                                    <div class="message-item-content">
-                                        <p>Test test test <span><strong>username@mail.com</strong></span></p>
-                                        <span class="date">December 20, 2016 14:57</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="message-item seen" href="#">
-                                    <div class="img-holder">
-                                        <img src="../assets/images/user-avatar.png" title="Username">
-                                    </div>
-                                    <div class="message-item-content">
-                                        <p>Test test test <span><strong>username@mail.com</strong></span></p>
-                                        <span class="date">December 20, 2016 14:57</span>
-                                    </div>
-                                </a>
-                            </li>
                             <li class="view-all-button">
-                                <a href="#" class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{#if isUserAdmin}}
+                                    <a href="#" {{action "transitionToRoute" "dashboard.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{else}}
+                                    <a href="#" {{action "transitionToRoute" "dashboard.agent.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                {{/if}}
                             </li>
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}

@@ -26,6 +26,7 @@ trait JsonApiJQGridAgentManagerTrait
         $searchParams = null;
         $page = $request->get('page');
         $offset = $request->get('offset');
+        $promoCode = $request->get('promoCode');
 
         $searchFields = array(
             'id'              => 'agent.id',
@@ -42,15 +43,18 @@ trait JsonApiJQGridAgentManagerTrait
         $params['offset'] = $offset;
         $additionalParams = array('or'=>false);
 
-        /** @var Agent $user */
-        $user = $this->tokenStorage->getToken()->getUser();
-        /**
-         * CHECK IF SUPER ADMIN AND DONT ADD FILTERS
-         */
-        if ( $this->repository->findAgentByRole() && $this->repository->findAgentByRole()->getId() == $user->getId()) {
-            $promoCode = null;
-        }else{
-            $promoCode = $user->getAgentId();
+
+        if( !$promoCode ) {
+            /** @var Agent $user */
+            $user = $this->tokenStorage->getToken()->getUser();
+            /**
+             * CHECK IF USER IS SUPER ADMIN, AND DON'T ADD FILTERS
+             */
+            if ($this->repository->findAgentByRole() && $this->repository->findAgentByRole()->getId() == $user->getId()) {
+                $promoCode = null;
+            } else {
+                $promoCode = $user->getAgentId();
+            }
         }
 
         if ($filters = $request->get('filters')) {

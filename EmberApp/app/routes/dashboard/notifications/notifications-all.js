@@ -17,18 +17,11 @@ export default Ember.Route.extend(InfinityRoute, {
     },
 
     actions: {
-        transitionTo(notification, link, newAgent){
+        transitionTo(notification, link){
             notification.set('isSeen', true);
             notification.save();
 
-            let agent_id = newAgent.get('id');
-            if( link ) {
-                if ( agent_id ) {
-                    this.transitionTo(link, agent_id );
-                } else {
-                    this.transitionTo(link);
-                }
-            }
+            this.transitionTo(link);
         }
     }
 });

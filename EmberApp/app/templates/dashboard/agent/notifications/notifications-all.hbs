@@ -1,4 +1,3 @@
-{{admin-left-menu user=user}}
 <div class=" right-section">
     <h1 class="main-heading">All notifications</h1>
 
@@ -7,7 +6,7 @@
             {{#each model as |notification|}}
                 <li class="single-notification {{if notification.isSeen "seen"}}" >
                     <div class="img-holder">
-                        <img src="../assets/images/user-avatar.png" title="Username">
+                        <img src="../../../assets/images/user-avatar.png" title="Username">
                     </div>
                     <div class="notification-content">
                         <div class="content-left">
@@ -15,14 +14,19 @@
                             <span class="date">{{ notification.createdAt }}</span>
                         </div>
                         <div class="content-right">
-                            <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}class="button green">View now</a>
+                            <a href="#" {{action "transitionTo" notification notification.link}}class="button green">View now</a>
                         </div>
                     </div>
                 </li>
             {{/each}}
         </ul>
 
-        {{infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
-
+        {{#infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
+            {{#unless model.reachedInfinity}}
+                <div id="loading-more-state">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                </div>
+            {{/unless}}
+        {{/infinity-loader}}
     </div>
 </div>

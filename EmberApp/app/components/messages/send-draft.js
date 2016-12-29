@@ -23,14 +23,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.set('changeset.participants', [this.get('thread.otherParticipant')]);
     },
 
+    threadChange: Ember.observer('thread', function () {
+        this.set('changeset', new Changeset(this.get('thread.messages.firstObject'), lookupValidator(MessageValidations), MessageValidations));
+        this.set('changeset.messageSubject', this.get('thread.subject'));
+        this.set('changeset.participants', [this.get('thread.otherParticipant')]);
+    }),
+
     actions: {
         sendMessage() {
-            this.set('model.isDraft', false);
+            this.set('changeset.isDraft', false);
             this.send('processSave');
         },
 
         saveAsDraft() {
-            this.set('model.isDraft', true);
+            this.set('changeset.isDraft', true);
             this.send('processSave');
         },
 
@@ -44,8 +50,10 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     message.set('file', fileObj);
                 }
                 message.set('sender', this.get('currentUser.user'));
-                message.save().then(() => {
+                message.save().then((msg) => {
                     this.toast.success('models.message.save');
+                    message.set('messageSubject', msg.get('thread.subject'));
+                    message.set('participants', [ msg.get('thread.otherParticipant') ]);
                     this.disableLoader();
                     if(shouldTransition) {
                         this.get('transitionToInbox')();

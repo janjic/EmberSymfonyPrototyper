@@ -18,6 +18,9 @@ use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use UserBundle\Business\Event\Notification\NotificationEvent;
+use UserBundle\Business\Event\Notification\NotificationEvents;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
@@ -247,6 +250,16 @@ class MessageManager implements JSONAPIEntityManagerInterface
 
         if ($oldFile) {
             $oldFile->deleteFile();
+        }
+
+        // SENDING NOTIFICATION IF IT ISN'T DRAFT
+        if( !$message->isIsDraft() ){
+            $notification = NotificationManager::createNewMessageNotification($messageDB);
+            $event = new NotificationEvent();
+            $event->setMessage($messageDB);
+            $event->addNotification($notification);
+
+            $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
         }
 
         return $this->serializeMessage($messageDB);
