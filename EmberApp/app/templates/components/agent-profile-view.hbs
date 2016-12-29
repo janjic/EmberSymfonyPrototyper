@@ -1,7 +1,7 @@
 <div class="agent-view">
     <div class="row">
         <div class="col-md-4">
-            <div class="input-box">
+            <div class="input-box clearfix">
                 <h3 class="sub-heading">{{fa-icon "user"}} {{agent.fullName}}</h3>
                 <h5>{{agent.group.name}}</h5>
                 <div class="img-holder">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="input-box">
+            <div class="input-box clearfix">
                 <h3 class="sub-heading">{{fa-icon "address-card"}} Personal details</h3>
                 <dl class="dl-horizontal">
                     <dt>Street number</dt>
@@ -38,7 +38,7 @@
                     <dd>{{agent.address.phone}}</dd>
                 </dl>
             </div>
-            <div class="input-box">
+            <div class="input-box clearfix">
                 <h3 class="sub-heading">{{fa-icon "info-circle"}} Quick info</h3>
                 <dl class="dl-horizontal">
                     <dt>Social security number</dt>
@@ -53,43 +53,43 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="input-box">
+            <div class="input-box clearfix">
                 <h3 class="sub-heading">{{fa-icon "bell"}} Notification settings</h3>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-xs-5">New message</label>
                     <div class="col-md-7 col-xs-7">
-                        <!-- Rectangular switch -->
-                        <label class="switch">
-                            {{input type="checkbox"}}
-                            <div class="slider"></div>
-                        </label>
-
+                        <div class="mt-action-buttons">
+                            <div class="btn-group btn-group-circle">
+                                <button disabled type="button" class="btn btn-outline switch-green btn-sm">Enabled</button>
+                                <button disabled type="button" class="btn btn-outline switch-red btn-sm">Disabled</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-xs-5">Payment</label>
                     <div class="col-md-7 col-xs-7">
-                        <!-- Rectangular switch -->
-                        <label class="switch">
-                            {{input type="checkbox"}}
-                            <div class="slider"></div>
-                        </label>
-
+                        <div class="mt-action-buttons">
+                            <div class="btn-group btn-group-circle">
+                                <button disabled type="button" class="btn btn-outline switch-green btn-sm">Enabled</button>
+                                <button disabled type="button" class="btn btn-outline switch-red btn-sm">Disabled</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group clearfix">
                     <label class="control-label col-md-5 col-xs-5">New agent</label>
                     <div class="col-md-7 col-xs-7">
-                        <!-- Rectangular switch -->
-                        <label class="switch">
-                            {{input type="checkbox"}}
-                            <div class="slider"></div>
-                        </label>
-
+                        <div class="mt-action-buttons">
+                            <div class="btn-group btn-group-circle">
+                                <button disabled type="button" class="btn btn-outline switch-green btn-sm">Enabled</button>
+                                <button disabled type="button" class="btn btn-outline switch-red btn-sm">Disabled</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="input-box">
+            <div class="input-box clearfix">
                 <h3 class="sub-heading">{{fa-icon "tree"}} Genealogy tree</h3>
                 <dl class="dl-horizontal">
                     <dt>{{trans 'admin-user.label.agent-id'}}</dt>
@@ -118,7 +118,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="input-box home-table">
+            <div class="input-box home-table clearfix">
                 <h3 class="sub-heading">{{fa-icon "users"}} Agents</h3>
                 <div class="flex-table">
                     <div class="flex-row fixed">
@@ -176,7 +176,8 @@
                         </div>
                     </div>
                     <div class="flex-row">
-                        <div class="flex-item user-item">
+                        <div class="flex-item user-item"
+                        >
                             <div class="img-holder">
                                 <img src="../../../assets/images/user-avatar.png" alt="" class="img-circle">
                             </div>

@@ -1,19 +1,24 @@
-{{invite-people-component}}
+<div class="form-group clearfix">
+    {{invite-people-component}}
+
+</div>
+<div class="form-group clearfix">
+    {{inf-select
+            optionLabelKey='email'
+            selected = changeset.superior
+            on-search = (perform search)
+            on-change=(action 'agentSelected')
+    }}
+</div>
 {{table-view-component
-mainTitle=  (trans 'admin-user.all.title')
-model=model
-colNames=colNames
-colModels=colModels
-page=page
-maxPages=maxPages
-offset=offset
-filter=(action 'filterModel')
-viewLink="dashboard.users.user-view"
-editLink="dashboard.users.user-edit"
-}}
-{{inf-select
-        optionLabelKey='email'
-        selected = changeset.superior
-        on-search = (perform search)
-        on-change=(action 'agentSelected')
+        mainTitle=  (trans 'admin-user.all.title')
+        model=model
+        colNames=colNames
+        colModels=colModels
+        page=page
+        maxPages=maxPages
+        offset=offset
+        filter=(action 'filterModel')
+        viewLink="dashboard.users.user-view"
+        editLink="dashboard.users.user-edit"
 }}

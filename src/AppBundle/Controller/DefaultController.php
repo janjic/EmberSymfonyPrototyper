@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use CoreBundle\Model\XmppPrebind;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Repository\RepositoryFactory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,6 +22,7 @@ class DefaultController extends Controller
      */
     public function agentAPIAction()
     {
+
         $params = [
             "user" => "tijana",
             "password" => "sifra",

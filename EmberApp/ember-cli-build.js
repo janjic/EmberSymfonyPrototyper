@@ -63,6 +63,9 @@ module.exports = function(defaults) {
 
   app.import("bower_components/orgchart/dist/js/jquery.orgchart.js");
   app.import("bower_components/orgchart/dist/css/jquery.orgchart.css");
+  app.import("bower_components/d3/d3.js");
+  app.import("bower_components/topojson/topojson.js");
+  app.import("bower_components/datamaps/dist/datamaps.world.js");
 
   return app.toTree();
 };
