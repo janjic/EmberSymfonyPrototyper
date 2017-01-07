@@ -132,13 +132,14 @@ trait JsonApiUpdateAgentManagerTrait
         $dbAddress = $dbAgent->getAddress();
         $newAddress = $agent->getAddress();
 
-        $dbAddress->setCity($newAddress->getCity());
-        $dbAddress->setCountry($newAddress->getCountry());
-        $dbAddress->setFixedPhone($newAddress->getFixedPhone());
-        $dbAddress->setPhone($newAddress->getPhone());
-        $dbAddress->setPostcode($newAddress->getPostcode());
-        $dbAddress->setStreetNumber($newAddress->getStreetNumber());
-
+        if ($dbAddress && $newAddress) {
+            $dbAddress->setCity($newAddress->getCity());
+            $dbAddress->setCountry($newAddress->getCountry());
+            $dbAddress->setFixedPhone($newAddress->getFixedPhone());
+            $dbAddress->setPhone($newAddress->getPhone());
+            $dbAddress->setPostcode($newAddress->getPostcode());
+            $dbAddress->setStreetNumber($newAddress->getStreetNumber());
+        }
     }
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
