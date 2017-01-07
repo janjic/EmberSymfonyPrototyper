@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
     store: Ember.inject.service(),
     groupsModel: [],
     page: 1,
-    offset: 10,
+    offset: 8,
     colNames: [Translator.trans('ID'), Translator.trans('First Name'), Translator.trans('Last Name'), Translator.trans('Username'), Translator.trans('Agent Type'), Translator.trans('Country'), 'Status', 'Actions'],
     colModels: Ember.computed('groupsModel', function () {
         return [{value: 'id', compare:'cn'},
@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
         ];
     }),
     actions: {
-        filterModel: function (searchArray, page, column, sortType) {
+        filterModel (searchArray, page, column, sortType) {
             return this.get('store').query('agent', {
                 page: page,
                 offset: this.get('offset'),

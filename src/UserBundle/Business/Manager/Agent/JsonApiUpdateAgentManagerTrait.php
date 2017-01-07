@@ -7,6 +7,7 @@ use Exception;
 use UserBundle\Business\Event\Agent\AgentEvents;
 use UserBundle\Business\Event\Agent\AgentGroupChangeEvent;
 use UserBundle\Business\Util\AgentSerializerInfo;
+use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 
@@ -131,21 +132,23 @@ trait JsonApiUpdateAgentManagerTrait
     {
         $dbAddress = $dbAgent->getAddress();
         $newAddress = $agent->getAddress();
-
-        if ($dbAddress && $newAddress) {
+            if (!$dbAddress) {
+                $dbAddress = new Address();
+            }
             $dbAddress->setCity($newAddress->getCity());
             $dbAddress->setCountry($newAddress->getCountry());
             $dbAddress->setFixedPhone($newAddress->getFixedPhone());
             $dbAddress->setPhone($newAddress->getPhone());
             $dbAddress->setPostcode($newAddress->getPostcode());
             $dbAddress->setStreetNumber($newAddress->getStreetNumber());
-        }
+
     }
+
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
     {
         $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
-       ;
+
 
     }
 

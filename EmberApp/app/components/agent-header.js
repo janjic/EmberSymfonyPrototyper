@@ -3,30 +3,25 @@ const { inject: { service }, Component, computed } = Ember;
 import { task, timeout } from 'ember-concurrency';
 
 export default Component.extend({
-    session: service('session'),
-    currentUser: service('current-user'),
+    session:                service('session'),
+    currentUser:            service('current-user'),
     store:                  service('store'),
     agentNotifications:     [],
     messageNotifications:   [],
     _maxIdMessage:          undefined,
     _maxIdAgents:           undefined,
+    eventBus:               Ember.inject.service('event-bus'),
+
+    isUserAdmin: Ember.computed('current_user.user', function() {
+        return this.get('currentUser.user').get('roles').includes('ROLE_SUPER_ADMIN');
+    }),
 
     init(){
         this._super(...arguments);
 
-        this.get('store').query("notification", { per_page: 3, page: 1, type: 'NEW AGENT NOTIFICATION' }).then((newAgentNotifications)=>{
-            this.set( 'agentNotifications', [].concat(newAgentNotifications.toArray()) );
-            this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
-        }, ()=>{
-            this.set('agentNotifications', []);
-        });
+        this._initNotification();
 
-        this.get('store').query("notification", { per_page: 3, page: 1, type: 'NEW MESSAGE NOTIFICATION' }).then((newMessageNotification)=>{
-            this.set( 'messageNotifications', [].concat(newMessageNotification.toArray()) );
-            this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
-        }, ()=> {
-            this.set('messageNotifications', []);
-        });
+        this._initMessages();
     },
 
     profileRoute: computed('user',function () {
@@ -39,10 +34,10 @@ export default Component.extend({
         logout() {
             this.get('session').invalidate();
         },
-        transitionTo(notification, link, newAgent){
+        transitionTo(notification, link){
             notification.set('isSeen', true);
             notification.save();
-            this.get('transitionToRoute')(link, newAgent);
+            this.get('transitionToRoute')(link);
         },
         transitionToRoute(route){
             this.get('transitionToRoute')(route);
@@ -53,24 +48,49 @@ export default Component.extend({
         while (true) {
             yield timeout(10000);
 
-            this.get('store').query('notification', {per_page: 3, page: 1, type: 'NEW AGENT NOTIFICATION' , max_id: this.get('_maxIdAgents')})
+            this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' , max_id: this.get('_maxIdAgents')})
                 .then((newAgentNotifications) => {
                     if(newAgentNotifications.toArray().length && this.get('agentNotifications')){
                         this.get('agentNotifications').unshiftObjects(newAgentNotifications.toArray());
-                        this.get('agentNotifications').removeAt(3);
+                        this.get('agentNotifications').splice(5);
                         this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
                     }
                 });
 
-            this.get('store').query('notification', {per_page: 3, page: 1, type: 'NEW MESSAGE NOTIFICATION' , max_id: this.get('_maxIdMessage')})
+            this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW MESSAGE NOTIFICATION' , max_id: this.get('_maxIdMessage')})
                 .then((newMessageNotification) => {
                     if(newMessageNotification.toArray().length && this.get('messageNotifications')){
                         this.get('messageNotifications').unshiftObjects(newMessageNotification.toArray());
-                        this.get('messageNotifications').removeAt(3);
+                        this.get('messageNotifications').splice(5);
                         this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
                     }
                 });
         }
-    }).on('init')
+    }).on('init'),
 
+    _initNotification(){
+        this.get('store').query("notification", { per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' }).then((newAgentNotifications)=>{
+            this.set( 'agentNotifications', [].concat(newAgentNotifications.toArray()) );
+            this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
+        }, ()=>{
+            this.set('agentNotifications', []);
+        });
+    },
+
+    _initMessages(){
+        this.get('store').query("notification", { per_page: 5, page: 1, type: 'NEW MESSAGE NOTIFICATION' }).then((newMessageNotification)=>{
+            this.set( 'messageNotifications', [].concat(newMessageNotification.toArray()) );
+            this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
+        }, ()=> {
+            this.set('messageNotifications', []);
+        });
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('refreshMessages', this, '_initMessages');
+    }),
+
+    _teardown: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('refreshMessages');
+    })
 });

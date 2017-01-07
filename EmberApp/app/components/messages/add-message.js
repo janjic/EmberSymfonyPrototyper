@@ -13,7 +13,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
     search: task(function * (text, page, perPage) {
         yield timeout(200);
-        return this.get('searchQuery')(page, text, perPage);
+        let result = this.get('searchQuery')(page, text, perPage);
+        let agentId = this.get('currentUser.user.id');
+
+        return result.then((agents)=>{
+            return agents.filter( agent => agent.get('id') !== agentId );
+        });
     }),
 
     init() {

@@ -9,38 +9,45 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <p><strong>First Name</strong></p>
-                            <p>John</p>
+                            <p>{{model.user.firstName}}</p>
                         </div>
                         <div class="form-group">
                             <p><strong>Last Name</strong></p>
-                            <p>Johnson</p>
+                            <p>{{model.user.lastName}}</p>
                         </div>
                         <div class="form-group">
                             <p><strong>Email</strong></p>
-                            <p>email@provider.com</p>
+                            {{model.user.email}}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <p><strong>Order ID</strong></p>
-                            <p>172</p>
+                            <p>{{model.id}}</p>
                         </div>
                         <div class="form-group">
                             <p><strong>Date created</strong></p>
-                            <p>27.1.2016.</p>
+                            <p>{{moment-format model.created_at 'DD/MM/YYYY'}}</p>
+
                         </div>
                         <div class="form-group">
                             <p><strong>Country</strong></p>
-                            <p>Serbia</p>
+                            <p>{{model.user.country}}</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="iframe-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d181139.85102770833!2d20.422596999999996!3d44.81524535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2srs!4v1478703045731" width="600" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                {{#if model.user.country}}
+                    <iframe
+                            width="600"
+                            height="300"
+                            frameborder="0" style="border:0"
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBAZEgHzNOFLO46o_e3G25XkysVBsgYAto &q={{model.user.country}}" allowfullscreen>
+                    </iframe>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -49,8 +56,6 @@
 <div class="purchase-tables">
     <div class="row">
         <div class="col-md-12">
-
-
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -62,16 +67,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Sport package</td>
-                        <td>3 months</td>
-                        <td>22.00</td>
-                        <td>EUR</td>
-                    </tr>
+                    {{#each model.items as |item| }}
+                        <tr>
+                            <td>{{item.product}}</td>
+                            <td>{{moment-format item.date_from 'DD/MM/YYYY'}} - {{moment-format ( moment-subtract item.date_to 1 'days') 'DD/MM/YYYY'}}</td>
+                            <td>{{number-format item.unit_price 2}}</td>
+                            <td>{{currency-for-country model.user.country}}</td>
+                        </tr>
+                    {{/each}}
                     </tbody>
                 </table>
             </div>
-
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -84,35 +90,38 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>One time account setup fee</td>
-                        <td>3 months</td>
-                        <td>22.00</td>
-                        <td>EUR</td>
+                        {{#if model.fee_price}}
+                            <td>One time account setup fee</td>
+                            <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
+                            <td>{{ number-format model.fee_price 2 }}</td>
+                            <td>{{ currency-for-country model.user.country }}</td>
+                        {{/if}}
+
                     </tr>
                     <tr>
                         <td>Connect</td>
-                        <td>3 months</td>
-                        <td>22.00</td>
-                        <td>EUR</td>
+                        <td>{{ moment-format model.created_at 'DD/MM/YYYY'}} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
+                        <td>{{ number-format model.connect_price 2}}</td>
+                        <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     <tr>
-                        <td>1 streams</td>
-                        <td>3 months</td>
-                        <td>22.00</td>
-                        <td>EUR</td>
+                        <td>{{ model.num_of_streams }} stream/s</td>
+                        <td>{{ moment-format model.created_at 'DD/MM/YYYY'}} - {{moment-format (moment-subtract model.stream_date_to 1 'days') 'DD/MM/YYYY'}}</td>
+                        <td>{{ number-format (multiply model.stream_price model.num_of_streams) 2}}</td>
+                        <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     <tr>
                         <td>Price for remaining days until the end of month</td>
-                        <td>3 months</td>
-                        <td>22.00</td>
-                        <td>EUR</td>
+                        <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-add model.created_at model.num_of_remaining_days 'days') 'DD/MM/YYYY'}}</td>
+                        <td>{{ number-format (multiply  model.num_of_remaining_days model.price_per_remaining_day) 2 }}</td>
+                        <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
                         <td>Total</td>
                         <td></td>
-                        <td>EUR 47.87</td>
+                        <td>{{currency-for-country model.user.country}} {{ number-format model.total 2}}</td>
                         <td><i class="fa fa-print"></i></td>
                     </tr>
                     </tfoot>

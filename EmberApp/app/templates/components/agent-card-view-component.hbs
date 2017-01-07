@@ -9,7 +9,7 @@
                 </div>
                 {{#if limitAll}}
                     <div class="form-group">
-                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
                     </div>
                 {{else}}
                     <div class="form-group">
@@ -19,6 +19,13 @@
                 {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
             </div>
         </div>
+        {{#if showAgentFilter}}
+            {{inf-select
+                    optionLabelKey='email'
+                    on-search = (perform search)
+                    on-change=(action 'agentSelected')
+            }}
+        {{/if}}
     </div>
 
     {{#each model as |agent|}}
@@ -45,7 +52,7 @@
                 </div>
                 <div class="lower-box">
                     <p><span>Country</span> <br>
-                        {{agent.nationality}}
+                        {{agent.address.country}}
                     </p>
                     <p><span>Email</span> <br>
                         {{agent.email}}

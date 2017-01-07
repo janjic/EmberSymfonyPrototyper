@@ -44,7 +44,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 });
                 let secondMenu =
                     '<div class="second-menu" hidden data-id="'+data.id+'">' +
-                    '<img class="avatar" src="'+data.baseImageUrl+'">' +
+                    '<img class="avatar img-circle" src="'+data.baseImageUrl+'">' +
                     '</div>';
                 $node.append(secondMenuIcon).append(secondMenu);
             }

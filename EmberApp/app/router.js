@@ -24,9 +24,10 @@ Router.map(function() {
         this.route('manage-user-groups');
         this.route('manage-roles');
         this.route('my-settings');
+        this.route('test-commissions');
       });
       this.route('payments', function() {
-          this.route('purchase-details');
+          this.route('purchase-details', {path: '/purchase-details/:id'});
           this.route('reports');
           this.route('payouts-to-agents');
       });
@@ -89,7 +90,7 @@ Router.map(function() {
           this.route('reports', function() {
               this.route('customer-orders');
               this.route('commissions');
-              this.route('purchase-details');
+              this.route('purchase-details', {path: '/purchase-details/:id'});
           });
           this.route('wallet', function() {
               this.route('wallet-summary');
@@ -105,10 +106,15 @@ Router.map(function() {
             this.route('add-new-agent');
             this.route('all-agents');
           });
+          this.route('notifications', function () {
+              this.route('notifications-all');
+          });
       });
 
       this.route('genealogy-tree');
-      this.route('notifications-all');
+      this.route('notifications', function () {
+          this.route('notifications-all');
+      });
   });
 
   this.route('files');

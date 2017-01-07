@@ -1,38 +1,12 @@
-<h1 class="main-heading">Customer Orders</h1>
-<div class="table-responsive">
-    <table class="table table-striped table-bordered">
-        <tbody>
-        <tr>
-            <th>Order ID</th>
-            <th>Full Name</th>
-            <th>Total</th>
-            <th>Commission</th>
-            <th>Date</th>
-            <th></th>
-        </tr>
-
-        <tr>
-            <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td><div class="table-input"><input type="text"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>
-                {{#link-to 'dashboard.agent.reports.purchase-details'}}<i class="fa fa-eye" aria-hidden="true"></i>{{/link-to}}
-            </td>
-        </tr>
-
-
-        </tbody>
-    </table>
-</div>
-
+{{table-view-component
+        mainTitle='All orders'
+        model=model
+        colNames=colNames
+        colModels=colModels
+        page=page
+        offset=offset
+        maxPages=maxPages
+        filter=(action 'filterModel')
+        viewLink="dashboard.agent.reports.purchase-details"
+        defaultRules = agentRule
+        }}

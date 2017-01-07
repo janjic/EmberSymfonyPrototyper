@@ -10,7 +10,11 @@ export default Ember.Component.extend(LoadingStateMixin, {
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailCampaignValidations), MailCampaignValidations);
-        console.log(this.get('changeset'));
+        this.set('model.subject_line', this.get('oldCampaign.subject_line'));
+        this.set('model.reply_to', this.get('oldCampaign.reply_to'));
+        this.set('model.from_name', this.get('oldCampaign.from_name'));
+        this.set('model.template', this.get('oldCampaign.template'));
+        this.set('model.mailList', this.get('oldCampaign.mailList'));
     },
     actions: {
         changeList(list){
@@ -28,6 +32,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 campaign.save().then(() => {
                     this.toast.success('models.campaign.save');
                     this.disableLoader();
+                    this.get('goToRoute')('dashboard.mass-mails.all-campaigns');
                 }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {
@@ -43,7 +48,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
         },
         validateProperty(changeset, property) {
-            console.log(this.get('changeset'));
             return changeset.validate(property);
         },
     },
