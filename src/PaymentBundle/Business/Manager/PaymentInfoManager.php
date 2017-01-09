@@ -7,6 +7,7 @@ use PaymentBundle\Entity\PaymentInfo;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Entity\Agent;
+use Doctrine\Common\Util\Debug;
 
 /**
  * Class PaymentInfoManager
@@ -26,6 +27,12 @@ class PaymentInfoManager
      */
     protected $agentManager;
 
+    protected $packagesPrice;
+    protected $connectPrice;
+    protected $setupFeePrice;
+    protected $streamPrice;
+
+
     /**
      * @param PaymentInfoRepository $repository
      * @param AgentManager          $agentManager
@@ -42,78 +49,107 @@ class PaymentInfoManager
      * @param float $connectPrice
      * @param float $setupFeePrice
      * @param float $streamPrice
+     * @return array
      */
     public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice)
     {
+        $this->packagesPrice = $packagesPrice;
+        $this->connectPrice  = $connectPrice;
+        $this->setupFeePrice = $setupFeePrice;
+        $this->streamPrice   = $streamPrice;
+
+
         /** @var Agent $agent */
         $agent = $this->agentManager->findAgentById($agentId);
 
-
-
         if ($this->isReferee($agent)) {
-            // proveri da li je prva prodaja za toga agenta i klijenta
+            // proveri da li je placen pre!
 
-            // ako jeste prva prodaja dodaj novi paymentInfo
+            return [$this->createPaymentInfo($agent, 5, 5, 5, 5)];
 
-            // ako nije ignorisi
         } else {
-
-            return $this->createCommissionForAgent();
+            return $this->createCommissionForAgent($agent);
         }
     }
 
     /**
      * @param Agent $agent
-     * @param $packagesPrice
-     * @param $connectPrice
-     * @param $setupFeePrice
-     * @param $streamPrice
+     * @param int   $commissionsPayed
      * @return array
      */
-    public function createCommissionForAgent($agent, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice)
+    public function createCommissionForAgent($agent, $commissionsPayed = 0)
     {
-        if ($this->isHQ($agent->getSuperior())) {
-            $payment = new PaymentInfo();
-            $payment->setAgent($agent);
-            $payment->setPackagesValue($packagesPrice)->setConnectValue($connectPrice);
-            $payment->setSetupFeeValue($setupFeePrice)->setStreamValue($streamPrice);
+        $totalPackagesCommissionPercentage = $commissionsPayed == 0 ? 5 : ($commissionsPayed == 1 ? 2.5 : 1.25);
+        $totalConnectCommissionPercentage  = $commissionsPayed == 0 ? 5 : ($commissionsPayed == 1 ? 2.5 : 1.25);
+        $totalSetupFeeCommissionPercentage = $commissionsPayed == 0 ? 5 : ($commissionsPayed == 1 ? 2.5 : 1.25);
+        $totalStreamCommissionPercentage   = $commissionsPayed == 0 ? 5 : ($commissionsPayed == 1 ? 2.5 : 1.25);
 
-
-            $payment->setPackagesPercentage(5+2.5+1.25)->setConnectPercentage(5+2.5+1.25);
-            $payment->setSetupFeePercentage(5+2.5+1.25)->setStreamPercentage(5+2.5+1.25);
-
-            $payment->calculateCommissions();
-
-            return [$payment];
-        } else {
-            // the have same role
-            if ($agent->getRoles()[0] == $agent->getSuperior()->getRoles()[0]) {
-                $payment = new PaymentInfo();
-                $payment->setAgent($agent);
-                $payment->setPackagesValue($packagesPrice)->setConnectValue($connectPrice);
-                $payment->setSetupFeeValue($setupFeePrice)->setStreamValue($streamPrice);
-
-
-                $payment->setPackagesPercentage(5+2.5)->setConnectPercentage(5+2.5);
-                $payment->setSetupFeePercentage(5+2.5)->setStreamPercentage(5+2.5);
-
-                $payment->calculateCommissions();
-
-                if ($agent->getSuperior()->getSuperior()) {
-                    return array_push($this->createCommissionForAgent($agent->getSuperior()->getSuperior(),
-                        $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice), $payment);
-                } else {
-//                    return
-                }
+        /** @var Agent $parent */
+        $parent = $agent->getSuperior();
+        while ($this->hasHigherOrSameRole($agent, $parent)) {
+            if ($parent->getSuperior()) {
+                $parent = $parent->getSuperior();
             } else {
-
+                break;
             }
         }
 
-        // nije - 5%
-        // da li mu je roditel istog tipa
-        // jeste - preskoci roditelja
-        // nije - predi na rodielja
+        if ($this->isHQ($parent)) {
+            if ($commissionsPayed == 0) {
+                /** Ambassador has sold package */
+                $totalPackagesCommissionPercentage += 2.5 + 1.25;
+                $totalConnectCommissionPercentage += 2.5 + 1.25;
+                $totalSetupFeeCommissionPercentage += 2.5 + 1.25;
+                $totalStreamCommissionPercentage += 2.5 + 1.25;
+            } else {
+                /** Ambassador gets standard commission */
+                $totalPackagesCommissionPercentage = 1.25;
+                $totalConnectCommissionPercentage = 1.25;
+                $totalSetupFeeCommissionPercentage = 1.25;
+                $totalStreamCommissionPercentage = 1.25;
+            }
+
+            return [$this->createPaymentInfo($agent, $totalPackagesCommissionPercentage, $totalConnectCommissionPercentage,
+                $totalSetupFeeCommissionPercentage, $totalStreamCommissionPercentage)];
+        }
+
+        $payments = $this->createCommissionForAgent($parent, ++$commissionsPayed);
+
+        if ($commissionsPayed == 1 && sizeof($payments) == 1 && $this->isAmbassador($payments[0]->getAgent())) {
+            /** Parent is ambassador -> agent gets AA and MA commissions */
+            $totalPackagesCommissionPercentage += 2.5;
+            $totalConnectCommissionPercentage += 2.5;
+            $totalSetupFeeCommissionPercentage += 2.5;
+            $totalStreamCommissionPercentage += 2.5;
+        }
+
+        array_push($payments, $this->createPaymentInfo($agent, $totalPackagesCommissionPercentage, $totalConnectCommissionPercentage,
+            $totalSetupFeeCommissionPercentage, $totalStreamCommissionPercentage));
+
+        return $payments;
+    }
+
+    /**
+     * @param $agent
+     * @param $totalPackagesCommissionPercentage
+     * @param $totalConnectCommissionPercentage
+     * @param $totalSetupFeeCommissionPercentage
+     * @param $totalStreamCommissionPercentage
+     * @return PaymentInfo
+     */
+    public function createPaymentInfo($agent, $totalPackagesCommissionPercentage, $totalConnectCommissionPercentage,
+                                      $totalSetupFeeCommissionPercentage, $totalStreamCommissionPercentage) {
+        $payment = new PaymentInfo();
+        $payment->setAgent($agent);
+        $payment->setPackagesValue($this->packagesPrice)->setConnectValue($this->connectPrice);
+        $payment->setSetupFeeValue($this->setupFeePrice)->setStreamValue($this->streamPrice);
+
+        $payment->setPackagesPercentage($totalPackagesCommissionPercentage)->setConnectPercentage($totalConnectCommissionPercentage);
+        $payment->setSetupFeePercentage($totalSetupFeeCommissionPercentage)->setStreamPercentage($totalStreamCommissionPercentage);
+
+        $payment->calculateCommissions();
+
+        return $payment;
     }
 
 }

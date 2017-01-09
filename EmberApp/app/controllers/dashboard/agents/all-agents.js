@@ -1,5 +1,4 @@
 import Ember from 'ember';
-// import { task, timeout } from 'ember-concurrency';
 const Translator = window.Translator;
 import AgentControllerActionsMixin from './../../../mixins/agent-controller-actions';
 
@@ -7,7 +6,7 @@ export default Ember.Controller.extend(AgentControllerActionsMixin, {
     store: Ember.inject.service(),
     groupsModel: [],
     page: 1,
-    offset: 10,
+    offset: 8,
     promoCode: undefined,
     searchArray: undefined,
     colNames: [Translator.trans('ID'), Translator.trans('First Name'), Translator.trans('Last Name'), Translator.trans('Username'), Translator.trans('Agent Type'), Translator.trans('Country'), 'Status', 'Actions'],
@@ -56,14 +55,5 @@ export default Ember.Controller.extend(AgentControllerActionsMixin, {
             });
 
         }
-    },
-    //
-    // search: task(function * (text, page, perPage) {
-    //     yield timeout(200);
-    //     return this.searchQuery(page, text, perPage);
-    // }),
-    //
-    // searchQuery(page, text, perPage){
-    //     return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
-    // }
+    }
 });
