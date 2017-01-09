@@ -1,0 +1,45 @@
+<h1 class="main-heading">All agents</h1>
+<div class="all-agents-card-view">
+    <div class="col-md-12">
+        <div class="input-box first">
+            <div class="all-agents-search">
+                <div class="action-buttons">
+                    <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
+                    <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
+                </div>
+                {{#if limitAll}}
+                    <div class="form-group">
+                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                    </div>
+                {{else}}
+                    <div class="form-group">
+                        {{abc-buttons filter=(perform handleFilterEntry) }}
+                    </div>
+                {{/if}}
+                {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+            </div>
+        </div>
+    </div>
+
+    {{#each model as |yieldModel|}}
+        {{yield yieldModel}}
+    {{/each}}
+    <div class="col-md-12">
+        <div class="agents-card-pagination text-right">
+            <button class="item" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
+            <button class="item" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
+
+            {{input class="table-pagination-input form-control" enter='handlePageChange' value=model.meta.page}}
+            {{#if model.meta.pages }}
+                <span class="item-span">{{model.meta.pages}}</span>
+            {{else}}
+                <span class="item-span">1</span>
+            {{/if}}
+
+
+            <button class="item" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
+            <button class="item" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
+        </div>
+    </div>
+</div>
+

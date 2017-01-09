@@ -40,12 +40,11 @@ export default Ember.Component.extend({
     handleFilterEntry: task(function * (letter) {
         let searchValue;
         if (letter) {
-             searchValue = letter.trim();
+             searchValue = letter;
             this.set('searchValue', searchValue);
         } else {
-            searchValue = this.get('searchValue').trim();
+            searchValue = this.get('searchValue');
         }
-
         if (!letter) {
             let delayTime =  this.get('defaultDelayTime');
             yield timeout(delayTime);
@@ -53,13 +52,18 @@ export default Ember.Component.extend({
         let searchArrayFields = this.get('searchArray');
         if (searchValue !== '') {
             this.get('columns').forEach((column) => {
-                searchArrayFields.addObject({
-                    field: column,
-                    op: this.get('compareType'),
-                    data: searchValue
+                searchValue.split(' ').forEach((searchVal) => {
+                    if (!Ember.isEmpty(searchVal.trim())) {
+                        searchArrayFields.addObject({
+                            field: column,
+                            op: this.get('compareType'),
+                            data: searchVal.trim()
+                        });
+                    }
                 });
             });
         }
+        console.log(searchArrayFields);
         let paramsArray = this.get('paramsArray');
         paramsArray.rules = searchArrayFields;
         this.set('page', 1);
