@@ -160,11 +160,18 @@ class Agent extends BaseUser implements ParticipantInterface
      */
     protected $group;
 
+    /**
+     * @var array
+     * @ORM\Column(name="notifications", type="simple_array", length=100)
+     */
+    private $notifications;
+
 
     public function __construct()
     {
         parent::__construct();
         $this->children = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
         $this->createdAt = new DateTime();
     }
 
@@ -573,7 +580,21 @@ class Agent extends BaseUser implements ParticipantInterface
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
 
+    /**
+     * @param mixed $notifications
+     */
+    public function setNotifications($notifications)
+    {
+        $this->notifications = $notifications;
+    }
 
     /**
      * @param string $property
