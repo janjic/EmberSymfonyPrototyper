@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new FOS\MessageBundle\FOSMessageBundle(),
             new ConversationBundle\ConversationBundle(),
             new MailCampaignBundle\MailCampaignBundle(),
+            new PaymentBundle\PaymentBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

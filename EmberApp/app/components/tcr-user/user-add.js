@@ -34,6 +34,9 @@ export default Ember.Component.extend({
         }
     },
     actions: {
+        adminStatusChanged(status) {
+            this.set('user.isAdmin', status);
+        },
         titleChanged(title){
             this.set('changeset.title', title);
             this.get('changeset').validate('title');

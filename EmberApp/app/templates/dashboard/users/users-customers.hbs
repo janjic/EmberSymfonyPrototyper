@@ -1,4 +1,15 @@
+<div class="form-group clearfix">
 {{invite-people-component}}
+
+</div>
+<div class="form-group clearfix">
+    {{!--{{inf-select--}}
+            {{!--optionLabelKey='email'--}}
+            {{!--selected = changeset.superior--}}
+            {{!--on-search = (perform search)--}}
+            {{!--on-change=(action 'agentSelected')--}}
+    {{!--}}--}}
+</div>
 {{!--{{table-view-component--}}
 {{!--mainTitle=  (trans 'admin-user.all.title')--}}
 {{!--model=model--}}
@@ -9,7 +20,8 @@
 {{!--offset=offset--}}
 {{!--filter=(action 'filterModel')--}}
 {{!--viewLink="dashboard.users.user-view"--}}
-{{!--editLink="dashboard.users.user-edit"}}--}}
+{{!--editLink="dashboard.users.user-edit"--}}
+{{!--}}--}}
 
 {{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
 
@@ -17,9 +29,3 @@
 
 {{/card-view-component}}
 
-{{!-- {{inf-select
-        optionLabelKey='email'
-        selected = changeset.superior
-        on-search = (perform search)
-        on-change=(action 'agentSelected')
-}} --}}

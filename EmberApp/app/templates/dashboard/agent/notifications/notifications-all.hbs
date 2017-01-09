@@ -1,0 +1,58 @@
+
+<div class="user-heading">
+    <div class="left-side">
+        {{#if currentUser.user.image.webPath}}
+            <div class="img-holder">
+                <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
+            </div>
+        {{else}}
+            <div class="img-holder">
+                <img src="../../assets/images/user-avatar.png" class="img-circle" alt="">
+            </div>
+        {{/if}}
+        <div class="info">
+            <h5>{{currentUser.user.fullName}}</h5>
+            <p>{{currentUser.user.email}}</p>
+        </div>
+    </div>
+    <div class="right-side">
+        {{#link-to 'dashboard.agent.agents.agent-view' currentUser.user.id class='button green'}}
+            View profile
+        {{/link-to}}
+        {{#link-to 'dashboard.profile-settings'  class='button red'}}
+            Edit profile
+        {{/link-to}}
+    </div>
+</div>
+
+
+    <h1 class="main-heading">All notifications</h1>
+
+    <div id="scrollable_loader" style="height: calc(100vh - 260px); overflow-y: scroll">
+        <ul class="notification-list">
+            {{#each model as |notification|}}
+                <li class="single-notification {{if notification.isSeen "seen"}}" >
+                    <div class="img-holder">
+                        <img src="../../../assets/images/user-avatar.png" title="Username">
+                    </div>
+                    <div class="notification-content">
+                        <div class="content-left">
+                            <h5>{{ notification.type }} <span>{{ notification.agent.email }}</span></h5>
+                            <span class="date">{{ notification.createdAt }}</span>
+                        </div>
+                        <div class="content-right">
+                            <a href="#" {{action "transitionTo" notification notification.link}}class="button green">View now</a>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+
+        {{#infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
+            {{#unless model.reachedInfinity}}
+                <div id="loading-more-state">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                </div>
+            {{/unless}}
+        {{/infinity-loader}}
+    </div>

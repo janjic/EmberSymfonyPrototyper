@@ -289,8 +289,8 @@ table {
       float: right;
     }
     img {
-      width: 25px;
-      height: 25px;
+      width: 21px;
+      height: 21px;
       border: 1px solid #fff;
       margin-right: 5px;
     }
@@ -2275,7 +2275,7 @@ input:focus {
   height: 100%;
   min-height: 600px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   overflow-x: auto;
   background-image: url(images/bg-pattern.png);
@@ -2284,6 +2284,9 @@ input:focus {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
   .orgchart {
     background-image: none;
+    table {
+      background-color: transparent;
+    }
     .node {
       width: 150px;
       .title {
@@ -2325,6 +2328,26 @@ input:focus {
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
+        width: 260px;
+        .flex-view {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .img-holder {
+          height: auto !important;
+          position: relative;
+          .linkToEdit {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+          }
+        }
+        .actions {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+        }
         ul {
           padding: 0;
           margin: 0;
@@ -2333,8 +2356,8 @@ input:focus {
           }
         }
         .avatar {
-          width: 60px;
-          height: 60px;
+          width: 100px;
+          height: 100px;
           border-radius: 30px;
           float: left;
           margin: 5px;
@@ -3147,28 +3170,149 @@ ul.notification-list {
   padding: 0;
   list-style: none;
   li.single-notification {
+    &:hover {
+      background-color: #efefef;
+    }
+    &:nth-child(2) {
+      border-top: 1px solid #ddd;
+    }
     list-style: none;
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
+    border-top: none;
     padding: 10px;
     border-left: 5px solid $main-red;
-    margin-bottom: 15px;
-    box-shadow: 2px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 0;
+    a {
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex: 1;
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+    .img-holder {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      height: 70px !important;
+      img {
+        width: 70px;
+        height: 70px;
+      }
+      .icon-circle {
+        padding: 10px;
+        border-radius: 50%;
+        background-color: #4caf50;
+        border: none;
+        color: #fff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 0;
+        right: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        i.fa {
+          font-size: 12px;
+        }
+      }
+    }
     .notification-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex: 1;
       .content-left {
-        h5 {
-          margin-bottom: 5px;
+        h4 {
+          margin: 0;
+        }
+        p {
+          margin: 0;
+        }
+        span {
+          font-size: 11px;
+          color: #666;
         }
       }
     }
   }
   li.single-notification.seen {
     border-left: 5px solid $main-green;
+  }
+}
+
+.user-heading {
+  height: 130px;
+  background: $main-dark url('images/profile-bg-material.png');
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 6px rgba(0, 0, 0, 0.23);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-size: cover;
+  .info {
+    h5 {
+      font-size: 25px;
+      margin-bottom: 0;
+    }
+  }
+  .left-side {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .right-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .img-holder {
+    height: 70px !important;
+    margin-right: 15px;
+    img {
+      width: 70px;
+      height: 70px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+  }
+  h5 {
+    margin: 0;
+    color: #fff;
+  }
+  p {
+    color: #fff;
+  }
+}
+
+.input-box.notifications {
+  p {
+    padding: 5px;
+    color: #333;
+    i.fa {
+      margin-right: 10px;
+      font-size: 20px;
+      color: #333;
+    }
+  }
+}
+
+.input-box.agent-list {
+  .img-holder {
+    height: 70px !important;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
   }
 }
 
@@ -3309,7 +3453,7 @@ ul.dropdown-menu.header-messages {
 .heading-button {
   position: absolute;
   right: 30px;
-  top: 20px;
+  top: 90px;
   padding: 5px 10px;
   font-size: 12px;
 }
@@ -3702,6 +3846,7 @@ $searchable-select-spacer-horizontal: 1em;
   border-radius: 50%;
   display: inline-block;
   color: #fff;
+  margin: 2px;
 }
 
 .button.green.icon-btn.rounded-btn {
@@ -3719,13 +3864,13 @@ $searchable-select-spacer-horizontal: 1em;
 .agent-view {
   .dl-horizontal {
     dt {
-      @media screen and (max-width: 1350px) {
-        float: none !important;
+      @media screen and (max-width: 1300px) {
+        width: 100px;
       }
     }
     dd {
-      @media screen and (max-width: 1350px) {
-        margin-left: 0 !important;
+      @media screen and (max-width: 1300px) {
+        margin-left: 100px;
       }
     }
   }
@@ -3764,6 +3909,15 @@ $searchable-select-spacer-horizontal: 1em;
     text-align: left;
     display: flex;
     align-items: flex-end;
+    min-height: 31px;
+  }
+  .switch {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .slider {
+    pointer-events: none;
+    background-color: #ccc;
   }
 }
 
@@ -3835,3 +3989,86 @@ $searchable-select-spacer-horizontal: 1em;
     justify-content: center;
   }
 }
+
+.mt-action-buttons {
+  cursor: not-allowed;
+  min-width: 140px;
+  .switch-green {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: transparent;
+    color: #5cb85c;
+    border: 1px solid #5cb85c;
+    &:hover {
+      background-color: #5cb85c;
+      color: #fff;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:disabled {
+      &:hover {
+        background-color: transparent;
+        color: #5cb85c;
+      }
+    }
+  }
+  .switch-green.active {
+    background-color: #5cb85c;
+    color: #fff;
+  }
+  .switch-red {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: transparent;
+    color: $main-red;
+    border: 1px solid $main-red;
+    &:hover {
+      background-color: $main-red;
+      color: #fff;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:disabled {
+      &:hover {
+        background-color: transparent;
+        color: $main-red;
+      }
+    }
+  }
+  .switch-red.active {
+    background-color: $main-red;
+    color: #fff;
+  }
+  @media screen and (max-width: 1190px) {
+    .switch-green, .switch-red {
+      padding: 10px;
+    }
+    .switch-green span, .switch-red span {
+      display: none;
+    }
+  }
+}
+
+.home-table-wrap {
+  @media screen and (max-width: 1199px) {
+    width: 100% !important;
+  }
+}
+
+.dark-cards {
+  @media screen and (max-width: 1199px) {
+    width: 100% !important;
+  }
+}
+
+.agent-view-cards {
+  .input-box.high {
+    height: 520px;
+  }
+  .input-box {
+    height: 245px;
+  }
+}
+

@@ -4,8 +4,13 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Controller.extend({
     page: 1,
     offset: 10,
-    searchArray: [],
-    agentId : '',
+    searchArray: {
+        groupOp:"AND",
+        rules: []
+    },
+    agentRule: [],
+
+    agentId : undefined,
     colNames: ['ID', 'Name', 'Surname', 'Order total', 'Date', 'Actions'],
 
     colModels: Ember.computed('groupsModel', function () {
@@ -24,12 +29,22 @@ export default Ember.Controller.extend({
 
             this.set('searchArray', searchArray);
 
+            let clonedArray = JSON.parse(JSON.stringify(searchArray));
+
+            if ( this.get('agentId') ){
+                clonedArray.rules.push({
+                    field: 'user.agent.agent_id',
+                    op: 'cn',
+                    data: this.get('agentId')
+                });
+            }
+
             return this.get('store').query('customer-order', {
                 page: page,
                 offset: this.get('offset'),
                 sidx: column,
                 sord: sortType,
-                filters: searchArray,
+                filters: clonedArray,
             });
         },
         agentSelected(agent){
@@ -39,24 +54,36 @@ export default Ember.Controller.extend({
                 this.set('agentId', undefined);
             }
 
+            let clonedArray = JSON.parse(JSON.stringify(this.get('searchArray')));
+
+            if ( this.get('agentId') ){
+                clonedArray.rules.push({
+                    field: 'user.agent.agent_id',
+                    op: 'cn',
+                    data: this.get('agentId')
+                });
+            }
+
             this.store.query('customer-order', {
-                page: page,
+                page: 1,
                 offset: this.get('offset'),
-                sidx: column,
-                sord: sortType,
-                filters: searchArray,
+                sidx: 'id',
+                sord: 'asc',
+                filters: clonedArray,
             }).then((model)=>{
                 this.set('model', model);
                 this.set('maxPages', this.get('model.meta.pages'));
                 this.set('totalItems', this.get('model.meta.totalItems'));
             });
         },
-        search (page, text, perPage) {
-            return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
-        },
     },
+
     search: task(function * (text, page, perPage) {
         yield timeout(200);
-        return this.send('searchQuery')(page, text, perPage);
+        return this.searchQuery(page, text, perPage);
     }),
+
+    searchQuery(page, text, perPage){
+        return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
+    }
 });

@@ -241,14 +241,16 @@ class MailListManager implements JSONAPIEntityManagerInterface
     public function serializeListsArray($lists)
     {
         $array = [];
-        foreach ($lists as $list){
+        if( is_array($lists)) {
+            foreach ($lists as $list) {
 
-            $item = [];
-            $item['fromAddress'] = $list['campaign_defaults']['from_email'];
-            $item['fromName'] = $list['campaign_defaults']['from_name'];
-            $item['name'] = $list['name'];
-            $item['permission_reminder'] = $list['permission_reminder'];
-            $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
+                $item = [];
+                $item['fromAddress'] = $list['campaign_defaults']['from_email'];
+                $item['fromName'] = $list['campaign_defaults']['from_name'];
+                $item['name'] = $list['name'];
+                $item['permission_reminder'] = $list['permission_reminder'];
+                $array[] = array('attributes' => $item, 'id' => $list['id'], 'type' => 'mail-lists');
+            }
         }
 
         return $array;

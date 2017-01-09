@@ -149,29 +149,33 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     public function serializeCampaignsArray($campaigns)
     {
-        if(!array_key_exists('id', $campaigns)){
-            $array = [];
-            foreach ($campaigns as $campaign){
+        if ( is_array($campaigns) ) {
+            if (!array_key_exists('id', $campaigns)) {
+                $array = [];
+                foreach ($campaigns as $campaign) {
 
+                    $item = [];
+                    $item['id'] = $campaign['id'];
+                    $item['subject_line'] = $campaign['settings']['subject_line'];
+                    $item['reply_to'] = $campaign['settings']['reply_to'];
+                    $item['from_name'] = $campaign['settings']['from_name'];
+
+                    $array[] = array('attributes' => $item, 'id' => $campaign['id'], 'type' => 'mail-campaigns');
+                }
+
+                return $array;
+
+            } else {
                 $item = [];
-                $item['id'] = $campaign['id'];
-                $item['subject_line'] = $campaign['settings']['subject_line'];
-                $item['reply_to'] = $campaign['settings']['reply_to'];
-                $item['from_name'] = $campaign['settings']['from_name'];
+                $item['id'] = $campaigns['id'];
+                $item['subject_line'] = $campaigns['settings']['subject_line'];
+                $item['reply_to'] = $campaigns['settings']['reply_to'];
+                $item['from_name'] = $campaigns['settings']['from_name'];
 
-                $array[] = array('attributes' =>$item, 'id' => $campaign['id'], 'type' => 'mail-campaigns');
+                return $item;
             }
-
-            return $array;
-
-        } else {
-            $item = [];
-            $item['id'] = $campaigns['id'];
-            $item['subject_line'] = $campaigns['settings']['subject_line'];
-            $item['reply_to'] = $campaigns['settings']['reply_to'];
-            $item['from_name'] = $campaigns['settings']['from_name'];
-
-            return $item;
         }
+
+        return [];
     }
 }
