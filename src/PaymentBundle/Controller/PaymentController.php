@@ -4,6 +4,7 @@ namespace PaymentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Doctrine\Common\Util\Debug;
 
 class PaymentController extends Controller
 {
@@ -12,8 +13,9 @@ class PaymentController extends Controller
      */
     public function indexAction()
     {
-        $this->get('agent_system.payment_info.manager')->calculateCommissions(111, 10, 10, 10, 10);
+        $payments = $this->get('agent_system.payment_info.manager')->calculateCommissions(121, 10, 10, 10, 10);
 
+        Debug::dump($payments);
         die('asddd');
     }
 }
