@@ -3,7 +3,7 @@ import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
     page: 1,
-    offset: 10,
+    offset: 8,
     promoCode: undefined,
     searchArray: undefined,
     colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Enabled', 'Country', 'Actions'],
