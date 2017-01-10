@@ -20,6 +20,8 @@ export default DS.JSONAPISerializer.extend({
                     surname: item.user.surname,
                     total: item.total,
                     created_at: item.created_at,
+                    description: item.description.join(),
+                    user_avatar: item.user.base_image_url
                 },
             });
         });

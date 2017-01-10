@@ -21,6 +21,8 @@ export default DS.Model.extend({
     stream_price:            attr('number'),
     stream_price_per_month:  attr('number'),
     streams_length:          attr('number'),
+    description:             attr(),
+    user_avatar:             attr('string'),
     user:                    DS.belongsTo('tcr-user'),
     items:                   DS.hasMany('order-item'),
 });

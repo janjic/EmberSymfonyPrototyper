@@ -1,0 +1,322 @@
+<html lang="en">
+<head>
+    <style>
+
+        a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        body {
+            width:595px;
+            position: relative;
+            height: 842px;
+            margin: 0 auto;
+            color: #666;
+            background: #FFFFFF;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif, sans-serif;
+            font-size: 12px;
+        }
+        #header {
+            overflow: hidden;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #AAAAAA;
+        }
+
+        #logo {
+            float: left;
+            margin-top: 8px;
+        }
+
+        #logo img {
+            height: 70px;
+        }
+
+        #company {
+            float: right;
+            text-align: right;
+        }
+
+
+        #details {
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        #client {
+            padding-left: 6px;
+            border-left: 6px solid #2A363D;
+            float: left;
+        }
+
+        #client .to {
+            color: #777777;
+        }
+
+        h2.name {
+            font-size: 1.4em;
+            font-weight: normal;
+            margin: 0;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        .address {
+            margin-bottom:5px;
+        }
+
+        #invoice {
+            float: right;
+            text-align: right;
+        }
+
+        #invoice h1 {
+            color: #222;
+            font-size: 2.4em;
+            line-height: 1em;
+            font-weight: normal;
+            margin: 0  0 10px 0;
+        }
+
+        #invoice .date {
+            font-size: 1.1em;
+            color: #777777;
+        }
+        tr    {
+            page-break-inside:avoid; page-break-after:auto;
+        }
+
+
+        table {
+            page-break-inside:auto;
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 20px;
+            background: #EEEEEE;
+            text-align: center;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        table th {
+            white-space: nowrap;
+            font-weight: normal;
+        }
+
+        table td {
+            text-align: right;
+        }
+
+        table td h3{
+            color: #2A363D;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 0 0 0.2em 0;
+        }
+
+        table .no {
+            color: #FFFFFF;
+            font-size: 1.6em;
+            background: #222;
+        }
+
+        table .desc {
+            text-align: left;
+        }
+
+        table .unit {
+            background: #DDDDDD;
+        }
+
+        table .qty {
+        }
+
+        table .total {
+            background: #222;
+            color: #FFFFFF;
+            font-size: 10px;
+        }
+
+        table td.unit,
+        table td.qty,
+        table td.total {
+            font-size: 12px;
+        }
+
+        table tbody tr:last-child td {
+            border: none;
+        }
+
+        table tfoot td {
+            padding: 10px 20px;
+            background: #FFFFFF;
+            border-bottom: none;
+            font-size: 1em;
+            white-space: nowrap;
+            border-top: 1px solid #AAAAAA;
+        }
+
+        table tfoot tr:first-child td {
+            border-top: none;
+        }
+
+        table tfoot tr:last-child td {
+            color: #57B223;
+            font-size: 1em;
+            border-top: 1px solid #57B223;
+
+        }
+
+        table tfoot tr td:first-child {
+            border: none;
+        }
+
+        #thanks{
+            overflow: hidden;
+            font-size: 2em;
+            margin-bottom: 50px;
+        }
+
+        #notices{
+            padding-left: 6px;
+            border-left: 6px solid #2A363D;
+        }
+
+        #notices .notice {
+            font-size: 1.2em;
+        }
+
+        #footer {
+            color: #777777;
+            margin-top: 50px;
+            width: 100%;
+            height: 30px;
+            position: relative;
+            bottom: 0;
+            border-top: 1px solid #AAAAAA;
+            padding: 8px 0;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div id="header">
+    <div id="logo">
+        <img src="{{ logo }}" height="40">
+    </div>
+    <div id="company">
+        <h2 class="name">Content Republic TV</h2>
+    </div>
+</div>
+{% set user = order.user %}
+{% if user.country == 'Switzerland' %}
+    {% set currency = 'CHF' %}
+{% else %}
+    {% set currency = 'EUR' %}
+{% endif %}
+<div>
+    <div id="details">
+        <div id="client">
+            {% if user %}
+                <div class="to">ORDER CONFIRMATION TO:</div>
+                <h2 class="name">{{ user.name ~ ' '~ user.surname }}</h2>
+                {% if user.address|length > 1 %}
+                    <div class="address">{{ user.address }}</div>
+                {% endif %}
+                <div class="email"><a href="mailto:{{ user.email }}">{{ user.email }}</a></div>
+            {% endif %}
+
+        </div>
+        <div id="invoice">
+            <h1>{{ 'ORDER CONFIRMATION ' ~ order.id }}</h1>
+
+            <div class="date">Date of Order confirmation: {{ date('now')|date('d/m/Y') }}</div>
+            <div class="date">Order created: {{ order.created_at|date('d/m/Y') }}</div>
+        </div>
+    </div>
+    <table border="0" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th class="no">#</th>
+            <th class="desc">DESCRIPTION</th>
+            <th class="unit">PRICE</th>
+            <th class="qty">QUANTITY</th>
+            <th class="total">TOTAL</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set items = order.items %}
+        {% set idNum = 0 %}
+        {% for item in items %}
+            {% set package = item.product %}
+            {% set idNum = loop.index %}
+            <tr>
+                <td class="no"> {{ idNum }}</td>
+                <td class="desc"><h3> {{ package.name }}</h3> {{ package.short_description }}</td>
+                <td class="unit">{{ currency }} {{ item.unit_price|number_format(2) }}</td>
+                <td class="qty">1 </td>
+                <td class="total">{{ currency }} {{ item.unit_price|number_format(2) }}</td>
+            </tr>
+        {% endfor %}
+
+        {% if order.fee_price != 0 %}
+            {% set idNum = idNum + 1 %}
+            <tr>
+                <td class="no"> {{ idNum }}</td>
+                <td class="desc"><h3> One time account setup fee </h3> This fee is paid only one time with first order. The price depends on package the customer selects. The one time account setup fee depends on the largest package selected.</td>
+                <td class="unit">{{ currency }} {{ order.fee_price|number_format(2) }}</td>
+                <td class="qty"> {% if order.fee_price|number_format(2)  %} 1 {% else %} 0 {% endif %}</td>
+                <td class="total">{{ currency }}  {{ order.fee_price|number_format(2)  }} </td>
+            </tr>
+        {% endif %}
+
+        {#{% set idNum = idNum + 1 %}#}
+        {#<tr>#}
+            {#<td class="no"> {{ idNum }}</td>#}
+            {#<td class="desc"><h3> Connect  </h3> Connect is the basis for ordering channel package - in order to order channel package for a month, a customer has to buy connect for that month. Connect has fixed price per month </td>#}
+            {#<td class="unit">{{ order.getConnectPrice|number_format(2) }} {{ currency }} </td>#}
+            {#<td class="qty">1 </td>#}
+            {#<td class="total">{{ order.getConnectPrice|number_format(2) }} {{ currency }}</td>#}
+        {#</tr>#}
+
+        {% if order.streams_length != 0 %}
+            {% set idNum = idNum + 1 %}
+            <tr>
+                <td class="no"> {{ idNum }}</td>
+                <td class="desc"><h3> Stream   </h3> Total number of streams define number of concurrent streams and customer can use.  </td>
+                <td class="unit"> {{ currency }} {% if order.stream_price %}{{ (order.stream_price/order.num_of_streams)|number_format(2) }}{% else %}0.00{% endif %}</td>
+                <td class="qty"> {{ order.num_of_streams }} </td>
+                <td class="total"> {{ currency }} {% if order.getStreamPrice %}{{ (order.num_of_streams*order.stream_price)|number_format(2) }}{% else %}0.00{% endif %}</td>
+            </tr>
+        {% endif %}
+
+        {% set idNum = idNum + 1 %}
+        <tr>
+            <td class="no"> {{ idNum }}</td>
+            <td class="desc"><h3> Price per remaining days   </h3> The remaining days of this month will be added to your order.   </td>
+            <td class="unit">{{ currency }} {{ order.price_per_remaining_day|number_format(2) }} </td>
+            <td class="qty">{{ order.num_of_remaining_days }} </td>
+            <td class="total">{{ currency }} {{ (order.price_per_remaining_day*order.num_of_remaining_days)|number_format(2) }} </td>
+        </tr>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2">GRAND TOTAL</td>
+            <td>{{ currency }}  {{ order.total|number_format(2)}} </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<div id="footer">
+    Order confirmation was created on a computer and is valid without the signature and seal.
+</div>
+</body>
+</html>
