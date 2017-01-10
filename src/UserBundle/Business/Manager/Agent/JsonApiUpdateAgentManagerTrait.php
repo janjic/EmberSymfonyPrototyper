@@ -132,16 +132,18 @@ trait JsonApiUpdateAgentManagerTrait
     {
         $dbAddress = $dbAgent->getAddress();
         $newAddress = $agent->getAddress();
-            if (!$dbAddress) {
-                $dbAddress = new Address();
-            }
+        if (!$dbAddress) {
+            $dbAddress = new Address();
+        }
+
+        if ($newAddress) {
             $dbAddress->setCity($newAddress->getCity());
             $dbAddress->setCountry($newAddress->getCountry());
             $dbAddress->setFixedPhone($newAddress->getFixedPhone());
             $dbAddress->setPhone($newAddress->getPhone());
             $dbAddress->setPostcode($newAddress->getPostcode());
             $dbAddress->setStreetNumber($newAddress->getStreetNumber());
-
+        }
     }
 
 

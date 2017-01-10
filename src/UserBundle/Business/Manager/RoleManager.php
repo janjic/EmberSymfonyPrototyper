@@ -42,10 +42,11 @@ class RoleManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param RoleRepository $repository
+     * @param FJsonApiSerializer $fSerializer
      */
     public function __construct(RoleRepository $repository, FJsonApiSerializer $fSerializer)
     {
-        $this->repository = $repository;
+        $this->repository  = $repository;
         $this->fSerializer = $fSerializer;
     }
 

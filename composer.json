@@ -37,7 +37,8 @@
         "guzzlehttp/guzzle": ">=6.2.2",
         "react/promise": "v2.4.0",
         "friendsofsymfony/message-bundle": "^1.3",
-        "pacely/mailchimp-apiv3": "dev-master"
+        "pacely/mailchimp-apiv3": "dev-master",
+        "mpdf/mpdf": "^6.1"
 
     },
     "require-dev": {

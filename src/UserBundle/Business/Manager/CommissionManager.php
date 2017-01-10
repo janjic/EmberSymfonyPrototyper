@@ -8,6 +8,7 @@ use UserBundle\Business\Manager\Settings\JsonApiGetCommissionManagerTrait;
 use UserBundle\Business\Manager\Settings\JsonApiSaveCommisionManagerTrait;
 use UserBundle\Business\Repository\CommissionRepository;
 use UserBundle\Entity\Group;
+use UserBundle\Entity\Role;
 use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
 
@@ -31,6 +32,13 @@ class CommissionManager implements JSONAPIEntityManagerInterface
      * @var FJsonApiSerializer
      */
     protected $fSerializer;
+
+
+    /**
+     * Commissions array - used for caching db query
+     * @var array
+     */
+    protected $commissions;
 
     /**
      * @param CommissionRepository $repository
@@ -89,5 +97,56 @@ class CommissionManager implements JSONAPIEntityManagerInterface
         }
 
         return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllCommissions()
+    {
+        return $this->repository->getAllCommissions();
+    }
+
+    /**
+     * @param Group $group
+     * @return null|Commission
+     */
+    public function getCommissionForGroup($group)
+    {
+        if (!$this->commissions) {
+            $this->commissions = $this->getAllCommissions();
+        }
+
+        /** @var Commission $commission */
+        foreach ($this->commissions as $commission) {
+            if ($commission->getGroup()->getId() === $group->getId()) {
+                return $commission;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $roleName
+     * @return null|Commission
+     */
+    public function getCommissionForRole($roleName)
+    {
+        if (!$this->commissions) {
+            $this->commissions = $this->getAllCommissions();
+        }
+
+        /** @var Commission $commission */
+        foreach ($this->commissions as $commission) {
+            /** @var Role $role */
+            foreach ($commission->getGroup()->getRoles() as $role) {
+                if ($role->getRole() === $roleName) {
+                    return $commission;
+                }
+            }
+        }
+
+        return null;
     }
 }

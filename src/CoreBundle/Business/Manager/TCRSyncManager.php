@@ -28,7 +28,6 @@ class TCRSyncManager implements BasicEntityManagerInterface
                 'Accept-Language' => "sr-RS,sr;q=0.8,en-US;q=0.6,en;q=0.4"
             ]
         ];
-
         $promise = $client->requestAsync($method, $url, $options);
 
         $answer = null;

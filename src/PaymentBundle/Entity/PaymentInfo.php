@@ -34,6 +34,12 @@ class PaymentInfo
     protected $orderId;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer", name="customer_id")
+     */
+    protected $customerId;
+
+    /**
      * @var float
      * @ORM\Column(type="float")
      */
@@ -49,7 +55,7 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float")
      */
-    protected $packagesCommission;
+    protected $packagesCommission = 0;
 
     /**
      * @var float
@@ -67,7 +73,7 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float")
      */
-    protected $connectCommission;
+    protected $connectCommission = 0;
 
     /**
      * @var float
@@ -85,7 +91,7 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float")
      */
-    protected $setupFeeCommission;
+    protected $setupFeeCommission = 0;
 
     /**
      * @var float
@@ -103,13 +109,13 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float")
      */
-    protected $streamCommission;
+    protected $streamCommission = 0;
 
     /**
      * @var float
      * @ORM\Column(type="float")
      */
-    protected $totalCommission;
+    protected $totalCommission = 0;
 
     /**
      * @return mixed
@@ -131,7 +137,7 @@ class PaymentInfo
     }
 
     /**
-     * @return mixed
+     * @return Agent
      */
     public function getAgent()
     {
@@ -139,12 +145,50 @@ class PaymentInfo
     }
 
     /**
-     * @param mixed $agent
+     * @param Agent $agent
      * @return $this
      */
     public function setAgent($agent)
     {
         $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * @param int $orderId
+     * @return $this
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param int $customerId
+     * @return $this
+     */
+    public function setCustomerId($customerId)
+    {
+        $this->customerId = $customerId;
 
         return $this;
     }
