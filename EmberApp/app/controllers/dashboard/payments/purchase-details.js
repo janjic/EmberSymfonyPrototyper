@@ -27,7 +27,7 @@ export default Ember.Controller.extend({
 
             let id = this.get('model.id');
 
-            $.ajax({
+            Ember.$.ajax({
                 type: "GET",
                 url: "/api/order-print/"+id,
                 contentType: "application/pdf",
