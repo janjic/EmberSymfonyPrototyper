@@ -1,17 +1,50 @@
 <h3 class="sub-heading">{{trans 'admin-agent.profile.notification-settings'}}</h3>
 <div class="profile-settings">
-    <div class="form-group clearfix checkboxes">
-        <div class="col-md-12">
-            <label for="checkboxes">{{trans 'admin-user.label.notifications-message'}}</label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox1" value="option1"> {{trans 'admin-user.label.new-message'}}
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox2" value="option2"> {{trans 'admin-user.label.payment'}}
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox3" value="option3"> {{trans 'admin-user.label.new-agent'}}
-            </label>
+    {{!--<div class="form-group clearfix checkboxes">--}}
+        {{!--<div class="col-md-12">--}}
+            {{!--<label for="checkboxes">{{trans 'admin-user.label.notifications-message'}}</label>--}}
+            {{!--<label class="checkbox-inline">--}}
+                {{!--<input type="checkbox" id="inlineCheckbox1" value="option1"> {{trans 'admin-user.label.new-message'}}--}}
+            {{!--</label>--}}
+            {{!--<label class="checkbox-inline">--}}
+                {{!--<input type="checkbox" id="inlineCheckbox2" value="option2"> {{trans 'admin-user.label.payment'}}--}}
+            {{!--</label>--}}
+            {{!--<label class="checkbox-inline">--}}
+                {{!--<input type="checkbox" id="inlineCheckbox3" value="option3"> {{trans 'admin-user.label.new-agent'}}--}}
+            {{!--</label>--}}
+        {{!--</div>--}}
+    {{!--</div>--}}
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-xs-5">New message</label>
+        <div class="col-md-7 col-xs-7">
+            <div class="mt-action-buttons">
+                <div class="btn-group btn-group-circle">
+                    <button {{action "statusChanged" "optionMessage" true}} type="button" class="btn {{if optionMessage 'active' }} sebtn-outline switch-green btn-sm"><span>Enabled</span></button>
+                    <button {{action "statusChanged" "optionMessage" false}} type="button" class="btn {{unless optionMessage 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-xs-5">Payment</label>
+        <div class="col-md-7 col-xs-7">
+            <div class="mt-action-buttons">
+                <div class="btn-group btn-group-circle">
+                    <button {{action "statusChanged" "optionPayment" true}} type="button" class="btn {{if optionPayment 'active' }} btn-outline switch-green btn-sm"><span>Enabled</span></button>
+                    <button {{action "statusChanged" "optionPayment" false}} type="button" class="btn {{unless optionPayment 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-xs-5">New agent</label>
+        <div class="col-md-7 col-xs-7">
+            <div class="mt-action-buttons">
+                <div class="btn-group btn-group-circle">
+                    <button {{action "statusChanged" "optionAgent" true}} type="button" class="btn {{if optionAgent 'active' }} btn-outline switch-green btn-sm"><span>Enabled</span></button>
+                    <button {{action "statusChanged" "optionAgent" false}} type="button" class="btn {{unless optionAgent 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

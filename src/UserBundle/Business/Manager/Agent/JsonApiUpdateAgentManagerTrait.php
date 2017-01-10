@@ -85,7 +85,7 @@ trait JsonApiUpdateAgentManagerTrait
         $this->setAndValidateAddress($agent, $dbAgent);
         $this->setAndValidateGroup($agent, $dbAgent);
         $this->setAndValidateImage($agent, $dbAgent);
-
+        $this->setAndValidateNotifications($agent, $dbAgent);
 
         return $agent;
     }
@@ -150,6 +150,11 @@ trait JsonApiUpdateAgentManagerTrait
         $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
 
 
+    }
+
+    private function setAndValidateNotifications (Agent $agent, Agent $dbAgent)
+    {
+        $dbAgent->setNotifications($agent->getNotifications());
     }
 
 

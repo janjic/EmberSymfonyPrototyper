@@ -28,77 +28,31 @@
     <div class="col-md-4">
         <div class="input-box notifications">
             <h3 class="sub-heading">{{fa-icon "user"}} About</h3>
-            <p>{{fa-icon "envelope"}} mail@provider.com</p>
-            <p>{{fa-icon "phone"}} +381 064 456 66 44</p>
-            <p>{{fa-icon "map-marker"}} Hollywood Hills, California</p>
+            <p>{{fa-icon "envelope"}} {{currentUser.user.email}}</p>
+            <p>{{fa-icon "phone"}} {{currentUser.user.address.phone}}</p>
+            <p>{{fa-icon "map-marker"}} {{currentUser.user.address.city}}, {{currentUser.user.address.country}}</p>
         </div>
         <div class="input-box agent-list clearfix">
-            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Agents</h3>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#">
-                    <div class="img-holder">
-                        <img src="../../assets/images/user-avatar.png" title="Username">
-                    </div>
-                </a>
-            </div>
+            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Users</h3>
+            {{#each allUsers as |tcr-user|}}
+                <div class="col-md-4">
+                    <a href="#">
+                        <div class="img-holder">
+                            <img src="../../assets/images/user-avatar.png" title="Username">
+                        </div>
+                    </a>
+                    {{tcr-user.username}}
+                </div>
+            {{/each}}
+            {{!--<div class="col-md-4">--}}
+                {{!--<a href="#">--}}
+                    {{!--<div class="img-holder">--}}
+                        {{!--<img src="../../assets/images/user-avatar.png" title="Username">--}}
+                    {{!--</div>--}}
+                {{!--</a>--}}
+            {{!--</div>--}}
             <div class="text-center">
-                <a href="#" class="button green btn-small">View all</a>
+                {{#link-to 'dashboard.users.users-customers' class='button green btn-small'}}View all{{/link-to}}
             </div>
         </div>
     </div>

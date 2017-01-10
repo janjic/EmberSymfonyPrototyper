@@ -58,6 +58,17 @@ class AgentApiResponse
     }
 
     /**
+     * @param $today
+     * @param $this_month
+     * @param $total
+     * @return array
+     */
+    public static function NEW_AGENTS_INFO_OK_RESPONSE($today, $this_month, $total)
+    {
+        return array('data' => array('today'=> $today, 'this_month' => $this_month, 'total' => $total), 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
+    }
+
+    /**
      * @param $email
      * @return array
      */

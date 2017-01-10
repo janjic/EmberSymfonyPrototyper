@@ -164,7 +164,7 @@ class Agent extends BaseUser implements ParticipantInterface
      * @var array
      * @ORM\Column(name="notifications", type="simple_array", length=100)
      */
-    private $notifications;
+    protected $notifications;
 
 
     public function __construct()

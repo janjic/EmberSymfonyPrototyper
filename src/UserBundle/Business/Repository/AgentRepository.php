@@ -4,6 +4,7 @@ namespace UserBundle\Business\Repository;
 
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Types\Type;
 use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\ORM\NoResultException;
@@ -531,5 +532,30 @@ class AgentRepository extends NestedTreeRepository
             ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
 
        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param Agent $agent
+     * @param $period
+     *
+     * @return int
+     */
+    public function newAgentsCount(Agent $agent, $period)
+    {
+        switch ($period){
+            case 'today': $date = new \DateTime('-1 day');break;
+            case 'month': $date = new \DateTime('-1 month');break;
+            default: $date = null;
+        }
+
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        $qb->select($qb->expr()->count(self::ALIAS.'.id'));
+        if ( $date ) {
+            $qb->where(self::ALIAS.'.createdAt > :last')
+                ->setParameter('last', $date, \Doctrine\DBAL\Types\Type::DATETIME);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }
