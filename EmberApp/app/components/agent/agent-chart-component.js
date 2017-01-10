@@ -133,7 +133,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.$('#chart-container').orgchart({
             'data' : Routing.generate('api_orgchart_agents'),
             'ajaxURL': ajaxURLs,
-            'nodeContent': 'email',
+            'nodeContent': 'groupName',
             // 'nodeContent': 'id',
             'draggable': true,
             'depth': 2,

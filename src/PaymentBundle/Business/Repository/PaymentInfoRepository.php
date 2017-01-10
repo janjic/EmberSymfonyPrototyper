@@ -53,6 +53,7 @@ class PaymentInfoRepository extends EntityRepository
             $qb->where(self::ALIAS.'.customerId = ?2');
             $qb->setParameter(2, $customerId);
         }
+
         return $qb->getQuery()->getResult();
     }
 

@@ -49,8 +49,9 @@ class PaymentInfoManager
 
     /**
      * @param PaymentInfoRepository $repository
-     * @param AgentManager $agentManager
-     * @param FJsonApiSerializer $fSerializer
+     * @param AgentManager          $agentManager
+     * @param FJsonApiSerializer    $fSerializer
+     * @param CommissionManager     $commissionManager
      */
     public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager)
     {
@@ -94,6 +95,16 @@ class PaymentInfoManager
             $payments = $this->createCommissionForAgent($agent);
         }
 
+        /** set default values for now - to be removed when order sync is implemented */
+        /** @var PaymentInfo $payment */
+        $id = rand(1, 10000);
+        foreach ($payments as $payment) {
+            $payment->setOrderId($id);
+            $payment->setCustomerId($id);
+        }
+
+        $payments = $this->repository->saveArray($payments);
+
         return $this->serializePaymentInfo($payments);
     }
 
@@ -129,17 +140,35 @@ class PaymentInfoManager
         if ($this->isHQ($parent)) {
             /** if parent is hq agent is ambassador  */
             if ($commissionsPayed == 0) {
-                /** Ambassador has sold package */
-                $totalPackagesCommissionPercentage += $commissionMA->getPackages() + $commissionA->getPackages();
-                $totalConnectCommissionPercentage  += $commissionMA->getConnect() + $commissionA->getConnect();
-                $totalSetupFeeCommissionPercentage += $commissionMA->getSetupFee() + $commissionA->getSetupFee();
-                $totalStreamCommissionPercentage   += $commissionMA->getStream() + $commissionA->getStream();
+                if ($this->isMasterAgent($agent)) {
+                    /** Master agent has sold package but his parent is HQ */
+                    $totalPackagesCommissionPercentage += $commissionMA->getPackages();
+                    $totalConnectCommissionPercentage  += $commissionMA->getConnect();
+                    $totalSetupFeeCommissionPercentage += $commissionMA->getSetupFee();
+                    $totalStreamCommissionPercentage   += $commissionMA->getStream();
+                } else if ($this->isAmbassador($agent)) {
+                    /** Ambassador has sold package */
+                    $totalPackagesCommissionPercentage += $commissionMA->getPackages() + $commissionA->getPackages();
+                    $totalConnectCommissionPercentage  += $commissionMA->getConnect() + $commissionA->getConnect();
+                    $totalSetupFeeCommissionPercentage += $commissionMA->getSetupFee() + $commissionA->getSetupFee();
+                    $totalStreamCommissionPercentage   += $commissionMA->getStream() + $commissionA->getStream();
+                }
             } else {
-                /** Ambassador gets standard commission */
-                $totalPackagesCommissionPercentage = $commissionA->getPackages();
-                $totalConnectCommissionPercentage  = $commissionA->getConnect();
-                $totalSetupFeeCommissionPercentage = $commissionA->getSetupFee();
-                $totalStreamCommissionPercentage   = $commissionA->getStream();
+                if ($this->isMasterAgent($agent)) {
+                    /** Master agent gets standard commission */
+                    $totalPackagesCommissionPercentage = $commissionMA->getPackages();
+                    $totalConnectCommissionPercentage  = $commissionMA->getConnect();
+                    $totalSetupFeeCommissionPercentage = $commissionMA->getSetupFee();
+                    $totalStreamCommissionPercentage   = $commissionMA->getStream();
+                } else if ($this->isAmbassador($agent)) {
+                    /** Ambassador gets standard commission */
+                    $totalPackagesCommissionPercentage = $commissionA->getPackages();
+                    $totalConnectCommissionPercentage  = $commissionA->getConnect();
+                    $totalSetupFeeCommissionPercentage = $commissionA->getSetupFee();
+                    $totalStreamCommissionPercentage   = $commissionA->getStream();
+                }
+
+
             }
 
             return [$this->createPaymentInfo($agent, $totalPackagesCommissionPercentage, $totalConnectCommissionPercentage,
