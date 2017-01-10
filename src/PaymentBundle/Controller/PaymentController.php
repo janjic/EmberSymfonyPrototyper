@@ -2,6 +2,7 @@
 
 namespace PaymentBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,28 +33,13 @@ class PaymentController extends Controller
 
     /**
      * @Route("/api/payment/process_payment", name="process_payment", options={"expose" = true})
-     * @param Request $request
+     * @param ArrayCollection $paymentInfoCreate
      * @return JsonResponse
+     * @internal param Request $request
      */
-    public function processPaymentAction(Request $request)
+    public function processPaymentAction(ArrayCollection $paymentInfoCreate)
     {
-        $data = json_decode($request->getContent());
-
-        $payments = $this->get('agent_system.payment_info.manager')->calculateCommissions(
-            (int) $data->agentId,
-            (float) $data->sumPackages,
-            (float) $data->sumConnect,
-            (float) $data->sumOneTimeSetupFee,
-            (float) $data->sumStreams,
-            (int) $data->customerId,
-            (int) $data->orderId
-        );
-
-        if ($payments) {
-            return new JSONResponse(['code' => 200]);
-        } else {
-            return new JSONResponse(['code' => 500]);
-        }
+        return new JSONResponse($paymentInfoCreate->toArray());
     }
 
 

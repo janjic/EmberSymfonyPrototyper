@@ -2,6 +2,7 @@
 
 namespace PaymentBundle\Business\Manager;
 
+use CoreBundle\Business\Manager\BasicEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoSerializationTrait;
 use PaymentBundle\Business\Repository\PaymentInfoRepository;
@@ -17,7 +18,7 @@ use Doctrine\Common\Util\Debug;
  * Class PaymentInfoManager
  * @package PaymentBundle\Business\Manager
  */
-class PaymentInfoManager
+class PaymentInfoManager implements BasicEntityManagerInterface
 {
     use RoleCheckerTrait;
     use PaymentInfoSerializationTrait;
