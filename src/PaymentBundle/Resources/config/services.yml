@@ -10,3 +10,6 @@ services:
        arguments:
              repository: "@agent_system.payment_info.repository"
              agentManager: "@agent_system.agent.manager"
+
+    agent.system.pdf.generator:
+            class:  PaymentBundle\Business\Manager\PDFGenerator
