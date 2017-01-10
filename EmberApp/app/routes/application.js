@@ -17,6 +17,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     }),
     beforeModel() {
+        //download("base64","dlDataUrlBin.pdf", "application/pdf");
         return this._loadCurrentUser();
     },
     sessionAuthenticated() {
