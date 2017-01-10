@@ -12,3 +12,6 @@ services:
             agentManager: "@agent_system.agent.manager"
             fSerializer: "@f_serializer"
             commissionManager: "@agent_system.commission.manager"
+
+    agent.system.pdf.generator:
+            class:  PaymentBundle\Business\Manager\PDFGenerator

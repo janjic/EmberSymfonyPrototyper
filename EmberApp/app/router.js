@@ -87,7 +87,7 @@ Router.map(function() {
             this.route('view-ticket', {path: '/view-ticket/:id'});
             this.route('created-tickets');
           });
-          this.route('reports', function() {
+          this.route('agent-reports', function() {
               this.route('customer-orders');
               this.route('commissions');
               this.route('purchase-details', {path: '/purchase-details/:id'});
