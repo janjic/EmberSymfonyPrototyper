@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentController extends Controller
 {
@@ -30,9 +31,9 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/order-print/{id}")
+     * @Route("/api/order-print/{id}")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return string
      */
     public function orderPrintAction(Request $request)
     {
@@ -45,26 +46,24 @@ class PaymentController extends Controller
         $settingsData = $this->get('agent_system.settings.manager')->getResource();
 
         $imageUrl = '';
-//        var_dump($settingsData['included']);exit;
+
         foreach ($settingsData['included'] as $inc) {
             if ($inc['type'] == 'images'){
                 $imageUrl = $inc['attributes']['absolutePathWithVersion'];
                 break;
             }
         }
+
         $response = $tcrManager->getContentFromTCR($url, 'GET');
 
         $html = $this->renderView('@Payment/invoice-pdf.html.twig', array('order' => $response->{0}, 'logo' => $imageUrl));
 
         $invoiceDir = '/var/www/fsd_dev/web/uploads/documents/';
-        $file = $pdfGenerator->saveToFile($invoiceDir.'fajl.pdf', 'S', $html);
+        $file = $pdfGenerator->saveToFile($invoiceDir.'order-'.$response->{0}->id.'.pdf', 'S', $html);
 
         $encoded = base64_encode($file);
         $encoded = chunk_split($encoded, 76, "\r\n");
 
-        var_dump('data:application/pdf;base64,' . $encoded);exit;
-
-        return ($response = $pdfGenerator->generatePdfResponse($html));
-
+        return new Response('data:application/pdf;base64,' . $encoded);
     }
 }
