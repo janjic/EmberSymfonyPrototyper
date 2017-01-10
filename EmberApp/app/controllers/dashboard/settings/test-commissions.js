@@ -12,6 +12,9 @@ export default Ember.Controller.extend({
     sumOneTimeSetupFee: 0,
     sumStreams: 0,
 
+    serverResponse: [],
+
+
     search: task(function * (text, page, perPage) {
         yield timeout(200);
         return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
@@ -31,9 +34,10 @@ export default Ember.Controller.extend({
                 agentId: this.get('agent.id'),
             };
 
-            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', Routing.generate('api_agent_change_password'),
+            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'),
                 function (response) {
                     console.log(response);
+                    this.set('serverResponse', response.data);
                 }.bind(this), this);
         }
     }
