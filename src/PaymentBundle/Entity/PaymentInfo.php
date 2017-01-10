@@ -118,6 +118,13 @@ class PaymentInfo
     protected $totalCommission = 0;
 
     /**
+     * NULL - unprocessed, FALSE - rejected, TRUE - approved
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $state;
+
+    /**
      * @return mixed
      */
     public function getId()

@@ -46,6 +46,8 @@ class PaymentInfoManager
     protected $connectPrice;
     protected $setupFeePrice;
     protected $streamPrice;
+    protected $customerId;
+    protected $orderId;
 
     /**
      * @param PaymentInfoRepository $repository
@@ -62,20 +64,23 @@ class PaymentInfoManager
     }
 
     /**
-     * @param int      $agentId
-     * @param float    $packagesPrice
-     * @param float    $connectPrice
-     * @param float    $setupFeePrice
-     * @param float    $streamPrice
-     * @param int|null $customerId
+     * @param int   $agentId
+     * @param float $packagesPrice
+     * @param float $connectPrice
+     * @param float $setupFeePrice
+     * @param float $streamPrice
+     * @param int   $customerId
+     * @param int   $orderId
      * @return array
      */
-    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice, $customerId = null)
+    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice, $customerId, $orderId)
     {
         $this->packagesPrice = $packagesPrice;
         $this->connectPrice  = $connectPrice;
         $this->setupFeePrice = $setupFeePrice;
         $this->streamPrice   = $streamPrice;
+        $this->customerId    = $customerId;
+        $this->orderId       = $orderId;
 
         /** @var Agent $agent */
         $agent = $this->agentManager->findAgentById($agentId);
@@ -93,14 +98,6 @@ class PaymentInfoManager
             }
         } else {
             $payments = $this->createCommissionForAgent($agent);
-        }
-
-        /** set default values for now - to be removed when order sync is implemented */
-        /** @var PaymentInfo $payment */
-        $id = rand(1, 10000);
-        foreach ($payments as $payment) {
-            $payment->setOrderId($id);
-            $payment->setCustomerId($id);
         }
 
         $payments = $this->repository->saveArray($payments);
@@ -210,6 +207,8 @@ class PaymentInfoManager
         $payment->setSetupFeePercentage($totalSetupFeeCommissionPercentage)->setStreamPercentage($totalStreamCommissionPercentage);
 
         $payment->calculateCommissions();
+
+        $payment->setOrderId($this->orderId)->setCustomerId($this->customerId);
 
         return $payment;
     }

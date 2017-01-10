@@ -50,7 +50,7 @@ class PaymentInfoRepository extends EntityRepository
         $qb->setParameter(1, $agent);
 
         if ($customerId) {
-            $qb->where(self::ALIAS.'.customerId = ?2');
+            $qb->andWhere(self::ALIAS.'.customerId = ?2');
             $qb->setParameter(2, $customerId);
         }
 

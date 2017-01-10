@@ -7,6 +7,8 @@ export default Ember.Controller.extend({
     authorizedAjax: Ember.inject.service('authorized-ajax'),
 
     agent: null,
+    orderId: null,
+    customerId: null,
     sumPackages: 0,
     sumConnection: 0,
     sumOneTimeSetupFee: 0,
@@ -32,11 +34,12 @@ export default Ember.Controller.extend({
                 sumOneTimeSetupFee: this.get('sumOneTimeSetupFee'),
                 sumStreams: this.get('sumStreams'),
                 agentId: this.get('agent.id'),
+                orderId: this.get('orderId'),
+                customerId: this.get('customerId')
             };
 
             this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'),
                 function (response) {
-                    console.log(response);
                     this.set('serverResponse', response.data);
                 }.bind(this), this);
         }
