@@ -13,6 +13,33 @@ export default DS.JSONAPISerializer.extend({
     keyForRelationship: function(rawKey) {
         return rawKey;
     },
+    normalizeQueryResponse (store, primaryModelClass, payload){
+        let responseData = {};
+        responseData['data']= [];
+        responseData['meta'] = {
+            page: payload.description.current,
+            pages: payload.description.pageCount,
+            totalItems: payload.description.totalCount
+        };
+
+        payload.items.forEach(function (item) {
+            responseData['data'].push({
+                type: 'tcr-user',
+                id: item.id,
+                attributes: {
+                    firstName: item.name,
+                    lastName: item.surname,
+                    username: item.username,
+                    country: item.country,
+                    email: item.email,
+                    enabled: item.enabled,
+                    created_at: item.created_at,
+                },
+            });
+        });
+
+        return responseData;
+    },
     /**
      @method serializeBelongsTo
      @param {DS.Snapshot} snapshot
