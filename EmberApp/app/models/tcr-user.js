@@ -1,6 +1,8 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 const { attr, Model } = DS;
+const {computed} = Ember;
 
 export default Model.extend({
     firstName:      attr('string'),
@@ -28,4 +30,10 @@ export default Model.extend({
     phoneNumber:    attr('string'),
     title:          attr('string'),
     agent:          DS.belongsTo('agent'),
+    fullName: computed('firstName', 'lastName', function() {
+        if (!this.get('firstName') && !this.get('lastName')) {
+            return `${this.get('email')}`;
+        }
+        return `${this.get('firstName')} ${this.get('lastName')}`;
+    })
 });

@@ -51,4 +51,14 @@ class CommissionRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @return array
+     */
+    public function getAllCommissions()
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        return $qb->getQuery()->getResult();
+    }
 }

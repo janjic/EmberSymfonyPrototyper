@@ -4,7 +4,7 @@ export default Ember.Route.extend({
     model: function () {
         return this.get('store').query('agent', {
             page: 1,
-            offset: 10,
+            offset: 8,
             sidx: 'id',
             sord: 'asc'
         });

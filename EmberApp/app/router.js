@@ -106,10 +106,15 @@ Router.map(function() {
             this.route('add-new-agent');
             this.route('all-agents');
           });
+          this.route('notifications', function () {
+              this.route('notifications-all');
+          });
       });
 
       this.route('genealogy-tree');
-      this.route('notifications-all');
+      this.route('notifications', function () {
+          this.route('notifications-all');
+      });
   });
 
   this.route('files');

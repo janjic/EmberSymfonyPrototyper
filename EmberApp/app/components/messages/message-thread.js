@@ -149,6 +149,7 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
         let messages = yield this.infinityModel("message", { perPage: 10, thread: this.get('thread.id') }, {
           min_id: '_minId',
         }).finally(() => {
+            this.get('eventBus').publish('refreshMessages');
           this.disableLoader();
         });
         this.set('messages', messages.toArray());

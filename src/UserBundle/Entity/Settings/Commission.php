@@ -3,6 +3,7 @@
 namespace UserBundle\Entity\Settings;
 
 use Doctrine\ORM\Mapping as ORM;
+use UserBundle\Entity\Group;
 
 /**
  * Class Commission
@@ -96,7 +97,7 @@ class Commission
     }
 
     /**
-     * @return mixed
+     * @return Group
      */
     public function getGroup()
     {
