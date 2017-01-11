@@ -4,11 +4,15 @@
             <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </div>
+    {{!-- trans needed --}}
     {{date-range-picker
-            autoApply = true
-            daysOfWeek = daysOfWeek
+            daysOfWeek  = daysOfWeek
+            applyLabel  =  "Apply"
+            cancelLabel = "Cancel"
+            fromLabel   =  "From"
+            toLabel     = "To"
+            customRangeLabel =  "Custom"
             monthNames = monthNames
-            label='Optional label'
             start=today
             showDropdowns = true
             ranges = ranges
