@@ -2008,12 +2008,6 @@ svg {
   animation: rotate 1s ease-in-out infinite;
   animation-direction: reverse;
 }
-.left {
-  animation: move 1s ease-in-out infinite;
-}
-.right {
-  animation: move 1s ease-in-out infinite;
-}
 @keyframes rotate {
   100% {
     transform: rotate(calc(90deg + 45deg));
