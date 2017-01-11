@@ -40,7 +40,6 @@ export default Ember.Component.extend({
     },
     handleFilterEntry: task(function * (letter) {
         let searchValue;
-        console.log('LETTER', letter);
         if (letter) {
              searchValue = letter;
             this.set('searchValue', searchValue);
@@ -48,7 +47,6 @@ export default Ember.Component.extend({
             searchValue = this.get('searchValue');
         }
         if (!letter) {
-            console.log('USAO');
             let delayTime =  this.get('defaultDelayTime');
             yield timeout(delayTime);
         }

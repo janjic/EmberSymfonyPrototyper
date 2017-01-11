@@ -335,8 +335,20 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->getReference($id);
     }
 
+    /**
+     * @param Agent $agent
+     */
     public function changePassword(Agent $agent)
     {
          $this->passwordManipulator->changePassword($agent->getUsername(), $agent->getPlainPassword());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findAgentsByCountry()
+    {
+
+        return $this->repository->findAgentsByCountry();
     }
 }
