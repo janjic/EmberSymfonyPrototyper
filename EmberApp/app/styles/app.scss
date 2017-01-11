@@ -4107,6 +4107,27 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.refresh-button {
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 0;
+  i {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  &:hover i {
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
 .map-legend-holder.last {
   margin-bottom: 15px;
 }
