@@ -122,7 +122,7 @@
                         <td>Total</td>
                         <td></td>
                         <td>{{currency-for-country model.user.country}} {{ number-format model.total 2}}</td>
-                        <td><i class="fa fa-print"></i></td>
+                        <td><i class="fa fa-print" {{ action 'downloadPDF' }}></i></td>
                     </tr>
                     </tfoot>
                 </table>

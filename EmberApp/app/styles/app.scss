@@ -3038,6 +3038,12 @@ input:focus {
 
 .input-box.home-table {
   padding: 20px 15px;
+  position: relative;
+  .icon-btn.green {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
 }
 
 .input-box.agent-details {

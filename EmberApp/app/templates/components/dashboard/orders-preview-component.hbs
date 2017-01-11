@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-9 col-sm-12 home-table-wrap">
+        <div class="input-box home-table">
+            <h3 class="sub-heading">Latest orders</h3>
+            {{#link-to viewAllLink class="button green icon-btn"}}
+                View all
+            {{/link-to}}
+            <div class="flex-table">
+                <div class="flex-row fixed">
+                    <div class="flex-item">
+                        <span>Agent</span>
+                    </div>
+                    <div class="flex-item">
+                        <span>Order Description</span>
+                    </div>
+                    <div class="flex-item">
+                        <span>Order total</span>
+                    </div>
+                    <div class="flex-item">
+                        <span>Actions</span>
+                    </div>
+                </div>
+                {{#each orders as |order|}}
+                    <div class="flex-row">
+                        <div class="flex-item user-item">
+                            <div class="img-holder">
+                                {{#if order.user_avatar}}
+                                    <img src="{{order.user_avatar}}" alt="" class="img-circle">
+                                {{else}}
+                                    <img src="../assets/images/user-avatar.png" alt="" class="img-circle">
+                                {{/if}}
+                            </div>
+                            <div class="info">
+                                <h5>{{order.name}} {{order.surname}}</h5>
+                                <span>{{ moment-format order.created_at 'DD/MM/YYYY' }}</span>
+                            </div>
+                        </div>
+                        <div class="flex-item">
+                            {{order.description}}
+                        </div>
+                        <div class="flex-item">
+                            {{ currency-for-country order.user.country }}
+                            {{number-format order.total 2}}
+                        </div>
+                        <div class="flex-item">
+                            {{#link-to viewLink order.id class = "button red icon-btn" }}View{{/link-to}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12 dark-cards">
+        <div class="home-card-secondary">
+            {{fa-icon "user icon-bg"}}
+            <div class="img-holder">
+                {{fa-icon 'user'}}
+            </div>
+            <div class="right-card">
+                <h4 class="number">25</h4>
+                <span>users regsitered today</span>
+            </div>
+        </div>
+        <div class="home-card-secondary">
+            {{fa-icon 'users icon-bg'}}
+            <div class="img-holder">
+                {{fa-icon 'users'}}
+            </div>
+            <div class="right-card">
+                <h4 class="number">2,556</h4>
+                <span>users total</span>
+            </div>
+        </div>
+        <div class="home-card-secondary">
+            {{fa-icon 'envelope icon-bg'}}
+            <div class="img-holder">
+                {{fa-icon 'envelope'}}
+            </div>
+            <div class="right-card">
+                <h4 class="number">3</h4>
+                <span>new messages</span>
+            </div>
+        </div>
+    </div>
+</div>

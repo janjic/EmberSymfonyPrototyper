@@ -184,7 +184,7 @@
 
         <div class="input-box">
             <h3 class="sub-heading">{{fa-icon 'user'}} User activity</h3>
-            <div id="bubbles" style="cursor:pointer; display: block; position: relative; margin: 0 auto; width: 100%; height: 400px;"></div>
+            <div id="bubbles" style="cursor:pointer; display: block; position: relative; margin: 0 auto; width: 100%; height: 500px;"></div>
         </div>
 
         <script>
@@ -200,24 +200,6 @@
                         defaultFill: '#34495e',
                         USA: '#c0392b',
                         RUS: '#5cb85c'
-                    },
-                    done: function(datamap) {
-                        datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
-
-                        function redraw() {
-                            datamap.svg.selectAll("g").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                        }
-                    },
-                    setProjection: function(element) {
-                        var projection = d3.geo.equirectangular()
-                                .center([15, -3])
-                                .rotate([4.4, 0])
-                                .scale(120)
-                                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-                        var path = d3.geo.path()
-                                .projection(projection);
-
-                        return {path: path, projection: projection};
                     }
                 });
                 bubble_map.bubbles([
@@ -264,143 +246,9 @@
                 ]);
             });
 
-
         </script>
-        <div class="row">
-            <div class="col-md-9 col-sm-12 home-table-wrap">
-                <div class="input-box home-table">
-                    <h3 class="sub-heading">Latest transactions</h3>
-                    <div class="flex-table">
-                        <div class="flex-row fixed">
-                            <div class="flex-item">
-                                <span>Agent</span>
-                            </div>
-                            <div class="flex-item">
-                                <span>Order</span>
-                            </div>
-                            <div class="flex-item">
-                                <span>Agent type</span>
-                            </div>
-                            <div class="flex-item">
-                                <span>Actions</span>
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="flex-item user-item">
-                                <div class="img-holder">
-                                    <img src="../assets/images/user-avatar.png" alt="" class="img-circle">
-                                </div>
-                                <div class="info">
-                                    <h5>John Doe</h5>
-                                    <span>January 12, 2017</span>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <span>Package 25</span>
-                            </div>
-                            <div class="flex-item">
-                                <h6 class="label label-success">master</h6>
-                            </div>
-                            <div class="flex-item">
-                                <a href="#" class="button red icon-btn">Edit</a>
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="flex-item user-item">
-                                <div class="img-holder">
-                                    <img src="../assets/images/user-avatar.png" alt="" class="img-circle">
-                                </div>
-                                <div class="info">
-                                    <h5>John Doe</h5>
-                                    <p>January 12, 2017</p>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <span>Package 25</span>
-                            </div>
-                            <div class="flex-item">
-                                <h6 class="label label-success">master</h6>
-                            </div>
-                            <div class="flex-item">
-                                <a href="#" class="button red icon-btn">Edit</a>
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="flex-item user-item">
-                                <div class="img-holder">
-                                    <img src="../assets/images/user-avatar.png" alt="" class="img-circle">
-                                </div>
-                                <div class="info">
-                                    <h5>John Doe</h5>
-                                    <p>January 12, 2017</p>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <span>Package 25</span>
-                            </div>
-                            <div class="flex-item">
-                                <h6 class="label label-success">master</h6>
-                            </div>
-                            <div class="flex-item">
-                                <a href="#" class="button red icon-btn">Edit</a>
-                            </div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="flex-item user-item">
-                                <div class="img-holder">
-                                    <img src="../assets/images/user-avatar.png" alt="" class="img-circle">
-                                </div>
-                                <div class="info">
-                                    <h5>John Doe</h5>
-                                    <p>January 12, 2017</p>
-                                </div>
-                            </div>
-                            <div class="flex-item">
-                                <span>Package 25</span>
-                            </div>
-                            <div class="flex-item">
-                                <h6 class="label label-success">master</h6>
-                            </div>
-                            <div class="flex-item">
-                                <a href="#" class="button red icon-btn">Edit</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-12 dark-cards">
-                <div class="home-card-secondary">
-                    {{fa-icon "user icon-bg"}}
-                    <div class="img-holder">
-                        {{fa-icon 'user'}}
-                    </div>
-                    <div class="right-card">
-                        <h4 class="number">25</h4>
-                        <span>users regsitered today</span>
-                    </div>
-                </div>
-                <div class="home-card-secondary">
-                    {{fa-icon 'users icon-bg'}}
-                    <div class="img-holder">
-                        {{fa-icon 'users'}}
-                    </div>
-                    <div class="right-card">
-                        <h4 class="number">2,556</h4>
-                        <span>users total</span>
-                    </div>
-                </div>
-                <div class="home-card-secondary">
-                    {{fa-icon 'envelope icon-bg'}}
-                    <div class="img-holder">
-                        {{fa-icon 'envelope'}}
-                    </div>
-                    <div class="right-card">
-                        <h4 class="number">3</h4>
-                        <span>new messages</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{ dashboard/orders-preview-component viewLink = "dashboard.payments.purchase-details" viewAllLink = "dashboard.payments.reports" getOrders = (action 'getLatestOrders')}}
+
         {{ chart-component }}
     </section>
 </div>
