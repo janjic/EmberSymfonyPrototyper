@@ -13,6 +13,7 @@ export default Ember.Controller.extend({
     sumConnection: 0,
     sumOneTimeSetupFee: 0,
     sumStreams: 0,
+    currency: '',
 
     serverResponse: [],
 
@@ -35,7 +36,8 @@ export default Ember.Controller.extend({
                 sumStreams: this.get('sumStreams'),
                 agentId: this.get('agent.id'),
                 orderId: this.get('orderId'),
-                customerId: this.get('customerId')
+                customerId: this.get('customerId'),
+                currency: this.get('currency')
             };
 
             this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'),

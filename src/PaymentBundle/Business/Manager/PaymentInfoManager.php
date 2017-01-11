@@ -55,6 +55,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $streamPrice;
     protected $customerId;
     protected $orderId;
+    protected $currency;
 
     /**
      * @param PaymentInfoRepository $repository

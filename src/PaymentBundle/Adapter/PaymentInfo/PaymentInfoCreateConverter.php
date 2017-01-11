@@ -37,7 +37,8 @@ class PaymentInfoCreateConverter extends BasicConverter
             (float) $data->sumOneTimeSetupFee,
             (float) $data->sumStreams,
             (int) $data->customerId,
-            (int) $data->orderId
+            (int) $data->orderId,
+            $data->currency
         );
 
         if ($payments) {

@@ -29,16 +29,17 @@ use UserBundle\Entity\Settings\Commission;
 trait PaymentInfoCreationTrait
 {
     /**
-     * @param int   $agentId
-     * @param float $packagesPrice
-     * @param float $connectPrice
-     * @param float $setupFeePrice
-     * @param float $streamPrice
-     * @param int   $customerId
-     * @param int   $orderId
+     * @param int    $agentId
+     * @param float  $packagesPrice
+     * @param float  $connectPrice
+     * @param float  $setupFeePrice
+     * @param float  $streamPrice
+     * @param int    $customerId
+     * @param int    $orderId
+     * @param string $currency
      * @return array
      */
-    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice, $customerId, $orderId)
+    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice, $customerId, $orderId, $currency)
     {
         $this->packagesPrice = $packagesPrice;
         $this->connectPrice  = $connectPrice;
@@ -46,6 +47,7 @@ trait PaymentInfoCreationTrait
         $this->streamPrice   = $streamPrice;
         $this->customerId    = $customerId;
         $this->orderId       = $orderId;
+        $this->currency      = $currency;
 
         /** @var Agent $agent */
         $agent = $this->agentManager->findAgentById($agentId);
@@ -179,6 +181,7 @@ trait PaymentInfoCreationTrait
         $payment->setOrderId($this->orderId)->setCustomerId($this->customerId);
         $payment->setPaymentType(PaymentInfoManager::COMMISSION_TYPE);
         $payment->setAgentRole($agent->getGroup()->getName());
+        $payment->setCurrency($this->currency);
 
         return $payment;
     }

@@ -152,9 +152,15 @@ class PaymentInfo
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $memo;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $currency;
 
     /**
      * PaymentInfo constructor
@@ -607,5 +613,21 @@ class PaymentInfo
     public function setMemo($memo)
     {
         $this->memo = $memo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
     }
 }

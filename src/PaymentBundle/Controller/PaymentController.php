@@ -25,7 +25,8 @@ class PaymentController extends Controller
             (float) $request->request->get('sumOneTimeSetupFee'),
             (float) $request->request->get('sumStreams'),
             (int) $request->request->get('customerId'),
-            (int) $request->request->get('orderId')
+            (int) $request->request->get('orderId'),
+            $request->request->get('currency')
         );
 
         return new JSONResponse($payments);
