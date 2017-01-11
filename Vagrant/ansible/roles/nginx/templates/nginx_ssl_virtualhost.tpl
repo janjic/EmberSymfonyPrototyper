@@ -33,6 +33,7 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     root /var/www/fsd_dev/web;
+    rewrite ^(/app/.+)/assets/(.*)$ /app/assets/$2 last
     ssl on;
     ssl_certificate /etc/ssl/fsd.dev/fsd.dev.pem;
     ssl_certificate_key /etc/ssl/fsd.dev/fsd.dev.key;
