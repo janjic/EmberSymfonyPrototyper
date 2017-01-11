@@ -13,6 +13,7 @@ abstract class PaymentInfoAdapterUtil extends BaseAdapterUtil
     /** each adapter class MUST end with this */
     const BASE_CONVERTER_NAME = 'Converter';
 
-    const AGENT_ORGCHART_CONVERTER = 'paymentInfoCreate';
+    const PAYMENT_INFO_CREATE_CONVERTER = 'paymentInfoCreate';
+    const PAYMENT_INFO_API_CONVERTER    = 'paymentInfoAPI';
 
 }

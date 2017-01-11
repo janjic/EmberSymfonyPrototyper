@@ -21,4 +21,10 @@ export default DS.Model.extend({
     streamCommission:   attr('number'),
 
     totalCommission:    attr('number'),
+
+    agentRole:          attr('string'),
+    paymentType:        attr('string'),
+    memo:               attr('string'),
+    createdAt:          attr('custom-date'),
+    payedAt:            attr('custom-date'),
 });

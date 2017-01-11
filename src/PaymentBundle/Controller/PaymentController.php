@@ -42,6 +42,18 @@ class PaymentController extends Controller
         return new JSONResponse($paymentInfoCreate->toArray());
     }
 
+    /**
+     * @Route("/api/payment-infos/{id}", name="api_payment_infos", options={"expose" = true}, defaults={"id": "all"}),
+     * @param ArrayCollection $paymentInfoAPI
+     * @return JSONResponse
+     */
+    public function groupAPIAction(ArrayCollection $paymentInfoAPI)
+    {
+        return new JSONResponse($paymentInfoAPI->toArray(), array_key_exists('errors', $paymentInfoAPI->toArray()) ? 422 : 200);
+    }
+
+
+    /** ----------- ORDERS -------------------------------------------------------------------------------------------*/
 
     /**
      * @Route("/api/order-print/{id}")

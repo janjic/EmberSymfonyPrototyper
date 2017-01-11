@@ -1,0 +1,58 @@
+<h1 class="main-heading clearfix">
+    {{title}}
+    <span class="pull-right">
+        <a href="#" class="btn btn-danger">Filter Results</a>
+        {{#unless hidePayAllButtons}}
+            <a href="#" class="btn btn-danger">Pay all</a>
+            <a href="#" class="btn btn-primary">Reject all</a>
+        {{/unless}}
+    </span>
+</h1>
+
+<div class="table-responsive">
+    {{#each model as |payment|}}
+        <div class="col-md-3">
+            <div class="input-box">
+                <div class="upper-box">
+                    <h5>{{payment.agent.fullName}}</h5>
+                    <span>{{payment.agentRole}}</span>
+                    {{payment.agent.email}}
+                </div>
+                <div class="lower-box">
+                    <p><span>Created At</span> <br>
+                        {{payment.agent.nationality}}
+                    </p>
+                    {{#if payment.payedAt}}
+                    <p><span>Payed At</span> <br>
+                        {{payment.agent.nationality}}
+                    </p>
+                    {{/if}}
+
+                    <p><span>Type</span> <br>
+                        {{#if (eq payment.paymentType "COMMISSION_TYPE")}}
+                            COMMISSION
+                        {{else}}
+                            BONUS
+                        {{/if}}
+                    </p>
+
+                    <p><span>Amount</span> <br>
+                        {{payment.totalCommission}}
+                    </p>
+
+                    <p><span>Memo</span> <br>
+                        {{payment.memo}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+{{!--<th>ID</th>--}}
+{{!--<th>Date</th>--}}
+{{!--<th>Agent</th>--}}
+{{!--<th>Agent status</th>--}}
+{{!--<th>Agent type</th>--}}
+{{!--<th>Amount</th>--}}
+{{!--<th>Memo</th>--}}
