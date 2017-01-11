@@ -57,4 +57,16 @@ class AgentController extends Controller
         return new JsonResponse(AgentApiResponse::AGENT_INFO_OK_RESPONSE($childCount, $resp->description->totalCount));
     }
 
+    /**
+     * @Route("/api/agents-by-country" ,name="agents-by-country",
+     * options={"expose" = true})
+     * @param ArrayCollection $agentsByCountry
+     * @return Response
+     */
+    public function getAgentsByCountryAction(ArrayCollection $agentsByCountry)
+    {
+
+        return new JsonResponse($agentsByCountry->toArray());
+    }
+
 }
