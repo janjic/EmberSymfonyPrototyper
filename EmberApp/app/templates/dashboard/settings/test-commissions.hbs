@@ -45,6 +45,33 @@
 </div>
 
 <div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        Customer ID
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=customerId type=number class='form-control' }}
+    </div>
+</div>
+
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        Order ID
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=orderId type=number class='form-control' }}
+    </div>
+</div>
+
+<div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        Currency
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=currency type=number class='form-control' }}
+    </div>
+</div>
+
+<div class="form-group clearfix">
     <button class="button green pull-right" type="submit" {{action 'sendAjax' changeset }} disabled={{isLoading}}>
         {{#if isLoading }}
             {{inf-loading}}

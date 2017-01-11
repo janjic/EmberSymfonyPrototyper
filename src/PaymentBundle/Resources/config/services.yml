@@ -13,5 +13,12 @@ services:
             fSerializer: "@f_serializer"
             commissionManager: "@agent_system.commission.manager"
 
+    agent_system.payment_info.adapter:
+            class: PaymentBundle\Adapter\PaymentInfo\PaymentInfoAdapter
+            arguments:
+                - "@agent_system.payment_info.manager"
+            tags:
+                - { name: request.param_converter, converter:attribute priority: 10 }
+
     agent.system.pdf.generator:
             class:  PaymentBundle\Business\Manager\PDFGenerator
