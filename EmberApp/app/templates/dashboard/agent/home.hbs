@@ -182,7 +182,46 @@
 
         </script>
 
-        {{ dashboard/orders-preview-component viewLink = "dashboard.agent.agent-reports.purchase-details"  viewAllLink = "dashboard.agent.agent-reports.customer-orders" getOrders = (action 'getLatestOrders')}}
+        <div class="row">
+            {{ dashboard/orders-preview-component
+                    viewLink = "dashboard.agent.agent-reports.purchase-details"
+                    viewAllLink = "dashboard.agent.agent-reports.customer-orders"
+                    getOrders = (action 'getLatestOrders')
+            }}
+
+            <div class="col-md-3 col-sm-12 dark-cards">
+                <div class="home-card-secondary">
+                    {{fa-icon "user icon-bg"}}
+                    <div class="img-holder">
+                        {{fa-icon 'user'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">25</h4>
+                        <span>users regsitered today</span>
+                    </div>
+                </div>
+                <div class="home-card-secondary">
+                    {{fa-icon 'users icon-bg'}}
+                    <div class="img-holder">
+                        {{fa-icon 'users'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">2,556</h4>
+                        <span>users total</span>
+                    </div>
+                </div>
+                <div class="home-card-secondary">
+                    {{fa-icon 'envelope icon-bg'}}
+                    <div class="img-holder">
+                        {{fa-icon 'envelope'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">3</h4>
+                        <span>new messages</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {{chart-component}}
         <div id="bubbles" style="position: relative; width: 100%; height: 600px;"></div>
