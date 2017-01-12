@@ -9,6 +9,8 @@ use PaymentBundle\Business\Manager\Payment\PaymentInfoGetTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoJQGridTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoSerializationTrait;
 use PaymentBundle\Business\Repository\PaymentInfoRepository;
+use Swap\Model\CurrencyPair;
+use Swap\Swap;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Business\Manager\CommissionManager;
@@ -56,19 +58,22 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $customerId;
     protected $orderId;
     protected $currency;
+    protected $florianSwap;
 
     /**
      * @param PaymentInfoRepository $repository
-     * @param AgentManager          $agentManager
-     * @param FJsonApiSerializer    $fSerializer
-     * @param CommissionManager     $commissionManager
+     * @param AgentManager $agentManager
+     * @param FJsonApiSerializer $fSerializer
+     * @param CommissionManager $commissionManager
+     * @param Swap $florianSwap
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
         $this->fSerializer       = $fSerializer;
         $this->commissionManager = $commissionManager;
+        $this->florianSwap       = $florianSwap;
     }
 
     /**
@@ -79,6 +84,21 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function getPaymentInfoForAgent($agent, $customerId = null)
     {
         return $this->repository->getPaymentInfoForAgent($agent, $customerId);
+    }
+
+    /**
+     * @param $currency
+     * @return mixed
+     */
+    public function getCommissionsByAgent($currency)
+    {
+        if($currency == 'EUR'){
+            $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
+        } else {
+            $ratio = $this->florianSwap->quote(new CurrencyPair('CHF', 'EUR'));
+        }
+
+        return $this->repository->getCommissionsByAgent($currency, $ratio);
     }
 
 

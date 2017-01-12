@@ -5,6 +5,7 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Entity\Agent;
@@ -32,7 +33,7 @@ class PaymentInfoRepository extends EntityRepository
 
             $this->_em->flush();
         } catch (Exception $e){
-             return $e;
+            return $e;
         }
 
         return $payments;
@@ -249,5 +250,31 @@ class PaymentInfoRepository extends EntityRepository
         }
 
         return $oQ0->getQuery()->getResult();
+    }
+
+    /**
+     * @param $currency
+     * @param $ratio
+     * @return array
+     */
+    public function getCommissionsByAgent($currency, $ratio)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".packagesCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".packagesCommission,2) END as packagesCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".connectCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".connectCommission,2) END as connectCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".setupFeeCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".setupFeeCommission,2) END as setupFeeCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".streamCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".streamCommission,2) END as streamCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".totalCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".totalCommission,2) END as totalCommission")
+            ->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS)
+            ->groupBy(self::ALIAS.'.agent')
+            ->orderBy(self::ALIAS.'.totalCommission', 'DESC')
+            ->where(self::ALIAS.'.state = 1')
+            ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::COMMISSION_TYPE)))
+            ->andWhere(self::ALIAS.'.payedAt > :date')
+            ->setParameter('date', new \DateTime('-3 month'))
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
     }
 }

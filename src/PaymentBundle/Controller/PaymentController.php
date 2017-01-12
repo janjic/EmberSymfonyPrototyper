@@ -92,4 +92,17 @@ class PaymentController extends Controller
 
         return new Response('data:application/pdf;base64,' . $encoded);
     }
+
+    /**
+     * @Route("/api/payment/commission-by-agent/{currency}")
+     * @param ArrayCollection $commissionsByAgent
+     * @return string
+     */
+    public function commissionsByAgentAction(ArrayCollection $commissionsByAgent)
+    {
+        return new JSONResponse($commissionsByAgent->toArray(), array_key_exists('errors', $commissionsByAgent->toArray()) ? 422 : 200);
+
+    }
+
+
 }

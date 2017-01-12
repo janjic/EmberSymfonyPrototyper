@@ -22,7 +22,7 @@ export default Ember.Component.extend({
 
         Ember.$.ajax({
             type: "GET",
-            url: "/app_dev.php/api/agents-by-country",
+            url: "/api/agents-by-country",
             contentType: "application/pdf",
         }).then(function (response) {
             ctx.set('bubble_map', new Datamap({
