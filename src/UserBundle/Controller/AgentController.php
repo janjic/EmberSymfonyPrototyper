@@ -58,6 +58,18 @@ class AgentController extends Controller
     }
 
     /**
+     * @Route("/api/agents-by-country" ,name="agents-by-country",
+     * options={"expose" = true})
+     * @param ArrayCollection $agentsByCountry
+     * @return Response
+     */
+    public function getAgentsByCountryAction(ArrayCollection $agentsByCountry)
+    {
+
+        return new JsonResponse($agentsByCountry->toArray());
+    }
+
+    /**
      * @Route("/api/agents/newAgentsInfo/{id}" ,name="new-agents-info",
      * options={"expose" = true})
      * @ParamConverter("agent", class="UserBundle:Agent")

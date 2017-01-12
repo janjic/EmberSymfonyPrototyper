@@ -14,7 +14,6 @@ export default Ember.Controller.extend({
 
     actions: {
         getLatestOrders(){
-
             let orders =  this.store.query('customer-order', {
                 page: 1,
                 offset: 4,
@@ -55,6 +54,9 @@ export default Ember.Controller.extend({
         },
 
         getNumberOfNewCommissions(){
+
+        },
+        getAgentsByCountry(){
 
         }
     },

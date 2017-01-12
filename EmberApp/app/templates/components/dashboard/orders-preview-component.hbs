@@ -1,6 +1,8 @@
-<div class="row">
-    <div class="col-md-9 col-sm-12 home-table-wrap">
-        <div class="input-box home-table">
+<div class="col-md-9 col-sm-12 home-table-wrap">
+    <div class="input-box home-table {{if isLoading "home-table-loading"}}">
+        {{#if isLoading }}
+            <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+        {{else}}
             <h3 class="sub-heading">Latest orders</h3>
             {{#link-to viewAllLink class="button green icon-btn"}}
                 View all
@@ -20,6 +22,7 @@
                         <span>Actions</span>
                     </div>
                 </div>
+
                 {{#each orders as |order|}}
                     <div class="flex-row">
                         <div class="flex-item user-item">
@@ -48,50 +51,6 @@
                     </div>
                 {{/each}}
             </div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-12 dark-cards">
-        <div class="home-card-secondary">
-            {{fa-icon "user icon-bg"}}
-            <div class="img-holder">
-                {{fa-icon 'user'}}
-            </div>
-            <div class="right-card">
-                <h4 class="number">
-                    {{#if isLoading}}
-                        <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
-                    {{else}}
-                        {{info.today}}
-                    {{/if}}
-                </h4>
-                <span>users registered today</span>
-            </div>
-        </div>
-        <div class="home-card-secondary">
-            {{fa-icon 'users icon-bg'}}
-            <div class="img-holder">
-                {{fa-icon 'users'}}
-            </div>
-            <div class="right-card">
-                <h4 class="number">
-                    {{#if isLoading}}
-                        <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
-                    {{else}}
-                        {{info.total}}
-                    {{/if}}
-                </h4>
-                <span>users total</span>
-            </div>
-        </div>
-        <div class="home-card-secondary">
-            {{fa-icon 'envelope icon-bg'}}
-            <div class="img-holder">
-                {{fa-icon 'envelope'}}
-            </div>
-            <div class="right-card">
-                <h4 class="number">3</h4>
-                <span>new messages</span>
-            </div>
-        </div>
+        {{/if}}
     </div>
 </div>

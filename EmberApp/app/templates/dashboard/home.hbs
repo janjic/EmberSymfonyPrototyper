@@ -88,19 +88,16 @@
                 <div class="home-card">
                     <h4>{{trans 'dashboard.labels.new-commissions'}}</h4>
                     <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>EUR/
                         <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title">$ {{trans 'dashboard.labels.today'}}</span>
+                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
                     </p>
                     <p class="counter">
                         <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>$/
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>EUR
+                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
                     </p>
                     <p class="counter">
                         <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>$/
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>$
+                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
                     </p>
                     <i class="fa fa-usd" aria-hidden="true"></i>
                 </div>
@@ -208,93 +205,47 @@
 
         </script>
 
+        {{ dashboard/map-component}}
 
-        {{chart-component}}
-        <div class="input-box">
-            <h3 class="sub-heading">{{fa-icon 'user'}} User activity</h3>
-            <div id="bubbles" style="cursor:pointer; display: block; position: relative; margin: 0 auto; width: 100%; height: 400px;"></div>
+        <div class="row">
+            {{ dashboard/orders-preview-component
+                    viewLink = "dashboard.payments.purchase-details"
+                    viewAllLink = "dashboard.payments.reports"
+                    getOrders = (action 'getLatestOrders')
+            }}
+            <div class="col-md-3 col-sm-12 dark-cards">
+                <div class="home-card-secondary">
+                    {{fa-icon "user icon-bg"}}
+                    <div class="img-holder">
+                        {{fa-icon 'user'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">25</h4>
+                        <span>users regsitered today</span>
+                    </div>
+                </div>
+                <div class="home-card-secondary">
+                    {{fa-icon 'users icon-bg'}}
+                    <div class="img-holder">
+                        {{fa-icon 'users'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">2,556</h4>
+                        <span>users total</span>
+                    </div>
+                </div>
+                <div class="home-card-secondary">
+                    {{fa-icon 'envelope icon-bg'}}
+                    <div class="img-holder">
+                        {{fa-icon 'envelope'}}
+                    </div>
+                    <div class="right-card">
+                        <h4 class="number">3</h4>
+                        <span>new messages</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <script>
-            $( document ).ready(function() {
-                var bubble_map = new Datamap({
-                    element: document.getElementById("bubbles"),
-                    geographyConfig: {
-                        popupOnHover: false,
-                        highlightOnHover: true,
-                        highlightFillColor: '#c0392b'
-                    },
-                    fills: {
-                        defaultFill: '#34495e',
-                        USA: '#c0392b',
-                        RUS: '#5cb85c'
-                    },
-                    done: function(datamap) {
-                        datamap.svg.call(d3.behavior.zoom().on("zoom", redraw));
-
-                        function redraw() {
-                            datamap.svg.selectAll("g").attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                        }
-                    },
-                    setProjection: function(element) {
-                        var projection = d3.geo.equirectangular()
-                                .center([15, -3])
-                                .rotate([4.4, 0])
-                                .scale(120)
-                                .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-                        var path = d3.geo.path()
-                                .projection(projection);
-
-                        return {path: path, projection: projection};
-                    }
-                });
-                bubble_map.bubbles([
-                    {
-                        name: '4 new agents',
-                        radius: 15,
-                        centered: 'BRA',
-                        country: 'USA',
-                        yeild: 0,
-                        fillKey: 'USA',
-                        date: '1954-03-01'
-                    },
-                    {
-                        name: '2 new agents',
-                        radius: 15,
-                        yeild: 0,
-                        country: 'USA',
-                        centered: 'USA',
-                        date: '1986-06-05',
-                        significance: 'Centered on US',
-                        fillKey: 'USA'
-                    },
-                    {
-                        name: 'New message',
-                        radius: 15,
-                        yeild: 15000,
-                        country: 'ITA',
-                        significance: 'First dry fusion fuel "staged" thermonuclear weapon; a serious nuclear fallout accident occurred',
-                        fillKey: 'USA',
-                        date: '1954-03-01',
-                        latitude: 15.415,
-                        longitude: 100.1619
-                    },{
-                        name: 'New order',
-                        radius: 15,
-                        yeild: 50000,
-                        country: 'USSR',
-                        fillKey: 'RUS',
-                        significance: 'Largest thermonuclear weapon ever tested—scaled down from its initial 100 Mt design by 50%',
-                        date: '1961-10-31',
-                        latitude: 73.482,
-                        longitude: 54.5854
-                    }
-                ]);
-            });
-
-        </script>
-        {{ dashboard/orders-preview-component viewLink = "dashboard.payments.purchase-details" viewAllLink = "dashboard.payments.reports" info=newUsersInfo isLoading = newUsersInfoLoading getOrders = (action 'getLatestOrders')}}
-
         {{ chart-component }}
     </section>
 </div>

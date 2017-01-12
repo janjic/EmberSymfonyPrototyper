@@ -1,32 +1,40 @@
-<h1 class="main-heading">All agents</h1>
+{{#if mainTitle}}
+    <h1 class="main-heading">{{mainTitle}}</h1>
+{{/if}}
 <div class="all-agents-card-view">
-    <div class="col-md-12">
-        <div class="input-box first">
-            <div class="all-agents-search">
-                <div class="action-buttons">
-                    <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
-                    <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
-                </div>
-                {{#if limitAll}}
-                    <div class="form-group">
-                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
-                    </div>
-                {{else}}
-                    <div class="form-group">
-                        {{abc-buttons filter=(perform handleFilterEntry) }}
+    {{#unless hideSearchAndFilter}}
+        <div class="col-md-12">
+            <div class="input-box first">
+                {{#if showAgentFilter}}
+                    <div class="form-group clearfix">
+                        {{inf-select
+                        optionLabelKey='email'
+                        on-search = (perform search)
+                        on-change=(action 'agentSelected')
+                        }}
                     </div>
                 {{/if}}
-                {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+
+                <div class="all-agents-search">
+                    <div class="action-buttons">
+                        <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
+                        <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
+                    </div>
+                    {{#if limitAll}}
+                        <div class="form-group">
+                            {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                        </div>
+                    {{else}}
+                        <div class="form-group">
+                            {{abc-buttons filter=(perform handleFilterEntry) }}
+                        </div>
+                    {{/if}}
+                    {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+                </div>
+
             </div>
         </div>
-        {{#if showAgentFilter}}
-            {{inf-select
-                    optionLabelKey='email'
-                    on-search = (perform search)
-                    on-change=(action 'agentSelected')
-            }}
-        {{/if}}
-    </div>
+    {{/unless}}
 
     {{#each model as |yieldModel|}}
         {{yield yieldModel}}

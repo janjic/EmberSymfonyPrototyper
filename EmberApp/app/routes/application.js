@@ -1,7 +1,7 @@
 // app/routes/application.js
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-
+import moment from 'moment';
 const {
     RSVP,
     computed,
@@ -17,6 +17,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     }),
     beforeModel() {
+
         //download("base64","dlDataUrlBin.pdf", "application/pdf");
         return this._loadCurrentUser();
     },
@@ -39,6 +40,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
     },
     _loadCurrentUser() {
+        moment.locale('de');
         return this.get('currentUser').load();
     }
 });

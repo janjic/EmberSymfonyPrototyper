@@ -535,7 +535,21 @@ class AgentRepository extends NestedTreeRepository
         $qb->select(self::ALIAS)
             ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
 
-       return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+
+    /**
+     * @return array
+     */
+    public function findAgentsByCountry()
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(agent.id) as agentsNumb', self::ALIAS.'.nationality')
+            ->groupBy(self::ALIAS.'.nationality')
+            ->orderBy('agentsNumb', 'desc');
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
