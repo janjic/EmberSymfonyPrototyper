@@ -224,4 +224,9 @@ class PaymentInfoManager
         return $this->repository->getPaymentInfoForAgent($agent, $customerId);
     }
 
+    public function newCommissionsCount($agent, $period)
+    {
+        return $this->repository->newCommissionsCount($agent, $period);
+    }
+
 }

@@ -57,8 +57,14 @@
                 {{fa-icon 'user'}}
             </div>
             <div class="right-card">
-                <h4 class="number">25</h4>
-                <span>users regsitered today</span>
+                <h4 class="number">
+                    {{#if isLoading}}
+                        <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                    {{else}}
+                        {{info.today}}
+                    {{/if}}
+                </h4>
+                <span>users registered today</span>
             </div>
         </div>
         <div class="home-card-secondary">
@@ -67,7 +73,13 @@
                 {{fa-icon 'users'}}
             </div>
             <div class="right-card">
-                <h4 class="number">2,556</h4>
+                <h4 class="number">
+                    {{#if isLoading}}
+                        <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                    {{else}}
+                        {{info.total}}
+                    {{/if}}
+                </h4>
                 <span>users total</span>
             </div>
         </div>

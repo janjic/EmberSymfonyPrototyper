@@ -2,79 +2,105 @@
 <div class=" right-section">
     <section class="dashboard-home">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-customers'}}</h4>
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-customers')
+                    isLoading = newUsersInfoLoading
+                    model = newUsersInfo
+                    getNewElements = (action 'getNumberOfNewUsers')
+            }}
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-agents')
+                    isLoading = newAgentsLoading
+                    model = newAgentsInfo
+                    getNewElements = (action 'getNumberOfNewAgents')
+            }}
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-orders')
+                    isLoading = newOrdersInfoLoading
+                    model = newOrdersInfo
+                    getNewElements = (action 'getNumberOfNewOrders')
+            }}
+            {{!--{{home-card-component--}}
+                    {{!--card-title = (trans 'dashboard.labels.new-commissions')--}}
+                    {{!--isLoading = newAgentsLoading--}}
+                    {{!--model = newAgentsInfo--}}
+                    {{!--getNewElements = (action 'getNumberOfNewAgents')--}}
+            {{!--}}
+            {{!--<div class="col-xs-12 col-sm-6 col-md-3">--}}
+                {{!--<div class="home-card">--}}
+                    {{!--<h4>{{trans 'dashboard.labels.new-customers'}}</h4>--}}
 
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </div>
-            </div>
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>--}}
+                        {{!--<span class="title"> {{trans 'dashboard.labels.today'}}</span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.this-month'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.total'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<i class="fa fa-user" aria-hidden="true"></i>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
 
+            {{!--<div class="col-xs-12 col-sm-6 col-md-3">--}}
+                {{!--<div class="home-card">--}}
+                    {{!--<h4>{{trans 'dashboard.labels.new-agents'}}</h4>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>--}}
+                        {{!--<span class="title"> {{trans 'dashboard.labels.today'}}</span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.this-month'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.total'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<i class="fa fa-black-tie" aria-hidden="true"></i>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
 
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-agents'}}</h4>
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-black-tie" aria-hidden="true"></i>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-orders'}}</h4>
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-black-tie" aria-hidden="true"></i>
-                </div>
-            </div>
+            {{!--<div class="col-xs-12 col-sm-6 col-md-3">--}}
+                {{!--<div class="home-card">--}}
+                    {{!--<h4>{{trans 'dashboard.labels.new-orders'}}</h4>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>--}}
+                        {{!--<span class="title"> {{trans 'dashboard.labels.today'}}</span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.this-month'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.total'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>--}}
+                    {{!--</p>--}}
+                    {{!--<i class="fa fa-black-tie" aria-hidden="true"></i>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
 
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="home-card">
                     <h4>{{trans 'dashboard.labels.new-commissions'}}</h4>
                     <p class="counter">
+                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>EUR/
                         <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
+                        <span class="title">$ {{trans 'dashboard.labels.today'}}</span>
                     </p>
                     <p class="counter">
                         <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
+                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>$/
+                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>EUR
                     </p>
                     <p class="counter">
                         <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
+                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>$/
+                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>$
                     </p>
                     <i class="fa fa-usd" aria-hidden="true"></i>
                 </div>
@@ -267,7 +293,7 @@
             });
 
         </script>
-        {{ dashboard/orders-preview-component viewLink = "dashboard.payments.purchase-details" viewAllLink = "dashboard.payments.reports" getOrders = (action 'getLatestOrders')}}
+        {{ dashboard/orders-preview-component viewLink = "dashboard.payments.purchase-details" viewAllLink = "dashboard.payments.reports" info=newUsersInfo isLoading = newUsersInfoLoading getOrders = (action 'getLatestOrders')}}
 
         {{ chart-component }}
     </section>

@@ -1,10 +1,6 @@
-import Ember from 'ember';
-import DS from 'ember-data';
+import TCRCoreAdapter from './tcr-core-adapter';
 
-export default DS.JSONAPIAdapter.extend( {
-    ajax: Ember.inject.service(),
-    host: 'https://tcr-media.fsd.rs:105/app_dev.php/en',
-    namespace: '',
+export default TCRCoreAdapter.extend( {
     query(store, type, query){
         /**
          * Most efficient cloning method that works!

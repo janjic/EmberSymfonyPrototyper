@@ -66,6 +66,8 @@ class AgentController extends Controller
      */
     public function getNewAgentsInfoAction(Agent $agent)
     {
+        $agent = $this->get('agent_system.agent.repository')->findAgentByRole()->getId()==$agent->getId() ? null : $agent;
+
         $newAgentsToday         = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'today');
         $newAgentsThisMonth     = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'month');
         $newAgentsTotal         = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'total');

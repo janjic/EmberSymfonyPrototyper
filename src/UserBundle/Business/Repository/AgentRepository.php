@@ -539,12 +539,12 @@ class AgentRepository extends NestedTreeRepository
     }
 
     /**
-     * @param Agent $agent
+     * @param $agent
      * @param $period
      *
      * @return int
      */
-    public function newAgentsCount(Agent $agent, $period)
+    public function newAgentsCount($agent, $period)
     {
         switch ($period){
             case 'today': $date = new \DateTime('-1 day');break;
@@ -555,9 +555,14 @@ class AgentRepository extends NestedTreeRepository
         $qb = $this->createQueryBuilder(self::ALIAS);
 
         $qb->select($qb->expr()->count(self::ALIAS.'.id'));
+        $qb->where($qb->expr()->isNotNull(self::ALIAS.'.createdAt'));
+        if ( $agent ){
+            $qb->andwhere(self::ALIAS.'.superior =?1')
+                ->setParameter(1, $agent);
+        }
         if ( $date ) {
-            $qb->where(self::ALIAS.'.createdAt > :last')
-                ->setParameter('last', $date, \Doctrine\DBAL\Types\Type::DATETIME);
+            $qb->andWhere(self::ALIAS.'.createdAt > :last')
+                ->setParameter('last', $date, Type::DATETIME);
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
