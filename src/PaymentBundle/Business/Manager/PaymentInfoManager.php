@@ -88,17 +88,20 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $currency
+     * @param $agentId
      * @return mixed
      */
-    public function getCommissionsByAgent($currency)
+    public function getCommissionsByAgent($currency, $agentId)
     {
+        $agent = $this->agentManager->findAgentById($agentId);
+
         if($currency == 'EUR'){
             $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
         } else {
             $ratio = $this->florianSwap->quote(new CurrencyPair('CHF', 'EUR'));
         }
 
-        return $this->repository->getCommissionsByAgent($currency, $ratio);
+        return $this->repository->getCommissionsByAgent($currency, $ratio, $agent);
     }
 
     /**

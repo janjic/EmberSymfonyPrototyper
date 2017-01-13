@@ -28,8 +28,9 @@ class CommissionsByAgentConverter extends BasicConverter
      */
     public function convert()
     {
-        $currency = $this->request->get('currency');
-        $data = $this->manager->getCommissionsByAgent($currency);
+        $agentId = $this->request->request->get('agentId');
+        $currency = $this->request->request->get('currency');
+        $data = $this->manager->getCommissionsByAgent($currency, $agentId);
         $this->request->attributes->set($this->param, new ArrayCollection($data));
     }
 

@@ -256,9 +256,10 @@ class PaymentInfoRepository extends EntityRepository
     /**
      * @param $currency
      * @param $ratio
+     * @param Agent $agent
      * @return array
      */
-    public function getCommissionsByAgent($currency, $ratio)
+    public function getCommissionsByAgent($currency, $ratio, $agent)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
@@ -275,6 +276,8 @@ class PaymentInfoRepository extends EntityRepository
             ->groupBy(self::ALIAS.'.agent')
             ->orderBy('totalCommission', 'DESC')
             ->where(self::ALIAS.'.state = 1')
+            ->andWhere(self::AGENT_ALIAS.'.lft > '.$agent->getLft())
+            ->andWhere(self::AGENT_ALIAS.'.rgt < '.$agent->getRgt())
             ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::COMMISSION_TYPE)))
             ->andWhere(self::ALIAS.'.payedAt > :date')
             ->setParameter('date', new \DateTime('-3 month'))

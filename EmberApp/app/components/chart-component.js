@@ -1,7 +1,10 @@
 import Ember from 'ember';
 const {Highcharts} = window;
+const {service} = Ember.inject;
+
 export default Ember.Component.extend({
-    session     :   Ember.inject.service('session'),
+    session     : Ember.inject.service('session'),
+    currentUser : service('current-user'),
     currency    : 'EUR',
     chart       : null,
     bonusChart  : null,
@@ -44,8 +47,12 @@ export default Ember.Component.extend({
 
     loadGraphData(ctx, currency){
         Ember.$.ajax({
-            type: "GET",
-            url: "/app_dev.php/api/payment/commission-by-agent/"+this.get('currency')
+            type: "POST",
+            url: "/app_dev.php/api/payment/commission-by-agent/",
+            data: {
+                currency:this.get('currency'),
+                agentId: this.get('currentUser.user.id')
+            }
         }).then(function (response) {
             ctx.set('barChartData', response);
 

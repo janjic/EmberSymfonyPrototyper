@@ -94,7 +94,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment/commission-by-agent/{currency}")
+     * @Route("/api/payment/commission-by-agent/")
      * @param ArrayCollection $commissionsByAgent
      * @return string
      */
@@ -105,7 +105,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment/bonuses-by-agent/{currency}")
+     * @Route("/api/payment/bonuses-by-agent/")
      * @param ArrayCollection $bonusesByAgent
      * @return string
      */
