@@ -54,7 +54,14 @@ trait PaymentInfoJQGridTrait
         $params['page'] = $page;
         $params['offset'] = $offset;
         $additionalParams = array('or'=>false);
-        $additionalParams['paymentState'] = $request->get('paymentState');
+
+        /** if admin is searching use state, if not do not use state but filter only for that agent */
+        $user = $this->tokenStorage->getToken()->getUser();
+        if ($this->isHQ($user)) {
+            $additionalParams['paymentState'] = $request->get('paymentState');
+        } else {
+            $additionalParams['agent'] = $user;
+        }
 
         if ($filters = $request->get('filters')) {
             $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());

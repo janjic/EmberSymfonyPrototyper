@@ -73,6 +73,7 @@ admin-menu:
     title: 'Payments'
     payouts.to.agents: 'Payouts to agents'
     reports: 'Reports'
+    orders: 'All Orders'
   mass.mails:
     title: 'Mass mails'
     new.mail.list: 'Add new mail list'
@@ -335,6 +336,8 @@ models:
     reject-success: "Payment rejected"
     reject-error: "Error occured! Payment not rejected"
     payouts-to-agents: "Payouts to agents"
+    reports: "Reports"
+    rejected-payments: "Rejected payments"
 
 #SETTINGS
 

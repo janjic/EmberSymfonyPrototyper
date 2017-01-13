@@ -6,7 +6,8 @@ export default Ember.Route.extend({
             page: 1,
             offset: 8,
             sidx: 'id',
-            sord: 'desc'
+            sord: 'desc',
+            paymentState: 'false'
         });
     },
 

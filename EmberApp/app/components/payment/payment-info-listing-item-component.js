@@ -44,7 +44,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             newState: newState
         };
 
-        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', Routing.generate('api_execute_payment'), function (response) {
+        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('api_execute_payment'), function (response) {
             switch (parseInt(response.meta.status)) {
                 case ApiCode.PAYMENT_EXECUTE_ERROR:
                     if (newState) {

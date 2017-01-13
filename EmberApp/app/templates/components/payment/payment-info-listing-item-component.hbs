@@ -23,6 +23,16 @@
                 {{/if}}
             </p>
 
+            <p><span>State</span> <br>
+                {{#if (eq payment.state null)}}
+                    Unprocessed
+                {{else if (eq payment.state 'true')}}
+                    Payed
+                {{else}}
+                    Rejected
+                {{/if}}
+            </p>
+
             <p><span>Amount</span> <br>
                 {{payment.totalCommission}} - {{payment.currency}}
             </p>
@@ -49,15 +59,16 @@
 
             </p>
 
-            <p>
-                {{#if (eq payment.state null)}}
-                    <button class="button green" {{action 'processPayment' payment}}>Pay</button>
-                {{/if}}
-                {{#if (not-eq payment.state 'true')}}
-                    <button class="button red" {{action 'rejectPayment' payment}}>Reject</button>
-                {{/if}}
-            </p>
-
+            {{#unless hidePayAllButtons}}
+                <p>
+                    {{#if (not-eq payment.state 'true')}}
+                        <button class="button green" {{action 'processPayment' payment}}>Pay</button>
+                    {{/if}}
+                    {{#if (eq payment.state null)}}
+                        <button class="button red" {{action 'rejectPayment' payment}}>Reject</button>
+                    {{/if}}
+                </p>
+            {{/unless}}
         </div>
     </div>
 </div>

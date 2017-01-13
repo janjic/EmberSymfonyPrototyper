@@ -124,6 +124,13 @@ class PaymentInfoRepository extends EntityRepository
             }
         }
 
+        if (array_key_exists('agent', $additionalParams)) {
+            /** @var Agent $agent */
+            $agent = $additionalParams['agent'];
+            $qb->andWhere(self::AGENT_ALIAS.'.id = :agent_id');
+            $qb->setParameter('agent_id', $agent->getId());
+        }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -286,6 +293,13 @@ class PaymentInfoRepository extends EntityRepository
                 $oQ0->andWhere(self::ALIAS.'.state = ?1');
                 $oQ0->setParameter(1, $additionalParams['paymentState'] === 'true' ? 1 : 0);
             }
+        }
+
+        if (array_key_exists('agent', $additionalParams)) {
+            /** @var Agent $agent */
+            $agent = $additionalParams['agent'];
+            $oQ0->andWhere(self::AGENT_ALIAS.'.id = :agent_id');
+            $oQ0->setParameter('agent_id', $agent->getId());
         }
 
         if ($isCountSearch) {

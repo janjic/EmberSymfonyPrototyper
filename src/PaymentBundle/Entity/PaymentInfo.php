@@ -534,7 +534,7 @@ class PaymentInfo
     /**
      * @return boolean
      */
-    public function isState()
+    public function getState()
     {
         return $this->state;
     }

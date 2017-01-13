@@ -29,7 +29,7 @@ class PaymentInfoExecutePaymentConverter extends BasicConverter
     public function convert()
     {
         $paymentId = $this->request->request->get('paymentId');
-        $newState = (boolean) $this->request->request->get('newState');
+        $newState = $this->request->request->get('newState') === 'true' ? true : false;
 
         $payment = $this->manager->findPayment($paymentId);
 
