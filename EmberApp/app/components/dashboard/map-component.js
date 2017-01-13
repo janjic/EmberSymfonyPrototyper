@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const {Datamap, d3} = window;
+const {Datamap, d3, Routing} = window;
 
 export default Ember.Component.extend({
     session              :   Ember.inject.service('session'),
@@ -22,7 +22,7 @@ export default Ember.Component.extend({
 
         Ember.$.ajax({
             type: "GET",
-            url: "/api/agents-by-country",
+            url: Routing.generate('agents-by-country'),
             contentType: "application/pdf",
         }).then(function (response) {
             ctx.set('bubble_map', new Datamap({
