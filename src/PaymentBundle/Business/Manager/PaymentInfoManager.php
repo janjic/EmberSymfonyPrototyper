@@ -101,6 +101,21 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         return $this->repository->getCommissionsByAgent($currency, $ratio);
     }
 
+    /**
+     * @param $currency
+     * @return mixed
+     */
+    public function getBonusesByAgent($currency)
+    {
+        if($currency == 'EUR'){
+            $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
+        } else {
+            $ratio = $this->florianSwap->quote(new CurrencyPair('CHF', 'EUR'));
+        }
+
+        return $this->repository->getBonusesByAgent($currency, $ratio);
+    }
+
 
     public function saveResource($data)
     {

@@ -18,6 +18,7 @@ class PaymentInfoRepository extends EntityRepository
 {
     const ALIAS       = 'paymentInfo';
     const AGENT_ALIAS = 'agent';
+    const GROUP_ALIAS = 'g';
 
     /**
      * Save payments array
@@ -261,17 +262,44 @@ class PaymentInfoRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
+        $qb->addselect(self::AGENT_ALIAS.'.baseImageUrl');
+        $qb->addselect(self::GROUP_ALIAS.'.name as groupName');
+        $qb->addSelect(self::AGENT_ALIAS.'.id as agentId');
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".packagesCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".packagesCommission,2) END as packagesCommission");
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".connectCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".connectCommission,2) END as connectCommission");
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".setupFeeCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".setupFeeCommission,2) END as setupFeeCommission");
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".streamCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".streamCommission,2) END as streamCommission");
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".totalCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".totalCommission,2) END as totalCommission")
             ->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS)
+            ->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS)
             ->groupBy(self::ALIAS.'.agent')
-            ->orderBy(self::ALIAS.'.totalCommission', 'DESC')
+            ->orderBy('totalCommission', 'DESC')
             ->where(self::ALIAS.'.state = 1')
             ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::COMMISSION_TYPE)))
             ->andWhere(self::ALIAS.'.payedAt > :date')
+            ->setParameter('date', new \DateTime('-3 month'))
+            ->setMaxResults(4);
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $currency
+     * @param $ratio
+     * @return array
+     */
+    public function getBonusesByAgent($currency, $ratio)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".bonusValue * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".bonusValue,2) END as bonusValue");
+        $qb->addSelect(self::ALIAS.'.payedAt as date');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->andWhere(self::ALIAS.'.payedAt > :date')
+            ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::BONUS_TYPE)))
+            ->orderBy(self::ALIAS.'.agent')
+            ->groupBy(self::ALIAS.'.agent')
             ->setParameter('date', new \DateTime('-3 month'))
             ->setMaxResults(5);
 

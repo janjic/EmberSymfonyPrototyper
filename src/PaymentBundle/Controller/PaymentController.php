@@ -104,5 +104,14 @@ class PaymentController extends Controller
 
     }
 
+    /**
+     * @Route("/api/payment/bonuses-by-agent/{currency}")
+     * @param ArrayCollection $bonusesByAgent
+     * @return string
+     */
+    public function bonusesByAgentAction(ArrayCollection $bonusesByAgent)
+    {
+        return new JSONResponse($bonusesByAgent->toArray(), array_key_exists('errors', $bonusesByAgent->toArray()) ? 422 : 200);
 
+    }
 }

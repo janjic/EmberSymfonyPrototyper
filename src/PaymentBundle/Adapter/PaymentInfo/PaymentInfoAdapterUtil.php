@@ -16,5 +16,6 @@ abstract class PaymentInfoAdapterUtil extends BaseAdapterUtil
     const PAYMENT_INFO_CREATE_CONVERTER = 'paymentInfoCreate';
     const PAYMENT_INFO_API_CONVERTER    = 'paymentInfoAPI';
     const PAYMENT_COMMISSION_CONVERTER  = 'commissionsByAgent';
+    const PAYMENT_BONUS_CONVERTER       = 'bonusesByAgent';
 
 }
