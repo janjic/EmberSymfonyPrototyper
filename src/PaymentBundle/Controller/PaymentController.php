@@ -44,15 +44,24 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment-infos/{id}", name="api_payment_infos", options={"expose" = true}, defaults={"id": "all"}),
+     * @Route("/api/payment-infos/{id}", name="api_payment_infos", options={"expose" = true}, defaults={"id": "all"})
      * @param ArrayCollection $paymentInfoAPI
      * @return JSONResponse
      */
-    public function groupAPIAction(ArrayCollection $paymentInfoAPI)
+    public function paymentAPIAction(ArrayCollection $paymentInfoAPI)
     {
         return new JSONResponse($paymentInfoAPI->toArray(), array_key_exists('errors', $paymentInfoAPI->toArray()) ? 422 : 200);
     }
 
+    /**
+     * @Route("/api/payment/execute-payment", name="api_execute_payment", options={"expose" = true})
+     * @param ArrayCollection $paymentInfoExecutePayment
+     * @return JSONResponse
+     */
+    public function executePaymentAction(ArrayCollection $paymentInfoExecutePayment)
+    {
+        return new JSONResponse($paymentInfoExecutePayment->toArray(), array_key_exists('errors', $paymentInfoExecutePayment->toArray()) ? 422 : 200);
+    }
 
     /** ----------- ORDERS -------------------------------------------------------------------------------------------*/
 

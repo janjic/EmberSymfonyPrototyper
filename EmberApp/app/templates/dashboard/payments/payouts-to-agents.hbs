@@ -1,30 +1,8 @@
-<h1 class="main-heading clearfix">
-    {{title}}
-    <span class="pull-right">
-        <a href="#" class="btn btn-danger" {{action 'openModal'}}>Filter Results</a>
-        {{#unless hidePayAllButtons}}
-            <a href="#" class="btn btn-danger">Pay all</a>
-            <a href="#" class="btn btn-primary">Reject all</a>
-        {{/unless}}
-    </span>
-</h1>
-
-{{#bs-modal open=isModalOpen header=false body=false footer=false }}
-    {{#bs-modal-header}}
-        <h4 class="modal-title">
-            Select filters
-        </h4>
-    {{/bs-modal-header}}
-    {{#bs-modal-body}}
-        {{elements/country-select}}
-    {{/bs-modal-body}}
-    {{#bs-modal-footer}}
-        <button class="button green" {{action 'applyFilters'}}>Apply</button>
-        <button class="button red" {{action 'closeModal'}}>Cancel</button>
-    {{/bs-modal-footer}}
-{{/bs-modal}}
-
-
-{{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=(action 'filterModel') hideSearchAndFilter=true as |yieldModel|}}
-    {{payment/payment-info-listing-component payment=yieldModel}}
-{{/card-view-component}}
+{{payment/payment-info-listing-component
+model=model
+maxPages=maxPages
+offset=offset
+title = (trans 'model.payment-info.payouts-to-agents')
+filterModel=(action 'filterModel')
+searchAgentsAction=(action 'searchAgents')
+}}

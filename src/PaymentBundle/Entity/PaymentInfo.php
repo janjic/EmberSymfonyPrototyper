@@ -152,13 +152,13 @@ class PaymentInfo
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="created_at", type="datetime", length=255)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="payed_at", type="datetime")
+     * @ORM\Column(name="payed_at", type="datetime", nullable=true)
      */
     protected $payedAt;
 

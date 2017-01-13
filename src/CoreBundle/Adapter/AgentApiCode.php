@@ -72,4 +72,8 @@ class AgentApiCode
 
     /** NOTIFICATION */
     CONST NOTIFICATION_EDITED_SUCCESSFULLY           = 2701;
+
+    /** PAYMENT INFO */
+    CONST PAYMENT_EXECUTED_SUCCESSFULLY              = 3000;
+    CONST PAYMENT_EXECUTE_ERROR                      = 3001;
 }

@@ -1,11 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    store: Ember.inject.service(),
-    groupsModel: [],
-    page: 1,
     offset: 8,
-    isModalOpen:false,
 
     actions: {
         filterModel (searchArray, page) {
@@ -14,12 +10,18 @@ export default Ember.Controller.extend({
                 offset: this.get('offset'),
                 sidx: 'id',
                 sord: 'desc',
-                filters: JSON.stringify(searchArray)
+                filters: JSON.stringify(searchArray),
+                paymentState: this.get('paymentState')
             });
         },
 
-        openModal() {
-            this.set('isModalOpen', true);
+        searchAgents(page, perPage, text) {
+            return this.get('store').query('agent', {
+                page:page,
+                rows:perPage,
+                search: text,
+                searchField: 'agent.email'}
+            ).then(results => results);
         }
     }
 });
