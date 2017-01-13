@@ -66,7 +66,7 @@ class PaymentController extends Controller
     /** ----------- ORDERS -------------------------------------------------------------------------------------------*/
 
     /**
-     * @Route("/api/order-print/{id}")
+     * @Route("/api/order-print/{id}", name="order_print", options={"expose" = true})
      * @param Request $request
      * @return string
      */
@@ -103,7 +103,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment/commission-by-agent/")
+     * @Route("/api/payment/commission-by-agent/", name="commission-by-agent", options={"expose" = true})
      * @param ArrayCollection $commissionsByAgent
      * @return string
      */
@@ -114,7 +114,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment/bonuses-by-agent/")
+     * @Route("/api/payment/bonuses-by-agent/", name="bonuses-by-agent", options={"expose" = true})
      * @param ArrayCollection $bonusesByAgent
      * @return string
      */

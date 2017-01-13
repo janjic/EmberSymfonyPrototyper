@@ -1,6 +1,7 @@
 import Ember from 'ember';
 const {Highcharts} = window;
 const {service} = Ember.inject;
+const {Routing} = window;
 
 export default Ember.Component.extend({
     session     : Ember.inject.service('session'),
@@ -46,7 +47,7 @@ export default Ember.Component.extend({
     loadGraphData(ctx){
         Ember.$.ajax({
             type: "POST",
-            url: "/app_dev.php/api/payment/commission-by-agent/",
+            url: Routing.generate('commission-by-agent'),
             data: {
                 currency:this.get('currency'),
                 agentId: this.get('currentUser.user.id')
@@ -134,7 +135,7 @@ export default Ember.Component.extend({
     {
         Ember.$.ajax({
             type: "GET",
-            url: "/app_dev.php/api/payment/bonuses-by-agent/"+this.get('currency')
+            url: Routing.generate('bonuses-by-agent', {'currency': this.get('currency')})
         }).then(function (response) {
             console.log(response);
         });
