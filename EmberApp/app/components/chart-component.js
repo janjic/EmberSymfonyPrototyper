@@ -9,7 +9,6 @@ export default Ember.Component.extend({
     chart       : null,
     bonusChart  : null,
     barChartData: null,
-    // agentColors : ["background-color: #7cb5ec", "background-color: #434348", "background-color: #90ed7d", "background-color: #f7a35c"],
     didInsertElement() {
         /** set access token to ajax requests sent by orgchart library */
         let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
@@ -27,7 +26,7 @@ export default Ember.Component.extend({
          */
         this.loadGraphData(this);
 
-        // this.loadBonusesData(this);
+        // this.loadBonusesData();
 
 
     },
@@ -39,13 +38,12 @@ export default Ember.Component.extend({
         currencyChanged(currency)
         {
             if(currency !== this.get('currency')){
-                this.set('currency', currency)
-                this.loadGraphData(this, currency);
+                this.set('currency', currency);
+                this.loadGraphData(this);
             }
         },
     },
-
-    loadGraphData(ctx, currency){
+    loadGraphData(ctx){
         Ember.$.ajax({
             type: "POST",
             url: "/app_dev.php/api/payment/commission-by-agent/",
@@ -93,7 +91,7 @@ export default Ember.Component.extend({
                         fillColor: 'white'
                     }
                 }
-                ,
+
                 // {
                 //     type: 'pie',
                 //     name: 'Total Commission',
@@ -132,7 +130,7 @@ export default Ember.Component.extend({
         });
     },
 
-    loadBonusesData(ctx)
+    loadBonusesData()
     {
         Ember.$.ajax({
             type: "GET",

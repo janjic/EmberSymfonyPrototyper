@@ -8,6 +8,7 @@ use PaymentBundle\Business\Manager\Payment\PaymentInfoCreationTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoGetTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoJQGridTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoSerializationTrait;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use PaymentBundle\Business\Repository\PaymentInfoRepository;
 use Swap\Model\CurrencyPair;
 use Swap\Swap;
@@ -59,6 +60,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $orderId;
     protected $currency;
     protected $florianSwap;
+    protected $tokenStorage;
 
     /**
      * @param PaymentInfoRepository $repository
@@ -66,14 +68,16 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @param FJsonApiSerializer $fSerializer
      * @param CommissionManager $commissionManager
      * @param Swap $florianSwap
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
         $this->fSerializer       = $fSerializer;
         $this->commissionManager = $commissionManager;
         $this->florianSwap       = $florianSwap;
+        $this->tokenStorage      = $tokenStorage;
     }
 
     /**
@@ -88,13 +92,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $currency
-     * @param $agentId
      * @return mixed
      */
-    public function getCommissionsByAgent($currency, $agentId)
+    public function getCommissionsByAgent($currency)
     {
-        $agent = $this->agentManager->findAgentById($agentId);
-
+        $agent = $this->tokenStorage->getToken()->getUser();
         if($currency == 'EUR'){
             $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
         } else {

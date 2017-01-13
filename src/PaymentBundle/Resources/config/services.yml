@@ -13,6 +13,7 @@ services:
             fSerializer: "@f_serializer"
             commissionManager: "@agent_system.commission.manager"
             florianSwap: "@florianv_swap.swap"
+            tokenStorage: "@security.token_storage"
 
     agent_system.payment_info.adapter:
             class: PaymentBundle\Adapter\PaymentInfo\PaymentInfoAdapter
