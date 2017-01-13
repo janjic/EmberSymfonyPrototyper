@@ -101,4 +101,26 @@ class PaymentController extends Controller
 
         return new Response('data:application/pdf;base64,' . $encoded);
     }
+
+    /**
+     * @Route("/api/payment/commission-by-agent/")
+     * @param ArrayCollection $commissionsByAgent
+     * @return string
+     */
+    public function commissionsByAgentAction(ArrayCollection $commissionsByAgent)
+    {
+        return new JSONResponse($commissionsByAgent->toArray(), array_key_exists('errors', $commissionsByAgent->toArray()) ? 422 : 200);
+
+    }
+
+    /**
+     * @Route("/api/payment/bonuses-by-agent/")
+     * @param ArrayCollection $bonusesByAgent
+     * @return string
+     */
+    public function bonusesByAgentAction(ArrayCollection $bonusesByAgent)
+    {
+        return new JSONResponse($bonusesByAgent->toArray(), array_key_exists('errors', $bonusesByAgent->toArray()) ? 422 : 200);
+
+    }
 }

@@ -125,6 +125,18 @@ class PaymentInfo
     protected $totalCommission = 0;
 
     /**
+     * @var float
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $bonusValue = 0;
+
+    /**
+     * @var String
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $bonusDesc;
+
+    /**
      * NULL - unprocessed payment, FALSE - rejected payment, TRUE - approved payment
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)

@@ -12,8 +12,11 @@ use PaymentBundle\Business\Manager\Payment\PaymentInfoGetTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoJQGridTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoSerializationTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoUpdateTrait;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use PaymentBundle\Business\Repository\PaymentInfoRepository;
 use PaymentBundle\Entity\PaymentInfo;
+use Swap\Model\CurrencyPair;
+use Swap\Swap;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Business\Manager\CommissionManager;
@@ -54,6 +57,16 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @var AgentManager
      */
     protected $agentManager;
+    
+    /**
+     * @var Swap
+     */
+    protected $florianSwap;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
 
     protected $packagesPrice;
     protected $connectPrice;
@@ -62,19 +75,23 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $customerId;
     protected $orderId;
     protected $currency;
-
+    
     /**
      * @param PaymentInfoRepository $repository
-     * @param AgentManager          $agentManager
-     * @param FJsonApiSerializer    $fSerializer
-     * @param CommissionManager     $commissionManager
+     * @param AgentManager $agentManager
+     * @param FJsonApiSerializer $fSerializer
+     * @param CommissionManager $commissionManager
+     * @param Swap $florianSwap
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
         $this->fSerializer       = $fSerializer;
         $this->commissionManager = $commissionManager;
+        $this->florianSwap       = $florianSwap;
+        $this->tokenStorage      = $tokenStorage;
     }
 
     /**
@@ -85,6 +102,37 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function getPaymentInfoForAgent($agent, $customerId = null)
     {
         return $this->repository->getPaymentInfoForAgent($agent, $customerId);
+    }
+
+    /**
+     * @param $currency
+     * @return mixed
+     */
+    public function getCommissionsByAgent($currency)
+    {
+        $agent = $this->tokenStorage->getToken()->getUser();
+        if($currency == 'EUR'){
+            $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
+        } else {
+            $ratio = $this->florianSwap->quote(new CurrencyPair('CHF', 'EUR'));
+        }
+
+        return $this->repository->getCommissionsByAgent($currency, $ratio, $agent);
+    }
+
+    /**
+     * @param $currency
+     * @return mixed
+     */
+    public function getBonusesByAgent($currency)
+    {
+        if($currency == 'EUR'){
+            $ratio = $this->florianSwap->quote(new CurrencyPair('EUR', 'CHF'));
+        } else {
+            $ratio = $this->florianSwap->quote(new CurrencyPair('CHF', 'EUR'));
+        }
+
+        return $this->repository->getBonusesByAgent($currency, $ratio);
     }
 
 
