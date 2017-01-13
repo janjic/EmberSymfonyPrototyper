@@ -5,6 +5,7 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Entity\Agent;
@@ -39,6 +40,22 @@ class PaymentInfoRepository extends EntityRepository
     }
 
     /**
+     * @param PaymentInfo $payment
+     * @return PaymentInfo|\Exception
+     */
+    public function edit($payment)
+    {
+        try {
+            $this->_em->merge($payment);
+            $this->_em->flush();
+        } catch (Exception $e){
+             return $e;
+        }
+
+        return $payment;
+    }
+
+    /**
      * @param Agent $agent
      * @param null|int $customerId
      * @return array
@@ -62,7 +79,7 @@ class PaymentInfoRepository extends EntityRepository
      * @param $id
      * @return mixed
      */
-    public function findGroup($id)
+    public function findPayment($id)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
 
@@ -84,22 +101,28 @@ class PaymentInfoRepository extends EntityRepository
      * @param mixed $offset
      * @param mixed $sortParams
      * @param mixed $additionalParams
-     * @param mixed $promoCode
      * @return array
      */
-    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams, $promoCode = false)
+    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams)
     {
-        $firstResult =0;
-        if ($page !=1) {
-            $firstResult = ($page-1)*$offset;
-        }
+        $firstResult = ((int) $page-1)* (int) $offset;
 
         $qb = $this->createQueryBuilder(self::ALIAS);
-        if (array_key_exists('search_param', $additionalParams)) {
-            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
-        }
+
+        $qb->select(self::ALIAS, self::AGENT_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
 
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
+
+        if (array_key_exists('paymentState', $additionalParams)) {
+            if ($additionalParams['paymentState'] === ''){
+                $qb->andWhere(self::ALIAS.'.state IS NULL');
+            } else {
+                $qb->andWhere(self::ALIAS.'.state = ?1');
+                $qb->setParameter(1, $additionalParams['paymentState'] === 'true' ? 1 : 0);
+            }
+        }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -108,13 +131,14 @@ class PaymentInfoRepository extends EntityRepository
      * @param mixed $sortParams
      * @param mixed $additionalParams
      * @param bool  $isCountSearch
-     * @param mixed $promoCode
      * @return array
      */
-    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false, $promoCode= false)
+    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
     {
-        $oQ0= $this->createQueryBuilder(self::ALIAS);
+        $oQ0 = $this->createQueryBuilder(self::ALIAS);
 
+        $oQ0->select(self::ALIAS, self::AGENT_ALIAS);
+        $oQ0->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
 
         $firstResult = 0;
         $offset = 0;
@@ -129,10 +153,25 @@ class PaymentInfoRepository extends EntityRepository
                 array_shift($searchParams);
 
                 foreach ($searchParams[0] as $key => $param) {
-                    if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
-                        $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                    if ($key == 'address.country') {
+                        $oQ0->leftJoin(self::AGENT_ALIAS.'.address', 'address');
+                    }
+
+                    if ($key == 'startDate') {
+                        $oQ0->andWhere(self::ALIAS.'.createdAt > :'.$key);
+                        $oQ0->setParameter($key, $param);
+                    } else if ($key == 'endDate'){
+                        $oQ0->andWhere(self::ALIAS.'.createdAt < :'.$key);
+                        $oQ0->setParameter($key, $param);
+                    } else if ($key == 'paymentInfo.type'){
+                        $type = $param === 'Commission' ? PaymentInfoManager::COMMISSION_TYPE : PaymentInfoManager::BONUS_TYPE;
+                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $type . '%')));
                     } else {
-                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        }
                     }
                 }
             } else {
@@ -236,6 +275,15 @@ class PaymentInfoRepository extends EntityRepository
                             break;
                     }
                 }
+            }
+        }
+
+        if (array_key_exists('paymentState', $additionalParams)) {
+            if ($additionalParams['paymentState'] === ''){
+                $oQ0->andWhere(self::ALIAS.'.state IS NULL');
+            } else {
+                $oQ0->andWhere(self::ALIAS.'.state = ?1');
+                $oQ0->setParameter(1, $additionalParams['paymentState'] === 'true' ? 1 : 0);
             }
         }
 

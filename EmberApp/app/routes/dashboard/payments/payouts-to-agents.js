@@ -6,13 +6,15 @@ export default Ember.Route.extend({
             page: 1,
             offset: 8,
             sidx: 'id',
-            sord: 'desc'
+            sord: 'desc',
+            paymentState: null
         });
-
     },
+
     setupController : function(controller, model){
         this._super(...arguments);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
+        controller.set('paymentState', null);
     }
 });

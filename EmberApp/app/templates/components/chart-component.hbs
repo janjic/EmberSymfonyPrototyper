@@ -4,23 +4,7 @@
             <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </div>
-    {{!-- trans needed --}}
-    {{date-range-picker
-            daysOfWeek  = daysOfWeek
-            applyLabel  =  "Apply"
-            cancelLabel = "Cancel"
-            fromLabel   =  "From"
-            toLabel     = "To"
-            customRangeLabel =  "Custom"
-            monthNames = monthNames
-            start=today
-            showDropdowns = true
-            ranges = ranges
-            alwaysShowCalendars = true
-            end=today
-            applyAction=(action "apply")
-            cancelAction=(action "cancel")
-    }}
+
     <script>
         $(function () {
             Highcharts.chart('container', {

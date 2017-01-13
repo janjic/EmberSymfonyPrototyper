@@ -1,49 +1,86 @@
-<div class="col-md-3">
-    <div class="input-box">
-        <div class="upper-box">
-            <h5>{{payment.agent.fullName}}</h5>
-            <span>{{payment.agentRole}}</span>
-            {{!--{{payment.agent.email}}--}}
+<h1 class="main-heading clearfix">
+    {{title}}
+    <span class="pull-right">
+        <a href="#" class="btn btn-danger" {{action 'openModal'}}>Filter Results</a>
+        {{#unless hidePayAllButtons}}
+            <a href="#" class="btn btn-danger">Pay all</a>
+            <a href="#" class="btn btn-primary">Reject all</a>
+        {{/unless}}
+    </span>
+</h1>
+
+{{#bs-modal open=isModalOpen header=false body=false footer=false}}
+    {{#bs-modal-header}}
+        <h4 class="modal-title">
+            Select filters
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        <div class="form-group clearfix">
+            <label>
+                Select agent
+            </label>
+            {{inf-select
+            optionLabelKey='email'
+            on-search = (perform search)
+            on-change=(action 'agentSelected')
+            }}
         </div>
-        <div class="lower-box">
-            <p><span>Created At</span> <br>
-                {{payment.createdAt}}
-            </p>
-            {{#if payment.payedAt}}
-            <p><span>Payed At</span> <br>
-                {{payment.agent.nationality}}
-            </p>
+        <div class="form-group clearfix">
+            <label>
+                Select country
+            </label>
+            {{elements/country-select onCountryChange=(action 'changeCountry')}}
+        </div>
+        <div class="form-group clearfix">
+            <label>
+                Select type
+            </label>
+            {{inf-select
+            content=paymentTypes
+            on-change=(action 'typeChange')
+            }}
+        </div>
+        <div class="form-group clearfix">
+            {{date-range-picker
+            label = 'Select date'
+            autoUpdateInput = false
+            daysOfWeek  = daysOfWeek
+            applyLabel  = "Apply"
+            cancelLabel = "Clear"
+            fromLabel   = "From"
+            toLabel     = "To"
+            customRangeLabel = "Custom"
+            monthNames = monthNames
+            start=startDate
+            showDropdowns = true
+            ranges = ranges
+            alwaysShowCalendars = true
+            end=endDate
+            applyAction=(action "applyDateChange")
+            cancelAction=(action "cancelDateChange")
+            }}
+        </div>
+
+    {{/bs-modal-body}}
+    {{#bs-modal-footer}}
+        <button class="button green" {{action 'applyFilters'}}>
+            {{#if isLoading}}
+                {{inf-loading}}
+            {{else}}
+                Apply
             {{/if}}
+        </button>
+        <button class="button red" {{action 'closeModal'}}>Cancel</button>
+    {{/bs-modal-footer}}
+{{/bs-modal}}
 
-            <p><span>Type</span> <br>
-                {{#if (eq payment.paymentType "COMMISSION_TYPE")}}
-                    COMMISSION
-                {{else}}
-                    BONUS
-                {{/if}}
-            </p>
-
-            <p><span>Amount</span> <br>
-                {{payment.totalCommission}} - {{payment.currency}}
-            </p>
-
-            <p><span>Memo</span> <br>
-                {{payment.memo}}
-            </p>
-
-            <p>
-                {{#if (not-eq payment.state true)}}
-                    {{#link-to viewLink user.id class="button green"}}
-                        Pay
-                    {{/link-to}}
-                {{/if}}
-                {{#if (eq payment.state null)}}
-                    {{#link-to viewLink user.id class="button red"}}
-                        Reject
-                    {{/link-to}}
-                {{/if}}
-            </p>
-
-        </div>
+{{#if model.length}}
+    {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}
+        {{payment/payment-info-listing-item-component payment=yieldModel}}
+    {{/card-view-component}}
+{{else}}
+    <div>
+        No results found for selected filters
     </div>
-</div>
+{{/if}}

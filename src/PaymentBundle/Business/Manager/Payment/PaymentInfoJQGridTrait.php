@@ -42,13 +42,19 @@ trait PaymentInfoJQGridTrait
         $promoCode = $request->get('promoCode');
 
         $searchFields = array(
-            'id'              => 'paymentInfo.id',
+            'id' => 'paymentInfo.id',
+            'country' => 'address.country',
+            'type' => 'paymentInfo.paymentType',
+            'startDate' => 'startDate',
+            'endDate' => 'endDate',
+            'agent' => 'agent.id'
         );
 
         $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));
         $params['page'] = $page;
         $params['offset'] = $offset;
         $additionalParams = array('or'=>false);
+        $additionalParams['paymentState'] = $request->get('paymentState');
 
         if ($filters = $request->get('filters')) {
             $searchParams = array(array('toolbar_search' => true, 'rows' => $offset, 'page' => $page), array());
