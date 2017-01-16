@@ -1028,16 +1028,16 @@ header {
       top: -5px;
     }
     &:first-child .card-block{
-      background-color: #7cb5ec;
+      background-color: #c0392b;
     }
     &:nth-child(2) .card-block{
-      background-color: #434348;
+      background-color: #c0742b;
     }
     &:nth-child(3) .card-block{
-      background-color: #90ed7d;
+      background-color: #1d6876;
     }
     &:last-child .card-block{
-      background-color: #f7a35c;
+      background-color: #21913a;
     }
   }
   .card-block {
@@ -1047,10 +1047,8 @@ header {
     border: none;
     border-radius: 0;
     overflow: hidden;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
-    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 15px;
+    padding: 0;
     .img-holder {
       width: 60px;
       height: auto !important;
