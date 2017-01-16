@@ -1,24 +1,22 @@
 <div class="row">
-    <div class="card-block-holder">
+    <div class="card-block-holder clearfix">
         {{#each barChartData as |item index|}}
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 bottom-15 block-holder">
                 <div class="card card-primary text-xs-center user-info-box">
                     <div class="card-block">
                         {{fa-icon 'money icon-bg'}}
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img alt="Card image" src="{{item.baseImageUrl}}">
-                            </div>
-                            <div class="col-xs-8">
-                                <h6 class="text-capitalize">{{item.agentName}}</h6>
-                                <h6 class="text-uppercase">{{item.groupName}}</h6>
-                                <h6 class="text-uppercase">{{item.totalCommission}} {{currency}}</h6>
-                            </div>
-                            {{!--<div class="col-xs-4">--}}
-
-                                {{!--{{#link-to 'dashboard.agents.agent-view' item.agentId }}{{fa-icon "arrow-circle-o-right"}}{{/link-to}}--}}
-                            {{!--</div>--}}
+                        <div class="img-holder">
+                            <img alt="Card image" src="https://c1.staticflickr.com/3/2456/3799106988_b8f0d001f4_b.jpg">
                         </div>
+                        <div class="card-block-info-txt">
+                            <h6 class="text-capitalize">{{item.agentName}}</h6>
+                            <h6 class="text-uppercase">{{item.groupName}}</h6>
+                            <h6 class="text-uppercase">{{item.totalCommission}} {{currency}}</h6>
+                        </div>
+                        {{!--<div class="col-xs-4">--}}
+
+                        {{!--{{#link-to 'dashboard.agents.agent-view' item.agentId }}{{fa-icon "arrow-circle-o-right"}}{{/link-to}}--}}
+                        {{!--</div>--}}
                     </div>
                 </div>
             </div>
