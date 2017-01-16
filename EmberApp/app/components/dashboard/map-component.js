@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const {Datamap} = window;
+const {Datamap, d3, Routing} = window;
 
 export default Ember.Component.extend({
     session              :   Ember.inject.service('session'),
@@ -18,11 +18,11 @@ export default Ember.Component.extend({
             headers: { 'Authorization': accessToken }
         });
 
-        let id = this.get('model.id');
         let ctx = this;
+
         Ember.$.ajax({
             type: "GET",
-            url: "/app_dev.php/api/agents-by-country",
+            url: Routing.generate('agents-by-country'),
             contentType: "application/pdf",
         }).then(function (response) {
             ctx.set('bubble_map', new Datamap({
@@ -85,7 +85,7 @@ export default Ember.Component.extend({
 
             ctx.get('bubble_map').bubbles(ctx.get('dataArray'),{
                 popupTemplate: function(geo, data) {
-                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>'
+                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
                 }
             });
 
@@ -96,29 +96,29 @@ export default Ember.Component.extend({
 
             let array = [];
 
-            if(category == 1){
+            if(category === 1){
                 array = this.get('dataArray').filter(function( obj ) {
                     return obj.count < 10;
                 });
-            } else if(category == 2){
+            } else if(category === 2){
                 array = this.get('dataArray').filter(function( obj ) {
                     return (obj.count >= 10 && obj.count < 100);
                 });
-            } else if(category == 3){
+            } else if(category === 3){
                 array = this.get('dataArray').filter(function( obj ) {
                     return (obj.count >= 100 && obj.count < 1000);
                 });
-            } else if(category == 4){
+            } else if(category === 4){
                 array = this.get('dataArray').filter(function( obj ) {
                     return obj.count >= 1000;
                 });
-            } else if(category == -1){
+            } else if(category === -1){
                 array = JSON.parse(JSON.stringify(this.get('dataArray')));
             }
 
             this.get('bubble_map').bubbles(array,{
                 popupTemplate: function(geo, data) {
-                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>'
+                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
                 }
             });
         }

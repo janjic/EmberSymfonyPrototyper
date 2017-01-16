@@ -1017,6 +1017,58 @@ header {
   }
 }
 
+.card-block-holder {
+  .block-holder{
+    position: relative;
+    .icon-bg{
+      position: absolute;
+      opacity: 0.1;
+      font-size: 90px;
+      right: 20px;
+      top: -5px;
+    }
+    &:first-child .card-block{
+      background-color: #7cb5ec;
+    }
+    &:nth-child(2) .card-block{
+      background-color: #434348;
+    }
+    &:nth-child(3) .card-block{
+      background-color: #90ed7d;
+    }
+    &:last-child .card-block{
+      background-color: #f7a35c;
+    }
+  }
+  .card-block {
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 15px;
+      img {
+        width: 80px;
+        vertical-align: middle;
+      }
+      h6 {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: 300;
+        color: #fff;
+      }
+      a{
+        font-size: 20px;
+        color: #fff;
+      }
+  }
+
+}
+
+
 .btn-primary[disabled] {
   background-color: $main-red!important;
   background-image: none;
@@ -1356,6 +1408,60 @@ header {
   }
 }
 
+.home-card-agents {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background-color: #34495e;
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
+    .img-holder > i.fa {
+      transform: scale(1.3);
+      -webkit-transition: all 300ms ease-in-out;
+      -moz-transition: all 300ms ease-in-out;
+      -ms-transition: all 300ms ease-in-out;
+      -o-transition: all 300ms ease-in-out;
+      transition: all 300ms ease-in-out;
+    }
+  }
+  .icon-bg {
+    position: absolute;
+    z-index: 0;
+    font-size: 90px;
+    opacity: 0.2;
+    right: 20px;
+  }
+  .img-holder {
+    height: auto !important;
+    margin-right: 10px;
+    i.fa {
+      font-size: 40px;
+      color: #fff;
+    }
+  }
+  .right-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+    z-index: 1;
+    h4 {
+      margin: 0;
+      font-size: 40px;
+      font-weight: bold;
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      font-size: 12px;
+    }
+  }
+}
 
 .table-heading {
   margin-bottom: 0;

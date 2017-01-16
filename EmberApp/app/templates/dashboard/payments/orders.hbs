@@ -1,0 +1,18 @@
+{{table-view-component
+        mainTitle='All orders'
+        model=model
+        colNames=colNames
+        colModels=colModels
+        page=page
+        offset=offset
+        maxPages=maxPages
+        filter=(action 'filterModel')
+        viewLink="dashboard.payments.purchase-details"
+        defaultRules = agentRule
+}}
+
+{{inf-select
+        optionLabelKey='email'
+        on-search = (perform search)
+        on-change=(action 'agentSelected')
+}}
