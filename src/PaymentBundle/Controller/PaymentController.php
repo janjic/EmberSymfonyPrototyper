@@ -47,20 +47,29 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment-infos/{id}", name="api_payment_infos", options={"expose" = true}, defaults={"id": "all"}),
+     * @Route("/api/payment-infos/{id}", name="api_payment_infos", options={"expose" = true}, defaults={"id": "all"})
      * @param ArrayCollection $paymentInfoAPI
      * @return JSONResponse
      */
-    public function groupAPIAction(ArrayCollection $paymentInfoAPI)
+    public function paymentAPIAction(ArrayCollection $paymentInfoAPI)
     {
         return new JSONResponse($paymentInfoAPI->toArray(), array_key_exists('errors', $paymentInfoAPI->toArray()) ? 422 : 200);
     }
 
+    /**
+     * @Route("/api/payment/execute-payment", name="api_execute_payment", options={"expose" = true})
+     * @param ArrayCollection $paymentInfoExecutePayment
+     * @return JSONResponse
+     */
+    public function executePaymentAction(ArrayCollection $paymentInfoExecutePayment)
+    {
+        return new JSONResponse($paymentInfoExecutePayment->toArray(), array_key_exists('errors', $paymentInfoExecutePayment->toArray()) ? 422 : 200);
+    }
 
     /** ----------- ORDERS -------------------------------------------------------------------------------------------*/
 
     /**
-     * @Route("/api/order-print/{id}")
+     * @Route("/api/order-print/{id}", name="order_print", options={"expose" = true})
      * @param Request $request
      * @return string
      */
@@ -94,6 +103,28 @@ class PaymentController extends Controller
         $encoded = chunk_split($encoded, 76, "\r\n");
 
         return new Response('data:application/pdf;base64,' . $encoded);
+    }
+
+    /**
+     * @Route("/api/payment/commission-by-agent/", name="commission-by-agent", options={"expose" = true})
+     * @param ArrayCollection $commissionsByAgent
+     * @return string
+     */
+    public function commissionsByAgentAction(ArrayCollection $commissionsByAgent)
+    {
+        return new JSONResponse($commissionsByAgent->toArray(), array_key_exists('errors', $commissionsByAgent->toArray()) ? 422 : 200);
+
+    }
+
+    /**
+     * @Route("/api/payment/bonuses-by-agent/", name="bonuses-by-agent", options={"expose" = true})
+     * @param ArrayCollection $bonusesByAgent
+     * @return string
+     */
+    public function bonusesByAgentAction(ArrayCollection $bonusesByAgent)
+    {
+        return new JSONResponse($bonusesByAgent->toArray(), array_key_exists('errors', $bonusesByAgent->toArray()) ? 422 : 200);
+
     }
 
     /**

@@ -12,28 +12,29 @@ use FOS\MessageBundle\Event\FOSMessageEvents;
 use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
 use FOS\MessageBundle\MessageBuilder\ReplyMessageBuilder;
 use FOS\MessageBundle\Model\MessageInterface;
-use PaymentBundle\Business\Manager\PaymentInfoManager;
 use PaymentBundle\Entity\PaymentInfo;
 use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Event\Notification\NotificationEvents;
 use UserBundle\Business\Manager\NotificationManager;
-use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
-use UserBundle\Entity\Settings\Commission;
 
 /**
- * Class PaymentInfoGetTrait
+ * Class PaymentInfoUpdateTrait
  * @package PaymentBundle\Business\Manager\Payment
  */
-trait PaymentInfoGetTrait
+trait PaymentInfoUpdateTrait
 {
-    /**
-     * @param null $id
-     * @return mixed
-     */
-    public function getResource($id = null)
+    public function updateResource($data)
     {
-        return $this->serializePaymentInfo($this->repository->findPayment($id));
+        /** @var PaymentInfo $payment */
+        $payment = $this->deserializePaymentInfo($data);
+        /** @var PaymentInfo $paymentDB */
+        $paymentDB = $this->repository->findPayment($payment->getId());
+
+        $paymentDB->setMemo($payment->getMemo());
+        $paymentDB = $this->repository->edit($paymentDB);
+
+        return $this->serializePaymentInfo($paymentDB);
     }
 }

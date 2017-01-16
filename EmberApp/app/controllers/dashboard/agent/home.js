@@ -101,6 +101,5 @@ export default Ember.Controller.extend({
                     ctx.set('newMessagesInfo', response.data);
                 });
         }
-
     }
 });

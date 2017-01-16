@@ -31,6 +31,8 @@ class AppKernel extends Kernel
             new ConversationBundle\ConversationBundle(),
             new MailCampaignBundle\MailCampaignBundle(),
             new PaymentBundle\PaymentBundle(),
+            new Florianv\SwapBundle\FlorianvSwapBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

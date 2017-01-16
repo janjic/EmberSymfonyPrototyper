@@ -28,7 +28,7 @@ trait SaveMediaTrait
             if ($image->saveToFile($image->getBase64Content())) {
                 $image->updateFileSize();
                 $agent->setBaseImageUrl($image->getWebPath());
-                return true;
+
             }
             return false;
         }

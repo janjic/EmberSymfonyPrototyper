@@ -5,6 +5,7 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Doctrine\DBAL\Types\Type;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -18,6 +19,7 @@ class PaymentInfoRepository extends EntityRepository
 {
     const ALIAS       = 'paymentInfo';
     const AGENT_ALIAS = 'agent';
+    const GROUP_ALIAS = 'g';
 
     /**
      * Save payments array
@@ -33,10 +35,26 @@ class PaymentInfoRepository extends EntityRepository
 
             $this->_em->flush();
         } catch (Exception $e){
-             return $e;
+            return $e;
         }
 
         return $payments;
+    }
+
+    /**
+     * @param PaymentInfo $payment
+     * @return PaymentInfo|\Exception
+     */
+    public function edit($payment)
+    {
+        try {
+            $this->_em->merge($payment);
+            $this->_em->flush();
+        } catch (Exception $e){
+             return $e;
+        }
+
+        return $payment;
     }
 
     /**
@@ -63,7 +81,7 @@ class PaymentInfoRepository extends EntityRepository
      * @param $id
      * @return mixed
      */
-    public function findGroup($id)
+    public function findPayment($id)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
 
@@ -85,22 +103,35 @@ class PaymentInfoRepository extends EntityRepository
      * @param mixed $offset
      * @param mixed $sortParams
      * @param mixed $additionalParams
-     * @param mixed $promoCode
      * @return array
      */
-    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams, $promoCode = false)
+    public function findAllForJQGRID($page, $offset, $sortParams, $additionalParams)
     {
-        $firstResult =0;
-        if ($page !=1) {
-            $firstResult = ($page-1)*$offset;
-        }
+        $firstResult = ((int) $page-1)* (int) $offset;
 
         $qb = $this->createQueryBuilder(self::ALIAS);
-        if (array_key_exists('search_param', $additionalParams)) {
-            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
-        }
+
+        $qb->select(self::ALIAS, self::AGENT_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
 
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
+
+        if (array_key_exists('paymentState', $additionalParams)) {
+            if ($additionalParams['paymentState'] === ''){
+                $qb->andWhere(self::ALIAS.'.state IS NULL');
+            } else {
+                $qb->andWhere(self::ALIAS.'.state = ?1');
+                $qb->setParameter(1, $additionalParams['paymentState'] === 'true' ? 1 : 0);
+            }
+        }
+
+        if (array_key_exists('agent', $additionalParams)) {
+            /** @var Agent $agent */
+            $agent = $additionalParams['agent'];
+            $qb->andWhere(self::AGENT_ALIAS.'.id = :agent_id');
+            $qb->setParameter('agent_id', $agent->getId());
+        }
+
         return $qb->getQuery()->getResult();
     }
 
@@ -109,13 +140,14 @@ class PaymentInfoRepository extends EntityRepository
      * @param mixed $sortParams
      * @param mixed $additionalParams
      * @param bool  $isCountSearch
-     * @param mixed $promoCode
      * @return array
      */
-    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false, $promoCode= false)
+    public function searchForJQGRID($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
     {
-        $oQ0= $this->createQueryBuilder(self::ALIAS);
+        $oQ0 = $this->createQueryBuilder(self::ALIAS);
 
+        $oQ0->select(self::ALIAS, self::AGENT_ALIAS);
+        $oQ0->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
 
         $firstResult = 0;
         $offset = 0;
@@ -130,10 +162,25 @@ class PaymentInfoRepository extends EntityRepository
                 array_shift($searchParams);
 
                 foreach ($searchParams[0] as $key => $param) {
-                    if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
-                        $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                    if ($key == 'address.country') {
+                        $oQ0->leftJoin(self::AGENT_ALIAS.'.address', 'address');
+                    }
+
+                    if ($key == 'startDate') {
+                        $oQ0->andWhere(self::ALIAS.'.createdAt > :'.$key);
+                        $oQ0->setParameter($key, $param);
+                    } else if ($key == 'endDate'){
+                        $oQ0->andWhere(self::ALIAS.'.createdAt < :'.$key);
+                        $oQ0->setParameter($key, $param);
+                    } else if ($key == 'paymentInfo.type'){
+                        $type = $param === 'Commission' ? PaymentInfoManager::COMMISSION_TYPE : PaymentInfoManager::BONUS_TYPE;
+                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $type . '%')));
                     } else {
-                        $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                        }
                     }
                 }
             } else {
@@ -240,6 +287,22 @@ class PaymentInfoRepository extends EntityRepository
             }
         }
 
+        if (array_key_exists('paymentState', $additionalParams)) {
+            if ($additionalParams['paymentState'] === ''){
+                $oQ0->andWhere(self::ALIAS.'.state IS NULL');
+            } else {
+                $oQ0->andWhere(self::ALIAS.'.state = ?1');
+                $oQ0->setParameter(1, $additionalParams['paymentState'] === 'true' ? 1 : 0);
+            }
+        }
+
+        if (array_key_exists('agent', $additionalParams)) {
+            /** @var Agent $agent */
+            $agent = $additionalParams['agent'];
+            $oQ0->andWhere(self::AGENT_ALIAS.'.id = :agent_id');
+            $oQ0->setParameter('agent_id', $agent->getId());
+        }
+
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
         } else {
@@ -250,6 +313,62 @@ class PaymentInfoRepository extends EntityRepository
         }
 
         return $oQ0->getQuery()->getResult();
+    }
+
+    /**
+     * @param $currency
+     * @param $ratio
+     * @param Agent $agent
+     * @return array
+     */
+    public function getCommissionsByAgent($currency, $ratio, $agent)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
+        $qb->addselect(self::AGENT_ALIAS.'.baseImageUrl');
+        $qb->addselect(self::GROUP_ALIAS.'.name as groupName');
+        $qb->addSelect(self::AGENT_ALIAS.'.id as agentId');
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".packagesCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".packagesCommission,2) END as packagesCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".connectCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".connectCommission,2) END as connectCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".setupFeeCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".setupFeeCommission,2) END as setupFeeCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".streamCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".streamCommission,2) END as streamCommission");
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".totalCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".totalCommission,2) END as totalCommission")
+            ->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS)
+            ->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS)
+            ->groupBy(self::ALIAS.'.agent')
+            ->orderBy('totalCommission', 'DESC')
+            ->where(self::ALIAS.'.state = 1')
+            ->andWhere(self::AGENT_ALIAS.'.lft > '.$agent->getLft())
+            ->andWhere(self::AGENT_ALIAS.'.rgt < '.$agent->getRgt())
+            ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::COMMISSION_TYPE)))
+            ->andWhere(self::ALIAS.'.payedAt > :date')
+            ->setParameter('date', new \DateTime('-3 month'))
+            ->setMaxResults(4);
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $currency
+     * @param $ratio
+     * @return array
+     */
+    public function getBonusesByAgent($currency, $ratio)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
+        $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".bonusValue * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".bonusValue,2) END as bonusValue");
+        $qb->addSelect(self::ALIAS.'.payedAt as date');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->andWhere(self::ALIAS.'.payedAt > :date')
+            ->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal(PaymentInfoManager::BONUS_TYPE)))
+            ->orderBy(self::ALIAS.'.agent')
+            ->groupBy(self::ALIAS.'.agent')
+            ->setParameter('date', new \DateTime('-3 month'))
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
     }
     public function newCommissionsCount($agent, $period)
     {

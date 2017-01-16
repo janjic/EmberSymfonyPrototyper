@@ -1,5 +1,6 @@
 import Ember from 'ember';
 const { download } = window;
+const { Routing } = window;
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
@@ -29,7 +30,7 @@ export default Ember.Controller.extend({
 
             Ember.$.ajax({
                 type: "GET",
-                url: "/api/order-print/"+id,
+                url: Routing.generate('order_print', {'id': id}),
                 contentType: "application/pdf",
             }).then(function (response) {
                 download(response, "order-"+id+".pdf", "application/pdf");
