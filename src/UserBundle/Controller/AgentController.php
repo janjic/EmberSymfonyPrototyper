@@ -70,21 +70,15 @@ class AgentController extends Controller
     }
 
     /**
-     * @Route("/api/agents/newAgentsInfo/{id}" ,name="new-agents-info",
+     * @Route("/api/newAgentsInformation" ,name="new-agents-information",
      * options={"expose" = true})
-     * @ParamConverter("agent", class="UserBundle:Agent")
-     * @param Agent $agent
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getNewAgentsInfoAction(Agent $agent)
+    public function getNewAgentsInfoAction()
     {
-        $agent = $this->get('agent_system.agent.repository')->findAgentByRole()->getId()==$agent->getId() ? null : $agent;
+        $newAgentsInfo = $this->get('agent_system.agent.manager')->newAgentsCount();
 
-        $newAgentsToday         = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'today');
-        $newAgentsThisMonth     = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'month');
-        $newAgentsTotal         = $this->get('agent_system.agent.repository')->newAgentsCount($agent, 'total');
-
-        return new JsonResponse(AgentApiResponse::NEW_AGENTS_INFO_OK_RESPONSE($newAgentsToday, $newAgentsThisMonth, $newAgentsTotal));
+        return new JsonResponse(AgentApiResponse::NEW_AGENTS_INFO_OK_RESPONSE($newAgentsInfo));
     }
 
 }

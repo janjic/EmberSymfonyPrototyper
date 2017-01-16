@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Adapter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 
 /**
@@ -58,14 +59,12 @@ class AgentApiResponse
     }
 
     /**
-     * @param $today
-     * @param $this_month
-     * @param $total
+     * @param $info
      * @return array
      */
-    public static function NEW_AGENTS_INFO_OK_RESPONSE($today, $this_month, $total)
+    public static function NEW_AGENTS_INFO_OK_RESPONSE($info)
     {
-        return array('data' => array('today'=> $today, 'this_month' => $this_month, 'total' => $total), 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
+        return array('data' => $info, 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
     }
 
     /**
@@ -239,5 +238,15 @@ class AgentApiResponse
     public static function NOTIFICATION_EDITED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'notifications', 'id' => $id), 'meta' => array('status'=> AgentApiCode::NOTIFICATION_EDITED_SUCCESSFULLY));
+    }
+
+    /** -------- PAYMENT -------------------------------------------------------------------------------------------- */
+    /**
+     * @param $info
+     * @return array
+     */
+    public static function NEW_PAYMENTS_INFO_OK_RESPONSE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::PAYMENT_NEW_INFO_OK);
     }
 }

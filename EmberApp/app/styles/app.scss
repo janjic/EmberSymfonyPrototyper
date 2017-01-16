@@ -1280,7 +1280,7 @@ header {
   span {
     display: inline-block;
     text-align: right;
-    font-size: 22px;
+    font-size: 21px;
   }
   i {
     position: absolute;
@@ -4189,6 +4189,37 @@ $searchable-select-spacer-horizontal: 1em;
   h6 {
     margin: 0;
   }
+}
+.card-number-holder{
+  display: inline-block;
+  text-align: right;
+  font-size: 22px;
+  height: 17px;
+  overflow: hidden;
+}
+.card-number-up {
+  -moz-transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.card-number-down {
+  -moz-transform: translateY(-20px);
+  -webkit-transform: translateY(-20px);
+  -o-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 /*!

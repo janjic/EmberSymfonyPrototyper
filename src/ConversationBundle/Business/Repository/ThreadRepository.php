@@ -237,4 +237,20 @@ class ThreadRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function newMessagesCount($agent)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        $qb->select('COUNT('.self::ALIAS.'.id)');
+        $qb->leftJoin(self::ALIAS.'.metadata', 'meta');
+        $qb->where('meta.isReadByParticipant = ?1')
+            ->setParameter(1, false);
+        if ( $agent ) {
+            $qb->andWhere('meta.participant = ?2')
+                ->setParameter(2, $agent);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

@@ -5,6 +5,7 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\DBAL\Types\Type;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Entity\Agent;
@@ -252,7 +253,6 @@ class PaymentInfoRepository extends EntityRepository
     }
     public function newCommissionsCount($agent, $period)
     {
-        var_dump($period);die();
         switch ($period){
             case 'today': $date = new \DateTime('-1 day');break;
             case 'month': $date = new \DateTime('-1 month');break;
@@ -261,7 +261,7 @@ class PaymentInfoRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder(self::ALIAS);
 
-        $qb->select($qb->expr()->count(self::ALIAS.'.id'));
+        $qb->select(self::ALIAS.'.currency ,SUM('.self::ALIAS.'.totalCommission'.') as total_commission_sum');
         $qb->where($qb->expr()->isNotNull(self::ALIAS.'.createdAt'));
         if ( $agent ){
             $qb->andwhere(self::ALIAS.'.agent =?1')
@@ -271,8 +271,10 @@ class PaymentInfoRepository extends EntityRepository
             $qb->andWhere(self::ALIAS.'.createdAt > :last')
                 ->setParameter('last', $date, Type::DATETIME);
         }
+        $qb->groupBy(self::ALIAS.'.currency');
 
-        return (int) $qb->getQuery()->getSingleScalarResult();
+//        var_dump($qb->getQuery()->getResult());die();
+        return $qb->getQuery()->getResult();
     }
 
 }

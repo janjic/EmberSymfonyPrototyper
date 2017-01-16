@@ -56,6 +56,7 @@ class AgentApiCode
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
     const MESSAGES_DRAFT_ERROR                       = 2302;
+    const MESSAGES_NEW_INFO                          = 2303;
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;
@@ -73,4 +74,7 @@ class AgentApiCode
 
     /** NOTIFICATION */
     CONST NOTIFICATION_EDITED_SUCCESSFULLY           = 2701;
+
+    /** PAYMENT */
+    const PAYMENT_NEW_INFO_OK                        = 2801;
 }

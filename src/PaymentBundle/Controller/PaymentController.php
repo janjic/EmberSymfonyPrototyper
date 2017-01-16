@@ -2,6 +2,7 @@
 
 namespace PaymentBundle\Controller;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -96,20 +97,16 @@ class PaymentController extends Controller
     }
 
     /**
-     * @Route("/api/payment/newPaymentsInfo/{id}" ,name="new-payments-info",
+     * @Route("/api/newPaymentsInfo" ,name="new-payments-info",
      * options={"expose" = true})
-     * @ParamConverter("agent", class="UserBundle:Agent")
-     * @param Agent $agent
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getNewAgentsInfoAction(Agent $agent)
+    public function getNewPaymentsInfoAction()
     {
-        $agent = $this->get('agent_system.agent.repository')->findAgentByRole()->getId()==$agent->getId() ? null : $agent;
+        $superAdminId       = $this->get('agent_system.agent.repository')->findAgentByRole()->getId();
 
-        $newCommissionsTodayEUR         = $this->get('agent_system.payment_info.manager')->newCommissionsCount($agent, 'today');
-        $newCommissionsThisMonthEUR     = $this->get('agent_system.payment_info.manager')->newCommissionsCount($agent, 'month');
-        $newCommissionsTotalEUR         = $this->get('agent_system.payment_info.manager')->newCommissionsCount($agent, 'total');
+        $newCommissionsInfo = $this->get('agent_system.payment_info.manager')->newCommissionsCount($superAdminId);
 
-//        return new JsonResponse(AgentApiResponse::NEW_AGENTS_INFO_OK_RESPONSE($newAgentsToday, $newAgentsThisMonth, $newAgentsTotal));
+        return new JsonResponse(AgentApiResponse::NEW_PAYMENTS_INFO_OK_RESPONSE($newCommissionsInfo));
     }
 }
