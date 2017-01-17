@@ -2,253 +2,167 @@
 <div class=" right-section">
     <section class="dashboard-home">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-customers'}}</h4>
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-customers')
+                    isLoading = newUsersInfoLoading
+                    model = newUsersInfo
+                    getNewElements = (action 'getNumberOfNewUsers')
+                    imageClass = 'user'
+            }}
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-agents')
+                    isLoading = newAgentsLoading
+                    model = newAgentsInfo
+                    getNewElements = (action 'getNumberOfNewAgents')
+                    imageClass = 'black-tie'
+            }}
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-orders')
+                    isLoading = newOrdersInfoLoading
+                    model = newOrdersInfo
+                    getNewElements = (action 'getNumberOfNewOrders')
+                    imageClass = 'black-tie'
+            }}
+            {{home-card-component
+                    card-title = (trans 'dashboard.labels.new-commissions')
+                    isLoading = newCommissionsInfoLoading
+                    model = newCommissionsInfo
+                    getNewElements = (action 'getNumberOfNewCommissions')
+                    isMultipleCard = isNewCommissionsInfoMultiple
+                    imageClass = 'usd'
+            }}
 
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </div>
-            </div>
-
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-agents'}}</h4>
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-black-tie" aria-hidden="true"></i>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-orders'}}</h4>
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-black-tie" aria-hidden="true"></i>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="home-card">
-                    <h4>{{trans 'dashboard.labels.new-commissions'}}</h4>
-                    <p class="counter">
-                        <span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>
-                        <span class="title"> {{trans 'dashboard.labels.today'}}</span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.this-month'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>
-                    </p>
-                    <p class="counter">
-                        <span class="title">{{trans 'dashboard.labels.total'}}:</span>
-                        <span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>
-                    </p>
-                    <i class="fa fa-usd" aria-hidden="true"></i>
-                </div>
-            </div>
+            {{!--<div class="col-xs-12 col-sm-6 col-md-3">--}}
+                {{!--<div class="home-card">--}}
+                    {{!--<h4>{{trans 'dashboard.labels.new-commissions'}}</h4>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="1256" data-speed="1500"></span>}}
+                        {{!--<span class="title"> {{trans 'dashboard.labels.today'}}</span>--}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.this-month'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="4789" data-speed="1500"></span>}}
+                    {{!--</p>--}}
+                    {{!--<p class="counter">--}}
+                        {{!--<span class="title">{{trans 'dashboard.labels.total'}}:</span>--}}
+                        {{!--<span class="timer count-title" id="count-number" data-to="876567" data-speed="1000"></span>}}
+                    {{!--</p>--}}
+                    {{!--<i class="fa fa-usd" aria-hidden="true"></i>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
         </div>
-        <script>
-            (function ($) {
-                $.fn.countTo = function (options) {
-                    options = options || {};
+        {{!--<script>--}}
+            {{!--(function ($) {--}}
+                {{!--$.fn.countTo = function (options) {--}}
+                    {{!--options = options || {};--}}
 
-                    return $(this).each(function () {
-                        // set options for current element
-                        var settings = $.extend({}, $.fn.countTo.defaults, {
-                            from:            $(this).data('from'),
-                            to:              $(this).data('to'),
-                            speed:           $(this).data('speed'),
-                            refreshInterval: $(this).data('refresh-interval'),
-                            decimals:        $(this).data('decimals')
-                        }, options);
+                    {{!--return $(this).each(function () {--}}
+                        {{!--// set options for current element--}}
+                        {{!--var settings = $.extend({}, $.fn.countTo.defaults, {--}}
+                            {{!--from:            $(this).data('from'),--}}
+                            {{!--to:              $(this).data('to'),--}}
+                            {{!--speed:           $(this).data('speed'),--}}
+                            {{!--refreshInterval: $(this).data('refresh-interval'),--}}
+                            {{!--decimals:        $(this).data('decimals')--}}
+                        {{!--}, options);--}}
 
-                        // how many times to update the value, and how much to increment the value on each update
-                        var loops = Math.ceil(settings.speed / settings.refreshInterval),
-                                increment = (settings.to - settings.from) / loops;
+                        {{!--// how many times to update the value, and how much to increment the value on each update--}}
+                        {{!--var loops = Math.ceil(settings.speed / settings.refreshInterval),--}}
+                                {{!--increment = (settings.to - settings.from) / loops;--}}
 
-                        // references & variables that will change with each update
-                        var self = this,
-                                $self = $(this),
-                                loopCount = 0,
-                                value = settings.from,
-                                data = $self.data('countTo') || {};
+                        {{!--// references & variables that will change with each update--}}
+                        {{!--var self = this,--}}
+                                {{!--$self = $(this),--}}
+                                {{!--loopCount = 0,--}}
+                                {{!--value = settings.from,--}}
+                                {{!--data = $self.data('countTo') || {};--}}
 
-                        $self.data('countTo', data);
+                        {{!--$self.data('countTo', data);--}}
 
-                        // if an existing interval can be found, clear it first
-                        if (data.interval) {
-                            clearInterval(data.interval);
-                        }
-                        data.interval = setInterval(updateTimer, settings.refreshInterval);
+                        {{!--// if an existing interval can be found, clear it first--}}
+                        {{!--if (data.interval) {--}}
+                            {{!--clearInterval(data.interval);--}}
+                        {{!--}--}}
+                        {{!--data.interval = setInterval(updateTimer, settings.refreshInterval);--}}
 
-                        // initialize the element with the starting value
-                        render(value);
+                        {{!--// initialize the element with the starting value--}}
+                        {{!--render(value);--}}
 
-                        function updateTimer() {
-                            value += increment;
-                            loopCount++;
+                        {{!--function updateTimer() {--}}
+                            {{!--value += increment;--}}
+                            {{!--loopCount++;--}}
 
-                            render(value);
+                            {{!--render(value);--}}
 
-                            if (typeof(settings.onUpdate) == 'function') {
-                                settings.onUpdate.call(self, value);
-                            }
+                            {{!--if (typeof(settings.onUpdate) == 'function') {--}}
+                                {{!--settings.onUpdate.call(self, value);--}}
+                            {{!--}--}}
 
-                            if (loopCount >= loops) {
-                                // remove the interval
-                                $self.removeData('countTo');
-                                clearInterval(data.interval);
-                                value = settings.to;
+                            {{!--if (loopCount >= loops) {--}}
+                                {{!--// remove the interval--}}
+                                {{!--$self.removeData('countTo');--}}
+                                {{!--clearInterval(data.interval);--}}
+                                {{!--value = settings.to;--}}
 
-                                if (typeof(settings.onComplete) == 'function') {
-                                    settings.onComplete.call(self, value);
-                                }
-                            }
-                        }
+                                {{!--if (typeof(settings.onComplete) == 'function') {--}}
+                                    {{!--settings.onComplete.call(self, value);--}}
+                                {{!--}--}}
+                            {{!--}--}}
+                        {{!--}--}}
 
-                        function render(value) {
-                            var formattedValue = settings.formatter.call(self, value, settings);
-                            $self.html(formattedValue);
-                        }
-                    });
-                };
+                        {{!--function render(value) {--}}
+                            {{!--var formattedValue = settings.formatter.call(self, value, settings);--}}
+                            {{!--console.log(value);--}}
+                            {{!--$self.html(formattedValue);--}}
+                        {{!--}--}}
+                    {{!--});--}}
+                {{!--};--}}
 
-                $.fn.countTo.defaults = {
-                    from: 0,               // the number the element should start at
-                    to: 0,                 // the number the element should end at
-                    speed: 1000,           // how long it should take to count between the target numbers
-                    refreshInterval: 100,  // how often the element should be updated
-                    decimals: 0,           // the number of decimal places to show
-                    formatter: formatter,  // handler for formatting the value before rendering
-                    onUpdate: null,        // callback method for every time the element is updated
-                    onComplete: null       // callback method for when the element finishes updating
-                };
+                {{!--$.fn.countTo.defaults = {--}}
+                    {{!--from: 0,               // the number the element should start at--}}
+                    {{!--to: 0,                 // the number the element should end at--}}
+                    {{!--speed: 1000,           // how long it should take to count between the target numbers--}}
+                    {{!--refreshInterval: 100,  // how often the element should be updated--}}
+                    {{!--decimals: 0,           // the number of decimal places to show--}}
+                    {{!--formatter: formatter,  // handler for formatting the value before rendering--}}
+                    {{!--onUpdate: null,        // callback method for every time the element is updated--}}
+                    {{!--onComplete: null       // callback method for when the element finishes updating--}}
+                {{!--};--}}
 
-                function formatter(value, settings) {
-                    return value.toFixed(settings.decimals);
-                }
-            }(jQuery));
+                {{!--function formatter(value, settings) {--}}
+                    {{!--return value.toFixed(settings.decimals);--}}
+                {{!--}--}}
+            {{!--}(jQuery));--}}
 
-            jQuery(function ($) {
-                // custom formatting example
-                $('#count-number').data('countToOptions', {
-                    formatter: function (value, options) {
-                        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-                    }
-                });
+            {{!--jQuery(function ($) {--}}
 
-                // start all the timers
-                $('.timer').each(count);
+                {{!--// start all the timers--}}
+                {{!--$('.timer').each(count);--}}
 
-                function count(options) {
-                    var $this = $(this);
-                    options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-                    $this.countTo(options);
-                }
-            });
+                {{!--function count(options) {--}}
+                    {{!--var $this = $(this);--}}
+                    {{!--options = $.extend({}, options || {}, $this.data('countToOptions') || {});--}}
+                    {{!--$this.countTo(options);--}}
+                {{!--}--}}
+            {{!--});--}}
+        {{!--</script>--}}
 
-        </script>
+        {{ dashboard/map-component}}
 
-        <div class="input-box">
-            <h3 class="sub-heading">{{fa-icon 'user'}} User activity</h3>
-            <div id="bubbles" style="cursor:pointer; display: block; position: relative; margin: 0 auto; width: 100%; height: 500px;"></div>
+        <div class="row">
+            {{ dashboard/orders-preview-component
+                    viewLink = "dashboard.payments.purchase-details"
+                    viewAllLink = "dashboard.payments.reports"
+                    getOrders = (action 'getLatestOrders')
+            }}
+            {{new-message-user-info
+                    newUsersInfoLoading     = newUsersInfoLoading
+                    newUsersInfo            = newUsersInfo
+                    newMessagesInfoLoading  = newMessagesInfoLoading
+                    newMessagesInfo         = newMessagesInfo
+                    getMessages             = (action 'getNumberOfNewMessages')
+            }}
         </div>
-
-        <script>
-            $( document ).ready(function() {
-                var bubble_map = new Datamap({
-                    element: document.getElementById("bubbles"),
-                    geographyConfig: {
-                        popupOnHover: false,
-                        highlightOnHover: true,
-                        highlightFillColor: '#c0392b'
-                    },
-                    fills: {
-                        defaultFill: '#34495e',
-                        USA: '#c0392b',
-                        RUS: '#5cb85c'
-                    }
-                });
-                bubble_map.bubbles([
-                    {
-                        name: '4 new agents',
-                        radius: 15,
-                        centered: 'BRA',
-                        country: 'USA',
-                        yeild: 0,
-                        fillKey: 'USA',
-                        date: '1954-03-01'
-                    },
-                    {
-                        name: '2 new agents',
-                        radius: 15,
-                        yeild: 0,
-                        country: 'USA',
-                        centered: 'USA',
-                        date: '1986-06-05',
-                        significance: 'Centered on US',
-                        fillKey: 'USA'
-                    },
-                    {
-                        name: 'New message',
-                        radius: 15,
-                        yeild: 15000,
-                        country: 'ITA',
-                        significance: 'First dry fusion fuel "staged" thermonuclear weapon; a serious nuclear fallout accident occurred',
-                        fillKey: 'USA',
-                        date: '1954-03-01',
-                        latitude: 15.415,
-                        longitude: 100.1619
-                    },{
-                        name: 'New order',
-                        radius: 15,
-                        yeild: 50000,
-                        country: 'USSR',
-                        fillKey: 'RUS',
-                        significance: 'Largest thermonuclear weapon ever tested—scaled down from its initial 100 Mt design by 50%',
-                        date: '1961-10-31',
-                        latitude: 73.482,
-                        longitude: 54.5854
-                    }
-                ]);
-            });
-
-        </script>
-        {{ dashboard/orders-preview-component viewLink = "dashboard.payments.purchase-details" viewAllLink = "dashboard.payments.reports" getOrders = (action 'getLatestOrders')}}
-
         {{ chart-component }}
     </section>
 </div>

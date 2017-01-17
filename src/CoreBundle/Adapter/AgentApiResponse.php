@@ -38,6 +38,8 @@ class AgentApiResponse
     const MESSAGES_UNSUPPORTED_FORMAT           = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_UNSUPPORTED_FORMAT)));
     const MESSAGES_DRAFT_ERROR                  = array('errors' => array(array('status'=> AgentApiCode::MESSAGES_DRAFT_ERROR)));
 
+    const PAYMENT_EXECUTE_ERROR                 = array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ERROR)));
+
     /**
      * @param $ttl
      * @return array
@@ -55,6 +57,15 @@ class AgentApiResponse
     public static function AGENT_INFO_OK_RESPONSE($childCount, $numberOfUsers)
     {
         return array('data' => array('childCount'=> $childCount, 'usersCount' => $numberOfUsers), 'status' => AgentApiCode::AGENT_INFO_CALCULATED_OK);
+    }
+
+    /**
+     * @param $info
+     * @return array
+     */
+    public static function NEW_AGENTS_INFO_OK_RESPONSE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
     }
 
     /**
@@ -228,5 +239,24 @@ class AgentApiResponse
     public static function NOTIFICATION_EDITED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'notifications', 'id' => $id), 'meta' => array('status'=> AgentApiCode::NOTIFICATION_EDITED_SUCCESSFULLY));
+    }
+
+    /** -------- PAYMENT INFO --------------------------------------------------------------------------------------- */
+    /**
+     * @param $id
+     * @return array
+     */
+    public static function PAYMENT_EXECUTED_SUCCESSFULLY($id)
+    {
+        return array('data' => array('type'=> 'payment-infos', 'id' => $id), 'meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $info
+     * @return array
+     */
+    public static function NEW_PAYMENTS_INFO_OK_RESPONSE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::PAYMENT_NEW_INFO_OK);
     }
 }

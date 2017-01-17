@@ -25,6 +25,7 @@ export default Model.extend({
     bankAccountNumber:    attr('string'),
     agentBackground:      attr('string'),
     enabled:              attr('boolean'),
+    notifications:        attr(),
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
     superior:             DS.belongsTo('agent'),

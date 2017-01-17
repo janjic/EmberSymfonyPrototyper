@@ -14,6 +14,7 @@ use FOS\MessageBundle\MessageBuilder\ReplyMessageBuilder;
 use FOS\MessageBundle\Model\MessageInterface;
 use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Event\Notification\NotificationEvents;
+use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
@@ -112,12 +113,17 @@ trait JsonApiSaveMessageManagerTrait
 
             // SENDING NOTIFICATION IF MESSAGE IS NOT DRAFT
             if( !$messageFronted->isIsDraft() ) {
-                $notification = NotificationManager::createNewMessageNotification($newMessage);
-                $event = new NotificationEvent();
-                $event->setMessage($newMessage);
-                $event->addNotification($notification);
+                /** @var Agent $user */
+                $user = $this->getCurrentUser();
+                $userRecipient =  $newMessage->getParticipantsFromMeta()[0]->getId() == $user->getId() ? $newMessage->getParticipantsFromMeta()[1] : $newMessage->getParticipantsFromMeta()[0];
+                if( in_array('optionMessage', $userRecipient->getNotifications()) ) {
+                    $notification = NotificationManager::createNewMessageNotification($newMessage);
+                    $event = new NotificationEvent();
+                    $event->setMessage($newMessage);
+                    $event->addNotification($notification);
 
-                $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
+                    $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
+                }
             }
 
             return $this->serializeMessage($this->saveEventResult);

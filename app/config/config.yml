@@ -65,6 +65,9 @@ doctrine:
                 password: '%database_password%'
                 charset:  UTF8
     orm:
+        dql:
+            numeric_functions:
+                round: PaymentBundle\Business\DoctrineExtensions\Query\Round
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
@@ -153,3 +156,10 @@ stof_doctrine_extensions:
     orm:
         default:
             tree: true
+
+florianv_swap:
+    providers:
+        google_finance: ~
+    cache:
+      ttl: 3600 # seconds
+      doctrine: array

@@ -4,7 +4,7 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Controller.extend({
     page: 1,
     offset: 8,
-    promoCode: undefined,
+    agentId: undefined,
     searchArray: undefined,
     colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Enabled', 'Country', 'Actions'],
     colModels: [
@@ -23,15 +23,15 @@ export default Ember.Controller.extend({
                 sidx: column,
                 sord: sortType,
                 filters: JSON.stringify(searchArray),
-                promoCode: this.get('promoCode')
+                agentId: this.get('agentId')
             });
         },
 
         agentSelected(agent){
             if (agent && agent.get('agentId') ) {
-                this.set('promoCode', agent.get('agentId'));
+                this.set('agentId', agent.get('agentId'));
             } else {
-                this.set('promoCode', undefined);
+                this.set('agentId', undefined);
             }
             this.store.query('tcr-user', {
                 page: 1,
@@ -39,7 +39,7 @@ export default Ember.Controller.extend({
                 sidx: 'id',
                 sord: 'asc',
                 filters: JSON.stringify(this.get('searchArray')),
-                promoCode: this.get('promoCode')
+                agentId: this.get('agentId')
             }).then((model)=>{
                 this.set('model', model);
                 this.set('maxPages', this.get('model.meta.pages'));

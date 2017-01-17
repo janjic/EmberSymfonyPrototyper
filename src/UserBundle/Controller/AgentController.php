@@ -57,4 +57,28 @@ class AgentController extends Controller
         return new JsonResponse(AgentApiResponse::AGENT_INFO_OK_RESPONSE($childCount, $resp->description->totalCount));
     }
 
+    /**
+     * @Route("/api/agents-by-country" ,name="agents-by-country",
+     * options={"expose" = true})
+     * @param ArrayCollection $agentsByCountry
+     * @return Response
+     */
+    public function getAgentsByCountryAction(ArrayCollection $agentsByCountry)
+    {
+
+        return new JsonResponse($agentsByCountry->toArray());
+    }
+
+    /**
+     * @Route("/api/newAgentsInformation" ,name="new-agents-information",
+     * options={"expose" = true})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getNewAgentsInfoAction()
+    {
+        $newAgentsInfo = $this->get('agent_system.agent.manager')->newAgentsCount();
+
+        return new JsonResponse(AgentApiResponse::NEW_AGENTS_INFO_OK_RESPONSE($newAgentsInfo));
+    }
+
 }

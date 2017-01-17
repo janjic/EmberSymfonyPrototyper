@@ -62,16 +62,16 @@ trait JsonApiUpdateAgentManagerTrait
                 $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
             }
 
-            try {
-                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
-                if (is_object($syncResult) && $syncResult->code == 200) {
+//            try {
+//                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
+//                if (is_object($syncResult) && $syncResult->code == 200) {
                     $this->flushDb();
-                } else {
-                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-                }
-            } catch (\Exception $exception) {
-                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-            }
+//                } else {
+//                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//                }
+//            } catch (\Exception $exception) {
+//                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//            }
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);
@@ -80,12 +80,13 @@ trait JsonApiUpdateAgentManagerTrait
 
     private function prepareUpdate(Agent $agent, Agent $dbAgent, $data)
     {
+
         AgentSerializerInfo::updateBasicFields($agent, $dbAgent);
         $this->setAndValidatePassword($agent, $dbAgent, $data);
         $this->setAndValidateAddress($agent, $dbAgent);
         $this->setAndValidateGroup($agent, $dbAgent);
         $this->setAndValidateImage($agent, $dbAgent);
-
+        $this->setAndValidateNotifications($agent, $dbAgent);
 
         return $agent;
     }
@@ -154,6 +155,11 @@ trait JsonApiUpdateAgentManagerTrait
 
     }
 
+    private function setAndValidateNotifications (Agent $agent, Agent $dbAgent)
+    {
+        $dbAgent->setNotifications($agent->getNotifications());
+    }
+
 
 
     /**
@@ -173,7 +179,8 @@ trait JsonApiUpdateAgentManagerTrait
                 $dbAgent->setImage(null);
                 $dbAgent->setBaseImageUrl(null);
                 //Agent changed his/her image, we must only update image
-            } else if ($agent->getImage()->getId() && !$agent->getImage()->getWebPath()) {
+            } else if ($agent->getImage()->getId() && $agent->getImage()->getBase64Content()) {
+
                 $dbImage->setBase64Content($agent->getImage()->getBase64Content());
                 $dbImage->deleteFile();
                 $this->saveMedia($dbAgent);

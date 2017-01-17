@@ -73,6 +73,7 @@ admin-menu:
     title: 'Payments'
     payouts.to.agents: 'Payouts to agents'
     reports: 'Reports'
+    orders: 'All Orders'
   mass.mails:
     title: 'Mass mails'
     new.mail.list: 'Add new mail list'
@@ -327,6 +328,16 @@ models:
     save: 'Mail list saved!'
   campaign:
     save: 'Mail campaign saved!'
+  payment-info:
+    memo-updated: "Memo updated"
+    memo-update-fail: "Memo update failed"
+    pay-success: "Payment successfull"
+    pay-error: "Payment not successfull. Please try again"
+    reject-success: "Payment rejected"
+    reject-error: "Error occured! Payment not rejected"
+    payouts-to-agents: "Payouts to agents"
+    reports: "Reports"
+    rejected-payments: "Rejected payments"
 
 #SETTINGS
 

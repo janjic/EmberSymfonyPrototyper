@@ -28,94 +28,160 @@ class PaymentInfo
     protected $agent;
 
     /**
+     * Which role agent had when payment was created
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $agentRole;
+
+    /**
      * @var integer
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $orderId;
 
     /**
      * @var integer
-     * @ORM\Column(type="integer", name="customer_id")
+     * @ORM\Column(type="integer", name="customer_id", nullable=true)
      */
     protected $customerId;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $packagesValue;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $packagesPercentage;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $packagesCommission = 0;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $connectValue;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $connectPercentage;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $connectCommission = 0;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $setupFeeValue;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $setupFeePercentage;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $setupFeeCommission = 0;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $streamValue;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $streamPercentage;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $streamCommission = 0;
 
     /**
      * @var float
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $totalCommission = 0;
+
+    /**
+     * @var float
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $bonusValue = 0;
+
+    /**
+     * @var String
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $bonusDesc;
+
+    /**
+     * NULL - unprocessed payment, FALSE - rejected payment, TRUE - approved payment
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $state;
+
+    /**
+     * Is payment commission or bonus
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $paymentType;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="payed_at", type="datetime", nullable=true)
+     */
+    protected $payedAt;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $memo;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $currency;
+
+    /**
+     * PaymentInfo constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
 
     /**
      * @return mixed
@@ -463,5 +529,117 @@ class PaymentInfo
         }
 
         return $this->setTotalCommission();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param boolean $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentType()
+    {
+        return $this->paymentType;
+    }
+
+    /**
+     * @param string $paymentType
+     */
+    public function setPaymentType($paymentType)
+    {
+        $this->paymentType = $paymentType;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPayedAt()
+    {
+        return $this->payedAt;
+    }
+
+    /**
+     * @param \DateTime $payedAt
+     */
+    public function setPayedAt($payedAt)
+    {
+        $this->payedAt = $payedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgentRole()
+    {
+        return $this->agentRole;
+    }
+
+    /**
+     * @param string $agentRole
+     */
+    public function setAgentRole($agentRole)
+    {
+        $this->agentRole = $agentRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemo()
+    {
+        return $this->memo;
+    }
+
+    /**
+     * @param string $memo
+     */
+    public function setMemo($memo)
+    {
+        $this->memo = $memo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
     }
 }

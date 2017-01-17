@@ -17,7 +17,7 @@ class NotificationController extends Controller
      */
     public function invitationsAPIAction(ArrayCollection $notificationAPI)
     {
-        $status = array_key_exists('errors', $notificationAPI->toArray()) ? $notificationAPI['errors'][0]['status'] : 201;
+        $status = array_key_exists('errors', $notificationAPI->toArray()) ? $notificationAPI['errors'][0]['status'] : 200;
 
         return new JsonResponse($notificationAPI->toArray(), $status);
     }
