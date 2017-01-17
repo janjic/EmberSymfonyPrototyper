@@ -83,7 +83,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setGroup($group);
         $this->saveMedia($agent);
         $em->getRepository('UserBundle:Agent')->saveAgent($agent);
-
+        $em->flush();
         $output->writeln('Successfully inserted admin agent to : '.$group);
     }
 
