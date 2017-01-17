@@ -42,7 +42,7 @@ class AgentRepository extends NestedTreeRepository
     public function saveAgent($agent, $superior=null)
     {
         try {
-            $agent ? ($agent = $this->loadUserRoles($agent)) :false;
+            //$agent ? ($agent = $this->loadUserRoles($agent)) :false;
             if(!is_null($superior)){
                 $this->persistAsFirstChildOf($agent, $superior);
             } else {

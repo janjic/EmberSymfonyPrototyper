@@ -77,7 +77,7 @@ class ImportAgentsCommand extends ContainerAwareCommand
             $agent->setBankName('bank');
             $agent->setTitle('MR');
             $image = new Image();
-            $image->setName(uniqid('profile_') . '.jpg');
+            $image->setName('profile_'.$agent->getId(). '.jpg');
             $image->setBase64Content($base64);
             $agent->setImage($image);
             $address = new Address();
@@ -94,6 +94,8 @@ class ImportAgentsCommand extends ContainerAwareCommand
             $agent->setGroup($group);
             $this->saveMedia($agent);
             $em->getRepository('UserBundle:Agent')->saveAgent($agent, $HQ);
+            $em->flush();
+
         }
 
         $metadata = $em->getClassMetaData(Agent::class);

@@ -2,14 +2,15 @@
 
 namespace UserBundle\Command;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
+use UserBundle\Business\Manager\Agent\SaveMediaTrait;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
 
 /**
@@ -18,7 +19,9 @@ use UserBundle\Entity\Group;
  */
 class CreateAdminCommand extends ContainerAwareCommand
 {
-    const AGENT_ADMIN_ID = 10000001;
+    use SaveMediaTrait;
+
+    const AGENT_ADMIN_ID = 1111110001111111;
     /**
      * {@inheritdoc}
      */
@@ -38,6 +41,10 @@ class CreateAdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $picturePath = __DIR__ . '/avatars/user_default.jpg';
+        $type = pathinfo($picturePath, PATHINFO_EXTENSION);
+        $data = file_get_contents($picturePath);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
         $username = $input->getArgument('username');
 
         $agent = new Agent();
@@ -56,6 +63,11 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setAgentBackground('admin');
         $agent->setBankName('bank');
 
+        $image = new Image();
+        $image->setName('profile_'.$agent->getId(). '.jpg');
+        $image->setBase64Content($base64);
+        $agent->setImage($image);
+
         $address = new Address();
         $address->setCity('Belgrade');
         $address->setCountry('Serbia');
@@ -69,10 +81,8 @@ class CreateAdminCommand extends ContainerAwareCommand
             throw new \Exception('Group can not be found');
         }
         $agent->setGroup($group);
+        $this->saveMedia($agent);
         $em->getRepository('UserBundle:Agent')->saveAgent($agent);
-        $metadata = $em->getClassMetaData(get_class($agent));
-        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $em->flush();
 
         $output->writeln('Successfully inserted admin agent to : '.$group);
     }
