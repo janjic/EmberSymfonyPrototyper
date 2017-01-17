@@ -3930,7 +3930,6 @@ $searchable-select-spacer-horizontal: 1em;
     }
     .lower-box {
       padding:10px;
-      min-height: 345px;
       .payment-buttons {
         display: flex;
         align-items: center;
@@ -4337,6 +4336,9 @@ $searchable-select-spacer-horizontal: 1em;
             border-radius: 50%;
           }
         }
+      }
+      .lower-box {
+        min-height: 345px;
       }
     }
   }
