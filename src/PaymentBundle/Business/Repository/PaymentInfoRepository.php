@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
+use Doctrine\DBAL\Types\Type;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use UserBundle\Entity\Agent;
@@ -369,6 +370,32 @@ class PaymentInfoRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function newCommissionsCount($agent, $period)
+    {
+        switch ($period){
+            case 'today': $date = new \DateTime('-1 day');break;
+            case 'month': $date = new \DateTime('-1 month');break;
+            default: $date = null;
+        }
+
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        $qb->select(self::ALIAS.'.currency ,SUM('.self::ALIAS.'.totalCommission'.') as total_commission_sum');
+        $qb->where($qb->expr()->isNotNull(self::ALIAS.'.createdAt'));
+        if ( $agent ){
+            $qb->andwhere(self::ALIAS.'.agent =?1')
+                ->setParameter(1, $agent);
+        }
+        if ( $date ) {
+            $qb->andWhere(self::ALIAS.'.createdAt > :last')
+                ->setParameter('last', $date, Type::DATETIME);
+        }
+        $qb->groupBy(self::ALIAS.'.currency');
+
+//        var_dump($qb->getQuery()->getResult());die();
+        return $qb->getQuery()->getResult();
+    }
+
 
     /**
      * @param Agent  $agent

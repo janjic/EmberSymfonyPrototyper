@@ -1,8 +1,13 @@
 <div class="col-lg-3 col-md-6 col-xs-12">
     <div class="input-box">
         <div class="upper-box">
-            <h5>{{payment.agent.fullName}}</h5>
-            <span>{{payment.agentRole}}</span>
+            <div class="img-holder">
+                <img src="{{payment.agent.baseImageUrl}}" alt="">
+            </div>
+            <div class="info-right">
+                <h5>{{payment.agent.fullName}}</h5>
+                <span>{{payment.agentRole}}</span>
+            </div>
             {{!--{{payment.agent.email}}--}}
         </div>
         <div class="lower-box">
@@ -53,19 +58,19 @@
                     {{#if _isLoading}}
                         {{inf-loading}}
                     {{else}}
-                        {{textarea value=payment.memo}}
+                        {{textarea value=payment.memo class="form-control"}}
                     {{/if}}
                 {{/if}}
 
             </p>
 
             {{#unless hidePayAllButtons}}
-                <p>
+                <p class="payment-buttons">
                     {{#if (not-eq payment.state 'true')}}
-                        <button class="button green" {{action 'processPayment' payment}}>Pay</button>
+                        <button class="button green btn-small" {{action 'processPayment' payment}}>Pay</button>
                     {{/if}}
                     {{#if (eq payment.state null)}}
-                        <button class="button red" {{action 'rejectPayment' payment}}>Reject</button>
+                        <button class="button red btn-small" {{action 'rejectPayment' payment}}>Reject</button>
                     {{/if}}
                 </p>
             {{/unless}}

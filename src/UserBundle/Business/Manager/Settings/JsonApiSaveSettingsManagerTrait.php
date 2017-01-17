@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: filip
- * Date: 15.12.16.
- * Time: 12.10
- */
 
 namespace UserBundle\Business\Manager\Settings;
 

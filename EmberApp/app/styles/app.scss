@@ -1028,42 +1028,48 @@ header {
       top: -5px;
     }
     &:first-child .card-block{
-      background-color: #7cb5ec;
+      background-color: #c0392b;
     }
     &:nth-child(2) .card-block{
-      background-color: #434348;
+      background-color: #c0742b;
     }
     &:nth-child(3) .card-block{
-      background-color: #90ed7d;
+      background-color: #1d6876;
     }
     &:last-child .card-block{
-      background-color: #f7a35c;
+      background-color: #21913a;
     }
   }
   .card-block {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     border: none;
     border-radius: 0;
     overflow: hidden;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
-    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 15px;
-      img {
-        width: 80px;
-        vertical-align: middle;
-      }
-      h6 {
-        display: block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-weight: 300;
-        color: #fff;
-      }
-      a{
-        font-size: 20px;
-        color: #fff;
-      }
+    padding: 0;
+    .img-holder {
+      width: 60px;
+      height: auto !important;
+      margin-right: 10px;
+    }
+    img {
+      width: 80px;
+      vertical-align: middle;
+    }
+    h6 {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: 300;
+      color: #fff;
+    }
+    a{
+      font-size: 20px;
+      color: #fff;
+    }
   }
 
 }
@@ -1332,7 +1338,7 @@ header {
   span {
     display: inline-block;
     text-align: right;
-    font-size: 22px;
+    font-size: 21px;
   }
   i {
     position: absolute;
@@ -1350,6 +1356,17 @@ header {
   }
   .timer {
     color: #ccc;
+  }
+}
+
+.home-card-loading {
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 50px;
+    height: 50px;
   }
 }
 
@@ -1400,6 +1417,9 @@ header {
       font-size: 40px;
       font-weight: bold;
       color: #fff;
+      img {
+        width: 50px;
+      }
     }
     span {
       color: #fff;
@@ -3130,7 +3150,7 @@ input:focus {
 
 .user-add {
   .input-box {
-    min-height: 660px;
+    min-height: 680px;
   }
 }
 
@@ -3198,7 +3218,6 @@ input:focus {
   border: none;
   font-size: 15px;
   text-align: center;
-  min-width: 138px;
 }
 
 .button:hover, .button:focus {
@@ -3925,6 +3944,29 @@ $searchable-select-spacer-horizontal: 1em;
     }
     .lower-box {
       padding:10px;
+      .payment-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+          flex: 1;
+        }
+      }
+      i {
+        cursor: pointer;
+      }
+      .fa-check {
+        color: #4caf50;
+        font-size: 15px;
+      }
+      .fa-times {
+        font-size: 15px;
+        color: #f44336;
+      }
+      .fa-pencil {
+        font-size: 15px;
+        color: #34495e;
+      }
       p {
         font-size: 13px;
         border-bottom: 1px solid #ddd;
@@ -3939,6 +3981,11 @@ $searchable-select-spacer-horizontal: 1em;
       }
     }
   }
+}
+
+.head-buttons {
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .rounded-btn {
@@ -4282,6 +4329,66 @@ $searchable-select-spacer-horizontal: 1em;
     margin: 0;
   }
 }
+.card-number-holder{
+  display: inline-block;
+  text-align: right;
+  font-size: 22px;
+  height: 17px;
+  overflow: hidden;
+}
+.card-number-up {
+  -moz-transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+  -o-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.card-number-down {
+  -moz-transform: translateY(-20px);
+  -webkit-transform: translateY(-20px);
+  -o-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.reports-holder {
+  .all-agents-card-view {
+    .input-box {
+      .upper-box {
+        padding: 10px;
+        flex-direction: row;
+        .img-holder {
+          height: 60px !important;
+          width: 60px;
+          margin-right: 15px;
+          background-color: #fff;
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+          }
+        }
+      }
+      .lower-box {
+        min-height: 345px;
+      }
+    }
+  }
+}
+
 
 /*!
  * Generated with CSS Flag Sprite generator (https://www.flag-sprites.com/)

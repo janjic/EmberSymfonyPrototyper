@@ -18,7 +18,8 @@ export default Ember.Controller.extend({
                 offset: this.get('offset'),
                 sidx: column,
                 sord: sortType,
-                filters: JSON.stringify(searchArray)
+                filters: JSON.stringify(searchArray),
+                agentId: this.get('agentId')
             });
         }
     }

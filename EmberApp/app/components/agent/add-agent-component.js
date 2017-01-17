@@ -39,6 +39,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
         if (this.get('isEdit')) {
             this.set('model.emailRepeat', this.get('model.email'));
             this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentValidations);
+            if( this.get('model.notifications')[0] ){
+                this.set('notifications', this.get('model.notifications'));
+            } else {
+                this.set('notifications', []);
+            }
         } else {
             this.changeset = new Changeset(this.get('model'), lookupValidator(AddAgentValidations), AddAgentValidations);
         }
@@ -138,6 +143,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
 
         saveAgent() {
+            this.set('changeset.notifications', this.get('notifications'));
+            // console.log(this.get('changeset.notifications'));return;
             let changeSet = this.get('changeset');
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());

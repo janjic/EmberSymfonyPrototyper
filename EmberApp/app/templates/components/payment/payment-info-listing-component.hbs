@@ -1,16 +1,13 @@
-<div class="row">
-    <div class="col-md-12">
-        <h1 class="main-heading clearfix">
-            {{title}}
-            <span class="pull-right">
-        <a href="#" class="btn btn-danger" {{action 'openModal'}}>Filter Results</a>
-                {{#unless hidePayAllButtons}}
-                    <a href="#" class="btn btn-danger">Pay all</a>
-            <a href="#" class="btn btn-primary">Reject all</a>
-                {{/unless}}
+<h1 class="main-heading clearfix">
+    {{title}}
+    <span class="pull-right head-buttons">
+        <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
+        {{#unless hidePayAllButtons}}
+            <a href="#" class="button green btn-small">Pay all</a>
+            <a href="#" class="button red btn-small">Reject all</a>
+        {{/unless}}
     </span>
-        </h1>
-    </div>
+</h1>
 
     {{#bs-modal open=isModalOpen header=false body=false footer=false}}
         {{#bs-modal-header}}
@@ -81,6 +78,8 @@
             <button class="button red" {{action 'closeModal'}}>Cancel</button>
         {{/bs-modal-footer}}
     {{/bs-modal}}
+
+<div class="reports-holder">
 
     {{#if model.length}}
         {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}

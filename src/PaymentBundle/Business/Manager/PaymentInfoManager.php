@@ -57,7 +57,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @var AgentManager
      */
     protected $agentManager;
-    
+
     /**
      * @var Swap
      */
@@ -75,7 +75,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $customerId;
     protected $orderId;
     protected $currency;
-    
+
     /**
      * @param PaymentInfoRepository $repository
      * @param AgentManager $agentManager
@@ -157,6 +157,35 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function findPayment($id)
     {
         return $this->repository->findPayment($id);
+    }
+
+    /**
+     * @param $superAdminId
+     * @return array
+     */
+    public function newCommissionsCount($superAdminId)
+    {
+        $agent = $this->tokenStorage->getToken()->getUser();
+        $agent = $superAdminId == $agent->getId() ? null : $agent;
+
+        $today = $this->repository->newCommissionsCount($agent, 'today');
+        $month = $this->repository->newCommissionsCount($agent, 'month');
+        $total = $this->repository->newCommissionsCount($agent, 'total');
+        $totalInfo = array();
+
+        for ($itt = 0; $itt < count($total); $itt++){
+            $totalInfo[$total[$itt]['currency']]['currency']       = $total[$itt]['currency'];
+
+            $totalInfo[$total[$itt]['currency']]['total']          = $total[$itt]['total_commission_sum'];
+            if ( $month[$itt]['currency'] ) {
+                $totalInfo[$month[$itt]['currency']]['this_month'] = $month[$itt]['total_commission_sum'];
+            }
+            if ( $today[$itt]['currency'] ) {
+                $totalInfo[$today[$itt]['currency']]['today']      = $today[$itt]['total_commission_sum'];
+            }
+        }
+
+        return $totalInfo;
     }
 
     /**
