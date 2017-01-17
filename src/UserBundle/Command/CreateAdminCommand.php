@@ -2,6 +2,7 @@
 
 namespace UserBundle\Command;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +18,7 @@ use UserBundle\Entity\Group;
  */
 class CreateAdminCommand extends ContainerAwareCommand
 {
-
+    const AGENT_ADMIN_ID = 10000001;
     /**
      * {@inheritdoc}
      */
@@ -40,6 +41,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $username = $input->getArgument('username');
 
         $agent = new Agent();
+        $agent->setId(self::AGENT_ADMIN_ID);
         $agent->setUsername($username);
         $agent->setEmail($username);
         $agent->setPrivateEmail($username);
@@ -68,6 +70,9 @@ class CreateAdminCommand extends ContainerAwareCommand
         }
         $agent->setGroup($group);
         $em->getRepository('UserBundle:Agent')->saveAgent($agent);
+        $metadata = $em->getClassMetaData(get_class($agent));
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        $em->flush();
 
         $output->writeln('Successfully inserted admin agent to : '.$group);
     }

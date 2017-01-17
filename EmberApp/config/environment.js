@@ -18,8 +18,8 @@ module.exports = function(environment) {
     },
 
     APP: {
-      clientId: '1_lxfu6l5i1tco04cok4ck0o0ocgoc04wwksssgco48sg4w8cog',
-      clientSecret: '4q062irkhq0w4ocggcggsw4csswgswcwswowckokk8ssoskko4'
+      clientId: '1_48k2vavrjkg0cgk8sgc4w4ows800kksgskowg848o4s0ksokgk',
+      clientSecret: '4ts2l3tm0dq8840c04cksw40skcsk4osok8wwk0kckgck84kok'
       // Here you can pass flags/options to your application instance
       // when it is created
     }
