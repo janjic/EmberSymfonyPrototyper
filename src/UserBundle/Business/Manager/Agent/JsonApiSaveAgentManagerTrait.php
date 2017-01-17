@@ -45,7 +45,7 @@ trait JsonApiSaveAgentManagerTrait
                 $event = new NotificationEvent();
                 $event->addNotification($notification);
 
-                if( $superAgent->getId() !== $agent->getSuperior()->getId() ){
+                if ($superAgent->getId() !== $agent->getSuperior()->getId() ){
                     $superAgentNotification = NotificationManager::createNewAgentNotification($data, $superAgent);
                     $event->addNotification($superAgentNotification);
                 }
