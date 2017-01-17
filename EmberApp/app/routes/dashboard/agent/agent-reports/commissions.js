@@ -14,6 +14,6 @@ export default Ember.Route.extend({
         this._super(...arguments);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
-        controller.set('paymentState', 'false');
+        controller.set('paymentState', 'true');
     }
 });
