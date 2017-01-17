@@ -1322,6 +1322,7 @@ header {
   overflow-x: scroll;
   padding: 30px;
 }
+
 .home-card {
   background: $main-red;
   padding: 20px;
@@ -1357,6 +1358,18 @@ header {
   .timer {
     color: #ccc;
   }
+}
+
+.hc-second {
+  background: #c0742b;
+}
+
+.hc-third {
+  background: #1d6876;
+}
+
+.hc-fourth {
+  background: #21913a;
 }
 
 .home-card-secondary {
@@ -3894,6 +3907,7 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box {
     padding: 0;
     border: none;
+    min-height: 330px;
     &:hover {
       box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
     }
@@ -3957,6 +3971,7 @@ $searchable-select-spacer-horizontal: 1em;
         font-size: 13px;
         border-bottom: 1px solid #ddd;
         padding: 5px 0;
+        word-break: break-all;
         &:last-child {
           border-bottom: none;
         }
