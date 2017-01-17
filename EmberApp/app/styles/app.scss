@@ -3186,7 +3186,7 @@ input:focus {
 }
 
 .input-box.agent-details {
-  min-height: 1050px;
+  min-height: 1055px;
 }
 
 .input-box.agent-personal {
@@ -4386,6 +4386,10 @@ $searchable-select-spacer-horizontal: 1em;
       .upper-box {
         padding: 10px;
         flex-direction: row;
+        min-height: auto;
+        h5 {
+          text-align: left;
+        }
         .img-holder {
           height: 60px !important;
           width: 60px;
@@ -5302,4 +5306,9 @@ $searchable-select-spacer-horizontal: 1em;
 
 .flag.flag-gb {
   background-position: -224px -128px;
+}
+
+.iframe {
+  display: block;
+  width: 100%;
 }
