@@ -1360,15 +1360,15 @@ header {
   }
 }
 
-.hc-second {
+.hc-second .home-card {
   background: #c0742b;
 }
 
-.hc-third {
+.hc-third .home-card {
   background: #1d6876;
 }
 
-.hc-fourth {
+.hc-fourth .home-card {
   background: #21913a;
 }
 
@@ -1813,7 +1813,7 @@ header {
   height: 100px !important;
 }
 @media screen and(max-width: 1200px) and(min-width: 767px) {
-  .dashboard-home .col-md-3 {
+  .dashboard-home .top-cards .col-md-3 {
     width: 50%;
   }
 }
@@ -3911,6 +3911,7 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box.first {
     padding: 15px;
     border: 1px solid #ddd;
+    min-height: auto;
     .button.green.add-agent {
       margin-left: 30px;
     }
@@ -3921,7 +3922,7 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box {
     padding: 0;
     border: none;
-    min-height: 330px;
+    min-height: 350px;
     &:hover {
       box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
     }
@@ -3932,6 +3933,7 @@ $searchable-select-spacer-horizontal: 1em;
       justify-content: center;
       flex-direction: column;
       padding-bottom: 10px;
+      min-height: 170px;
       .info-box-icons {
         display: flex;
         align-items: center;
@@ -3950,6 +3952,7 @@ $searchable-select-spacer-horizontal: 1em;
       h5 {
         color: #fff;
         margin: 0;
+        text-align: center;
       }
       span {
         color: #fff;
@@ -4241,7 +4244,7 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .home-table-loading {
-  min-height: 360px;
+  min-height: 365px;
   display: flex;
   align-items: center;
   justify-content: center;
