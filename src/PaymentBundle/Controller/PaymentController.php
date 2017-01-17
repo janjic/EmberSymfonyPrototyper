@@ -63,6 +63,16 @@ class PaymentController extends Controller
         return new JSONResponse($paymentInfoExecutePayment->toArray(), array_key_exists('errors', $paymentInfoExecutePayment->toArray()) ? 422 : 200);
     }
 
+    /**
+     * @Route("/api/payment/earnings-by-agent", name="api_earnings_by_agent", options={"expose" = true})
+     * @param ArrayCollection $paymentInfoEarningsByAgent
+     * @return JSONResponse
+     */
+    public function earningsByAgentAction(ArrayCollection $paymentInfoEarningsByAgent)
+    {
+        return new JSONResponse($paymentInfoEarningsByAgent->toArray(), array_key_exists('errors', $paymentInfoEarningsByAgent->toArray()) ? 422 : 200);
+    }
+
     /** ----------- ORDERS -------------------------------------------------------------------------------------------*/
 
     /**

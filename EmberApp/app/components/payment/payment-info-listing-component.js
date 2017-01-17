@@ -6,6 +6,7 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Component.extend(LoadingStateMixin, {
     page: 1,
     isModalOpen:false,
+    eventBus: Ember.inject.service('event-bus'),
 
     paymentTypes: ['Commission', 'Bonus'],
 
@@ -105,6 +106,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.set('agentFilter', agent);
         }
     },
+
+    /** trigger search on event */
+    _filterAction(){
+        this.send('applyFilters');
+    },
+
+    _initialize: Ember.on('init', function(){
+        this.get('eventBus').subscribe('triggerFilterAction', this, '_filterAction');
+    }),
+
+    _destroy: Ember.on('willDestroyElement', function(){
+        this.get('eventBus').unsubscribe('triggerFilterAction');
+    }),
+
 
 
     search: task(function * (text, page, perPage) {

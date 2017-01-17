@@ -50,7 +50,7 @@ class PaymentInfoRepository extends EntityRepository
             $this->_em->merge($payment);
             $this->_em->flush();
         } catch (Exception $e){
-             return $e;
+            return $e;
         }
 
         return $payment;
@@ -324,8 +324,8 @@ class PaymentInfoRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select('CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as agentName');
-        $qb->addselect(self::AGENT_ALIAS.'.baseImageUrl');
-        $qb->addselect(self::GROUP_ALIAS.'.name as groupName');
+        $qb->addSelect(self::AGENT_ALIAS.'.baseImageUrl');
+        $qb->addSelect(self::GROUP_ALIAS.'.name as groupName');
         $qb->addSelect(self::AGENT_ALIAS.'.id as agentId');
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".packagesCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".packagesCommission,2) END as packagesCommission");
         $qb->addSelect("CASE WHEN (".self::ALIAS.".currency != '".$currency."') THEN ROUND(".self::ALIAS.".connectCommission * ".$ratio.",2) ELSE ROUND(".self::ALIAS.".connectCommission,2) END as connectCommission");
@@ -368,5 +368,67 @@ class PaymentInfoRepository extends EntityRepository
             ->setMaxResults(5);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Agent  $agent
+     * @param string $currency
+     * @param string $ratio
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @return array
+     */
+    public function getEarningsForAgent(Agent $agent, $currency, $ratio, $dateFrom, $dateTo)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+
+        $qb->select("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".packagesCommission * ".$ratio.", 2) 
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".packagesCommission, 2) 
+                             ELSE 0 END) as packagesCommission");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".connectCommission * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".connectCommission, 2)
+                             ELSE 0 END) as connectCommission");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".setupFeeCommission * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".setupFeeCommission, 2)
+                             ELSE 0 END) as setupFeeCommission");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".streamCommission * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".streamCommission, 2)
+                             ELSE 0 END) as streamCommission");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".totalCommission * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".totalCommission, 2)
+                             ELSE 0 END) as totalCommission");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".bonusValue * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 1) THEN ROUND(".self::ALIAS.".bonusValue, 2)
+                             ELSE 0 END) as totalBonus");
+
+        /* Unprocessed */
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 0) THEN ROUND(".self::ALIAS.".totalCommission * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 0) THEN ROUND(".self::ALIAS.".totalCommission, 2)
+                             ELSE 0 END) as unprocessedCommissions");
+
+        $qb->addSelect("SUM( CASE WHEN (".self::ALIAS.".currency != '".$currency."' AND ".self::ALIAS.".state = 0) THEN ROUND(".self::ALIAS.".bonusValue * ".$ratio.", 2)
+                                  WHEN (".self::ALIAS.".currency = '".$currency."' AND ".self::ALIAS.".state = 0) THEN ROUND(".self::ALIAS.".bonusValue, 2)
+                             ELSE 0 END) as unprocessedBonus");
+
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->andWhere(self::AGENT_ALIAS.'.id = :agent_id')
+            ->setParameter('agent_id', $agent->getId());
+
+        if ($dateFrom) {
+            $qb->andWhere(self::ALIAS.'.createdAt > :date_f');
+            $qb->setParameter('date_f', $dateFrom);
+        }
+
+        if ($dateTo){
+            $qb->andWhere(self::ALIAS.'.createdAt < :date_t');
+            $qb->setParameter('date_t', $dateTo);
+        }
+
+        return $qb->getQuery()->getSingleResult();
     }
 }
