@@ -126,7 +126,7 @@ class PaymentInfo
 
     /**
      * @var float
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", options={"default": 0})
      */
     protected $bonusValue = 0;
 

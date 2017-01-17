@@ -121,6 +121,14 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
      * @param $currency
      * @return mixed
      */
@@ -188,6 +196,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function executePayment($paymentInfo, $newState)
     {
         $paymentInfo->setState($newState);
+        $paymentInfo->setPayedAt(new \DateTime());
 
         return $this->createPaymentExecuteResponse($this->repository->edit($paymentInfo));
     }
@@ -206,5 +215,20 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
             default:
                 return false;
         }
+    }
+
+    /**
+     * @param Agent  $agent
+     * @param string $currency
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @return array
+     */
+    public function getEarningsForAgent(Agent $agent, $currency, $dateFrom, $dateTo)
+    {
+        $pair = $currency == 'EUR' ? new CurrencyPair('EUR', 'CHF') : new CurrencyPair('CHF', 'EUR');
+        $ratio = $this->florianSwap->quote($pair);
+
+        return $this->repository->getEarningsForAgent($agent, $currency, $ratio, $dateFrom, $dateTo);
     }
 }

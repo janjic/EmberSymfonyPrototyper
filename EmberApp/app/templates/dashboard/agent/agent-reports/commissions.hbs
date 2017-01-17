@@ -1,43 +1,84 @@
 <section class="commissions-and-bonuses-section">
-<h1 class="main-heading">Compesation Summary</h1>
+    <h1 class="main-heading">Compesation Summary</h1>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-        <div class="col-xs-12">
-            <div class="home-card">
-                <h4>Processed earnings</h4>
-                <span>$25,232.21</span>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group clearfix">
+                {{date-range-picker
+                label = 'Select date'
+                autoUpdateInput = false
+                daysOfWeek  = daysOfWeek
+                applyLabel  = "Apply"
+                cancelLabel = "Clear"
+                fromLabel   = "From"
+                toLabel     = "To"
+                customRangeLabel = "Custom"
+                monthNames = monthNames
+                start=startDate
+                showDropdowns = true
+                ranges = ranges
+                alwaysShowCalendars = true
+                end=endDate
+                applyAction=(action "applyDateChange")
+                cancelAction=(action "cancelDateChange")
+                }}
             </div>
         </div>
-        <div class="col-xs-12">
-            <div class="home-card">
-                <h4>Unprocessed earnings</h4>
-                <span>$8.85</span>
+
+        <div class="col-md-12">
+            <div class="form-group clearfix">
+                <label for="">
+                    ABS
+                </label>
+
+                {{elements/currency-select onCurrencyChange=(action 'currencyChanged') selectedCurrency=selectedCurrency}}
             </div>
         </div>
     </div>
+    <div class="row">
 
-    <div class="col-xs-12 col-sm-6">
-        <h4>View comissions per month:</h4>
-        <div class="search-comissions">
-            <select class="form-control" name="username">
-                <option>January</option>
-                <option>Febuary</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-            </select>
-            <button class="btn btn-danger">GO</button>
+        {{#if noResultsFound}}
+            No results found for selected period. <a {{action 'cancelDateChange'}}> Cancel date filter </a>
+        {{/if}}
+
+        <div class="chart-holder {{if noResultsFound 'hidden'}}">
+            {{#if isLoading }}
+                {{inf-loading}}
+            {{/if}}
+
+            <div class="col-xs-12 col-sm-4">
+
+                <div class="input-box">
+                    <h3 class="sub-heading">Commissions</h3>
+                    <div class="form-group clearfix">
+                        <h4>Processed earnings</h4>
+                        <p>{{totalCommission}} {{selectedCurrency}}</p>
+                    </div>
+                    <div class="form-group clearfix">
+                        <h4>Unprocessed earnings</h4>
+                        <p>{{unprocessedCommissions}} {{selectedCurrency}}</p>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <h3 class="sub-heading">Bonuses</h3>
+                    <div class="form-group clearfix">
+                        <h4>Processed earnings</h4>
+                        <p>{{totalBonus}} {{selectedCurrency}}</p>
+                    </div>
+                    <div class="form-group clearfix">
+                        <h4>Unprocessed earnings</h4>
+                        <p>{{unprocessedBonus}} {{selectedCurrency}}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-8">
+                <div id="highchart" style="min-width: 616px; height: 400px; margin: 0 auto"></div>
+            </div>
         </div>
     </div>
-</div>
 
     {{payment/payment-info-listing-component
     model=model
@@ -45,55 +86,12 @@
     offset=offset
     hidePayAllButtons=true
     hideAgentFilter=true
+    hideDateFilter=true
     title = 'COMISSIONS AND BONUSES REPORTS'
     filterModel=(action 'filterModel')
     searchAgentsAction=(action 'searchAgents')
+    startDateFilter=startDate
+    endDateFilter=endDate
     }}
-
-{{!--<h1 class="main-heading">Comissions and Bonuses reports</h1>--}}
-
-{{!--<div class="table-responsive">--}}
-    {{!--<table class="table table-striped table-bordered">--}}
-        {{!--<tbody>--}}
-        {{!--<tr>--}}
-            {{!--<th>ID</th>--}}
-            {{!--<th>First Name</th>--}}
-            {{!--<th>Last Name</th>--}}
-            {{!--<th> Username</th>--}}
-            {{!--<th>Confirmed</th>--}}
-            {{!--<th>Country</th>--}}
-            {{!--<th><!----></th>--}}
-            {{!--<th></th>--}}
-        {{!--</tr>--}}
-        {{!--<tr>--}}
-            {{!--<td><div class="table-input"><input id="ember934" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember935" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember936" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember937" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember938" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember939" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-            {{!--<td><div class="table-input"><input id="ember940" type="text" class="ember-view ember-text-field"> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div></td>--}}
-
-        {{!--</tr>--}}
-
-        {{!--<tr>--}}
-            {{!--<td>6</td>--}}
-            {{!--<td><!----></td>--}}
-            {{!--<td><!----></td>--}}
-            {{!--<td>admin</td>--}}
-            {{!--<td>true</td>--}}
-            {{!--<td>5</td>--}}
-            {{!--<td>--}}
-                {{!--<a href="profile-settings.html" class="table-user-link">--}}
-                    {{!--<i class="fa fa-eye" aria-hidden="true"></i>--}}
-                {{!--</a>--}}
-                {{!--<a href="profile-edit.html" class="table-user-link">--}}
-                    {{!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>--}}
-                {{!--</a>--}}
-            {{!--</td>--}}
-        {{!--</tr>--}}
-        {{!--</tbody>--}}
-    {{!--</table>--}}
-{{!--</div>--}}
 
 </section>
