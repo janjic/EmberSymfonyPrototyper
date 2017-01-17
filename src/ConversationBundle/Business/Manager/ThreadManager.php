@@ -173,4 +173,14 @@ class ThreadManager implements JSONAPIEntityManagerInterface
     {
         // TODO: Implement deleteResource() method.
     }
+
+    /**
+     *
+     * @return int
+     */
+    public function newMessagesCount()
+    {
+        $agent = $this->tokenStorage->getToken()->getUser();
+        return $this->repository->newMessagesCount($agent);
+    }
 }

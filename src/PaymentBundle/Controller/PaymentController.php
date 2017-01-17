@@ -2,12 +2,15 @@
 
 namespace PaymentBundle\Controller;
 
+use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\Agent;
 
 class PaymentController extends Controller
 {
@@ -122,5 +125,19 @@ class PaymentController extends Controller
     {
         return new JSONResponse($bonusesByAgent->toArray(), array_key_exists('errors', $bonusesByAgent->toArray()) ? 422 : 200);
 
+    }
+
+    /**
+     * @Route("/api/newPaymentsInfo" ,name="new-payments-info",
+     * options={"expose" = true})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getNewPaymentsInfoAction()
+    {
+        $superAdminId       = $this->get('agent_system.agent.repository')->findAgentByRole()->getId();
+
+        $newCommissionsInfo = $this->get('agent_system.payment_info.manager')->newCommissionsCount($superAdminId);
+
+        return new JsonResponse(AgentApiResponse::NEW_PAYMENTS_INFO_OK_RESPONSE($newCommissionsInfo));
     }
 }

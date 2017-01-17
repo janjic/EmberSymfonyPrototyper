@@ -129,6 +129,14 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
      * @param Agent $agent
      * @param $dbSuperior
      * @param $newSuperior
@@ -350,5 +358,23 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     {
 
         return $this->repository->findAgentsByCountry();
+    }
+
+    /**
+     * @return array
+     */
+    public function newAgentsCount(){
+        $agent = $this->getCurrentUser();
+        $agent = $this->repository->findAgentByRole()->getId()==$agent->getId() ? null : $agent;
+
+        $today      = $this->repository->newAgentsCount($agent, 'today');
+        $this_month = $this->repository->newAgentsCount($agent, 'month');
+        $total      = $this->repository->newAgentsCount($agent, 'total');
+
+        return array(
+            'today'         => $today,
+            'this_month'    => $this_month,
+            'total'         => $total
+        );
     }
 }
