@@ -48,11 +48,10 @@ class AgentRepository extends NestedTreeRepository
             } else {
                 $this->persistAsFirstChild($agent);
             }
-            $this->_em->flush();
+            //$this->_em->flush();
         } catch (UniqueConstraintViolationException $e) {
             return $e;
         } catch (Exception $e) {
-            throw  $e;
             return $e;
         }
         return $agent;
