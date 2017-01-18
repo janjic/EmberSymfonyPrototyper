@@ -173,7 +173,7 @@ class Agent extends BaseUser implements ParticipantInterface
 
     /**
      * @var array
-     * @ORM\Column(name="notifications", type="simple_array", length=100)
+     * @ORM\Column(name="notifications", type="simple_array", length=100, nullable=true)
      */
     protected $notifications;
 
@@ -182,7 +182,7 @@ class Agent extends BaseUser implements ParticipantInterface
     {
         parent::__construct();
         $this->children = new ArrayCollection();
-        $this->notifications = new ArrayCollection();
+        $this->notifications = array();
         $this->createdAt = new DateTime();
     }
 
