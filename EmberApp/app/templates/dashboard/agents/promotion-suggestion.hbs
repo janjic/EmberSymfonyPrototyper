@@ -1,0 +1,42 @@
+<div class="col-md-6">
+    {{#card-view-component mainTitle=(trans 'admin-user.suggestion.promotions')
+                           showAddAgentButton = false
+                           model=model.promotions
+                           page=page
+                           maxPages=maxPages
+                           offset=offset
+                           filter=(action 'filterModelPromotions') as |yieldModel|}}
+        {{agent/promotion-card-component
+                searchQuery = (action 'searchQuery')
+                viewLink="dashboard.agents.agent-view"
+                promoteFrom="Active agent"
+                promoteTo="Master agent"
+                promotionDesc= "Active agents"
+                model=yieldModel
+                promotion = true
+                role_codes = model.role_codes
+                promotionIcon="angle-double-up"}}
+    {{/card-view-component}}
+</div>
+
+
+<div class="col-md-6">
+    {{#card-view-component mainTitle=(trans 'admin-user.suggestion.downgrade')
+                           showAddAgentButton = false
+                           model=model.downgrades
+                           page=page
+                           maxPages=maxPages
+                           offset=offset
+                           filter=(action 'filterModelDowngrades') as |yieldModel|}}
+        {{agent/promotion-card-component
+                searchQuery = (action 'searchQuery')
+                viewLink="dashboard.agents.agent-view"
+                promoteTo="Active agent"
+                promoteFrom="Master agent"
+                promotionDesc= "Active agents"
+                model=yieldModel
+                promotion = false
+                role_codes = model.role_codes
+                promotionIcon="angle-double-down"}}
+    {{/card-view-component}}
+</div>

@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     searchValue: '',
     defaultSortType: null,
     showSearchSortBar: true,
+    showAddAgentButton: true,
     paramsArray: {
         groupOp: 'or',
         rules: []
@@ -32,10 +33,12 @@ export default Ember.Component.extend({
         let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
         if (result) {
             result.then((filterResults) => {
+                console.log(filterResults);
                 this.set('model', filterResults);
                 this.set('maxPages', filterResults.meta.pages);
-            }).catch(() => {
-            });
+            })
+            //     .catch(() => {
+            // });
         }
     },
     handleFilterEntry: task(function * (letter) {
@@ -64,7 +67,6 @@ export default Ember.Component.extend({
                 });
             });
         }
-        console.log(searchArrayFields);
         let paramsArray = this.get('paramsArray');
         paramsArray.rules = searchArrayFields;
         this.set('page', 1);

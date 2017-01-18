@@ -31,6 +31,7 @@ class AgentRepository extends NestedTreeRepository
     const CHILDREN_ALIAS     = 'children';
     const AGENT_TABLE_NAME   = 'as_agent';
     const SUPERIOR_ATTRIBUTE = 'superior';
+    const PAYMENT_INFO       = 'paymentInfo';
 
     /**
      * @param Agent $agent
@@ -280,7 +281,6 @@ class AgentRepository extends NestedTreeRepository
                             } else {
                                 $oQ0->andWhere('agent.enabled = '.$param);
                             }
-
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
@@ -297,6 +297,14 @@ class AgentRepository extends NestedTreeRepository
                             $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
                         }
 
+                    } else if($key == 'minRoleCondition') {
+                        $oQ0->leftJoin(self::ALIAS . '.group', self::GROUP_ALIAS);
+                        $oQ0->leftJoin(self::GROUP_ALIAS . '.roles', self::ROLE_ALIAS);
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->notLike(self::ROLE_ALIAS.'.role', '\'%'.$param.'%\''));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->notLike(self::ROLE_ALIAS.'.role', '\'%'.$param.'%\''));
+                        }
                     }
                     else {
                         if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
@@ -550,4 +558,5 @@ class AgentRepository extends NestedTreeRepository
 
         return $qb->getQuery()->getResult();
     }
+
 }

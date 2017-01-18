@@ -69,6 +69,7 @@ admin-menu:
     new: 'Add new agent'
     all: 'All agents'
     update.history: 'Agent update history'
+    promotion.suggestion: 'Agent promotion suggestion'
   payments:
     title: 'Payments'
     payouts.to.agents: 'Payouts to agents'
@@ -184,6 +185,9 @@ admin-user:
     username: 'Username'
     agent-type: 'Agent type'
     actions: 'Actions'
+  suggestion:
+    promotions: 'Agent promotion suggestions'
+    downgrade: 'Agent downgrade suggestions'
 
 
 

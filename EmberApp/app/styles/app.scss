@@ -3917,6 +3917,11 @@ $searchable-select-spacer-horizontal: 1em;
       h5 {
         color: #fff;
         margin: 0;
+        display: flex;
+        align-items: center;
+        .flag {
+          margin-right: 5px;
+        }
       }
       span {
         color: #fff;
@@ -4281,6 +4286,14 @@ $searchable-select-spacer-horizontal: 1em;
   h6 {
     margin: 0;
   }
+}
+
+.promote {
+  background-color: $main-green;
+}
+
+.demote {
+  background-color: $main-red;
 }
 
 /*!
@@ -5176,5 +5189,9 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .flag.flag-gb {
+  background-position: -224px -128px;
+}
+
+.flag.flag-en {
   background-position: -224px -128px;
 }

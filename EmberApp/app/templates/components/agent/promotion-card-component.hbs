@@ -1,0 +1,70 @@
+<div class="col-md-6">
+    <div class="input-box">
+        <div class="upper-box">
+            <div class="info-box-icons">
+                {{#link-to viewLink model.agent_id class="button icon-btn rounded-btn"}}
+                    {{fa-icon 'eye'}}
+                {{/link-to}}
+                <div class="img-holder">
+                    {{#if model.image_webPath }}
+                        <img class="img-circle" src="{{model.image_webPath}}" alt="">
+                    {{else}}
+                        <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
+                    {{/if}}
+                </div>
+                {{#if promotion}}
+                    <span {{action 'promote' model}} class= "button icon-btn rounded-btn promote">
+                        {{fa-icon promotionIcon}}
+                    </span>
+                {{else}}
+                    <span {{action 'demote' model}} class= "button icon-btn rounded-btn demote">
+                        {{fa-icon promotionIcon}}
+                    </span>
+                {{/if}}
+            </div>
+            <h5><span class="flag flag-{{model.nationality}}"></span>{{model.full_name}}</h5>
+        </div>
+        <div class="lower-box">
+            <p><span>Role</span> <br>
+                {{model.role_name}}
+            </p>
+            <p><span>Email</span> <br>
+                {{model.email}}
+            </p>
+            <p><span>Promotion suggestion</span> <br>
+                {{#if promotion}}
+                    {{#if (eq model.role_code role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Master Agent <br>
+                        Agent has : {{model.active_agents_numb}} Active Agents
+                    {{else}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Active Agent <br>
+                        Agent has : {{model.active_agents_numb}} Sales
+                    {{/if}}
+                {{else}}
+                    {{#if (eq model.role_code role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Referee <br>
+                        Agent has : {{model.active_agents_numb}} Sales
+                    {{else}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Active Agent <br>
+                        Agent has : {{model.active_agents_numb}} Active Agents
+                    {{/if}}
+                {{/if}}
+            </p>
+        </div>
+    </div>
+</div>
+{{#bs-modal open=isModalOpen header=false body=false footer=false }}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="chooseNewSuperior">
+            Choose new superior
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        {{inf-select
+                optionLabelKey='email'
+                selected = newSuperior
+                on-search = (perform search)
+                on-change=(action 'agentSelected')
+        }}
+    {{/bs-modal-body}}
+{{/bs-modal}}

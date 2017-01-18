@@ -123,4 +123,29 @@ class PaymentController extends Controller
         return new JSONResponse($bonusesByAgent->toArray(), array_key_exists('errors', $bonusesByAgent->toArray()) ? 422 : 200);
 
     }
+
+    /**
+     * @Route("/api/promote-agent" ,name="promote-agent",
+     * options={"expose" = true})
+     * @param ArrayCollection $promoteAgentToRole
+     * @return Response
+     */
+    public function promoteAgentAction(ArrayCollection $promoteAgentToRole)
+    {
+
+        return new JsonResponse($promoteAgentToRole->toArray());
+    }
+
+    /**
+     * @Route("/api/agent-promotion-suggestions" ,name="agent-promotion-suggestion",
+     * options={"expose" = true})
+     * @param ArrayCollection $promoteAgent
+     * @return Response
+     */
+    public function promotionAgentAction(ArrayCollection $promoteAgent)
+    {
+
+        return new JsonResponse($promoteAgent->toArray());
+    }
+
 }

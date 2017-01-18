@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -80,11 +81,11 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      */
     public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
     {
-        $this->repository       = $repository;
-        $this->groupManager     = $groupManager;
-        $this->fSerializer      = $fSerializer;
-        $this->eventDispatcher  = $eventDispatcher;
-        $this->tokenStorage     = $tokenStorage;
+        $this->repository           = $repository;
+        $this->groupManager         = $groupManager;
+        $this->fSerializer          = $fSerializer;
+        $this->eventDispatcher      = $eventDispatcher;
+        $this->tokenStorage         = $tokenStorage;
     }
 
     public function getGroupById($id)
@@ -300,11 +301,21 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     {
         $page = $request->query->get('page');
         $offset = $request->query->get('rows');
+
+
+
         $searchParams[0]['toolbar_search'] = true;
         $searchParams[0]['page'] = $page;
         $searchParams[0]['rows'] = $offset;
 
         $searchParams[1][$request->query->get('searchField')] = $request->query->get('search');
+
+        $roleCondition = $request->query->get('minRoleCondition');
+
+        if(!is_null($roleCondition)) {
+            $searchParams[1]['minRoleCondition'] = $roleCondition;
+        }
+
         $agents = $this->repository->searchForJQGRID($searchParams, null, []);
 
         $size = (int)$this->repository->searchForJQGRID($searchParams, null, [], true)[0][1];
@@ -351,4 +362,5 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
         return $this->repository->findAgentsByCountry();
     }
+
 }

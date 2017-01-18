@@ -29,7 +29,9 @@
                             {{abc-buttons filter=(perform handleFilterEntry) }}
                         </div>
                     {{/if}}
-                    {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+                    {{#if showAddAgentButton}}
+                        {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+                    {{/if}}
                 </div>
 
             </div>

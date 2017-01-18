@@ -33,9 +33,8 @@ export default DS.JSONAPIAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
+
         return this.get('ajax').request(url, options).then(response => {
-
-
             return response;
         });
     },
