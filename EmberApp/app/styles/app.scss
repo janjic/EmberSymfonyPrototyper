@@ -3590,7 +3590,7 @@ ul.dropdown-menu.header-messages {
 .heading-button {
   position: absolute;
   right: 30px;
-  top: 90px;
+  top: 20px;
   padding: 5px 10px;
   font-size: 12px;
 }
@@ -4080,6 +4080,7 @@ $searchable-select-spacer-horizontal: 1em;
     display: flex;
     align-items: flex-end;
     min-height: 31px;
+    word-break: break-all;
   }
   .switch {
     cursor: not-allowed;
@@ -4396,11 +4397,15 @@ $searchable-select-spacer-horizontal: 1em;
           background-color: #fff;
           border-radius: 50%;
           overflow: hidden;
+          flex: 1;
           img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
           }
+        }
+        .info-right {
+          flex: 2;
         }
       }
       .lower-box {
