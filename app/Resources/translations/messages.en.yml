@@ -46,6 +46,7 @@ validation:
 general:
   email: 'Email'
   message: 'Recepient'
+  create: 'Create new message'
 
 agent:
   change:
@@ -281,6 +282,7 @@ admin-messages:
   no-messages: 'You have no messages'
   new-messages: 'You have new messages'
   enter: 'Enter your message'
+  files: 'Add file'
 
 invitation:
   message.save: 'Invitation send'
@@ -381,6 +383,8 @@ dashboard:
     top-agents: 'Top agents'
     top-customers: 'Top customers'
     top-sellers: 'Top sellers'
+  settings:
+    test-commissions: 'Test commissions'
 
 
 #TICKETS

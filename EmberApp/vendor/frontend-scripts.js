@@ -1,7 +1,6 @@
 $( document ).ready(function() {
-    $(".toggle-left-section").on("click",function(e){
+    $('body').on("click", ".toggle-left-section", function(e){
         e.preventDefault();
-        /* funckija da se pojavi leva sekcija. Prvo se gubi klasa visible sa desne sekcije, pa se ukljucuje leva. */
         $(".left-section").toggleClass("left-section-visible");
         $(".toggle-left-section").toggleClass("collapsed");
     });
@@ -11,17 +10,15 @@ $( document ).ready(function() {
         $(this).toggleClass('open');
     });
 
-// Add slideDown animation to Bootstrap dropdown when expanding.
     $('.dropdown').on('show.bs.dropdown', function() {
         $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
     });
 
-// Add slideUp animation to Bootstrap dropdown when collapsing.
     $('.dropdown').on('hide.bs.dropdown', function() {
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
     });
 
-    $('.button').mousedown(function (e) {
+    $('body').on("mousedown", ".button", function (e) {
         var target = e.target;
         var rect = target.getBoundingClientRect();
         var ripple = target.querySelector('.ripple');
