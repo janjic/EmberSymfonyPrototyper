@@ -13,6 +13,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
     items: [],
     selectedTags: [],
     dateInputValid: true,
+    isModalOpen:    false,
     currentUser: Ember.inject.service('current-user'),
     isEdit : Ember.computed ('model', function () {
         return this.get('model.id');
@@ -163,6 +164,9 @@ export default Ember.Component.extend(LoadingStateMixin,{
             }
         },
         roleSelected(group){
+            // alert('RoleChanged');
+            console.log('roleChanged');
+            this.set('isModalOpen', true);
             this.set('changeset.group', group);
         },
 
