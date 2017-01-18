@@ -7,13 +7,13 @@ export default Ember.Controller.extend({
     authorizedAjax: Ember.inject.service('authorized-ajax'),
 
     agent: null,
-    orderId: null,
-    customerId: null,
-    sumPackages: 0,
-    sumConnection: 0,
-    sumOneTimeSetupFee: 0,
-    sumStreams: 0,
-    currency: '',
+    orderId: 2,
+    customerId: 2,
+    sumPackages: 100,
+    sumConnection: 100,
+    sumOneTimeSetupFee: 100,
+    sumStreams: 100,
+    currency: 'EUR',
 
     serverResponse: [],
 
@@ -29,6 +29,12 @@ export default Ember.Controller.extend({
         },
 
         sendAjax() {
+            if (!this.get('sumPackages') || !this.get('sumConnection') || !this.get('sumOneTimeSetupFee') || !this.get('sumStreams') ||
+                !this.get('agent') || !this.get('orderId') || !this.get('customerId') || !this.get('currency')) {
+                this.toast.error('Please fill out all of the fields');
+                return;
+            }
+
             let options = {
                 sumPackages: this.get('sumPackages'),
                 sumConnection: this.get('sumConnection'),
@@ -40,10 +46,9 @@ export default Ember.Controller.extend({
                 currency: this.get('currency')
             };
 
-            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'),
-                function (response) {
-                    this.set('serverResponse', response.data);
-                }.bind(this), this);
+            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'), function (response) {
+                this.set('serverResponse', response.data);
+            }.bind(this), this);
         }
     }
 });

@@ -2,24 +2,10 @@
 
 namespace PaymentBundle\Business\Manager\Payment;
 
-use ConversationBundle\Business\Event\Thread\ThreadEvents;
-use ConversationBundle\Business\Event\Thread\ThreadReadEvent;
-use ConversationBundle\Entity\Message;
-use ConversationBundle\Entity\Thread;
-use CoreBundle\Adapter\AgentApiResponse;
-use Exception;
-use FOS\MessageBundle\Event\FOSMessageEvents;
-use FOS\MessageBundle\MessageBuilder\NewThreadMessageBuilder;
-use FOS\MessageBundle\MessageBuilder\ReplyMessageBuilder;
-use FOS\MessageBundle\Model\MessageInterface;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
 use PaymentBundle\Entity\PaymentInfo;
-use UserBundle\Business\Event\Notification\NotificationEvent;
-use UserBundle\Business\Event\Notification\NotificationEvents;
-use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
-use UserBundle\Entity\Document\File;
 use UserBundle\Entity\Settings\Commission;
 
 /**
@@ -29,17 +15,19 @@ use UserBundle\Entity\Settings\Commission;
 trait PaymentInfoCreationTrait
 {
     /**
-     * @param int    $agentId
-     * @param float  $packagesPrice
-     * @param float  $connectPrice
-     * @param float  $setupFeePrice
-     * @param float  $streamPrice
-     * @param int    $customerId
-     * @param int    $orderId
-     * @param string $currency
+     * @param int     $agentId
+     * @param float   $packagesPrice
+     * @param float   $connectPrice
+     * @param float   $setupFeePrice
+     * @param float   $streamPrice
+     * @param int     $customerId
+     * @param int     $orderId
+     * @param string  $currency
+     * @param boolean $persistData
      * @return array
      */
-    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice, $customerId, $orderId, $currency)
+    public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice,
+                                         $customerId, $orderId, $currency, $persistData = true)
     {
         $this->packagesPrice = $packagesPrice;
         $this->connectPrice  = $connectPrice;
@@ -67,7 +55,9 @@ trait PaymentInfoCreationTrait
             $payments = $this->createCommissionForAgent($agent);
         }
 
-        $payments = $this->repository->saveArray($payments);
+        if ($persistData) {
+            $payments = $this->repository->saveArray($payments);
+        }
 
         return $this->serializePaymentInfo($payments);
     }

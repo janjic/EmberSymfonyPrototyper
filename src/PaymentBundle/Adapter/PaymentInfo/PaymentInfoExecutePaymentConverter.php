@@ -3,7 +3,6 @@
 namespace PaymentBundle\Adapter\PaymentInfo;
 
 use CoreBundle\Adapter\BasicConverter;
-use Doctrine\Common\Collections\ArrayCollection;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Symfony\Component\HttpFoundation\Request;
 

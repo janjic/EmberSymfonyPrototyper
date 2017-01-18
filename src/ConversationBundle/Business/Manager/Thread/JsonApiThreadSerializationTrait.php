@@ -2,17 +2,9 @@
 
 namespace ConversationBundle\Business\Manager\Thread;
 
-use ConversationBundle\Entity\Message;
 use ConversationBundle\Entity\Thread;
-use CoreBundle\Adapter\AgentApiResponse;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Exception;
 use FSerializerBundle\Serializer\JsonApiMany;
 use UserBundle\Entity\Agent;
-use UserBundle\Entity\Document\File;
-use UserBundle\Entity\Group;
-use UserBundle\Entity\Role;
 
 /**
  * Class JsonApiThreadSerializationTrait
