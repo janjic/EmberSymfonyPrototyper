@@ -1,7 +1,9 @@
 #!/bin/bash
 # init script
-# php7.0 bin/console doctrine:database:create
-rm -rf web/Resource/*
+php7.0 bin/console doctrine:database:create
+sudo rm -rf web/Resource/*
+sudo rm -rf web/Bundles
+sudo rm -rf web/js
 Vagrant/vagrant_cache_clear.sh
 php7.0 bin/console doctrine:schema:update --force
 php7.0 bin/console import_hierarchy

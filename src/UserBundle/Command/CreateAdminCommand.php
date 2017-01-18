@@ -2,6 +2,7 @@
 
 namespace UserBundle\Command;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +23,8 @@ class CreateAdminCommand extends ContainerAwareCommand
     use SaveMediaTrait;
 
     const AGENT_ADMIN_ID = 1111110001111111;
+    const SERVER = '192.168.11.3';
+    const HTTPS  = 'on';
     /**
      * {@inheritdoc}
      */
@@ -41,6 +44,10 @@ class CreateAdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        $_SERVER['HTTP_HOST']   = self::SERVER;
+        $_SERVER['SERVER_NAME'] = self::SERVER;
+        $_SERVER['HTTPS']       = self::HTTPS;
         $picturePath = __DIR__ . '/avatars/user_default.jpg';
         $type = pathinfo($picturePath, PATHINFO_EXTENSION);
         $data = file_get_contents($picturePath);
@@ -83,6 +90,9 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setGroup($group);
         $this->saveMedia($agent);
         $em->getRepository('UserBundle:Agent')->saveAgent($agent);
+
+        $metadata = $em->getClassMetaData(Agent::class);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $em->flush();
         $output->writeln('Successfully inserted admin agent to : '.$group);
     }

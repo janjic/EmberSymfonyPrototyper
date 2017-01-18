@@ -33,22 +33,25 @@ class ApiCodeDumper
         $this->engine         = $engine;
         $this->filesystem     = $filesystem;
     }
+
     /**
      * Dump all api code.
      *
      * @param string $target Target directory.
+     * @param array $data
+     * @param string $file
+     * @param string $template
      */
-    public function dump($target = 'web/js')
+    public function dump($target = 'web/js', $data = array(), $file = 'api-codes.js', $template = '@Core/templates/api-codes.js.twig')
     {
-        $file = $target. '/' .'api-codes.js';
+        $file = $target. '/' .$file;
         if (file_exists($file)) {
             $this->filesystem->remove($file);
         }
         $this->filesystem->touch($file);
-        $data = array('codes'=>(new \ReflectionClass(AgentApiCode::class))->getConstants());
         file_put_contents(
             $file,
-            $this->engine->render('@Core/templates/api-codes.js.twig', $data)
+            $this->engine->render($template, $data)
         );
     }
 }

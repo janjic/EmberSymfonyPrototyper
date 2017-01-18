@@ -10,7 +10,6 @@ use UserBundle\Business\Manager\Agent\SaveMediaTrait;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
-use UserBundle\Entity\Group;
 
 /**
  * Class ImportAgentsCommand
@@ -35,6 +34,9 @@ class ImportAgentsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $_SERVER['HTTP_HOST']   = CreateAdminCommand::SERVER;
+        $_SERVER['SERVER_NAME'] = CreateAdminCommand::SERVER;
+        $_SERVER['HTTPS']       = CreateAdminCommand::HTTPS;
         $conn = $this->getContainer()->get('doctrine.dbal.agent_db_connection');
 
         $duplicateEmailsQuery = "SELECT email FROM tcr_agent GROUP BY email HAVING (COUNT(*) >=2);";
@@ -94,8 +96,7 @@ class ImportAgentsCommand extends ContainerAwareCommand
             $agent->setGroup($group);
             $this->saveMedia($agent);
             $em->getRepository('UserBundle:Agent')->saveAgent($agent, $HQ);
-            $em->flush();
-
+            $output->writeln("Successfully inserted  agent: ". $agent->getEmail());
         }
 
         $metadata = $em->getClassMetaData(Agent::class);
