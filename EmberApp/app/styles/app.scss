@@ -4014,7 +4014,6 @@ $searchable-select-spacer-horizontal: 1em;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  display: inline-block;
   color: #fff;
   margin: 2px;
 }
@@ -4397,7 +4396,6 @@ $searchable-select-spacer-horizontal: 1em;
           background-color: #fff;
           border-radius: 50%;
           overflow: hidden;
-          flex: 1;
           img {
             width: 60px;
             height: 60px;
@@ -4405,7 +4403,6 @@ $searchable-select-spacer-horizontal: 1em;
           }
         }
         .info-right {
-          flex: 2;
         }
       }
       .lower-box {
