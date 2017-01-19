@@ -35,19 +35,15 @@ trait JsonApiSaveAgentManagerTrait
                 !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
                 return $this->createJsonAPiSaveResponse($data);
             } else {
-                /** @var Agent $superAgent */
-                $superAgent = $this->findAgentByRole();
-                if( $agent->getId() == $superAgent->getId() ) {
-                    $notification = NotificationManager::createNewAgentNotification($data, null, true);
-                } else {
-                    $notification = NotificationManager::createNewAgentNotification($data);
-                }
                 $event = new NotificationEvent();
-                $event->addNotification($notification);
+                /** @var Agent $superAdmin */
+                $superAdmin = $this->findAgentByRole();
+                $superAdminNotification = NotificationManager::createNewAgentNotification($data, $superAdmin, true);
+                $event->addNotification($superAdminNotification);
 
-                if( $superAgent->getId() !== $agent->getSuperior()->getId() ){
-                    $superAgentNotification = NotificationManager::createNewAgentNotification($data, $superAgent);
-                    $event->addNotification($superAgentNotification);
+                if( $superAdmin->getId() !== $agent->getSuperior()->getId() ){
+                    $notification = NotificationManager::createNewAgentNotification($data);
+                    $event->addNotification($notification);
                 }
 
                 $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);

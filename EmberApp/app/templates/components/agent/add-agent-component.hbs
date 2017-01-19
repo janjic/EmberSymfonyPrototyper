@@ -27,21 +27,27 @@
                                 </select>
                             {{else}}
                                 {{#if isEdit}}
-                                    {{inf-select
-                                            optionLabelKey='name'
-                                            content=groups
-                                            selected = changeset.group
-                                            serchable=true
-                                            on-change=(action 'roleSelected')
-                                    }}
-                                    {{#if (get changeset.error 'group')}}
-                                        <small>
-                                            <ul class="error-list">
-                                                {{#each (get (get changeset.error 'group') "validation") as |message|}}
-                                                    <li>{{message}}</li>
-                                                {{/each}}
-                                            </ul>
-                                        </small>
+                                    {{#if isUserAdmin}}
+                                        {{inf-select
+                                                optionLabelKey='name'
+                                                content=groups
+                                                selected = changeset.group
+                                                serchable=true
+                                                on-change=(action 'roleSelected')
+                                        }}
+                                        {{#if (get changeset.error 'group')}}
+                                            <small>
+                                                <ul class="error-list">
+                                                    {{#each (get (get changeset.error 'group') "validation") as |message|}}
+                                                        <li>{{message}}</li>
+                                                    {{/each}}
+                                                </ul>
+                                            </small>
+                                        {{/if}}
+                                    {{else}}
+                                        <select class="form-control" disabled>
+                                            <option>{{model.group.name}}</option>
+                                        </select>
                                     {{/if}}
                                 {{else}}
                                     {{#if isUserAdmin}}
@@ -243,9 +249,9 @@
                         </div>
 
                     {{/unless}}
-                    {{#if isProfileView}}
-                        {{agent/notification-setting notifications=notifications}}
-                    {{/if}}
+                    {{!--{{#if isProfileView}}--}}
+                        {{!--{{agent/notification-setting notifications=notifications}}--}}
+                    {{!--{{/if}}--}}
                     {{#if isEdit}}
                         {{agent/notification-setting notifications=notifications}}
                     {{/if}}

@@ -36,8 +36,8 @@ export default Ember.Controller.extend(AgentControllerActionsMixin, {
         },
 
         agentSelected(agent){
-            if (agent && agent.get('agentId') ) {
-                this.set('promoCode', agent.get('agentId'));
+            if (agent && agent.get('id') ) {
+                this.set('promoCode', agent.get('id'));
             } else {
                 this.set('promoCode', undefined);
             }

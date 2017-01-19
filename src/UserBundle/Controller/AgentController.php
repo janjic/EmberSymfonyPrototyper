@@ -50,7 +50,7 @@ class AgentController extends Controller
      */
     public function getAgentInfoAction(Agent $agent)
     {
-        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, true/*direct*/);
+        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, false/*direct*/);
 
         $url = 'en/json/get-jqgrid-user-all?rows=10&page=1&sidx=id&sord=asc&agentId='.$agent->getAgentId();
 

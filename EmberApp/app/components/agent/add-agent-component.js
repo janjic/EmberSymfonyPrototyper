@@ -38,6 +38,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.set('model', this.get('currentUser.user'));
         }
         if (this.get('isEdit')) {
+            this.set('initialGroup', this.get('model.group'));
             this.set('model.emailRepeat', this.get('model.email'));
             this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentValidations);
             if( this.get('model.notifications')[0] ){
@@ -144,6 +145,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
 
         saveAgent() {
+            if( this.shouldOpenModal(this.get('changeset.group')) && !this.get('changeset.newSuperiorId') ){
+                this.set('isModalOpen', true);
+                return;
+            }
+
             this.set('changeset.notifications', this.get('notifications'));
             // console.log(this.get('changeset.notifications'));return;
             let changeSet = this.get('changeset');
@@ -164,9 +170,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
             }
         },
         roleSelected(group){
-            // alert('RoleChanged');
-            console.log('roleChanged');
-            this.set('isModalOpen', true);
+            this.set('changeset.newSuperiorId', undefined);
+            this.set('isModalOpen', this.shouldOpenModal(group));
             this.set('changeset.group', group);
         },
 
@@ -205,5 +210,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
         if (val === null) { return false;}
         return ( (typeof val === 'function') || (typeof val === 'object') );
     },
+
+    shouldOpenModal(group){
+        let iniGroup = this.get('initialGroup');
+        return iniGroup ? (iniGroup.get('name') !== 'Referee' && group.get('name') === 'Referee' ): false;
+    }
 
 });

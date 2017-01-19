@@ -12,12 +12,9 @@ export default Component.extend({
     _maxIdAgents:           undefined,
     eventBus:               Ember.inject.service('event-bus'),
 
-    isUserAdmin: Ember.computed('current_user.user', function() {
-        return this.get('currentUser.user').get('roles').includes('ROLE_SUPER_ADMIN');
-    }),
-
     init(){
         this._super(...arguments);
+        this.set('isUserAdmin', this.get('currentUser.isUserAdmin'));
 
         // this._initNotification();
         //
