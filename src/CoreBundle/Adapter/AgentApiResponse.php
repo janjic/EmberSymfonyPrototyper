@@ -60,6 +60,15 @@ class AgentApiResponse
     }
 
     /**
+     * @param $info
+     * @return array
+     */
+    public static function NEW_AGENTS_INFO_OK_RESPONSE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
+    }
+
+    /**
      * @param $email
      * @return array
      */
@@ -240,5 +249,14 @@ class AgentApiResponse
     public static function PAYMENT_EXECUTED_SUCCESSFULLY($id)
     {
         return array('data' => array('type'=> 'payment-infos', 'id' => $id), 'meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTED_SUCCESSFULLY));
+    }
+
+    /**
+     * @param $info
+     * @return array
+     */
+    public static function NEW_PAYMENTS_INFO_OK_RESPONSE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::PAYMENT_NEW_INFO_OK);
     }
 }

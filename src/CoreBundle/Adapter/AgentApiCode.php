@@ -32,6 +32,7 @@ class AgentApiCode
     const AGENT_DELETED_SUCCESSFULLY                = 35;
     const AGENT_DELETE_ERROR                        = 36;
     const AGENT_DELETE_SYNC_ERROR                   = 37;
+    const AGENT_NEW_INFO_OK                         = 38;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;
@@ -55,6 +56,7 @@ class AgentApiCode
     /** MESSAGES */
     const MESSAGES_UNSUPPORTED_FORMAT                = 2301;
     const MESSAGES_DRAFT_ERROR                       = 2302;
+    const MESSAGES_NEW_INFO                          = 2303;
 
     /** THREAD */
     const THREAD_EDITED_SUCCESSFULLY                 = 2251;
@@ -76,4 +78,5 @@ class AgentApiCode
     /** PAYMENT INFO */
     CONST PAYMENT_EXECUTED_SUCCESSFULLY              = 3000;
     CONST PAYMENT_EXECUTE_ERROR                      = 3001;
+    const PAYMENT_NEW_INFO_OK                        = 3002;
 }

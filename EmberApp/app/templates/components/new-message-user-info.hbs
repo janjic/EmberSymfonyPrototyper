@@ -1,0 +1,50 @@
+<div class="col-md-3 col-sm-12 dark-cards">
+    <div class="home-card-secondary">
+        {{fa-icon "user icon-bg"}}
+        <div class="img-holder">
+            {{fa-icon 'user'}}
+        </div>
+        <div class="right-card">
+            <h4 class="number">
+                {{#if newUsersInfoLoading}}
+                    <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                {{else}}
+                    {{newUsersInfo.today}}
+                {{/if}}
+            </h4>
+            <span>users registered today</span>
+        </div>
+    </div>
+    <div class="home-card-secondary">
+        {{fa-icon 'users icon-bg'}}
+        <div class="img-holder">
+            {{fa-icon 'users'}}
+        </div>
+        <div class="right-card">
+            <h4 class="number">
+                {{#if newUsersInfoLoading}}
+                    <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                {{else}}
+                    {{newUsersInfo.total}}
+                {{/if}}
+            </h4>
+            <span>users total</span>
+        </div>
+    </div>
+    <div class="home-card-secondary">
+        {{fa-icon 'envelope icon-bg'}}
+        <div class="img-holder">
+            {{fa-icon 'envelope'}}
+        </div>
+        <div class="right-card">
+            <h4 class="number">
+                {{#if newMessagesInfoLoading}}
+                    <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                {{else}}
+                    {{newMessagesInfo}}
+                {{/if}}
+            </h4>
+            <span>new messages</span>
+        </div>
+    </div>
+</div>

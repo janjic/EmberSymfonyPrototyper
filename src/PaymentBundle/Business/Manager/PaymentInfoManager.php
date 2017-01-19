@@ -60,7 +60,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @var AgentManager
      */
     protected $agentManager;
-    
+
     /**
      * @var Swap
      */
@@ -78,7 +78,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     protected $customerId;
     protected $orderId;
     protected $currency;
-    
+
     /**
      * @param PaymentInfoRepository $repository
      * @param AgentManager $agentManager
@@ -124,6 +124,14 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
      * @param $currency
      * @return mixed
      */
@@ -155,6 +163,35 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @param $superAdminId
+     * @return array
+     */
+    public function newCommissionsCount($superAdminId)
+    {
+        $agent = $this->tokenStorage->getToken()->getUser();
+        $agent = $superAdminId == $agent->getId() ? null : $agent;
+
+        $today = $this->repository->newCommissionsCount($agent, 'today');
+        $month = $this->repository->newCommissionsCount($agent, 'month');
+        $total = $this->repository->newCommissionsCount($agent, 'total');
+        $totalInfo = array();
+
+        for ($itt = 0; $itt < count($total); $itt++){
+            $totalInfo[$total[$itt]['currency']]['currency']       = $total[$itt]['currency'];
+
+            $totalInfo[$total[$itt]['currency']]['total']          = $total[$itt]['total_commission_sum'];
+            if ( $month[$itt]['currency'] ) {
+                $totalInfo[$month[$itt]['currency']]['this_month'] = $month[$itt]['total_commission_sum'];
+            }
+            if ( $today[$itt]['currency'] ) {
+                $totalInfo[$today[$itt]['currency']]['today']      = $today[$itt]['total_commission_sum'];
+            }
+        }
+
+        return $totalInfo;
+    }
+
+    /**
      * @param PaymentInfo $paymentInfo
      * @param boolean $newState
      * @return mixed
@@ -162,6 +199,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function executePayment($paymentInfo, $newState)
     {
         $paymentInfo->setState($newState);
+        $paymentInfo->setPayedAt(new \DateTime());
 
         return $this->createPaymentExecuteResponse($this->repository->edit($paymentInfo));
     }
@@ -181,6 +219,23 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
                 return false;
         }
     }
+
+    /**
+     * @param Agent  $agent
+     * @param string $currency
+     * @param string $dateFrom
+     * @param string $dateTo
+     * @return array
+     */
+    public function getEarningsForAgent(Agent $agent, $currency, $dateFrom, $dateTo)
+    {
+        $pair = $currency == 'EUR' ? new CurrencyPair('EUR', 'CHF') : new CurrencyPair('CHF', 'EUR');
+        $ratio = $this->florianSwap->quote($pair);
+
+        return $this->repository->getEarningsForAgent($agent, $currency, $ratio, $dateFrom, $dateTo);
+    }
+
+
 
     /**
      * @param null $request

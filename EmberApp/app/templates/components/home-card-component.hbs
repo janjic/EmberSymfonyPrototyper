@@ -1,0 +1,59 @@
+<div class="col-xs-12 col-sm-6 col-md-3">
+    <div class="home-card {{if isLoading "home-card-loading"}}">
+        {{#if isLoading}}
+            <img src="../assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+        {{else}}
+            <h4>{{card-title}}</h4>
+
+            <p class="counter">
+                {{#if isMultipleCard}}
+                    <span class="card-number-holder">
+                        <span class="{{if currencyEUR 'card-number-up' 'card-number-down'}} ">
+                            {{#each model as |info|}}
+                                <div>
+                                    <span class="timer count-title" id="count-number" data-to="{{info.today}}" data-speed="1500">{{info.today}}</span> {{info.currency}}
+                                </div>
+                            {{/each}}
+                        </span>
+                    </span>
+                {{else}}
+                    <span class="timer count-title" id="count-number" data-to="{{model.today}}" data-speed="1500">{{model.today}}</span> {{model.currency}}
+                {{/if}}
+                <span class="title"> {{trans 'dashboard.labels.today'}}</span>
+            </p>
+            <p class="counter">
+                <span class="title"> {{trans 'dashboard.labels.this-month'}}</span>
+                {{#if isMultipleCard}}
+                    <span class="card-number-holder">
+                        <span class="{{if currencyEUR 'card-number-up' 'card-number-down'}} ">
+                            {{#each model as |info|}}
+                                <div>
+                                    <span class="timer count-title" id="count-number" data-to="{{info.this_month}}" data-speed="1500">{{info.this_month}}</span> {{info.currency}}
+                                </div>
+                            {{/each}}
+                        </span>
+                    </span>
+                {{else}}
+                    <span class="timer count-title" id="count-number" data-to="{{model.this_month}}" data-speed="1500">{{model.this_month}}</span> {{model.currency}}
+                {{/if}}
+            </p>
+            <p class="counter">
+                <span class="title"> {{trans 'dashboard.labels.total'}}</span>
+                {{#if isMultipleCard}}
+                    <span class="card-number-holder">
+                        <span class="{{if currencyEUR 'card-number-up' 'card-number-down'}} ">
+                            {{#each model as |info|}}
+                                <div>
+                                    <span class="timer count-title" id="count-number" data-to="{{info.total}}" data-speed="1500">{{info.total}}</span> {{info.currency}}
+                                </div>
+                            {{/each}}
+                        </span>
+                    </span>
+                {{else}}
+                    <span class="timer count-title" id="count-number" data-to="{{model.total}}" data-speed="1000">{{model.total}}</span> {{model.currency}}
+                {{/if}}
+            </p>
+            <i class="fa fa-{{imageClass}}" aria-hidden="true"></i>
+        {{/if}}
+    </div>
+</div>

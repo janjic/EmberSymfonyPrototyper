@@ -81,11 +81,11 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      */
     public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
     {
-        $this->repository           = $repository;
-        $this->groupManager         = $groupManager;
-        $this->fSerializer          = $fSerializer;
-        $this->eventDispatcher      = $eventDispatcher;
-        $this->tokenStorage         = $tokenStorage;
+        $this->repository       = $repository;
+        $this->groupManager     = $groupManager;
+        $this->fSerializer      = $fSerializer;
+        $this->eventDispatcher  = $eventDispatcher;
+        $this->tokenStorage     = $tokenStorage;
     }
 
     public function getGroupById($id)
@@ -127,6 +127,14 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function findAgentById($id)
     {
         return $this->repository->findAgentById($id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -363,4 +371,21 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         return $this->repository->findAgentsByCountry();
     }
 
+    /**
+     * @return array
+     */
+    public function newAgentsCount(){
+        $agent = $this->getCurrentUser();
+        $agent = $this->repository->findAgentByRole()->getId()==$agent->getId() ? null : $agent;
+
+        $today      = $this->repository->newAgentsCount($agent, 'today');
+        $this_month = $this->repository->newAgentsCount($agent, 'month');
+        $total      = $this->repository->newAgentsCount($agent, 'total');
+
+        return array(
+            'today'         => $today,
+            'this_month'    => $this_month,
+            'total'         => $total
+        );
+    }
 }

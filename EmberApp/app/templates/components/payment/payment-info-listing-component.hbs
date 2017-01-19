@@ -1,10 +1,10 @@
 <h1 class="main-heading clearfix">
     {{title}}
-    <span class="pull-right">
-        <a href="#" class="btn btn-danger" {{action 'openModal'}}>Filter Results</a>
+    <span class="pull-right head-buttons">
+        <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
         {{#unless hidePayAllButtons}}
-            <a href="#" class="btn btn-danger">Pay all</a>
-            <a href="#" class="btn btn-primary">Reject all</a>
+            <a href="#" class="button green btn-small">Pay all</a>
+            <a href="#" class="button red btn-small">Reject all</a>
         {{/unless}}
     </span>
 </h1>
@@ -44,27 +44,28 @@
             on-change=(action 'typeChange')
             }}
         </div>
-        <div class="form-group clearfix">
-            {{date-range-picker
-            label = 'Select date'
-            autoUpdateInput = false
-            daysOfWeek  = daysOfWeek
-            applyLabel  = "Apply"
-            cancelLabel = "Clear"
-            fromLabel   = "From"
-            toLabel     = "To"
-            customRangeLabel = "Custom"
-            monthNames = monthNames
-            start=startDate
-            showDropdowns = true
-            ranges = ranges
-            alwaysShowCalendars = true
-            end=endDate
-            applyAction=(action "applyDateChange")
-            cancelAction=(action "cancelDateChange")
-            }}
-        </div>
-
+        {{#unless hideAgentFilter}}
+            <div class="form-group clearfix">
+                {{date-range-picker
+                label = 'Select date'
+                autoUpdateInput = false
+                daysOfWeek  = daysOfWeek
+                applyLabel  = "Apply"
+                cancelLabel = "Clear"
+                fromLabel   = "From"
+                toLabel     = "To"
+                customRangeLabel = "Custom"
+                monthNames = monthNames
+                start=startDate
+                showDropdowns = true
+                ranges = ranges
+                alwaysShowCalendars = true
+                end=endDate
+                applyAction=(action "applyDateChange")
+                cancelAction=(action "cancelDateChange")
+                }}
+            </div>
+        {{/unless}}
     {{/bs-modal-body}}
     {{#bs-modal-footer}}
         <button class="button green" {{action 'applyFilters'}}>
@@ -78,14 +79,18 @@
     {{/bs-modal-footer}}
 {{/bs-modal}}
 
-{{#if model.length}}
-    {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}
-        {{payment/payment-info-listing-item-component
-        hidePayAllButtons=hidePayAllButtons
-        payment=yieldModel}}
-    {{/card-view-component}}
-{{else}}
-    <div>
-        No results found for selected filters
-    </div>
-{{/if}}
+<div class="reports-holder">
+
+    {{#if model.length}}
+        {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}
+            {{payment/payment-info-listing-item-component
+            hidePayAllButtons=hidePayAllButtons
+            payment=yieldModel}}
+        {{/card-view-component}}
+    {{else}}
+        <div>
+            No results found for selected filters
+        </div>
+    {{/if}}
+
+</div>
