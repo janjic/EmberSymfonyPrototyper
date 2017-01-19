@@ -152,7 +152,6 @@ trait JsonApiUpdateAgentManagerTrait
     {
         $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
 
-
     }
 
     private function setAndValidateNotifications (Agent $agent, Agent $dbAgent)

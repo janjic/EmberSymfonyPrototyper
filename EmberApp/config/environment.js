@@ -16,8 +16,8 @@
             },
 
             APP: {
-                clientId: "1_4z2tpa764kcgwcgs8ckk8cckc80so8c0sc8w8ws8kc0gocsoco",
-                clientSecret: "5y8iy4na15ogk0coww888840g440gw4gsg8g08w8ogkcg88gck"
+                clientId: "1_lxfu6l5i1tco04cok4ck0o0ocgoc04wwksssgco48sg4w8cog",
+                clientSecret: "4q062irkhq0w4ocggcggsw4csswgswcwswowckokk8ssoskko4"
                 // Here you can pass flags/options to your application instance
                 // when it is created
             }

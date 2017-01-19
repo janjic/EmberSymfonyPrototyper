@@ -21,8 +21,10 @@ use Swap\Swap;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Business\Manager\CommissionManager;
+use UserBundle\Business\Manager\GroupManager;
 use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
+use UserBundle\Helpers\RoleHelper;
 
 /**
  * Class PaymentInfoManager
@@ -60,6 +62,10 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @var AgentManager
      */
     protected $agentManager;
+    /**
+     * @var GroupManager
+     */
+    protected $groupManager;
 
     /**
      * @var Swap
@@ -86,8 +92,9 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @param CommissionManager $commissionManager
      * @param Swap $florianSwap
      * @param TokenStorageInterface $tokenStorage
+     * @param GroupManager $groupManager
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, GroupManager $groupManager)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
@@ -95,6 +102,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         $this->commissionManager = $commissionManager;
         $this->florianSwap       = $florianSwap;
         $this->tokenStorage      = $tokenStorage;
+        $this->groupManager      = $groupManager;
     }
 
     /**
@@ -286,38 +294,38 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          */
         $agent = $this->agentManager->findAgentById($agentId);
         if(is_null($superiorId)){
-           $agent->addRole(RoleManager::ROLE_MASTER_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_MASTER_AGENT);
+            $agent->setGroup($group);
         } else {
-            $agent->addRole(RoleManager::ROLE_ACTIVE_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_ACTIVE_AGENT);
+            $agent->setGroup($group);
             $superior = $this->agentManager->findAgentById($superiorId);
             $agent->setSuperior($superior);
         }
 
-        var_dump($agent);exit;
+        var_dump($agent->getGroup());exit;
     }
 
     /**
      * @param $agentId
-     * @param $role
      * @param $superiorType
      */
-    public function demoteAgent($agentId, $role, $superiorType)
+    public function demoteAgent($agentId, $superiorType)
     {
         /**
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
         if(is_null($superiorType)){
-            $agent->removeRole(RoleManager::ROLE_MASTER_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_ACTIVE_AGENT);
+            $agent->setGroup($group);
         } else {
-            /**
-             *
-             */
+
 //            $agent->removeRole(RoleManager::ROLE_ACTIVE_AGENT);
 //            $superior = $this->agentManager->findAgentById($superiorId);
 //            $agent->setSuperior($superior);
         }
 
-        var_dump($agent);exit;
+        var_dump($agent->getGroup());exit;
     }
 }
