@@ -467,7 +467,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
-            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email', self::GROUP_ALIAS.'.name AS groupName');
+            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email', self::ALIAS.'.baseImageUrl',
+            self::GROUP_ALIAS.'.name AS groupName');
 
         $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);

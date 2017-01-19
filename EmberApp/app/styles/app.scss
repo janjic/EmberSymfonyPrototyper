@@ -2445,6 +2445,7 @@ input:focus {
         justify-content: center;
         padding: 5px;
         height: 30px;
+        border: 1px solid #ddd;
       }
       .bottomEdge, .topEdge, .leftEdge, .rightEdge {
         font-size: 25px;
@@ -2495,6 +2496,18 @@ input:focus {
           margin: 5px;
         }
       }
+    }
+    .ambassador .title {
+      background-color: #1d6876;
+    }
+    .active .title {
+      background-color: #21913a;
+    }
+    .master .title {
+      background-color: #c0742b;
+    }
+    .referee .title {
+      background-color: #34495e;
     }
     .focused {
 
