@@ -1,36 +1,17 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+const { Routing } = window;
 
 export default Ember.Route.extend({
-    session: Ember.inject.service('session'),
+    authorizedAjax : Ember.inject.service('authorized-ajax'),
+    data: null,
     model() {
-        // return this.get('store').query('agent-promotion-suggestion', {
-        //     page: 1,
-        //     offset: 8,
-        //     sidx: 'id',
-        //     sord: 'asc'
-        // });
-        /** set access token to ajax requests sent by orgchart library */
-        let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
+        return new RSVP.Promise((resolve) =>{
+            this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                function (response) {
 
-        Ember.$.ajaxSetup({
-            beforeSend: (xhr) => {
-                accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
-                xhr.setRequestHeader('Authorization', accessToken);
-            },
-            headers: { 'Authorization': accessToken }
-        });
-
-        return Ember.$.ajax({
-            type: "GET",
-            // url: Routing.generate('agent-promotion-suggestion'),
-            url: '/app_dev.php/api/agent-promotion-suggestions',
-        }).then(function (response) {
-            return RSVP.hash({
-                promotions: response.promotions,
-                downgrades: response.downgrades,
-                role_codes: response.role_codes
-            });
+                    resolve(response);
+                }.bind(this));
         });
     }
 });

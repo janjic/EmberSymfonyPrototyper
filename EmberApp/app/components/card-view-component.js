@@ -33,18 +33,16 @@ export default Ember.Component.extend({
         let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
         if (result) {
             result.then((filterResults) => {
-                console.log(filterResults);
                 this.set('model', filterResults);
                 this.set('maxPages', filterResults.meta.pages);
-            })
-            //     .catch(() => {
-            // });
+            }).catch(() => {
+                });
         }
     },
     handleFilterEntry: task(function * (letter) {
         let searchValue;
         if (letter) {
-             searchValue = letter;
+            searchValue = letter;
             this.set('searchValue', searchValue);
         } else {
             searchValue = this.get('searchValue');

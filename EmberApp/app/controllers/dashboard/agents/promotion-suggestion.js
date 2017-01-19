@@ -1,75 +1,50 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
+const {Routing} = window;
 
 export default Ember.Controller.extend({
-    session : Ember.inject.service('session'),
+    authorizedAjax : Ember.inject.service('authorized-ajax'),
     page    : 1,
     maxPages: 1,
     offset  : 20,
-    init(){
-
-    },
     actions:{
-        filterModelPromotions(searchArray, page, column, sortType){
-            let ctx = this;
-            this.authorizeAjax();
-            return Ember.$.ajax({
-                type: "POST",
-                // url: Routing.generate('agent-promotion-suggestion'),
-                url: '/app_dev.php/api/agent-promotion-suggestions',
-                data: {
-                    type: 'promotion',
-                    page: this.get('page'),
+        filterModelPromotions(searchArray, page){
+            let data =  {
+                type: 'promotion',
+                    page: page,
                     offset: this.get('offset'),
                     maxPages: this.get('maxPages'),
                     filters: JSON.stringify(searchArray),
-                }
-            }).then( function(result){
-                    return result.promotions;
-                    // return new Promise(function (resolve, reject) {
-                    //     resolve(result.downgrades);
-                    //     reject(result);
-                    // });
-                }
-            );
+            };
+
+            return new RSVP.Promise((resolve) =>{
+                this.get('authorizedAjax').sendAuthorizedRequest(data, 'POST', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                    function (response) {
+                        resolve(response.promotions);
+                    }.bind(this));
+            });
+
         },
-        filterModelDowngrades(searchArray, page, column, sortType){
-            let ctx = this;
-            this.authorizeAjax();
-            return Ember.$.ajax({
-                type: "POST",
-                // url: Routing.generate('agent-promotion-suggestion'),
-                url: '/app_dev.php/api/agent-promotion-suggestions',
-                data: {
-                    type: 'downgrade',
-                    page: this.get('page'),
-                    offset: this.get('offset'),
-                    maxPages: this.get('maxPages'),
-                    filters: JSON.stringify(searchArray),
-                }
-            }).then( function(result){
-                return result.downgrades;
-                    // return new Promise(function (resolve, reject) {
-                    //     resolve(result.downgrades);
-                    //     reject(result);
-                    // });
-                }
-            );
+        filterModelDowngrades(searchArray, page){
+            let data =  {
+                type: 'downgrade',
+                page: page,
+                offset: this.get('offset'),
+                maxPages: this.get('maxPages'),
+                filters: JSON.stringify(searchArray),
+            };
+
+            return new RSVP.Promise((resolve) =>{
+                this.get('authorizedAjax').sendAuthorizedRequest(data, 'POST', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                    function (response) {
+                        resolve(response.downgrades);
+                    }.bind(this));
+            });
+
         },
         searchQuery(page, text, perPage){
             let role = this.get('model.role_codes').role_referee;
             return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email', minRoleCondition: role }).then(results => results);
         }
     },
-    authorizeAjax(){
-        /** set access token to ajax requests sent by orgchart library */
-        let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
-
-        Ember.$.ajaxSetup({
-            beforeSend: (xhr) => {
-                accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
-                xhr.setRequestHeader('Authorization', accessToken);
-            },
-            headers: { 'Authorization': accessToken }
-        });
-    }
 });

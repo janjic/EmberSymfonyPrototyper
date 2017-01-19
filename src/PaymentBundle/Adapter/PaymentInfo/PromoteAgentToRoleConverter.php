@@ -30,10 +30,16 @@ class PromoteAgentToRoleConverter extends JsonAPIConverter
     public function convert()
     {
         $request = $this->request;
-        $role    = $this->request->get('role');
-        $agentId = $this->request->get('agent_id');
-        $action  = $this->request->get('action');
-        $this->manager->changeAgentRole($agentId, $role, $action);
+        $agentId = $request->get('agent_id');
+        $action  = $request->get('action');
+
+        if($action == 'promote'){
+            $superiorId = $request->get('superior');
+            $this->manager->promoteAgent($agentId, $superiorId);
+        } else {
+            $superiorType = $request->get('superiorType');
+            $this->manager->demoteAgent($agentId, $superiorType);
+        }
 
         $this->request->attributes->set($this->param, new ArrayCollection());
     }

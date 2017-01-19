@@ -222,11 +222,47 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param $agentId
-     * @param $role
-     * @param $action
+     * @param $superiorId
      */
-    public function changeAgentRole($agentId, $role, $action)
+    public function promoteAgent($agentId, $superiorId)
     {
-        var_dump($agentId, $role, $action);exit;
+        /**
+         * @var $agent Agent
+         */
+        $agent = $this->agentManager->findAgentById($agentId);
+        if(is_null($superiorId)){
+           $agent->addRole(RoleManager::ROLE_MASTER_AGENT);
+        } else {
+            $agent->addRole(RoleManager::ROLE_ACTIVE_AGENT);
+            $superior = $this->agentManager->findAgentById($superiorId);
+            $agent->setSuperior($superior);
+        }
+
+        var_dump($agent);exit;
+    }
+
+    /**
+     * @param $agentId
+     * @param $role
+     * @param $superiorType
+     */
+    public function demoteAgent($agentId, $role, $superiorType)
+    {
+        /**
+         * @var $agent Agent
+         */
+        $agent = $this->agentManager->findAgentById($agentId);
+        if(is_null($superiorType)){
+            $agent->removeRole(RoleManager::ROLE_MASTER_AGENT);
+        } else {
+            /**
+             *
+             */
+//            $agent->removeRole(RoleManager::ROLE_ACTIVE_AGENT);
+//            $superior = $this->agentManager->findAgentById($superiorId);
+//            $agent->setSuperior($superior);
+        }
+
+        var_dump($agent);exit;
     }
 }

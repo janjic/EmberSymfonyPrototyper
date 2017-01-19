@@ -1,44 +1,50 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 import { task, timeout } from 'ember-concurrency';
+const { Routing } = window;
 
 export default Ember.Component.extend({
-    session     : Ember.inject.service('session'),
-    isModalOpen : false,
+    authorizedAjax     : Ember.inject.service('authorized-ajax'),
+    isModalOpen        : false,
+    currentAgent       : null,
+    currentSuperior    : null,
+    currentSuperiorRole: null,
     actions:{
         promote(agent){
-            if(agent.role_code == this.get('role_codes').role_referee){
+            this.set('currentAgent', agent);
+            if(agent.role_code === this.get('role_codes').role_referee){
                 this.set('isModalOpen', true);
+                this.set('currentSuperior', null);
+            } else {
+
             }
+        },
+        doPromotion(){
+          console.log('agent', this.get('currentAgent'));
+          console.log('new superior agent', this.get('currentSuperior'));
+
             let data = {
-                agent_id : agent.agent_id,
-                role     : agent.role_code,
+                agent_id : this.get('currentAgent').agent_id,
+                superior : parseInt(this.get('currentSuperior.id')),
                 action   : "promote"
             };
-            Ember.$.ajax({
-                type: "POST",
-                // url: Routing.generate('promote-agent'),
-                url: '/app_dev.php/api/promote-agent',
-                data: data
-            }).then( function(result){
-                    console.log(result);
-                }
-            );
+
+            return new RSVP.Promise((resolve) => {
+                this.get('authorizedAjax').sendAuthorizedRequest(data, 'POST', 'app_dev.php'+Routing.generate('promote-agent'),
+                    function (response) {
+                    console.log(response);
+                    // resolve(response);
+                        // this.set('serverResponse', response.data);
+                    });
+            });
+
+
+
         },
         agentSelected(agent){
+            this.set('currentSuperior', agent);
             console.log(agent);
         }
-    },
-    authorizeAjax(){
-        /** set access token to ajax requests sent by orgchart library */
-        let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
-
-        Ember.$.ajaxSetup({
-            beforeSend: (xhr) => {
-                accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
-                xhr.setRequestHeader('Authorization', accessToken);
-            },
-            headers: { 'Authorization': accessToken }
-        });
     },
     search: task(function * (text, page, perPage) {
         yield timeout(200);
