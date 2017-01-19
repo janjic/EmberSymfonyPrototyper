@@ -8,5 +8,5 @@ export default DS.JSONAPISerializer.extend({
 
     keyForRelationship: function(rawKey) {
         return rawKey;
-    }
+    },
 });

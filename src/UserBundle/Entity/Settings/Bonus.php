@@ -38,14 +38,14 @@ class Bonus
     protected $name;
 
     /**
-     * @ORM\Column(name="amount_chf", type="float")
+     * @ORM\Column(name="amount", type="float")
      */
-    protected $amountCHF;
+    protected $amount;
 
     /**
-     * @ORM\Column(name="amount_eur", type="float")
+     * @ORM\Column(name="currency", type="string", length=255)
      */
-    protected $amountEUR;
+    protected $currency;
 
     /**
      * @ORM\Column(name="number_of_customers", type="integer")
@@ -117,39 +117,33 @@ class Bonus
     /**
      * @return mixed
      */
-    public function getAmountCHF()
+    public function getAmount()
     {
-        return $this->amountCHF;
+        return $this->amount;
     }
 
     /**
-     * @param mixed $amountCHF
-     * @return $this
+     * @param mixed $amount
      */
-    public function setAmountCHF($amountCHF)
+    public function setAmount($amount)
     {
-        $this->amountCHF = $amountCHF;
-
-        return $this;
+        $this->amount = $amount;
     }
 
     /**
      * @return mixed
      */
-    public function getAmountEUR()
+    public function getCurrency()
     {
-        return $this->amountEUR;
+        return $this->currency;
     }
 
     /**
-     * @param mixed $amountEUR
-     * @return $this
+     * @param mixed $currency
      */
-    public function setAmountEUR($amountEUR)
+    public function setCurrency($currency)
     {
-        $this->amountEUR = $amountEUR;
-
-        return $this;
+        $this->currency = $currency;
     }
 
     /**

@@ -53,7 +53,7 @@ trait JsonApiJQGridAgentManagerTrait
             if ($this->repository->findAgentByRole() && $this->repository->findAgentByRole()->getId() == $user->getId()) {
                 $promoCode = null;
             } else {
-                $promoCode = $user->getAgentId();
+                $promoCode = $user->getId();
             }
         }
 

@@ -19,6 +19,7 @@ use Swap\Model\CurrencyPair;
 use Swap\Swap;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
+use UserBundle\Business\Manager\BonusManager;
 use UserBundle\Business\Manager\CommissionManager;
 use UserBundle\Entity\Agent;
 
@@ -68,6 +69,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      */
     protected $tokenStorage;
 
+    /**
+     * @var BonusManager
+     */
+    protected $bonusManager;
+
     protected $packagesPrice;
     protected $connectPrice;
     protected $setupFeePrice;
@@ -78,13 +84,15 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param PaymentInfoRepository $repository
-     * @param AgentManager $agentManager
-     * @param FJsonApiSerializer $fSerializer
-     * @param CommissionManager $commissionManager
-     * @param Swap $florianSwap
+     * @param AgentManager          $agentManager
+     * @param FJsonApiSerializer    $fSerializer
+     * @param CommissionManager     $commissionManager
+     * @param Swap                  $florianSwap
      * @param TokenStorageInterface $tokenStorage
+     * @param BonusManager          $bonusManager
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer,
+            CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, BonusManager $bonusManager)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
@@ -92,6 +100,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         $this->commissionManager = $commissionManager;
         $this->florianSwap       = $florianSwap;
         $this->tokenStorage      = $tokenStorage;
+        $this->bonusManager      = $bonusManager;
     }
 
     /**

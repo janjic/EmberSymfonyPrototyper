@@ -97,9 +97,9 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         $notification->setNewAgent($agent);
 
         if( $isSuperAdmin ) {
-            $notification->setLink('dashboard.agent-genealogy-tree');
+            $notification->setLink('dashboard.genealogy-tree');
         } else {
-            $notification->setLink('dashboard.agent.agent-genealogy-tree');
+            $notification->setLink('dashboard.agent.genealogy-tree');
         }
 
         $notification->setCreatedAt(new \DateTime());

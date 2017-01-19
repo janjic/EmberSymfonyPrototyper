@@ -80,4 +80,13 @@ class BonusManager implements JSONAPIEntityManagerInterface
 
         return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
     }
+
+    /**
+     * @param Group $group
+     * @return Bonus|null
+     */
+    public function getBonusForGroup(Group $group)
+    {
+        return $this->repository->getBonusForGroup($group);
+    }
 }

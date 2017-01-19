@@ -2,6 +2,7 @@
 
 namespace ConversationBundle\Business\Manager;
 
+use ConversationBundle\Business\Manager\Thread\JsonApiDeleteThreadManagerTrait;
 use ConversationBundle\Business\Manager\Thread\JsonApiThreadSerializationTrait;
 use ConversationBundle\Business\Manager\Thread\JsonApiUpdateThreadManagerTrait;
 use ConversationBundle\Business\Repository\ThreadRepository;
@@ -27,6 +28,7 @@ class ThreadManager implements JSONAPIEntityManagerInterface
     use BasicEntityManagerTrait;
     use JsonApiUpdateThreadManagerTrait;
     use JsonApiThreadSerializationTrait;
+    use JsonApiDeleteThreadManagerTrait;
 
     /**
      * @var ThreadRepository
@@ -163,15 +165,6 @@ class ThreadManager implements JSONAPIEntityManagerInterface
     public function saveResource($data)
     {
         // TODO: Implement saveResource() method.
-    }
-
-    /**
-     * @param null $id
-     * @return mixed
-     */
-    public function deleteResource($id)
-    {
-        // TODO: Implement deleteResource() method.
     }
 
     /**

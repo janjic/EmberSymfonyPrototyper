@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use FOS\MessageBundle\Entity\Thread as BaseThread;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use FOS\MessageBundle\Model\ThreadMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="ConversationBundle\Business\Repository\ThreadRepository")
@@ -27,7 +28,7 @@ class Thread extends BaseThread
     protected $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="thread", cascade={"persist", "remove"})
      * @var Message[]|Collection
      */
     protected $messages;

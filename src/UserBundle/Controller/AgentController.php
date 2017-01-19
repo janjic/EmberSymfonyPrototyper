@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\Agent;
 
@@ -49,7 +50,7 @@ class AgentController extends Controller
      */
     public function getAgentInfoAction(Agent $agent)
     {
-        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, true/*direct*/);
+        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, false/*direct*/);
 
         $url = 'en/json/get-jqgrid-user-all?rows=10&page=1&sidx=id&sord=asc&agentId='.$agent->getAgentId();
 
@@ -79,6 +80,19 @@ class AgentController extends Controller
         $newAgentsInfo = $this->get('agent_system.agent.manager')->newAgentsCount();
 
         return new JsonResponse(AgentApiResponse::NEW_AGENTS_INFO_OK_RESPONSE($newAgentsInfo));
+    }
+
+    /**
+     * @Route("/api/checkNewSuperiorType" ,name="check-new-superior-type",
+     * options={"expose" = true})
+     * @param Request $request
+     * @return Response
+     */
+    public function checkNewSuperiorTypeAction(Request $request)
+    {
+        $newSuperiorId = $this->get('agent_system.agent.manager')->checkNewSuperiorType($request->get('id'), $request->get('type'));
+
+        return new JsonResponse(AgentApiResponse::CHECK_NEW_SUPERIOR_TYPE($newSuperiorId));
     }
 
 }

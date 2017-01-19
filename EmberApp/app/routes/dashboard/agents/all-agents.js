@@ -25,5 +25,13 @@ export default Ember.Route.extend({
 
             controller.set('groupsModel', array);
         });
+    },
+
+    actions: {
+        willTransition() {
+            this.controller.set('promoCode', undefined);
+            this.controller.set('searchArray', undefined);
+            this.controller.set('page', 1);
+        }
     }
 });

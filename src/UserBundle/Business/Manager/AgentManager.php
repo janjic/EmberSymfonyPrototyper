@@ -104,16 +104,16 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         if ($agent instanceof Exception) {
             return $agent;
         } else {
-            try {
-                $syncResult = $this->syncWithTCRPortal($agent, 'add');
-                if (is_object($syncResult) && $syncResult->code == 200) {
+//            try {
+//                $syncResult = $this->syncWithTCRPortal($agent, 'add');
+//                if (is_object($syncResult) && $syncResult->code == 200) {
                     $this->flushDb();
-                } else {
-                    return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
-                }
-            } catch (\Exception $exception) {
-                return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
-            }
+//                } else {
+//                    return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+//                }
+//            } catch (\Exception $exception) {
+//                return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+//            }
         }
 
         return $agent;
@@ -376,5 +376,38 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
             'this_month'    => $this_month,
             'total'         => $total
         );
+    }
+
+    /**
+     * @param $agentId
+     * @param $type
+     *
+     * @return int|null
+     */
+    public function checkNewSuperiorType($agentId, $type)
+    {
+        $agent      = $this->repository->find($agentId);
+        $group      = $this->groupManager->findGroupByName($type);
+
+        return $this->getSuperiorWithSpecifiedGroup($agent, $group);
+    }
+
+    /**
+     * @param Agent $agent
+     * @param Group $group
+     * @return null|Agent
+     */
+    public function getSuperiorWithSpecifiedGroup(Agent $agent, Group $group) {
+        /** @var Agent $superior */
+        $superior = $agent->getSuperior();
+        if (!$superior) {
+            return null;
+        }
+
+        if ( $superior->getGroup() && $superior->getGroup()->getId() == $group->getId() ) {
+            return $superior->getId();
+        }
+
+        return $this->getSuperiorWithSpecifiedGroup($superior, $group);
     }
 }

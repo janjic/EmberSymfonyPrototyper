@@ -253,4 +253,20 @@ class ThreadRepository extends EntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * @param Thread $thread
+     * @return bool|Exception
+     */
+    public function deleteThread(Thread $thread)
+    {
+        try {
+            $this->_em->remove($thread);
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return $e;
+        }
+
+        return true;
+    }
 }
