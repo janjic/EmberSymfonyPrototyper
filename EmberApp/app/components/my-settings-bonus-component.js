@@ -16,6 +16,10 @@ export default Ember.Component.extend({
             let valid = changeset.validate(property);
             this.get('setValid')( changeset.get('isValid'), this.get('index') );
             return valid;
+        },
+
+        currencyChanged(val) {
+            this.set('bonus.currency', val);
         }
     }
 });

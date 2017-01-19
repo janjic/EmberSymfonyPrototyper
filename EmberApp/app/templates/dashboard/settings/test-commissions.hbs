@@ -72,6 +72,15 @@
 </div>
 
 <div class="form-group clearfix">
+    <label class="control-label col-md-5 col-sm-5 col-xs-12">
+        Customers in a year
+    </label>
+    <div class="col-md-7 col-sm-7 col-xs-12">
+        {{input value=customersInAYear type=text class='form-control' }}
+    </div>
+</div>
+
+<div class="form-group clearfix">
     <button class="button green pull-right" type="submit" {{action 'sendAjax' changeset }} disabled={{isLoading}}>
         {{#if isLoading }}
             {{inf-loading}}
@@ -112,6 +121,8 @@
                         <th>streamCommission</th>
 
                         <th>totalCommission</th>
+
+                        <th>bonusValue</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -136,6 +147,7 @@
                             <td>{{resp.attributes.streamCommission}}</td>
 
                             <td>{{resp.attributes.totalCommission}}</td>
+                            <td>{{resp.attributes.bonusValue}}</td>
                         </tr>
                     {{/each}}
                     </tbody>

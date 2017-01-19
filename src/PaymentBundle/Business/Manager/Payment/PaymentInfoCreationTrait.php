@@ -6,6 +6,7 @@ use PaymentBundle\Business\Manager\PaymentInfoManager;
 use PaymentBundle\Entity\PaymentInfo;
 use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Settings\Bonus;
 use UserBundle\Entity\Settings\Commission;
 
 /**
@@ -23,11 +24,12 @@ trait PaymentInfoCreationTrait
      * @param int     $customerId
      * @param int     $orderId
      * @param string  $currency
+     * @param array   $numberOfCustomers
      * @param boolean $persistData
      * @return array
      */
     public function calculateCommissions($agentId, $packagesPrice, $connectPrice, $setupFeePrice, $streamPrice,
-                                         $customerId, $orderId, $currency, $persistData = true)
+                                         $customerId, $orderId, $currency, $numberOfCustomers = [], $persistData = true)
     {
         $this->packagesPrice = $packagesPrice;
         $this->connectPrice  = $connectPrice;
@@ -39,24 +41,28 @@ trait PaymentInfoCreationTrait
 
         /** @var Agent $agent */
         $agent = $this->agentManager->findAgentById($agentId);
-        if ($this->isHQ($agent)) {
-            /** HQ has no commissions */
-            $payments = [];
-        } else if ($this->isReferee($agent)) {
-            /** Referee gets commission only first time client purchases */
-            if (sizeof($this->getPaymentInfoForAgent($agent, $customerId)) === 0 ) {
-                $commission = $this->commissionManager->getCommissionForGroup($agent->getGroup());
-                $payments = [$this->createPaymentInfo($agent, $commission->getPackages(), $commission->getConnect(),
-                    $commission->getSetupFee(), $commission->getStream())];
-            } else {
-                $payments = [];
-            }
-        } else {
-            $payments = $this->createCommissionForAgent($agent);
+
+        $payments = [];
+
+        /** Referee gets commission only first time client purchases */
+        if ($this->isReferee($agent) && sizeof($this->getPaymentInfoForAgent($agent, $customerId)) === 0) {
+            /** @var Commission $commission */
+            $commission = $this->commissionManager->getCommissionForGroup($agent->getGroup());
+
+            $payments[] = $this->createPaymentInfo($agent, $commission->getPackages(), $commission->getConnect(), $commission->getSetupFee(), $commission->getStream());
+        }
+
+        /** For agent that are not REF and HQ calculate commissions and bonuses */
+        if (!$this->isHQ($agent) && !$this->isReferee($agent)) {
+            $payments = $this->createCommissionForAgent($agent, $numberOfCustomers);
         }
 
         if ($persistData) {
             $payments = $this->repository->saveArray($payments);
+        }
+
+        if ($payments instanceof \Exception) {
+            return [];
         }
 
         return $this->serializePaymentInfo($payments);
@@ -64,55 +70,79 @@ trait PaymentInfoCreationTrait
 
     /**
      * @param Agent $agent
+     * @param array $numberOfCustomers
      * @return array
      */
-    public function createCommissionForAgent($agent)
+    public function createCommissionForAgent(Agent $agent, $numberOfCustomers = null)
     {
         /** @var Commission $commissionAA */
         $commissionAA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_ACTIVE_AGENT);
-        $payments = [$this->createPaymentInfo($agent, $commissionAA->getPackages(), $commissionAA->getConnect(),
-            $commissionAA->getSetupFee(), $commissionAA->getStream())];
+        $payments = [$this->createPaymentInfo($agent, $commissionAA->getPackages(), $commissionAA->getConnect(), $commissionAA->getSetupFee(), $commissionAA->getStream())];
 
-        /** if parent is hq all payments are done */
+        /** check if agent should receive a bonus */
+        if ($numberOfCustomers && ($bonus = $this->checkAgentForBonus($agent, $numberOfCustomers))) {
+            $payments[] = $bonus;
+        }
+
+        /** if parent is HQ all payments are done */
         if ($this->isHQ($agent->getSuperior())) {
             return $payments;
         }
 
+        /** if the parent is AMBASSADOR give him MA commission */
         if ($this->isAmbassador($agent->getSuperior())) {
             /** @var Commission $commissionMA */
             $commissionMA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_MASTER_AGENT);
-            array_push($payments, $this->createPaymentInfo($agent->getSuperior(), $commissionMA->getPackages(), $commissionMA->getConnect(),
-                $commissionMA->getSetupFee(), $commissionMA->getStream()));
+            array_push($payments, $this->createPaymentInfo($agent->getSuperior(), $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
 
             return $payments;
         }
 
+        /** if parent is ACTIVE AGENT give payment only to AMBASSADOR */
         if ($this->isActiveAgent($agent->getSuperior()) && ($ambassador = $this->getAmbassador($agent))) {
-
             /** @var Commission $commissionA */
-            $commissionA  = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
-            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(),
-                $commissionA->getSetupFee(), $commissionA->getStream()));
+            $commissionA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
+            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
 
             return $payments;
         }
 
-        /** if it comes to here agent's superior is master agent */
+        /** if it comes to here agent's superior is MASTER AGENT */
         $master = $agent->getSuperior();
         /** @var Commission $commissionMA */
         $commissionMA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_MASTER_AGENT);
-        array_push($payments, $this->createPaymentInfo($master, $commissionMA->getPackages(), $commissionMA->getConnect(),
-            $commissionMA->getSetupFee(), $commissionMA->getStream()));
+        array_push($payments, $this->createPaymentInfo($master, $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
 
+        /** if there is an AMBASSADOR give him commission */
         if (($ambassador = $this->getAmbassador($agent))) {
             /** @var Commission $commissionA */
             $commissionA  = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
-            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(),
-                $commissionA->getSetupFee(), $commissionA->getStream()));
+            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
 
         }
 
         return $payments;
+    }
+
+    /**
+     * @param Agent $agent
+     * @param $numberOfCustomers
+     * @return null|PaymentInfo
+     */
+    public function checkAgentForBonus(Agent $agent, $numberOfCustomers)
+    {
+        /** @var Bonus|null $bonusSetting */
+        $bonusSetting = $this->bonusManager->getBonusForGroup($agent->getGroup());
+        if (!$bonusSetting) {
+            return null;
+        }
+
+        $key = 'month_'.$bonusSetting->getPeriod();
+        if (property_exists($numberOfCustomers, $key) && ($numberOfCustomers->$key > $bonusSetting->getNumberOfCustomers())) {
+            return $this->createBonus($agent, $bonusSetting);
+        }
+
+        return null;
     }
 
     /**
@@ -287,6 +317,23 @@ trait PaymentInfoCreationTrait
         $payment->setPaymentType(PaymentInfoManager::COMMISSION_TYPE);
         $payment->setAgentRole($agent->getGroup()->getName());
         $payment->setCurrency($this->currency);
+
+        return $payment;
+    }
+
+    /**
+     * @param Agent $agent
+     * @param Bonus $bonusSetting
+     * @return PaymentInfo
+     */
+    public function createBonus(Agent $agent, $bonusSetting)
+    {
+        $payment = new PaymentInfo();
+        $payment->setAgent($agent);
+        $payment->setPaymentType(PaymentInfoManager::BONUS_TYPE);
+
+        $payment->setBonusValue($bonusSetting->getAmount());
+        $payment->setCurrency($bonusSetting->getCurrency());
 
         return $payment;
     }
