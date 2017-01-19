@@ -1,4 +1,5 @@
-     module.exports = function(environment) {
+ {% block class_body %}
+    module.exports = function(environment) {
         var ENV = {
             modulePrefix: 'ember-app',
             environment: environment,
@@ -16,8 +17,8 @@
             },
 
             APP: {
-                clientId: "1_4z2tpa764kcgwcgs8ckk8cckc80so8c0sc8w8ws8kc0gocsoco",
-                clientSecret: "5y8iy4na15ogk0coww888840g440gw4gsg8g08w8ogkcg88gck"
+                clientId: "{{ clientId }}",
+                clientSecret: "{{ clientSecret }}"
                 // Here you can pass flags/options to your application instance
                 // when it is created
             }
@@ -49,5 +50,6 @@
         return ENV;
     };
 
-    
+    {% endblock class_body %}
+
 

@@ -2,13 +2,16 @@
 
 namespace UserBundle\Command;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
+use UserBundle\Business\Manager\Agent\SaveMediaTrait;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
 
 /**
@@ -17,7 +20,11 @@ use UserBundle\Entity\Group;
  */
 class CreateAdminCommand extends ContainerAwareCommand
 {
+    use SaveMediaTrait;
 
+    const AGENT_ADMIN_ID = 1102;
+    const SERVER = '192.168.11.3';
+    const HTTPS  = 'on';
     /**
      * {@inheritdoc}
      */
@@ -37,9 +44,18 @@ class CreateAdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        $_SERVER['HTTP_HOST']   = self::SERVER;
+        $_SERVER['SERVER_NAME'] = self::SERVER;
+        $_SERVER['HTTPS']       = self::HTTPS;
+        $picturePath = __DIR__ . '/avatars/user_default.jpg';
+        $type = pathinfo($picturePath, PATHINFO_EXTENSION);
+        $data = file_get_contents($picturePath);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
         $username = $input->getArgument('username');
 
         $agent = new Agent();
+        $agent->setId(self::AGENT_ADMIN_ID);
         $agent->setUsername($username);
         $agent->setEmail($username);
         $agent->setPrivateEmail($username);
@@ -54,6 +70,11 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setAgentBackground('admin');
         $agent->setBankName('bank');
 
+        $image = new Image();
+        $image->setName('profile_'.$agent->getId(). '.jpg');
+        $image->setBase64Content($base64);
+        $agent->setImage($image);
+
         $address = new Address();
         $address->setCity('Belgrade');
         $address->setCountry('Serbia');
@@ -67,8 +88,12 @@ class CreateAdminCommand extends ContainerAwareCommand
             throw new \Exception('Group can not be found');
         }
         $agent->setGroup($group);
+        $this->saveMedia($agent);
         $em->getRepository('UserBundle:Agent')->saveAgent($agent);
 
+        $metadata = $em->getClassMetaData(Agent::class);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        $em->flush();
         $output->writeln('Successfully inserted admin agent to : '.$group);
     }
 
