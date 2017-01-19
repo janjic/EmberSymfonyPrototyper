@@ -342,7 +342,6 @@ table {
   }
 }
 
-
 $ember-power-select-border-color: #64A5ED;
 $ember-power-select-border-radius: 0;
 
@@ -1322,6 +1321,7 @@ header {
   overflow-x: scroll;
   padding: 30px;
 }
+
 .home-card {
   background: $main-red;
   padding: 20px;
@@ -1357,6 +1357,18 @@ header {
   .timer {
     color: #ccc;
   }
+}
+
+.hc-second .home-card {
+  background: #c0742b;
+}
+
+.hc-third .home-card {
+  background: #1d6876;
+}
+
+.hc-fourth .home-card {
+  background: #21913a;
 }
 
 .home-card-loading {
@@ -1800,7 +1812,7 @@ header {
   height: 100px !important;
 }
 @media screen and(max-width: 1200px) and(min-width: 767px) {
-  .dashboard-home .col-md-3 {
+  .dashboard-home .top-cards .col-md-3 {
     width: 50%;
   }
 }
@@ -3173,7 +3185,7 @@ input:focus {
 }
 
 .input-box.agent-details {
-  min-height: 1050px;
+  min-height: 1055px;
 }
 
 .input-box.agent-personal {
@@ -3578,7 +3590,7 @@ ul.dropdown-menu.header-messages {
 .heading-button {
   position: absolute;
   right: 30px;
-  top: 90px;
+  top: 20px;
   padding: 5px 10px;
   font-size: 12px;
 }
@@ -3898,6 +3910,7 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box.first {
     padding: 15px;
     border: 1px solid #ddd;
+    min-height: auto;
     .button.green.add-agent {
       margin-left: 30px;
     }
@@ -3908,6 +3921,7 @@ $searchable-select-spacer-horizontal: 1em;
   .input-box {
     padding: 0;
     border: none;
+    min-height: 350px;
     &:hover {
       box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
     }
@@ -3918,6 +3932,7 @@ $searchable-select-spacer-horizontal: 1em;
       justify-content: center;
       flex-direction: column;
       padding-bottom: 10px;
+      min-height: 170px;
       .info-box-icons {
         display: flex;
         align-items: center;
@@ -3936,6 +3951,7 @@ $searchable-select-spacer-horizontal: 1em;
       h5 {
         color: #fff;
         margin: 0;
+        text-align: center;
       }
       span {
         color: #fff;
@@ -3971,6 +3987,7 @@ $searchable-select-spacer-horizontal: 1em;
         font-size: 13px;
         border-bottom: 1px solid #ddd;
         padding: 5px 0;
+        word-break: break-all;
         &:last-child {
           border-bottom: none;
         }
@@ -3997,7 +4014,6 @@ $searchable-select-spacer-horizontal: 1em;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  display: inline-block;
   color: #fff;
   margin: 2px;
 }
@@ -4063,6 +4079,7 @@ $searchable-select-spacer-horizontal: 1em;
     display: flex;
     align-items: flex-end;
     min-height: 31px;
+    word-break: break-all;
   }
   .switch {
     cursor: not-allowed;
@@ -4226,7 +4243,7 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .home-table-loading {
-  min-height: 360px;
+  min-height: 365px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4368,6 +4385,10 @@ $searchable-select-spacer-horizontal: 1em;
       .upper-box {
         padding: 10px;
         flex-direction: row;
+        min-height: auto;
+        h5 {
+          text-align: left;
+        }
         .img-holder {
           height: 60px !important;
           width: 60px;
@@ -4380,6 +4401,8 @@ $searchable-select-spacer-horizontal: 1em;
             height: 60px;
             border-radius: 50%;
           }
+        }
+        .info-right {
         }
       }
       .lower-box {
@@ -5284,4 +5307,9 @@ $searchable-select-spacer-horizontal: 1em;
 
 .flag.flag-gb {
   background-position: -224px -128px;
+}
+
+.iframe {
+  display: block;
+  width: 100%;
 }

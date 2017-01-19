@@ -1,159 +1,163 @@
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Select agent
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{inf-select
-            optionLabelKey='email'
-            on-search = (perform search)
-            on-change=(action 'agentSelected')
-        }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Price for packages
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=sumPackages type=number class='form-control' }}
-    </div>
-</div>
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Price for connect
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=sumConnection type=number class='form-control' }}
-    </div>
-</div>
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Price for one time setup fee
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=sumOneTimeSetupFee type=number class='form-control' }}
-    </div>
-</div>
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Price for streams
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=sumStreams type=number class='form-control' }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Customer ID
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=customerId type=number class='form-control' }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Order ID
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=orderId type=number class='form-control' }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Currency
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=currency type=number class='form-control' }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <label class="control-label col-md-5 col-sm-5 col-xs-12">
-        Customers in a year
-    </label>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        {{input value=customersInAYear type=text class='form-control' }}
-    </div>
-</div>
-
-<div class="form-group clearfix">
-    <button class="button green pull-right" type="submit" {{action 'sendAjax' changeset }} disabled={{isLoading}}>
-        {{#if isLoading }}
-            {{inf-loading}}
-        {{else}}
-            {{trans 'button.save'}}
-        {{/if}}
-
-    </button>
-</div>
-
-{{#if serverResponse}}
-
-{{!-- RESPONSE --}}
-<div class="purchase-tables">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>Agent ID</th>
-                        {{!--<th>Agent email</th>--}}
-
-                        <th>packagesValue</th>
-                        <th>packagesPercentage</th>
-                        <th>packagesCommission</th>
-
-                        <th>connectValue</th>
-                        <th>connectPercentage</th>
-                        <th>connectCommission</th>
-
-                        <th>setupFeeValue</th>
-                        <th>setupFeePercentage</th>
-                        <th>setupFeeCommission</th>
-
-                        <th>streamValue</th>
-                        <th>streamPercentage</th>
-                        <th>streamCommission</th>
-
-                        <th>totalCommission</th>
-
-                        <th>bonusValue</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each serverResponse as |resp| }}
-                        <tr>
-                            <td>{{resp.relationships.agent.data.id}}</td>
-                            {{!--<td>{{resp.relationships.agent.email}}</td>--}}
-                            <td>{{resp.attributes.packagesValue}}</td>
-                            <td>{{resp.attributes.packagesPercentage}}</td>
-                            <td>{{resp.attributes.packagesCommission}}</td>
-
-                            <td>{{resp.attributes.connectValue}}</td>
-                            <td>{{resp.attributes.connectPercentage}}</td>
-                            <td>{{resp.attributes.connectCommission}}</td>
-
-                            <td>{{resp.attributes.setupFeeValue}}</td>
-                            <td>{{resp.attributes.setupFeePercentage}}</td>
-                            <td>{{resp.attributes.setupFeeCommission}}</td>
-
-                            <td>{{resp.attributes.streamValue}}</td>
-                            <td>{{resp.attributes.streamPercentage}}</td>
-                            <td>{{resp.attributes.streamCommission}}</td>
-
-                            <td>{{resp.attributes.totalCommission}}</td>
-                            <td>{{resp.attributes.bonusValue}}</td>
-                        </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
-            </div>
+<div class="input-box">
+    <h1 class="main-heading">
+        Test commissions
+    </h1>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Select agent
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{inf-select
+                    optionLabelKey='email'
+                    on-search = (perform search)
+                    on-change=(action 'agentSelected')
+            }}
         </div>
     </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Price for packages
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=sumPackages type=number class='form-control' }}
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Price for connect
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=sumConnection type=number class='form-control' }}
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Price for one time setup fee
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=sumOneTimeSetupFee type=number class='form-control' }}
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Price for streams
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=sumStreams type=number class='form-control' }}
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Customer ID
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=customerId type=number class='form-control' }}
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Order ID
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=orderId type=number class='form-control' }}
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Currency
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=currency type=number class='form-control' }}
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <label class="control-label col-md-5 col-sm-5 col-xs-12">
+            Customers in a year
+        </label>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            {{input value=customersInAYear type=text class='form-control' }}
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <button class="button green pull-right" type="submit" {{action 'sendAjax' changeset }} disabled={{isLoading}}>
+            {{#if isLoading }}
+                {{inf-loading}}
+            {{else}}
+                {{trans 'button.save'}}
+            {{/if}}
+
+        </button>
+    </div>
+
+    {{#if serverResponse}}
+
+    {{!-- RESPONSE --}}
+        <div class="purchase-tables">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Agent ID</th>
+                                {{!--<th>Agent email</th>--}}
+
+                                <th>packagesValue</th>
+                                <th>packagesPercentage</th>
+                                <th>packagesCommission</th>
+
+                                <th>connectValue</th>
+                                <th>connectPercentage</th>
+                                <th>connectCommission</th>
+
+                                <th>setupFeeValue</th>
+                                <th>setupFeePercentage</th>
+                                <th>setupFeeCommission</th>
+
+                                <th>streamValue</th>
+                                <th>streamPercentage</th>
+                                <th>streamCommission</th>
+
+                                <th>totalCommission</th>
+                                <th>bonusValue</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each serverResponse as |resp| }}
+                                <tr>
+                                    <td>{{resp.relationships.agent.data.id}}</td>
+                                    {{!--<td>{{resp.relationships.agent.email}}</td>--}}
+                                    <td>{{resp.attributes.packagesValue}}</td>
+                                    <td>{{resp.attributes.packagesPercentage}}</td>
+                                    <td>{{resp.attributes.packagesCommission}}</td>
+
+                                    <td>{{resp.attributes.connectValue}}</td>
+                                    <td>{{resp.attributes.connectPercentage}}</td>
+                                    <td>{{resp.attributes.connectCommission}}</td>
+
+                                    <td>{{resp.attributes.setupFeeValue}}</td>
+                                    <td>{{resp.attributes.setupFeePercentage}}</td>
+                                    <td>{{resp.attributes.setupFeeCommission}}</td>
+
+                                    <td>{{resp.attributes.streamValue}}</td>
+                                    <td>{{resp.attributes.streamPercentage}}</td>
+                                    <td>{{resp.attributes.streamCommission}}</td>
+
+                                    <td>{{resp.attributes.totalCommission}}</td>
+                                    <td>{{resp.attributes.bonusValue}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
 </div>
-{{/if}}
