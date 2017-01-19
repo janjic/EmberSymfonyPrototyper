@@ -1,6 +1,7 @@
 import TCRCoreAdapter from './tcr-core-adapter';
 
 export default TCRCoreAdapter.extend( {
+    ajax: Ember.inject.service(),
     query(store, type, query){
         /**
          * Most efficient cloning method that works!
