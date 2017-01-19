@@ -40,6 +40,14 @@ trait JsonApiUpdateAgentManagerTrait
             $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
             $agent->setSuperior($newSuperior);
         }
+
+        if ( !is_null($agent->getNewSuperiorId()) ){
+            // Change child agents to new Superior agent
+            $refSuperior = $this->getEntityReference($agent->getNewSuperiorId());
+            $resp = $this->repository->changeSuperiorOfAllChildren($dbAgent, $refSuperior);
+//            var_dump($resp);die();
+        }
+
         $agentOrException = $this->edit($dbAgent, $dbSuperior, $newSuperior);
 
         if ($agentOrException instanceof Exception) {
@@ -62,16 +70,16 @@ trait JsonApiUpdateAgentManagerTrait
                 $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
             }
 
-            try {
-                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
-                if (is_object($syncResult) && $syncResult->code == 200) {
+//            try {
+//                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
+//                if (is_object($syncResult) && $syncResult->code == 200) {
                     $this->flushDb();
-                } else {
-                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-                }
-            } catch (\Exception $exception) {
-                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-            }
+//                } else {
+//                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//                }
+//            } catch (\Exception $exception) {
+//                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+//            }
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);
@@ -150,9 +158,15 @@ trait JsonApiUpdateAgentManagerTrait
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
     {
-        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+//        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+            if( $agent->getGroup() ){
+                $dbGroup = $this->groupManager->getReference($agent->getGroup()->getId());
 
-
+                if( $agent->getGroup()->getId() != $dbAgent->getGroup()->getId() ){
+                    $dbAgent->setRoleChangedAt(new \DateTime());
+                }
+                $dbAgent->setGroup($dbGroup);
+            }
     }
 
     private function setAndValidateNotifications (Agent $agent, Agent $dbAgent)

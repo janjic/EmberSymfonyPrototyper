@@ -6,6 +6,8 @@ use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Exception;
 use UserBundle\Entity\Document\Image;
+use UserBundle\Entity\Group;
+use UserBundle\Entity\Settings\Bonus;
 use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
 
@@ -23,9 +25,19 @@ trait JsonApiUpdateSettingsManagerTrait
     {
         /** @var Settings $settings */
         $settings = $this->deserializeSettings($data);
+//        var_dump($settings->getCommissions());die();
 
         //1. reference
         $dbSettings = $this->getEntityReference($settings->getId());
+
+        /** @var Commission $commission */
+        foreach( $settings->getCommissions() as $commission){
+            $commission->setGroup($this->repository->getReferenceForClass($commission->getId(), Commission::class)->getGroup());
+        }
+        /** @var Bonus $bonus */
+        foreach( $settings->getBonuses() as $bonus){
+            $bonus->setGroup($this->repository->getReferenceForClass($bonus->getId(), Bonus::class)->getGroup());
+        }
 
         $this->setAndValidateImage($settings, $dbSettings);
 

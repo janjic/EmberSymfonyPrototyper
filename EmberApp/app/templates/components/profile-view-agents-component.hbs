@@ -1,0 +1,48 @@
+<div class="input-box home-table clearfix">
+    <h3 class="sub-heading">{{fa-icon "users"}} Agents</h3>
+    {{#card-view-component model=subAgents page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
+        {{agent/agent-card-view-component viewLink=viewLink editLink=editLink agent=yieldModel}}
+    {{/card-view-component}}
+</div>
+    {{!--<div class="flex-table">--}}
+        {{!--<div class="flex-row fixed">--}}
+            {{!--<div class="flex-item">--}}
+                {{!--<span>Agent</span>--}}
+            {{!--</div>--}}
+            {{!--<div class="flex-item">--}}
+                {{!--<span>Order</span>--}}
+            {{!--</div>--}}
+            {{!--<div class="flex-item">--}}
+                {{!--<span>Agent type</span>--}}
+            {{!--</div>--}}
+            {{!--<div class="flex-item">--}}
+                {{!--<span>Actions</span>--}}
+            {{!--</div>--}}
+        {{!--</div>--}}
+        {{!--{{#each subAgents as |subAgent|}}--}}
+            {{!--<div class="flex-row">--}}
+                {{!--<div class="flex-item user-item">--}}
+                    {{!--<div class="img-holder">--}}
+                        {{!--{{#if agent.image.webPath}}--}}
+                            {{!--<img src="{{agent.image.webPath}}" alt="">--}}
+                        {{!--{{else}}--}}
+                            {{!--<img src="./assets/images/user-avatar.png" alt="Avatar">--}}
+                        {{!--{{/if}}--}}
+                    {{!--</div>--}}
+                    {{!--<div class="info">--}}
+                        {{!--<h5>{{subAgent.firstName}} {{subAgent.lastName}}</h5>--}}
+                        {{!--<span>January 12, 2017</span>--}}
+                    {{!--</div>--}}
+                {{!--</div>--}}
+                {{!--<div class="flex-item">--}}
+                    {{!--<span>Package 25</span>--}}
+                {{!--</div>--}}
+                {{!--<div class="flex-item">--}}
+                    {{!--<h6 class="label label-success">master</h6>--}}
+                {{!--</div>--}}
+                {{!--<div class="flex-item">--}}
+                    {{!--<a href="#" class="button red icon-btn">Edit</a>--}}
+                {{!--</div>--}}
+            {{!--</div>--}}
+        {{!--{{/each}}--}}
+    {{!--</div>--}}

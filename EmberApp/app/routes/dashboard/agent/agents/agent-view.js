@@ -25,11 +25,11 @@ export default Ember.Route.extend({
 
     setupController: function(controller, model) {
         this._super(...arguments);
-        let agentId = this.get('agent_id');
         // controller.set('model', model);
-        controller.set('promoCode', agentId);
         controller.set('maxPages', model.subAgents.meta.pages);
         controller.set('totalItems', model.subAgents.meta.totalItems);
+        let agentId = this.get('agent_id');
+        controller.set('promoCode', agentId);
         this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', Routing.generate('agent-info', { id: agentId }),
             function (response) {
                 controller.set('info', response.data);

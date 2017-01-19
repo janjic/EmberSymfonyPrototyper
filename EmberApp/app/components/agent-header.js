@@ -12,16 +12,13 @@ export default Component.extend({
     _maxIdAgents:           undefined,
     eventBus:               Ember.inject.service('event-bus'),
 
-    isUserAdmin: Ember.computed('current_user.user', function() {
-        return this.get('currentUser.user').get('roles').includes('ROLE_SUPER_ADMIN');
-    }),
-
     init(){
         this._super(...arguments);
+        this.set('isUserAdmin', this.get('currentUser.isUserAdmin'));
 
-        this._initNotification();
-
-        this._initMessages();
+        // this._initNotification();
+        //
+        // this._initMessages();
     },
 
     profileRoute: computed('user',function () {
@@ -45,27 +42,27 @@ export default Component.extend({
     },
 
     getNewMessage: task(function * () {
-        while (true) {
-            yield timeout(10000);
-
-            this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' , max_id: this.get('_maxIdAgents')})
-                .then((newAgentNotifications) => {
-                    if(newAgentNotifications.toArray().length && this.get('agentNotifications')){
-                        this.get('agentNotifications').unshiftObjects(newAgentNotifications.toArray());
-                        this.get('agentNotifications').splice(5);
-                        this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
-                    }
-                });
-
-            this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW MESSAGE NOTIFICATION' , max_id: this.get('_maxIdMessage')})
-                .then((newMessageNotification) => {
-                    if(newMessageNotification.toArray().length && this.get('messageNotifications')){
-                        this.get('messageNotifications').unshiftObjects(newMessageNotification.toArray());
-                        this.get('messageNotifications').splice(5);
-                        this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
-                    }
-                });
-        }
+        // while (true) {
+        //     yield timeout(10000);
+        //
+        //     this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' , max_id: this.get('_maxIdAgents')})
+        //         .then((newAgentNotifications) => {
+        //             if(newAgentNotifications.toArray().length && this.get('agentNotifications')){
+        //                 this.get('agentNotifications').unshiftObjects(newAgentNotifications.toArray());
+        //                 this.get('agentNotifications').splice(5);
+        //                 this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
+        //             }
+        //         });
+        //
+        //     this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW MESSAGE NOTIFICATION' , max_id: this.get('_maxIdMessage')})
+        //         .then((newMessageNotification) => {
+        //             if(newMessageNotification.toArray().length && this.get('messageNotifications')){
+        //                 this.get('messageNotifications').unshiftObjects(newMessageNotification.toArray());
+        //                 this.get('messageNotifications').splice(5);
+        //                 this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
+        //             }
+        //         });
+        // }
     }).on('init'),
 
     _initNotification(){
