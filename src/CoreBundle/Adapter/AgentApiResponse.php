@@ -67,6 +67,14 @@ class AgentApiResponse
     {
         return array('data' => $info, 'status' => AgentApiCode::AGENT_NEW_INFO_OK);
     }
+    /**
+     * @param $info
+     * @return array
+     */
+    public static function CHECK_NEW_SUPERIOR_TYPE($info)
+    {
+        return array('data' => $info, 'status' => AgentApiCode::AGENT_NEW_SUPERIOR_RESPONSE);
+    }
 
     /**
      * @param $email

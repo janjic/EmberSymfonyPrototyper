@@ -50,13 +50,13 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $packagesValue;
+    protected $packagesValue = 0;
 
     /**
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $packagesPercentage;
+    protected $packagesPercentage = 0;
 
     /**
      * @var float
@@ -68,13 +68,13 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $connectValue;
+    protected $connectValue = 0;
 
     /**
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $connectPercentage;
+    protected $connectPercentage = 0;
 
     /**
      * @var float
@@ -86,13 +86,13 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $setupFeeValue;
+    protected $setupFeeValue = 0;
 
     /**
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $setupFeePercentage;
+    protected $setupFeePercentage = 0;
 
     /**
      * @var float
@@ -104,13 +104,13 @@ class PaymentInfo
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $streamValue;
+    protected $streamValue = 0;
 
     /**
      * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    protected $streamPercentage;
+    protected $streamPercentage = 0;
 
     /**
      * @var float
@@ -132,7 +132,7 @@ class PaymentInfo
 
     /**
      * @var String
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $bonusDesc;
 
@@ -641,5 +641,37 @@ class PaymentInfo
     public function setCurrency($currency)
     {
         $this->currency = $currency;
+    }
+
+    /**
+     * @return float
+     */
+    public function getBonusValue()
+    {
+        return $this->bonusValue;
+    }
+
+    /**
+     * @param float $bonusValue
+     */
+    public function setBonusValue($bonusValue)
+    {
+        $this->bonusValue = $bonusValue;
+    }
+
+    /**
+     * @return String
+     */
+    public function getBonusDesc()
+    {
+        return $this->bonusDesc;
+    }
+
+    /**
+     * @param String $bonusDesc
+     */
+    public function setBonusDesc($bonusDesc)
+    {
+        $this->bonusDesc = $bonusDesc;
     }
 }

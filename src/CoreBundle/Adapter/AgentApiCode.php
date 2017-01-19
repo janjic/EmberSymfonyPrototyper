@@ -33,6 +33,7 @@ class AgentApiCode
     const AGENT_DELETE_ERROR                        = 36;
     const AGENT_DELETE_SYNC_ERROR                   = 37;
     const AGENT_NEW_INFO_OK                         = 38;
+    CONST AGENT_NEW_SUPERIOR_RESPONSE               = 39;
 
     /** ROLE */
     const ROLE_SAVED_SUCCESSFULLY                   = 2001;

@@ -106,6 +106,17 @@ class Agent extends BaseUser implements ParticipantInterface
     protected $createdAt;
 
     /**
+     * @var String
+     */
+    protected $newSuperiorId;
+
+    /**
+     * @var string
+     * @ORM\Column(name="role_changed_at", type="date", length=255, nullable=true)
+     */
+    protected $roleChangedAt;
+
+    /**
      * @TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -594,6 +605,38 @@ class Agent extends BaseUser implements ParticipantInterface
     public function setNotifications($notifications)
     {
         $this->notifications = $notifications;
+    }
+
+    /**
+     * @return String
+     */
+    public function getNewSuperiorId()
+    {
+        return $this->newSuperiorId;
+    }
+
+    /**
+     * @param String $newSuperiorId
+     */
+    public function setNewSuperiorId($newSuperiorId)
+    {
+        $this->newSuperiorId = $newSuperiorId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoleChangedAt()
+    {
+        return $this->roleChangedAt;
+    }
+
+    /**
+     * @param mixed $roleChangedAt
+     */
+    public function setRoleChangedAt($roleChangedAt)
+    {
+        $this->roleChangedAt = $roleChangedAt;
     }
 
     /**

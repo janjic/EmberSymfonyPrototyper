@@ -366,11 +366,11 @@ settings:
     connect: 'Connect'
     stream: 'Stream'
     active-agents: 'Active agents'
-    amount-chf: 'Amount - CHF'
-    amount-eur: 'Amount - EUR'
+    amount-chf: 'Amount'
     number-of-customers: 'Number of customers > xy'
     for-period-less: 'For period of time less than'
     month(s): 'month(s)'
+    currency: 'Currency'
 
 #HOME
 

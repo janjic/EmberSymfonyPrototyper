@@ -14,5 +14,13 @@ export default Ember.Route.extend({
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
         controller.set('agents', this.store.findAll('agent'));
+    },
+
+    actions: {
+        willTransition() {
+            this.controller.set('agentId', undefined);
+            this.controller.set('searchArray', undefined);
+            this.controller.set('page', 1);
+        }
     }
 });

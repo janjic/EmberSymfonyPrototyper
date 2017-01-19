@@ -108,6 +108,8 @@ Router.map(function() {
           this.route('agents', function() {
             this.route('add-new-agent');
             this.route('all-agents');
+            this.route('agent-view', {path: '/agent-view/:id'});
+            this.route('agent-edit', {path: '/agent-edit/:id'});
           });
           this.route('notifications', function () {
               this.route('notifications-all');

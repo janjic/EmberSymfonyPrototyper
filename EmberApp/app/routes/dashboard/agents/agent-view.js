@@ -13,7 +13,8 @@ export default Ember.Route.extend({
             page: 1,
             offset: 4,
             sidx: 'id',
-            sord: 'asc'
+            sord: 'asc',
+            promoCode: params.id
         });
 
         return RSVP.hash({
@@ -23,8 +24,12 @@ export default Ember.Route.extend({
     },
 
     setupController: function(controller, model) {
-        controller.set('model', model);
+        this._super(...arguments);
         let agentId = this.get('agent_id');
+        // controller.set('model', model);
+        controller.set('promoCode', agentId);
+        controller.set('maxPages', model.subAgents.meta.pages);
+        controller.set('totalItems', model.subAgents.meta.totalItems);
         this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', Routing.generate('agent-info', { id: agentId }),
             function (response) {
                 controller.set('info', response.data);

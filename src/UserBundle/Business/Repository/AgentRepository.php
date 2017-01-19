@@ -244,7 +244,7 @@ class AgentRepository extends NestedTreeRepository
         }
         if ( $promoCode ) {
             $qb->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
-            $qb->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
+            $qb->andWhere(self::SUPERIOR_ALIAS.'.id = :agentCode')->setParameter('agentCode', $promoCode);
         }
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
         return $qb->getQuery()->getResult();
@@ -420,7 +420,7 @@ class AgentRepository extends NestedTreeRepository
         }
         if( $promoCode ){
             $oQ0->leftJoin(self::ALIAS.'.'.self::SUPERIOR_ALIAS, self::SUPERIOR_ALIAS);
-            $oQ0->andWhere(self::SUPERIOR_ALIAS.'.agentId = :agentCode')->setParameter('agentCode', $promoCode);
+            $oQ0->andWhere(self::SUPERIOR_ALIAS.'.id = :agentCode')->setParameter('agentCode', $promoCode);
         }
         if ($isCountSearch) {
             $oQ0->select('COUNT(DISTINCT '.self::ALIAS.')');
@@ -588,5 +588,25 @@ class AgentRepository extends NestedTreeRepository
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @param $oldSuperior
+     * @param $newSuperior
+     *
+     * @return mixed
+     */
+    public function changeSuperiorOfAllChildren($oldSuperior, $newSuperior)
+    {
+        foreach ($oldSuperior->getChildren() as $childAgent) {
+            $this->persistAsFirstChildOf($childAgent, $newSuperior);
+        }
+//        $qb = $this->createQueryBuilder(self::ALIAS);
+//        $qb->update()
+//            ->set(self::ALIAS.'.superior', $newSuperior)
+//            ->where(self::ALIAS.'.superior = ?1')
+//            ->setParameter(1, $oldSuperior);
+//
+//        return $qb->getQuery()->getResult();
     }
 }

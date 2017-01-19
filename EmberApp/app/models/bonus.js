@@ -6,8 +6,8 @@ export default Model.extend({
     settings:           belongsTo('setting', {inverse: 'bonuses'}, {async: true}),
     group:              belongsTo('group'),
     name:               attr('string'),
-    amountCHF:          attr('number'),
-    amountEUR:          attr('number'),
+    amount:             attr('number'),
+    currency:           attr('string'),
     numberOfCustomers:  attr('number'),
     period:             attr('number')
 });

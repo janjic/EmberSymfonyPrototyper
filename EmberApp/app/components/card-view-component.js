@@ -13,11 +13,6 @@ export default Ember.Component.extend({
     defaultSortType: null,
     showSearchSortBar: true,
     showAddAgentButton: true,
-    paramsArray: {
-        groupOp: 'or',
-        rules: []
-    },
-    searchArray: [],
     firstBtnClasses: "button dark icon-btn",
     secondBtnClasses: "button dark icon-btn",
     inputClasses:  Ember.computed('focusable', function () {
@@ -117,5 +112,15 @@ export default Ember.Component.extend({
     search: task(function * (text, page, perPage) {
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);
-    })
+    }),
+
+    init() {
+        this.set('paramsArray', {
+            groupOp: 'or',
+            rules: []
+        });
+        this.set('searchValue', '');
+        this.set('searchArray', []);
+        this._super(...arguments);
+    }
 });

@@ -20,6 +20,7 @@ use Swap\Model\CurrencyPair;
 use Swap\Swap;
 use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
+use UserBundle\Business\Manager\BonusManager;
 use UserBundle\Business\Manager\CommissionManager;
 use UserBundle\Business\Manager\GroupManager;
 use UserBundle\Business\Manager\RoleManager;
@@ -77,6 +78,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      */
     protected $tokenStorage;
 
+    /**
+     * @var BonusManager
+     */
+    protected $bonusManager;
+
     protected $packagesPrice;
     protected $connectPrice;
     protected $setupFeePrice;
@@ -92,9 +98,8 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @param CommissionManager $commissionManager
      * @param Swap $florianSwap
      * @param TokenStorageInterface $tokenStorage
-     * @param GroupManager $groupManager
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, GroupManager $groupManager)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, GroupManager $groupManager, BonusManager $bonusManager)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
@@ -103,6 +108,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         $this->florianSwap       = $florianSwap;
         $this->tokenStorage      = $tokenStorage;
         $this->groupManager      = $groupManager;
+        $this->bonusManager      = $bonusManager;
     }
 
     /**

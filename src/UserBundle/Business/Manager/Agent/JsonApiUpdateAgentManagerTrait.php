@@ -40,6 +40,14 @@ trait JsonApiUpdateAgentManagerTrait
             $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
             $agent->setSuperior($newSuperior);
         }
+
+        if ( !is_null($agent->getNewSuperiorId()) ){
+            // Change child agents to new Superior agent
+            $refSuperior = $this->getEntityReference($agent->getNewSuperiorId());
+            $resp = $this->repository->changeSuperiorOfAllChildren($dbAgent, $refSuperior);
+//            var_dump($resp);die();
+        }
+
         $agentOrException = $this->edit($dbAgent, $dbSuperior, $newSuperior);
 
         if ($agentOrException instanceof Exception) {
@@ -150,8 +158,15 @@ trait JsonApiUpdateAgentManagerTrait
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
     {
-        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+//        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
+            if( $agent->getGroup() ){
+                $dbGroup = $this->groupManager->getReference($agent->getGroup()->getId());
 
+                if( $agent->getGroup()->getId() != $dbAgent->getGroup()->getId() ){
+                    $dbAgent->setRoleChangedAt(new \DateTime());
+                }
+                $dbAgent->setGroup($dbGroup);
+            }
     }
 
     private function setAndValidateNotifications (Agent $agent, Agent $dbAgent)

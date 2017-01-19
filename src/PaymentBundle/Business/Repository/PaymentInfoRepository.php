@@ -373,6 +373,12 @@ class PaymentInfoRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param $agent
+     * @param $period
+     * @return array
+     */
     public function newCommissionsCount($agent, $period)
     {
         switch ($period){
@@ -395,7 +401,6 @@ class PaymentInfoRepository extends EntityRepository
         }
         $qb->groupBy(self::ALIAS.'.currency');
 
-//        var_dump($qb->getQuery()->getResult());die();
         return $qb->getQuery()->getResult();
     }
 

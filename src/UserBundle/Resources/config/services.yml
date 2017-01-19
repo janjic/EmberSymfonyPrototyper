@@ -193,6 +193,19 @@ services:
             repository: "@agent_system.commission.repository"
             fSerializer: "@f_serializer"
 
+    # ------ Bonus --------------------------------------------------------------------------------------------------- #
+    agent_system.bonus.repository:
+        class: UserBundle\Business\Repository\BonusRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - UserBundle\Entity\Settings\Bonus
+
+    agent_system.bonus.manager:
+        class: UserBundle\Business\Manager\BonusManager
+        arguments:
+            repository: "@agent_system.bonus.repository"
+            fSerializer: "@f_serializer"
+
     # ------ AgentHistory -------------------------------------------------------------------------------------------- #
 
     agent_system.agent.history.repository:

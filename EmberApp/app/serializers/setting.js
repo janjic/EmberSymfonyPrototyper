@@ -51,10 +51,13 @@ export default DS.JSONAPISerializer.extend({
                     payloadType = this.payloadKeyFromModelName(item.modelName);
                 }
 
+                // let serialized = item.serialize().data;
                 data[i] = {
                     type: payloadType,
                     id: item.id,
-                    attributes: item._attributes
+                    attributes: item._attributes,
+                    // attributes: serialized.attributes,
+                    // relationships: serialized.relationships
                 };
             }
 

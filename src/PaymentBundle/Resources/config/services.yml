@@ -15,6 +15,7 @@ services:
             florianSwap: "@florianv_swap.swap"
             tokenStorage: "@security.token_storage"
             groupManager: "@agent_system.group.manager"
+            bonusManager: "@agent_system.bonus.manager"
 
     agent_system.payment_info.adapter:
             class: PaymentBundle\Adapter\PaymentInfo\PaymentInfoAdapter
