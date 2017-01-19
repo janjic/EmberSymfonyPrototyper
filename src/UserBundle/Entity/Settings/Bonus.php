@@ -124,10 +124,13 @@ class Bonus
 
     /**
      * @param mixed $amount
+     * @return $this
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -140,10 +143,13 @@ class Bonus
 
     /**
      * @param mixed $currency
+     * @return $this
      */
     public function setCurrency($currency)
     {
         $this->currency = $currency;
+
+        return $this;
     }
 
     /**
@@ -194,10 +200,13 @@ class Bonus
 
     /**
      * @param mixed $name
+     * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
 

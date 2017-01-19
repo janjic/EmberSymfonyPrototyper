@@ -19,6 +19,7 @@ class RoleHelper
     const PORTAL_SAMSUNG        = 'SAMSUNG';
     const PORTAL_REFEREE        = 'Referee';
     const PORTAL_ADMIN          = 'ADMIN';
+    const PORTAL_ACTIVE         = 'ACTIVE';
 
 
     const REFEREE    = 'REFEREE';
@@ -37,6 +38,7 @@ class RoleHelper
                         self::PORTAL_MASTER_AGENT   => self::MASTER,
                         self::PORTAL_AMBASSADOR     => self::AMBASSADOR,
                         self::PORTAL_ADMIN          => self::ACTIVE,
+                        self::PORTAL_ACTIVE          => self::ACTIVE,
 
     );
 
