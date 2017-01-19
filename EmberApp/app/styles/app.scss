@@ -3590,7 +3590,7 @@ ul.dropdown-menu.header-messages {
 .heading-button {
   position: absolute;
   right: 30px;
-  top: 90px;
+  top: 20px;
   padding: 5px 10px;
   font-size: 12px;
 }
@@ -4014,7 +4014,6 @@ $searchable-select-spacer-horizontal: 1em;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  display: inline-block;
   color: #fff;
   margin: 2px;
 }
@@ -4080,6 +4079,7 @@ $searchable-select-spacer-horizontal: 1em;
     display: flex;
     align-items: flex-end;
     min-height: 31px;
+    word-break: break-all;
   }
   .switch {
     cursor: not-allowed;
@@ -4401,6 +4401,8 @@ $searchable-select-spacer-horizontal: 1em;
             height: 60px;
             border-radius: 50%;
           }
+        }
+        .info-right {
         }
       }
       .lower-box {

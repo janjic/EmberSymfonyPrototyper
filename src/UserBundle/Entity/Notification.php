@@ -20,8 +20,8 @@ class Notification
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ConversationBundle\Entity\Message", cascade={"all"})
-     * @ORM\JoinColumn(name="message_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="ConversationBundle\Entity\Message")
+     * @ORM\JoinColumn(name="message_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $message;
 
@@ -44,7 +44,7 @@ class Notification
     protected $isSeen = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
      * @ORM\JoinColumn(name="new_agent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $newAgent;

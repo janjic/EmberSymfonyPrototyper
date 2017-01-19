@@ -1,17 +1,12 @@
-<div class="form-group clearfix">
 {{invite-people-component}}
+{{! inf-select
+        optionLabelKey='email'
+        selected = changeset.superior
+        on-search = (perform search)
+        on-change=(action 'agentSelected')
+}}
 
-</div>
-<div class="form-group clearfix">
-    {{inf-select
-            optionLabelKey='email'
-            selected = changeset.superior
-            on-search = (perform search)
-            on-change=(action 'agentSelected')
-    }}
-</div>
-
-{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
+{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset showAgentFilter=true agentSelected=(action 'agentSelected') search=search filter=(action 'filterModel') as |yieldModel|}}
 
     {{user/user-card-view-component viewLink="dashboard.users.user-view" editLink="dashboard.users.user-edit" user=yieldModel}}
 

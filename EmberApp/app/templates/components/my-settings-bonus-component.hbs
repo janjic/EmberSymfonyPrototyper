@@ -2,31 +2,25 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group clearfix">
-            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-chf'}}
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount'}}
                 <span class="required" aria-required="true"> * </span>
             </label>
             <div class="col-md-7 col-sm-7 col-xs-12">
                 {{validated-field
                         type="text"
                         changeset=changeset
-                        property="amountCHF"
+                        property="amount"
                         doNotShowLabel=true
-                        validateProperty=(action 'validateProperty' changeset "amountCHF")
+                        validateProperty=(action 'validateProperty' changeset "amount")
                 }}
             </div>
         </div>
         <div class="form-group clearfix">
-            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.amount-eur'}}
+            <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'settings.labels.currency'}}
                 <span class="required" aria-required="true"> * </span>
             </label>
             <div class="col-md-7 col-sm-7 col-xs-12">
-                {{validated-field
-                        type="text"
-                        changeset=changeset
-                        property="amountEUR"
-                        doNotShowLabel=true
-                        validateProperty=(action 'validateProperty' changeset "amountEUR")
-                }}
+                {{elements/currency-select onCurrencyChange=(action 'currencyChanged') selectedCurrency=bonus.currency}}
             </div>
         </div>
     </div>

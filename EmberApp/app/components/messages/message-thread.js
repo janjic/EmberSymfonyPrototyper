@@ -116,6 +116,19 @@ export default Ember.Component.extend(LoadingStateMixin, ReverseLoadingMixin, {
             this.set('newMessagesDisplayToggle', false);
             this.scrollToBottom();
         },
+
+        // permanentDelete() {
+        //     this.showLoader();
+        //
+        //     this.get('thread').destroyRecord().then(() => {
+        //         this.toast.success('models.message.permanent-delete');
+        //         this.set('thread', null);
+        //         this.disableLoader();
+        //     }, (response) => {
+        //         this.processErrors(response.errors);
+        //         this.disableLoader();
+        //     });
+        // }
     },
 
     /**

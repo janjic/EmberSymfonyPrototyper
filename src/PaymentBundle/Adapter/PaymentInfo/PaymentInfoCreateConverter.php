@@ -38,6 +38,7 @@ class PaymentInfoCreateConverter extends BasicConverter
             (float) $data->sumStreams,
             (int) $data->customerId,
             (int) $data->orderId,
+            $data->customersInAYear,
             $data->currency
         );
 
