@@ -24,6 +24,7 @@ trait JsonApiAgentOrgchartManagerTrait
         $data = $this->repository->loadRootAndChildren();
         $helper = [];
         foreach ($data as $agent) {
+            $agent['className'] = strtolower($agent['groupName']);
 
             $superior = $agent['superior_id'];
             $childrenCount = $agent['childrenCount'];
@@ -48,6 +49,7 @@ trait JsonApiAgentOrgchartManagerTrait
                 $helper[$agent['id']] = $agent;
             }
 
+
         }
 
         return array_values($helper)[0];
@@ -62,6 +64,7 @@ trait JsonApiAgentOrgchartManagerTrait
         $data = $this->repository->loadChildren($parent);
         $helper['children'] = [];
         foreach ($data as $agent) {
+            $agent['className'] = strtolower($agent['groupName']);
 
             $agent['relationship'] = '1'.(sizeof($data) > 1 ? 1 : 0).((int) $agent['childrenCount'] > 0 ? 1 : 0);
             unset($agent['childrenCount']);
