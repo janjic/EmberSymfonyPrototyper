@@ -22,7 +22,7 @@ class CreateAdminCommand extends ContainerAwareCommand
 {
     use SaveMediaTrait;
 
-    const AGENT_ADMIN_ID = 1111110001111111;
+    const AGENT_ADMIN_ID = 1102;
     const SERVER = '192.168.11.3';
     const HTTPS  = 'on';
     /**
