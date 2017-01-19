@@ -57,9 +57,9 @@ trait PaymentInfoCreationTrait
             $payments = $this->createCommissionForAgent($agent, $numberOfCustomers);
         }
 
-        if ($persistData) {
+//        if ($persistData) {
             $payments = $this->repository->saveArray($payments);
-        }
+//        }
 
         if ($payments instanceof \Exception) {
             return [];

@@ -31,25 +31,28 @@
             <p><span>Email</span> <br>
                 {{model.email}}
             </p>
-            <p><span>Promotion suggestion</span> <br>
-                {{#if promotion}}
-                    {{#if (eq model.role_code role_codes.role_active_agent)}}
-                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Master Agent <br>
+
+            {{#if promotion}}
+                <p><span>Promotion suggestion</span> <br>
+                    {{#if (eq model.role_name role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_master_agent}} <br>
                         Agent has : {{model.active_agents_numb}} Active Agents
                     {{else}}
-                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Active Agent <br>
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
                         Agent has : {{model.active_agents_numb}} Sales
                     {{/if}}
-                {{else}}
-                    {{#if (eq model.role_code role_codes.role_active_agent)}}
-                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Referee <br>
+                </p>
+            {{else}}
+                <p><span>Demotion suggestion</span> <br>
+                    {{#if (eq model.role_name role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_referee}} <br>
                         Agent has : {{model.active_agents_numb}} Sales
                     {{else}}
-                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} Active Agent <br>
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
                         Agent has : {{model.active_agents_numb}} Active Agents
                     {{/if}}
-                {{/if}}
-            </p>
+                </p>
+            {{/if}}
         </div>
     </div>
 </div>
@@ -71,17 +74,34 @@
     {{/bs-modal-body}}
 {{/bs-modal}}
 
+{{#bs-modal open=isSuperiorModalOpen header=false body=false footer=false }}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="chooseNewSuperior">
+            Choose new superior
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        {{inf-select
+                optionLabelKey='name'
+                content=groups
+                serchable=true
+                on-change=(action 'newSuperiorRoleSelected')
+        }}
+        <button {{ action 'doPromotion' }}>Save</button>
+    {{/bs-modal-body}}
+{{/bs-modal}}
+
 {{!--{{#bs-modal open=isSuperiorModalOpen header=false body=false footer=false }}--}}
-    {{!--{{#bs-modal-header}}--}}
-        {{!--<h4 class="modal-title" id="chooseNewSuperior">--}}
-            {{!--Choose superior type for agents children--}}
-        {{!--</h4>--}}
-    {{!--{{/bs-modal-header}}--}}
-    {{!--{{#bs-modal-body}}--}}
+{{!--{{#bs-modal-header}}--}}
+{{!--<h4 class="modal-title" id="chooseNewSuperior">--}}
+{{!--Choose superior type for agents children--}}
+{{!--</h4>--}}
+{{!--{{/bs-modal-header}}--}}
+{{!--{{#bs-modal-body}}--}}
 
-        {{!--{{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group--}}
-                                {{!--changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}--}}
+{{!--{{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group--}}
+{{!--changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}--}}
 
-        {{!--<button {{ action 'doDemotion' }}>Save</button>--}}
-    {{!--{{/bs-modal-body}}--}}
+{{!--<button {{ action 'doDemotion' }}>Save</button>--}}
+{{!--{{/bs-modal-body}}--}}
 {{!--{{/bs-modal}}--}}

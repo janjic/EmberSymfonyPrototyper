@@ -392,8 +392,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     /**
      * @param $agentId
      * @param $type
-     *
-     * @return int|null
+     * @return null|Agent
      */
     public function checkNewSuperiorType($agentId, $type)
     {

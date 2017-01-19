@@ -280,10 +280,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 //            'page' => $page
 //        ];
 
+        $data['groups'] = $this->groupManager->getResource(null);
         $data['role_codes'] = array(
-            'role_active_agent' => RoleManager::ROLE_ACTIVE_AGENT,
-            'role_master_agent' => RoleManager::ROLE_MASTER_AGENT,
-            'role_referee'      => RoleManager::ROLE_REFEREE
+            'role_active_agent' => RoleHelper::ACTIVE,
+            'role_master_agent' => RoleHelper::MASTER,
+            'role_referee'      => RoleHelper::REFEREE
         );
 
         return $data;
@@ -300,10 +301,10 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          */
         $agent = $this->agentManager->findAgentById($agentId);
         if(is_null($superiorId)){
-            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_MASTER_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::MASTER);
             $agent->setGroup($group);
         } else {
-            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_ACTIVE_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);
             $superior = $this->agentManager->findAgentById($superiorId);
             $agent->setSuperior($superior);
@@ -323,7 +324,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          */
         $agent = $this->agentManager->findAgentById($agentId);
         if(is_null($superiorType)){
-            $group = $this->groupManager->getGroupByName(RoleHelper::PORTAL_ACTIVE_AGENT);
+            $group = $this->groupManager->getGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);
         } else {
 

@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     actions:{
         promote(agent){
             this.set('currentAgent', agent);
-            if(agent.role_code === this.get('role_codes').role_referee){
+            if(agent.role_name === this.get('role_codes').role_referee){
                 this.set('isModalOpen', true);
                 this.set('currentSuperior', null);
             } else {
@@ -35,9 +35,10 @@ export default Ember.Component.extend({
         },
         demote(agent){
             this.set('currentAgent', agent);
-            if(agent.role_code === this.get('role_codes').role_active_agent){
+            if(agent.role_name === this.get('role_codes').role_active_agent){
                 this.set('isSuperiorModalOpen', true);
                 this.set('currentSuperiorRole', null);
+                console.log(this.get('groups'));
             } else {
                 let data = {
                     agent_id : this.get('currentAgent').agent_id,
@@ -50,6 +51,9 @@ export default Ember.Component.extend({
             this.set('currentSuperior', agent);
             console.log(agent);
         },
+        newSuperiorRoleSelected(role){
+            console.log(role);
+        }
     },
     search: task(function * (text, page, perPage) {
         yield timeout(200);

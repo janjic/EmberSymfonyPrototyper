@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
     page    : 1,
     maxPages: 1,
     offset  : 20,
+    groups  : [],
     actions:{
         filterModelPromotions(searchArray, page){
             let data =  {

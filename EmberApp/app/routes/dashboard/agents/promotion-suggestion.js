@@ -9,9 +9,12 @@ export default Ember.Route.extend({
         return new RSVP.Promise((resolve) =>{
             this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
                 function (response) {
-
                     resolve(response);
                 }.bind(this));
         });
+    },
+    setupController(controller){
+        this._super(...arguments);
+        controller.set('groups', this.store.findAll('group'));
     }
 });
