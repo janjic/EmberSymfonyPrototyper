@@ -3528,9 +3528,18 @@ ul.notification-list {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
   }
 }
+
+
+.user-item-wrap {
+  padding: 0 5px;
+  .user-item {
+    min-height: 150px;
+  }
+}
+
 
 #navbar {
   padding: 0 20px;
@@ -4124,7 +4133,6 @@ $searchable-select-spacer-horizontal: 1em;
   }
   .img-holder {
     height: 270px !important;
-    border: 1px solid #ddd;
     overflow: hidden;
     display: flex;
     align-items: center;
