@@ -2403,6 +2403,52 @@ input:focus {
   text-decoration: inherit;
 }
 
+.main-chart-container {
+  position: relative;
+}
+
+.legend-orgchart.input-box {
+  background-image: url(images/bg-pattern.png);
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  box-shadow: none;
+  border: 0;
+}
+
+.legend-holder {
+  span {
+    padding: 5px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    flex: 1;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 100px;
+    margin-bottom: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .admin {
+    background-color: $main-red;
+  }
+  .ambassador {
+    background-color: #1d6876;
+  }
+  .active-agent {
+    background-color: #21913a;
+  }
+  .master-agent {
+    background-color: #c0742b;
+  }
+  .referee {
+    background-color: #34495e;
+  }
+
+}
+
 #chart-container {
   height: 100%;
   min-height: 600px;
@@ -2414,8 +2460,10 @@ input:focus {
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
+  margin-bottom: 15px;
   .orgchart {
     background-image: none;
+    padding: 0;
     table {
       background-color: transparent;
     }
