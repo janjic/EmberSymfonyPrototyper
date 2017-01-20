@@ -38,5 +38,9 @@ export default TCRCoreAdapter.extend({
     },
     urlForFindRecord(id) {
             return Routing.generate('api_tcr_users', {id});
+    },
+
+    urlForUpdateRecord: function(id) {
+        return Routing.generate('api_tcr_users', {id});
     }
 });

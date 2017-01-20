@@ -40,16 +40,18 @@ export default Ember.Component.extend({
         },
 
         addedFile: function (file) {
-            let _user = this.user;
-            _user.set('filePath', null);
-            _user.set('imageId', null);
-            _user.set('imageName', file.name);
-            let reader = new FileReader();
-            reader.onloadend = function () {
-                let imgBase64 = reader.result;
-                _user.set('base64Content', imgBase64);
-            };
-            reader.readAsDataURL(file);
+            if (file instanceof Blob) {
+                let _user = this.user;
+                _user.set('filePath', null);
+                _user.set('imageId', null);
+                _user.set('imageName', file.name);
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    let imgBase64 = reader.result;
+                    _user.set('base64Content', imgBase64);
+                };
+                reader.readAsDataURL(file);
+            }
         },
 
         removedFile: function () {
@@ -57,6 +59,10 @@ export default Ember.Component.extend({
             this.set('user.imageName', null);
             this.set('user.filePath', null);
             this.set('user.imageId', null);
+        },
+
+        changeIsAdmin(val) {
+            this.set('user.isAdmin', val);
         },
 
         /** crud */
