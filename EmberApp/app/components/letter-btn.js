@@ -5,7 +5,7 @@ export default Ember.Component.extend({
     classNameBindings: ['selectedClass'],
     selectedClass: Ember.computed('selected', function () {
         if (this.get('selected')) {
-            return 'button rounded-btn icon-btn green';
+            return 'button rounded-btn icon-btn green letter-btn';
         }
          return 'button rounded-btn icon-btn letter-btn';
 
