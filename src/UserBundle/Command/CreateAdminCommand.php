@@ -23,7 +23,7 @@ class CreateAdminCommand extends ContainerAwareCommand
 {
     use SaveMediaTrait;
 
-    const AGENT_ADMIN_ID = 1102;
+    const AGENT_HQ_CODE = 'ADMIN_HQ_DEFAULT';
     const SERVER = '192.168.11.3';
     const HTTPS  = 'on';
     /**
@@ -45,7 +45,6 @@ class CreateAdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $_SERVER['HTTP_HOST']   = self::SERVER;
         $_SERVER['SERVER_NAME'] = self::SERVER;
         $_SERVER['HTTPS']       = self::HTTPS;
@@ -57,13 +56,12 @@ class CreateAdminCommand extends ContainerAwareCommand
 
         $agent = new Agent();
         $agent->setBirthDate(new DateTime('1990-01-20'));
-        $agent->setId(self::AGENT_ADMIN_ID);
         $agent->setUsername($username);
         $agent->setEmail($username);
         $agent->setPrivateEmail($username);
         $agent->setPlainPassword($username);
         $agent->setSuperior(null);
-        $agent->setAgentId('admin');
+        $agent->setAgentId(self::AGENT_HQ_CODE);
         $agent->setFirstName('admin');
         $agent->setNationality('en');
         $agent->setLastName('admin');
@@ -81,6 +79,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $address = new Address();
         $address->setCity('Belgrade');
         $address->setCountry('Serbia');
+        $address->setStreetNumber('123a');
         $address->setFixedPhone('+381113480804');
         $address->setPhone('+381113480804');
         $address->setPostcode('12312241241241245');
@@ -92,12 +91,18 @@ class CreateAdminCommand extends ContainerAwareCommand
         }
         $agent->setGroup($group);
         $this->saveMedia($agent);
-        $em->getRepository('UserBundle:Agent')->saveAgent($agent);
 
-        $metadata = $em->getClassMetaData(Agent::class);
-        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-        $em->flush();
-        $output->writeln('Successfully inserted admin agent to : '.$group);
+        $syncResult = $this->getContainer()->get('agent_system.agent.manager')->syncWithTCRPortal($agent, 'add');
+        if (is_object($syncResult) && $syncResult->code == 200) {
+            $agentId = intval($syncResult->agentId);
+            $agent->setId(intval($agentId));
+            $em->getRepository('UserBundle:Agent')->saveAgent($agent);
+            $metadata = $em->getClassMetaData(Agent::class);
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+            $em->flush();
+            $output->writeln('Successfully inserted admin agent to : '.$group);
+        }
+
     }
 
     /**
