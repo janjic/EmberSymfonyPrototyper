@@ -104,16 +104,18 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         if ($agent instanceof Exception) {
             return $agent;
         } else {
-//            try {
-//                $syncResult = $this->syncWithTCRPortal($agent, 'add');
-//                if (is_object($syncResult) && $syncResult->code == 200) {
-                    $this->flushDb();
-//                } else {
-//                    return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
-//                }
-//            } catch (\Exception $exception) {
-//                return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
-//            }
+            try {
+                $syncResult = $this->syncWithTCRPortal($agent, 'add');
+                if (is_object($syncResult) && $syncResult->code == 200) {
+                    $agentId = intval($syncResult->agentId);
+                    $agent->setId(intval($agentId));
+                    $this->flushDb(true);
+                } else {
+                    return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+                }
+            } catch (\Exception $exception) {
+                return AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE;
+            }
         }
 
         return $agent;
@@ -169,10 +171,11 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
-     * Flush the db
+     * @param bool $manually
      */
-    public function flushDb(){
-        $this->repository->flushDb();
+    public function flushDb($manually=false)
+    {
+        $this->repository->flushDb($manually);
     }
 
 

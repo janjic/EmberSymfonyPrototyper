@@ -150,9 +150,8 @@ class Document
                 $this->setName((!$imageCode ? uniqid() : $imageCode) . '.' . $extension);
                 $path = $this->createProFolder() . $this->name;
             }
-
             /**returns the number of bytes that were written to the file, or false on failure */
-            return file_put_contents($path, $data);
+            return boolval(file_put_contents($path, $data));
         } catch (Exception $e) {
             return false;
         }

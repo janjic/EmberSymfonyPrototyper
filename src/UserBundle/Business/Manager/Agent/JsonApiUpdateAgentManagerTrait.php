@@ -26,12 +26,10 @@ trait JsonApiUpdateAgentManagerTrait
          * @var Agent $agent
          */
         $agent = $this->deserializeAgent($data);
-
         /** @var Agent $dbAgent */
         $dbAgent       = $this->getEntityReference($agent->getId());
         $dbAgentGroup  = $dbAgent->getGroup();
         $dbAgentLocked = $dbAgent->isEnabled();
-
         $agent = $this->prepareUpdate($agent, $dbAgent, $data);
         $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
@@ -70,16 +68,16 @@ trait JsonApiUpdateAgentManagerTrait
                 $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
             }
 
-//            try {
-//                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
-//                if (is_object($syncResult) && $syncResult->code == 200) {
-                    $this->flushDb();
-//                } else {
-//                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-//                }
-//            } catch (\Exception $exception) {
-//                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
-//            }
+            try {
+                $syncResult = $this->syncWithTCRPortal($agent, 'edit');
+                if (is_object($syncResult) && $syncResult->code == 200) {
+                    $this->flushDb(true);
+                } else {
+                    return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+                }
+            } catch (\Exception $exception) {
+                return new ArrayCollection(AgentApiResponse::AGENT_SYNC_ERROR_RESPONSE);
+            }
         }
 
         return $this->createJsonAPiUpdateResponse($agentOrException);

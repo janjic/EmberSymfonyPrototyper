@@ -5,6 +5,7 @@ namespace UserBundle\Business\Repository;
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\ORM\NoResultException;
@@ -116,8 +117,15 @@ class AgentRepository extends NestedTreeRepository
         return $agent;
     }
 
-    public function flushDb()
+    /**
+     * @param bool $manually
+     */
+    public function flushDb($manually = false)
     {
+        if ($manually) {
+            $metadata = $this->_em->getClassMetaData($this->getClassName());
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        }
         $this->_em->flush();
     }
 

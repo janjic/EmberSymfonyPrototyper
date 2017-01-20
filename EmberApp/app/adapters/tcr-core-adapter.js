@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import DS from 'ember-data';
+import  ApplicationAdapter from './application';
 
-export default DS.JSONAPIAdapter.extend( {
-    ajax: Ember.inject.service(),
-    host: 'https://tcr-media.fsd.rs:105/app_dev.php/en',
+export default ApplicationAdapter.extend({
+    ajaxService: Ember.inject.service('ajax'),
+    host: 'https://tcr-media.fsd.rs:105/en',
     namespace: ''
 });
