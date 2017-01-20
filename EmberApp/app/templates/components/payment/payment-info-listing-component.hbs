@@ -68,7 +68,7 @@
         {{/unless}}
     {{/bs-modal-body}}
     {{#bs-modal-footer}}
-        <button class="button green" {{action 'applyFilters'}}>
+        <button class="button green" {{action '_applyFilters'}}>
             {{#if isLoading}}
                 {{inf-loading}}
             {{else}}
@@ -82,7 +82,7 @@
 <div class="reports-holder">
 
     {{#if model.length}}
-        {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}
+        {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=(action 'applyFilters') hideSearchAndFilter=true as |yieldModel|}}
             {{payment/payment-info-listing-item-component
             hidePayAllButtons=hidePayAllButtons
             payment=yieldModel}}

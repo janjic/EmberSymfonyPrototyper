@@ -16,7 +16,21 @@ export default Ember.Component.extend(LoadingStateMixin, {
     endDateFilter: null,
     agentFilter: null,
 
+    init(){
+        this._super(...arguments);
+        this.set('agentFilter', null);
+        this.set('endDateFilter', null);
+        this.set('startDateFilter', null);
+        this.set('typeFilter', null);
+        this.set('countryFilter', null);
+    },
+
     actions: {
+        _applyFilters(){
+            this.set('page', 1);
+            this.send('applyFilters');
+        },
+
         applyFilters () {
             let searchArray = {
                 groupOp: 'AND',
@@ -64,7 +78,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
 
             this.showLoader();
-            this.get('filterModel')(searchArray, 1).then((results)=>{
+            this.get('filterModel')(searchArray, this.get('page')).then((results)=>{
+                this.set('maxPages', results.meta.pages);
+                this.set('totalItems', results.meta.totalItems);
                 this.set('model', results);
                 this.set('isModalOpen', false);
                 this.disableLoader();

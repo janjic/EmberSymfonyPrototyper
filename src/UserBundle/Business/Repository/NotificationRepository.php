@@ -9,6 +9,7 @@ use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\ORM\EntityRepository;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Notification;
+use UserBundle\Helpers\NotificationHelper;
 
 /**
  * Class NotificationRepository
@@ -64,7 +65,14 @@ class NotificationRepository extends EntityRepository
         $qb->orderBy(self::ALIAS.'.id', 'DESC');
 
         $qb->where('agent.id = :id')->setParameter('id', $user_id);
-        $qb->andWhere(self::ALIAS.'.type LIKE :type')->setParameter('type', '%'.$type.'%');
+        if( $type == NotificationHelper::NOTIFICATION_AGENT_PAYMENT ){
+            $qb->andWhere(
+                $qb->expr()->like(self::ALIAS.'.type', $qb->expr()->literal(NotificationHelper::NOTIFICATION_AGENT)).' OR '.
+                $qb->expr()->like(self::ALIAS.'.type', $qb->expr()->literal(NotificationHelper::NOTIFICATION_PAYMENT))
+            );
+        } else {
+            $qb->andWhere(self::ALIAS . '.type LIKE :type')->setParameter('type', '%' . $type . '%');
+        }
 
         if ($minId) {
             $qb->andWhere(self::ALIAS . '.id < ?2')->setParameter(2, $minId);

@@ -21,6 +21,7 @@ use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Manager\AgentManager;
 use UserBundle\Business\Manager\BonusManager;
 use UserBundle\Business\Manager\CommissionManager;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 
 /**
@@ -74,6 +75,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      */
     protected $bonusManager;
 
+    /**
+     * @var NotificationManager $notificationManager
+     */
+    protected $notificationManager;
+
     protected $packagesPrice;
     protected $connectPrice;
     protected $setupFeePrice;
@@ -90,9 +96,10 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      * @param Swap                  $florianSwap
      * @param TokenStorageInterface $tokenStorage
      * @param BonusManager          $bonusManager
+     * @param NotificationManager   $notificationManager
      */
     public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer,
-            CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, BonusManager $bonusManager)
+            CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, BonusManager $bonusManager, NotificationManager $notificationManager)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
@@ -101,6 +108,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         $this->florianSwap       = $florianSwap;
         $this->tokenStorage      = $tokenStorage;
         $this->bonusManager      = $bonusManager;
+        $this->notificationManager = $notificationManager;
     }
 
     /**

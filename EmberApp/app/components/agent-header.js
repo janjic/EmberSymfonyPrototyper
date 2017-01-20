@@ -11,14 +11,21 @@ export default Component.extend({
     _maxIdMessage:          undefined,
     _maxIdAgents:           undefined,
     eventBus:               Ember.inject.service('event-bus'),
+    noNewAgentNotifications:false,
+    noNewMessageNotifications:false,
 
     init(){
         this._super(...arguments);
         this.set('isUserAdmin', this.get('currentUser.isUserAdmin'));
 
-        // this._initNotification();
-        //
-        // this._initMessages();
+        let notifications = this.get('currentUser.user.notifications');
+        if ( notifications.includes('optionAgent') || notifications.includes('optionPayment') ){
+            this._initNotification();
+        }
+
+        if ( notifications.includes('optionMessage') ){
+            this._initMessages();
+        }
     },
 
     profileRoute: computed('user',function () {
@@ -42,31 +49,46 @@ export default Component.extend({
     },
 
     getNewMessage: task(function * () {
-        // while (true) {
-        //     yield timeout(10000);
-        //
-        //     this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' , max_id: this.get('_maxIdAgents')})
-        //         .then((newAgentNotifications) => {
-        //             if(newAgentNotifications.toArray().length && this.get('agentNotifications')){
-        //                 this.get('agentNotifications').unshiftObjects(newAgentNotifications.toArray());
-        //                 this.get('agentNotifications').splice(5);
-        //                 this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
-        //             }
-        //         });
-        //
-        //     this.get('store').query('notification', {per_page: 5, page: 1, type: 'NEW MESSAGE NOTIFICATION' , max_id: this.get('_maxIdMessage')})
-        //         .then((newMessageNotification) => {
-        //             if(newMessageNotification.toArray().length && this.get('messageNotifications')){
-        //                 this.get('messageNotifications').unshiftObjects(newMessageNotification.toArray());
-        //                 this.get('messageNotifications').splice(5);
-        //                 this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
-        //             }
-        //         });
-        // }
+        let notifications = this.get('currentUser.user.notifications');
+        if ( notifications.get('firstObject') ) {
+            while (true) {
+                yield timeout(10000);
+
+                if ( notifications.includes('optionAgent') || notifications.includes('optionPayment') ) {
+                    this.get('store').query('notification', {
+                        per_page: 5,
+                        page: 1,
+                        type: 'NEW AGENT/PAYMENT NOTIFICATION',
+                        max_id: this.get('_maxIdAgents')
+                    }).then((newAgentNotifications) => {
+                        if (newAgentNotifications.toArray().length && this.get('agentNotifications')) {
+                            this.get('agentNotifications').unshiftObjects(newAgentNotifications.toArray());
+                            this.get('agentNotifications').splice(5);
+                            this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
+                        }
+                    });
+                }
+
+                if ( notifications.includes('optionMessage') ) {
+                    this.get('store').query('notification', {
+                        per_page: 5,
+                        page: 1,
+                        type: 'NEW MESSAGE NOTIFICATION',
+                        max_id: this.get('_maxIdMessage')
+                    }).then((newMessageNotification) => {
+                        if (newMessageNotification.toArray().length && this.get('messageNotifications')) {
+                            this.get('messageNotifications').unshiftObjects(newMessageNotification.toArray());
+                            this.get('messageNotifications').splice(5);
+                            this.set('_maxIdMessage', newMessageNotification.get('firstObject.id'));
+                        }
+                    });
+                }
+            }
+        }
     }).on('init'),
 
     _initNotification(){
-        this.get('store').query("notification", { per_page: 5, page: 1, type: 'NEW AGENT NOTIFICATION' }).then((newAgentNotifications)=>{
+        this.get('store').query("notification", { per_page: 5, page: 1, type: 'NEW AGENT/PAYMENT NOTIFICATION' }).then((newAgentNotifications)=>{
             this.set( 'agentNotifications', [].concat(newAgentNotifications.toArray()) );
             this.set('_maxIdAgents', newAgentNotifications.get('firstObject.id'));
         }, ()=>{
@@ -83,8 +105,13 @@ export default Component.extend({
         });
     },
 
+    _initAllNotifications(){
+        this._initNotification();
+        this._initMessages();
+    },
+
     _initialize: Ember.on('init', function(){
-        this.get('eventBus').subscribe('refreshMessages', this, '_initMessages');
+        this.get('eventBus').subscribe('refreshMessages', this, '_initAllNotifications');
     }),
 
     _teardown: Ember.on('willDestroyElement', function(){
