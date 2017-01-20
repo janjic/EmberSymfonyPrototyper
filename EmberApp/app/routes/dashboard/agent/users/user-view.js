@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 
     afterModel(model) {
         if (!Object.is(model.get('agent.id'), this.get('currentUser.user.id'))) {
-            this.transitionTo('dashboard.agent.users.users-all');
+            this.transitionTo('dashboard.agent.users.users-customers');
         }
 
     }
