@@ -2226,6 +2226,7 @@ h1.main-heading {
   letter-spacing: 2px;
   border-bottom: 1px solid $grayish;
   padding-bottom: 5px;
+  position: relative;
 }
 .profile-view p {
   margin-bottom: 0;
@@ -2425,6 +2426,10 @@ input:focus {
   position: relative;
 }
 
+.chart-holder h5 {
+  margin-bottom: 5px;
+}
+
 .legend-orgchart.input-box {
   background-image: url(images/bg-pattern.png);
   background-color: transparent;
@@ -2486,7 +2491,7 @@ input:focus {
       background-color: transparent;
     }
     .node {
-      width: 150px;
+      width: 200px;
       .title {
         font-weight: normal;
         font-size: 13px;
@@ -2527,7 +2532,7 @@ input:focus {
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
-        width: 260px;
+        width: 310px;
         .flex-view {
           display: flex;
           align-items: center;
@@ -3234,6 +3239,12 @@ input:focus {
       display: block;
       z-index: 10;
     }
+  }
+}
+
+.user-edit {
+  .input-box.basic-info {
+    height: 525px;
   }
 }
 
@@ -4088,9 +4099,18 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.second-section {
+  margin-bottom: 30px;
+}
+
 .head-buttons {
   font-size: 12px;
   font-weight: normal;
+  a {
+    position: absolute;
+    bottom:0;
+    right: 0;
+  }
 }
 
 .rounded-btn {
