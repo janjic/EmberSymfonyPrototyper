@@ -82,7 +82,9 @@ export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixi
 
             ctx.disableLoader();
 
-            ctx.set('noResultsFound', isNaN(parseFloat(response.totalCommission)) && isNaN(parseFloat(response.totalBonus)));
+            let areNaN = isNaN(parseFloat(response.totalCommission)) && isNaN(parseFloat(response.totalBonus));
+            let areZero = (parseFloat(response.totalCommission) === 0) && (parseFloat(response.totalBonus) === 0);
+            ctx.set('noResultsFound', (areNaN || areZero));
             if (ctx.get('noResultsFound')) {
                 return;
             }
