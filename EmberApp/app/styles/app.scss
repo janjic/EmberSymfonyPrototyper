@@ -4122,7 +4122,7 @@ $searchable-select-spacer-horizontal: 1em;
   .dl-horizontal {
     dt {
       @media screen and (max-width: 1300px) {
-        width: 100px;
+        width: 130px;
       }
     }
     dd {
@@ -4175,6 +4175,15 @@ $searchable-select-spacer-horizontal: 1em;
   .slider {
     pointer-events: none;
     background-color: #ccc;
+  }
+}
+
+.user-view {
+  .img-holder {
+    height: 180px !important;
+  }
+  .referral {
+    height: 245px;
   }
 }
 
@@ -4484,7 +4493,6 @@ $searchable-select-spacer-horizontal: 1em;
           background-color: #fff;
           border-radius: 50%;
           overflow: hidden;
-          flex: 1;
           img {
             width: 60px;
             height: 60px;
@@ -4492,7 +4500,6 @@ $searchable-select-spacer-horizontal: 1em;
           }
         }
         .info-right {
-          flex: 2;
         }
       }
       .lower-box {
