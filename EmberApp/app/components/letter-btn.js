@@ -7,15 +7,15 @@ export default Ember.Component.extend({
         if (this.get('selected')) {
             return 'button rounded-btn icon-btn green';
         }
-         return 'button rounded-btn icon-btn letter-btn';
+         return 'button rounded-btn icon-btn';
 
     }),
 
-    focusIn() {
+    click() {
         this.set('selected', true);
         this.get('filter')(this.get('letter'));
     },
-    focusOut() {
+    mouseLeave() {
         this.set('selected', false);
     }
 
