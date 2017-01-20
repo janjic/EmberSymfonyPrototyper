@@ -1,6 +1,7 @@
 import TCRCoreAdapter from './tcr-core-adapter';
 
 export default TCRCoreAdapter.extend( {
+    ajax: Ember.inject.service(),
     query(store, type, query){
         if (typeof query['filters'] === 'string') {
             query['filters'] = JSON.parse(query['filters']);
@@ -31,21 +32,9 @@ export default TCRCoreAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
-        console.log(options);
         return this.get('ajax').request(url, options).then(response => {
-
 
             return response;
         });
-    },
-    // findRecord(store, type, id){
-    //     let url = this.get('host') + '/orders/order-preview-complete/'+id;
-    //     let options = {
-    //         method: 'GET',
-    //     };
-    //
-    //     return this.get('ajax').request(url, options).then(response => {
-    //         return response;
-    //     });
-    // }
+    }
 });

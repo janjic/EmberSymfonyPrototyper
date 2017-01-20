@@ -2,6 +2,7 @@
 
 namespace UserBundle\Command;
 
+use DateTime;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -55,6 +56,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $username = $input->getArgument('username');
 
         $agent = new Agent();
+        $agent->setBirthDate(new DateTime('1990-01-20'));
         $agent->setId(self::AGENT_ADMIN_ID);
         $agent->setUsername($username);
         $agent->setEmail($username);
@@ -66,6 +68,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setNationality('en');
         $agent->setLastName('admin');
         $agent->setEnabled(true);
+        $agent->setTitle("MR");
         $agent->setSocialSecurityNumber('admin');
         $agent->setAgentBackground('admin');
         $agent->setBankName('bank');

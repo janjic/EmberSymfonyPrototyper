@@ -6,8 +6,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:application',
 
     deleteRecord: function(store, type, snapshot) {
-        var url = this.buildURL(type.modelName, snapshot.id, snapshot, 'deleteRecord');
-        var data = {id: snapshot.id, newParent: snapshot.attr('newParentForDeleteId')};
+        let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'deleteRecord');
+        let data = {id: snapshot.id, newParent: snapshot.attr('newParentForDeleteId')};
 
         return this.ajax(url, "DELETE", {dataType: 'json', data: data});
     }
