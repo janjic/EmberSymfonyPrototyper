@@ -7,7 +7,7 @@ export default Ember.Component.extend({
         if (this.get('selected')) {
             return 'button rounded-btn icon-btn green';
         }
-         return 'button rounded-btn icon-btn';
+         return 'button rounded-btn icon-btn letter-btn';
 
     }),
 
