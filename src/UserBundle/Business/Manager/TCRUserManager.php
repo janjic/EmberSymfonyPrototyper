@@ -286,7 +286,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
     public function serializeTCRUser($user, $meta = null){
         $mappings = array(
             'tcr-users' => array('class' => TCRUser::class, 'type'=>'tcr-users'),
-            'agent' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class)
+            'agent'     => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class)
         );
 
         $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->serialize($user, $mappings, ['agent']);
