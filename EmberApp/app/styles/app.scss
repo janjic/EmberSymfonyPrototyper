@@ -2226,6 +2226,7 @@ h1.main-heading {
   letter-spacing: 2px;
   border-bottom: 1px solid $grayish;
   padding-bottom: 5px;
+  position: relative;
 }
 .profile-view p {
   margin-bottom: 0;
@@ -2425,6 +2426,10 @@ input:focus {
   position: relative;
 }
 
+.chart-holder h5 {
+  margin-bottom: 5px;
+}
+
 .legend-orgchart.input-box {
   background-image: url(images/bg-pattern.png);
   background-color: transparent;
@@ -2486,7 +2491,7 @@ input:focus {
       background-color: transparent;
     }
     .node {
-      width: 150px;
+      width: 200px;
       .title {
         font-weight: normal;
         font-size: 13px;
@@ -2527,7 +2532,7 @@ input:focus {
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
-        width: 260px;
+        width: 310px;
         .flex-view {
           display: flex;
           align-items: center;
@@ -3237,6 +3242,12 @@ input:focus {
   }
 }
 
+.user-edit {
+  .input-box.basic-info {
+    height: 525px;
+  }
+}
+
 //INPUT BOXES
 
 .user-add {
@@ -3528,9 +3539,18 @@ ul.notification-list {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
   }
 }
+
+
+.user-item-wrap {
+  padding: 0 5px;
+  .user-item {
+    min-height: 150px;
+  }
+}
+
 
 #navbar {
   padding: 0 20px;
@@ -4079,9 +4099,18 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.second-section {
+  margin-bottom: 30px;
+}
+
 .head-buttons {
   font-size: 12px;
   font-weight: normal;
+  a {
+    position: absolute;
+    bottom:0;
+    right: 0;
+  }
 }
 
 .rounded-btn {
@@ -4113,7 +4142,7 @@ $searchable-select-spacer-horizontal: 1em;
   .dl-horizontal {
     dt {
       @media screen and (max-width: 1300px) {
-        width: 100px;
+        width: 130px;
       }
     }
     dd {
@@ -4124,7 +4153,6 @@ $searchable-select-spacer-horizontal: 1em;
   }
   .img-holder {
     height: 270px !important;
-    border: 1px solid #ddd;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -4167,6 +4195,15 @@ $searchable-select-spacer-horizontal: 1em;
   .slider {
     pointer-events: none;
     background-color: #ccc;
+  }
+}
+
+.user-view {
+  .img-holder {
+    height: 180px !important;
+  }
+  .referral {
+    height: 245px;
   }
 }
 
@@ -4476,7 +4513,6 @@ $searchable-select-spacer-horizontal: 1em;
           background-color: #fff;
           border-radius: 50%;
           overflow: hidden;
-          flex: 1;
           img {
             width: 60px;
             height: 60px;
@@ -4484,7 +4520,6 @@ $searchable-select-spacer-horizontal: 1em;
           }
         }
         .info-right {
-          flex: 2;
         }
       }
       .lower-box {
