@@ -22,7 +22,6 @@ class RoleHelper
     const PORTAL_ADMIN          = 'ADMIN';
     const PORTAL_ACTIVE         = 'ACTIVE';
 
-
     const REFEREE    = 'REFEREE';
     const ACTIVE     = 'ACTIVE';
     const MASTER     = 'MASTER';

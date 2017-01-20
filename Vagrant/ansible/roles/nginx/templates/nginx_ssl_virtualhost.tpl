@@ -1,42 +1,12 @@
-
-upstream websocket {
-    server localhost:8080;
-}
 server {
-        # listen on this port external
-        listen 8888;
-        rewrite ^(/app/.*)/assets/(.*).*$ /app/assets/$2 last;
-        # SSL
-          ssl on;
-         ssl_certificate /etc/ssl/fsd.dev/fsd.dev.pem;
-         ssl_certificate_key /etc/ssl/fsd.dev/fsd.dev.key;
-
-	     ssl_session_cache shared:SSL:10m;
-         ssl_session_timeout 5m;
-
-        # route all to "websocket"
-        location / {
-                proxy_pass http://websocket;
-                 proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-                proxy_set_header Host $host;
-
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto https;
-                proxy_read_timeout 86400;
-                proxy_redirect off;
-        }
-}
-server {   
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     root /var/www/fsd_dev/web;
-    rewrite ^(/app/.+)/assets/(.*)$ /app/assets/$2 last
+    rewrite ^(/app/.+)/assets/images/(.*)$ /app/assets/images/$2 last;
     ssl on;
-    ssl_certificate /etc/ssl/fsd.dev/fsd.dev.pem;
-    ssl_certificate_key /etc/ssl/fsd.dev/fsd.dev.key;
+  
+         ssl_certificate /etc/ssl/fsd.dev/fsd.dev.pem;
+         ssl_certificate_key /etc/ssl/fsd.dev/fsd.dev.key;
     add_header Access-Control-Allow-Origin *;
     location / {
         # try to serve file directly, fallback to app.php
@@ -81,30 +51,6 @@ server {
    location ~*  \.(jpg|jpeg|png|gif|ico|css|js)$ {
    expires 365d;
    }
-location /app {
-    root /var/www/fsd_dev/web/app;
-    rewrite ^ /index.html break;
-
-}
-
-location /app/assets {
-    root /var/www/fsd_dev/web;
-}
-
-location /app/fonts/ {
-
-    #Fonts dir
-    alias /var/www/fsd_dev/web/app/fonts/;
-
-    #Include vanilla types
-    include mime.types;
-
-    #Missing mime types
-    types  {font/truetype ttf;}
-    types  {application/font-woff woff;}
-    types  {application/font-woff2 woff2;}
-}
-
    ### phpMyAdmin ###
 location /phpmyadmin {
                root /usr/share/;
@@ -124,7 +70,31 @@ location /phpmyadmin {
         location /phpMyAdmin {
                rewrite ^/* /phpmyadmin last;
         }
+
+location /app {
+	 root /var/www/fsd_dev/web/app;	
+	rewrite ^ /index.html break;
+
+}
+location /app/assets {
+	root /var/www/fsd_dev/web;
+}
+
+location /app/fonts/ {
+
+  #Fonts dir
+  alias /var/www/fsd_dev/web/app/fonts/;
+
+  #Include vanilla types
+  include mime.types;
+
+  #Missing mime types
+  types  {font/truetype ttf;}
+  types  {application/font-woff woff;}
+  types  {application/font-woff2 woff2;}
+}
      ### phpMyAdmin ###
         error_log /var/log/nginx/fsd_dev-ssl-error.log;
         access_log /var/log/nginx/fsd_dev-ssl-access.log;
 }
+

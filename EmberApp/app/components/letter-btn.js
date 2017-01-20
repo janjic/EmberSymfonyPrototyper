@@ -11,11 +11,11 @@ export default Ember.Component.extend({
 
     }),
 
-    focusIn() {
+    click() {
         this.set('selected', true);
         this.get('filter')(this.get('letter'));
     },
-    focusOut() {
+    mouseLeave() {
         this.set('selected', false);
     }
 
