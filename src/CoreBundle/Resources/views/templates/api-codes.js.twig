@@ -3,4 +3,19 @@
         ApiCode.{{ key }} = {{ value }};
     {% endfor %}
 
+    ApiCode.RoleInfo = {};
+    {% for key,value in roles %}
+        ApiCode.RoleInfo.{{ key }} = "{{ value }}";
+    {% endfor %}
+
+    ApiCode.GroupInfo = {};
+    {% for key,value in groups %}
+        ApiCode.GroupInfo.{{ key }} = "{{ value }}";
+    {% endfor %}
+
+    ApiCode.NotificationInfo = {};
+    {% for key,value in notifications %}
+        ApiCode.NotificationInfo.{{ key }} = "{{ value }}";
+    {% endfor %}
+
 })(typeof ApiCode === 'undefined' ? this.ApiCode = {} : ApiCode);
