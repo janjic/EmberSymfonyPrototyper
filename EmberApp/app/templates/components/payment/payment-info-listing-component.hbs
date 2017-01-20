@@ -3,8 +3,12 @@
     <span class="pull-right head-buttons">
         <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
         {{#unless hidePayAllButtons}}
-            <a href="#" class="button green btn-small">Pay all</a>
-            <a href="#" class="button red btn-small">Reject all</a>
+            {{#unless hidePayButton}}
+                <a href="#" {{action 'payAll'}}class="button green btn-small">Pay all</a>
+            {{/unless}}
+            {{#unless hideRejectButton}}
+                <a href="#" {{action 'rejectAll'}} class="button red btn-small">Reject all</a>
+            {{/unless}}
         {{/unless}}
     </span>
 </h1>

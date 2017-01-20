@@ -5,11 +5,13 @@ namespace UserBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Group;
 use UserBundle\Entity\Role;
 use UserBundle\Entity\Settings\Bonus;
 use UserBundle\Entity\Settings\Commission;
 use UserBundle\Entity\Settings\Settings;
+use UserBundle\Helpers\RoleHelper;
 
 /**
  * Class ImportHierarchyCommand
@@ -37,16 +39,20 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         /**
          * ROLES
          */
-        $adminRole = new Role('ROLE_SUPER_ADMIN');
-        $adminRole->setName('ADMIN');
-        $ambassadorRole = new Role('ROLE_AMBASSADOR_AGENT');
-        $ambassadorRole->setName('AMBASSADOR');
-        $masterRole = new Role('ROLE_MASTER_AGENT');
-        $masterRole->setName('MASTER');
-        $activeRole = new Role('ROLE_ACTIVE_AGENT');
-        $activeRole->setName('ACTIVE');
-        $refereeRole = new Role('ROLE_REFEREE_AGENT');
-        $refereeRole->setName('REFEREE');
+        $adminRole = new Role(RoleManager::ROLE_SUPER_ADMIN);
+        $adminRole->setName(RoleHelper::ADMIN);
+
+        $ambassadorRole = new Role(RoleManager::ROLE_AMBASSADOR);
+        $ambassadorRole->setName(RoleHelper::AMBASSADOR);
+
+        $masterRole = new Role(RoleManager::ROLE_MASTER_AGENT);
+        $masterRole->setName(RoleHelper::MASTER);
+
+        $activeRole = new Role(RoleManager::ROLE_ACTIVE_AGENT);
+        $activeRole->setName(RoleHelper::ACTIVE);
+
+        $refereeRole = new Role(RoleManager::ROLE_REFEREE);
+        $refereeRole->setName(RoleHelper::REFEREE);
 
 
         /**
@@ -60,14 +66,15 @@ class ImportHierarchyCommand extends ContainerAwareCommand
         /**
          * GROUPS
          */
-        $adminGroup = new Group('ADMIN');
-        $ambassadorGroup = new Group('AMBASSADOR');
-        $masterGroup     = new Group('MASTER');
-        $activeGroup     = new Group('ACTIVE');
-        $refereeGroup    = new Group('REFEREE');
+        $adminGroup      = new Group(RoleHelper::ADMIN);
+        $ambassadorGroup = new Group(RoleHelper::AMBASSADOR);
+        $masterGroup     = new Group(RoleHelper::MASTER);
+        $activeGroup     = new Group(RoleHelper::ACTIVE);
+        $refereeGroup    = new Group(RoleHelper::REFEREE);
 
 
         $em = $this->getContainer()->get('doctrine')->getManager();
+
         /**
          * GROUPS AND ROLES
          */
@@ -87,48 +94,79 @@ class ImportHierarchyCommand extends ContainerAwareCommand
             ->setTwitterLink('www.twitter.com')
             ->setGPlusLink('www.google.com');
 
+        /** commissions */
         $commissionReferral = new Commission();
         $commissionReferral->setName($refereeGroup->getName());
         $commissionReferral->setSettings($settings)
             ->setGroup($refereeGroup)
-            ->setSetupFee(4)
-            ->setPackages(3)
-            ->setConnect(1)
-            ->setStream(0);
+            ->setSetupFee(5)
+            ->setPackages(5)
+            ->setConnect(5)
+            ->setStream(10);
 
         $commissionActiveAgent = new Commission();
         $commissionActiveAgent->setName($activeGroup->getName());
         $commissionActiveAgent->setSettings($settings)
             ->setGroup($activeGroup)
             ->setSetupFee(5)
-            ->setPackages(4)
-            ->setConnect(0)
-            ->setStream(6);
+            ->setPackages(5)
+            ->setConnect(5)
+            ->setStream(5);
+
+        $commissionMasterAgent = new Commission();
+        $commissionMasterAgent->setName($masterGroup->getName());
+        $commissionMasterAgent->setSettings($settings)
+            ->setGroup($masterGroup)
+            ->setSetupFee(2.5)
+            ->setPackages(2.5)
+            ->setConnect(2.5)
+            ->setStream(2.5);
+
+        $commissionAmbassador = new Commission();
+        $commissionAmbassador->setName($ambassadorGroup->getName());
+        $commissionAmbassador->setSettings($settings)
+            ->setGroup($ambassadorGroup)
+            ->setSetupFee(1.25)
+            ->setPackages(1.25)
+            ->setConnect(1.25)
+            ->setStream(1.25);
 
         $settings->addCommission($commissionReferral);
         $settings->addCommission($commissionActiveAgent);
+        $settings->addCommission($commissionMasterAgent);
+        $settings->addCommission($commissionAmbassador);
 
-        $bonusReferral = new Bonus();
-        $bonusReferral ->setName($refereeGroup->getName());
-        $bonusReferral->setSettings($settings)
-            ->setGroup($refereeGroup)
-            ->setAmountCHF(200)
-            ->setAmountEUR(200)
-            ->setAmountEUR(200)
-            ->setNumberOfCustomers(20)
-            ->setPeriod(3);
-
+        /** bonuses */
         $bonusActiveAgent = new Bonus();
-        $bonusActiveAgent ->setName($activeGroup->getName());
+        $bonusActiveAgent->setName($activeGroup->getName());
         $bonusActiveAgent->setSettings($settings)
             ->setGroup($activeGroup)
-            ->setAmountCHF(300)
-            ->setAmountEUR(300)
-            ->setNumberOfCustomers(30)
-            ->setPeriod(3);
+            ->setAmount(200)
+            ->setCurrency('EUR')
+            ->setNumberOfCustomers(20)
+            ->setPeriod(6);
 
-        $settings->addBonus($bonusReferral);
+        $bonusMasterAgent = new Bonus();
+        $bonusMasterAgent->setName($masterGroup->getName());
+        $bonusMasterAgent->setSettings($settings)
+            ->setGroup($masterGroup)
+            ->setAmount(200)
+            ->setCurrency('EUR')
+            ->setNumberOfCustomers(20)
+            ->setPeriod(6);
+
+        $bonusAmbassador = new Bonus();
+        $bonusAmbassador->setName($ambassadorGroup->getName());
+        $bonusAmbassador->setSettings($settings)
+            ->setGroup($ambassadorGroup)
+            ->setAmount(200)
+            ->setCurrency('EUR')
+            ->setNumberOfCustomers(20)
+            ->setPeriod(6);
+
         $settings->addBonus($bonusActiveAgent);
+        $settings->addBonus($bonusMasterAgent);
+        $settings->addBonus($bonusAmbassador);
 
         /**
          * PERSISTING ROLES

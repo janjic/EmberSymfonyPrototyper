@@ -235,6 +235,31 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @param boolean|null $newState
+     * @return mixed
+     */
+    public function executeAllPayments($newState)
+    {
+
+        $result = $this->repository->changeAllPaymentsState($newState);
+
+        return $this->createPaymentExecuteAllResponse($result);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    private function createPaymentExecuteAllResponse($data)
+    {
+        if ($data === true) {
+            return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_SUCCESS);
+        }
+
+        return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_ERROR);
+    }
+
+    /**
      * @param Agent  $agent
      * @param string $currency
      * @param string $dateFrom

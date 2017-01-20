@@ -1,13 +1,9 @@
-import DS from 'ember-data';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import  ApplicationAdapter from './application';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-    namespace: 'app_dev.php/api',
-    authorizer: 'authorizer:application',
-
+export default ApplicationAdapter.extend({
     deleteRecord: function(store, type, snapshot) {
-        var url = this.buildURL(type.modelName, snapshot.id, snapshot, 'deleteRecord');
-        var data = {id: snapshot.id, newParent: snapshot.record.newParent.id};
+        let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'deleteRecord');
+        let data = {id: snapshot.id, newParent: snapshot.record.newParent.id};
 
         return this.ajax(url, "DELETE", {dataType: 'json', data: data});
     }

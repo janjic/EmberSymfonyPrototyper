@@ -34,7 +34,7 @@
         </div>
     {{else}}
         {{#if displayEdit}}
-            <div class="input-box clearfix">
+            <div class="input-box clearfix manage-groups">
                 <h3 class="sub-heading">{{trans 'manage-groups.edit'}}</h3>
                 <div class="form-group clearfix">
                     {{input type="text" class="new-group form-control" placeholder="New group" value=editGroup.name}}
@@ -45,7 +45,7 @@
                 <button type="button" class="button red pull-right" style="margin-right: 5px;" {{action "cancelEdit"}}>{{trans 'button.cancel'}}</button>
             </div>
         {{else}}
-            <div class="input-box clearfix">
+            <div class="input-box clearfix manage-groups">
                 <h3 class="sub-heading">{{trans 'manage-groups.add'}}</h3>
                 <div class="form-group clearfix">
                     <label for="{{addName}}">{{trans 'manage-groups.new-name'}}</label>

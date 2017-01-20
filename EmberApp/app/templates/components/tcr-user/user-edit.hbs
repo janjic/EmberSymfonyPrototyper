@@ -3,108 +3,108 @@
     <form role="form">
         <div class="row setup-content">
             <div class="col-md-6">
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4" for="title">{{trans 'admin-user.label.title'}}
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-8 col-xs-8">
-                        <select class="form-control" disabled onchange={{ action 'titleChanged'  value="target.value"}}>
-                            {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
-                            {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
-                        </select>
-                        {{#if (get changeset.error 'title')}}
-                            <ul class="error-list">
-                                {{#each (get (get changeset.error 'title') "validation") as |message|}}
-                                    <li>{{message}}</li>
-                                {{/each}}
-                            </ul>
-                        {{/if}}
+                <div class="input-box basic-info">
+                    <h3 class="sub-heading">
+                        {{fa-icon 'user'}} Edit basic info
+                    </h3>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}</label>
+                        <div class="col-md-8 user-img">
+                            {{dropzone-one-file
+                                    currentImageWebPath=user.filePath
+                                    keepLocal=true
+                                    addRemoveLinks=true
+                                    maxFiles=1
+                                    onRemovedFile=(action 'removedFile')
+                                    onAddedFile=(action 'addedFile') }}
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4" for="title">{{trans 'admin-user.label.title'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            <select class="form-control" disabled onchange={{ action 'titleChanged'  value="target.value"}}>
+                                {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
+                                {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
+                            </select>
+                            {{#if (get changeset.error 'title')}}
+                                <ul class="error-list">
+                                    {{#each (get (get changeset.error 'title') "validation") as |message|}}
+                                        <li>{{message}}</li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </div>
+                    </div>
 
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-8 col-xs-8">
-                        {{validated-field
-                                type="text"
-                                changeset=changeset
-                                property="firstName"
-                                doNotShowLabel=true
-                                validateProperty=(action 'validateProperty' changeset "email")
-                        }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field
+                                    type="text"
+                                    changeset=changeset
+                                    property="firstName"
+                                    doNotShowLabel=true
+                                    validateProperty=(action 'validateProperty' changeset "email")
+                            }}
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-8 col-xs-8">
-                        {{validated-field
-                                type="text"
-                                changeset=changeset
-                                property="lastName"
-                                doNotShowLabel=true
-                                validateProperty=(action 'validateProperty' changeset "email")
-                        }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{validated-field
+                                    type="text"
+                                    changeset=changeset
+                                    property="lastName"
+                                    doNotShowLabel=true
+                                    validateProperty=(action 'validateProperty' changeset "email")
+                            }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}
-                        <span class="required" aria-required="true"> * </span>
-                    </label>
-                    <div class="col-md-8 col-xs-8">
-                        {{input type="email" class="form-control" disabled=true value=user.email }}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}
+                            <span class="required" aria-required="true"> * </span>
+                        </label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="email" class="form-control" disabled=true value=user.email }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.company'}}
-                        <!--<span class="required" aria-required="true"> * </span>-->
-                    </label>
-                    <div class="col-md-8 col-xs-8">
-                        {{input type="text" class="form-control" value=user.company }}
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}
-                        <!--<span class="required" aria-required="true"> * </span>-->
-                    </label>
-                    <div class="col-md-8 user-img">
-                        {{#if user.filePath}}
-                            <img style="margin-bottom: 15px;" src="{{user.filePath}}" alt="{{user.username}}" width="300" height="300">
-                        {{/if}}
-
-                        <div class="insert-avatar-container text-center" >
-                            {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
+                    <div class="form-group clearfix">
+                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.company'}}</label>
+                        <div class="col-md-8 col-xs-8">
+                            {{input type="text" class="form-control" value=user.company }}
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="col-md-6">
+                <div class="input-box">
+                    <h3 class="sub-heading">
+                        {{fa-icon "address-book"}} Edit personal details
+                    </h3>
 
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.street-number'}}
-                        <!--<span class="required" aria-required="true"> * </span>-->
-                    </label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.street-number'}}</label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="text" class="form-control" value=userStreet }}
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.city'}}
-                        <!--<span class="required" aria-required="true"> * </span>-->
-                    </label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.city'}}</label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="email" class="form-control" value=userCity }}
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}
-                        <!--<span class="required" aria-required="true"> * </span>-->
-                    </label>
+                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}</label>
                     <div class="col-md-8 col-xs-8">
                         {{input type="text" class="form-control" value=user.zip }}
                     </div>
@@ -122,7 +122,6 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
-                        {{!--{{input type="text" class="form-control" value=user.phoneNumber }}--}}
                         {{validated-field
                                 type="text"
                                 changeset=changeset
@@ -137,7 +136,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
-                        {{elements/language-select selectedLanguage=user.language onLanguageSelected=(action 'updateLanguage')}}
+                        {{elements/language-select nationality=user.language onLanguageSelected=(action 'updateLanguage')}}
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -145,7 +144,7 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8 col-xs-8">
-                        {{pikaday-input useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=user.birthDate}}
+                        {{pikaday-input class="form-control" useUTC=true format="MM/DD/YYYY" onSelection=(action 'updateUserBirthDate') value=user.birthDate yearRange="100"}}
                         {{#if (get changeset.error 'birthDate')}}
                             <small>
                                 <ul class="error-list">
@@ -162,12 +161,11 @@
                         <span class="required" aria-required="true"> * </span>
                     </label>
                     <div class="col-md-8">
-                        <div class="onoffswitch">
-                            {{input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=user.isAdmin }}
-                            <label class="onoffswitch-label" for="myonoffswitch">
-                                <span class="onoffswitch-inner"></span>
-                                <span class="onoffswitch-switch"></span>
-                            </label>
+                        <div class="mt-action-buttons">
+                            <div class="btn-group btn-group-circle">
+                                <button {{action "changeIsAdmin" true}} type="button" class="btn {{if user.isAdmin 'active' }} btn-outline switch-green btn-sm"><span>Is admin</span></button>
+                                <button {{action "changeIsAdmin" false}} type="button" class="btn {{unless user.isAdmin 'active' }} btn-outline switch-red btn-sm"><span>Not admin</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -179,9 +177,11 @@
                         {{textarea class="form-control" name="username" value=user.comment}}
                     </div>
                 </div>
-
+                </div>
+            </div>
+            <div class="col-md-12">
                 <div class="form-group clearfix text-right">
-                    <button class="btn btn-success pull-right" {{action 'saveUser' changeset }}>{{trans 'button.save'}}</button>
+                    <button class="button green pull-right" {{action 'saveUser' changeset }}>{{trans 'button.save'}}</button>
                 </div>
             </div>
         </div>

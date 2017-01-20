@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import AddAgentValidations from '../../validations/add-new-agent';
 import EditAgentValidations from '../../validations/edit-agent';
+import EditAgentAdminValidations from '../../validations/edit-agent-admin';
 import AddressValidations from '../../validations/address';
 import {withoutProxies} from './../../utils/proxy-helpers';
 import Changeset from 'ember-changeset';
@@ -27,6 +28,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
         return this.get('currentUser.user').get('roles').includes('ROLE_SUPER_ADMIN');
     }),
 
+    isUserAdminEditOwnProfile: Ember.computed('isUserAdmin', function() {
+        return this.get('isUserAdmin') && (Object.is(this.get('model.id'), this.get('currentUser.user.id')));
+    }),
+
     init() {
         this._super(...arguments);
         this._setUpComponent();
@@ -41,7 +46,12 @@ export default Ember.Component.extend(LoadingStateMixin,{
         if (this.get('isEdit')) {
             this.set('initialGroup', this.get('model.group'));
             this.set('model.emailRepeat', this.get('model.email'));
-            this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentValidations);
+            if (this.get('isUserAdminEditOwnProfile')) {
+                this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentAdminValidations);
+            } else {
+                this.changeset = new Changeset(this.get('model'), lookupValidator(EditAgentValidations), EditAgentValidations);
+            }
+
             if( this.get('model.notifications')[0] ){
                 this.set('notifications', this.get('model.notifications'));
             } else {

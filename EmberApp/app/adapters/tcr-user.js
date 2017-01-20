@@ -1,6 +1,7 @@
 import TCRCoreAdapter from './tcr-core-adapter';
+const {Routing} = window;
 
-export default TCRCoreAdapter.extend( {
+export default TCRCoreAdapter.extend({
     query(store, type, query){
         if (typeof query['filters'] === 'string') {
             query['filters'] = JSON.parse(query['filters']);
@@ -31,21 +32,15 @@ export default TCRCoreAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
-        console.log(options);
-        return this.get('ajax').request(url, options).then(response => {
-
-
+        return this.get('ajaxService').request(url, options).then(response => {
             return response;
         });
     },
-    // findRecord(store, type, id){
-    //     let url = this.get('host') + '/orders/order-preview-complete/'+id;
-    //     let options = {
-    //         method: 'GET',
-    //     };
-    //
-    //     return this.get('ajax').request(url, options).then(response => {
-    //         return response;
-    //     });
-    // }
+    urlForFindRecord(id) {
+            return Routing.generate('api_tcr_users', {id});
+    },
+
+    urlForUpdateRecord: function(id) {
+        return Routing.generate('api_tcr_users', {id});
+    }
 });

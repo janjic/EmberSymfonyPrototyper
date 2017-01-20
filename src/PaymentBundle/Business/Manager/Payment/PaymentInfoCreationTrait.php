@@ -144,6 +144,11 @@ trait PaymentInfoCreationTrait
             return null;
         }
 
+        $dateToCheck = new \DateTime('-'.$bonusSetting->getPeriod().' month');
+        if ($agent->getLastBonusPayed() && ($agent->getLastBonusPayed() > $dateToCheck)) {
+            return null;
+        }
+
         $key = 'month_'.$bonusSetting->getPeriod();
         if (property_exists($numberOfCustomers, $key) && ($numberOfCustomers->$key > $bonusSetting->getNumberOfCustomers())) {
             return $this->createBonus($agent, $bonusSetting);

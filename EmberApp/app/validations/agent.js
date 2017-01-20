@@ -14,7 +14,6 @@ export default {
     email:          validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
     emailRepeat:    validateConfirmation({on: 'email', message: Translator.trans('validations.email-repeat')}),
     privateEmail:   validateFormat({ type: 'email', message: Translator.trans('validations.presence-email') }),
-    superior:       validatePresence(true),
     group:          validatePresence(true),
     birthDate:      validateDate({minAge:18, message: Translator.trans('validations.older-than-18')}),
     title:          validatePresence({ presence: true, message: Translator.trans('validations.presence-value') }),

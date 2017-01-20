@@ -68,7 +68,7 @@ class ImportAgentsCommand extends ContainerAwareCommand
         $agents = $statement->fetchAll();
 
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $HQ = $em->getRepository('UserBundle:Agent')->find(CreateAdminCommand::AGENT_ADMIN_ID);
+        $HQ = $em->getRepository('UserBundle:Agent')->findOneBy(array('agentId' => CreateAdminCommand::AGENT_HQ_CODE));
         $imagesBase64 = array();
 
         $finder = new Finder();

@@ -5,6 +5,7 @@ namespace UserBundle\Business\Repository;
 use CoreBundle\Business\Manager\BasicEntityRepositoryTrait;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Exception;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\ORM\NoResultException;
@@ -116,8 +117,15 @@ class AgentRepository extends NestedTreeRepository
         return $agent;
     }
 
-    public function flushDb()
+    /**
+     * @param bool $manually
+     */
+    public function flushDb($manually = false)
     {
+        if ($manually) {
+            $metadata = $this->_em->getClassMetaData($this->getClassName());
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+        }
         $this->_em->flush();
     }
 
@@ -445,7 +453,7 @@ class AgentRepository extends NestedTreeRepository
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
             'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount',  self::ALIAS.'.email', self::SUPERIOR_ALIAS.'.id as superior_id',
-            self::ALIAS.'.baseImageUrl', self::GROUP_ALIAS.'.name AS groupName');
+            self::ALIAS.'.baseImageUrl', self::ALIAS.'.enabled', self::GROUP_ALIAS.'.name AS groupName');
         $qb->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
 
@@ -467,7 +475,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
-            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email', self::GROUP_ALIAS.'.name AS groupName');
+            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email', self::ALIAS.'.baseImageUrl',
+            self::ALIAS.'.enabled', self::GROUP_ALIAS.'.name AS groupName');
 
         $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);

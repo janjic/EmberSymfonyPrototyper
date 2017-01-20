@@ -1,10 +1,24 @@
 <h1 class="main-heading">{{trans 'admin-menu.genealogy.tree.title' }}</h1>
-<div id="chart-container"></div>
-{{#if isLoading }}
-    <div class="loader-holder">
-        <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+
+<div class="main-chart-container">
+    <div id="chart-container"></div>
+    {{#if isLoading }}
+        <div class="loader-holder">
+            <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+        </div>
+    {{/if}}
+    <div class="input-box legend-orgchart">
+        <h3 class="sub-heading">Legend</h3>
+        <div class="legend-holder">
+            <span class="admin">HQ</span>
+            <span class="ambassador">Ambassador</span>
+            <span class="master-agent">Master agent</span>
+            <span class="active-agent">Active agent</span>
+            <span class="referee">Referee</span>
+        </div>
     </div>
-{{/if}}
+</div>
+
 
 {{#bs-modal open=isModalOpen header=false body=false footer=false closedAction=(action 'closedAction')}}
     {{#bs-modal-header}}

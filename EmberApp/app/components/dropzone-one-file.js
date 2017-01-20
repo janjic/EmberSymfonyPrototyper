@@ -34,6 +34,33 @@ export default EmberDropzone.extend({
             this.get('dropzone').files.push(dropFile);
         }
 
+        if (this.get('currentImageWebPath')) {
+            let extension = /(?:\.([^.]+))?$/.exec(this.get('currentImageWebPath'))[1];
+            extension     = extension ? extension :'png';
+            let dropFile = {
+                name: this.get('currentImageWebPath'),
+                type: extension,
+                size: 0,
+                status: Dropzone.ADDED,
+                url: this.get('currentImageWebPath')
+            };
+
+            let thumbnail = this.get('currentImageWebPath');
+
+            if ( typeof(thumbnail) === 'string' ) {
+
+                dropFile.thumbnail = thumbnail;
+            }
+            this.get('dropzone').emit('addedfile', dropFile);
+
+            if ( typeof(thumbnail) === 'string' ) {
+                this.get('dropzone').emit('thumbnail', dropFile, thumbnail);
+            }
+
+            this.get('dropzone').emit('complete', dropFile);
+            this.get('dropzone').files.push(dropFile);
+        }
+
     },
     didInsertElement() {
         this._super(...arguments);

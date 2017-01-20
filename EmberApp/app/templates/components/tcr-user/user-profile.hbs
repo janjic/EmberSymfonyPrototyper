@@ -1,157 +1,125 @@
-<section class="profile-view">
-    <h1 class="main-heading">Profile settings</h1>
-    <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="profile-settings input-box">
-            <h3 class="sub-heading">Account information</h3>
+<section class="agent-view user-view">
 
-            <div class="row">
-                <div class="col-md-3 col-sm-3">
-                    {{#if user.image.filePath }}
+    <div class="user-heading">
+        <div class="left-side">
+            <div class="info">
+                <h5>{{user.firstName}}</h5>
+                <p>{{user.email}}</p>
+            </div>
+        </div>
+        <div class="right-side">
+            {{#link-to editLink user.id class="button red icon-btn"}}
+                {{trans "button.edit-profile"}}
+            {{/link-to}}
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="input-box high clearfix">
+            <h3 class="sub-heading">{{fa-icon "user"}} Basic info</h3>
+
+            <div class="img-holder">
+                {{#if user.image.filePath }}
                     <img class="img img-responsive" src="{{user.image.filePath}}" alt="">
-                    {{else}}
-                        <img src="../../../assets/images/user-avatar.png" alt="">
-                    {{/if}}
-                </div>
-                <div class="col-md-9 col-sm-9">
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.title'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.title}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.name'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.firstName}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.family-name'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.lastName}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.email'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.email}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.phone'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.phoneNumber}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.language'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.language}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.country'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.country}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.birthdate'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.birthDate}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.status'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <div class="onoffswitch">
-                                {{input disabled="true" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=user.enabled}}
-                                {{!--<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked=>--}}
-                                <label class="onoffswitch-label" for="myonoffswitch"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.admin'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <div class="onoffswitch-2">
-                                {{input disabled="true" type="checkbox" name="onoffswitch-2" class="onoffswitch-2-checkbox" id="myonoffswitch-2" checked=user.isAdmin}}
-                                {{!--<input type="checkbox" name="onoffswitch-2" class="onoffswitch-2-checkbox" id="myonoffswitch-2" checked>--}}
-                                <label class="onoffswitch-2-label" for="myonoffswitch-2"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="profile-settings input-box">
-            <h3 class="sub-heading">Optional information</h3>
-
-            <div class="row">
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.address'}}</label>
-                    <div class="col-md-8 col-xs-8">
-                        <p>{{user.address}}</p>
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.postcode'}}</label>
-                    <div class="col-md-8 col-xs-8">
-                        <p>{{user.zip}}</p>
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.comment'}}</label>
-                    <div class="col-md-8 col-xs-8">
-                        <p>{{user.comment}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="profile-settings input-box">
-            <h3 class="sub-heading">Referral link</h3>
-            <div class="row">
-                {{#if user.agent }}
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-id'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.agent.id}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-first-name'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.agent.firstName}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-last-name'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.agent.lastName}}</p>
-                        </div>
-                    </div>
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.agent-email'}}</label>
-                        <div class="col-md-8 col-xs-8">
-                            <p>{{user.agent.email}}</p>
-                        </div>
-                    </div>
                 {{else}}
-                    <div class="form-group clearfix">
-                        <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.no-agent'}}</label>
-                    </div>
+                    <img src="../../../assets/images/user-avatar.png" alt="">
                 {{/if}}
-
-                <div class="form-group clearfix">
-                    <div class="col-md-12">
-                        {{#link-to viewLink user class='btn btn-danger pull-right'}}{{trans 'button.edit'}}{{/link-to}}
-                    </div>
-                </div>
+                {{#link-to editLink user.id class="button red icon-btn"}}
+                    {{fa-icon "pencil"}}
+                {{/link-to}}
             </div>
+
+
+            <dl class="dl-horizontal">
+                <dt>{{trans 'admin-user.label.title'}}</dt>
+                <dd>{{user.title}}</dd>
+                <dt>{{trans 'admin-user.label.email'}}</dt>
+                <dd>{{user.email}}</dd>
+                <dt>Username</dt>
+                <dd>{{user.username}}</dd>
+                <dt>{{trans 'admin-user.label.birthdate'}}</dt>
+                <dd>{{user.birthDate}}</dd>
+                <dt>{{trans 'admin-user.label.comment'}}</dt>
+                <dd>{{user.comment}}</dd>
+                <dt>{{trans 'admin-user.label.status'}}</dt>
+                <dd>
+                    <div class="mt-action-buttons">
+                        <div class="btn-group btn-group-circle">
+                            <button  disabled type="button" class="btn {{if user.enabled 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
+                            <button disabled type="button" class="btn {{unless user.enabled 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                        </div>
+                    </div>
+                </dd>
+
+                <dt>{{trans 'admin-user.label.admin'}}</dt>
+                <dd>
+                    <div class="mt-action-buttons">
+                        <div class="btn-group btn-group-circle">
+                            <button  disabled type="button" class="btn {{if user.isAdmin 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
+                            <button disabled type="button" class="btn {{unless user.isAdmin 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
         </div>
     </div>
 
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="input-box clearfix">
+            <h3 class="sub-heading">{{fa-icon "address-card"}} Personal details</h3>
+
+            <dl class="dl-horizontal">
+                <dt>{{trans 'admin-user.label.address'}}</dt>
+                <dd>{{user.address}}</dd>
+                <dt>{{trans 'admin-user.label.postcode'}}</dt>
+                <dd>{{user.zip}}</dd>
+                <dt>{{trans 'admin-user.label.country'}}</dt>
+                <dd>{{user.country}}</dd>
+                <dt>{{trans 'admin-user.label.language'}}</dt>
+                <dd>{{user.language}}</dd>
+                <dt>{{trans 'admin-user.label.phone'}}</dt>
+                <dd>{{user.phoneNumber}}</dd>
+            </dl>
+
+        </div>
+
+        <div class="input-box referral clearfix">
+            <h3 class="sub-heading">{{fa-icon "black-tie"}} Referral link</h3>
+
+            <dl class="dl-horizontal">
+                <dt>{{trans 'admin-user.label.agent-id'}}</dt>
+                <dd>
+                    {{#if user.agent }}
+                        {{user.agent.id}}
+                    {{else}}
+                        Not specified
+                    {{/if}}
+                </dd>
+                <dt>{{trans 'admin-user.label.agent-first-name'}}</dt>
+                <dd>
+                    {{#if user.agent }}
+                        {{user.agent.firstName}}
+                    {{else}}
+                        Not specified
+                    {{/if}}
+                </dd>
+                <dt>{{trans 'admin-user.label.agent-last-name'}}</dt>
+                <dd>
+                    {{#if user.agent }}
+                        {{user.agent.lastName}}
+                    {{else}}
+                        Not specified
+                    {{/if}}
+                </dd>
+                <dt>{{trans 'admin-user.label.agent-email'}}</dt>
+                <dd>
+                    {{#if user.agent }}
+                        {{user.agent.email}}
+                    {{else}}
+                        Not specified
+                    {{/if}}
+                </dd>
+            </dl>
+        </div>
+    </div>
 </section>
