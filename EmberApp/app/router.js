@@ -101,8 +101,8 @@ Router.map(function() {
           this.route('users', function() {
               this.route('add-new-user');
               this.route('users-customers');
-              this.route('user-edit');
-              this.route('user-view');
+              this.route('user-edit', {path: '/user-edit/:id'});
+              this.route('user-view', {path: '/user-view/:id'});
           });
           this.route('agents', function() {
             this.route('add-new-agent');

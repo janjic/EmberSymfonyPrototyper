@@ -72,7 +72,7 @@ export default Ember.Component.extend({
             if (this.get('changeset').get('isValid')) {
                 user.save().then(() => {
                     this.toast.success(Translator.trans('User updated!'));
-                    this.get('routing').transitionTo('dashboard.users.users-customers');
+                    this.get('routing').transitionTo(this.get('viewAllRoute'));
                 }, () => {
                     this.toast.error(Translator.trans('Data not updated!'));
                 });
