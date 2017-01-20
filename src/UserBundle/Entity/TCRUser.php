@@ -3,7 +3,6 @@
 namespace UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use UserBundle\Entity\Document\Image;
 
 /**
  * Class TCRUser
