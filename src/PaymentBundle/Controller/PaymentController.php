@@ -69,6 +69,16 @@ class PaymentController extends Controller
     }
 
     /**
+     * @Route("/api/payment/execute-payment-for-all", name="api_execute_all_payments", options={"expose" = true})
+     * @param ArrayCollection $paymentInfoExecuteAllPayments
+     * @return JSONResponse
+     */
+    public function executeAllPaymentsAction(ArrayCollection $paymentInfoExecuteAllPayments)
+    {
+        return new JSONResponse($paymentInfoExecuteAllPayments->toArray(), array_key_exists('errors', $paymentInfoExecuteAllPayments->toArray()) ? 422 : 200);
+    }
+
+    /**
      * @Route("/api/payment/earnings-by-agent", name="api_earnings_by_agent", options={"expose" = true})
      * @param ArrayCollection $paymentInfoEarningsByAgent
      * @return JSONResponse
