@@ -112,7 +112,7 @@ class Agent extends BaseUser implements ParticipantInterface
 
     /**
      * @var string
-     * @ORM\Column(name="role_changed_at", type="date", length=255, nullable=true)
+     * @ORM\Column(name="role_changed_at", type="datetime", length=255, nullable=true)
      */
     protected $roleChangedAt;
 

@@ -5,16 +5,15 @@ const {Routing} = window;
 export default Ember.Controller.extend({
     authorizedAjax : Ember.inject.service('authorized-ajax'),
     page    : 1,
-    maxPages: 1,
-    offset  : 20,
+    offset  : 4,
     groups  : [],
     actions:{
-        filterModelPromotions(searchArray, page){
+        filterModelPromotions(searchArray, page, maxPages){
             let data =  {
                 type: 'promotion',
                     page: page,
                     offset: this.get('offset'),
-                    maxPages: this.get('maxPages'),
+                    maxPages: maxPages,
                     filters: JSON.stringify(searchArray),
             };
 
@@ -26,12 +25,12 @@ export default Ember.Controller.extend({
             });
 
         },
-        filterModelDowngrades(searchArray, page){
+        filterModelDowngrades(searchArray, page, maxPages){
             let data =  {
                 type: 'downgrade',
                 page: page,
                 offset: this.get('offset'),
-                maxPages: this.get('maxPages'),
+                maxPages: maxPages,
                 filters: JSON.stringify(searchArray),
             };
 
@@ -46,6 +45,24 @@ export default Ember.Controller.extend({
         searchQuery(page, text, perPage){
             let role = this.get('model.role_codes').role_referee;
             return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email', minRoleCondition: role }).then(results => results);
+        },
+        removePromotion(agentId)
+        {
+            let promotions = this.get('model.promotions.data');
+            promotions.forEach(function(item, index){
+                if(item.agent_id === agentId) {
+                    promotions.removeAt(index);
+                }
+            });
+        },
+        removeDemotion(agentId)
+        {
+            let downgrades = this.get('model.downgrades.data');
+            downgrades.forEach(function(item, index){
+                if(item.agent_id === agentId) {
+                    downgrades.removeAt(index);
+                }
+            });
         }
     },
 });

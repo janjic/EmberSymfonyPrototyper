@@ -20,15 +20,25 @@ trait JsonApiUpdateAgentManagerTrait
     /**
      * {@inheritdoc}
      */
-    public function updateResource($data)
+    public function updateResource($data, $isPromotionEdit = false)
     {
-        /**
-         * @var Agent $agent
-         */
-        $agent = $this->deserializeAgent($data);
+
+        if(!$isPromotionEdit){
+            /**
+             * @var Agent $agent
+             */
+            $agent = $this->deserializeAgent($data);
+        } else {
+            /**
+             * @var Agent $agent
+             */
+            $agent = $data;
+        }
 
         /** @var Agent $dbAgent */
         $dbAgent       = $this->getEntityReference($agent->getId());
+
+
         $dbAgentGroup  = $dbAgent->getGroup();
         $dbAgentLocked = $dbAgent->isEnabled();
 
@@ -36,7 +46,7 @@ trait JsonApiUpdateAgentManagerTrait
         $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
 
-        if(!is_null($agent->getSuperior())){
+        if(!is_null($agent->getSuperior()) && !$isPromotionEdit){
             $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
             $agent->setSuperior($newSuperior);
         }

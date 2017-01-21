@@ -258,29 +258,105 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     public function getPromotionSuggestions($request = null)
     {
         $page = 1;
+        $offset = 4;
         if($request){
-            $page = $request->get('page');
+            $page = intval($request->get('page'));
         }
 
         if($request && $request->get('type') == 'promotion'){
-            $data['promotions'] = array_merge($this->repository->getPromotionSuggestionsForActiveAgent($request, false),$this->repository->getPromotionSuggestionsForReferee($request, false));
+
+            $promotionTotalItems = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->repository->getPromotionSuggestionsForReferee($request, true)));
+
+            $firstPromotions = $this->repository->getPromotionSuggestionsForActiveAgent($request);
+
+            if (($size = sizeof($firstPromotions)) < $offset) {
+                if($size != 0){
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
+                } else {
+                    $totalOfAAPromotions = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)));
+                    $pagesOfAA = ceil($totalOfAAPromotions/$offset);
+                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($pagesOfAA % $offset);
+
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                }
+            } else {
+                $data['promotions']['data'] = array_merge($firstPromotions);
+            }
+
+            $data['promotions']['meta'] = array_merge(array('page'=>$page, 'pages' => ceil($promotionTotalItems/$offset), 'totalItems' => $promotionTotalItems));
+
         } else if($request && $request->get('type') == 'downgrade') {
-            $data['downgrades'] = array_merge($this->repository->getDowngradeSuggestionsForMasterAgent($request, false), $this->repository->getDowngradeSuggestionsForActiveAgent($request, false));
+
+            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
+
+            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+
+            if (($size = sizeof($firstDowngrades)) < $offset) {
+                if($size != 0){
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                } else {
+                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $pagesOfMA = ceil($totalOfMADowngrades/$offset);
+                    $firstResForRef = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
+
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                }
+
+            } else {
+                $data['downgrades']['data'] = array_merge($firstDowngrades);
+            }
+
+            $data['downgrades']['meta'] = array_merge(array('page'=>$page, 'pages' => ceil($downgradeTotalItems/$offset), 'totalItems' => $downgradeTotalItems));
+
         } else {
-            $data['promotions'] = array_merge($this->repository->getPromotionSuggestionsForActiveAgent($request, false),$this->repository->getPromotionSuggestionsForReferee($request, false));
-            $data['downgrades'] = array_merge($this->repository->getDowngradeSuggestionsForMasterAgent($request, false), $this->repository->getDowngradeSuggestionsForActiveAgent($request, false));
+            /**
+             * Promotion on first load
+             */
+            $promotionTotalItems = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->repository->getPromotionSuggestionsForReferee($request, true)));
+            $firstPromotions = $this->repository->getPromotionSuggestionsForActiveAgent($request);
+
+            if (($size = sizeof($firstPromotions)) < $offset) {
+                if($size != 0){
+                    $data['promotions']['data'] = array_merge($firstPromotions, $this->repository->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
+                } else {
+                    $totalOfAAPromotions = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)));
+                    $pagesOfAA = ceil($totalOfAAPromotions/$offset);
+                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($pagesOfAA % $offset);
+
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                }
+
+            } else {
+                $data['promotions']['data'] = array_merge($firstPromotions);
+            }
+
+            $data['promotions']['meta'] = array_merge(array('page'=>$page, 'pages' => ceil($promotionTotalItems/$offset), 'totalItems' => $promotionTotalItems));
+
+
+            /**
+             * Downgrades on first load
+             */
+            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
+            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+
+            if (($size = sizeof($firstDowngrades)) < $offset) {
+                if($size != 0){
+                    $data['downgrades']['data'] = array_merge($firstDowngrades, $this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                } else {
+                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $pagesOfMA = ceil($totalOfMADowngrades/$offset);
+                    $firstResForAA = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
+
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForAA, $offset));
+                }
+
+            } else {
+                $data['downgrades']['data'] = array_merge($firstDowngrades);
+            }
+
+            $data['downgrades']['meta'] = array_merge(array('page'=>$page, 'pages' => ceil($downgradeTotalItems/$offset), 'totalItems' => $downgradeTotalItems));
         }
 
-//        $sizeOfDowngrades = sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) +
-//        sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true));
-//        $pageCount = ceil($sizeOfDowngrades / 10);
-//        $data['downgrades']['meta'] = [
-//            'totalItems' => $sizeOfDowngrades,
-//            'pages' => $pageCount,
-//            'page' => $page
-//        ];
-
-        $data['groups'] = $this->groupManager->getResource(null);
         $data['role_codes'] = array(
             'role_active_agent' => RoleHelper::ACTIVE,
             'role_master_agent' => RoleHelper::MASTER,
@@ -293,6 +369,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     /**
      * @param $agentId
      * @param $superiorId
+     * @return mixed
      */
     public function promoteAgent($agentId, $superiorId)
     {
@@ -301,38 +378,41 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          */
         $agent = $this->agentManager->findAgentById($agentId);
         if(is_null($superiorId)){
-            $group = $this->groupManager->getGroupByName(RoleHelper::MASTER);
+            $group = $this->groupManager->findGroupByName(RoleHelper::MASTER);
             $agent->setGroup($group);
         } else {
-            $group = $this->groupManager->getGroupByName(RoleHelper::ACTIVE);
+            $group = $this->groupManager->findGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);
-            $superior = $this->agentManager->findAgentById($superiorId);
+            $superior = $this->agentManager->getReference($superiorId);
             $agent->setSuperior($superior);
         }
 
-        var_dump($agent->getGroup());exit;
+        return $this->agentManager->updateResource($agent, true);
     }
 
     /**
      * @param $agentId
-     * @param $superiorType
+     * @param $newSuperiorId
+     * @return mixed
      */
-    public function demoteAgent($agentId, $superiorType)
+    public function demoteAgent($agentId, $newSuperiorId)
     {
         /**
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
-        if(is_null($superiorType)){
-            $group = $this->groupManager->getGroupByName(RoleHelper::ACTIVE);
+        if(is_null($newSuperiorId)){
+            $group = $this->groupManager->findGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);
         } else {
-
-//            $agent->removeRole(RoleManager::ROLE_ACTIVE_AGENT);
-//            $superior = $this->agentManager->findAgentById($superiorId);
-//            $agent->setSuperior($superior);
+            $group = $this->groupManager->findGroupByName(RoleHelper::REFEREE);
+            $agent->setGroup($group);
+            $agent->setNewSuperiorId($newSuperiorId);
+            $superior = $this->agentManager->findAgentByRole(RoleManager::ROLE_SUPER_ADMIN);
+            $agent->setSuperior($superior);
         }
 
-        var_dump($agent->getGroup());exit;
+        return $this->agentManager->updateResource($agent, true);
+
     }
 }

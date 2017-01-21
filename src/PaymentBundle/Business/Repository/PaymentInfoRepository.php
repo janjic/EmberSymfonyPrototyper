@@ -5,6 +5,7 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Doctrine\DBAL\Types\Type;
 use PaymentBundle\Entity\PaymentInfo;
@@ -673,52 +674,49 @@ class PaymentInfoRepository extends EntityRepository
 
     /**
      * @param $request
-     * @param $isCountSearch
+     * @param int $offset
+     * @param bool $isCountSearch
      * @return array
      */
-    public function getPromotionSuggestionsForActiveAgent($request, $isCountSearch)
+    public function getPromotionSuggestionsForActiveAgent($request, $isCountSearch = false, $offset = 4 )
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+        $qb->select('COUNT(DISTINCT '.self::AGENT_ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
             self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.id as agent_id', self::SUPERIOR_ALIAS.'.nationality', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
         $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
         $qb->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
-        /**
-         * Change to < when finished
-         */
+
         $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt > :date');
         $qb->setParameter('date', new \DateTime('-6 month'));
         $qb->andWhere(self::ALIAS.'.state = 1');
 
-        /**
-         * uncomment this when data arrives!!!!!
-         */
+
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
 
+
+        $firstResult = 0;
         /**
          * Apply search if params exist
          */
         if($request) {
-            $page = $request->get('page');
-            $offset = $request->get('offset');
-            $firstResult = 0;
+            $page = intval($request->get('page'));
             if ($page != 1) {
                 $firstResult = ($page - 1) * $offset;
             }
 
             $rules = json_decode($request->get('filters'))->rules;
-            if(sizeof($rules)){
-                $rule = $rules[0]->data;
-                $qb->andWhere($qb->expr()->like(self::SUPERIOR_ALIAS.'.firstName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::SUPERIOR_ALIAS.'.lastName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::SUPERIOR_ALIAS.'.username', $qb->expr()->literal($rule.'%')));
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::SUPERIOR_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
             }
-
-            $qb->setFirstResult($firstResult);
-            $qb->setMaxResults($offset);
         }
 
         /**
@@ -727,6 +725,7 @@ class PaymentInfoRepository extends EntityRepository
          */
 
         $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
         $qb->orderBy('active_agents_numb', 'DESC');
 
         if($isCountSearch){
@@ -735,17 +734,21 @@ class PaymentInfoRepository extends EntityRepository
             return $qb->getQuery()->getResult();
         }
 
-        $qb->setMaxResults(10);
+        $qb->setFirstResult($firstResult);
+        $qb->setMaxResults($offset);
 
         return $qb->getQuery()->getResult();
     }
 
     /**
      * @param $request
-     * @param $isCountSearch
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
      * @return array
+     * @internal param int $offset
      */
-    public function getPromotionSuggestionsForReferee($request, $isCountSearch)
+    public function getPromotionSuggestionsForReferee($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
@@ -753,10 +756,10 @@ class PaymentInfoRepository extends EntityRepository
         $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
         $qb->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
-        /**
-         * Change to < when finished
-         */
+
+
         $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt > :date');
         $qb->setParameter('date', new \DateTime('-6 month'));
         $qb->andWhere(self::ALIAS.'.state = 1');
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_REFEREE.'%\''));
@@ -765,25 +768,17 @@ class PaymentInfoRepository extends EntityRepository
          * Apply search if params exist
          */
         if($request) {
-            $page = $request->get('page');
-            $offset = $request->get('offset');
-            $firstResult = 0;
-            if ($page != 1) {
-                $firstResult = ($page - 1) * $offset;
-            }
 
             $rules = json_decode($request->get('filters'))->rules;
-            if(sizeof($rules)){
-                $rule = $rules[0]->data;
-                $qb->andWhere($qb->expr()->like(self::AGENT_ALIAS.'.firstName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::AGENT_ALIAS.'.lastName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::AGENT_ALIAS.'.username', $qb->expr()->literal($rule.'%')));
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::AGENT_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
             }
-
-            $qb->setFirstResult($firstResult);
-            $qb->setMaxResults($offset);
         }
-
 
         /**
          * UnComment having clause when finished!!!!
@@ -799,79 +794,84 @@ class PaymentInfoRepository extends EntityRepository
         }
 
 
+        $qb->setFirstResult($firstRes);
+        $qb->setMaxResults($maxRes);
+
         return $qb->getQuery()->getResult();
     }
 
     /**
      * @param $request
-     * @param $isCountSearch
+     * @param int $offset
+     * @param bool $isCountSearch
      * @return array
      */
-    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch)
+    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+        $qb->select('COUNT(DISTINCT '.self::AGENT_ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
             self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.nationality', self::SUPERIOR_ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
         $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
         $qb->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
         $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
-        /**
-         * Change to < when finished
-         */
         $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt > :date');
         $qb->andWhere(self::ALIAS.'.state = 1');
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_MASTER_AGENT.'%\''));
         $qb->setParameter('date', new \DateTime('-6 month'));
 
+
+        $firstResult = 0;
         /**
          * Apply search if params exist
          */
         if($request) {
             $page = $request->get('page');
-            $offset = $request->get('offset');
-            $firstResult = 0;
             if ($page != 1) {
                 $firstResult = ($page - 1) * $offset;
             }
 
             $rules = json_decode($request->get('filters'))->rules;
-            if(sizeof($rules)){
-                $rule = $rules[0]->data;
-                $qb->andWhere($qb->expr()->like(self::SUPERIOR_ALIAS.'.firstName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::SUPERIOR_ALIAS.'.lastName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::SUPERIOR_ALIAS.'.username', $qb->expr()->literal($rule.'%')));
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::SUPERIOR_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
             }
-
-            $qb->setFirstResult($firstResult);
-            $qb->setMaxResults($offset);
         }
 
+//        $qb->having('active_agents_numb < 10');
 
-        /**
-         * UnComment having clause when finished!!!!
-         *
-         */
-        $qb->having('active_agents_numb < 10');
         $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
         $qb->orderBy('active_agents_numb', 'DESC');
 
         if($isCountSearch){
-            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'COUNT(DISTINCT '.self::SUPERIOR_ALIAS.'.id) as agents');
 
-            return $qb->getQuery()->getResult();
+          return $qb->getQuery()->getResult();
         }
 
+        $qb->setFirstResult($firstResult);
+        $qb->setMaxResults($offset);
 
         return $qb->getQuery()->getResult();
     }
 
 
     /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
      * @return array
+     * @internal param int $offset
      */
-    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch)
+    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
@@ -880,10 +880,9 @@ class PaymentInfoRepository extends EntityRepository
         $qb->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
-        /**
-         * Change to < when finished
-         */
+
         $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt > :date');
         $qb->andWhere(self::ALIAS.'.state = 1');
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
         $qb->setParameter('date', new \DateTime('-6 month'));
@@ -892,23 +891,15 @@ class PaymentInfoRepository extends EntityRepository
          * Apply search if params exist
          */
         if($request) {
-            $page = $request->get('page');
-            $offset = $request->get('offset');
-            $firstResult = 0;
-            if ($page != 1) {
-                $firstResult = ($page - 1) * $offset;
-            }
-
             $rules = json_decode($request->get('filters'))->rules;
-            if(sizeof($rules)){
-                $rule = $rules[0]->data;
-                $qb->andWhere($qb->expr()->like(self::AGENT_ALIAS.'.firstName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::AGENT_ALIAS.'.lastName', $qb->expr()->literal($rule.'%')).' OR '.
-                    $qb->expr()->like(self::AGENT_ALIAS.'.username', $qb->expr()->literal($rule.'%')));
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::AGENT_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
             }
-
-            $qb->setFirstResult($firstResult);
-            $qb->setMaxResults($offset);
         }
 
 
@@ -916,7 +907,8 @@ class PaymentInfoRepository extends EntityRepository
          * UnComment having clause when finished!!!!
          *
          */
-        $qb->having('active_agents_numb < 12');
+//        $qb->having('active_agents_numb < 12');
+
         $qb->groupBy(self::AGENT_ALIAS.'.id');
         $qb->orderBy('active_agents_numb', 'DESC');
 
@@ -926,6 +918,8 @@ class PaymentInfoRepository extends EntityRepository
             return $qb->getQuery()->getResult();
         }
 
+        $qb->setFirstResult($firstRes);
+        $qb->setMaxResults($maxRes);
 
         return $qb->getQuery()->getResult();
     }

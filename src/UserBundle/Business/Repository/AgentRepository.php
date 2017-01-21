@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
 
@@ -538,11 +539,11 @@ class AgentRepository extends NestedTreeRepository
      * @param $roleName
      * @return Agent|null
      */
-    public function findAgentByRole($roleName = "ROLE_SUPER_ADMIN")
+    public function findAgentByRole($roleName = RoleManager::ROLE_SUPER_ADMIN)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS)
-            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
+            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%'.$roleName.'%\''));
 
         return $qb->getQuery()->getOneOrNullResult();
     }

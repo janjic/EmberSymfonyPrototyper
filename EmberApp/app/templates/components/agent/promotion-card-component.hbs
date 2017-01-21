@@ -63,6 +63,13 @@
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body}}
+        <div class="form-group">
+            <input class="form-control"
+                   type="text"
+                   id="text-new-superior"
+                   value="Please choose superior agent for referee"
+                   disabled>
+        </div>
         {{inf-select
                 optionLabelKey='email'
                 selected = newSuperior
@@ -70,7 +77,7 @@
                 on-change=(action 'agentSelected')
         }}
 
-        <button {{ action 'doPromotion' }}>Save</button>
+        <button class="button green" {{ action 'doPromotion' }} disabled={{promoteButtonDisabled}}>Save</button>
     {{/bs-modal-body}}
 {{/bs-modal}}
 
@@ -79,29 +86,22 @@
         <h4 class="modal-title" id="chooseNewSuperior">
             Choose new superior
         </h4>
+
     {{/bs-modal-header}}
     {{#bs-modal-body}}
+        <div class="form-group">
+            <input class="form-control"
+                   type="text"
+                   id="text-new-superior"
+                   value="You will lose all child agents. Select new Superior for then"
+                   disabled>
+        </div>
         {{inf-select
                 optionLabelKey='name'
                 content=groups
                 serchable=true
                 on-change=(action 'newSuperiorRoleSelected')
         }}
-        <button {{ action 'doPromotion' }}>Save</button>
+        <button class="button green" {{ action 'doDemotion' }} disabled={{demoteButtonDisabled}}>Save</button>
     {{/bs-modal-body}}
 {{/bs-modal}}
-
-{{!--{{#bs-modal open=isSuperiorModalOpen header=false body=false footer=false }}--}}
-{{!--{{#bs-modal-header}}--}}
-{{!--<h4 class="modal-title" id="chooseNewSuperior">--}}
-{{!--Choose superior type for agents children--}}
-{{!--</h4>--}}
-{{!--{{/bs-modal-header}}--}}
-{{!--{{#bs-modal-body}}--}}
-
-{{!--{{role-picker-component onRoleSelected=(action 'roleSelected') selectedGroup=model.group--}}
-{{!--changeset = changeset property="group" validateProperty=(action 'validateProperty' changeset "group")}}--}}
-
-{{!--<button {{ action 'doDemotion' }}>Save</button>--}}
-{{!--{{/bs-modal-body}}--}}
-{{!--{{/bs-modal}}--}}
