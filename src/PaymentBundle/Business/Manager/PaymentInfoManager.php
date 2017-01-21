@@ -299,7 +299,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
                     $pagesOfMA = ceil($totalOfMADowngrades/$offset);
                     $firstResForRef = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
 
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForRef, $offset));
                 }
 
             } else {

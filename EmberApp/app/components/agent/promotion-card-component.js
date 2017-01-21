@@ -34,9 +34,7 @@ export default Ember.Component.extend({
                 action   : "promote"
             };
 
-            this.sendRequest(data).then((response)=> {
-                console.log(response);
-            });
+            this.sendRequest(data);
         },
         demote(agent){
             this.set('currentAgent', agent);
