@@ -5,22 +5,22 @@
         <div class="col-md-6">
             <div class="form-group clearfix">
                 {{date-range-picker
-                label = 'Select date'
-                autoUpdateInput = false
-                daysOfWeek  = daysOfWeek
-                applyLabel  = "Apply"
-                cancelLabel = "Clear"
-                fromLabel   = "From"
-                toLabel     = "To"
-                customRangeLabel = "Custom"
-                monthNames = monthNames
-                start=startDate
-                showDropdowns = true
-                ranges = ranges
-                alwaysShowCalendars = true
-                end=endDate
-                applyAction=(action "applyDateChange")
-                cancelAction=(action "cancelDateChange")
+                        label = 'Select date'
+                        autoUpdateInput = false
+                        daysOfWeek  = daysOfWeek
+                        applyLabel  = "Apply"
+                        cancelLabel = "Clear"
+                        fromLabel   = "From"
+                        toLabel     = "To"
+                        customRangeLabel = "Custom"
+                        monthNames = monthNames
+                        start=startDate
+                        showDropdowns = true
+                        ranges = ranges
+                        alwaysShowCalendars = true
+                        end=endDate
+                        applyAction=(action "applyDateChange")
+                        cancelAction=(action "cancelDateChange")
                 }}
             </div>
         </div>
@@ -36,65 +36,67 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            {{#if noResultsFound}}
-                <h4 style="margin-bottom: 15px; display: flex; align-items: center;">
-                    No payed commissions or bonuses found for selected period. <button class="button red btn-small" {{action 'cancelDateChange'}}> Cancel date filter </button>
-                </h4>
-            {{/if}}
-        </div>
-
-        <div class="chart-holder {{if noResultsFound 'hidden'}}">
-            {{#if isLoading }}
-                {{inf-loading}}
-            {{/if}}
-
-            <div class="col-xs-12 col-sm-4">
-
-                <div class="input-box">
-                    <h3 class="sub-heading">Commissions</h3>
-                    <div class="form-group clearfix">
-                        <h4>Processed earnings</h4>
-                        <p>{{totalCommission}} {{selectedCurrency}}</p>
-                    </div>
-                    <div class="form-group clearfix">
-                        <h4>Unprocessed earnings</h4>
-                        <p>{{unprocessedCommissions}} {{selectedCurrency}}</p>
-                    </div>
-                </div>
-
-                <div class="input-box">
-                    <h3 class="sub-heading">Bonuses</h3>
-                    <div class="form-group clearfix">
-                        <h4>Processed earnings</h4>
-                        <p>{{totalBonus}} {{selectedCurrency}}</p>
-                    </div>
-                    <div class="form-group clearfix">
-                        <h4>Unprocessed earnings</h4>
-                        <p>{{unprocessedBonus}} {{selectedCurrency}}</p>
-                    </div>
-                </div>
-
+        <div class="second-section clearfix">
+            <div class="col-md-12">
+                {{#if noResultsFound}}
+                    <h4 style="margin-bottom: 15px; display: flex; align-items: center;">
+                        No payed commissions or bonuses found for selected period. <button class="button red btn-small" {{action 'cancelDateChange'}}> Cancel date filter </button>
+                    </h4>
+                {{/if}}
             </div>
 
-            <div class="col-xs-12 col-sm-8">
-                <div id="highchart" style="min-width: 616px; height: 400px; margin: 0 auto"></div>
+            <div class="chart-holder {{if noResultsFound 'hidden'}}">
+                {{#if isLoading }}
+                    {{inf-loading}}
+                {{/if}}
+
+                <div class="col-xs-12 col-sm-4">
+
+                    <div class="input-box">
+                        <h3 class="sub-heading">Commissions</h3>
+                        <div class="form-group clearfix">
+                            <h5><strong>Processed earnings</strong></h5>
+                            <p>{{totalCommission}} {{selectedCurrency}}</p>
+                        </div>
+                        <div class="form-group clearfix">
+                            <h5><strong>Unprocessed earnings</strong></h5>
+                            <p>{{unprocessedCommissions}} {{selectedCurrency}}</p>
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <h3 class="sub-heading">Bonuses</h3>
+                        <div class="form-group clearfix">
+                            <h5><strong>Processed earnings</strong></h5>
+                            <p>{{totalBonus}} {{selectedCurrency}}</p>
+                        </div>
+                        <div class="form-group clearfix">
+                            <h5><strong>Unrocessed earnings</strong></h5>
+                            <p>{{unprocessedBonus}} {{selectedCurrency}}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-8">
+                    <div id="highchart" style="min-width: 616px; height: 400px; margin: 0 auto"></div>
+                </div>
             </div>
         </div>
     </div>
 
     {{payment/payment-info-listing-component
-    model=model
-    maxPages=maxPages
-    offset=offset
-    hidePayAllButtons=true
-    hideAgentFilter=true
-    hideDateFilter=true
-    title = 'COMISSIONS AND BONUSES REPORTS'
-    filterModel=(action 'filterModel')
-    searchAgentsAction=(action 'searchAgents')
-    startDateFilter=startDate
-    endDateFilter=endDate
+            model=model
+            maxPages=maxPages
+            offset=offset
+            hidePayAllButtons=true
+            hideAgentFilter=true
+            hideDateFilter=true
+            title = 'COMISSIONS AND BONUSES REPORTS'
+            filterModel=(action 'filterModel')
+            searchAgentsAction=(action 'searchAgents')
+            startDateFilter=startDate
+            endDateFilter=endDate
     }}
 
 </section>

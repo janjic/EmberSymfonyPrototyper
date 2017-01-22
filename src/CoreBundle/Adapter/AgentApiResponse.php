@@ -40,6 +40,9 @@ class AgentApiResponse
 
     const PAYMENT_EXECUTE_ERROR                 = array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ERROR)));
 
+    const PAYMENT_EXECUTE_ALL_SUCCESS           = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_SUCCESS));
+    const PAYMENT_EXECUTE_ALL_ERROR             = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_ERROR));
+
     /**
      * @param $ttl
      * @return array

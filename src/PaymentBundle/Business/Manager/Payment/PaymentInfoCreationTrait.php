@@ -65,6 +65,13 @@ trait PaymentInfoCreationTrait
             return [];
         }
 
+        if ( $persistData ){
+            /** @var PaymentInfo $payment */
+            foreach ($payments as $payment){
+                $this->notificationManager->createNewPaymentNotification($payment->getAgent(), $payment);
+            }
+        }
+
         return $this->serializePaymentInfo($payments);
     }
 

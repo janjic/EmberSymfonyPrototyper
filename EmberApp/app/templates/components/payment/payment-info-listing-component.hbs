@@ -3,8 +3,12 @@
     <span class="pull-right head-buttons">
         <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
         {{#unless hidePayAllButtons}}
-            <a href="#" class="button green btn-small">Pay all</a>
-            <a href="#" class="button red btn-small">Reject all</a>
+            {{#unless hidePayButton}}
+                <a href="#" {{action 'payAll'}}class="button green btn-small">Pay all</a>
+            {{/unless}}
+            {{#unless hideRejectButton}}
+                <a href="#" {{action 'rejectAll'}} class="button red btn-small">Reject all</a>
+            {{/unless}}
         {{/unless}}
     </span>
 </h1>
@@ -68,7 +72,7 @@
         {{/unless}}
     {{/bs-modal-body}}
     {{#bs-modal-footer}}
-        <button class="button green" {{action 'applyFilters'}}>
+        <button class="button green" {{action '_applyFilters'}}>
             {{#if isLoading}}
                 {{inf-loading}}
             {{else}}
@@ -82,7 +86,7 @@
 <div class="reports-holder">
 
     {{#if model.length}}
-        {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=filterModel hideSearchAndFilter=true as |yieldModel|}}
+        {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=(action 'applyFilters') hideSearchAndFilter=true as |yieldModel|}}
             {{payment/payment-info-listing-item-component
             hidePayAllButtons=hidePayAllButtons
             payment=yieldModel}}

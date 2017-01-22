@@ -16,6 +16,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
     dateInputValid: true,
     isModalOpen:    false,
     currentUser: Ember.inject.service('current-user'),
+    eventBus: Ember.inject.service('event-bus'),
     isEdit : Ember.computed ('model', function () {
         return this.get('model.id');
     }),
@@ -98,7 +99,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
                 this.get('model').reload();
                 this.toast.success(Translator.trans('models.agent.updated.profile'));
             }
-
+            this.get('eventBus').publish('refreshMessages');
 
 
         }, (response) => {

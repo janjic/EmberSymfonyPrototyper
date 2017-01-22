@@ -18,6 +18,7 @@ use UserBundle\Entity\Agent;
 use UserBundle\Entity\Notification;
 use UserBundle\Entity\NotificationType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use UserBundle\Helpers\NotificationHelper;
 
 /**
  * Class NotificationManager
@@ -93,7 +94,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     {
         $superiorAgent = is_null($superiorAgent) ? $agent->getSuperior(): $superiorAgent;
         $notification = new Notification();
-        $notification->setType(NotificationType::NEW_AGENT_NOTIFICATION);
+        $notification->setType(NotificationHelper::NOTIFICATION_AGENT);
         $notification->setNewAgent($agent);
 
         if( $isSuperAdmin ) {
@@ -116,7 +117,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
     public static function createNewMessageNotification($message, $isSuperAdmin = false)
     {
         $notification = new Notification();
-        $notification->setType(NotificationType::NEW_MESSAGE_NOTIFICATION);
+        $notification->setType(NotificationHelper::NOTIFICATION_MESSAGE);
         $notification->setNewAgent(null);
         if( $isSuperAdmin ) {
             $notification->setLink('dashboard.messages.received-messages');
@@ -127,6 +128,22 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         $notification->setCreatedAt(new \DateTime());
 
         return $notification;
+    }
+
+    public function createNewPaymentNotification($agent, $payment)
+    {
+        $notification = new Notification();
+        $notification->setType(NotificationHelper::NOTIFICATION_PAYMENT);
+        $notification->setPayment($payment);
+        $notification->setAgent($agent);
+        if( in_array(RoleManager::ROLE_SUPER_ADMIN, $agent->getRoles()) ) {
+            $notification->setLink('dashboard.payments.payouts-to-agents');
+        } else {
+            $notification->setLink('dashboard.agent.wallet.payout-history');
+        }
+        $notification->setCreatedAt(new \DateTime());
+
+        $this->repository->saveNotification([$notification]);
     }
 
     public function saveNotifications(NotificationEvent $event)
@@ -140,7 +157,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
                 $message->getParticipantsFromMeta()[1] : $message->getParticipantsFromMeta()[0];
 
             foreach ($event->getNotifications() as $notification) {
-                $superAdmin = in_array("ROLE_SUPER_ADMIN", $agentRecipient->getRoles());
+                $superAdmin = in_array(RoleManager::ROLE_SUPER_ADMIN, $agentRecipient->getRoles());
                 if( $superAdmin ) {
                     $notification->setLink('dashboard.messages.received-messages');
                 } else {

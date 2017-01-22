@@ -3,16 +3,17 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     currentUser: Ember.inject.service('current-user'),
 
-    getOptionForNotification(option){
-        return this.get('currentUser.user.notifications').includes(option);
+    getOptionForNotification(notifications, option){
+        return notifications.includes(option);
     },
 
     init() {
         this._super(...arguments);
         // this.set('isUserAdmin', this.get('currentUser.isUserAdmin'));
-        this.set('optionMessage', this.getOptionForNotification('optionMessage'));
-        this.set('optionPayment', this.getOptionForNotification('optionPayment'));
-        this.set('optionAgent', this.getOptionForNotification('optionAgent'));
+        let notifications = this.get('agent.notifications');
+        this.set('optionMessage', this.getOptionForNotification(notifications, 'optionMessage'));
+        this.set('optionPayment', this.getOptionForNotification(notifications, 'optionPayment'));
+        this.set('optionAgent', this.getOptionForNotification(notifications, 'optionAgent'));
     },
 
     actions: {

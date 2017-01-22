@@ -2,11 +2,13 @@ import Ember from 'ember';
 import moment from 'moment';
 import LoadingStateMixin from '../../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
+const {Routing, ApiCode} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     page: 1,
     isModalOpen:false,
     eventBus: Ember.inject.service('event-bus'),
+    authorizedAjax: Ember.inject.service('authorized-ajax'),
 
     paymentTypes: ['Commission', 'Bonus'],
 
@@ -16,7 +18,21 @@ export default Ember.Component.extend(LoadingStateMixin, {
     endDateFilter: null,
     agentFilter: null,
 
+    init(){
+        this._super(...arguments);
+        this.set('agentFilter', null);
+        this.set('endDateFilter', null);
+        this.set('startDateFilter', null);
+        this.set('typeFilter', null);
+        this.set('countryFilter', null);
+    },
+
     actions: {
+        _applyFilters(){
+            this.set('page', 1);
+            this.send('applyFilters');
+        },
+
         applyFilters () {
             let searchArray = {
                 groupOp: 'AND',
@@ -64,7 +80,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
 
             this.showLoader();
-            this.get('filterModel')(searchArray, 1).then((results)=>{
+            this.get('filterModel')(searchArray, this.get('page')).then((results)=>{
+                this.set('maxPages', results.meta.pages);
+                this.set('totalItems', results.meta.totalItems);
                 this.set('model', results);
                 this.set('isModalOpen', false);
                 this.disableLoader();
@@ -104,7 +122,39 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
         agentSelected(agent) {
             this.set('agentFilter', agent);
+        },
+
+        payAll() {
+            this.changeStateForAll(true);
+        },
+
+        rejectAll() {
+            this.changeStateForAll(false);
         }
+    },
+
+    changeStateForAll(newState) {
+        let options = {
+            newState: newState
+        };
+
+        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('api_execute_all_payments'), function (response) {
+            switch (parseInt(response.meta.status)) {
+                case ApiCode.PAYMENT_EXECUTE_ALL_ERROR:
+                    this.toast.error('ERROR!');
+                    break;
+                case ApiCode.PAYMENT_EXECUTE_ALL_SUCCESS:
+                    if (newState) {
+                        this.toast.success('Payments successfull');
+                        this.get('goToRoute')('dashboard.payments.reports');
+                    } else {
+                        this.get('goToRoute')('dashboard.payments.rejected-payments');
+                    }
+                    break;
+                default:
+                    return;
+            }
+        }.bind(this), this);
     },
 
     /** trigger search on event */

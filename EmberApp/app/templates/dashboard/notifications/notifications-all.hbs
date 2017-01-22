@@ -1,92 +1,94 @@
 
-    <div class="user-heading">
-        <div class="left-side">
-            {{#if currentUser.user.image.webPath}}
-                <div class="img-holder">
-                    <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
-                </div>
-            {{else}}
-                <div class="img-holder">
-                    <img src="../../assets/images/user-avatar.png" class="img-circle" alt="">
-                </div>
-            {{/if}}
-            <div class="info">
-                <h5>{{currentUser.user.fullName}}</h5>
-                <p>{{currentUser.user.email}}</p>
+<div class="user-heading">
+    <div class="left-side">
+        {{#if currentUser.user.image.webPath}}
+            <div class="img-holder">
+                <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
             </div>
-        </div>
-        <div class="right-side">
-            {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class='button green'}}
-                {{trans 'button.view-profile'}}
-            {{/link-to}}
-            {{#link-to 'dashboard.profile-settings'  class='button red'}}
-                {{trans 'button.edit-profile'}}
-            {{/link-to}}
+        {{else}}
+            <div class="img-holder">
+                <img src="../../assets/images/user-avatar.png" class="img-circle" alt="">
+            </div>
+        {{/if}}
+        <div class="info">
+            <h5>{{currentUser.user.fullName}}</h5>
+            <p>{{currentUser.user.email}}</p>
         </div>
     </div>
+    <div class="right-side">
+        {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class='button green'}}
+            {{trans 'button.view-profile'}}
+        {{/link-to}}
+        {{#link-to 'dashboard.profile-settings'  class='button red'}}
+            {{trans 'button.edit-profile'}}
+        {{/link-to}}
+    </div>
+</div>
 
-    <div class="col-md-4">
-        <div class="input-box notifications">
-            <h3 class="sub-heading">{{fa-icon "user"}} About</h3>
-            <p>{{fa-icon "envelope"}} {{currentUser.user.email}}</p>
-            <p>{{fa-icon "phone"}} {{currentUser.user.address.phone}}</p>
-            <p>{{fa-icon "map-marker"}} {{currentUser.user.address.city}}, {{currentUser.user.address.country}}</p>
-        </div>
-        <div class="input-box agent-list clearfix">
-            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Users</h3>
-            {{#each allUsers as |tcr-user|}}
-                <div class="col-md-4">
-                    <a href="#">
+<div class="col-md-4">
+    <div class="input-box notifications">
+        <h3 class="sub-heading">{{fa-icon "user"}} About</h3>
+        <p>{{fa-icon "envelope"}} {{currentUser.user.email}}</p>
+        <p>{{fa-icon "phone"}} {{currentUser.user.address.phone}}</p>
+        <p>{{fa-icon "map-marker"}} {{currentUser.user.address.city}}, {{currentUser.user.address.country}}</p>
+    </div>
+    <div class="input-box agent-list clearfix">
+        <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Users</h3>
+        {{#each allUsers as |tcr-user|}}
+            <div class="col-md-4 user-item-wrap">
+                <div class="user-item">
+                    <a href="#" {{action 'goToRoute' 'dashboard.users.user-view' tcr-user.id }}>
                         <div class="img-holder">
                             <img src="../../assets/images/user-avatar.png" title="Username">
                         </div>
                     </a>
-                    {{tcr-user.username}}
+                    <span style="word-break: break-all; font-size: 12px;">{{tcr-user.username}}</span>
                 </div>
-            {{/each}}
-            {{!--<div class="col-md-4">--}}
-                {{!--<a href="#">--}}
-                    {{!--<div class="img-holder">--}}
-                        {{!--<img src="../../assets/images/user-avatar.png" title="Username">--}}
-                    {{!--</div>--}}
-                {{!--</a>--}}
-            {{!--</div>--}}
-            <div class="text-center">
-                {{#link-to 'dashboard.users.users-customers' class='button green btn-small'}}View all{{/link-to}}
             </div>
+        {{/each}}
+        {{!--<div class="col-md-4">--}}
+        {{!--<a href="#">--}}
+        {{!--<div class="img-holder">--}}
+        {{!--<img src="../../assets/images/user-avatar.png" title="Username">--}}
+        {{!--</div>--}}
+        {{!--</a>--}}
+        {{!--</div>--}}
+        <div class="text-center">
+            {{#link-to 'dashboard.users.users-customers' class='button green btn-small'}}View all{{/link-to}}
         </div>
     </div>
-    <div class="col-md-8">
-        <div class="input-box">
-            <div id="scrollable_loader" style="height: calc(100vh - 385px); overflow-y: auto">
-                <ul class="notification-list">
-                    <h3 class="sub-heading">{{fa-icon "bell"}} All notifications</h3>
-                    {{#each model as |notification|}}
-                        <li class="single-notification {{if notification.isSeen "seen"}}" >
-                            <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}>
-                                <div class="img-holder">
-                                    <img class="img-circle" src="../assets/images/user-avatar.png" title="Username">
-                                    <span class="icon-circle">{{fa-icon "envelope"}}</span>
+</div>
+<div class="col-md-8">
+    <div class="input-box">
+        <div id="scrollable_loader" style="height: calc(100vh - 235px); overflow-y: auto">
+            <ul class="notification-list">
+                <h3 class="sub-heading">{{fa-icon "bell"}} All notifications</h3>
+                {{#each model as |notification|}}
+                    <li class="single-notification {{if notification.isSeen "seen"}}" >
+                        <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}>
+                            <div class="img-holder">
+                                <img class="img-circle" src="../assets/images/user-avatar.png" title="Username">
+                                <span class="icon-circle">{{fa-icon "envelope"}}</span>
+                            </div>
+                            <div class="notification-content">
+                                <div class="content-left">
+                                    <h4>Admin Adminovic</h4>
+                                    <p>{{ notification.type }} <span>{{ notification.agent.email }}</span></p>
+                                    <span class="date">{{ notification.createdAt }}</span>
                                 </div>
-                                <div class="notification-content">
-                                    <div class="content-left">
-                                        <h4>Admin Adminovic</h4>
-                                        <p>{{ notification.type }} <span>{{ notification.agent.email }}</span></p>
-                                        <span class="date">{{ notification.createdAt }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    {{/each}}
-                </ul>
+                            </div>
+                        </a>
+                    </li>
+                {{/each}}
+            </ul>
 
-        {{#infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
-            {{#unless model.reachedInfinity}}
-                <div id="loading-more-state">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                </div>
-            {{/unless}}
-        {{/infinity-loader}}
-            </div>
+            {{#infinity-loader infinityModel=model scrollable="#scrollable_loader"}}
+                {{#unless model.reachedInfinity}}
+                    <div id="loading-more-state">
+                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                    </div>
+                {{/unless}}
+            {{/infinity-loader}}
         </div>
     </div>
+</div>
