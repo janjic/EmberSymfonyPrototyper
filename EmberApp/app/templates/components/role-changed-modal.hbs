@@ -6,13 +6,7 @@
     {{/bs-modal-header}}
     {{#bs-modal-body class="clearfix"}}
             <div class="form-group">
-                <!--<label for="text-agentCode">Agent Code</label>-->
-                <input class="form-control"
-                       type="text"
-                       id="text-new-superior"
-                       value="You will lose all child agents. Select new Superior for then"
-                               disabled
-                >
+                <label class="alert alert-danger" id="text-new-superior">You will lose all child agents. Select new Superior for them.</label>
             </div>
             <div class="form-group">
                 {{inf-select

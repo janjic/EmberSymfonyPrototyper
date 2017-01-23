@@ -214,6 +214,7 @@ p {
   width: 100%;
   top: 0;
   background-color: rgba(255, 255, 255, 0.6);
+  z-index: 10;
   img {
     width: 60px;
   }
@@ -283,10 +284,22 @@ table {
   transition: all 500ms ease-in-out;
 }
 
+#navbar.open {
+  display: block;
+}
+
+.navbar-collapse.open ul.dropdown-menu {
+  background-color: #fff;
+}
+
+.navbar-collapse.open .navbar-nav {
+  text-align: center;
+}
+
 .nav.navbar-nav {
   li.dropdown {
     &:first-child {
-      float: right;
+
     }
     img {
       width: 21px;
@@ -1312,6 +1325,7 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
     h5 {
       font-size: 14px;
       color: #fff;
@@ -1630,6 +1644,7 @@ header {
   }
   .left-section-visible {
     left: -0px;
+    z-index: 200;
   }
   .right-section {
     margin-top: 60px;
@@ -1663,46 +1678,6 @@ header {
   }
   .container-fluid {
     margin-right: 0;
-  }
-  .send-message-mobile {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding-top: 0;
-    right: 0;
-    textarea {
-      margin-bottom: 0;
-      padding-right: 55px;
-      padding-left: 15px;
-      @include border-radius(0);
-      border-right-width: 0;
-      border-bottom-width: 0;
-      border-left-width: 0;
-      resize: none;
-    }
-    i {
-      position: absolute;
-      display: block;
-      top: 15px;
-      right: 15px;
-      font-size: 25px;
-      color: $main-red;
-    }
-    .form-group {
-      display: none;
-      .btn {
-        width: 100%;
-        @include border-radius(0);
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-      }
-    }
-    .row {
-      margin-right: 0;
-      margin-left: 0;
-    }
   }
   .messages {
     margin-bottom: 15px;
@@ -2091,13 +2066,13 @@ header {
   position: absolute;
   top: 4px;
   right: 5px;
-  z-index: 999;
+  z-index: 35;
 }
 .button-edit {
   position: absolute;
   top: 4px;
   right: 30px;
-  z-index: 999;
+  z-index: 35;
 }
 #menu-editor {
   margin-top: 40px;
@@ -2431,6 +2406,7 @@ input:focus {
 }
 
 .legend-orgchart.input-box {
+  z-index: 1;
   background-image: url(images/bg-pattern.png);
   background-color: transparent;
   position: absolute;
@@ -3044,6 +3020,7 @@ input:focus {
         padding: 20px;
         background-color: #fff;
         a {
+          cursor: pointer;
           &:hover {
             text-decoration: none;
           }
@@ -4106,11 +4083,6 @@ $searchable-select-spacer-horizontal: 1em;
 .head-buttons {
   font-size: 12px;
   font-weight: normal;
-  a {
-    position: absolute;
-    bottom:0;
-    right: 0;
-  }
 }
 
 .rounded-btn {
@@ -4501,10 +4473,11 @@ $searchable-select-spacer-horizontal: 1em;
       .upper-box {
         padding: 10px;
         flex-direction: row;
-        min-height: auto;
+        min-height: 100px;
         h5 {
           text-align: left;
           word-break: break-all;
+          font-size: 14px;
         }
         .img-holder {
           height: 60px !important;
@@ -4520,6 +4493,7 @@ $searchable-select-spacer-horizontal: 1em;
           }
         }
         .info-right {
+          width: 110px;
         }
       }
       .lower-box {

@@ -346,6 +346,7 @@ trait PaymentInfoCreationTrait
 
         $payment->setBonusValue($bonusSetting->getAmount());
         $payment->setCurrency($bonusSetting->getCurrency());
+        $payment->setAgentRole($agent->getGroup()->getName());
 
         return $payment;
     }

@@ -403,6 +403,10 @@ tickets:
     full-name: 'Full name'
     email: 'Email'
     file: 'File'
+    create: 'Create ticket'
+    titlemain: 'Title'
+    choose-type: 'Choose ticket type'
+    description: 'Description'
 
 #MANAGE GROUPS
 

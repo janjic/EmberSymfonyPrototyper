@@ -6,8 +6,9 @@ $( document ).ready(function() {
     });
 
 
-    $('#nav-icon3').click(function(){
+    $('body').on("click", "#nav-icon3", function(e){
         $(this).toggleClass('open');
+        $("#navbar").toggleClass('open');
     });
 
     $('.dropdown').on('show.bs.dropdown', function() {
