@@ -71,6 +71,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.get('store').find('agent', agentId).then((agent)=>{
             agent.set('enabled', !agent.get('enabled'));
             agent.save().then(() => {
+                this.changeStatusForAgent(agentId, agent.get('enabled'));
                 this.toast.success('agent.status.changed');
             }, () => {
                 this.toast.error('Data not saved!');
@@ -148,9 +149,16 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 // let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
                 let secondMenu =
                     '<div class="second-menu" hidden data-id="'+data.id+'"><div class="flex-view">' +
-                    '<div class="img-holder"><img class="avatar" src="'+data.baseImageUrl+'">' +
+                    '<div class="img-holder"><img class="avatar" src="'+(
+                        data.baseImageUrl ? data.baseImageUrl : '../assets/images/user-avatar.png'
+                    )+'">' +
                     '<a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a></div>' +
-                    '<div class="actions"><a class="button green icon-btn linkToSuspend">'+Translator.trans('agent.change.status')+'</a>' +
+
+                    '<div class="actions"><a class="button icon-btn linkToSuspend '+(data.enabled ? 'green' : 'red')+'" ' +
+                    '   data-agent-id='+data.id+'>'+
+                    (Translator.trans(data.enabled ? 'agent.change.enabled' : 'agent.change.disabled') )+
+                    '</a>'+
+
                     '<a class="button red icon-btn linkToDelete">Delete</a></div>' +
                     '</div></div>';
                 $node.append(secondMenuIcon).append(secondMenu);
@@ -189,6 +197,14 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.deleteAgentOpenModal(id);
             }
         });
+
+        let container = this.$("#chart-container");
+        container.scrollLeft(this.$("#chart-container table:first").width()/2 - container.width()/2);
+    },
+
+    changeStatusForAgent(id, newState) {
+        let msg = newState ? Translator.trans('agent.change.enabled') : Translator.trans('agent.change.disabled');
+        this.$('#chart-container .linkToSuspend[data-agent-id='+id+']').html(msg).toggleClass("green red");
     }
 
 });

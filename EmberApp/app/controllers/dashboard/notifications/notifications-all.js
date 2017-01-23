@@ -14,5 +14,11 @@ export default Ember.Controller.extend( {
         }).then((users)=>{
             this.set('allUsers', users);
         });
+    },
+
+    actions: {
+        goToRoute(route, id){
+            this.transitionToRoute(route, id);
+        }
     }
 });

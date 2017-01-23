@@ -16,6 +16,7 @@ class RoleHelper
     const PORTAL_MASTER_AGENT   = 'Master Agent';
     const PORTAL_AMBASSADOR     = 'Ambassador';
     const PORTAL_AMBASSADOR_UP  = 'AMBASSADOR';
+    const PORTAL_AMBASSADOR_1   = 'AMBASSADOR';
     const PORTAL_APP_PARTNER    = 'App Partner';
     const PORTAL_SAMSUNG        = 'SAMSUNG';
     const PORTAL_REFEREE        = 'Referee';
@@ -23,7 +24,6 @@ class RoleHelper
     const PORTAL_ADMIN          = 'ADMIN';
     const PORTAL_ACTIVE         = 'ACTIVE';
     const PORTAL_MASTER         = 'MASTER';
-
 
     const REFEREE    = 'REFEREE';
     const ACTIVE     = 'ACTIVE';
@@ -40,12 +40,15 @@ class RoleHelper
                         self::PORTAL_ACTIVE_AGENT   => self::ACTIVE,
                         self::PORTAL_MASTER_AGENT   => self::MASTER,
                         self::PORTAL_AMBASSADOR     => self::AMBASSADOR,
+                        self::PORTAL_AMBASSADOR_1   => self::AMBASSADOR,
                         self::PORTAL_ADMIN          => self::ACTIVE,
                         self::PORTAL_ACTIVE         => self::ACTIVE,
                         self::PORTAL_AMBASSADOR_UP  => self::AMBASSADOR,
                         self::PORTAL_REFEREE_UP     => self::REFEREE,
                         self::PORTAL_MASTER         => self::MASTER,
-
+                        self::PORTAL_ACTIVE         => self::ACTIVE,
+                        self::REFEREE               => self::REFEREE,
+                        self::MASTER                => self::MASTER,
     );
 
     /**

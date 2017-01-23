@@ -36,7 +36,7 @@
             <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Users</h3>
             {{#each allUsers as |tcr-user|}}
                 <div class="col-md-4">
-                    <a href="#">
+                    <a href="#" {{action 'goToRoute' 'dashboard.agent.users.user-view' tcr-user.id }}>
                         <div class="img-holder">
                             <img src="./assets/images/user-avatar.png" title="Username">
                         </div>

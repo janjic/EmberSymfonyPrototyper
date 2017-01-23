@@ -468,6 +468,33 @@ class PaymentInfoRepository extends EntityRepository
         return $qb->getQuery()->getSingleResult();
     }
 
+    /**
+     * @param $newState
+     * @return boolean|\Exception
+     */
+    public function changeAllPaymentsState($newState)
+    {
+        try {
+            $sql = 'UPDATE as_payment_info SET state='.($newState===true ? 1 : ($newState===false ? 0 : null));
+
+            $date = new \DateTime();
+            $sql.= ' , payed_at="'.$date->format('Y-m-d H:i:s').'"';
+
+            if ($newState===true) {
+                $sql.= ' WHERE state=0 OR state is NULL';
+            } else if ($newState===false) {
+                $sql.= ' WHERE state is NULL';
+            }
+
+            $stmt = $this->_em->getConnection()->prepare($sql);
+            $stmt->execute();
+
+            return true;
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
 
 
 

@@ -37,8 +37,6 @@ trait JsonApiUpdateAgentManagerTrait
 
         /** @var Agent $dbAgent */
         $dbAgent       = $this->getEntityReference($agent->getId());
-
-
         $dbAgentGroup  = $dbAgent->getGroup();
         $dbAgentLocked = $dbAgent->isEnabled();
 

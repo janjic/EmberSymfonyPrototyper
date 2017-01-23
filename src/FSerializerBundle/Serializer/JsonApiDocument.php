@@ -281,10 +281,10 @@ class JsonApiDocument implements JsonSerializable
 
     /**
      * @param JsonApiElementInterface $element
-     * @param array $decoded
+     * @param $decoded
      * @param null $includedData
-     * @return array
-     * @internal param null $included
+     * @return mixed|null
+     * @throws Exception
      */
     protected function denormalize(JsonApiElementInterface $element, $decoded, $includedData = null )
     {
@@ -318,6 +318,7 @@ class JsonApiDocument implements JsonSerializable
             }
 
             $newObject = $this->populateAttributes($resource, $decodedResource, $propertyAccessor);
+
             /** @var JsonApiRelationship $relationship Relationship must implement JsonApiElementInterface */
             foreach ($resource->getUnfilteredRelationships() as $relationship) {
                 $relationshipObject = $this->denormalize($relationship->getData(),$relationship->getDenormalizedData($decodedRelationships, $decodedIncludedData),$decodedIncludedData);
@@ -469,12 +470,15 @@ class JsonApiDocument implements JsonSerializable
                     try {
                         $propertyAccessor->setValue($newObject, 'id', intval($decodedObject['id']));
                     } catch (Exception $exception) {
-                        // Properties not found are ignored
+
                     }
                     $objectAttributes = $this->extractAttributes($newObject, $resource);
 
                     foreach ($objectAttributes as $attribute => $value) {
                         try {
+                            if ($attribute == 'id') {
+                                continue;
+                            }
                             $propertyAccessor->setValue($newObject, $attribute, $decodedObject['attributes'][$attribute]);
                         } catch (Exception $exception) {
                             // Properties not found are ignored
@@ -498,8 +502,10 @@ class JsonApiDocument implements JsonSerializable
 
             if ($data) {
                 $objectAttributes = $this->extractAttributes($newObject, $resource);
-
                 foreach ($objectAttributes as $attribute => $value) {
+                    if ($attribute == 'id') {
+                        continue;
+                    }
                     try {
                         $propertyAccessor->setValue($newObject, $attribute, $decoded['attributes'][$attribute]);
                     } catch (Exception $exception) {

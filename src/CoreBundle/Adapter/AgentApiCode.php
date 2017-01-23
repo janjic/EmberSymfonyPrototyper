@@ -80,4 +80,9 @@ class AgentApiCode
     CONST PAYMENT_EXECUTED_SUCCESSFULLY              = 3000;
     CONST PAYMENT_EXECUTE_ERROR                      = 3001;
     const PAYMENT_NEW_INFO_OK                        = 3002;
+
+    const PAYMENT_EXECUTE_ALL_SUCCESS                = 3011;
+    const PAYMENT_EXECUTE_ALL_ERROR                  = 3012;
+
+
 }

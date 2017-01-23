@@ -22,6 +22,10 @@ export default Ember.Mixin.create({
                 search: text,
                 searchField: 'agent.email'}
             ).then(results => results);
+        },
+
+        goToRoute(route) {
+            this.transitionToRoute(route);
         }
     }
 });

@@ -29,8 +29,9 @@ export default TCRCoreAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
+        return this.get('ajaxService').request(url, options).then(response => {
 
-        return this.get('ajax').request(url, options).then(response => {
+
             return response;
         });
     },
@@ -40,7 +41,7 @@ export default TCRCoreAdapter.extend( {
             method: 'GET',
         };
 
-        return this.get('ajax').request(url, options).then(response => {
+        return this.get('ajaxService').request(url, options).then(response => {
             return response;
         });
     }

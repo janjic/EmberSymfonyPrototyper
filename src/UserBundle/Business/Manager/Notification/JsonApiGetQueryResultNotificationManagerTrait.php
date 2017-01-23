@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Manager\Notification;
 
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Helpers\NotificationHelper;
 
 /**
  * Class JsonApiGetQueryResultNotificationManagerTrait
@@ -23,6 +24,13 @@ trait JsonApiGetQueryResultNotificationManagerTrait
         $type       = $request->query->get('type');
 
         $user = $this->getCurrentUser();
+
+        if( $type == NotificationHelper::NOTIFICATION_AGENT_PAYMENT ){
+            $type = in_array(NotificationHelper::OPTION_AGENT, $user->getNotifications()) ? NotificationHelper::NOTIFICATION_AGENT : '';
+            if ( in_array(NotificationHelper::OPTION_PAYMENT, $user->getNotifications()) ){
+                $type = $type ? NotificationHelper::NOTIFICATION_AGENT_PAYMENT: NotificationHelper::NOTIFICATION_PAYMENT;
+            }
+        }
 
         $notifications   = $this->repository->getNotificationsForInfinityScroll($user->getId(), $page, $perPage, $minId, $maxId, $type);
 

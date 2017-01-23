@@ -65,51 +65,63 @@
                     {{#bs-dropdown tagName="li"}}
                         {{#bs-dropdown-toggle}}<a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>{{/bs-dropdown-toggle}}
                         {{#bs-dropdown-menu class="header-notifications"}}
-                            {{#each agentNotifications as |notification|}}
+                            {{#unless _maxIdAgents}}
                                 <li>
-                                    <a class="notification-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link}} href="#">
-                                        <div class="img-holder">
-                                            {{fa-icon "user"}}
-                                        </div>
-                                        <div class="notification-item-content">
-                                            <p>{{notification.type}} <span>{{notification.agent.email}} / {{notification.id}}</span></p>
-                                            <span class="date">{{notification.createdAt}}</span>
-                                        </div>
-                                    </a>
+                                    <a class="message-item">{{trans "dashboard.labels.no-new-notifications"}}</a>
                                 </li>
-                            {{/each}}
-                            <li class="view-all-button">
-                                {{#if isUserAdmin}}
-                                    <a href="#" {{action "transitionToRoute" "dashboard.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
-                                {{else}}
-                                    <a href="#" {{action "transitionToRoute" "dashboard.agent.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
-                                {{/if}}
-                            </li>
+                            {{else}}
+                                {{#each agentNotifications as |notification|}}
+                                    <li>
+                                        <a class="notification-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link}} href="#">
+                                            <div class="img-holder">
+                                                {{fa-icon "user"}}
+                                            </div>
+                                            <div class="notification-item-content">
+                                                <p>{{notification.type}} <span>{{notification.agent.email}} / {{notification.id}}</span></p>
+                                                <span class="date">{{notification.createdAt}}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {{/each}}
+                                <li class="view-all-button">
+                                    {{#if isUserAdmin}}
+                                        <a href="#" {{action "transitionToRoute" "dashboard.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                    {{else}}
+                                        <a href="#" {{action "transitionToRoute" "dashboard.agent.notifications.notifications-all"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                    {{/if}}
+                                </li>
+                            {{/unless}}
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
                     {{#bs-dropdown tagName="li"}}
                         {{#bs-dropdown-toggle}}<a href="#"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></a>{{/bs-dropdown-toggle}}
                         {{#bs-dropdown-menu class="header-messages"}}
-                            {{#each messageNotifications as |notification|}}
+                            {{#unless _maxIdMessage}}
                                 <li>
-                                    <a class="message-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link}} href="#">
-                                        <div class="img-holder">
-                                            {{fa-icon "envelope-o"}}
-                                        </div>
-                                        <div class="message-item-content">
-                                            <p>{{notification.type}} <span>username@mail.com / {{notification.id}}</span></p>
-                                            <span class="date">{{notification.createdAt}}</span>
-                                        </div>
-                                    </a>
+                                    <a class="message-item">{{trans "dashboard.labels.no-new-notifications"}}</a>
                                 </li>
-                            {{/each}}
-                            <li class="view-all-button">
-                                {{#if isUserAdmin}}
-                                    <a href="#" {{action "transitionToRoute" "dashboard.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
-                                {{else}}
-                                    <a href="#" {{action "transitionToRoute" "dashboard.agent.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
-                                {{/if}}
-                            </li>
+                            {{else}}
+                                {{#each messageNotifications as |notification|}}
+                                    <li>
+                                        <a class="message-item {{if notification.isSeen "seen"}}" {{action "transitionTo" notification notification.link}} href="#">
+                                            <div class="img-holder">
+                                                {{fa-icon "envelope-o"}}
+                                            </div>
+                                            <div class="message-item-content">
+                                                <p>{{notification.type}} <span>username@mail.com / {{notification.id}}</span></p>
+                                                <span class="date">{{notification.createdAt}}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {{/each}}
+                                <li class="view-all-button">
+                                    {{#if isUserAdmin}}
+                                        <a href="#" {{action "transitionToRoute" "dashboard.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                    {{else}}
+                                        <a href="#" {{action "transitionToRoute" "dashboard.agent.messages.received-messages"}} class="view-all button green">{{trans "button.view-all"}}</a>
+                                    {{/if}}
+                                </li>
+                            {{/unless}}
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
                 </ul>

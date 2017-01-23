@@ -24,6 +24,7 @@ use UserBundle\Business\Manager\BonusManager;
 use UserBundle\Business\Manager\CommissionManager;
 use UserBundle\Business\Manager\GroupManager;
 use UserBundle\Business\Manager\RoleManager;
+use UserBundle\Business\Manager\NotificationManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Helpers\RoleHelper;
 
@@ -83,6 +84,11 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      */
     protected $bonusManager;
 
+    /**
+     * @var NotificationManager $notificationManager
+     */
+    protected $notificationManager;
+
     protected $packagesPrice;
     protected $connectPrice;
     protected $setupFeePrice;
@@ -93,13 +99,15 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param PaymentInfoRepository $repository
-     * @param AgentManager $agentManager
-     * @param FJsonApiSerializer $fSerializer
-     * @param CommissionManager $commissionManager
-     * @param Swap $florianSwap
+     * @param AgentManager          $agentManager
+     * @param FJsonApiSerializer    $fSerializer
+     * @param CommissionManager     $commissionManager
+     * @param Swap                  $florianSwap
      * @param TokenStorageInterface $tokenStorage
+     * @param BonusManager          $bonusManager
      */
-    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer, CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, GroupManager $groupManager, BonusManager $bonusManager)
+    public function __construct(PaymentInfoRepository $repository, AgentManager $agentManager, FJsonApiSerializer $fSerializer,
+            CommissionManager $commissionManager, Swap $florianSwap, TokenStorageInterface $tokenStorage, GroupManager $groupManager, BonusManager $bonusManager, NotificationManager $notificationManager)
     {
         $this->repository        = $repository;
         $this->agentManager      = $agentManager;
@@ -109,6 +117,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         $this->tokenStorage      = $tokenStorage;
         $this->groupManager      = $groupManager;
         $this->bonusManager      = $bonusManager;
+        $this->notificationManager = $notificationManager;
     }
 
     /**
@@ -232,6 +241,31 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
             default:
                 return false;
         }
+    }
+
+    /**
+     * @param boolean|null $newState
+     * @return mixed
+     */
+    public function executeAllPayments($newState)
+    {
+
+        $result = $this->repository->changeAllPaymentsState($newState);
+
+        return $this->createPaymentExecuteAllResponse($result);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    private function createPaymentExecuteAllResponse($data)
+    {
+        if ($data === true) {
+            return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_SUCCESS);
+        }
+
+        return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_ERROR);
     }
 
     /**

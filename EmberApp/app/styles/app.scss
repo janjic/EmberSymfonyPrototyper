@@ -310,7 +310,8 @@ table {
         }
         .img-holder {
           height: 80px !important;
-          flex: 1;
+          width: 80px;
+          margin-right: 5px;
           img {
             width: 80px;
             height: 80px;
@@ -330,6 +331,7 @@ table {
         align-items: center;
         padding-top: 15px;
         border-top: 1px solid #ddd;
+        justify-content: center;
         a.button.red {
           color: #fff;
           &:hover {
@@ -340,6 +342,10 @@ table {
     }
 
   }
+}
+
+.letter-btn {
+  display: inline-block !important;
 }
 
 
@@ -1280,6 +1286,7 @@ header {
   background: $main-dark;
   z-index: 3;
   width: 250px;
+  overflow: auto;
   .menu-user-info {
     display: flex;
     align-items: center;
@@ -1854,6 +1861,14 @@ header {
   border-collapse: separate;
   width: 100%;
 }
+
+
+.dd.nestable {
+  .input-box {
+    min-height: 265px;
+  }
+}
+
 .dd {
   position: relative;
   display: block;
@@ -2030,6 +2045,9 @@ header {
   font-weight: bold;
   border: 1px solid $light-gray;
   background: linear-gradient(top, $alabaster 0, $grayish 100%);
+  background-color: #efefef;
+  color: #333;
+  font-weight: normal;
   @include border-radius(3px);
   box-sizing: border-box;
   &:hover {
@@ -2209,6 +2227,7 @@ h1.main-heading {
   letter-spacing: 2px;
   border-bottom: 1px solid $grayish;
   padding-bottom: 5px;
+  position: relative;
 }
 .profile-view p {
   margin-bottom: 0;
@@ -2404,6 +2423,56 @@ input:focus {
   text-decoration: inherit;
 }
 
+.main-chart-container {
+  position: relative;
+}
+
+.chart-holder h5 {
+  margin-bottom: 5px;
+}
+
+.legend-orgchart.input-box {
+  background-image: url(images/bg-pattern.png);
+  background-color: transparent;
+  position: absolute;
+  bottom: 0;
+  box-shadow: none;
+  border: 0;
+}
+
+.legend-holder {
+  span {
+    padding: 5px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    flex: 1;
+    margin-right: 5px;
+    font-size: 12px;
+    width: 100px;
+    margin-bottom: 5px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .admin {
+    background-color: $main-red;
+  }
+  .ambassador {
+    background-color: #1d6876;
+  }
+  .active-agent {
+    background-color: #21913a;
+  }
+  .master-agent {
+    background-color: #c0742b;
+  }
+  .referee {
+    background-color: #34495e;
+  }
+
+}
+
 #chart-container {
   height: 100%;
   min-height: 600px;
@@ -2415,13 +2484,15 @@ input:focus {
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 2px 6px rgba(0,0,0,0.23);
+  margin-bottom: 15px;
   .orgchart {
     background-image: none;
+    padding: 0;
     table {
       background-color: transparent;
     }
     .node {
-      width: 150px;
+      width: 200px;
       .title {
         font-weight: normal;
         font-size: 13px;
@@ -2462,7 +2533,7 @@ input:focus {
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
-        width: 260px;
+        width: 310px;
         .flex-view {
           display: flex;
           align-items: center;
@@ -3172,6 +3243,12 @@ input:focus {
   }
 }
 
+.user-edit {
+  .input-box.basic-info {
+    height: 525px;
+  }
+}
+
 //INPUT BOXES
 
 .user-add {
@@ -3199,20 +3276,20 @@ input:focus {
 }
 
 .input-box.agent-details {
-  min-height: 1055px;
+  min-height: 1110px;
 }
 
 .input-box.agent-personal {
-  min-height: 364px;
+  min-height: 390px;
 }
 
 .input-box.agent-bank {
-  min-height:291px;
+  min-height:305px;
 }
 
 .input-box.agent-tree {
   position: relative;
-  min-height: 333px;
+  min-height: 355px;
   .btn-success {
     position: absolute;
     right: 0;
@@ -3463,9 +3540,18 @@ ul.notification-list {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
   }
 }
+
+
+.user-item-wrap {
+  padding: 0 5px;
+  .user-item {
+    min-height: 150px;
+  }
+}
+
 
 #navbar {
   padding: 0 20px;
@@ -4018,9 +4104,18 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.second-section {
+  margin-bottom: 30px;
+}
+
 .head-buttons {
   font-size: 12px;
   font-weight: normal;
+  a {
+    position: absolute;
+    bottom:0;
+    right: 0;
+  }
 }
 
 .rounded-btn {
@@ -4052,7 +4147,7 @@ $searchable-select-spacer-horizontal: 1em;
   .dl-horizontal {
     dt {
       @media screen and (max-width: 1300px) {
-        width: 100px;
+        width: 130px;
       }
     }
     dd {
@@ -4063,7 +4158,6 @@ $searchable-select-spacer-horizontal: 1em;
   }
   .img-holder {
     height: 270px !important;
-    border: 1px solid #ddd;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -4106,6 +4200,15 @@ $searchable-select-spacer-horizontal: 1em;
   .slider {
     pointer-events: none;
     background-color: #ccc;
+  }
+}
+
+.user-view {
+  .img-holder {
+    height: 180px !important;
+  }
+  .referral {
+    height: 245px;
   }
 }
 
@@ -4406,6 +4509,7 @@ $searchable-select-spacer-horizontal: 1em;
         min-height: auto;
         h5 {
           text-align: left;
+          word-break: break-all;
         }
         .img-holder {
           height: 60px !important;
@@ -4428,6 +4532,10 @@ $searchable-select-spacer-horizontal: 1em;
       }
     }
   }
+}
+
+.manage-groups {
+  min-height: 325px;
 }
 
 

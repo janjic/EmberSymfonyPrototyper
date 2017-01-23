@@ -7,7 +7,7 @@ export default Ember.Route.extend(InfinityRoute, {
     notifications: [],
 
     model() {
-        return this.infinityModel("notification", { perPage: 10, startingPage: 1 }, {
+        return this.infinityModel("notification", { perPage: 10, startingPage: 1, type: 'NEW AGENT/PAYMENT NOTIFICATION' }, {
             min_id: '_minId',
         });
     },

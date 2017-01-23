@@ -16,6 +16,7 @@ services:
             tokenStorage: "@security.token_storage"
             groupManager: "@agent_system.group.manager"
             bonusManager: "@agent_system.bonus.manager"
+            notificationManager: "@agent_system.notification.manager"
 
     agent_system.payment_info.adapter:
             class: PaymentBundle\Adapter\PaymentInfo\PaymentInfoAdapter

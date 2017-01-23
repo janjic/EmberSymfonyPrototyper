@@ -26,6 +26,7 @@ trait JsonApiSaveAgentManagerTrait
     public function saveResource($data)
     {
         $agent = $this->prepareSave($data);
+
         if ($this->saveMedia($agent)) {
             /** @var Agent|Exception|array $agent */
             $data = $this->save($agent, is_null($agent->getSuperior())? null:$this->getEntityReference($agent->getSuperior()->getId()));

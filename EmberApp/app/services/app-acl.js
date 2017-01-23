@@ -9,6 +9,11 @@ const roles =  {
             name: 'dashboard',
             when: function (user, target) {
                 return  new RSVP.Promise((resolve, reject) =>{
+                    // if (target.match(/dashboard.agent\..*/) && user.get('roles').includes('ROLE_SUPER_ADMIN')) {
+                    //     reject(false);
+                    // } else {
+                    //     resolve(true);
+                    // }
                     if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
                         /**
                          * Admin can not access agent pages
@@ -18,7 +23,7 @@ const roles =  {
                         }
 
                     } else {
-                        if (target.match(/dashboard\.agent\/.*/)) {
+                        if (target.match(/dashboard\.agent\..*/)) {
                             resolve(true);
                         } else {
                             reject(false);
@@ -32,6 +37,7 @@ const roles =  {
             name: 'dashboard.agent.home',
             when: function (user) {
                     return  new RSVP.Promise((resolve, reject) =>{
+                        console.log('usao');
                         if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
                             reject(false);
                         } else {

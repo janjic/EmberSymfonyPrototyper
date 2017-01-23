@@ -50,6 +50,12 @@ class Notification
     protected $newAgent;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PaymentBundle\Entity\PaymentInfo")
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $payment;
+
+    /**
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\Agent")
      * @ORM\JoinColumn(name="agent_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -138,6 +144,22 @@ class Notification
     public function setAgent($agent)
     {
         $this->agent = $agent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param mixed $payment
+     */
+    public function setPayment($payment)
+    {
+        $this->payment = $payment;
     }
 
     /**

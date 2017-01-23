@@ -14,7 +14,7 @@ export default TCRCoreAdapter.extend( {
             method: 'POST',
             data: clonedQuery,
         };
-        return this.get('ajax').request(url, options);
+        return this.get('ajaxService').request(url, options);
     }
 });
 

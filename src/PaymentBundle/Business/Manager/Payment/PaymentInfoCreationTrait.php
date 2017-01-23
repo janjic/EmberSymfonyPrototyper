@@ -65,6 +65,13 @@ trait PaymentInfoCreationTrait
             return [];
         }
 
+        if ( $persistData ){
+            /** @var PaymentInfo $payment */
+            foreach ($payments as $payment){
+                $this->notificationManager->createNewPaymentNotification($payment->getAgent(), $payment);
+            }
+        }
+
         return $this->serializePaymentInfo($payments);
     }
 
@@ -134,6 +141,11 @@ trait PaymentInfoCreationTrait
         /** @var Bonus|null $bonusSetting */
         $bonusSetting = $this->bonusManager->getBonusForGroup($agent->getGroup());
         if (!$bonusSetting) {
+            return null;
+        }
+
+        $dateToCheck = new \DateTime('-'.$bonusSetting->getPeriod().' month');
+        if ($agent->getLastBonusPayed() && ($agent->getLastBonusPayed() > $dateToCheck)) {
             return null;
         }
 

@@ -381,6 +381,7 @@ dashboard:
     new-agents: 'New agents'
     new-orders: 'New orders'
     new-commissions: 'New commissions'
+    no-new-notifications: 'No New Notifications'
     today: 'Today'
     this-month: 'This month'
     total: 'Total'

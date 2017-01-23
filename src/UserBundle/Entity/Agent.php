@@ -177,6 +177,12 @@ class Agent extends BaseUser implements ParticipantInterface
      */
     protected $notifications;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="last_bonus_payed", type="datetime", nullable=true)
+     */
+    protected $lastBonusPayed;
+
 
     public function __construct()
     {
@@ -665,4 +671,19 @@ class Agent extends BaseUser implements ParticipantInterface
         return $this;
     }
 
+    /**
+     * @return DateTime
+     */
+    public function getLastBonusPayed()
+    {
+        return $this->lastBonusPayed;
+    }
+
+    /**
+     * @param DateTime $lastBonusPayed
+     */
+    public function setLastBonusPayed($lastBonusPayed)
+    {
+        $this->lastBonusPayed = $lastBonusPayed;
+    }
 }
