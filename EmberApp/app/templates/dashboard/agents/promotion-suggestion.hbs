@@ -1,0 +1,44 @@
+<div class="col-md-6">
+    {{#card-view-component-promotion mainTitle=(trans 'admin-user.suggestion.promotions')
+                           showAddAgentButton = false
+                           model=model.promotions.data
+                           meta = model.promotions.meta
+                           page=page
+                           maxPages=model.promotions.meta.pages
+                           offset=offset
+                           filter=(action 'filterModelPromotions') as |yieldModel|}}
+        {{agent/promotion-card-component
+                searchQuery = (action 'searchQuery')
+                viewLink="dashboard.agents.agent-view"
+                promotionDesc= "Active agents"
+                groups = groups
+                model=yieldModel
+                promotion = true
+                role_codes = model.role_codes
+                deletePromotion = (action 'removePromotion')
+                promotionIcon="angle-double-up"}}
+    {{/card-view-component-promotion}}
+</div>
+
+
+<div class="col-md-6">
+    {{#card-view-component-promotion mainTitle=(trans 'admin-user.suggestion.downgrade')
+                           showAddAgentButton = false
+                           model=model.downgrades.data
+                           meta=model.downgrades.meta
+                           page=page
+                           maxPages=model.downgrades.meta.pages
+                           offset=offset
+                           filter=(action 'filterModelDowngrades') as |yieldModel|}}
+        {{agent/promotion-card-component
+                searchQuery = (action 'searchQuery')
+                viewLink="dashboard.agents.agent-view"
+                promotionDesc = "Active agents"
+                groups = groups
+                model=yieldModel
+                promotion = false
+                deleteDemotion = (action 'removeDemotion')
+                role_codes = model.role_codes
+                promotionIcon="angle-double-down"}}
+    {{/card-view-component-promotion}}
+</div>

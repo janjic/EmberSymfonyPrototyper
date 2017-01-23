@@ -1,0 +1,107 @@
+<div class="col-md-6">
+    <div class="input-box">
+        <div class="upper-box">
+            <div class="info-box-icons">
+                {{#link-to viewLink model.agent_id class="button icon-btn rounded-btn"}}
+                    {{fa-icon 'eye'}}
+                {{/link-to}}
+                <div class="img-holder">
+                    {{#if model.image_webPath }}
+                        <img class="img-circle" src="{{model.image_webPath}}" alt="">
+                    {{else}}
+                        <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
+                    {{/if}}
+                </div>
+                {{#if promotion}}
+                    <span {{action 'promote' model}} class= "button icon-btn rounded-btn promote">
+                        {{fa-icon promotionIcon}}
+                    </span>
+                {{else}}
+                    <span {{action 'demote' model}} class= "button icon-btn rounded-btn demote">
+                        {{fa-icon promotionIcon}}
+                    </span>
+                {{/if}}
+            </div>
+            <h5><span class="flag flag-{{model.nationality}}"></span>{{model.full_name}}</h5>
+        </div>
+        <div class="lower-box">
+            <p><span>Role</span> <br>
+                {{model.role_name}}
+            </p>
+            <p><span>Email</span> <br>
+                {{model.email}}
+            </p>
+
+            {{#if promotion}}
+                <p><span>Promotion suggestion</span> <br>
+                    {{#if (eq model.role_name role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_master_agent}} <br>
+                        Agent has : {{model.active_agents_numb}} Active Agents
+                    {{else}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
+                        Agent has : {{model.active_agents_numb}} Sales
+                    {{/if}}
+                </p>
+            {{else}}
+                <p><span>Demotion suggestion</span> <br>
+                    {{#if (eq model.role_name role_codes.role_active_agent)}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_referee}} <br>
+                        Agent has : {{model.active_agents_numb}} Sales
+                    {{else}}
+                        {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
+                        Agent has : {{model.active_agents_numb}} Active Agents
+                    {{/if}}
+                </p>
+            {{/if}}
+        </div>
+    </div>
+</div>
+{{#bs-modal open=isModalOpen header=false body=false footer=false }}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="chooseNewSuperior">
+            Choose new superior
+        </h4>
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        <div class="form-group">
+            <input class="form-control"
+                   type="text"
+                   id="text-new-superior"
+                   value="Please choose superior agent for referee"
+                   disabled>
+        </div>
+        {{inf-select
+                optionLabelKey='email'
+                selected = newSuperior
+                on-search = (perform search)
+                on-change=(action 'agentSelected')
+        }}
+
+        <button class="button green" {{ action 'doPromotion' }} disabled={{promoteButtonDisabled}}>Save</button>
+    {{/bs-modal-body}}
+{{/bs-modal}}
+
+{{#bs-modal open=isSuperiorModalOpen header=false body=false footer=false }}
+    {{#bs-modal-header}}
+        <h4 class="modal-title" id="chooseNewSuperior">
+            Choose new superior
+        </h4>
+
+    {{/bs-modal-header}}
+    {{#bs-modal-body}}
+        <div class="form-group">
+            <input class="form-control"
+                   type="text"
+                   id="text-new-superior"
+                   value="You will lose all child agents. Select new Superior for then"
+                   disabled>
+        </div>
+        {{inf-select
+                optionLabelKey='name'
+                content=groups
+                serchable=true
+                on-change=(action 'newSuperiorRoleSelected')
+        }}
+        <button class="button green" {{ action 'doDemotion' }} disabled={{demoteButtonDisabled}}>Save</button>
+    {{/bs-modal-body}}
+{{/bs-modal}}

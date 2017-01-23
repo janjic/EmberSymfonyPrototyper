@@ -25,19 +25,20 @@ export default Ember.Component.extend({
     }),
 
     loadData: function (paramsArray){
-        let result = this.get('filter')(paramsArray, this.get('page'), this.get('sortColumn'), this.get('sortType'));
+        let result = this.get('filter')(paramsArray, this.get('page'), this.get('maxPages'),this.get('sortColumn'), this.get('sortType'));
         if (result) {
             result.then((filterResults) => {
-                this.set('model', filterResults);
+                this.set('model', filterResults.data);
                 this.set('maxPages', filterResults.meta.pages);
+                this.set('meta.page', filterResults.meta.page);
             }).catch(() => {
-            });
+                });
         }
     },
     handleFilterEntry: task(function * (letter) {
         let searchValue;
         if (letter) {
-             searchValue = letter;
+            searchValue = letter;
             this.set('searchValue', searchValue);
         } else {
             searchValue = this.get('searchValue');
@@ -60,7 +61,6 @@ export default Ember.Component.extend({
                 });
             });
         }
-
         let paramsArray = this.get('paramsArray');
         paramsArray.rules = searchArrayFields;
         this.set('page', 1);
@@ -116,12 +116,12 @@ export default Ember.Component.extend({
     }),
 
     init() {
-        this._super(...arguments);
         this.set('paramsArray', {
             groupOp: 'or',
             rules: []
         });
         this.set('searchValue', '');
         this.set('searchArray', []);
+        this._super(...arguments);
     }
 });

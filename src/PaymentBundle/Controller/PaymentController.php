@@ -162,4 +162,29 @@ class PaymentController extends Controller
 
         return new JsonResponse(AgentApiResponse::NEW_PAYMENTS_INFO_OK_RESPONSE($newCommissionsInfo));
     }
+
+    /**
+     * @Route("/api/promote-agent" ,name="promote-agent",
+     * options={"expose" = true})
+     * @param ArrayCollection $promoteAgentToRole
+     * @return Response
+     */
+    public function promoteAgentAction(ArrayCollection $promoteAgentToRole)
+    {
+
+        return new JsonResponse($promoteAgentToRole->toArray());
+    }
+
+    /**
+     * @Route("/api/agent-promotion-suggestions" ,name="agent-promotion-suggestion",
+     * options={"expose" = true})
+     * @param ArrayCollection $promoteAgent
+     * @return Response
+     */
+    public function promotionAgentAction(ArrayCollection $promoteAgent)
+    {
+
+        return new JsonResponse($promoteAgent->toArray());
+    }
+
 }

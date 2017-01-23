@@ -361,6 +361,7 @@ table {
   display: inline-block !important;
 }
 
+
 $ember-power-select-border-color: #64A5ED;
 $ember-power-select-border-radius: 0;
 
@@ -4027,7 +4028,11 @@ $searchable-select-spacer-horizontal: 1em;
       h5 {
         color: #fff;
         margin: 0;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        .flag {
+          margin-right: 5px;
+        }
       }
       span {
         color: #fff;
@@ -4507,6 +4512,14 @@ $searchable-select-spacer-horizontal: 1em;
   min-height: 325px;
 }
 
+
+.promote {
+  background-color: $main-green;
+}
+
+.demote {
+  background-color: $main-red;
+}
 
 /*!
  * Generated with CSS Flag Sprite generator (https://www.flag-sprites.com/)
@@ -5401,6 +5414,10 @@ $searchable-select-spacer-horizontal: 1em;
 }
 
 .flag.flag-gb {
+  background-position: -224px -128px;
+}
+
+.flag.flag-en {
   background-position: -224px -128px;
 }
 

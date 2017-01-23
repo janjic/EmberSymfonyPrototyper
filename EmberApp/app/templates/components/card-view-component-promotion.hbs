@@ -2,8 +2,6 @@
     <h1 class="main-heading">{{mainTitle}}</h1>
 {{/if}}
 <div class="all-agents-card-view clearfix">
-    <div class="row">
-
     {{#unless hideSearchAndFilter}}
         <div class="col-md-12">
             <div class="input-box first">
@@ -43,26 +41,22 @@
     {{#each model as |yieldModel|}}
         {{yield yieldModel}}
     {{/each}}
-    </div>
-    <div class="row">
-
     <div class="col-md-12">
         <div class="agents-card-pagination text-right">
             <button class="item" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
             <button class="item" {{action 'handlePageChange' '-1'}}>{{fa-icon "angle-left"}}</button>
 
-            {{input class="table-pagination-input form-control" enter='handlePageChange' value=model.meta.page}}
-            {{#if model.meta.pages }}
-                <span class="item-span">{{model.meta.pages}}</span>
+            {{input class="table-pagination-input form-control" enter='handlePageChange' value=meta.page}}
+            {{#if meta.pages }}
+                <span class="item-span">{{meta.pages}}</span>
             {{else}}
                 <span class="item-span">1</span>
             {{/if}}
 
 
             <button class="item" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
-            <button class="item" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
+            <button class="item" {{action 'handlePageChange' (concat '=' meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
         </div>
-    </div>
     </div>
 </div>
 
