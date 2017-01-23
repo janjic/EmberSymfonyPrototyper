@@ -4154,6 +4154,7 @@ $searchable-select-spacer-horizontal: 1em;
     padding: 5px;
     text-align: left;
     font-weight: normal;
+    font-size: 13px;
   }
   dd {
     color: #444;
@@ -4164,6 +4165,7 @@ $searchable-select-spacer-horizontal: 1em;
     align-items: flex-end;
     min-height: 31px;
     word-break: break-all;
+    font-size: 13px;
   }
   .switch {
     cursor: not-allowed;
@@ -4172,6 +4174,36 @@ $searchable-select-spacer-horizontal: 1em;
   .slider {
     pointer-events: none;
     background-color: #ccc;
+  }
+}
+
+.agent-view {
+  .agent-view-cards {
+    .col-md-4 {
+      @media screen and (max-width: 1100px) {
+        width: 50%;
+        &:last-child {
+          width: 100%;
+          .input-box:first-child {
+            width: 48%;
+            margin-right: 27px;
+            float: left;
+          }
+          .input-box:last-child {
+            width: 48%;
+            float: left;
+          }
+        }
+      }
+      @media screen and (max-width: 993px) {
+        width: auto;
+        .input-box {
+          width: 100% !important;
+          float: none;
+          margin-right: 0;
+        }
+      }
+    }
   }
 }
 
@@ -4511,6 +4543,24 @@ $searchable-select-spacer-horizontal: 1em;
 .manage-groups {
   min-height: 325px;
 }
+
+.dl-horizontal dd {
+  @media (min-width: 768px) {
+    margin-left: 140px;
+  }
+}
+
+.dl-horizontal dt {
+  @media (min-width: 768px) {
+    float: left;
+    width: 130px;
+    overflow: hidden;
+    clear: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 
 
 .promote {
