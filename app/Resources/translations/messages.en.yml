@@ -51,6 +51,8 @@ general:
 agent:
   change:
     status: 'Change status'
+    enable: 'Enable agent'
+    disable: 'Disable agent'
 
 
 # ADMIN MENU ITEMS
@@ -312,7 +314,7 @@ models:
     delete: 'Group removed!'
   ticket:
     all: 'All'
-    save.message: 'Ticket saved!'
+    save.message: 'Ticket forwarded!'
     types:
       bug.report: 'Bug report'
       wrong.order: 'Wrong order'

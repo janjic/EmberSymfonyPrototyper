@@ -230,9 +230,9 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function syncWithTCRPortal($agent, $action)
     {
         if($action == 'add'){
-            $url = 'app_dev.php/en/json/add-agent';
+            $url = 'en/json/add-agent';
         } else {
-            $url = 'app_dev.php/en/json/edit-agent';
+            $url = 'en/json/edit-agent';
         }
 
         $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());

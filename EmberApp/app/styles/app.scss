@@ -3088,12 +3088,13 @@ input:focus {
               margin-bottom: 10px;
             }
           }
-          .attachment-download {
+          a {
             font-size: 12px;
             display: block;
             color: $main-dark;
             border-top: 1px solid $white;
             font-style: italic;
+            cursor: pointer;
             &:hover {
               color: $main-dark-hover;
             }
@@ -3110,12 +3111,13 @@ input:focus {
           padding-right: 20px;
           .admin-message {
             margin-right: 10px;
-            .attachment-download {
+            a {
               font-size: 12px;
               display: block;
               color: #fff;
               border-top: 1px solid $grayish;
               font-style: italic;
+              cursor: pointer;
               &:hover {
                 color: #ccc;
               }
@@ -3223,6 +3225,16 @@ input:focus {
     .message-body {
       max-height: calc(100vh - 530px);
     }
+  }
+}
+
+.swipe-preview {
+  color: $main-green;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    color: $main-dark;
+    opacity: 0.8;
   }
 }
 

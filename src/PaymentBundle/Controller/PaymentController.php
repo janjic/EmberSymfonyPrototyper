@@ -31,7 +31,7 @@ class PaymentController extends Controller
             (int) $request->request->get('orderId'),
             $request->request->get('currency'),
             json_decode($request->request->get('customersInAYear')),
-            false
+            true
         );
 
         return new JSONResponse($payments);

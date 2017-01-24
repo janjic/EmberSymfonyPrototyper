@@ -9,10 +9,14 @@
 
         <h4 class="subject"><strong>{{trans 'admin-messages.subject'}}:</strong> {{thread.subject}}</h4>
         {{#if isDeletedDisplay}}
-            <button class="button green icon-btn" {{action 'deleteThread'}}><i class="fa fa-undo" aria-hidden="true"></i></button>
+            {{#unless hideDelete}}
+                <button class="button green icon-btn" {{action 'deleteThread'}}><i class="fa fa-undo" aria-hidden="true"></i></button>
+            {{/unless}}
         {{!--<button class="button red icon-btn" {{action 'permanentDelete'}}><i class="fa fa-times-circle" aria-hidden="true"></i></button>--}}
         {{else}}
-            <button class="button red icon-btn" {{action 'deleteThread'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
+            {{#unless hideDelete}}
+                <button class="button red icon-btn" {{action 'deleteThread'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
+            {{/unless}}
         {{/if}}
     </div>
     <div class="message-body" id="messages-list">
@@ -35,9 +39,19 @@
                                     <p>{{message.body}}</p>
                                     <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     {{#if message.file}}
-                                        <a href="{{message.file.webPath}}" class="attachment-download" download="">
-                                            <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
-                                        </a>
+                                        {{#elements/file-downloader-component file=message.file as |isImage file items options|}}
+                                            {{#if isImage}}
+                                            {{!-- File is image --}}
+                                                {{#photo-swipe items=items options=options as |img|}}
+                                                    <i class="fa fa-eye" aria-hidden="true"></i> Preview attachment
+                                                {{/photo-swipe}}
+                                            {{else}}
+                                            {{!-- File is not image --}}
+                                                <a href="{{file.webPath}}" class="attachment-download" download="">
+                                                    <i class="fa fa-download" aria-hidden="true"></i> Download attachment
+                                                </a>
+                                            {{/if}}
+                                        {{/elements/file-downloader-component}}
                                     {{/if}}
                                 </div>
                                 <div class="username username-admin">
@@ -54,25 +68,13 @@
                         {{else}}
                             <div class="user-comment">
                                 <div class="username">
-                                    {{#if (eq thread.createdBy.id currentUser.user.id)}}
-                                        <h4>{{thread.otherParticipant.fullName}}</h4>
-                                    {{else}}
-                                        <h4>{{thread.createdBy.fullName}}</h4>
-                                    {{/if}}
+                                    <h4>{{message.sender.fullName}}</h4>
 
                                     <div class="img-holder">
-                                        {{#if (eq thread.createdBy.id currentUser.user.id)}}
-                                            {{#if thread.otherParticipant.baseImageUrl}}
-                                                <img src="{{thread.otherParticipant.baseImageUrl}}" title="Username">
-                                            {{else}}
-                                                <img src="../../assets/images/user-avatar.png" title="Username">
-                                            {{/if}}
+                                        {{#if message.sender.baseImageUrl}}
+                                            <img src="{{message.sender.baseImageUrl}}" title="Username">
                                         {{else}}
-                                            {{#if thread.createdBy.baseImageUrl}}
-                                                <img src="{{thread.createdBy.baseImageUrl}}" title="Username">
-                                            {{else}}
-                                                <img src="../../assets/images/user-avatar.png" title="Username">
-                                            {{/if}}
+                                            <img src="../../assets/images/user-avatar.png" title="Username">
                                         {{/if}}
                                     </div>
                                 </div>
@@ -80,9 +82,19 @@
                                     <p>{{message.body}}</p>
                                     <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     {{#if message.file}}
-                                        <a href="{{message.file.webPath}}" class="attachment-download" download="">
-                                            <i class="fa fa-download" aria-hidden="true"></i> {{message.file.name}}
-                                        </a>
+                                        {{#elements/file-downloader-component file=message.file as |isImage file items options|}}
+                                            {{#if isImage}}
+                                                {{!-- File is image --}}
+                                                {{#photo-swipe items=items options=options as |img|}}
+                                                    <i class="fa fa-eye" aria-hidden="true"></i> Preview attachment
+                                                {{/photo-swipe}}
+                                            {{else}}
+                                                {{!-- File is not image --}}
+                                                <a href="{{file.webPath}}" class="attachment-download" download="">
+                                                    <i class="fa fa-download" aria-hidden="true"></i> Download attachment
+                                                </a>
+                                            {{/if}}
+                                        {{/elements/file-downloader-component}}
                                     {{/if}}
                                 </div>
                             </div>

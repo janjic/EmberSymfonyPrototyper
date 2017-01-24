@@ -10,7 +10,8 @@
     "orgchart": ">1.0.4",
     "semantic-ui": "^2.2.6",
     "d3": "~3.5.3",
-    "lodash": "~3.10.0"
+    "lodash": "~3.10.0",
+    "photoswipe": "4.1.0"
   },
   "resolutions": {
     "topojson": "^2.2.0"

@@ -1,13 +1,18 @@
 <h1 class="main-heading clearfix">
     {{title}}
     <span class="pull-right head-buttons">
-        <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
+        {{#unless (eq initialLength 0)}}
+            <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
+        {{/unless}}
+
         {{#unless hidePayAllButtons}}
-            {{#unless hidePayButton}}
-                <a href="#" {{action 'payAll'}}class="button green btn-small">Pay all</a>
-            {{/unless}}
-            {{#unless hideRejectButton}}
-                <a href="#" {{action 'rejectAll'}} class="button red btn-small">Reject all</a>
+            {{#unless (eq initialLength 0)}}
+                {{#unless hidePayButton}}
+                    <a href="#" {{action 'payAll'}}class="button green btn-small">Pay all</a>
+                {{/unless}}
+                {{#unless hideRejectButton}}
+                    <a href="#" {{action 'rejectAll'}} class="button red btn-small">Reject all</a>
+                {{/unless}}
             {{/unless}}
         {{/unless}}
     </span>
@@ -93,7 +98,16 @@
         {{/card-view-component}}
     {{else}}
         <div>
-            No results found for selected filters
+            {{#if (eq initialLength 0)}}
+                <div class="alert alert-danger" role="alert">
+                    No results found
+                </div>
+            {{else}}
+                <div class="alert alert-danger" role="alert">
+                    No results found for selected filters
+                </div>
+            {{/if}}
+
         </div>
     {{/if}}
 

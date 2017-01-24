@@ -44,23 +44,23 @@
 
             <p>
                 <span>Memo</span>
-                {{#if isEditing}}
+                {{!--{{#if isEditing}}--}}
                     <span class="pull-right">
-                    <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
-                    <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
-                </span>
-                {{else}}
-                    <span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>
-                {{/if}}
+                        <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
+                        <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
+                    </span>
+                {{!--{{else}}--}}
+                    {{!--<span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>--}}
+                {{!--{{/if}}--}}
                 <br>
 
-                {{#if isEditing}}
+                {{!--{{#if isEditing}}--}}
                     {{#if _isLoading}}
                         {{inf-loading}}
                     {{else}}
-                        {{textarea value=payment.memo class="form-control"}}
+                        {{textarea value=newMemo class="form-control"}}
                     {{/if}}
-                {{/if}}
+                {{!--{{/if}}--}}
 
             </p>
 
