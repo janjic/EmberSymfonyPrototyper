@@ -48,6 +48,8 @@ general:
   save: 'Save'
   email: 'Email'
   download: 'Download'
+  download-attachment: 'Download attachment'
+  preview-attachment: 'Preview attachment'
   message: 'Recepient'
   create: 'Create new message'
   enabled: 'Enabled'
@@ -426,7 +428,8 @@ payment:
   select-type: 'Select type'
   apply: 'Apply'
   cancel: 'Cancel'
-  no-results: 'No results found for selected filters'
+  no-results-for-filter: 'No results found for selected filters'
+  no-results: 'No results found'
 
 
 # ADMIN - MESSAGES
@@ -571,6 +574,7 @@ tickets:
     titlemain: 'Title'
     choose-type: 'Choose ticket type'
     description: 'Description'
+    select-agents-to-forward: 'Select agent to forward message to'
 
 #MANAGE GROUPS
 
