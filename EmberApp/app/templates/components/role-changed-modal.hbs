@@ -1,12 +1,12 @@
 {{#bs-modal open=isModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="invitePeopleModal">
-            Chose Superior
+            {{trans 'general.choose-superior'}}
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body class="clearfix"}}
             <div class="form-group">
-                <label class="alert alert-danger" id="text-new-superior">You will lose all child agents. Select new Superior for them.</label>
+                <label class="alert alert-danger" id="text-new-superior"> {{trans 'general.lose-superior'}}</label>
             </div>
             <div class="form-group">
                 {{inf-select
