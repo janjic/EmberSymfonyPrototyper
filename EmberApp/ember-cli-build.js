@@ -49,6 +49,8 @@ module.exports = function(defaults) {
 
   app.import('vendor/bundles/fosjsrouting/main.js');
   app.import('vendor/bundles/core/js/api-codes.js');
+  app.import("bower_components/emojify.js/dist/js/emojify.min.js");
+  app.import("bower_components/emojify.js/dist/css/basic/emojify.css");
   app.import('vendor/frontend-scripts.js');
   app.import('vendor/download.js');
 

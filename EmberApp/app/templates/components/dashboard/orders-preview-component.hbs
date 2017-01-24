@@ -3,23 +3,23 @@
         {{#if isLoading }}
             <img src="../assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
         {{else}}
-            <h3 class="sub-heading">Latest orders</h3>
+            <h3 class="sub-heading">{{trans 'general.latest-orders'}}</h3>
             {{#link-to viewAllLink class="button green icon-btn"}}
                 View all
             {{/link-to}}
             <div class="flex-table">
                 <div class="flex-row fixed">
                     <div class="flex-item">
-                        <span>Agent</span>
+                        <span>{{trans 'general.agent'}}</span>
                     </div>
                     <div class="flex-item">
-                        <span>Order Description</span>
+                        <span>{{trans 'general.order-description'}}</span>
                     </div>
                     <div class="flex-item">
-                        <span>Order total</span>
+                        <span>{{trans 'general.order-total'}}</span>
                     </div>
                     <div class="flex-item">
-                        <span>Actions</span>
+                        <span>{{trans 'general.actions'}}</span>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
                             {{number-format order.total 2}}
                         </div>
                         <div class="flex-item">
-                            {{#link-to viewLink order.id class = "button red icon-btn" }}View{{/link-to}}
+                            {{#link-to viewLink order.id class = "button red icon-btn" }}{{trans 'general.view'}}{{/link-to}}
                         </div>
                     </div>
                 {{/each}}

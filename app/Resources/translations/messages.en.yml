@@ -39,14 +39,71 @@ button:
   send-mail: 'Send mail'
   edit-profile: 'Edit profile'
   view-profile: 'View profile'
+  account-info: 'Account information'
 
 validation:
   email:
 
 general:
+  save: 'Save'
   email: 'Email'
+  download: 'Download'
   message: 'Recepient'
   create: 'Create new message'
+  enabled: 'Enabled'
+  not-enabled: 'Not enabled'
+  disabled: 'Disabled'
+  legend: 'Legend'
+  hq: 'HQ'
+  ambassador: 'Ambassador'
+  master-agent: 'Master agent'
+  active-agent: 'Active agent'
+  active-agents: 'Active agents'
+  referee: 'Referee'
+  delete-user: 'Delete user'
+  optional-info: 'Optional information'
+  genealogy: 'Genealogy tree'
+  new-message: 'New message'
+  payment: 'Payment'
+  new-agent: 'New agent'
+  role: 'Role'
+  promotion-suggestion: 'Promotion suggestion'
+  agent-has: 'Agent has'
+  sales: 'Sales'
+  demotion-suggestion: 'Demotion suggestion'
+  choose-new-superior: 'Choose new superior'
+  user-activity: 'User activity'
+  less-than-10: 'Less than 10'
+  between-10-and-100: 'Between 10 and 100'
+  between-100-and-1000: 'Between 100 and 1000'
+  more-than-1000: 'More than 1000'
+  top-3-countries: 'Top 3 countries'
+  country: 'Country'
+  agents: 'Agents'
+  latest-orders: 'Latest orders'
+  agent: 'Agent'
+  order-description: 'Order description'
+  order-total: 'Order total'
+  actions: 'Actions'
+  view: 'View'
+
+
+mail:
+  add-new-mass-mail-campaign: 'Add new mass mail campaign'
+  subject: 'Subject'
+  from-name: 'From name'
+  reply-to: 'Reply to'
+  choose-mail-list: 'Choose mail list'
+  choose-mail-template: 'Choose mail template'
+  add-new-mail-list: 'Add new mail list'
+  mail-list-name: 'Mail list name'
+  mail-list-from-name: 'Mail list from name'
+  mail-list-from-email: 'Mail list from email'
+  note: 'Note'
+  choose-email-addresses: 'Choose email addresses'
+  edit-mail-list: 'Edit mail list'
+  replicate: 'Replicate mass mail campaign'
+
 
 agent:
   change:
@@ -186,6 +243,12 @@ admin-user:
     username: 'Username'
     agent-type: 'Agent type'
     actions: 'Actions'
+    choose-agent-code: 'Choose agent code'
+    edit-basic-info: 'Edit basic info'
+    edit-personal-details: 'Edit personal details'
+    is-admin: 'Is admin'
+    not-admin: 'Not admin'
+    basic-info: 'Basic info'
   suggestion:
     promotions: 'Agent promotion suggestions'
     downgrade: 'Agent downgrade suggestions'
@@ -261,6 +324,10 @@ admin-agent:
     suspended: 'Suspended'
     not.suspended: 'Not suspended'
     all: 'All'
+    roles: 'Roles'
+    expand: 'Expand'
+    collapse: 'Collapse'
+    drag: 'Drag'
 
 validations:
   presence-password: 'Password is too short (minimum is 6 characters)!'
@@ -270,6 +337,32 @@ validations:
   presence-value: 'This field can''t be blank!'
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
+
+
+payment:
+  created-at: 'Created at'
+  payed-at: 'Payed at'
+  commission: 'Commission'
+  bonus: 'Bonus'
+  unprocessed: 'Unprocessed'
+  payed: 'Payed'
+  rejected: 'Rejected'
+  amount: 'Amount'
+  memo: 'Memo'
+  pay: 'Pay'
+  reject: 'Reject'
+  state: 'State'
+  type: 'Type'
+  filter-results: 'Filter results'
+  pay-all: 'Pay all'
+  reject-all: 'Reject all'
+  select-filters: 'Select filters'
+  select-agent: 'Select agent'
+  select-country: 'Select country'
+  select-type: 'Select type'
+  apply: 'Apply'
+  cancel: 'Cancel'
+  no-results: 'No results found for selected filters'
 
 
 # ADMIN - MESSAGES
@@ -287,6 +380,8 @@ admin-messages:
   new-messages: 'You have new messages'
   enter: 'Enter your message'
   files: 'Add file'
+  save-as-draft: 'Save as draft'
+  send-draft: 'Send draft'
 
 invitation:
   message.save: 'Invitation send'

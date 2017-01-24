@@ -1,7 +1,7 @@
 <h1 class="main-heading">{{trans 'manage-roles.role-management'}}</h1>
 <div class="dd nestable col-md-6" id="nestable3">
     <div class="input-box">
-        <h3 class="sub-heading">Roles</h3>
+        <h3 class="sub-heading">{{trans 'general.roles'}}</h3>
         {{#if needRefresh }}
             {{ role/role-crud-items-component items=items setCurrentEditing=(action 'setCurrentEditing') deleteItem=(action 'deleteItem') }}
         {{else}}

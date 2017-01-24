@@ -15,34 +15,34 @@
         {{!--</div>--}}
     {{!--</div>--}}
     <div class="form-group clearfix">
-        <label class="control-label col-md-5 col-xs-5">New message</label>
+        <label class="control-label col-md-5 col-xs-5">{{trans 'general.new-message'}}</label>
         <div class="col-md-7 col-xs-7">
             <div class="mt-action-buttons">
                 <div class="btn-group btn-group-circle">
-                    <button {{action "statusChanged" "optionMessage" true}} type="button" class="btn {{if optionMessage 'active' }} sebtn-outline switch-green btn-sm"><span>Enabled</span></button>
-                    <button {{action "statusChanged" "optionMessage" false}} type="button" class="btn {{unless optionMessage 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                    <button {{action "statusChanged" "optionMessage" true}} type="button" class="btn {{if optionMessage 'active' }} sebtn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                    <button {{action "statusChanged" "optionMessage" false}} type="button" class="btn {{unless optionMessage 'active' }} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                 </div>
             </div>
         </div>
     </div>
     <div class="form-group clearfix">
-        <label class="control-label col-md-5 col-xs-5">Payment</label>
+        <label class="control-label col-md-5 col-xs-5">{{trans 'general.payment'}}</label>
         <div class="col-md-7 col-xs-7">
             <div class="mt-action-buttons">
                 <div class="btn-group btn-group-circle">
-                    <button {{action "statusChanged" "optionPayment" true}} type="button" class="btn {{if optionPayment 'active' }} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                    <button {{action "statusChanged" "optionPayment" false}} type="button" class="btn {{unless optionPayment 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                    <button {{action "statusChanged" "optionPayment" true}} type="button" class="btn {{if optionPayment 'active' }} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                    <button {{action "statusChanged" "optionPayment" false}} type="button" class="btn {{unless optionPayment 'active' }} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                 </div>
             </div>
         </div>
     </div>
     <div class="form-group clearfix">
-        <label class="control-label col-md-5 col-xs-5">New agent</label>
+        <label class="control-label col-md-5 col-xs-5">{{trans 'general.new-agent'}}</label>
         <div class="col-md-7 col-xs-7">
             <div class="mt-action-buttons">
                 <div class="btn-group btn-group-circle">
-                    <button {{action "statusChanged" "optionAgent" true}} type="button" class="btn {{if optionAgent 'active' }} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                    <button {{action "statusChanged" "optionAgent" false}} type="button" class="btn {{unless optionAgent 'active' }} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                    <button {{action "statusChanged" "optionAgent" true}} type="button" class="btn {{if optionAgent 'active' }} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                    <button {{action "statusChanged" "optionAgent" false}} type="button" class="btn {{unless optionAgent 'active' }} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                 </div>
             </div>
         </div>

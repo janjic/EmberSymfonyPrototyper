@@ -320,6 +320,7 @@ table {
           align-items: center;
           justify-content: center;
           flex-direction: column;
+          text-align: center;
         }
         .img-holder {
           height: 80px !important;
@@ -3046,6 +3047,9 @@ input:focus {
             color: #666;
             font-size: 10px;
             margin: 0;
+            display: block;
+            width: 100%;
+            text-align: right;
           }
           .username {
             height: auto;
@@ -3067,11 +3071,13 @@ input:focus {
             }
           }
           .attachment-download {
+            width: 100%;
             font-size: 12px;
-            display: block;
             color: $main-dark;
             border-top: 1px solid $white;
             font-style: italic;
+            display: flex;
+            align-items: center;
             &:hover {
               color: $main-dark-hover;
             }
@@ -3089,11 +3095,13 @@ input:focus {
           .admin-message {
             margin-right: 10px;
             .attachment-download {
+              width: 100%;
               font-size: 12px;
-              display: block;
               color: #fff;
               border-top: 1px solid $grayish;
               font-style: italic;
+              display: flex;
+              align-items: center;
               &:hover {
                 color: #ccc;
               }
@@ -3107,6 +3115,9 @@ input:focus {
             font-size: 10px;
             font-style: italic;
             margin: 0;
+            display: block;
+            width: 100%;
+            text-align: right;
           }
           .username {
             height: auto;
@@ -3253,7 +3264,7 @@ input:focus {
 }
 
 .input-box.agent-details {
-  min-height: 1110px;
+  min-height: 1130px;
 }
 
 .input-box.agent-personal {
@@ -3266,7 +3277,7 @@ input:focus {
 
 .input-box.agent-tree {
   position: relative;
-  min-height: 355px;
+  min-height: 375px;
   .btn-success {
     position: absolute;
     right: 0;
@@ -4207,6 +4218,12 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.agent-view .dl-horizontal.basic-info-dl dt {
+  @media screen and (max-width: 1300px) {
+    width: 80px;
+  }
+}
+
 .user-view {
   .img-holder {
     height: 180px !important;
@@ -4245,6 +4262,35 @@ $searchable-select-spacer-horizontal: 1em;
   .form-group {
     margin-bottom: 0;
     flex: 1;
+  }
+  .btn-group {
+    .rounded-btn {
+      &:hover {
+        background-color: $main-green;
+      }
+    }
+  }
+}
+
+.agent-view-bottom {
+  .input-box {
+    box-shadow: none;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+.commissions-wrapper {
+  .wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 350px;
+    background-color: #fff;
+    opacity: 0.5;
   }
 }
 

@@ -1,4 +1,4 @@
-<div class="input-box home-table clearfix">
+<div class="input-box agent-view-bottom clearfix">
     <h3 class="sub-heading">{{fa-icon "users"}} Agents</h3>
     {{#card-view-component model=subAgents page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
         {{agent/agent-card-view-component viewLink=viewLink editLink=editLink agent=yieldModel}}

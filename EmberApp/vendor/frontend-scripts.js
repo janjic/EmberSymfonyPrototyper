@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+
     $('body').on("click", ".toggle-left-section", function(e){
         e.preventDefault();
         $(".left-section").toggleClass("left-section-visible");
@@ -37,3 +38,7 @@ $( document ).ready(function() {
 
 });
 
+$(window).load(function() {
+    emojify.setConfig({tag_type : 'div'});
+    emojify.run();
+});

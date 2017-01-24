@@ -1,5 +1,5 @@
 <section class="create-message">
-    <h1 class="main-heading">Send Draft</h1>
+    <h1 class="main-heading">{{trans 'admin-messages.send-draft'}}</h1>
     <form role="form">
         <div class="row setup-content">
             <div class="col-xs-12 col-lg-8">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group clearfix text-right">
                         <div class="col-md-12">
-                            <a href="#" class="button green pull-left" {{action 'saveAsDraft'}}>Save as draft</a>
+                            <a href="#" class="button green pull-left" {{action 'saveAsDraft'}}>{{trans 'admin-messages.save-as-draft'}}</a>
                             <a href="#" class="button green" {{action 'sendMessage'}}>{{trans 'admin-messages.send'}}</a>
                         </div>
                     </div>
