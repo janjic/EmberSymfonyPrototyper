@@ -18,6 +18,7 @@ use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Business\Manager\AgentManager;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
@@ -127,7 +128,7 @@ class TicketManager implements JSONAPIEntityManagerInterface
      */
     public function serializeTicket($tickets)
     {
-        return $this->fSerializer->setType('tickets')->setDeserializationClass(Agent::class)->serialize($tickets, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
+        return $this->fSerializer->setType('tickets')->setDeserializationClass(Agent::class)->serialize($tickets, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations, array(), AgentSerializerInfo::$basicFields);
 
     }
 

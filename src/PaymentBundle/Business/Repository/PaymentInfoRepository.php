@@ -843,8 +843,9 @@ class PaymentInfoRepository extends EntityRepository
         $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
-        $qb->andWhere(self::ALIAS.'.payedAt > :date');
-        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt > :date');
+        $qb->andWhere(self::ALIAS.'.payedAt >= '.self::SUPERIOR_ALIAS.'.roleChangedAt');
+        $qb->andWhere(self::ALIAS.'.payedAt <= :date');
+        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt <= :date');
         $qb->andWhere(self::ALIAS.'.state = 1');
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_MASTER_AGENT.'%\''));
         $qb->setParameter('date', new \DateTime('-6 month'));
@@ -908,8 +909,8 @@ class PaymentInfoRepository extends EntityRepository
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
 
-        $qb->andWhere(self::ALIAS.'.payedAt > :date');
-        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt > :date');
+        $qb->andWhere(self::ALIAS.'.payedAt >= '.self::AGENT_ALIAS.'.roleChangedAt');
+        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt <= :date');
         $qb->andWhere(self::ALIAS.'.state = 1');
         $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
         $qb->setParameter('date', new \DateTime('-6 month'));
@@ -934,7 +935,7 @@ class PaymentInfoRepository extends EntityRepository
          * UnComment having clause when finished!!!!
          *
          */
-//        $qb->having('active_agents_numb < 12');
+        $qb->having('active_agents_numb < 12');
 
         $qb->groupBy(self::AGENT_ALIAS.'.id');
         $qb->orderBy('active_agents_numb', 'DESC');
@@ -944,6 +945,7 @@ class PaymentInfoRepository extends EntityRepository
 
             return $qb->getQuery()->getResult();
         }
+
 
         $qb->setFirstResult($firstRes);
         $qb->setMaxResults($maxRes);

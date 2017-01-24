@@ -10,6 +10,7 @@ use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
+use UserBundle\Helpers\RoleHelper;
 
 /**
  * Class JsonApiUpdateAgentManagerTrait
@@ -40,14 +41,20 @@ trait JsonApiUpdateAgentManagerTrait
         $dbAgentGroup  = $dbAgent->getGroup();
         $dbAgentLocked = $dbAgent->isEnabled();
 
-        $agent = $this->prepareUpdate($agent, $dbAgent, $data);
-        $dbSuperior = $dbAgent->getSuperior();
         $newSuperior = null;
 
         if(!is_null($agent->getSuperior()) && !$isPromotionEdit){
             $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
             $agent->setSuperior($newSuperior);
         }
+
+        $agent = $this->prepareUpdate($agent, $dbAgent, $data);
+        $dbSuperior = $dbAgent->getSuperior();
+
+//        if(!is_null($agent->getSuperior()) && !$isPromotionEdit){
+//            $newSuperior  = $this->getEntityReference($agent->getSuperior()->getId());
+//            $agent->setSuperior($newSuperior);
+//        }
 
         if ( !is_null($agent->getNewSuperiorId()) ){
             // Change child agents to new Superior agent
@@ -172,7 +179,24 @@ trait JsonApiUpdateAgentManagerTrait
 
                 if( $agent->getGroup()->getId() != $dbAgent->getGroup()->getId() ){
                     $dbAgent->setRoleChangedAt(new \DateTime());
+                    $dbAgent->setPaymentsNumb(0);
                 }
+
+                if(($agent->getGroup()->getName() === RoleHelper::MASTER || $agent->getGroup()->getName() === RoleHelper::ACTIVE) && $agent->getSuperior()->getId() === $dbAgent->getSuperior()->getId()
+                    && ($agent->getSuperior() && $agent->getSuperior()->getGroup()->getName() === RoleHelper::MASTER)){
+
+                } else {
+                    $superior = $dbAgent->getSuperior();
+                    $superior->removeFromActiveAgents($agent->getId());
+                    $newSuperior = $agent->getSuperior();
+                    if($newSuperior->getId() !== $superior->getId() && $newSuperior->getGroup()->getName() === RoleHelper::MASTER && $agent->getGroup()->getId() == $dbAgent->getGroup()->getId() ){
+                        $newSuperior->addActiveAgentId($agent->getId());
+                        $this->repository->simpleEdit(array($superior, $newSuperior));
+                    } else {
+                        $this->repository->simpleEdit(array($superior));
+                    }
+                }
+
                 $dbAgent->setGroup($dbGroup);
             }
     }

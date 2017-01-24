@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import { task, timeout } from 'ember-concurrency';
-const { Routing } = window;
+const {ApiCode, Translator, Routing} = window;
+
 
 export default Ember.Component.extend({
     authorizedAjax       : Ember.inject.service('authorized-ajax'),

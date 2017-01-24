@@ -89,6 +89,18 @@ class AgentRepository extends NestedTreeRepository
     }
 
     /**
+     * @param $agents
+     */
+    public function simpleEdit($agents)
+    {
+
+      foreach ($agents as $agent){
+          $this->_em->merge($agent);
+      }
+      $this->_em->flush();
+    }
+
+    /**
      * @param Agent $agent
      * @param Agent $dbSuperior
      * @param $newSuperior
@@ -245,7 +257,6 @@ class AgentRepository extends NestedTreeRepository
         $firstResult =0;
         if ($page !=1) {
             $firstResult = ($page-1)*$offset;
-            // $offset = $page*$offset;
         }
         $qb= $this->createQueryBuilder(self::ALIAS);
         if (array_key_exists('search_param', $additionalParams)) {

@@ -27,6 +27,7 @@ use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
+use UserBundle\Helpers\RoleHelper;
 
 /**
  * Class AgentManager
@@ -423,5 +424,25 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         }
 
         return $this->getSuperiorWithSpecifiedGroup($superior, $group);
+    }
+
+    /**
+     * @param $agent
+     */
+    public function updatePaymentInfoOnAgent(Agent $agent){
+
+        $agent->setPaymentsNumb($agent->getPaymentsNumb() + 1);
+
+        /**
+         * @var $superior Agent
+         */
+        $superior = $agent->getSuperior();
+        if($superior->hasRole(RoleManager::ROLE_MASTER_AGENT)){
+            if(!in_array($agent->getId(), $superior->getActiveAgentsIds())){
+                $superior->addActiveAgentId($agent->getId());
+            }
+        }
+
+        $this->repository->simpleEdit(array($agent, $superior));
     }
 }
