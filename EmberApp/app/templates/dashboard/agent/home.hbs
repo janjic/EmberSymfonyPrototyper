@@ -2,35 +2,40 @@
 <div class="right-section">
     <section class="dashboard-home">
         <div class="row">
-            {{home-card-component
-                    card-title = (trans 'dashboard.labels.new-customers')
-                    isLoading = newUsersInfoLoading
-                    model = newUsersInfo
-                    getNewElements = (action 'getNumberOfNewUsers')
-                    imageClass = 'user'
-            }}
-            {{home-card-component
-                    card-title = (trans 'dashboard.labels.new-agents')
-                    isLoading = newAgentsLoading
-                    model = newAgentsInfo
-                    getNewElements = (action 'getNumberOfNewAgents')
-                    imageClass = 'black-tie'
-            }}
-            {{home-card-component
-                    card-title = (trans 'dashboard.labels.new-orders')
-                    isLoading = newOrdersInfoLoading
-                    model = newOrdersInfo
-                    getNewElements = (action 'getNumberOfNewOrders')
-                    imageClass = 'black-tie'
-            }}
-            {{home-card-component
-                    card-title = (trans 'dashboard.labels.new-commissions')
-                    isLoading = newCommissionsInfoLoading
-                    model = newCommissionsInfo
-                    getNewElements = (action 'getNumberOfNewCommissions')
-                    isMultipleCard = isNewCommissionsInfoMultiple
-                    imageClass = 'usd'
-            }}
+            <div class="top-cards">
+                {{home-card-component
+                        card-title = (trans 'dashboard.labels.new-customers')
+                        isLoading = newUsersInfoLoading
+                        model = newUsersInfo
+                        getNewElements = (action 'getNumberOfNewUsers')
+                        imageClass = 'user'
+                }}
+                {{home-card-component
+                        card-title = (trans 'dashboard.labels.new-agents')
+                        isLoading = newAgentsLoading
+                        model = newAgentsInfo
+                        getNewElements = (action 'getNumberOfNewAgents')
+                        imageClass = 'black-tie'
+                        class='hc-second'
+                }}
+                {{home-card-component
+                        card-title = (trans 'dashboard.labels.new-orders')
+                        isLoading = newOrdersInfoLoading
+                        model = newOrdersInfo
+                        getNewElements = (action 'getNumberOfNewOrders')
+                        imageClass = 'black-tie'
+                        class='hc-third'
+                }}
+                {{home-card-component
+                        card-title = (trans 'dashboard.labels.new-commissions')
+                        isLoading = newCommissionsInfoLoading
+                        model = newCommissionsInfo
+                        getNewElements = (action 'getNumberOfNewCommissions')
+                        isMultipleCard = isNewCommissionsInfoMultiple
+                        imageClass = 'usd'
+                        class='hc-fourth'
+                }}
+            </div>
         </div>
 
         <div class="row">
