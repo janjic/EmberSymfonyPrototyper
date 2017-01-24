@@ -872,7 +872,7 @@ class PaymentInfoRepository extends EntityRepository
             }
         }
 
-//        $qb->having('active_agents_numb < 10');
+        $qb->having('active_agents_numb > 1000');
 
         $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
         $qb->groupBy(self::AGENT_ALIAS.'.id');
@@ -902,7 +902,7 @@ class PaymentInfoRepository extends EntityRepository
     public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
+        $qb->select(self::AGENT_ALIAS.'.paymentsNumb as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
             self::AGENT_ALIAS.'.baseImageUrl as image_webPath', self::AGENT_ALIAS.'.nationality', self::AGENT_ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::AGENT_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
         $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
         $qb->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS);
@@ -930,18 +930,13 @@ class PaymentInfoRepository extends EntityRepository
             }
         }
 
-
-        /**
-         * UnComment having clause when finished!!!!
-         *
-         */
-        $qb->having('active_agents_numb < 12');
+        $qb->andWhere(self::AGENT_ALIAS.'.paymentsNumb < 12');
 
         $qb->groupBy(self::AGENT_ALIAS.'.id');
-        $qb->orderBy('active_agents_numb', 'DESC');
+        $qb->orderBy(self::AGENT_ALIAS.'.paymentsNumb', 'DESC');
 
         if($isCountSearch){
-            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+            $qb->select(self::AGENT_ALIAS.'.paymentsNumb as active_agents_numb');
 
             return $qb->getQuery()->getResult();
         }

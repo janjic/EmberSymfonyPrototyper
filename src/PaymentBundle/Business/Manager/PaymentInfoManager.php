@@ -321,19 +321,19 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
         } else if($request && $request->get('type') == 'downgrade') {
 
-            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
+            $downgradeTotalItems = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->agentManager->getDowngradeSuggestionsForActiveAgent($request, true)));
 
-            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+            $firstDowngrades = $this->agentManager->getDowngradeSuggestionsForMasterAgent($request);
 
             if (($size = sizeof($firstDowngrades)) < $offset) {
                 if($size != 0){
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $totalOfMADowngrades = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)));
                     $pagesOfMA = ceil($totalOfMADowngrades/$offset);
                     $firstResForRef = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
 
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForRef, $offset));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForRef, $offset));
                 }
 
             } else {
@@ -370,18 +370,18 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
             /**
              * Downgrades on first load
              */
-            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
-            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+            $downgradeTotalItems = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->agentManager->getDowngradeSuggestionsForActiveAgent($request, true)));
+            $firstDowngrades = $this->agentManager->getDowngradeSuggestionsForMasterAgent($request);
 
             if (($size = sizeof($firstDowngrades)) < $offset) {
                 if($size != 0){
-                    $data['downgrades']['data'] = array_merge($firstDowngrades, $this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades, $this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $totalOfMADowngrades = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)));
                     $pagesOfMA = ceil($totalOfMADowngrades/$offset);
                     $firstResForAA = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
 
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForAA, $offset));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForAA, $offset));
                 }
 
             } else {

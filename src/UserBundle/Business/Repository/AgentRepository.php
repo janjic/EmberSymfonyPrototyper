@@ -630,4 +630,114 @@ class AgentRepository extends NestedTreeRepository
 //
 //        return $qb->getQuery()->getResult();
     }
+
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     * @internal param int $offset
+     */
+    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS.'.paymentsNumb as active_agents_numb', 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+        $qb->andWhere(self::ALIAS.'.roleChangedAt <= :date');
+
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
+        $qb->setParameter('date', new \DateTime('-6 month'));
+
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+        $qb->andWhere(self::ALIAS.'.paymentsNumb < 12');
+        $qb->orderBy(self::ALIAS.'.paymentsNumb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select(self::ALIAS.'.paymentsNumb as active_agents_numb');
+
+            return $qb->getQuery()->getResult();
+        }
+
+        $qb->setFirstResult($firstRes);
+        $qb->setMaxResults($maxRes);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $request
+     * @param int $offset
+     * @param bool $isCountSearch
+     * @return array
+     */
+    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
+    {
+//        "(CHAR_LENGTH(".self::ALIAS.".paymentsNumb) - CHAR_LENGTH( REPLACE(".self::ALIAS.".paymentsNumb, ',', ''))) as active_agents_numb"
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select("(CASE WHEN ".self::ALIAS.".activeAgentsIds IS NOT NULL THEN (CHAR_LENGTH(".self::ALIAS.".activeAgentsIds) - CHAR_LENGTH( REPLACE(".self::ALIAS.".activeAgentsIds, ',', ''))+1) ELSE 0 END) as active_agents_numb", 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+        $qb->andWhere(self::ALIAS.'.roleChangedAt <= :date');
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_MASTER_AGENT.'%\''));
+        $qb->setParameter('date', new \DateTime('-6 month'));
+
+
+        $firstResult = 0;
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+            $page = $request->get('page');
+            if ($page != 1) {
+                $firstResult = ($page - 1) * $offset;
+            }
+
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+        $qb->having('active_agents_numb < 10');
+        $qb->orderBy('active_agents_numb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select(self::ALIAS.'.id', "(CHAR_LENGTH(".self::ALIAS.".activeAgentsIds) - CHAR_LENGTH( REPLACE(".self::ALIAS.".activeAgentsIds, ',', ''))+1) as active_agents_numb");
+
+            return $qb->getQuery()->getResult();
+        }
+
+        $qb->setFirstResult($firstResult);
+        $qb->setMaxResults($offset);
+
+//        var_dump($qb->getQuery()->getSQL());
+//        var_dump($qb->getQuery()->getParameter('date'));exit;
+
+        return $qb->getQuery()->getResult();
+    }
 }

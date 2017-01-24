@@ -445,4 +445,27 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
 
         $this->repository->simpleEdit(array($agent, $superior));
     }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     */
+    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        return $this->repository->getDowngradeSuggestionsForActiveAgent($request, $isCountSearch, $firstRes, $maxRes);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $offset
+     * @return array
+     */
+    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
+    {
+        return $this->repository->getDowngradeSuggestionsForMasterAgent($request, $isCountSearch, $offset);
+    }
 }
