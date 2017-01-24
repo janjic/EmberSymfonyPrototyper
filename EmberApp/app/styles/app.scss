@@ -2546,7 +2546,7 @@ input:focus {
         }
       }
       .agent-second-menu {
-        width: 150px;
+        width: 130px;
       }
     }
     .ambassador .title {
@@ -2579,6 +2579,8 @@ input:focus {
     }
   }
 }
+
+
 
 .load-bar {
   position: relative;
@@ -4559,7 +4561,7 @@ $searchable-select-spacer-horizontal: 1em;
       .upper-box {
         padding: 10px;
         flex-direction: row;
-        min-height: 100px;
+        min-height: 110px;
         h5 {
           text-align: left;
           word-break: break-all;
@@ -4607,6 +4609,12 @@ $searchable-select-spacer-horizontal: 1em;
     clear: left;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+.left-section .panel-group {
+  @media (max-width: 768px) {
+    text-align: center;
   }
 }
 
