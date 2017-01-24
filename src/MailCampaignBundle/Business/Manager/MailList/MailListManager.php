@@ -115,6 +115,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
             }
 
         } else {
+            var_dump($response);exit;
             $message = '';
             foreach ($response['errors'] as $error) {
                 $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];

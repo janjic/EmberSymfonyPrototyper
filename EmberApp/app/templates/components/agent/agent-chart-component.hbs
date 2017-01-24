@@ -8,13 +8,13 @@
         </div>
     {{/if}}
     <div class="input-box legend-orgchart">
-        <h3 class="sub-heading">Legend</h3>
+        <h3 class="sub-heading">{{trans 'general.legend'}}</h3>
         <div class="legend-holder">
-            <span class="admin">HQ</span>
-            <span class="ambassador">Ambassador</span>
-            <span class="master-agent">Master agent</span>
-            <span class="active-agent">Active agent</span>
-            <span class="referee">Referee</span>
+            <span class="admin">{{trans 'general.hq'}}</span>
+            <span class="ambassador">{{trans 'general.ambassador'}}</span>
+            <span class="master-agent">{{trans 'general.master-agent'}}</span>
+            <span class="active-agent">{{trans 'general.active-agent'}}</span>
+            <span class="referee">{{trans 'general.referee'}}</span>
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@
 {{#bs-modal open=isModalOpen header=false body=false footer=false closedAction=(action 'closedAction')}}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="changePassModal">
-            Delete user
+            {{trans 'general.delete-user'}}
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body}}
@@ -39,7 +39,7 @@
                 {{#if isLoading }}
                     {{inf-loading}}
                 {{else}}
-                    Delete user
+                    {{trans 'general.delete-user'}}
                 {{/if}}
             </a>
         </div>

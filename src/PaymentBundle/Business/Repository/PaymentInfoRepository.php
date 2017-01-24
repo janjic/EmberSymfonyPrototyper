@@ -5,10 +5,12 @@ namespace PaymentBundle\Business\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Doctrine\DBAL\Types\Type;
 use PaymentBundle\Entity\PaymentInfo;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 
 /**
@@ -17,9 +19,11 @@ use UserBundle\Entity\Agent;
  */
 class PaymentInfoRepository extends EntityRepository
 {
-    const ALIAS       = 'paymentInfo';
-    const AGENT_ALIAS = 'agent';
-    const GROUP_ALIAS = 'g';
+    const ALIAS          = 'paymentInfo';
+    const AGENT_ALIAS    = 'agent';
+    const GROUP_ALIAS    = 'g';
+    const SUPERIOR_ALIAS = 'superior';
+    const ROLE_ALIAS     = 'role';
 
     /**
      * Save payments array
@@ -496,4 +500,461 @@ class PaymentInfoRepository extends EntityRepository
             return $e;
         }
     }
+
+
+
+
+    /**
+     * @param mixed $page
+     * @param mixed $offset
+     * @param mixed $sortParams
+     * @param mixed $additionalParams
+     * @return array
+     */
+    public function findAllForActiveAgent($page, $offset, $sortParams, $additionalParams)
+    {
+        $firstResult = ((int) $page-1)* (int) $offset;
+
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+            self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.nationality', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
+        $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+        /**
+         * Change to < when finished
+         */
+
+        $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::ALIAS.'.state = 1');
+        /**
+         * uncomment this when data arrives!!!!!
+         */
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
+
+        $qb->setFirstResult($firstResult)->setMaxResults($offset);
+
+
+        $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $qb->orderBy('active_agents_numb', 'DESC');
+        $qb->setParameter('date', new \DateTime('-6 month'));
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $searchParams
+     * @param $sortParams
+     * @param $additionalParams
+     * @param bool $isCountSearch
+     * @return array
+     */
+    public function searchPromotionsForActiveAgent($searchParams, $sortParams, $additionalParams, $isCountSearch = false)
+    {
+        $oQ0 = $this->createQueryBuilder(self::ALIAS);
+        $oQ0->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+            self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.nationality', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $oQ0->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $oQ0->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
+        $oQ0->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
+        $oQ0->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+        /**
+         * Change to < when finished
+         */
+        $oQ0->andWhere(self::ALIAS.'.payedAt > :date');
+        $oQ0->andWhere(self::ALIAS.'.state = 1');
+
+        /**
+         * uncomment this when data arrives!!!!!
+         */
+//        $oQ0->andWhere($oQ0->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
+
+
+        $firstResult = 0;
+        $offset = 0;
+        if ($searchParams) {
+            if ($searchParams[0]['toolbar_search']) {
+                $page = $searchParams[0]['page'];
+                $offset = $searchParams[0]['rows'];
+                $firstResult = 0;
+                if ($page != 1) {
+                    $firstResult = ($page - 1) * $offset;
+                }
+                array_shift($searchParams);
+
+                foreach ($searchParams[0] as $key => $param) {
+                    $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $param . '%')));
+                }
+            } else {
+                $searchParams = $searchParams[1];
+                $searchField = $searchParams['searchField'];
+                $searchString = $searchParams['searchString'];
+                $searchOperator = $searchParams['searchOper'];
+                $page = $searchParams['page'];
+                $offset = $searchParams['rows'];
+                $firstResult = 0;
+                if ($page != 1) {
+                    $firstResult = ($page - 1) * $offset;
+                }
+                //numeric fields
+                if (is_numeric($searchString)) {
+                    switch ($searchOperator) {
+                        case 'eq':
+                            $oQ0->andWhere($oQ0->expr()->eq($searchField, $searchString));
+                            break;
+                        case 'ne':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->not($oQ0->expr()->eq($searchField, $searchString))
+                            );
+                            break;
+                        case 'nu':
+                            $oQ0->andWhere($oQ0->expr()->isNull($searchField));
+                            break;
+                        case 'nn':
+                            $oQ0->andWhere($oQ0->expr()->not($oQ0->expr()->isNull($searchField)));
+                            break;
+                    }
+                }
+                //text fields
+                if (!is_numeric($searchString)) {
+                    switch ($searchOperator) {
+                        case 'eq':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->eq($searchField, $oQ0->expr()->literal($searchString))
+                            );
+                            break;
+                        case 'ne':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->not(
+                                    $oQ0->expr()->eq($searchField, $oQ0->expr()->literal($searchString))
+                                )
+                            );
+                            break;
+                        case 'bw':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->like($searchField, $oQ0->expr()->literal($searchString.'%'))
+                            );
+                            break;
+                        case 'bn':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->not(
+                                    $oQ0->expr()->like(
+                                        $searchField,
+                                        $oQ0->expr()->literal($searchString.'%')
+                                    )
+                                )
+                            );
+                            break;
+                        case 'ew':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->like($this->getAlias().'.'.$searchField, $oQ0->expr()->literal('%'.$searchString))
+                            );
+                            break;
+                        case 'en':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->not(
+                                    $oQ0->expr()->like(
+                                        $this->getAlias().'.'.$searchField,
+                                        $oQ0->expr()->literal($searchString.'%')
+                                    )
+                                )
+                            );
+                            break;
+                        case 'cn':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->like(
+                                    $searchField,
+                                    $oQ0->expr()->literal('%'.$searchString.'%')
+                                )
+                            );
+                            break;
+                        case 'nc':
+                            $oQ0->andWhere(
+                                $oQ0->expr()->not(
+                                    $oQ0->expr()->like(
+                                        $searchField,
+                                        $oQ0->expr()->literal('%'.$searchString.'%')
+                                    )
+                                )
+                            );
+                            break;
+                        case 'nu':
+                            $oQ0->andWhere($oQ0->expr()->isNull($searchField));
+                            break;
+                        case 'nn':
+                            $oQ0->andWhere($oQ0->expr()->not($oQ0->expr()->isNull($searchField)));
+                            break;
+                    }
+                }
+            }
+        }
+
+        if ($isCountSearch) {
+            $oQ0->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+        } else {
+            $oQ0->setFirstResult($firstResult)->setMaxResults($offset);
+        }
+
+        $oQ0->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $oQ0->orderBy('active_agents_numb', 'DESC');
+        $oQ0->setParameter('date', new \DateTime('-6 month'));
+
+        return $oQ0->getQuery()->getResult();
+    }
+
+    /**
+     * @param $request
+     * @param int $offset
+     * @param bool $isCountSearch
+     * @return array
+     */
+    public function getPromotionSuggestionsForActiveAgent($request, $isCountSearch = false, $offset = 4 )
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(DISTINCT '.self::AGENT_ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+            self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.id as agent_id', self::SUPERIOR_ALIAS.'.nationality', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
+        $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+
+        $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt > :date');
+        $qb->setParameter('date', new \DateTime('-6 month'));
+        $qb->andWhere(self::ALIAS.'.state = 1');
+
+
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
+
+
+        $firstResult = 0;
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+            $page = intval($request->get('page'));
+            if ($page != 1) {
+                $firstResult = ($page - 1) * $offset;
+            }
+
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::SUPERIOR_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+        /**
+         * UnComment having clause when finished!!!!
+         * $qb->having('active_agents_numb >= 10');
+         */
+
+        $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
+        $qb->orderBy('active_agents_numb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+
+            return $qb->getQuery()->getResult();
+        }
+
+        $qb->setFirstResult($firstResult);
+        $qb->setMaxResults($offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     * @internal param int $offset
+     */
+    public function getPromotionSuggestionsForReferee($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
+            self::AGENT_ALIAS.'.baseImageUrl as image_webPath', self::AGENT_ALIAS.'.nationality', self::AGENT_ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::AGENT_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+
+        $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt > :date');
+        $qb->setParameter('date', new \DateTime('-6 month'));
+        $qb->andWhere(self::ALIAS.'.state = 1');
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_REFEREE.'%\''));
+
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::AGENT_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+        /**
+         * UnComment having clause when finished!!!!
+         *$qb->having('active_agents_numb >= 12');
+         */
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
+        $qb->orderBy('active_agents_numb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+
+            return $qb->getQuery()->getResult();
+        }
+
+
+        $qb->setFirstResult($firstRes);
+        $qb->setMaxResults($maxRes);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param $request
+     * @param int $offset
+     * @param bool $isCountSearch
+     * @return array
+     */
+    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(DISTINCT '.self::AGENT_ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::SUPERIOR_ALIAS.'.firstName, \' \','.self::SUPERIOR_ALIAS.'.lastName) as full_name',
+            self::SUPERIOR_ALIAS.'.baseImageUrl as image_webPath', self::SUPERIOR_ALIAS.'.nationality', self::SUPERIOR_ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::SUPERIOR_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::AGENT_ALIAS.'.superior', self::SUPERIOR_ALIAS);
+        $qb->leftJoin(self::SUPERIOR_ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+        $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::SUPERIOR_ALIAS.'.roleChangedAt > :date');
+        $qb->andWhere(self::ALIAS.'.state = 1');
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_MASTER_AGENT.'%\''));
+        $qb->setParameter('date', new \DateTime('-6 month'));
+
+
+        $firstResult = 0;
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+            $page = $request->get('page');
+            if ($page != 1) {
+                $firstResult = ($page - 1) * $offset;
+            }
+
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::SUPERIOR_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+//        $qb->having('active_agents_numb < 10');
+
+        $qb->groupBy(self::SUPERIOR_ALIAS.'.id');
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
+        $qb->orderBy('active_agents_numb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'COUNT(DISTINCT '.self::SUPERIOR_ALIAS.'.id) as agents');
+
+          return $qb->getQuery()->getResult();
+        }
+
+        $qb->setFirstResult($firstResult);
+        $qb->setMaxResults($offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     * @internal param int $offset
+     */
+    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb', 'CONCAT('.self::AGENT_ALIAS.'.firstName, \' \','.self::AGENT_ALIAS.'.lastName) as full_name',
+            self::AGENT_ALIAS.'.baseImageUrl as image_webPath', self::AGENT_ALIAS.'.nationality', self::AGENT_ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::AGENT_ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::AGENT_ALIAS.'.group', self::GROUP_ALIAS);
+        $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
+
+
+        $qb->andWhere(self::ALIAS.'.payedAt > :date');
+        $qb->andWhere(self::AGENT_ALIAS.'.roleChangedAt > :date');
+        $qb->andWhere(self::ALIAS.'.state = 1');
+        $qb->andWhere($qb->expr()->like(self::ROLE_ALIAS.'.role', '\'%'.RoleManager::ROLE_ACTIVE_AGENT.'%\''));
+        $qb->setParameter('date', new \DateTime('-6 month'));
+
+        /**
+         * Apply search if params exist
+         */
+        if($request) {
+            $rules = json_decode($request->get('filters'))->rules;
+            if($size = sizeof($rules)){
+                $query = '';
+                foreach ($rules as $index => $rule){
+                    $query .= $qb->expr()->like(self::AGENT_ALIAS.'.'.$rule->field, $qb->expr()->literal($rule->data.'%'));
+                    ($index != $size - 1)? $query .= ' OR ' : $query.='';
+                }
+                $qb->andWhere($query);
+            }
+        }
+
+
+        /**
+         * UnComment having clause when finished!!!!
+         *
+         */
+//        $qb->having('active_agents_numb < 12');
+
+        $qb->groupBy(self::AGENT_ALIAS.'.id');
+        $qb->orderBy('active_agents_numb', 'DESC');
+
+        if($isCountSearch){
+            $qb->select('COUNT(DISTINCT '.self::ALIAS.'.id) as active_agents_numb');
+
+            return $qb->getQuery()->getResult();
+        }
+
+        $qb->setFirstResult($firstRes);
+        $qb->setMaxResults($maxRes);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

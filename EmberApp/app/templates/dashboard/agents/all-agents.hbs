@@ -1,8 +1,3 @@
-
-{{!--
-{{table-view-component mainTitle=(trans 'admin-agent.new.title') model=model colNames=colNames colModels=colModels page=page maxPages=maxPages offset=offset filter=(action 'filterModel') editLink="dashboard.agents.agent-edit"}}
---}}
-
 {{#card-view-component model=model mainTitle=(trans 'admin-agent.new.title') showAgentFilter=true agentSelected=(action "agentSelected") searchQuery=(action "search") page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
 
     {{agent/agent-card-view-component viewLink="dashboard.agents.agent-view" editLink="dashboard.agents.agent-edit" agent=yieldModel}}

@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     searchValue: '',
     defaultSortType: null,
     showSearchSortBar: true,
+    showAddAgentButton: true,
     firstBtnClasses: "button dark icon-btn",
     secondBtnClasses: "button dark icon-btn",
     inputClasses:  Ember.computed('focusable', function () {
@@ -122,6 +123,5 @@ export default Ember.Component.extend({
         });
         this.set('searchValue', '');
         this.set('searchArray', []);
-
     }
 });

@@ -20,17 +20,17 @@
             <span>{{agent.group.name}}</span>
         </div>
         <div class="lower-box">
-            <p><span>Language</span> <br>
+            <p><span>{{trans "admin-user.label.language"}}</span> <br>
                 {{agent.nationality}}
             </p>
-            <p><span>Email</span> <br>
+            <p><span>{{trans "admin-user.label.email"}}</span> <br>
                 {{agent.email}}
             </p>
-            <p><span>Status</span> <br>
+            <p><span>{{trans "admin-agent.label.language"}}</span> <br>
                 {{#if agent.enabled}}
-                    Enabled
+                    {{trans "general.enabled"}}
                 {{else}}
-                    Not enabled
+                    {{trans "general.not-enabled"}}
                 {{/if}}
             </p>
         </div>

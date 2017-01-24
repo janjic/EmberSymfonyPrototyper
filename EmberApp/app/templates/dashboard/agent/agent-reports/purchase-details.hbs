@@ -1,4 +1,8 @@
-<h1 class="main-heading clearfix">Purchase details <span class="pull-right">{{#link-to 'dashboard.agent.users.user-view' class='btn btn-danger'}}Customer profile{{/link-to}}</span></h1>
+<h1 class="main-heading clearfix">{{trans 'purchase-details.purchase-details'}} <span class="pull-right">
+    {{#link-to 'dashboard.agent.users.user-view' class='btn btn-danger'}}
+        {{trans 'purchase-details.customer-profile'}}
+    {{/link-to}}
+</span></h1>
 
 <div class="top-options">
     <div class="row">
@@ -8,30 +12,30 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <p><strong>First Name</strong></p>
+                            <p><strong>{{trans 'purchase-details.first-name'}}</strong></p>
                             <p>{{model.user.firstName}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Last Name</strong></p>
+                            <p><strong>{{trans 'purchase-details.last-name'}}</strong></p>
                             <p>{{model.user.lastName}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Email</strong></p>
+                            <p><strong>{{trans 'purchase-details.email'}}</strong></p>
                             {{model.user.email}}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <p><strong>Order ID</strong></p>
+                            <p><strong>{{trans 'purchase-details.order-id'}}</strong></p>
                             <p>{{model.id}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Date created</strong></p>
+                            <p><strong>{{trans 'purchase-details.date-created'}}</strong></p>
                             <p>{{moment-format model.created_at 'DD/MM/YYYY'}}</p>
 
                         </div>
                         <div class="form-group">
-                            <p><strong>Country</strong></p>
+                            <p><strong>{{trans 'purchase-details.country'}}</strong></p>
                             <p>{{model.user.country}}</p>
                         </div>
                     </div>
@@ -60,10 +64,10 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Package</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                        <th>Currency</th>
+                        <th>{{trans 'purchase-details.package'}}</th>
+                        <th>{{trans 'purchase-details.duration'}}</th>
+                        <th>{{trans 'purchase-details.price'}}</th>
+                        <th>{{trans 'purchase-details.currency'}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,16 +86,16 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Article</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                        <th>Currency</th>
+                        <th>{{trans 'purchase-details.article'}}</th>
+                        <th>{{trans 'purchase-details.duration'}}</th>
+                        <th>{{trans 'purchase-details.price'}}</th>
+                        <th>{{trans 'purchase-details.currency'}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         {{#if model.fee_price}}
-                            <td>One time account setup fee</td>
+                            <td>{{trans 'purchase-details.one-time-account-setup-fee'}}</td>
                             <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
                             <td>{{ number-format model.fee_price 2 }}</td>
                             <td>{{ currency-for-country model.user.country }}</td>
@@ -99,19 +103,19 @@
 
                     </tr>
                     <tr>
-                        <td>Connect</td>
+                        <td>{{trans 'purchase-details.connect'}}</td>
                         <td>{{ moment-format model.created_at 'DD/MM/YYYY'}} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
                         <td>{{ number-format model.connect_price 2}}</td>
                         <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     <tr>
-                        <td>{{ model.num_of_streams }} stream/s</td>
+                        <td>{{ model.num_of_streams }} {{trans 'purchase-details.stream'}}</td>
                         <td>{{ moment-format model.created_at 'DD/MM/YYYY'}} - {{moment-format (moment-subtract model.stream_date_to 1 'days') 'DD/MM/YYYY'}}</td>
                         <td>{{ number-format (multiply model.stream_price model.num_of_streams) 2}}</td>
                         <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     <tr>
-                        <td>Price for remaining days until the end of month</td>
+                        <td>{{trans 'purchase-details.price-for-remaining'}}</td>
                         <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-add model.created_at model.num_of_remaining_days 'days') 'DD/MM/YYYY'}}</td>
                         <td>{{ number-format (multiply  model.num_of_remaining_days model.price_per_remaining_day) 2 }}</td>
                         <td>{{ currency-for-country model.user.country}}</td>
@@ -119,10 +123,10 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td>Total</td>
+                        <td>{{trans 'purchase-details.total'}}</td>
                         <td></td>
                         <td>{{currency-for-country model.user.country}} {{ number-format model.total 2}}</td>
-                        <td><i class="fa fa-print" {{ action 'downloadPDF' }}></i></td>
+                        <td><span {{ action 'downloadPDF' }}><i class="fa fa-print"></i></span></td>
                     </tr>
                     </tfoot>
                 </table>

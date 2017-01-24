@@ -15,7 +15,7 @@
     <div class="row agent-view-cards">
         <div class="col-md-4">
             <div class="input-box high clearfix">
-                <h3 class="sub-heading">{{fa-icon "user"}} Basic info</h3>
+                <h3 class="sub-heading">{{fa-icon "user"}} {{trans 'admin-user.label.basic-info'}}</h3>
                 <h5>{{agent.group.name}}</h5>
                 <div class="img-holder">
                     {{#if agent.image.webPath}}
@@ -25,85 +25,85 @@
                     {{/if}}
                     {{#link-to editLink agent.id class="button red icon-btn"}}{{fa-icon "pencil"}}{{/link-to}}
                 </div>
-                <dl class="dl-horizontal">
-                    <dt>Email</dt>
+                <dl class="dl-horizontal basic-info-dl">
+                    <dt>{{trans 'admin-user.label.email'}}</dt>
                     <dd>{{agent.email}}</dd>
-                    <dt>Username</dt>
+                    <dt>{{trans 'admin-user.label.username'}}</dt>
                     <dd>{{agent.username}}</dd>
-                    <dt>Birthday</dt>
+                    <dt>{{trans 'admin-user.label.birthdate'}}</dt>
                     <dd>{{print-custom-date agent.birthDate}}</dd>
                 </dl>
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-box clearfix">
-                <h3 class="sub-heading">{{fa-icon "address-card"}} Personal details</h3>
+                <h3 class="sub-heading">{{fa-icon "address-card"}} {{trans 'admin-user.label.personal-details'}}</h3>
                 <dl class="dl-horizontal">
-                    <dt>Street number</dt>
+                    <dt>{{trans 'admin-user.label.street-number'}}</dt>
                     <dd>{{agent.address.streetNumber}}</dd>
-                    <dt>Postcode</dt>
+                    <dt>{{trans 'admin-user.label.postcode'}}</dt>
                     <dd>{{agent.address.postcode}}</dd>
-                    <dt>City</dt>
+                    <dt>{{trans 'admin-user.label.city'}}</dt>
                     <dd>{{agent.address.city}}</dd>
-                    <dt>Country</dt>
+                    <dt>{{trans 'admin-user.label.country'}}</dt>
                     <dd>{{agent.address.country}}</dd>
-                    <dt>Phone</dt>
+                    <dt>{{trans 'admin-user.label.phone'}}</dt>
                     <dd>{{agent.address.phone}}</dd>
                 </dl>
             </div>
             <div class="input-box clearfix">
-                <h3 class="sub-heading">{{fa-icon "info-circle"}} Quick info</h3>
+                <h3 class="sub-heading">{{fa-icon "info-circle"}} {{trans 'admin-user.label.quick-info'}}</h3>
                 <dl class="dl-horizontal">
-                    <dt>Social security number</dt>
+                    <dt>{{trans 'admin-user.label.social-security-num'}}</dt>
                     <dd>{{agent.socialSecurityNumber}}</dd>
-                    <dt>Bank name</dt>
+                    <dt>{{trans 'admin-user.label.bank'}}</dt>
                     <dd>{{agent.bankName}}</dd>
-                    <dt>Bank account number</dt>
+                    <dt>{{trans 'admin-user.label.bank-account-num'}}</dt>
                     <dd>{{agent.bankAccountNumber}}</dd>
-                    <dt>Agent background</dt>
+                    <dt>{{trans 'admin-user.label.agent-background'}}</dt>
                     <dd>{{agent.agentBackground}}</dd>
                 </dl>
             </div>
         </div>
         <div class="col-md-4">
             <div class="input-box clearfix">
-                <h3 class="sub-heading">{{fa-icon "bell"}} Notification settings</h3>
+                <h3 class="sub-heading">{{fa-icon "bell"}} {{trans 'admin-user.label.notification-settings'}}</h3>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-xs-5">New message</label>
+                    <label class="control-label col-md-5 col-xs-5">{{trans 'general.new-message'}}</label>
                     <div class="col-md-7 col-xs-7">
                         <div class="mt-action-buttons">
                             <div class="btn-group btn-group-circle">
-                                <button disabled type="button" class="btn {{if optionMessage 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                                <button disabled type="button" class="btn {{unless optionMessage 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                                <button disabled type="button" class="btn {{if optionMessage 'active'}} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                                <button disabled type="button" class="btn {{unless optionMessage 'active'}} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-xs-5">Payment</label>
+                    <label class="control-label col-md-5 col-xs-5">{{trans 'general.payment'}}</label>
                     <div class="col-md-7 col-xs-7">
                         <div class="mt-action-buttons">
                             <div class="btn-group btn-group-circle">
-                                <button disabled type="button" class="btn {{if optionPayment 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                                <button disabled type="button" class="btn {{unless optionPayment 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                                <button disabled type="button" class="btn {{if optionPayment 'active'}} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                                <button disabled type="button" class="btn {{unless optionPayment 'active'}} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-xs-5">New agent</label>
+                    <label class="control-label col-md-5 col-xs-5">{{trans 'general.new-agent'}}</label>
                     <div class="col-md-7 col-xs-7">
                         <div class="mt-action-buttons">
                             <div class="btn-group btn-group-circle">
-                                <button disabled type="button" class="btn {{if optionAgent 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                                <button disabled type="button" class="btn {{unless optionAgent 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                                <button disabled type="button" class="btn {{if optionAgent 'active'}} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                                <button disabled type="button" class="btn {{unless optionAgent 'active'}} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="input-box clearfix">
-                <h3 class="sub-heading">{{fa-icon "tree"}} Genealogy tree</h3>
+                <h3 class="sub-heading">{{fa-icon "tree"}} {{trans 'general.genealogy'}}</h3>
                 <dl class="dl-horizontal">
                     <dt>{{trans 'admin-user.label.agent-id'}}</dt>
                     <dd>{{agent.agentId}}</dd>
@@ -114,7 +114,7 @@
                         {{#if info.childCount}}
                             {{info.childCount}}
                         {{else}}
-                            Not specified.
+                            {{trans 'admin-user.label.not-specified'}}
                         {{/if}}
                     </dd>
                     <dt>{{trans 'admin-user.label.customers'}}</dt>
@@ -122,7 +122,7 @@
                         {{#if info.usersCount}}
                             {{info.usersCount}}
                         {{else}}
-                            Not specified.
+                            {{trans 'admin-user.label.not-specified'}}
                         {{/if}}
                     </dd>
                 </dl>
