@@ -83,7 +83,9 @@ class AgentRepository extends NestedTreeRepository
             $qb->where(self::ALIAS.'.id =:id')
                 ->setParameter('id', $id);
             $user = $qb->getQuery()->getOneOrNullResult();
-            return $this->loadUserRoles($user);
+
+            return $user ? $this->loadUserRoles($user) : $user;
+
         } else {
             $user = $qb->getQuery()->getResult();
             return $user;

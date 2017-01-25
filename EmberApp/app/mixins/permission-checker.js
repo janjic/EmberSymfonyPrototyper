@@ -11,6 +11,7 @@ export default Ember.Mixin.create(AuthenticatedRouteMixin, {
     redirect() {
         let [ , transition ] = arguments;
         let user = this.get('currentUser.user');
+
         this.get('acl').can('access_to_route', this.get('routeName'), this.get('currentUser.user'), transition.targetName).
         then(() => this._super(...arguments),()=> {
             if (user.get('roles').includes('ROLE_SUPER_ADMIN')) {
@@ -19,5 +20,8 @@ export default Ember.Mixin.create(AuthenticatedRouteMixin, {
                 this.transitionTo('dashboard.agent.home');
             }
         });
+    },
+    afterModel () {
+
     }
 });
