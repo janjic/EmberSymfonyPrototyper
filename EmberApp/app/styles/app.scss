@@ -4293,6 +4293,16 @@ $searchable-select-spacer-horizontal: 1em;
   }
 }
 
+.agent-view-bottom-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  img {
+    width: 100px;
+  }
+}
+
 .commissions-wrapper {
   .wrapper {
     position: absolute;

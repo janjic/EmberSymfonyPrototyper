@@ -4,6 +4,11 @@
     {{/link-to}}
 </span></h1>
 
+{{#if isPDFLoading }}
+    <div class="loader-holder">
+        <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}
 <div class="top-options">
     <div class="row">
         <div class="col-md-6">

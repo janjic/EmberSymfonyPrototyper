@@ -6,8 +6,8 @@
                     {{fa-icon 'eye'}}
                 {{/link-to}}
                 <div class="img-holder">
-                    {{#if user.image.webPath }}
-                        <img class="img-circle" src="{{user.image.webPath}}" alt="">
+                    {{#if user.baseImageUrl }}
+                        <img class="img-circle" src="{{user.baseImageUrl}}" alt="">
                     {{else}}
                         <img class="img-circle" src="../../assets/images/user-avatar.png" alt="Avatar">
                     {{/if}}

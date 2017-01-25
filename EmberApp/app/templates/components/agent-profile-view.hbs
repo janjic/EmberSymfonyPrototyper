@@ -131,7 +131,13 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            {{profile-view-agents-component subAgents=subAgents page=page maxPages=maxPages offset=offset filter=(action 'filterModel') editLink=editLink viewLink=viewLink}}
+            {{#if isSubLoading}}
+                <div class="input-box agent-view-bottom-loading clearfix">
+                    <img src="./assets/images/ring-alt.gif" alt=""> {{trans loading.logging.user}}
+                </div>
+            {{else}}
+                {{profile-view-agents-component subAgents=subAgents page=page maxPages=maxPages offset=offset filter=(action 'filterModel') showAddAgentButton=false editLink=editLink viewLink=viewLink}}
+            {{/if}}
             {{!--<div class="flex-row">--}}
             {{!--<div class="flex-item user-item">--}}
             {{!--<div class="img-holder">--}}

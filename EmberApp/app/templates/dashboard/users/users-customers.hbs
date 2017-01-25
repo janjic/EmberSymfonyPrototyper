@@ -6,7 +6,8 @@
         on-change=(action 'agentSelected')
 }}
 
-{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset showAgentFilter=true agentSelected=(action 'agentSelected') search=search filter=(action 'filterModel') as |yieldModel|}}
+{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset
+                       showAddAgentButton=false showAgentFilter=true agentSelected=(action 'agentSelected') search=search filter=(action 'filterModel') as |yieldModel|}}
 
     {{user/user-card-view-component viewLink="dashboard.users.user-view" editLink="dashboard.users.user-edit" user=yieldModel}}
 

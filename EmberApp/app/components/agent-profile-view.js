@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
+        this.get('loadSubAgents')();
         // this.set('isUserAdmin', this.get('currentUser.isUserAdmin'));
         let notifications = this.get('agent.notifications');
         this.set('optionMessage', this.getOptionForNotification(notifications, 'optionMessage'));
