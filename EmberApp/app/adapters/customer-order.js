@@ -23,6 +23,14 @@ export default TCRCoreAdapter.extend( {
             });
         }
 
+        if(clonedQuery['sidx'] === 'name'){
+            clonedQuery['sidx'] = 'user.name';
+        }
+        if(clonedQuery['sidx']  === 'surname'){
+            clonedQuery['sidx'] = 'user.surname';
+        }
+        clonedQuery['offset'] = undefined;
+
         clonedQuery['filters'] = JSON.stringify(clonedQuery['filters']);
         let url = this.get('host') + '/orders/orders-list-complete-purchases-json';
         let options = {

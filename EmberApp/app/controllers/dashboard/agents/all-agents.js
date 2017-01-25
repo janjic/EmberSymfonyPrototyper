@@ -49,6 +49,7 @@ export default Ember.Controller.extend(AgentControllerActionsMixin, {
                 filters: JSON.stringify(this.get('searchArray')),
                 promoCode: this.get('promoCode')
             }).then((model)=>{
+                this.set('page', 1);
                 this.set('model', model);
                 this.set('maxPages', this.get('model.meta.pages'));
                 this.set('totalItems', this.get('model.meta.totalItems'));

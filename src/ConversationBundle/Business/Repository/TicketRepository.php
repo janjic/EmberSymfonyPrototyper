@@ -92,14 +92,17 @@ class TicketRepository extends EntityRepository
         }
 
         $qb= $this->createQueryBuilder(self::ALIAS);
-        if (array_key_exists('search_param', $additionalParams)) {
-            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));;
-        }
+//        if (array_key_exists('search_param', $additionalParams)) {
+//            $qb->andWhere($qb->expr()->like(self::ALIAS.'.username', $qb->expr()->literal('%'.$additionalParams['search_param'].'%')));
+//        }
 
         if ($additionalParams && array_key_exists('ticketsType', $additionalParams)) {
-            $additionalParams['agentId'] == 'null'?
-                $qb->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' is NULL'):
+//            $additionalParams['agentId'] == 'null'?
+//                $qb->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' is NULL'):
+//                $qb->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' = '.$additionalParams['agentId']);
+            if( $additionalParams['agentId'] != 'null' ){
                 $qb->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' = '.$additionalParams['agentId']);
+            }
         }
 
         $qb->setFirstResult($firstResult)->setMaxResults($offset)->orderBy($sortParams[0], $sortParams[1]);
@@ -117,9 +120,12 @@ class TicketRepository extends EntityRepository
         $oQ0= $this->createQueryBuilder(self::ALIAS);
         $oQ0->join(self::ALIAS.'.'.self::JOIN_WITH_AUTHOR, self::JOIN_WITH_AUTHOR);
         if ($additionalParams && array_key_exists('ticketsType', $additionalParams)) {
-            $additionalParams['agentId'] == 'null'?
-                $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' is NULL'):
+            if( $additionalParams['agentId'] != 'null' ){
                 $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' = '.$additionalParams['agentId']);
+            }
+//            $additionalParams['agentId'] == 'null'?
+//                $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' is NULL'):
+//                $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' = '.$additionalParams['agentId']);
         }
 
         $firstResult = 0;

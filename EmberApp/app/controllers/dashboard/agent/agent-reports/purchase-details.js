@@ -4,7 +4,6 @@ const { Routing } = window;
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
-    datesArray: [],
     maxDate: Ember.computed('model.items', function () {
         let ctx = this;
         this.get('model.items').forEach(function (item) {

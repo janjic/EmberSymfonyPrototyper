@@ -350,6 +350,16 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function findSerializedSuperAgent()
+    {
+        $superAgent =  $this->repository->findAgentByRole();
+
+        return new ArrayCollection($this->serializeAgent($superAgent)->toArray());
+    }
+
+    /**
      * @param $id
      * @return bool|\Doctrine\Common\Proxy\Proxy|null|object
      */

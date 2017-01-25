@@ -21,7 +21,6 @@ export default Ember.Component.extend({
                     this.get('notifications').splice(index, 1);
                 }
             }
-            console.log(this.get('notifications'));
         }
     },
 

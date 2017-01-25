@@ -43,19 +43,13 @@
                 </div>
             </div>
             {{#if isAdmin}}
-                <div class="form-group clearfix">
-                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'tickets.labels.select-agent-to-forward'}}</label>
-                    <div class="col-md-7 col-sm-7 col-xs-12">
-                        {{inf-select
-                        optionLabelKey='email'
-                        selected=model.forwardedTo
-                        on-search = (perform search)
-                        on-change=(action 'agentSelected')
-                        }}
-                    </div>
+                <label>
+                    {{trans 'models.ticket.change-status'}}
+                </label>
+                <div class="form-group">
+                    {{elements/status-select ticketStatus=model.status onStatusSelected=(action 'statusChanged')}}
                 </div>
             {{/if}}
-
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="user-info clearfix">
@@ -80,6 +74,19 @@
                     </div>
                 </div>
             </div>
+            {{#if isAdmin}}
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'tickets.labels.select-agent-to-forward'}}</label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{inf-select
+                                optionLabelKey='email'
+                                selected=model.forwardedTo
+                                on-search = (perform search)
+                                on-change=(action 'agentSelected')
+                        }}
+                    </div>
+                </div>
+            {{/if}}
         </div>
     </div>
     <div class="row">

@@ -8,6 +8,7 @@ use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Manager\AgentHistory\JsonApiJQGridAgentHistoryManagerTrait;
 use UserBundle\Business\Manager\AgentHistory\JsonApiSaveAgentHistoryManagerTrait;
 use UserBundle\Business\Repository\AgentHistoryRepository;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\AgentHistory;
 use UserBundle\Entity\Group;
@@ -62,7 +63,7 @@ class AgentHistoryManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);
 
         foreach ($metaTags as $key=>$meta) {
             $serialize->addMeta($key, $meta);

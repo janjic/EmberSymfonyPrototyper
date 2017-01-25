@@ -21,6 +21,15 @@ export default Ember.Controller.extend({
                 filters: JSON.stringify(searchArray),
                 agentId: this.get('agentId')
             });
+        },
+
+        sendInvites(recipientsEmails, emailSubject, emailContent, cUser){
+            return this.get('store').createRecord('invitation', {
+                recipientEmail: recipientsEmails,
+                emailSubject:   emailSubject,
+                emailContent:   emailContent,
+                agent:          cUser
+            });
         }
     }
 });
