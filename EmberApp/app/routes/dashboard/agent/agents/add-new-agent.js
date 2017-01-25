@@ -5,7 +5,7 @@ export default Ember.Route.extend({
         let agent = this.store.createRecord('agent');
         let address = this.store.createRecord('address');
 
-        this.store.find('agent', 29).then((superAdmin)=>{
+        this.store.queryRecord('agent', { superAdmin: true }).then((superAdmin)=>{
             agent.set('superior', superAdmin);
         });
 

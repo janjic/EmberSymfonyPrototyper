@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import { task, timeout } from 'ember-concurrency';
-const { Routing } = window;
+const {ApiCode, Translator, Routing} = window;
+
 
 export default Ember.Component.extend({
     authorizedAjax       : Ember.inject.service('authorized-ajax'),
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
                 action   : "promote"
             };
 
-            this.sendRequest(data);
+            this.sendRequest(data, null, this);
         },
         demote(agent){
             this.set('currentAgent', agent);
@@ -115,12 +116,6 @@ export default Ember.Component.extend({
                         } else {
                             response.errors.forEach((error)=>{
                                 switch (parseInt(error.status)) {
-                                    case ApiCode.AGENT_ALREADY_EXIST:
-                                        this.toast.error(Translator.trans('models.agent.unique.entity'));
-                                        break;
-                                    case ApiCode.FILE_SAVING_ERROR:
-                                        this.toast.error(Translator.trans('models.agent.file.error'));
-                                        break;
                                     case ApiCode.AGENT_SYNC_ERROR:
                                         this.toast.error(Translator.trans('models.agent.sync.error'));
                                         break;

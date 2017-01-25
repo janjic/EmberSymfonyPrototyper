@@ -40,6 +40,8 @@ class AgentAPIConverter extends JsonAPIConverter
             case 'GET':
                 if($this->request->get('page') && $this->request->get('offset')){
                     return $this->manager->jqgridAction($this->request);
+                } else if($this->request->get('superAdmin')){
+                    return $this->manager->findSerializedSuperAgent();
                 } else if ($this->request->getQueryString()) {
                     return $this->manager->getQueryResult($this->request);
                 } else {

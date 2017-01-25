@@ -38,7 +38,7 @@
                 <dt>Username</dt>
                 <dd>{{user.username}}</dd>
                 <dt>{{trans 'admin-user.label.birthdate'}}</dt>
-                <dd>{{user.birthDate}}</dd>
+                <dd>{{print-custom-date user.birthDate true}}</dd>
                 <dt>{{trans 'admin-user.label.comment'}}</dt>
                 <dd>{{user.comment}}</dd>
                 <dt>{{trans 'admin-user.label.status'}}</dt>

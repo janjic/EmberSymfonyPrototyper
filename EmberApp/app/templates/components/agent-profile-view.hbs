@@ -7,8 +7,8 @@
             </div>
         </div>
         <div class="right-side">
-            {{#link-to editLink agent.id class="button red icon-btn"}}
-                {{trans 'button.edit-profile'}}
+            {{#link-to editLink agent.id class="button red btn-small btn-icon-text"}}
+                {{fa-icon 'pencil'}}{{trans 'button.edit'}}
             {{/link-to}}
         </div>
     </div>
@@ -31,7 +31,7 @@
                     <dt>{{trans 'admin-user.label.username'}}</dt>
                     <dd>{{agent.username}}</dd>
                     <dt>{{trans 'admin-user.label.birthdate'}}</dt>
-                    <dd>{{print-custom-date agent.birthDate}}</dd>
+                    <dd>{{print-custom-date agent.birthDate true}}</dd>
                 </dl>
             </div>
         </div>

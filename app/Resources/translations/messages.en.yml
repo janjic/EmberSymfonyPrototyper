@@ -318,6 +318,8 @@ admin-user:
   suggestion:
     promotions: 'Agent promotion suggestions'
     downgrade: 'Agent downgrade suggestions'
+    invite-people: 'Invite People'
+    user-filter: 'Filter Orders By Agent'
 
 
 
@@ -488,6 +490,8 @@ models:
       new: 'New'
       active: 'Active'
       resolved: 'Resolved'
+    change-status: "Change ticket status"
+    forward-to: "Select agent to forward ticket"
   message:
     save: 'Message sent!'
     delete: 'Message moved to trash'
@@ -507,6 +511,15 @@ models:
     payouts-to-agents: "Payouts to agents"
     reports: "Reports"
     rejected-payments: "Rejected payments"
+    customer-profile: "Customer profile"
+    duration: "Duration"
+    price: "Price"
+    date-created: "Date created"
+    order-id: "Order ID"
+    article: "Article"
+    one-time-setup: "One time account setup fee"
+    price-for-remaining: "Price for remaining days until the end of month"
+    purchase-details: "Purchase details"
 
 #SETTINGS
 
@@ -515,6 +528,9 @@ settings:
     number-validation: 'This field must be a number'
     integer-validation: 'This field must be an integer number'
   labels:
+    settings-label: 'Settings'
+    personal-settings: 'Personal settings'
+    logo: 'Logo'
     facebook-link: 'Facebook link'
     twitter-link: 'Twitter link'
     confirmation-mail: 'Confirmation mail'

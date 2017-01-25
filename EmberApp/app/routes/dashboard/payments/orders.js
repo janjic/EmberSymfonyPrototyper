@@ -6,7 +6,7 @@ export default Ember.Route.extend({
             page: 1,
             offset: 10,
             sidx: 'id',
-            sord: 'asc'
+            sord: 'desc'
         }).then((response)=> {
             return response;
         });
@@ -15,5 +15,11 @@ export default Ember.Route.extend({
         this._super(...arguments);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
+        controller.set('page', 1);
+        controller.set('offset', 10);
+        controller.set('searchArray', {
+            groupOp:"AND",
+            rules: []
+        });
     }
 });

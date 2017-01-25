@@ -4,6 +4,7 @@ namespace ConversationBundle\Business\Manager\Thread;
 
 use ConversationBundle\Entity\Thread;
 use FSerializerBundle\Serializer\JsonApiMany;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 
 /**
@@ -49,7 +50,7 @@ trait JsonApiThreadSerializationTrait
             );
         }
 
-        $serialize = $this->fSerializer->setDeserializationClass(Thread::class)->serialize($content, $mappings, $relations);
+        $serialize = $this->fSerializer->setDeserializationClass(Thread::class)->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);
 
         foreach ($metaTags as $key=>$meta) {
             $serialize->addMeta($key, $meta);

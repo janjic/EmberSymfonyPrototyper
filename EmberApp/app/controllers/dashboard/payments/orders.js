@@ -38,7 +38,6 @@ export default Ember.Controller.extend({
                     data: this.get('agentId')
                 });
             }
-
             return this.get('store').query('customer-order', {
                 page: page,
                 offset: this.get('offset'),
@@ -72,6 +71,7 @@ export default Ember.Controller.extend({
                 filters: clonedArray,
             }).then((model)=>{
                 this.set('model', model);
+                this.set('page', 1);
                 this.set('maxPages', this.get('model.meta.pages'));
                 this.set('totalItems', this.get('model.meta.totalItems'));
             });
