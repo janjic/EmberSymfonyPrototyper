@@ -8,6 +8,7 @@ use ConversationBundle\Business\Manager\MessageManager;
 use ConversationBundle\Entity\Message;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
+use PaymentBundle\Entity\PaymentInfo;
 use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Manager\Notification\JsonApiGetQueryResultNotificationManagerTrait;
 use UserBundle\Business\Manager\Notification\JsonApiSaveNotificationManagerTrait;
@@ -205,13 +206,14 @@ class NotificationManager implements JSONAPIEntityManagerInterface
      */
     public function serializeNotification($content, $metaTags = [], $mappings = null)
     {
-        $relations = array('agent', 'newAgent');
+        $relations = array('agent', 'newAgent', 'payment');
 
         if (!$mappings) {
             $mappings = array(
                 'notification'  => array('class' => Notification::class, 'type'=>'notifications'),
                 'agent'         => array('class' => Agent::class, 'type' => 'agents'),
-                'newAgent'      => array('class' => Agent::class, 'type' => 'agents')
+                'newAgent'      => array('class' => Agent::class, 'type' => 'agents'),
+                'payment'       => array('class' => PaymentInfo::class, 'type' => 'payment-infos')
             );
         }
         $serialize = $this->fSerializer->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);

@@ -34,7 +34,7 @@
                 <tbody>
                 {{#each topCountries as |country|}}
                     <tr>
-                        <td><span class="flag flag-{{country.countryIsoCode}}" alt="Country"></span>{{country.nationality}}</td>
+                        <td><span class="flag flag-{{country.countryFlagCode}}" alt="Country"></span>{{country.nationality}}</td>
                         <td>{{fa-icon "users"}} {{country.agentsNumb}}</td>
                     </tr>
                 {{/each}}

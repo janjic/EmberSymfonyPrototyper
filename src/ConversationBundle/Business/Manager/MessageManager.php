@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use UserBundle\Business\Event\Notification\NotificationEvent;
 use UserBundle\Business\Event\Notification\NotificationEvents;
 use UserBundle\Business\Manager\NotificationManager;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
 use FOS\MessageBundle\Sender\Sender as MessageSender;
@@ -144,7 +145,7 @@ class MessageManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);
 
         foreach ($metaTags as $key=>$meta) {
             $serialize->addMeta($key, $meta);

@@ -299,19 +299,19 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
         if($request && $request->get('type') == 'promotion'){
 
-            $promotionTotalItems = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->repository->getPromotionSuggestionsForReferee($request, true)));
+            $promotionTotalItems = intval(sizeof($this->agentManager->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->agentManager->getPromotionSuggestionsForReferee($request, true)));
 
-            $firstPromotions = $this->repository->getPromotionSuggestionsForActiveAgent($request);
+            $firstPromotions = $this->agentManager->getPromotionSuggestionsForActiveAgent($request);
 
             if (($size = sizeof($firstPromotions)) < $offset) {
                 if($size != 0){
-                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->agentManager->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfAAPromotions = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)));
+                    $totalOfAAPromotions = intval(sizeof($this->agentManager->getPromotionSuggestionsForActiveAgent($request, true)));
                     $pagesOfAA = ceil($totalOfAAPromotions/$offset);
-                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($pagesOfAA % $offset);
+                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($totalOfAAPromotions % $offset);
 
-                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->agentManager->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
                 }
             } else {
                 $data['promotions']['data'] = array_merge($firstPromotions);
@@ -321,19 +321,19 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
         } else if($request && $request->get('type') == 'downgrade') {
 
-            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
+            $downgradeTotalItems = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->agentManager->getDowngradeSuggestionsForActiveAgent($request, true)));
 
-            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+            $firstDowngrades = $this->agentManager->getDowngradeSuggestionsForMasterAgent($request);
 
             if (($size = sizeof($firstDowngrades)) < $offset) {
                 if($size != 0){
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $totalOfMADowngrades = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)));
                     $pagesOfMA = ceil($totalOfMADowngrades/$offset);
-                    $firstResForRef = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
+                    $firstResForRef = ($page - $pagesOfMA - 1) * $offset + ($totalOfMADowngrades % $offset);
 
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForRef, $offset));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForRef, $offset));
                 }
 
             } else {
@@ -346,18 +346,18 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
             /**
              * Promotion on first load
              */
-            $promotionTotalItems = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->repository->getPromotionSuggestionsForReferee($request, true)));
-            $firstPromotions = $this->repository->getPromotionSuggestionsForActiveAgent($request);
+            $promotionTotalItems = intval(sizeof($this->agentManager->getPromotionSuggestionsForActiveAgent($request, true)) + sizeof($this->agentManager->getPromotionSuggestionsForReferee($request, true)));
+            $firstPromotions = $this->agentManager->getPromotionSuggestionsForActiveAgent($request);
 
             if (($size = sizeof($firstPromotions)) < $offset) {
                 if($size != 0){
-                    $data['promotions']['data'] = array_merge($firstPromotions, $this->repository->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
+                    $data['promotions']['data'] = array_merge($firstPromotions, $this->agentManager->getPromotionSuggestionsForReferee($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfAAPromotions = intval(sizeof($this->repository->getPromotionSuggestionsForActiveAgent($request, true)));
+                    $totalOfAAPromotions = intval(sizeof($this->agentManager->getPromotionSuggestionsForActiveAgent($request, true)));
                     $pagesOfAA = ceil($totalOfAAPromotions/$offset);
-                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($pagesOfAA % $offset);
+                    $firstResForRef = ($page - $pagesOfAA - 1) * $offset + ($totalOfAAPromotions % $offset);
 
-                    $data['promotions']['data'] = array_merge($firstPromotions,$this->repository->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
+                    $data['promotions']['data'] = array_merge($firstPromotions,$this->agentManager->getPromotionSuggestionsForReferee($request, false, $firstResForRef, $offset));
                 }
 
             } else {
@@ -370,18 +370,18 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
             /**
              * Downgrades on first load
              */
-            $downgradeTotalItems = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->repository->getDowngradeSuggestionsForActiveAgent($request, true)));
-            $firstDowngrades = $this->repository->getDowngradeSuggestionsForMasterAgent($request);
+            $downgradeTotalItems = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)) + sizeof($this->agentManager->getDowngradeSuggestionsForActiveAgent($request, true)));
+            $firstDowngrades = $this->agentManager->getDowngradeSuggestionsForMasterAgent($request);
 
             if (($size = sizeof($firstDowngrades)) < $offset) {
                 if($size != 0){
-                    $data['downgrades']['data'] = array_merge($firstDowngrades, $this->repository->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades, $this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, 0, $offset - $size));
                 } else {
-                    $totalOfMADowngrades = intval(sizeof($this->repository->getDowngradeSuggestionsForMasterAgent($request, true)));
+                    $totalOfMADowngrades = intval(sizeof($this->agentManager->getDowngradeSuggestionsForMasterAgent($request, true)));
                     $pagesOfMA = ceil($totalOfMADowngrades/$offset);
-                    $firstResForAA = ($page - $pagesOfMA - 1) * $offset + ($pagesOfMA % $offset);
+                    $firstResForAA = ($page - $pagesOfMA - 1) * $offset + ($totalOfMADowngrades % $offset);
 
-                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->repository->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForAA, $offset));
+                    $data['downgrades']['data'] = array_merge($firstDowngrades,$this->agentManager->getDowngradeSuggestionsForActiveAgent($request, false, $firstResForAA, $offset));
                 }
 
             } else {
@@ -411,6 +411,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
+        $agent->setPaymentsNumb(0);
         if(is_null($superiorId)){
             $group = $this->groupManager->findGroupByName(RoleHelper::MASTER);
             $agent->setGroup($group);
@@ -435,6 +436,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
+        $agent->setPaymentsNumb(0);
         if(is_null($newSuperiorId)){
             $group = $this->groupManager->findGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);

@@ -9,5 +9,6 @@ export default Model.extend({
     message:         attr('string'),
     link:            attr('string'),
     newAgent:        belongsTo('agent'),
-    agent:           belongsTo('agent')
+    agent:           belongsTo('agent'),
+    payment:         belongsTo('payment-info')
 });

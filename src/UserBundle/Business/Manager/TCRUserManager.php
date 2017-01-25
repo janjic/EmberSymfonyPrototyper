@@ -289,7 +289,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
             'agent'     => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=> JsonApiOne::class)
         );
 
-        $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->serialize($user, $mappings, ['agent']);
+        $serialized = $this->fSerializer->setDeserializationClass(TCRUser::class)->setDisabledAttributes(array('agent'))->serialize($user, $mappings, ['agent']);
 
         if ($meta) {
             foreach ($meta as $key => $value) {

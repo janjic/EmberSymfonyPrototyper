@@ -54,6 +54,15 @@ export default Ember.Controller.extend({
                     promotions.removeAt(index);
                 }
             });
+
+            return new RSVP.Promise(() =>{
+                this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                    function (response) {
+                    console.log(response);
+                    this.set('model', response);
+                    }.bind(this));
+            });
+
         },
         removeDemotion(agentId)
         {
@@ -63,6 +72,15 @@ export default Ember.Controller.extend({
                     downgrades.removeAt(index);
                 }
             });
+
+            return new RSVP.Promise(() =>{
+                this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                    function (response) {
+                        console.log(response);
+                        this.set('model', response);
+                    }.bind(this));
+            });
+
         }
     },
 });

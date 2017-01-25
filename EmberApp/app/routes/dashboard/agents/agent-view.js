@@ -8,7 +8,7 @@ export default Ember.Route.extend({
 
     model: function (params) {
         this.set('agent_id', params.id);
-        let agent       = this.store.findRecord('agent', params.id);
+        let agent       = this.store.findRecord('agent', params.id, { reload: true });
         let subAgents   = this.store.query('agent', {
             page: 1,
             offset: 4,

@@ -3,6 +3,7 @@
 namespace PaymentBundle\Business\Manager\Payment;
 
 use PaymentBundle\Entity\PaymentInfo;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 
 /**
@@ -45,7 +46,7 @@ trait PaymentInfoSerializationTrait
             );
         }
 
-        $serialize = $this->fSerializer->serialize($content, $mappings, $relations);
+        $serialize = $this->fSerializer->serialize($content, $mappings, $relations, array(), AgentSerializerInfo::$basicFields);
 
         foreach ($metaTags as $key=>$meta) {
             $serialize->addMeta($key, $meta);
