@@ -4966,6 +4966,16 @@ ul.dropdown-menu {
   }
 }
 
+.agent-view-bottom-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  img {
+    width: 100px;
+  }
+}
+
 .commissions-wrapper .wrapper {
   position: absolute;
   display: -webkit-box;
