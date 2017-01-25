@@ -50,33 +50,33 @@ class AppKernel extends Kernel
         return __DIR__;
     }
 
-//    public function getCacheDir()
-//    {
-//        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
-//    }
-//
-//    public function getLogDir()
-//    {
-//        return dirname(__DIR__).'/var/logs';
-//    }
-
-    /**
-     * {@inheriddoc}
-     */
     public function getCacheDir()
     {
-        return '/usr/share/fsddev-app/cache/'.$this->getEnvironment();
+        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
 
-    /**
-     * {@inheriddoc}
-     */
     public function getLogDir()
     {
-        return '/usr/share/fsddev-app/logs';
+        return dirname(__DIR__).'/var/logs';
     }
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
-    }
+
+//    /**
+//     * {@inheriddoc}
+//     */
+//    public function getCacheDir()
+//    {
+//        return '/usr/share/fsddev-app/cache/'.$this->getEnvironment();
+//    }
+//
+//    /**
+//     * {@inheriddoc}
+//     */
+//    public function getLogDir()
+//    {
+//        return '/usr/share/fsddev-app/logs';
+//    }
+//    public function registerContainerConfiguration(LoaderInterface $loader)
+//    {
+//        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+//    }
 }
