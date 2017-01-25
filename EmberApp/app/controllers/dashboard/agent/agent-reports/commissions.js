@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import PaymentInfoListingMixin from './../../../../mixins/payment-info-listing';
+import DateRangesMixin from './../../../../mixins/date-picker-fields';
 import LoadingStateMixin from './../../../../mixins/loading-state';
 const {Routing, Highcharts, Translator} = window;
 
-export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixin, {
+export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixin, DateRangesMixin, {
     session: Ember.inject.service('session'),
     eventBus: Ember.inject.service('event-bus'),
 
@@ -72,7 +73,7 @@ export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixi
         ctx.showLoader();
         Ember.$.ajax({
             type: "POST",
-            url: '/app_dev.php'+Routing.generate('api_earnings_by_agent'),
+            url: Routing.generate('api_earnings_by_agent'),
             data: {
                 dateFrom: this.get('startDate'),
                 dateTo:   this.get('endDate'),

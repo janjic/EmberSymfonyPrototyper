@@ -5,28 +5,36 @@ const {Routing, ApiCode, Translator} = window;
 export default Ember.Component.extend(LoadingStateMixin, {
     authorizedAjax: Ember.inject.service('authorized-ajax'),
 
-    isEditing: false,
+    isEditing: true,
+
+    init() {
+        this._super(...arguments);
+        this.set('newMemo', this.get('payment.memo'));
+    },
 
     actions: {
-        toggleEditing: function() {
-            this.toggleProperty('isEditing');
-        },
+        // toggleEditing: function() {
+            // this.toggleProperty('isEditing');
+        // },
 
         saveEdit: function() {
             this.showLoader();
+            this.set('payment.memo', this.get('newMemo'));
             this.get('payment').save().then(()=>{
                 this.disableLoader();
-                this.toggleProperty('isEditing');
+                // this.toggleProperty('isEditing');
                 this.toast.success('models.payment-info.memo-updated');
             }, ()=>{
                 this.disableLoader();
+                this.get('payment').rollbackAttributes();
                 this.toast.error('models.payment-info.memo-update-fail');
             });
         },
 
         cancelEdit: function() {
-            this.get('payment').rollbackAttributes();
-            this.toggleProperty('isEditing');
+            this.set('newMemo', this.get('payment.memo'));
+            // this.get('payment').rollbackAttributes();
+            // this.toggleProperty('isEditing');
         },
 
         processPayment: function (payment) {
@@ -44,7 +52,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             newState: newState
         };
 
-        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('api_execute_payment'), function (response) {
+        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', Routing.generate('api_execute_payment'), function (response) {
             switch (parseInt(response.meta.status)) {
                 case ApiCode.PAYMENT_EXECUTE_ERROR:
                     if (newState) {

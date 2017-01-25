@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+
     $('body').on("click", ".toggle-left-section", function(e){
         e.preventDefault();
         $(".left-section").toggleClass("left-section-visible");
@@ -6,8 +7,9 @@ $( document ).ready(function() {
     });
 
 
-    $('#nav-icon3').click(function(){
+    $('body').on("click", "#nav-icon3", function(e){
         $(this).toggleClass('open');
+        $("#navbar").toggleClass('open');
     });
 
     $('.dropdown').on('show.bs.dropdown', function() {
@@ -36,3 +38,7 @@ $( document ).ready(function() {
 
 });
 
+$(window).load(function() {
+    emojify.setConfig({tag_type : 'div'});
+    emojify.run();
+});

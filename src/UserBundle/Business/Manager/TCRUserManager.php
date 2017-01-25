@@ -111,7 +111,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
      */
     public function getResource($id = null)
     {
-        $resp = $this->getContentFromTCR('app_dev.php/sr/json/user/'.$id);
+        $resp = $this->getContentFromTCR('sr/json/user/'.$id);
 
         $user = new TCRUser();
         foreach ($resp as $key => $value) {
@@ -190,7 +190,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         unset($data->username);
         unset($data->phoneNumber);
 
-        $resp = $this->sendDataToTCR('app_dev.php/en/json/register', json_encode($data));
+        $resp = $this->sendDataToTCR('en/json/register', json_encode($data));
 
         if($resp->code == 200) {
             return array(array('data' => array('id' => $resp->id, "type" => "tcr-users")), 201);
@@ -263,7 +263,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         unset($data->emailRepeat);
         unset($data->birthDate);
 
-        $url = 'app_dev.php/en/json/edit-user';
+        $url = 'en/json/edit-user';
         $resp = $this->sendDataToTCR($url, json_encode($data));
 
         if($resp->status == 200) {

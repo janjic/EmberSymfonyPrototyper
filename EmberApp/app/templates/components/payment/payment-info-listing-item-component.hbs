@@ -11,66 +11,66 @@
             {{!--{{payment.agent.email}}--}}
         </div>
         <div class="lower-box">
-            <p><span>Created At</span> <br>
+            <p><span>{{trans 'payment.created-at'}}</span> <br>
                 {{printCustomDate payment.createdAt}}
             </p>
             {{#if payment.payedAt}}
-                <p><span>Payed At</span> <br>
+                <p><span>{{trans 'payment.payed-at'}}</span> <br>
                     {{printCustomDate payment.payedAt}}
                 </p>
             {{/if}}
 
-            <p><span>Type</span> <br>
+            <p><span>{{trans 'payment.type'}}</span> <br>
                 {{#if (eq payment.paymentType "COMMISSION_TYPE")}}
-                    Commission
+                    {{trans 'payment.commission'}}
                 {{else}}
-                    Bonus
+                    {{trans 'payment.bonus'}}
                 {{/if}}
             </p>
 
-            <p><span>State</span> <br>
+            <p><span>{{trans 'payment.state'}}</span> <br>
                 {{#if (eq payment.state null)}}
-                    Unprocessed
+                    {{trans 'payment.unproccessed'}}
                 {{else if (eq payment.state 'true')}}
-                    Payed
+                    {{trans 'payment.payed'}}
                 {{else}}
-                    Rejected
+                    {{trans 'payment.rejected'}}
                 {{/if}}
             </p>
 
-            <p><span>Amount</span> <br>
+            <p><span>{{trans 'payment.amount'}}</span> <br>
                 {{payment.totalCommission}} - {{payment.currency}}
             </p>
 
             <p>
-                <span>Memo</span>
-                {{#if isEditing}}
+                <span>{{trans 'payment.memo'}}</span>
+                {{!--{{#if isEditing}}--}}
                     <span class="pull-right">
-                    <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
-                    <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
-                </span>
-                {{else}}
-                    <span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>
-                {{/if}}
+                        <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
+                        <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
+                    </span>
+                {{!--{{else}}--}}
+                    {{!--<span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>--}}
+                {{!--{{/if}}--}}
                 <br>
 
-                {{#if isEditing}}
+                {{!--{{#if isEditing}}--}}
                     {{#if _isLoading}}
                         {{inf-loading}}
                     {{else}}
-                        {{textarea value=payment.memo class="form-control"}}
+                        {{textarea value=newMemo class="form-control"}}
                     {{/if}}
-                {{/if}}
+                {{!--{{/if}}--}}
 
             </p>
 
             {{#unless hidePayAllButtons}}
                 <p class="payment-buttons">
                     {{#if (not-eq payment.state 'true')}}
-                        <button class="button green btn-small" {{action 'processPayment' payment}}>Pay</button>
+                        <button class="button green btn-small" {{action 'processPayment' payment}}>{{trans 'payment.pay'}}</button>
                     {{/if}}
                     {{#if (eq payment.state null)}}
-                        <button class="button red btn-small" {{action 'rejectPayment' payment}}>Reject</button>
+                        <button class="button red btn-small" {{action 'rejectPayment' payment}}>{{trans 'payment.reject'}}</button>
                     {{/if}}
                 </p>
             {{/unless}}

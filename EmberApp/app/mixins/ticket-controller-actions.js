@@ -6,9 +6,14 @@ export default Ember.Mixin.create({
         {
             return this.get('store').createRecord('thread');
         },
+
         createNewMessage(hash)
         {
             return this.get('store').createRecord('message', hash);
-        }
+        },
+
+        createFile(hash) {
+            return this.get('store').createRecord('file', hash);
+        },
     }
 });

@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
                 customersInAYear: this.get('customersInAYear')
             };
 
-            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('test_payment'), function (response) {
+            this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', Routing.generate('test_payment'), function (response) {
                 this.set('serverResponse', response.data);
             }.bind(this), this);
         }

@@ -1,6 +1,6 @@
-
 import Ember from 'ember';
 import AjaxRequestMixin from 'ember-ajax/mixins/ajax-request';
+
 export default Ember.Service.extend(AjaxRequestMixin, {
     session: Ember.inject.service(),
 

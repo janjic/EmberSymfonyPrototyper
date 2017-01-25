@@ -29,16 +29,18 @@ trait JsonApiGetTicketManagerTrait
         $currentUser = $this->getCurrentUser();
 
         if(!is_null($ticket->getThread()) && !$currentUser->hasRole('ROLE_SUPER_ADMIN')){
-            /**
-             * @var ArrayCollection $participants
-             */
-            $participants = new ArrayCollection($ticket->getThread()->getParticipants());
-            /**
-             * Check if current user is participant
-             */
-            $canViewThread = $participants->exists(function ($key, $element) use ($currentUser){
-                return $element->getId() == $currentUser->getId();
-            });
+//            /**
+//             * @var ArrayCollection $participants
+//             */
+//            $participants = new ArrayCollection($ticket->getThread()->getParticipants());
+//            /**
+//             * Check if current user is participant
+//             */
+//            $canViewThread = $participants->exists(function ($key, $element) use ($currentUser){
+//                return $element->getId() == $currentUser->getId();
+//            });
+
+            $canViewThread = ($ticket->getCreatedBy()->getId() === $currentUser->getId()) || ($ticket->getForwardedTo()->getId() === $currentUser->getId());
 
             if(!$canViewThread){
                 $ticket = new AccessDeniedException();

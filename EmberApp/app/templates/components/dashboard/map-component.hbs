@@ -1,34 +1,34 @@
 <div>
     <div class="input-box clearfix">
         <div class="col-md-9">
-            <h3 class="sub-heading">{{fa-icon 'user'}} User activity</h3>
+            <h3 class="sub-heading">{{fa-icon 'user'}} {{trans 'general.user-activity'}}</h3>
             <div id="bubbles" style="cursor:pointer; display: block; position: relative; margin: 0 auto; width: 100%; height: 400px;"></div>
         </div>
         <div class="col-md-3">
-            <h3 class="sub-heading">{{fa-icon 'map'}} Legend</h3><span {{action 'filterDataArray' -1}} class="refresh-button">{{fa-icon "refresh"}}</span>
+            <h3 class="sub-heading">{{fa-icon 'map'}} {{trans 'general.legend'}}</h3><span {{action 'filterDataArray' -1}} class="refresh-button">{{fa-icon "refresh"}}</span>
             <div class="map-legend-holder" {{action 'filterDataArray' 1}}>
-                <span class="map-legend" style="background-color: #C0392B;">Less than 10</span>
+                <span class="map-legend" style="background-color: #C0392B;">{{trans 'general.less-than-10'}}</span>
                 {{fa-icon "black-tie"}}
             </div>
 
             <div class="map-legend-holder" {{action 'filterDataArray' 2}}>
-                <span class="map-legend" style="background-color: #C0742B;">Between 10 and 100</span>
+                <span class="map-legend" style="background-color: #C0742B;">{{trans 'general.between-10-and-100'}}</span>
                 {{fa-icon "black-tie"}}
             </div>
             <div class="map-legend-holder" {{action 'filterDataArray' 3}}>
-                <span class="map-legend" style="background-color: #1D6876;">Between 100 and 1000</span>
+                <span class="map-legend" style="background-color: #1D6876;">{{trans 'general.between-100-and-1000'}}</span>
                 {{fa-icon "black-tie"}}
             </div>
             <div class="map-legend-holder last" {{action 'filterDataArray' 4}}>
-                <span class="map-legend" style="background-color: #21913A;">More than 1000</span>
+                <span class="map-legend" style="background-color: #21913A;">{{trans 'general.more-than-1000'}}</span>
                 {{fa-icon "black-tie"}}
             </div>
-            <h3 class="sub-heading">{{fa-icon 'flag'}} Top 3 countries</h3>
+            <h3 class="sub-heading">{{fa-icon 'flag'}} {{trans 'general.top-3-countries'}}</h3>
             <table class="table table-striped top-countries text-center">
                 <thead>
                 <tr>
-                    <th class="text-center">Country</th>
-                    <th class="text-center">Agents</th>
+                    <th class="text-center">{{trans 'general.country'}}</th>
+                    <th class="text-center">{{trans 'general.agents'}}</th>
                 </tr>
                 </thead>
                 <tbody>

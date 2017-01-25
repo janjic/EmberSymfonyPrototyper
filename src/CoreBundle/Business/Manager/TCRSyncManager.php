@@ -13,12 +13,13 @@ use GuzzleHttp\Psr7\Request;
  */
 class TCRSyncManager implements BasicEntityManagerInterface
 {
-    const TCR_SERVER = 'https://tcr-media.fsd.rs:105/';
+    const TCR_SERVER  = 'https://tcr-media.fsd.rs:105/';
+    const ENVIRONMENT = 'app_dev.php/';
 
     public function getContentFromTCR($url, $method = 'POST')
     {
         $client = new Client();
-        $url = self::TCR_SERVER . $url;
+        $url = self::TCR_SERVER . self::ENVIRONMENT . $url;
 
         $options = [
             'verify' => false,
@@ -47,7 +48,7 @@ class TCRSyncManager implements BasicEntityManagerInterface
     public function sendDataToTCR($url, $data, $method = 'POST')
     {
         $client = new Client();
-        $url = self::TCR_SERVER . $url;
+        $url = self::TCR_SERVER . self::ENVIRONMENT . $url;
 
         $headers = [
             'content-type' => "application/json",

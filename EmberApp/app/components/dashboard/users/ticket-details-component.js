@@ -6,10 +6,16 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
     replyMessage: '',
-
-    disabledSendMessage: Ember.computed('currentUser', 'model', function () {
-        return this.get('model.forwardedTo.id') === this.get('currentUser.user.id');
+    disableWriteByUser: Ember.computed('currentUser.user', 'model.forwardedTo', function () {
+        if (!this.get('model.forwardedTo')) {
+            return false;
+        } else {
+            let isForwardedTo = this.get('model.forwardedTo.id') === this.get('currentUser.user.id');
+            let isCreatedBy = this.get('model.createdBy.id') === this.get('currentUser.user.id');
+            return !(isForwardedTo || isCreatedBy);
+        }
     }),
+
     search: task(function * (text, page, perPage) {
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);

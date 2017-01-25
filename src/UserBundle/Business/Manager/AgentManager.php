@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -230,9 +231,9 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function syncWithTCRPortal($agent, $action)
     {
         if($action == 'add'){
-            $url = 'app_dev.php/en/json/add-agent';
+            $url = 'en/json/add-agent';
         } else {
-            $url = 'app_dev.php/en/json/edit-agent';
+            $url = 'en/json/edit-agent';
         }
 
         $agentJson = $this->createJsonFromAgentObject($agent, $agent->getId());
@@ -311,11 +312,21 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     {
         $page = $request->query->get('page');
         $offset = $request->query->get('rows');
+
+
+
         $searchParams[0]['toolbar_search'] = true;
         $searchParams[0]['page'] = $page;
         $searchParams[0]['rows'] = $offset;
 
         $searchParams[1][$request->query->get('searchField')] = $request->query->get('search');
+
+        $roleCondition = $request->query->get('minRoleCondition');
+
+        if(!is_null($roleCondition)) {
+            $searchParams[1]['minRoleCondition'] = $roleCondition;
+        }
+
         $agents = $this->repository->searchForJQGRID($searchParams, null, []);
 
         $size = (int)$this->repository->searchForJQGRID($searchParams, null, [], true)[0][1];
@@ -330,11 +341,12 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     }
 
     /**
+     * @param $roleName
      * @return null|Agent
      */
-    public function findAgentByRole()
+    public function findAgentByRole($roleName)
     {
-        return $this->repository->findAgentByRole();
+        return $this->repository->findAgentByRole($roleName);
     }
 
     /**
@@ -384,8 +396,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     /**
      * @param $agentId
      * @param $type
-     *
-     * @return int|null
+     * @return null|Agent
      */
     public function checkNewSuperiorType($agentId, $type)
     {

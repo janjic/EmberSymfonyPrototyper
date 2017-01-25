@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
 
@@ -33,6 +34,7 @@ class AgentRepository extends NestedTreeRepository
     const CHILDREN_ALIAS     = 'children';
     const AGENT_TABLE_NAME   = 'as_agent';
     const SUPERIOR_ATTRIBUTE = 'superior';
+    const PAYMENT_INFO       = 'paymentInfo';
 
     /**
      * @param Agent $agent
@@ -291,7 +293,6 @@ class AgentRepository extends NestedTreeRepository
                             } else {
                                 $oQ0->andWhere('agent.enabled = '.$param);
                             }
-
                         }
                     } else if($key == 'address.country'){
                         $oQ0->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
@@ -308,6 +309,14 @@ class AgentRepository extends NestedTreeRepository
                             $oQ0->andWhere(self::GROUP_ALIAS.'.id = '.$param);
                         }
 
+                    } else if($key == 'minRoleCondition') {
+                        $oQ0->leftJoin(self::ALIAS . '.group', self::GROUP_ALIAS);
+                        $oQ0->leftJoin(self::GROUP_ALIAS . '.roles', self::ROLE_ALIAS);
+                        if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
+                            $oQ0->orWhere($oQ0->expr()->notLike(self::ROLE_ALIAS.'.role', '\'%'.$param.'%\''));
+                        } else {
+                            $oQ0->andWhere($oQ0->expr()->notLike(self::ROLE_ALIAS.'.role', '\'%'.$param.'%\''));
+                        }
                     }
                     else {
                         if ($additionalParams && array_key_exists('or', $additionalParams) && $additionalParams['or']) {
@@ -540,11 +549,11 @@ class AgentRepository extends NestedTreeRepository
      * @param $roleName
      * @return Agent|null
      */
-    public function findAgentByRole($roleName = "ROLE_SUPER_ADMIN")
+    public function findAgentByRole($roleName = RoleManager::ROLE_SUPER_ADMIN)
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS)
-            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%ROLE_SUPER_ADMIN%\''));
+            ->where($qb->expr()->like(self::ALIAS.'.roles', '\'%'.$roleName.'%\''));
 
         return $qb->getQuery()->getOneOrNullResult();
     }
