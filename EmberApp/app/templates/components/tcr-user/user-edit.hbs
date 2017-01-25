@@ -5,7 +5,7 @@
             <div class="col-md-6">
                 <div class="input-box basic-info">
                     <h3 class="sub-heading">
-                        {{fa-icon 'user'}} Edit basic info
+                        {{fa-icon 'user'}} {{trans 'admin-user.label.edit-basic-info'}}
                     </h3>
                     <div class="form-group clearfix">
                         <label class="control-label col-md-4 col-xs-4">{{trans 'admin-user.label.image'}}</label>
@@ -25,8 +25,8 @@
                         </label>
                         <div class="col-md-8 col-xs-8">
                             <select class="form-control" disabled onchange={{ action 'titleChanged'  value="target.value"}}>
-                                {{#if (eq user.title "MR")}} <option value="MR" selected>Mr.</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
-                                {{#if (eq user.title "MRS")}} <option value="MRS" selected>Mrs.</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
+                                {{#if (eq user.title "MR")}} <option value="MR" selected>{{trans 'admin-agent.label.mr'}}</option> {{else}} <option value="MR">{{trans 'admin-user.label.mr'}}</option> {{/if}}
+                                {{#if (eq user.title "MRS")}} <option value="MRS" selected>{{trans 'admin-agent.label.mrs'}}</option> {{else}} <option value="MRS">{{trans 'admin-user.label.mrs'}}</option> {{/if}}
                             </select>
                             {{#if (get changeset.error 'title')}}
                                 <ul class="error-list">
@@ -88,7 +88,7 @@
             <div class="col-md-6">
                 <div class="input-box">
                     <h3 class="sub-heading">
-                        {{fa-icon "address-book"}} Edit personal details
+                        {{fa-icon "address-book"}} {{trans 'admin-user.label.edit-personal-details'}}
                     </h3>
 
                 <div class="form-group clearfix">
@@ -163,8 +163,8 @@
                     <div class="col-md-8">
                         <div class="mt-action-buttons">
                             <div class="btn-group btn-group-circle">
-                                <button {{action "changeIsAdmin" true}} type="button" class="btn {{if user.isAdmin 'active' }} btn-outline switch-green btn-sm"><span>Is admin</span></button>
-                                <button {{action "changeIsAdmin" false}} type="button" class="btn {{unless user.isAdmin 'active' }} btn-outline switch-red btn-sm"><span>Not admin</span></button>
+                                <button {{action "changeIsAdmin" true}} type="button" class="btn {{if user.isAdmin 'active' }} btn-outline switch-green btn-sm"><span>{{trans 'admin-user.label.is-admin'}}</span></button>
+                                <button {{action "changeIsAdmin" false}} type="button" class="btn {{unless user.isAdmin 'active' }} btn-outline switch-red btn-sm"><span>{{trans 'admin-user.label.not-admin'}}</span></button>
                             </div>
                         </div>
                     </div>

@@ -57,9 +57,9 @@ trait PaymentInfoCreationTrait
             $payments = $this->createCommissionForAgent($agent, $numberOfCustomers);
         }
 
-        if ($persistData) {
+//        if ($persistData) {
             $payments = $this->repository->saveArray($payments);
-        }
+//        }
 
         if ($payments instanceof \Exception) {
             return [];
@@ -106,7 +106,7 @@ trait PaymentInfoCreationTrait
         }
 
         /** if parent is ACTIVE AGENT give payment only to AMBASSADOR */
-        if ($this->isActiveAgent($agent->getSuperior()) && ($ambassador = $this->getAmbassador($agent))) {
+        if ($this->isActiveAgent($agent->getSuperior()) && ($ambassador = $this->getAmbassador($agent)) && ($ambassador->getId()!==$agent->getSuperior()->getId())) {
             /** @var Commission $commissionA */
             $commissionA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
             array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
@@ -346,6 +346,7 @@ trait PaymentInfoCreationTrait
 
         $payment->setBonusValue($bonusSetting->getAmount());
         $payment->setCurrency($bonusSetting->getCurrency());
+        $payment->setAgentRole($agent->getGroup()->getName());
 
         return $payment;
     }

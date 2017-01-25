@@ -17,17 +17,28 @@
                     </div>
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.date'}}</strong></p></div>
-                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.createdAtReadable}}</p></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><p>{{print-custom-date model.createdAt}}</p></div>
                     </div>
                     <div class="group">
                         <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.status'}}</strong></p></div>
                         <div class="col-md-6 col-sm-6 col-xs-12"><p>{{model.status}}</p></div>
                     </div>
                     {{#if model.file.webPath}}
-                        <div class="group">
-                            <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.file'}}</strong></p></div>
-                            <div class="col-md-6 col-sm-6 col-xs-12"><a href="{{model.file.webPath}}" download>{{fa-icon 'paperclip' }} Download</a></div>
-                        </div>
+                        {{#elements/file-downloader-component file=model.file as |isImage file items options|}}
+                            {{#if isImage}}
+                                <div class="group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.file'}}</strong></p></div>
+                                    {{#photo-swipe items=items options=options as |img|}}
+                                        <div class="col-md-6 col-sm-6 col-xs-12"><a class="swipe-preview"><i class="fa fa-eye" aria-hidden="true"></i> {{trans 'general.preview-attatchment'}}</a></div>
+                                    {{/photo-swipe}}
+                                </div>
+                            {{else}}
+                                <div class="group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12"><p><strong>{{trans 'tickets.labels.file'}}</strong></p></div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12"><a href="{{file.webPath}}" target="_blank" download>{{fa-icon 'paperclip' }} {{trans 'general.download-attatchment'}}</a></div>
+                                </div>
+                            {{/if}}
+                        {{/elements/file-downloader-component}}
                     {{/if}}
                 </div>
             </div>
@@ -64,16 +75,16 @@
                 </div>
             </div>
             {{#if isAdmin}}
-                <label>
-                    {{trans 'models.ticket.forward-to'}}
-                </label>
-                <div class="form-group">
-                    {{inf-select
-                            optionLabelKey='email'
-                            selected=model.forwardedTo
-                            on-search = (perform search)
-                            on-change=(action 'agentSelected')
-                    }}
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'tickets.labels.select-agent-to-forward'}}</label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        {{inf-select
+                                optionLabelKey='email'
+                                selected=model.forwardedTo
+                                on-search = (perform search)
+                                on-change=(action 'agentSelected')
+                        }}
+                    </div>
                 </div>
             {{/if}}
         </div>
@@ -82,7 +93,13 @@
         <div class="col-md-12">
             <section class="ticket-details clearfix">
                 {{#if model.thread}}
-                    {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = model.forwardedTo}}
+                    {{messages/message-thread
+                    thread=model.thread
+                    createMessageAction=(action 'createMessage')
+                    createFileAction=createFileAction
+                    disabledSendMessage=disableWriteByUser
+                    hideDelete=true
+                    }}
                 {{/if}}
             </section>
         </div>

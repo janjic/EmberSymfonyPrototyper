@@ -27,13 +27,13 @@
 
     <div class="col-md-4">
         <div class="input-box notifications">
-            <h3 class="sub-heading">{{fa-icon "user"}} About</h3>
+            <h3 class="sub-heading">{{fa-icon "user"}}  {{trans 'general.about'}}</h3>
             <p>{{fa-icon "envelope"}} {{currentUser.user.email}}</p>
             <p>{{fa-icon "phone"}} {{currentUser.user.address.phone}}</p>
             <p>{{fa-icon "map-marker"}} {{currentUser.user.address.city}}, {{currentUser.user.address.country}}</p>
         </div>
         <div class="input-box agent-list clearfix">
-            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}} Users</h3>
+            <h3 class="sub-heading">{{fa-icon "fa-picture-o"}}  {{trans 'general.users'}}</h3>
             {{#each allUsers as |tcr-user|}}
                 <div class="col-md-4">
                     <a href="#" {{action 'goToRoute' 'dashboard.agent.users.user-view' tcr-user.id }}>
@@ -45,7 +45,7 @@
                 </div>
             {{/each}}
             <div class="text-center">
-                {{#link-to 'dashboard.agent.users.users-customers' class='button green btn-small'}}View all{{/link-to}}
+                {{#link-to 'dashboard.agent.users.users-customers' class='button green btn-small'}}{{trans 'button.view-all'}}{{/link-to}}
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
         <div class="input-box">
             <div id="scrollable_loader" style="height: calc(100vh - 385px); overflow-y: auto">
                 <ul class="notification-list">
-                    <h3 class="sub-heading">{{fa-icon "bell"}} All notifications</h3>
+                    <h3 class="sub-heading">{{fa-icon "bell"}} {{trans 'general.all-notifications'}}</h3>
                     {{#each model as |notification|}}
                         <li class="single-notification {{if notification.isSeen "seen"}}" >
                             <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}>

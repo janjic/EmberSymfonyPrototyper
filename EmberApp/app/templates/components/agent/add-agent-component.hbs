@@ -101,7 +101,7 @@
                                         <select class="form-control" disabled>
                                             <option>{{changeset.superior.email}}</option>
                                         </select>
-                                        {{else}}
+                                    {{else}}
                                         {{inf-select
                                                 optionLabelKey='email'
                                                 selected = changeset.superior
@@ -265,7 +265,7 @@
 
                     {{/unless}}
                     {{!--{{#if isProfileView}}--}}
-                        {{!--{{agent/notification-setting notifications=notifications}}--}}
+                    {{!--{{agent/notification-setting notifications=notifications}}--}}
                     {{!--{{/if}}--}}
                     {{#if isEdit}}
                         {{agent/notification-setting notifications=notifications}}

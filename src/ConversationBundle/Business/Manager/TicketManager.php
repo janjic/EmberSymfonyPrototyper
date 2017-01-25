@@ -14,10 +14,12 @@ use ConversationBundle\Util\TicketSerializerInfo;
 use CoreBundle\Business\Manager\BasicEntityManagerTrait;
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Exception;
+use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Business\Manager\AgentManager;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 use FOS\MessageBundle\Composer\Composer as MessageComposer;
@@ -127,7 +129,20 @@ class TicketManager implements JSONAPIEntityManagerInterface
      */
     public function serializeTicket($tickets)
     {
-        return $this->fSerializer->setType('tickets')->setDeserializationClass(Agent::class)->serialize($tickets, TicketSerializerInfo::$mappings, TicketSerializerInfo::$relations);
+        return $this->fSerializer->setType('tickets')->setDeserializationClass(Agent::class)->serialize(
+            $tickets,
+            [
+                'createdBy'    => array('class' => Agent::class, 'type'=>'agents'),
+                'forwardedTo'  => array('class' => Agent::class, 'type'=>'agents'),
+                'file'         => array('class' => File::class, 'type'=>'files'),
+                'thread'       => array('class' => Thread::class, 'type'=>'threads'),
+//                'messages'     => array('class' => Message::class, 'type'=>'messages'),
+                'participants' => array('class' => Agent::class, 'type'=>'agents', 'jsonApiType'=>JsonApiMany::class)
+            ],
+            array('createdBy', 'forwardedTo', 'file', 'thread', 'thread.createdBy', 'thread.participants'),
+            [],
+            AgentSerializerInfo::$basicFields
+        );
 
     }
 
