@@ -111,6 +111,16 @@ class Agent extends BaseUser implements ParticipantInterface
     protected $newSuperiorId;
 
     /**
+     * @ORM\Column(name="payments_numb", type="integer", nullable=true)
+     */
+    protected $paymentsNumb = 0;
+
+    /**
+     * @ORM\Column(name="active_agents_ids", type="simple_array", nullable=true)
+     */
+    protected $activeAgentsIds;
+
+    /**
      * @var string
      * @ORM\Column(name="role_changed_at", type="datetime", length=255, nullable=true)
      */
@@ -189,6 +199,7 @@ class Agent extends BaseUser implements ParticipantInterface
         parent::__construct();
         $this->children = new ArrayCollection();
         $this->notifications = array();
+        $this->activeAgentsIds = array();
         $this->createdAt = new DateTime();
     }
 
@@ -686,4 +697,57 @@ class Agent extends BaseUser implements ParticipantInterface
     {
         $this->lastBonusPayed = $lastBonusPayed;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPaymentsNumb()
+    {
+        return $this->paymentsNumb;
+    }
+
+    /**
+     * @param mixed $paymentsNumb
+     */
+    public function setPaymentsNumb($paymentsNumb)
+    {
+        $this->paymentsNumb = $paymentsNumb;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActiveAgentsIds()
+    {
+        return $this->activeAgentsIds;
+    }
+
+    /**
+     * @param mixed $activeAgentsIds
+     */
+    public function setActiveAgentsIds($activeAgentsIds)
+    {
+        $this->activeAgentsIds = $activeAgentsIds;
+    }
+
+    /**
+     * @param $id
+     */
+    public function addActiveAgentId($id)
+    {
+        if(array_search($id, $this->activeAgentsIds) === false) {
+            $this->activeAgentsIds[] = $id;
+        }
+
+    }
+
+    /**
+     * @param $id
+     */
+    public function removeFromActiveAgents($id){
+        if(($key = array_search($id, $this->activeAgentsIds)) !== false) {
+            unset($this->activeAgentsIds[$key]);
+        }
+    }
+
 }

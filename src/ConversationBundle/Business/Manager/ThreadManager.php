@@ -16,6 +16,7 @@ use FSerializerBundle\Serializer\JsonApiMany;
 use FSerializerBundle\services\FJsonApiSerializer;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use FOS\MessageBundle\Provider\Provider as MessageProvider;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\File;
 

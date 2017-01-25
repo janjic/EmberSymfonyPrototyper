@@ -162,7 +162,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 'language' => 'US'
             ]
         ]);
-
+//        var_dump($response);exit;
         if($this->mailChimp->success()){
 
             $id = $response['id'];
