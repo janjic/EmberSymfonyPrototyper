@@ -411,6 +411,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
+        $agent->setPaymentsNumb(0);
         if(is_null($superiorId)){
             $group = $this->groupManager->findGroupByName(RoleHelper::MASTER);
             $agent->setGroup($group);
@@ -435,6 +436,7 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
          * @var $agent Agent
          */
         $agent = $this->agentManager->findAgentById($agentId);
+        $agent->setPaymentsNumb(0);
         if(is_null($newSuperiorId)){
             $group = $this->groupManager->findGroupByName(RoleHelper::ACTIVE);
             $agent->setGroup($group);
