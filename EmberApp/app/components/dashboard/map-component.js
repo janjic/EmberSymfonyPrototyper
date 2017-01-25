@@ -63,10 +63,11 @@ export default Ember.Component.extend({
                 let arrayItem = {};
                 arrayItem['name'] = item['agentsNumb']+' new agents';
                 arrayItem['radius']  = setFillKey(item['agentsNumb'])*6;
-                arrayItem['centered']  = item['nationality'];
-                arrayItem['countryCode']  = item['countryIsoCode'];
-                arrayItem['country']  = item['nationality'];
-                arrayItem['count'] = item['agentsNumb'];
+                arrayItem['centered']  = item['countryIsoCode'];
+                arrayItem['countryCode']  = item['countryFlagCode'];
+                arrayItem['country']  = item['countryIsoCode'];
+                arrayItem['countryName']  = item['nationality'];
+                arrayItem['count'] = parseInt(item['agentsNumb']);
                 arrayItem['fillKey'] = setFillKey(item['agentsNumb']);
                 ctx.get('dataArray').push(arrayItem);
             });
@@ -85,7 +86,7 @@ export default Ember.Component.extend({
 
             ctx.get('bubble_map').bubbles(ctx.get('dataArray'),{
                 popupTemplate: function(geo, data) {
-                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
+                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.countryName +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
                 }
             });
 
@@ -118,7 +119,7 @@ export default Ember.Component.extend({
 
             this.get('bubble_map').bubbles(array,{
                 popupTemplate: function(geo, data) {
-                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.country +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
+                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.countryName +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
                 }
             });
         }

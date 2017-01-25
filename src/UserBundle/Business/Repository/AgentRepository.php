@@ -579,8 +579,9 @@ class AgentRepository extends NestedTreeRepository
     public function findAgentsByCountry()
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select('COUNT(agent.id) as agentsNumb', self::ALIAS.'.nationality')
-            ->groupBy(self::ALIAS.'.nationality')
+        $qb->select('COUNT(agent.id) as agentsNumb', self::ADDRESS_ALIAS.'.country as nationality')
+            ->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS)
+            ->groupBy('nationality')
             ->orderBy('agentsNumb', 'desc');
 
         return $qb->getQuery()->getResult();
@@ -642,7 +643,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.paymentsNumb as active_agents_numb', 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
-            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ADDRESS_ALIAS.'.country as nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
         $qb->andWhere(self::ALIAS.'.roleChangedAt <= :date');
@@ -690,7 +692,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select("(CASE WHEN ".self::ALIAS.".activeAgentsIds IS NOT NULL THEN (CHAR_LENGTH(".self::ALIAS.".activeAgentsIds) - CHAR_LENGTH( REPLACE(".self::ALIAS.".activeAgentsIds, ',', ''))+1) ELSE 0 END) as active_agents_numb", 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
-            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ADDRESS_ALIAS.'.country as nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
@@ -748,7 +751,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select(self::ALIAS.'.paymentsNumb as active_agents_numb', 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
-            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ADDRESS_ALIAS.'.country as nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 
@@ -796,7 +800,8 @@ class AgentRepository extends NestedTreeRepository
     {
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->select("(CASE WHEN ".self::ALIAS.".activeAgentsIds IS NOT NULL THEN (CHAR_LENGTH(".self::ALIAS.".activeAgentsIds) - CHAR_LENGTH( REPLACE(".self::ALIAS.".activeAgentsIds, ',', ''))+1) ELSE 0 END) as active_agents_numb", 'CONCAT('.self::ALIAS.'.firstName, \' \','.self::ALIAS.'.lastName) as full_name',
-            self::ALIAS.'.baseImageUrl as image_webPath', self::ALIAS.'.nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+            self::ALIAS.'.baseImageUrl as image_webPath', self::ADDRESS_ALIAS.'.country as nationality', self::ALIAS.'.id as agent_id', self::GROUP_ALIAS.'.name as role_name', self::ALIAS.'.email', self::ROLE_ALIAS.'.role as role_code');
+        $qb->leftJoin(self::ALIAS.'.address', self::ADDRESS_ALIAS);
         $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
         $qb->leftJoin(self::GROUP_ALIAS.'.roles', self::ROLE_ALIAS);
 

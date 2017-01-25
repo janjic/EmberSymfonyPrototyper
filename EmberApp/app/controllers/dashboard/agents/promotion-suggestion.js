@@ -55,22 +55,11 @@ export default Ember.Controller.extend({
                 }
             });
 
-            // let data =  {
-            //     type: 'promotion',
-            //     page: 1,
-            //     offset: this.get('offset'),
-            //     filters: {
-            //         groupOp: 'or',
-            //         rules: []
-            //     },
-            // };
-
-            return new RSVP.Promise((resolve) =>{
+            return new RSVP.Promise(() =>{
                 this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
                     function (response) {
                     console.log(response);
                     this.set('model', response);
-                        // resolve(response.promotions);
                     }.bind(this));
             });
 
@@ -82,6 +71,14 @@ export default Ember.Controller.extend({
                 if(item.agent_id === agentId) {
                     downgrades.removeAt(index);
                 }
+            });
+
+            return new RSVP.Promise(() =>{
+                this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+                    function (response) {
+                        console.log(response);
+                        this.set('model', response);
+                    }.bind(this));
             });
 
         }
