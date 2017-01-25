@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { taskx, timeout } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Component.extend({
     limitAll: true,
