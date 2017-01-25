@@ -437,7 +437,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
          * @var $superior Agent
          */
         $superior = $agent->getSuperior();
-        if($superior->hasRole(RoleManager::ROLE_MASTER_AGENT)){
+        if($superior->getGroup()->getName() === RoleHelper::MASTER || $superior->getGroup()->getName() === RoleHelper::ACTIVE){
             if(!in_array($agent->getId(), $superior->getActiveAgentsIds())){
                 $superior->addActiveAgentId($agent->getId());
             }
@@ -467,5 +467,28 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
     {
         return $this->repository->getDowngradeSuggestionsForMasterAgent($request, $isCountSearch, $offset);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $offset
+     * @return array
+     */
+    public function getPromotionSuggestionsForActiveAgent($request, $isCountSearch = false, $offset = 4 )
+    {
+        return $this->repository->getPromotionSuggestionsForActiveAgent($request, $isCountSearch, $offset);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     */
+    public function getPromotionSuggestionsForReferee($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        return $this->repository->getPromotionSuggestionsForReferee($request, $isCountSearch, $firstRes, $maxRes);
     }
 }

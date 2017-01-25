@@ -35,7 +35,6 @@ trait JsonApiUpdateAgentManagerTrait
              */
             $agent = $data;
         }
-
         /** @var Agent $dbAgent */
         $dbAgent       = $this->getEntityReference($agent->getId());
         $dbAgentGroup  = $dbAgent->getGroup();
@@ -173,6 +172,7 @@ trait JsonApiUpdateAgentManagerTrait
 
     private function setAndValidateGroup (Agent $agent, Agent $dbAgent)
     {
+
 //        $agent->getGroup() ? ($dbGroup = $this->groupManager->getReference($agent->getGroup()->getId()))&& $dbAgent->setGroup($dbGroup):false;
             if( $agent->getGroup() ){
                 $dbGroup = $this->groupManager->getReference($agent->getGroup()->getId());
@@ -181,15 +181,13 @@ trait JsonApiUpdateAgentManagerTrait
                     $dbAgent->setRoleChangedAt(new \DateTime());
                     $dbAgent->setPaymentsNumb(0);
                 }
-
                 if(($agent->getGroup()->getName() === RoleHelper::MASTER || $agent->getGroup()->getName() === RoleHelper::ACTIVE) && $agent->getSuperior()->getId() === $dbAgent->getSuperior()->getId()
                     && ($agent->getSuperior() && $agent->getSuperior()->getGroup()->getName() === RoleHelper::MASTER)){
-
                 } else {
                     $superior = $dbAgent->getSuperior();
                     $superior->removeFromActiveAgents($agent->getId());
                     $newSuperior = $agent->getSuperior();
-                    if($newSuperior->getId() !== $superior->getId() && $newSuperior->getGroup()->getName() === RoleHelper::MASTER && $agent->getGroup()->getId() == $dbAgent->getGroup()->getId() ){
+                    if($newSuperior->getId() !== $superior->getId() && ($newSuperior->getGroup()->getName() === RoleHelper::MASTER || $newSuperior->getGroup()->getName() === RoleHelper::ACTIVE ) && $agent->getGroup()->getId() === $dbAgent->getGroup()->getId() ){
                         $newSuperior->addActiveAgentId($agent->getId());
                         $this->repository->simpleEdit(array($superior, $newSuperior));
                     } else {
