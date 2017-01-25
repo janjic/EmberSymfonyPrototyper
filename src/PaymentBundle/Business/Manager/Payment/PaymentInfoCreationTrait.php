@@ -82,9 +82,13 @@ trait PaymentInfoCreationTrait
      */
     public function createCommissionForAgent(Agent $agent, $numberOfCustomers = null)
     {
+
         /** @var Commission $commissionAA */
         $commissionAA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_ACTIVE_AGENT);
         $payments = [$this->createPaymentInfo($agent, $commissionAA->getPackages(), $commissionAA->getConnect(), $commissionAA->getSetupFee(), $commissionAA->getStream())];
+
+        $this->agentManager->updatePaymentInfoOnAgent($agent);
+
 
         /** check if agent should receive a bonus */
         if ($numberOfCustomers && ($bonus = $this->checkAgentForBonus($agent, $numberOfCustomers))) {
@@ -315,6 +319,7 @@ trait PaymentInfoCreationTrait
      */
     public function createPaymentInfo($agent, $totalPackagesCommissionPercentage, $totalConnectCommissionPercentage,
                                       $totalSetupFeeCommissionPercentage, $totalStreamCommissionPercentage) {
+
         $payment = new PaymentInfo();
         $payment->setAgent($agent);
         $payment->setPackagesValue($this->packagesPrice)->setConnectValue($this->connectPrice);

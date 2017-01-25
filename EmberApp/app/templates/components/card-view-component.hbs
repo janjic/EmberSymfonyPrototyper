@@ -33,9 +33,9 @@
                     {{/if}}
                     {{#if showAddAgentButton}}
                         {{#if currentUser.isUserAdmin}}
-                            {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
+                            {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
                         {{else}}
-                            {{#link-to 'dashboard.agent.agents.add-new-agent' class="button green add-agent"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
+                            {{#link-to 'dashboard.agent.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
                         {{/if}}
                     {{/if}}
                 </div>

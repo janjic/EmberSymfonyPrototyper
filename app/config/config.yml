@@ -58,6 +58,9 @@ doctrine:
                 charset:  UTF8
     orm:
         dql:
+            string_functions:
+                replace: DoctrineExtensions\Query\Mysql\Replace
+                char_length: DoctrineExtensions\Query\Mysql\CharLength
             numeric_functions:
                 round: PaymentBundle\Business\DoctrineExtensions\Query\Round
         auto_generate_proxy_classes: "%kernel.debug%"

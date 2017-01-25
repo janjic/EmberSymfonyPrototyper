@@ -32,8 +32,7 @@ class AgentSerializerInfo
     public static $basicFields = array(
         'agents'=>
             array('title', 'agentId', 'firstName', 'lastName', 'privateEmail', 'email','socialSecurityNumber', 'nationality',
-                  'birthDate', 'bankName', 'bankAccountNumber', 'agentBackground', 'roles', 'id', 'username', 'enabled', 'socialSecurityNumber',
-                  'notifications', 'baseImageUrl'),
+                  'birthDate', 'bankName', 'bankAccountNumber', 'agentBackground', 'roles', 'id', 'username', 'enabled', 'socialSecurityNumber', 'notifications', 'baseImageUrl'),
         'images'=> array('fileSize', 'name', 'webPath', 'base64Content')
         );
 

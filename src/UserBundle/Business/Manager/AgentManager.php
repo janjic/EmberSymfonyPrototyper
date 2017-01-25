@@ -27,6 +27,7 @@ use UserBundle\Entity\Address;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
+use UserBundle\Helpers\RoleHelper;
 
 /**
  * Class AgentManager
@@ -433,5 +434,71 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
         }
 
         return $this->getSuperiorWithSpecifiedGroup($superior, $group);
+    }
+
+    /**
+     * @param $agent
+     */
+    public function updatePaymentInfoOnAgent(Agent $agent){
+
+        $agent->setPaymentsNumb($agent->getPaymentsNumb() + 1);
+
+        /**
+         * @var $superior Agent
+         */
+        $superior = $agent->getSuperior();
+        if($superior->getGroup()->getName() === RoleHelper::MASTER || $superior->getGroup()->getName() === RoleHelper::ACTIVE){
+            if(!in_array($agent->getId(), $superior->getActiveAgentsIds())){
+                $superior->addActiveAgentId($agent->getId());
+            }
+        }
+
+        $this->repository->simpleEdit(array($agent, $superior));
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     */
+    public function getDowngradeSuggestionsForActiveAgent($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        return $this->repository->getDowngradeSuggestionsForActiveAgent($request, $isCountSearch, $firstRes, $maxRes);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $offset
+     * @return array
+     */
+    public function getDowngradeSuggestionsForMasterAgent($request, $isCountSearch= false, $offset = 4)
+    {
+        return $this->repository->getDowngradeSuggestionsForMasterAgent($request, $isCountSearch, $offset);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $offset
+     * @return array
+     */
+    public function getPromotionSuggestionsForActiveAgent($request, $isCountSearch = false, $offset = 4 )
+    {
+        return $this->repository->getPromotionSuggestionsForActiveAgent($request, $isCountSearch, $offset);
+    }
+
+    /**
+     * @param $request
+     * @param bool $isCountSearch
+     * @param int $firstRes
+     * @param int $maxRes
+     * @return array
+     */
+    public function getPromotionSuggestionsForReferee($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
+    {
+        return $this->repository->getPromotionSuggestionsForReferee($request, $isCountSearch, $firstRes, $maxRes);
     }
 }
