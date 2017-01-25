@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import moment from 'moment';
 import LoadingStateMixin from '../../mixins/loading-state';
+import DateRangesMixin from '../../mixins/date-picker-fields';
 import { task, timeout } from 'ember-concurrency';
 const {Routing, ApiCode} = window;
 
-export default Ember.Component.extend(LoadingStateMixin, {
+export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
     page: 1,
     isModalOpen:false,
     eventBus: Ember.inject.service('event-bus'),
@@ -25,6 +25,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.set('startDateFilter', null);
         this.set('typeFilter', null);
         this.set('countryFilter', null);
+
+        this.set('initialLength', this.get('model.length'));
     },
 
     actions: {
@@ -138,7 +140,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             newState: newState
         };
 
-        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', 'app_dev.php'+Routing.generate('api_execute_all_payments'), function (response) {
+        this.get('authorizedAjax').sendAuthorizedRequest(options, 'POST', Routing.generate('api_execute_all_payments'), function (response) {
             switch (parseInt(response.meta.status)) {
                 case ApiCode.PAYMENT_EXECUTE_ALL_ERROR:
                     this.toast.error('ERROR!');
@@ -176,41 +178,4 @@ export default Ember.Component.extend(LoadingStateMixin, {
         yield timeout(200);
         return this.get('searchAgentsAction')(page, perPage, text);
     }),
-
-    /** datetime picker */
-    daysOfWeek: [
-        "Su",
-        "Mo",
-        "Tu",
-        "We",
-        "Th",
-        "Fr",
-        "Sa"
-    ],
-    monthNames: [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agusto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre"
-    ],
-    today : Ember.computed(function () {
-        let date = new Date();
-        return `${date.getFullYear()}/${date.getMonth() < 10 ? '0'+(date.getMonth()+1) :date.getMonth()+1} /${date.getDate() <10 ?'0'+(date.getDate()) :date.getDate()}`.replace(/\//g,'');
-    }),
-    ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-    },
 });

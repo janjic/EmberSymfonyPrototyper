@@ -172,10 +172,14 @@ class PaymentInfoRepository extends EntityRepository
 
                     if ($key == 'startDate') {
                         $oQ0->andWhere(self::ALIAS.'.createdAt > :'.$key);
-                        $oQ0->setParameter($key, $param);
+                        $date = new \DateTime($param);
+                        $oQ0->setParameter($key, $date, Type::DATETIME);
+
                     } else if ($key == 'endDate'){
                         $oQ0->andWhere(self::ALIAS.'.createdAt < :'.$key);
-                        $oQ0->setParameter($key, $param);
+                        $date = (new \DateTime($param))->add(new \DateInterval('P1D'));
+                        $oQ0->setParameter($key, $date, Type::DATETIME);
+
                     } else if ($key == 'paymentInfo.type'){
                         $type = $param === 'Commission' ? PaymentInfoManager::COMMISSION_TYPE : PaymentInfoManager::BONUS_TYPE;
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $type . '%')));
@@ -457,12 +461,14 @@ class PaymentInfoRepository extends EntityRepository
 
         if ($dateFrom) {
             $qb->andWhere(self::ALIAS.'.createdAt > :date_f');
-            $qb->setParameter('date_f', $dateFrom);
+            $date = new \DateTime($dateFrom);
+            $qb->setParameter('date_f', $date, Type::DATETIME);
         }
 
         if ($dateTo){
             $qb->andWhere(self::ALIAS.'.createdAt < :date_t');
-            $qb->setParameter('date_t', $dateTo);
+            $date = (new \DateTime($dateTo))->add(new \DateInterval('P1D'));
+            $qb->setParameter('date_t', $date, Type::DATETIME);
         }
 
         return $qb->getQuery()->getSingleResult();

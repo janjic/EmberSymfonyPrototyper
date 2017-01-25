@@ -1,8 +1,12 @@
 <h1 class="main-heading clearfix">
     {{title}}
     <span class="pull-right head-buttons">
+    {{#unless (eq initialLength 0)}}
         <a href="#" class="button green btn-small" {{action 'openModal'}}>{{trans 'payment.filter-results'}}</a>
-        {{#unless hidePayAllButtons}}
+    {{/unless}}
+
+    {{#unless hidePayAllButtons}}
+        {{#unless (eq initialLength 0)}}
             {{#unless hidePayButton}}
                 <a href="#" {{action 'payAll'}}class="button green btn-small">{{trans 'payment.pay-all'}}</a>
             {{/unless}}
@@ -10,6 +14,7 @@
                 <a href="#" {{action 'rejectAll'}} class="button red btn-small">{{trans 'payment.reject-all'}}</a>
             {{/unless}}
         {{/unless}}
+    {{/unless}}
     </span>
 </h1>
 
@@ -93,7 +98,16 @@
         {{/card-view-component}}
     {{else}}
         <div>
-            {{trans 'payment.no-results'}}
+            {{#if (eq initialLength 0)}}
+                <div class="alert alert-danger" role="alert">
+                    {{trans 'payment.no-results'}}
+                </div>
+            {{else}}
+                <div class="alert alert-danger" role="alert">
+                    {{trans 'payment.no-results-for-filter'}}
+                </div>
+            {{/if}}
+
         </div>
     {{/if}}
 
