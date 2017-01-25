@@ -36,6 +36,10 @@ export default TCRCoreAdapter.extend({
             return response;
         });
     },
+
+    shouldReloadRecord() {
+        return true;
+    },
     urlForFindRecord(id) {
             return Routing.generate('api_tcr_users', {id});
     },

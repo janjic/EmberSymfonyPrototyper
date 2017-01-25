@@ -1,4 +1,5 @@
 import  ApplicationAdapter from './application';
+
 export default ApplicationAdapter.extend({
     deleteRecord: function(store, type, snapshot) {
         let url = this.buildURL(type.modelName, snapshot.id, snapshot, 'deleteRecord');

@@ -35,13 +35,11 @@ class AgentsByCountryConverter extends BasicConverter
        $data = $this->manager->findAgentsByCountry();
 
        foreach ($data as &$item) {
-
-           if($item['nationality'] == 'en'){
-               $item['countryIsoCode'] = 'gb';
-           } else {
-               $item['countryIsoCode'] = $item['nationality'];
+           if($item['nationality'] == 'ENGLAND'){
+               $item['nationality'] = 'UNITED KINGDOM';
            }
-           $item['nationality'] = CountryCodesUtil::getThreeDigitFromTwoDigitCode($item['nationality']);
+           $item['countryFlagCode'] = CountryCodesUtil::getTwoDigitFromFullName($item['nationality']);
+           $item['countryIsoCode'] = CountryCodesUtil::getThreeDigitFromTwoDigitCode($item['countryFlagCode']);
        }
 
         $this->request->attributes->set($this->param, new ArrayCollection($data));
