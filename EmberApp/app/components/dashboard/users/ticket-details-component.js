@@ -6,6 +6,10 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
     replyMessage: '',
+
+    disabledSendMessage: Ember.computed('currentUser', 'model', function () {
+        return this.get('model.forwardedTo.id') === this.get('currentUser.user.id');
+    }),
     search: task(function * (text, page, perPage) {
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);

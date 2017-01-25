@@ -72,7 +72,7 @@
         <div class="col-md-12">
             <section class="ticket-details clearfix">
                 {{#if model.thread}}
-                    {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = model.forwardedTo}}
+                    {{messages/message-thread thread=model.thread createMessageAction=(action 'createMessage') disabledSendMessage = disabledSendMessage}}
                 {{/if}}
             </section>
         </div>
