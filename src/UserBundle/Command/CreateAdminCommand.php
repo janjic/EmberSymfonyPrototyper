@@ -61,10 +61,10 @@ class CreateAdminCommand extends ContainerAwareCommand
         $agent->setPrivateEmail($username);
         $agent->setPlainPassword($username);
         $agent->setSuperior(null);
-        $agent->setAgentId(self::AGENT_HQ_CODE.'-'.rand(999, 9999));
-        $agent->setFirstName('username');
+        $agent->setAgentId(self::AGENT_HQ_CODE);
+        $agent->setFirstName($username);
         $agent->setNationality('en');
-        $agent->setLastName('username');
+        $agent->setLastName($username);
         $agent->setEnabled(true);
         $agent->setTitle("MR");
         $agent->setSocialSecurityNumber('admin');
