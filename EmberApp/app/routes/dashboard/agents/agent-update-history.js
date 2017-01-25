@@ -15,5 +15,7 @@ export default Ember.Route.extend({
         this._super(...arguments);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
+        controller.set('page', 1);
+        controller.set('offset', 10);
     }
 });

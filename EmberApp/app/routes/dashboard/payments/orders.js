@@ -17,6 +17,7 @@ export default Ember.Route.extend({
         controller.set('totalItems', model.meta.totalItems);
         controller.set('page', 1);
         controller.set('offset', 10);
+        controller.set('agentId', undefined);
         controller.set('searchArray', {
             groupOp:"AND",
             rules: []
