@@ -64,9 +64,13 @@
                                 </div>
                                 <div class="notification-content">
                                     <div class="content-left">
-                                        <h4>Admin Adminovic</h4>
+                                        {{#if notification.newAgent}}
+                                            <h4>{{notification.newAgent.fullName}}</h4>
+                                        {{else}}
+                                            <h4>{{notification.payment.paymentType}}</h4>
+                                        {{/if}}
                                         <p>{{ notification.type }} <span>{{ notification.agent.email }}</span></p>
-                                        <span class="date">{{ notification.createdAt }}</span>
+                                        <span class="date">{{print-custom-date notification.createdAt}}</span>
                                     </div>
                                     {{!--<div class="content-right">--}}
                                         {{!--<a href="#" {{action "transitionTo" notification notification.link}}class="button green">View now</a>--}}

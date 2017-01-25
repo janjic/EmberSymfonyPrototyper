@@ -1,4 +1,4 @@
-<h1 class="main-heading clearfix">Purchase details <span class="pull-right">{{#link-to 'dashboard.agent.users.user-view' class='btn btn-danger'}}Customer profile{{/link-to}}</span></h1>
+<h1 class="main-heading clearfix">{{trans 'models.payment-info.purchase-details'}} <span class="pull-right">{{#link-to 'dashboard.agent.users.user-view' model.user.id class='btn btn-danger'}}{{trans 'models.payment-info.customer-profile'}}{{/link-to}}</span></h1>
 
 <div class="top-options">
     <div class="row">
@@ -8,30 +8,30 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <p><strong>First Name</strong></p>
+                            <p><strong>{{trans 'admin-user.label.name'}}</strong></p>
                             <p>{{model.user.firstName}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Last Name</strong></p>
+                            <p><strong>{{trans 'admin-user.label.family-name'}}</strong></p>
                             <p>{{model.user.lastName}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Email</strong></p>
+                            <p><strong>{{trans 'admin-user.label.email'}}</strong></p>
                             {{model.user.email}}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <p><strong>Order ID</strong></p>
+                            <p><strong>{{trans 'models.payment-info.order-id'}}</strong></p>
                             <p>{{model.id}}</p>
                         </div>
                         <div class="form-group">
-                            <p><strong>Date created</strong></p>
+                            <p><strong>{{trans 'models.payment-info.date-created'}}</strong></p>
                             <p>{{moment-format model.created_at 'DD/MM/YYYY'}}</p>
 
                         </div>
                         <div class="form-group">
-                            <p><strong>Country</strong></p>
+                            <p><strong>{{trans 'admin-user.label.country'}}</strong></p>
                             <p>{{model.user.country}}</p>
                         </div>
                     </div>
@@ -60,10 +60,10 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Package</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                        <th>Currency</th>
+                        <th>{{trans 'settings.labels.packages'}}</th>
+                        <th>{{trans 'models.payment-info.duration'}}</th>
+                        <th>{{trans 'models.payment-info.price'}}</th>
+                        <th>{{trans 'settings.labels.currency'}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,16 +82,16 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Article</th>
-                        <th>Duration</th>
-                        <th>Price</th>
-                        <th>Currency</th>
+                        <th>{{trans 'models.payment-info.article'}}</th>
+                        <th>{{trans 'models.payment-info.duration'}}</th>
+                        <th>{{trans 'models.payment-info.price'}}</th>
+                        <th>{{trans 'settings.labels.currency'}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         {{#if model.fee_price}}
-                            <td>One time account setup fee</td>
+                            <td>{{trans 'settings.labels.one-time-setup'}}</td>
                             <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
                             <td>{{ number-format model.fee_price 2 }}</td>
                             <td>{{ currency-for-country model.user.country }}</td>
@@ -99,7 +99,7 @@
 
                     </tr>
                     <tr>
-                        <td>Connect</td>
+                        <td>{{trans 'settings.labels.connect'}}</td>
                         <td>{{ moment-format model.created_at 'DD/MM/YYYY'}} - {{ moment-format (moment-subtract maxDate 1 'days') 'DD/MM/YYYY' }}</td>
                         <td>{{ number-format model.connect_price 2}}</td>
                         <td>{{ currency-for-country model.user.country}}</td>
@@ -111,7 +111,7 @@
                         <td>{{ currency-for-country model.user.country}}</td>
                     </tr>
                     <tr>
-                        <td>Price for remaining days until the end of month</td>
+                        <td>{{trans 'dashboard.labels.price-for-remaining'}}</td>
                         <td>{{ moment-format model.created_at 'DD/MM/YYYY' }} - {{ moment-format (moment-add model.created_at model.num_of_remaining_days 'days') 'DD/MM/YYYY'}}</td>
                         <td>{{ number-format (multiply  model.num_of_remaining_days model.price_per_remaining_day) 2 }}</td>
                         <td>{{ currency-for-country model.user.country}}</td>
@@ -119,7 +119,7 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td>Total</td>
+                        <td>{{trans 'dashboard.labels.total'}}</td>
                         <td></td>
                         <td>{{currency-for-country model.user.country}} {{ number-format model.total 2}}</td>
                         <td><i class="fa fa-print" {{ action 'downloadPDF' }}></i></td>

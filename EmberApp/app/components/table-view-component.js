@@ -3,17 +3,29 @@ import LoadingStateMixin from '../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Component.extend(LoadingStateMixin, {
-    sortColumn: 'id',
-    sortType: 'asc',
     defaultSortType: null,
     showSearchSortBar: true,
     defaultRules: [],
-    paramsArray: {
-        groupOp: 'AND',
-        rules: []
-    },
     searchArray: [],
     eventBus: Ember.inject.service('event-bus'),
+
+    init(){
+        this._super(...arguments);
+        this.set('paramsArray', {
+            groupOp: 'AND',
+            rules: []
+        });
+        this.set('searchArray', [].concat(this.get('defaultRules')));
+        if( this.get('searchArray') ){
+            this.set('paramsArray.rules', this.get('searchArray'));
+        }
+        this.set('sortColumn', 'id');
+        if ( this.get('initialSord') ){
+            this.set('sortType', this.get('initialSord'));
+        } else {
+            this.set('sortType', 'asc');
+        }
+    },
 
     actions: {
         goToPage: function (page) {
@@ -86,7 +98,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
     },
 
     _initialize: Ember.on('init', function(){
-        this.set('searchArray', this.get('defaultRules'));
         this.get('eventBus').subscribe('resetTableEvent', this, 'resetTable');
     }),
 

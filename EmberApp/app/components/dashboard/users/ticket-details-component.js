@@ -39,6 +39,13 @@ export default Ember.Component.extend(LoadingStateMixin, {
         createMessage(hash){
             return this.get('createNewMessage')(hash);
 
+        },
+
+        statusChanged(status){
+            if( status ) {
+                this.set('model.status', status);
+                this.send('editTicket');
+            }
         }
     }
 });

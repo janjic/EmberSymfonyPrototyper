@@ -6,11 +6,14 @@
         page=page
         offset=offset
         maxPages=maxPages
+        initialSord='desc'
         filter=(action 'filterModel')
         viewLink="dashboard.payments.purchase-details"
         defaultRules = agentRule
 }}
-
+<label>
+    {{trans 'admin-user.label.user-filter'}}
+</label>
 {{inf-select
         optionLabelKey='email'
         on-search = (perform search)

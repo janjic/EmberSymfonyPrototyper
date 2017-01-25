@@ -1,8 +1,8 @@
-<button type="button" class="button red heading-button pull-right" {{action 'openModal'}}>Invite people</button>
+<button type="button" class="button red heading-button pull-right" {{action 'openModal'}}>{{trans 'admin-user.label.invite-people'}}</button>
 {{#bs-modal open=isModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="invitePeopleModal">
-            Invite people
+            {{trans 'admin-user.label.invite-people'}}
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body class="clearfix"}}

@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
     }),
     actions: {
         filterModel: function (searchArray, page, column, sortType) {
-
+            console.log(searchArray);
             return this.get('store').query('customer-order', {
                 page: page,
                 offset: this.get('offset'),
