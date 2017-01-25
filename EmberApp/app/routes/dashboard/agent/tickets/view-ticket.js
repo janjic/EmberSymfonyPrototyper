@@ -8,7 +8,7 @@ export default Ember.Route.extend({
         }, (response) => {
             response.errors.forEach((error)=>{
                 if(parseInt(error.status) === 403){
-                    ctx.transitionTo('dashboard');
+                    ctx.transitionTo('dashboard.agent.home');
                 }
             });
         });

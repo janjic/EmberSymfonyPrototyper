@@ -1,13 +1,4 @@
-{{!--{{table-view-component--}}
-{{!--mainTitle='All users'--}}
-{{!--model=model--}}
-{{!--colNames=colNames--}}
-{{!--colModels=colModels--}}
-{{!--page=page--}}
-{{!--maxPages=maxPages--}}
-{{!--filter=(action 'filterModel')--}}
-{{!--viewLink="dashboard.users.user-view"--}}
-{{!--editLink="dashboard.users.user-edit"--}}
+{{invite-people-component sendInvites=(action 'sendInvites')}}
 
 {{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
 

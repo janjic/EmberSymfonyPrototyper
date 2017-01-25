@@ -1,29 +1,34 @@
 <h1 class="main-heading clearfix">
     {{title}}
     <span class="pull-right head-buttons">
-        <a href="#" class="button green btn-small" {{action 'openModal'}}>Filter Results</a>
-        {{#unless hidePayAllButtons}}
+    {{#unless (eq initialLength 0)}}
+        <a href="#" class="button green btn-small" {{action 'openModal'}}>{{trans 'payment.filter-results'}}</a>
+    {{/unless}}
+
+    {{#unless hidePayAllButtons}}
+        {{#unless (eq initialLength 0)}}
             {{#unless hidePayButton}}
-                <a href="#" {{action 'payAll'}}class="button green btn-small">Pay all</a>
+                <a href="#" {{action 'payAll'}}class="button green btn-small">{{trans 'payment.pay-all'}}</a>
             {{/unless}}
             {{#unless hideRejectButton}}
-                <a href="#" {{action 'rejectAll'}} class="button red btn-small">Reject all</a>
+                <a href="#" {{action 'rejectAll'}} class="button red btn-small">{{trans 'payment.reject-all'}}</a>
             {{/unless}}
         {{/unless}}
+    {{/unless}}
     </span>
 </h1>
 
 {{#bs-modal open=isModalOpen header=false body=false footer=false}}
     {{#bs-modal-header}}
         <h4 class="modal-title">
-            Select filters
+            {{trans 'payment.select-filter'}}
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body}}
         {{#unless hideAgentFilter}}
             <div class="form-group clearfix">
                 <label>
-                    Select agent
+                    {{trans 'payment.select-agent'}}
                 </label>
                 {{inf-select
                 optionLabelKey='email'
@@ -34,14 +39,14 @@
 
             <div class="form-group clearfix">
                 <label>
-                    Select country
+                    {{trans 'payment.select-country'}}
                 </label>
                 {{elements/country-select onCountryChange=(action 'changeCountry')}}
             </div>
         {{/unless}}
         <div class="form-group clearfix">
             <label>
-                Select type
+                {{trans 'payment.select-type'}}
             </label>
             {{inf-select
             content=paymentTypes
@@ -76,10 +81,10 @@
             {{#if isLoading}}
                 {{inf-loading}}
             {{else}}
-                Apply
+                {{trans 'payment.apply'}}
             {{/if}}
         </button>
-        <button class="button red" {{action 'closeModal'}}>Cancel</button>
+        <button class="button red" {{action 'closeModal'}}>{{trans 'payment.cancel'}}</button>
     {{/bs-modal-footer}}
 {{/bs-modal}}
 
@@ -93,7 +98,16 @@
         {{/card-view-component}}
     {{else}}
         <div>
-            No results found for selected filters
+            {{#if (eq initialLength 0)}}
+                <div class="alert alert-danger" role="alert">
+                    {{trans 'payment.no-results'}}
+                </div>
+            {{else}}
+                <div class="alert alert-danger" role="alert">
+                    {{trans 'payment.no-results-for-filter'}}
+                </div>
+            {{/if}}
+
         </div>
     {{/if}}
 

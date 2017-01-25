@@ -25,31 +25,31 @@
             <h5><span class="flag flag-{{model.nationality}}"></span>{{model.full_name}}</h5>
         </div>
         <div class="lower-box">
-            <p><span>Role</span> <br>
+            <p><span>{{trans 'general.role'}}</span> <br>
                 {{model.role_name}}
             </p>
-            <p><span>Email</span> <br>
+            <p><span>{{trans 'general.email'}}</span> <br>
                 {{model.email}}
             </p>
 
             {{#if promotion}}
-                <p><span>Promotion suggestion</span> <br>
+                <p><span>{{trans 'general.promotion-suggestion'}}</span> <br>
                     {{#if (eq model.role_name role_codes.role_active_agent)}}
                         {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_master_agent}} <br>
-                        Agent has : {{model.active_agents_numb}} Active Agents
+                        {{trans 'general.agent-has'}} : {{model.active_agents_numb}} {{trans 'general.active-agents'}}
                     {{else}}
                         {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
-                        Agent has : {{model.active_agents_numb}} Sales
+                        {{trans 'general.agent-has'}} : {{model.active_agents_numb}} {{trans 'general.sales'}}
                     {{/if}}
                 </p>
             {{else}}
-                <p><span>Demotion suggestion</span> <br>
+                <p><span>{{trans 'general.demotion-suggestion'}}</span> <br>
                     {{#if (eq model.role_name role_codes.role_active_agent)}}
                         {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_referee}} <br>
-                        Agent has : {{model.active_agents_numb}} Sales
+                        {{trans 'general.agent-has'}} : {{model.active_agents_numb}} {{trans 'general.sales'}}
                     {{else}}
                         {{model.role_name}} {{fa-icon 'long-arrow-right'}} {{role_codes.role_active_agent}} <br>
-                        Agent has : {{model.active_agents_numb}} Active Agents
+                        {{trans 'general.agent-has'}} : {{model.active_agents_numb}} {{trans 'general.active-agents'}}
                     {{/if}}
                 </p>
             {{/if}}
@@ -59,7 +59,7 @@
 {{#bs-modal open=isModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="chooseNewSuperior">
-            Choose new superior
+            {{trans 'general.choose-new-superior'}}
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body}}
@@ -84,7 +84,7 @@
 {{#bs-modal open=isSuperiorModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="chooseNewSuperior">
-            Choose new superior
+            {{trans 'general.choose-new-superior'}}
         </h4>
 
     {{/bs-modal-header}}
@@ -102,6 +102,6 @@
                 serchable=true
                 on-change=(action 'newSuperiorRoleSelected')
         }}
-        <button class="button green" {{ action 'doDemotion' }} disabled={{demoteButtonDisabled}}>Save</button>
+        <button class="button green" {{ action 'doDemotion' }} disabled={{demoteButtonDisabled}}>{{trans 'general.sales'}}{{trans 'button.save'}}</button>
     {{/bs-modal-body}}
 {{/bs-modal}}

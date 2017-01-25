@@ -70,6 +70,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
     suspendAgent(agentId) {
         this.get('store').find('agent', agentId).then((agent)=>{
             agent.set('enabled', !agent.get('enabled'));
+            this.toast.success('agent.status.change.started');
             agent.save().then(() => {
                 this.changeStatusForAgent(agentId, agent.get('enabled'));
                 this.toast.success('agent.status.changed');
@@ -154,9 +155,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
                     )+'">' +
                     '<a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a></div>' +
 
-                    '<div class="actions"><a class="button icon-btn linkToSuspend '+(data.enabled ? 'green' : 'red')+'" ' +
+                    '<div class="actions"><a class="button icon-btn linkToSuspend '+(!data.enabled ? 'green' : 'red')+'" ' +
                     '   data-agent-id='+data.id+'>'+
-                    (Translator.trans(data.enabled ? 'agent.change.enabled' : 'agent.change.disabled') )+
+                    (Translator.trans(!data.enabled ? 'agent.change.enable' : 'agent.change.disable') )+
                     '</a>'+
 
                     '<a class="button red icon-btn linkToDelete">Delete</a></div>' +
@@ -203,8 +204,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
     },
 
     changeStatusForAgent(id, newState) {
-        let msg = newState ? Translator.trans('agent.change.enabled') : Translator.trans('agent.change.disabled');
-        this.$('#chart-container .linkToSuspend[data-agent-id='+id+']').html(msg).toggleClass("green red");
+        let msg = !newState ? Translator.trans('agent.change.enable') : Translator.trans('agent.change.disable');
+        this.$('#chart-container .linkToSuspend[data-agent-id='+id+']').html(msg).toggleClass("red green");
     }
 
 });

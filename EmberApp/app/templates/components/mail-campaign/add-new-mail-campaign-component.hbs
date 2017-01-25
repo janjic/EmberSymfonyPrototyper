@@ -1,30 +1,30 @@
-<h1 class="main-heading">Add new mass mail campaign</h1>
+<h1 class="main-heading">{{trans 'mail.add-new-mass-mail-campaign'}}</h1>
 <div class="row">
     <div class="col-md-8 col-sm-12">
         <div class="input-box">
             <div class="form-group clearfix">
-                <label class="control-label col-md-5 col-sm-5 col-xs-12">Subject</label>
+                <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'mail.subject'}}</label>
                 <div class="col-md-7 col-sm-7 col-xs-12">
                     {{validated-field doNotShowLabel=true property="subject_line" changeset=changeset type="text"
                                       validateProperty=(action 'validateProperty' changeset "subject_line")}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-5 col-sm-5 col-xs-12">From name</label>
+                <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'mail.from-name'}}</label>
                 <div class="col-md-7 col-sm-7 col-xs-12">
                     {{validated-field doNotShowLabel=true property="from_name" changeset=changeset type="text"
                                       validateProperty=(action 'validateProperty' changeset "from_name")}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-5 col-sm-5 col-xs-12">Replay to:</label>
+                <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'mail.reply-to'}}</label>
                 <div class="col-md-7 col-sm-7 col-xs-12">
                     {{validated-field doNotShowLabel=true property="reply_to" changeset=changeset type="text"
                                       validateProperty=(action 'validateProperty' changeset "reply_to")}}
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose mail list
+                <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'mail.choose-mail-list'}}
                     <span class="required" aria-required="true"> * </span>
                 </label>
                 <div class="col-md-7 col-sm-7 col-xs-12">
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group clearfix">
-                <label class="control-label col-md-5 col-sm-5 col-xs-12">Choose mail tempalte
+                <label class="control-label col-md-5 col-sm-5 col-xs-12">{{trans 'mail.choose-mail-template'}}
                     <span class="required" aria-required="true"> * </span>
                 </label>
                 <div class="col-md-7 col-sm-7 col-xs-12">
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="form-group clearfix">
-                <a href="#" class="pull-right button green" {{action 'save'}}>Save</a>
+                <a href="#" class="pull-right button green" {{action 'save'}}>{{trans 'button.save'}}</a>
             </div>
         </div>
     </div>

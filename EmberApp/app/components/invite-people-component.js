@@ -27,12 +27,18 @@ export default Ember.Component.extend(LoadingStateMixin,{
                     return obj.email;
                 });
 
-                let invitation = this.get('store').createRecord('invitation', {
-                    recipientEmail: recipientsEmails,
-                    emailSubject:   changeset.get('emailSubject'),
-                    emailContent:   changeset.get('emailContent'),
-                    agent:          cUser
-                });
+                // let invitation = this.get('store').createRecord('invitation', {
+                //     recipientEmail: recipientsEmails,
+                //     emailSubject:   changeset.get('emailSubject'),
+                //     emailContent:   changeset.get('emailContent'),
+                //     agent:          cUser
+                // });
+                let invitation = this.get('sendInvites')(
+                    recipientsEmails,
+                    changeset.get('emailSubject'),
+                    changeset.get('emailContent'),
+                    cUser
+                );
 
                 this.showLoader('loading.sending.data');
                 invitation.save().then(() => {

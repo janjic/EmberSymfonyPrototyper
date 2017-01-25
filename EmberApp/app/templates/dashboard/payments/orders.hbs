@@ -1,18 +1,20 @@
+<h1 class="main-heading">{{trans 'general.all-orders'}}</h1>
+
+{{inf-select
+        optionLabelKey='email'
+        on-search = (perform search)
+        on-change=(action 'agentSelected')
+}}
+
 {{table-view-component
-        mainTitle='All orders'
         model=model
         colNames=colNames
         colModels=colModels
         page=page
         offset=offset
         maxPages=maxPages
+        initialSord='desc'
         filter=(action 'filterModel')
         viewLink="dashboard.payments.purchase-details"
         defaultRules = agentRule
-}}
-
-{{inf-select
-        optionLabelKey='email'
-        on-search = (perform search)
-        on-change=(action 'agentSelected')
 }}

@@ -16,7 +16,7 @@
 
     <div class="col-md-6 col-sm-12 col-xs-12">
         <div class="input-box high clearfix">
-            <h3 class="sub-heading">{{fa-icon "user"}} Basic info</h3>
+            <h3 class="sub-heading">{{fa-icon "user"}} {{trans 'admin-user.label.basic-info'}}</h3>
 
             <div class="img-holder">
                 {{#if user.image.filePath }}
@@ -38,15 +38,15 @@
                 <dt>Username</dt>
                 <dd>{{user.username}}</dd>
                 <dt>{{trans 'admin-user.label.birthdate'}}</dt>
-                <dd>{{user.birthDate}}</dd>
+                <dd>{{print-custom-date user.birthDate true}}</dd>
                 <dt>{{trans 'admin-user.label.comment'}}</dt>
                 <dd>{{user.comment}}</dd>
                 <dt>{{trans 'admin-user.label.status'}}</dt>
                 <dd>
                     <div class="mt-action-buttons">
                         <div class="btn-group btn-group-circle">
-                            <button  disabled type="button" class="btn {{if user.enabled 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                            <button disabled type="button" class="btn {{unless user.enabled 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                            <button  disabled type="button" class="btn {{if user.enabled 'active'}} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                            <button disabled type="button" class="btn {{unless user.enabled 'active'}} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                         </div>
                     </div>
                 </dd>
@@ -55,8 +55,8 @@
                 <dd>
                     <div class="mt-action-buttons">
                         <div class="btn-group btn-group-circle">
-                            <button  disabled type="button" class="btn {{if user.isAdmin 'active'}} btn-outline switch-green btn-sm"><span>Enabled</span></button>
-                            <button disabled type="button" class="btn {{unless user.isAdmin 'active'}} btn-outline switch-red btn-sm"><span>Disabled</span></button>
+                            <button  disabled type="button" class="btn {{if user.isAdmin 'active'}} btn-outline switch-green btn-sm"><span>{{trans 'general.enabled'}}</span></button>
+                            <button disabled type="button" class="btn {{unless user.isAdmin 'active'}} btn-outline switch-red btn-sm"><span>{{trans 'general.disabled'}}</span></button>
                         </div>
                     </div>
                 </dd>
@@ -66,7 +66,7 @@
 
     <div class="col-md-6 col-sm-12 col-xs-12">
         <div class="input-box clearfix">
-            <h3 class="sub-heading">{{fa-icon "address-card"}} Personal details</h3>
+            <h3 class="sub-heading">{{fa-icon "address-card"}} {{trans 'admin-user.label.personal-details'}}</h3>
 
             <dl class="dl-horizontal">
                 <dt>{{trans 'admin-user.label.address'}}</dt>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="input-box referral clearfix">
-            <h3 class="sub-heading">{{fa-icon "black-tie"}} Referral link</h3>
+            <h3 class="sub-heading">{{fa-icon "black-tie"}} {{trans 'admin-user.label.referral-link'}}</h3>
 
             <dl class="dl-horizontal">
                 <dt>{{trans 'admin-user.label.agent-id'}}</dt>
@@ -92,7 +92,7 @@
                     {{#if user.agent }}
                         {{user.agent.id}}
                     {{else}}
-                        Not specified
+                        {{trans 'admin-user.label.not-specified'}}
                     {{/if}}
                 </dd>
                 <dt>{{trans 'admin-user.label.agent-first-name'}}</dt>
@@ -100,7 +100,7 @@
                     {{#if user.agent }}
                         {{user.agent.firstName}}
                     {{else}}
-                        Not specified
+                        {{trans 'admin-user.label.not-specified'}}
                     {{/if}}
                 </dd>
                 <dt>{{trans 'admin-user.label.agent-last-name'}}</dt>
@@ -108,7 +108,7 @@
                     {{#if user.agent }}
                         {{user.agent.lastName}}
                     {{else}}
-                        Not specified
+                        {{trans 'admin-user.label.not-specified'}}
                     {{/if}}
                 </dd>
                 <dt>{{trans 'admin-user.label.agent-email'}}</dt>
@@ -116,7 +116,7 @@
                     {{#if user.agent }}
                         {{user.agent.email}}
                     {{else}}
-                        Not specified
+                        {{trans 'admin-user.label.not-specified'}}
                     {{/if}}
                 </dd>
             </dl>

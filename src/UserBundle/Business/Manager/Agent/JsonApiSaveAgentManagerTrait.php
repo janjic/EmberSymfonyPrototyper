@@ -72,6 +72,8 @@ trait JsonApiSaveAgentManagerTrait
          */
         $agent->setGroup($group);
 
+        $agent->setCreatedAt(new DateTime());
+
         return $agent;
     }
 

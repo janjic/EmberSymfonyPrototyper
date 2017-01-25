@@ -29,8 +29,9 @@ export default Model.extend({
     notifications:        attr(),
     address:              DS.belongsTo('address', {inverse: 'agent'}),
     group:                DS.belongsTo('group'),
-    superior:             DS.belongsTo('agent'),
+    superior:             DS.belongsTo('agent', {inverse: 'children' }),
     image:                DS.belongsTo('image'),
+    children:             DS.hasMany('agent', { inverse: 'superior' }),
     createdTickets:       DS.hasMany('ticket'),
     forwardedTickets:     DS.hasMany('ticket'),
 

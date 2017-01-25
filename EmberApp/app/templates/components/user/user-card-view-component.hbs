@@ -20,17 +20,17 @@
             <span>{{user.group.name}}</span>
         </div>
         <div class="lower-box">
-            <p><span>Username</span> <br>
+            <p><span>{{trans 'admin-user.label.username'}}</span> <br>
                 {{user.username}}
             </p>
-            <p><span>Country</span> <br>
+            <p><span>{{trans 'admin-user.label.country'}}</span> <br>
                 {{user.country}}
             </p>
-            <p><span>Status</span> <br>
+            <p><span>{{trans 'general.status'}}</span> <br>
                 {{#if user.enabled}}
-                    Enabled
+                    {{trans 'general.enabled'}}
                 {{else}}
-                    Not enabled
+                    {{trans 'general.not-enabled'}}
                 {{/if}}
             </p>
         </div>

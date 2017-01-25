@@ -58,7 +58,7 @@
                                         {{trans 'button.edit-profile'}}
                                     {{/link-to}}
                                 {{/if}}
-                                <a href="#" class="button red icon-btn" {{action 'logout'}}>Logout</a>
+                                <a href="#" class="button red icon-btn" {{action 'logout'}}>{{trans 'general.logout'}}</a>
                             </li>
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
@@ -77,8 +77,15 @@
                                                 {{fa-icon "user"}}
                                             </div>
                                             <div class="notification-item-content">
-                                                <p>{{notification.type}} <span>{{notification.agent.email}} / {{notification.id}}</span></p>
-                                                <span class="date">{{notification.createdAt}}</span>
+                                                <p>{{notification.type}}</p>
+                                                <p>
+                                                    {{#if notification.newAgent}}
+                                                        {{notification.newAgent.fullName}}
+                                                    {{else}}
+                                                        {{notification.payment.paymentType}}
+                                                    {{/if}}
+                                                    {{notification.id}}</p>
+                                                <span class="date">{{print-custom-date notification.createdAt}}</span>
                                             </div>
                                         </a>
                                     </li>
@@ -108,8 +115,8 @@
                                                 {{fa-icon "envelope-o"}}
                                             </div>
                                             <div class="message-item-content">
-                                                <p>{{notification.type}} <span>username@mail.com / {{notification.id}}</span></p>
-                                                <span class="date">{{notification.createdAt}}</span>
+                                                <p>{{notification.type}} <span>{{notification.id}}</span></p>
+                                                <span class="date">{{print-custom-date notification.createdAt}}</span>
                                             </div>
                                         </a>
                                     </li>

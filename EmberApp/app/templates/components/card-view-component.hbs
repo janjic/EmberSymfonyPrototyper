@@ -2,6 +2,8 @@
     <h1 class="main-heading">{{mainTitle}}</h1>
 {{/if}}
 <div class="all-agents-card-view clearfix">
+    <div class="row">
+
     {{#unless hideSearchAndFilter}}
         <div class="col-md-12">
             <div class="input-box first">
@@ -30,7 +32,7 @@
                         </div>
                     {{/if}}
                     {{#if showAddAgentButton}}
-                        {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}Add new agent{{/link-to}}
+                        {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
                     {{/if}}
                 </div>
 
@@ -41,6 +43,9 @@
     {{#each model as |yieldModel|}}
         {{yield yieldModel}}
     {{/each}}
+    </div>
+    <div class="row">
+
     <div class="col-md-12">
         <div class="agents-card-pagination text-right">
             <button class="item" {{action 'handlePageChange' '=1'}}>{{fa-icon "angle-double-left"}}</button>
@@ -57,6 +62,7 @@
             <button class="item" {{action 'handlePageChange' '+1'}}>{{fa-icon "angle-right"}}</button>
             <button class="item" {{action 'handlePageChange' (concat '=' model.meta.pages)}}>{{fa-icon "angle-double-right"}}</button>
         </div>
+    </div>
     </div>
 </div>
 

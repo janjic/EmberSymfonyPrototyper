@@ -39,18 +39,133 @@ button:
   send-mail: 'Send mail'
   edit-profile: 'Edit profile'
   view-profile: 'View profile'
+  account-info: 'Account information'
 
 validation:
   email:
 
 general:
+  save: 'Save'
   email: 'Email'
+  download: 'Download'
+  download-attachment: 'Download attachment'
+  preview-attachment: 'Preview attachment'
   message: 'Recepient'
   create: 'Create new message'
+  enabled: 'Enabled'
+  not-enabled: 'Not enabled'
+  disabled: 'Disabled'
+  legend: 'Legend'
+  hq: 'HQ'
+  ambassador: 'Ambassador'
+  master-agent: 'Master agent'
+  active-agent: 'Active agent'
+  active-agents: 'Active agents'
+  referee: 'Referee'
+  delete-user: 'Delete user'
+  optional-info: 'Optional information'
+  genealogy: 'Genealogy tree'
+  new-message: 'New message'
+  payment: 'Payment'
+  new-agent: 'New agent'
+  role: 'Role'
+  promotion-suggestion: 'Promotion suggestion'
+  agent-has: 'Agent has'
+  sales: 'Sales'
+  demotion-suggestion: 'Demotion suggestion'
+  choose-new-superior: 'Choose new superior'
+  user-activity: 'User activity'
+  less-than-10: 'Less than 10'
+  between-10-and-100: 'Between 10 and 100'
+  between-100-and-1000: 'Between 100 and 1000'
+  more-than-1000: 'More than 1000'
+  top-3-countries: 'Top 3 countries'
+  country: 'Country'
+  agents: 'Agents'
+  latest-orders: 'Latest orders'
+  agent: 'Agent'
+  order-description: 'Order description'
+  order-total: 'Order total'
+  actions: 'Actions'
+  view: 'View'
+  status: 'Status'
+  logout: 'Logout'
+  change-password: 'Change password'
+  reset-password: 'Reset password'
+  enter-email: 'Enter your email address'
+  help: 'and we will help you reset your password.'
+  groups: 'Groups'
+  invite-people: 'Invite people'
+  forgot-password: 'Forgot your password?'
+  sign-in: 'Sign in'
+  login-failed: 'Login failed:'
+  settings: 'Settings'
+  personal-settings: 'Personal settings'
+  users-registered-today: 'users registered today'
+  users-total: 'users total'
+  new-messages: 'new messages'
+  choose-superior: 'Choose superior'
+  lose-superior: 'You will lose all child agents. Select new Superior for them.'
+  just-one-second: 'Just one second'
+  fetching: "We're fetching that content for you."
+  about: 'About'
+  users: 'Users'
+  all-notifications: 'All notifications'
+  all-orders: 'All orders'
+
+
+mail:
+  add-new-mass-mail-campaign: 'Add new mass mail campaign'
+  subject: 'Subject'
+  from-name: 'From name'
+  reply-to: 'Reply to'
+  choose-mail-list: 'Choose mail list'
+  choose-mail-template: 'Choose mail template'
+  add-new-mail-list: 'Add new mail list'
+  mail-list-name: 'Mail list name'
+  mail-list-from-name: 'Mail list from name'
+  mail-list-from-email: 'Mail list from email'
+  note: 'Note'
+  choose-email-addresses: 'Choose email addresses'
+  edit-mail-list: 'Edit mail list'
+  replicate: 'Replicate mass mail campaign'
+
+commissions:
+  compensation-summary: 'Compensation summary'
+  currency: 'Currency'
+  not-found: 'No payed commissions or bonuses found for selected period.'
+  cancel-date-filter: 'Cancel date filter'
+  commissions: 'Commissions'
+  processed-earnings: 'Processed earnings'
+  unprocessed-earnings: 'Unprocessed earnings'
+  bonuses: 'Bonuses'
+
+purchase-details:
+  purchase-details: 'Purchase details'
+  customer-profile: 'Customer profile'
+  first-name: 'First name'
+  last-name: 'Last name'
+  email: 'Email'
+  order-id: 'Order ID'
+  date-created: 'Date created'
+  country: 'Country'
+  package: 'Package'
+  duration: 'Duration'
+  price: 'Price'
+  currency: 'Currency'
+  article: 'Article'
+  one-time-account-setup-fee: 'One time account setup fee'
+  connect: 'Connect'
+  stream: 'stream(s)'
+  price-for-remaining: 'Price for remaining days until the end of month'
+  total: 'Total'
+
 
 agent:
   change:
     status: 'Change status'
+    enable: 'Enable agent'
+    disable: 'Disable agent'
 
 
 # ADMIN MENU ITEMS
@@ -139,6 +254,7 @@ admin-user:
     title: 'Edit user'
   label:
     title: 'Title'
+    username: 'Username'
     choose-title: 'Choose title'
     mr: 'Mr.'
     mrs: 'Mrs.'
@@ -156,7 +272,7 @@ admin-user:
     country: 'Country'
     phone: 'Phone number'
     language: 'Language'
-    birthdate: 'Date of birth'
+    birthdate: 'Birthday'
     admin: 'Admin'
     comment: 'Comment'
     agent-id: 'Agent ID'
@@ -168,7 +284,7 @@ admin-user:
     address: 'Address'
     social-security-num: 'Social security number'
     bank: 'Bank name'
-    bank-account-num: 'Bank account number or IBAN'
+    bank-account-num: 'Bank account number'
     address: 'Address'
     fixed: 'Fixed number'
     private-email: 'Private email'
@@ -186,9 +302,24 @@ admin-user:
     username: 'Username'
     agent-type: 'Agent type'
     actions: 'Actions'
+    choose-agent-code: 'Choose agent code'
+    edit-basic-info: 'Edit basic info'
+    edit-personal-details: 'Edit personal details'
+    is-admin: 'Is admin'
+    not-admin: 'Not admin'
+    basic-info: 'Basic info'
+    personal-details: 'Personal details'
+    referral-link: 'Referral link'
+    not-specified: 'Not specified'
+    quick-info: 'Quick info'
+    phone: 'Phone'
+    agent-background: 'Agent background'
+    notification-settings: 'Notification settings'
   suggestion:
     promotions: 'Agent promotion suggestions'
     downgrade: 'Agent downgrade suggestions'
+    invite-people: 'Invite People'
+    user-filter: 'Filter Orders By Agent'
 
 
 
@@ -261,6 +392,10 @@ admin-agent:
     suspended: 'Suspended'
     not.suspended: 'Not suspended'
     all: 'All'
+    roles: 'Roles'
+    expand: 'Expand'
+    collapse: 'Collapse'
+    drag: 'Drag'
 
 validations:
   presence-password: 'Password is too short (minimum is 6 characters)!'
@@ -270,6 +405,33 @@ validations:
   presence-value: 'This field can''t be blank!'
   phone-number: 'Phone number is invalid!'
   older-than-18: 'User must be 18 or older!'
+
+
+payment:
+  created-at: 'Created at'
+  payed-at: 'Payed at'
+  commission: 'Commission'
+  bonus: 'Bonus'
+  unprocessed: 'Unprocessed'
+  payed: 'Payed'
+  rejected: 'Rejected'
+  amount: 'Amount'
+  memo: 'Memo'
+  pay: 'Pay'
+  reject: 'Reject'
+  state: 'State'
+  type: 'Type'
+  filter-results: 'Filter results'
+  pay-all: 'Pay all'
+  reject-all: 'Reject all'
+  select-filters: 'Select filters'
+  select-agent: 'Select agent'
+  select-country: 'Select country'
+  select-type: 'Select type'
+  apply: 'Apply'
+  cancel: 'Cancel'
+  no-results-for-filter: 'No results found for selected filters'
+  no-results: 'No results found'
 
 
 # ADMIN - MESSAGES
@@ -287,6 +449,8 @@ admin-messages:
   new-messages: 'You have new messages'
   enter: 'Enter your message'
   files: 'Add file'
+  save-as-draft: 'Save as draft'
+  send-draft: 'Send draft'
 
 invitation:
   message.save: 'Invitation send'
@@ -317,7 +481,7 @@ models:
     delete: 'Group removed!'
   ticket:
     all: 'All'
-    save.message: 'Ticket saved!'
+    save.message: 'Ticket forwarded!'
     types:
       bug.report: 'Bug report'
       wrong.order: 'Wrong order'
@@ -326,6 +490,8 @@ models:
       new: 'New'
       active: 'Active'
       resolved: 'Resolved'
+    change-status: "Change ticket status"
+    forward-to: "Select agent to forward ticket"
   message:
     save: 'Message sent!'
     delete: 'Message moved to trash'
@@ -345,6 +511,15 @@ models:
     payouts-to-agents: "Payouts to agents"
     reports: "Reports"
     rejected-payments: "Rejected payments"
+    customer-profile: "Customer profile"
+    duration: "Duration"
+    price: "Price"
+    date-created: "Date created"
+    order-id: "Order ID"
+    article: "Article"
+    one-time-setup: "One time account setup fee"
+    price-for-remaining: "Price for remaining days until the end of month"
+    purchase-details: "Purchase details"
 
 #SETTINGS
 
@@ -353,6 +528,9 @@ settings:
     number-validation: 'This field must be a number'
     integer-validation: 'This field must be an integer number'
   labels:
+    settings-label: 'Settings'
+    personal-settings: 'Personal settings'
+    logo: 'Logo'
     facebook-link: 'Facebook link'
     twitter-link: 'Twitter link'
     confirmation-mail: 'Confirmation mail'
@@ -408,6 +586,11 @@ tickets:
     full-name: 'Full name'
     email: 'Email'
     file: 'File'
+    create: 'Create ticket'
+    titlemain: 'Title'
+    choose-type: 'Choose ticket type'
+    description: 'Description'
+    select-agents-to-forward: 'Select agent to forward message to'
 
 #MANAGE GROUPS
 

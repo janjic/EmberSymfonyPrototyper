@@ -224,7 +224,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
 
     shouldOpenModal(group){
         let iniGroup = this.get('initialGroup');
-        return iniGroup ? (iniGroup.get('name') !== 'REFEREE' && group.get('name') === 'REFEREE' ): false;
+        return iniGroup ? (iniGroup.get('name') !== ApiCode.GroupInfo.REFEREE && group.get('name') === ApiCode.GroupInfo.REFEREE ): false;
     }
 
 });

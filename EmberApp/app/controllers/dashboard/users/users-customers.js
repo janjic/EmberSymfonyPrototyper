@@ -46,6 +46,15 @@ export default Ember.Controller.extend({
                 this.set('totalItems', this.get('model.meta.totalItems'));
             });
 
+        },
+
+        sendInvites(recipientsEmails, emailSubject, emailContent, cUser){
+            return this.get('store').createRecord('invitation', {
+                recipientEmail: recipientsEmails,
+                emailSubject:   emailSubject,
+                emailContent:   emailContent,
+                agent:          cUser
+            });
         }
     },
 
