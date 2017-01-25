@@ -321,11 +321,13 @@ table {
           justify-content: center;
           flex-direction: column;
           text-align: center;
+          flex: 2;
         }
         .img-holder {
           height: 80px !important;
           width: 80px;
           margin-right: 5px;
+          flex: 1;
           img {
             width: 80px;
             height: 80px;
