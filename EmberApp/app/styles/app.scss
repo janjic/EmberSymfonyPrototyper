@@ -1203,20 +1203,21 @@ header {
     overflow: hidden;
     margin-bottom: 15px;
     padding: 0;
+    height: 90px;
     .img-holder {
-      width: 60px;
-      height: auto !important;
       margin-right: 10px;
+      width: 110px;
+    }
+    .card-block-info-txt {
+      padding: 5px;
     }
     img {
-      width: 80px;
-      vertical-align: middle;
+      height: 100%;
+      width: 130px;
     }
     h6 {
       display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      word-break: break-all;
       font-weight: 300;
       color: #fff;
     }
@@ -4126,6 +4127,13 @@ ul.notification-list {
   padding: 0 20px;
 }
 
+.navbar-nav > li:first-child {
+  float: right;
+  @media screen and (max-width: 768px) {
+    float: none;
+  }
+}
+
 ul.dropdown-menu {
   &.header-notifications {
     min-width: 300px;
@@ -5373,21 +5381,70 @@ ul.dropdown-menu {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  select {
-    width: 54px;
-    cursor: pointer;
-    -webkit-appearance: none;
-    transition: all 0.3s ease-in-out;
-    &:hover {
-      background-color: $main-dark;
-      color: $white;
+  .drop-holder {
+    position: relative;
+    button.button.btn-small {
+      color: #333;
+      background-color: transparent;
+      border: 1px solid #ccc;
+      box-shadow: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: $main-dark;
+        color: $white;
+      }
+      &:focus {
+        background-color: $main-dark;
+        color: $white;
+      }
     }
-    &:focus {
-      background-color: $main-dark;
-      color: $white;
+  }
+  .dropdown-menu {
+    display: none;
+  }
+  .dropdown-menu.clicked {
+    display: block;
+    right: 0;
+    left: -50px;
+    padding: 0;
+    margin: 0;
+    min-width: 100px;
+    li {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      &:first-child {
+        span {
+          background-color: #434348;
+        }
+      }
+      &:nth-child(2) {
+        span {
+          background-color: #7cb5ec;
+        }
+      }
+      span {
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 5px;
+        color: #fff;
+        border-radius: 4px;
+      }
+      &:hover {
+        background-color: rgba(52, 73, 94, 0.1);
+      }
+      &:focus {
+        background-color: rgba(52, 73, 94, 0.1);
+      }
     }
   }
 }
+
+
 
 .tickets  {
   .img-holder {

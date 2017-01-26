@@ -36,6 +36,9 @@ $( document ).ready(function() {
         return false;
     });
 
+    $('body').on("click", ".button.dropdown-toggle", function (e) {
+        $(".chart-heading .dropdown-menu").toggleClass('clicked');
+    });
 });
 
 $(window).load(function() {
