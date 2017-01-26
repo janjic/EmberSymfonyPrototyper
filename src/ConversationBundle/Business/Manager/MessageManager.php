@@ -256,8 +256,8 @@ class MessageManager implements JSONAPIEntityManagerInterface
         // SENDING NOTIFICATION IF IT ISN'T DRAFT
         if( !$message->isIsDraft() ){
             /** @var Agent $user */
-            $user = $this->getCurrentUser();
-            $userRecipient =  $message->getParticipantsFromMeta()[0]->getId() == $user->getId() ? $message->getParticipantsFromMeta()[1] : $message->getParticipantsFromMeta()[0];
+//            $user = $this->getCurrentUser();
+//            $userRecipient =  $message->getParticipantsFromMeta()[0]->getId() == $user->getId() ? $message->getParticipantsFromMeta()[1] : $message->getParticipantsFromMeta()[0];
 //            if( in_array('optionMessage', $userRecipient->getNotifications()) ){
                 $notification = NotificationManager::createNewMessageNotification($messageDB);
                 $event = new NotificationEvent();

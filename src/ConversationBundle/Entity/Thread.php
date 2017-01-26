@@ -64,6 +64,12 @@ class Thread extends BaseThread
     protected $ticket;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default" : false}, nullable=true)
+     */
+    protected $isTicketThread;
+
+    /**
      * Thread constructor.
      */
     public function __construct()
@@ -158,5 +164,21 @@ class Thread extends BaseThread
     public function setIsDraft($isDraft)
     {
         $this->isDraft = $isDraft;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsTicketThread()
+    {
+        return $this->isTicketThread;
+    }
+
+    /**
+     * @param boolean $isTicketThread
+     */
+    public function setIsTicketThread($isTicketThread)
+    {
+        $this->isTicketThread = $isTicketThread;
     }
 }

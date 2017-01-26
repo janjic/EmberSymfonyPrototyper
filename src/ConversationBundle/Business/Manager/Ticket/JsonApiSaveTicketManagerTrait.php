@@ -91,7 +91,7 @@ trait JsonApiSaveTicketManagerTrait
         $thread->setBody($ticket->getText());
         $creator = $this->repository->getReferenceForClass($ticket->getCreatedBy()->getId(), Agent::class);
         $thread->setSender($creator);
-
+        $thread->getMessage()->getThread()->setIsTicketThread(true);
 
         $this->eventDispatcher->addListener(FOSMessageEvents::POST_SEND, function($e) {
             $this->saveEventResult = $e->getMessage();

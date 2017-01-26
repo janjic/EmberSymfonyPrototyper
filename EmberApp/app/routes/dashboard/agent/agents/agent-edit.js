@@ -2,6 +2,7 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 import {withoutProxies} from './../../../../utils/proxy-helpers';
 export default Ember.Route.extend({
+    currentUser: Ember.inject.service('current-user'),
     model: function (params) {
         //We must create new address, because change set constructors needs object
         let agent = new RSVP.Promise((resolve)=> {
@@ -19,5 +20,13 @@ export default Ember.Route.extend({
             groups:  this.get('store').findAll('group')
         };
         return RSVP.hash(promises);
+    },
+
+    afterModel(model) {
+        if (Object.is(model.agent.get('id'), this.get('currentUser.user.id'))) {
+            this.transitionTo('dashboard.agent.profile.profile-settings');
+        }
     }
+
+
 });
