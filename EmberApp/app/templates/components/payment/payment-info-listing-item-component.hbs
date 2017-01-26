@@ -30,7 +30,7 @@
 
             <p><span>{{trans 'payment.state'}}</span> <br>
                 {{#if (eq payment.state null)}}
-                    {{trans 'payment.unproccessed'}}
+                    {{trans 'payment.unprocessed'}}
                 {{else if (eq payment.state 'true')}}
                     {{trans 'payment.payed'}}
                 {{else}}
@@ -47,7 +47,7 @@
                 {{!--{{#if isEditing}}--}}
                     <span class="pull-right">
                         <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
-                        <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
+                        <span {{action 'cancelEdit'}}><i class="fa fa-refresh"></i></span>
                     </span>
                 {{!--{{else}}--}}
                     {{!--<span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>--}}
