@@ -7,7 +7,6 @@ export default function(template, applicationInstance, data, destroy=false, el= 
     return new Ember.RSVP.Promise((resolve) =>{
         // create a new component
         let component = Ember.Component.create({
-            style: 'display:none;', // hide it
             layout, // specify your template as a layout
             renderer,
             container // provide container
