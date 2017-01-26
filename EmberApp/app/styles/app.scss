@@ -2763,7 +2763,7 @@ input:focus {
 
 .legend-orgchart.input-box {
   z-index: 1;
-  background: transparent url(images/bg-pattern.png);
+  background: transparent;
   position: absolute;
   bottom: 0;
   box-shadow: none;
@@ -2829,6 +2829,7 @@ input:focus {
   .orgchart {
     background-image: none;
     padding: 0;
+    padding-bottom: 70px;
     table {
       background-color: transparent;
     }
@@ -4666,6 +4667,7 @@ ul.dropdown-menu {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
+      text-align: center;
       .flag {
         margin-right: 5px;
       }
@@ -5365,6 +5367,93 @@ ul.dropdown-menu {
 
 .demote {
   background-color: #c0392b;
+}
+
+.chart-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  select {
+    width: 54px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background-color: $main-dark;
+      color: $white;
+    }
+    &:focus {
+      background-color: $main-dark;
+      color: $white;
+    }
+  }
+}
+
+.tickets  {
+  .img-holder {
+    height: 100% !important;
+  }
+  .ticket-info, .user-info {
+    p {
+      font-size: 12px;
+    }
+  }
+}
+
+.ranges {
+  li.active {
+    background: $main-dark;
+    border: 1px solid $main-dark;
+  }
+  li {
+    &:hover {
+      background: $main-dark;
+      border: 1px solid $main-dark;
+    }
+  }
+}
+
+.range_inputs {
+  button.applyBtn {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #4CAF50 !important;
+    color: white;
+    display: inline-block;
+    margin: 0.3em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border: none;
+    text-align: center;
+  }
+  button.cancelBtn {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #F44336 !important;
+    color: white;
+    display: inline-block;
+    margin: 0.3em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border: none;
+    text-align: center;
+  }
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+  background-color: $main-dark;
 }
 
 /*!
