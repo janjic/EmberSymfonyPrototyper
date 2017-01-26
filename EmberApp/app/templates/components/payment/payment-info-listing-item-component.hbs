@@ -2,7 +2,11 @@
     <div class="input-box">
         <div class="upper-box">
             <div class="img-holder">
-                <img src="{{payment.agent.baseImageUrl}}" alt="">
+                {{#if payment.agent.baseImageUrl}}
+                    <img src="{{payment.agent.baseImageUrl}}" alt="">
+                {{else}}
+                    <img src="../../assets/images/user-avatar.png" title="Username">
+                {{/if}}
             </div>
             <div class="info-right">
                 <h5>{{payment.agent.fullName}}</h5>
