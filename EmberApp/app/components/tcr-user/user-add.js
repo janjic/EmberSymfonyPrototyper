@@ -21,8 +21,8 @@ export default Ember.Component.extend({
         return this.searchQuery(page, text, perPage);
     }),
 
-    userCity: null,
-    userStreet: null,
+    userCity: '',
+    userStreet: '',
     address: Ember.computed('userCity', 'userStreet', function() {
         this.set('changeset.address', this.get('userCity')+', '+this.get('userStreet'));
     }),
