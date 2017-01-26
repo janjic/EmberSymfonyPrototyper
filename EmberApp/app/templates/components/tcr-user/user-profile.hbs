@@ -19,8 +19,8 @@
             <h3 class="sub-heading">{{fa-icon "user"}} {{trans 'admin-user.label.basic-info'}}</h3>
 
             <div class="img-holder">
-                {{#if user.image.filePath }}
-                    <img class="img img-responsive" src="{{user.image.filePath}}" alt="">
+                {{#if user.baseImageUrl }}
+                    <img class="img img-responsive" src="{{user.baseImageUrl}}" alt="">
                 {{else}}
                     <img src="../../../assets/images/user-avatar.png" alt="">
                 {{/if}}

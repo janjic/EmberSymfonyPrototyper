@@ -40,9 +40,9 @@ export default Ember.Component.extend({
     },
 
     willDestroy(){
+        this._super(...arguments);
         Ember.run.cancel(this.get('intervalId'));
         Ember.run.cancel(this.get('refresh'));
-        this.set('refresh', undefined);
         window.$('.timer').stop();
     }
 });

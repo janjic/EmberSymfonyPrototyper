@@ -13,7 +13,7 @@ export default Ember.Route.extend({
         this._super(controller, model);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
-        controller.set('agents', this.store.findAll('agent'));
+        // controller.set('agents', this.store.findAll('agent'));
     },
 
     actions: {

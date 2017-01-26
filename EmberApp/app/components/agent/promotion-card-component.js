@@ -71,7 +71,7 @@ export default Ember.Component.extend({
                 type: role.get('name')
             };
 
-            let route = 'app_dev.php'+Routing.generate('check-new-superior-type');
+            let route = Routing.generate('check-new-superior-type');
             return new RSVP.Promise(() => {
                 this.get('authorizedAjax').sendAuthorizedRequest(data, 'POST', route,
                     function (response) {
@@ -98,7 +98,7 @@ export default Ember.Component.extend({
     },
     sendRequest(data, route, ctx){
         if(!route) {
-            route = 'app_dev.php'+Routing.generate('promote-agent');
+            route = Routing.generate('promote-agent');
         }
 
         return new RSVP.Promise(() => {

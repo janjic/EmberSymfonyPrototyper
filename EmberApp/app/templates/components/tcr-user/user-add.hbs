@@ -218,7 +218,7 @@
                             <span class="required" aria-required="true"> * </span>
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12">
-                            {{pikaday-input useUTC=true format="MM/DD/YYYY" class="form-control" onSelection=(action 'updateUserBirthDate') value=user.birthDate}}
+                            {{pikaday-input useUTC=true format="MM/DD/YYYY" class="form-control" onSelection=(action 'updateUserBirthDate') value=user.birthDate yearRange="100"}}
                             {{#if (get changeset.error 'birthDate')}}
                                 <ul class="error-list">
                                     {{#each (get (get changeset.error 'birthDate') "validation") as |message|}}

@@ -36,7 +36,10 @@
                         {{#if (eq message.sender.id currentUser.user.id)}}
                             <div class="admin-comment">
                                 <div class="admin-message clearfix">
-                                    <p>{{message.body}}</p>
+
+                                    {{messages/message-single-item body=message.body}}
+                                    {{!--<p class="single-message-content">{{message.body}}</p>--}}
+
                                     <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     {{#if message.file}}
                                         {{#elements/file-downloader-component file=message.file as |isImage file items options|}}
@@ -79,7 +82,9 @@
                                     </div>
                                 </div>
                                 <div class="user-message clearfix">
-                                    <p>{{message.body}}</p>
+                                    {{messages/message-single-item body=message.body}}
+                                    {{!--<p class="single-message-content">{{message.body}}</p>--}}
+
                                     <span>{{moment-from-now message.createdAt hideSuffix=false interval=5000}}</span>
                                     {{#if message.file}}
                                         {{#elements/file-downloader-component file=message.file as |isImage file items options|}}
@@ -114,7 +119,7 @@
         <div class="send-message-mobile">
             <form {{action 'sendMessage' on="submit"}}>
                 <div class="input-group">
-                    {{input type="text" value=messageBody class="form-control" placeholder=(trans "admin-messages.enter")}}
+                    {{input type="text" value=messageBody class="form-control new-message-content" placeholder=(trans "admin-messages.enter")}}
                     {{#if fileTemp}}
                         <i class="fa fa-paperclip file-attached" {{action 'toggleAttachDropzone'}}></i>
                     {{else}}

@@ -19,12 +19,8 @@ export default Ember.Component.extend(LoadingStateMixin, {
         if( this.get('searchArray') ){
             this.set('paramsArray.rules', this.get('searchArray'));
         }
+        this.set('sortType', this.get('defaultSortType') ? this.get('defaultSortType') : 'asc');
         this.set('sortColumn', 'id');
-        if ( this.get('initialSord') ){
-            this.set('sortType', this.get('initialSord'));
-        } else {
-            this.set('sortType', 'asc');
-        }
     },
 
     actions: {

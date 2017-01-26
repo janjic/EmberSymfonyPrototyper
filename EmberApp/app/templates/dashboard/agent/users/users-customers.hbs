@@ -1,6 +1,7 @@
 {{invite-people-component sendInvites=(action 'sendInvites')}}
 
-{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
+{{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset
+                       showAddAgentButton=false filter=(action 'filterModel') as |yieldModel|}}
 
     {{user/user-card-view-component viewLink="dashboard.agent.users.user-view" editLink="dashboard.agent.users.user-edit" user=yieldModel}}
 

@@ -52,7 +52,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.get('model.newSubscribers').pushObject({email:value});
         },
         agentSelected(agent){
-            console.log(agent);
             if(agent.hasOwnProperty('email')){
                 this.get('model.newSubscribers').pushObject({email:agent.email});
             }else {
