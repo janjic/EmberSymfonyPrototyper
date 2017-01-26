@@ -345,7 +345,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
      * @param $roleName
      * @return null|Agent
      */
-    public function findAgentByRole($roleName)
+    public function findAgentByRole($roleName = RoleManager::ROLE_SUPER_ADMIN)
     {
         return $this->repository->findAgentByRole($roleName);
     }
