@@ -43,6 +43,7 @@ button:
 
 validation:
   email:
+  birth_date: 'You must be at least 18 years old'
 
 general:
   save: 'Save'

@@ -1,5 +1,5 @@
 {{!--{{table-view-component mainTitle=(trans 'admin-agent.new.title') model=model colNames=colNames colModels=colModels page=page maxPages=maxPages offset=offset filter=(action 'filterModel') editLink="dashboard.agents.agent-edit"}}--}}
 
-{{#card-view-component model=model mainTitle=(trans 'admin-agent.new.title') page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
+{{#card-view-component model=model mainTitle=(trans 'admin-agent.all.title') page=page maxPages=maxPages offset=offset filter=(action 'filterModel') as |yieldModel|}}
     {{agent/agent-card-view-component viewLink="dashboard.agent.agents.agent-view" editLink="dashboard.agent.agents.agent-edit" agent=yieldModel}}
 {{/card-view-component}}

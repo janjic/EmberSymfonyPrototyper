@@ -75,6 +75,10 @@ class AppKernel extends Kernel
     {
         return '/usr/share/fsddev-app/logs';
     }
+
+    /**
+     * @param LoaderInterface $loader
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');

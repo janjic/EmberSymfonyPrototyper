@@ -2,7 +2,11 @@
     <div class="input-box">
         <div class="upper-box">
             <div class="img-holder">
-                <img src="{{payment.agent.baseImageUrl}}" alt="">
+                {{#if payment.agent.baseImageUrl}}
+                    <img src="{{payment.agent.baseImageUrl}}" alt="">
+                {{else}}
+                    <img src="../../assets/images/user-avatar.png" title="Username">
+                {{/if}}
             </div>
             <div class="info-right">
                 <h5>{{payment.agent.fullName}}</h5>
@@ -30,7 +34,7 @@
 
             <p><span>{{trans 'payment.state'}}</span> <br>
                 {{#if (eq payment.state null)}}
-                    {{trans 'payment.unproccessed'}}
+                    {{trans 'payment.unprocessed'}}
                 {{else if (eq payment.state 'true')}}
                     {{trans 'payment.payed'}}
                 {{else}}
@@ -47,7 +51,7 @@
                 {{!--{{#if isEditing}}--}}
                     <span class="pull-right">
                         <span {{action 'saveEdit'}}><i class="fa fa-check"></i></span>
-                        <span {{action 'cancelEdit'}}><i class="fa fa-times"></i></span>
+                        <span {{action 'cancelEdit'}}><i class="fa fa-refresh"></i></span>
                     </span>
                 {{!--{{else}}--}}
                     {{!--<span class="pull-right" {{action 'toggleEditing'}}><i class="fa fa-pencil"></i></span>--}}

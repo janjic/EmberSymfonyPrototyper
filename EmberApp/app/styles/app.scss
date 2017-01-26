@@ -1203,20 +1203,21 @@ header {
     overflow: hidden;
     margin-bottom: 15px;
     padding: 0;
+    height: 90px;
     .img-holder {
-      width: 60px;
-      height: auto !important;
       margin-right: 10px;
+      width: 110px;
+    }
+    .card-block-info-txt {
+      padding: 5px;
     }
     img {
-      width: 80px;
-      vertical-align: middle;
+      height: 100%;
+      width: 130px;
     }
     h6 {
       display: block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      word-break: break-all;
       font-weight: 300;
       color: #fff;
     }
@@ -2763,7 +2764,7 @@ input:focus {
 
 .legend-orgchart.input-box {
   z-index: 1;
-  background: transparent url(images/bg-pattern.png);
+  background: transparent;
   position: absolute;
   bottom: 0;
   box-shadow: none;
@@ -2829,6 +2830,7 @@ input:focus {
   .orgchart {
     background-image: none;
     padding: 0;
+    padding-bottom: 70px;
     table {
       background-color: transparent;
     }
@@ -2887,7 +2889,7 @@ input:focus {
         right: -90px;
         box-shadow: 0 0 10px 1px #999;
         background-color: #fff;
-        z-index: 1;
+        z-index: 22;
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
@@ -4125,6 +4127,13 @@ ul.notification-list {
   padding: 0 20px;
 }
 
+.navbar-nav > li:first-child {
+  float: right;
+  @media screen and (max-width: 768px) {
+    float: none;
+  }
+}
+
 ul.dropdown-menu {
   &.header-notifications {
     min-width: 300px;
@@ -4666,6 +4675,7 @@ ul.dropdown-menu {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
+      text-align: center;
       .flag {
         margin-right: 5px;
       }
@@ -4704,7 +4714,7 @@ ul.dropdown-menu {
       color: #4caf50;
       font-size: 15px;
     }
-    .fa-times {
+    .fa-refresh {
       font-size: 15px;
       color: #f44336;
     }
@@ -5221,7 +5231,6 @@ ul.dropdown-menu {
 .top-countries {
   thead tr th {
     padding: 8px;
-    text-align: center;
   }
   tbody tr td {
     padding: 0 !important;
@@ -5234,10 +5243,7 @@ ul.dropdown-menu {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
     span {
       margin-right: 5px;
@@ -5365,6 +5371,142 @@ ul.dropdown-menu {
 
 .demote {
   background-color: #c0392b;
+}
+
+.chart-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .drop-holder {
+    position: relative;
+    button.button.btn-small {
+      color: #333;
+      background-color: transparent;
+      border: 1px solid #ccc;
+      box-shadow: none;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        background-color: $main-dark;
+        color: $white;
+      }
+      &:focus {
+        background-color: $main-dark;
+        color: $white;
+      }
+    }
+  }
+  .dropdown-menu {
+    display: none;
+  }
+  .dropdown-menu.clicked {
+    display: block;
+    right: 0;
+    left: -50px;
+    padding: 0;
+    margin: 0;
+    min-width: 100px;
+    li {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      &:first-child {
+        span {
+          background-color: #434348;
+        }
+      }
+      &:nth-child(2) {
+        span {
+          background-color: #7cb5ec;
+        }
+      }
+      span {
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 5px;
+        color: #fff;
+        border-radius: 4px;
+      }
+      &:hover {
+        background-color: rgba(52, 73, 94, 0.1);
+      }
+      &:focus {
+        background-color: rgba(52, 73, 94, 0.1);
+      }
+    }
+  }
+}
+
+
+
+.tickets  {
+  .img-holder {
+    height: 100% !important;
+  }
+  .ticket-info, .user-info {
+    p {
+      font-size: 12px;
+    }
+  }
+}
+
+.ranges {
+  li.active {
+    background: $main-dark;
+    border: 1px solid $main-dark;
+  }
+  li {
+    &:hover {
+      background: $main-dark;
+      border: 1px solid $main-dark;
+    }
+  }
+}
+
+.range_inputs {
+  button.applyBtn {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #4CAF50 !important;
+    color: white;
+    display: inline-block;
+    margin: 0.3em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border: none;
+    text-align: center;
+  }
+  button.cancelBtn {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #F44336 !important;
+    color: white;
+    display: inline-block;
+    margin: 0.3em;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    border: none;
+    text-align: center;
+  }
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+  background-color: $main-dark;
 }
 
 /*!

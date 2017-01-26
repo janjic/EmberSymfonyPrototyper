@@ -118,7 +118,7 @@ class PaymentController extends Controller
 
         $html = $this->renderView('@Payment/invoice-pdf.html.twig', array('order' => $response->{0}, 'logo' => $imageUrl));
 
-        $invoiceDir = '/var/www/fsd_dev/web/uploads/documents/';
+        $invoiceDir = $this->get('kernel')->getRootDir().'/../web/uploads/documents/';
         $file = $pdfGenerator->saveToFile($invoiceDir.'order-'.$response->{0}->id.'.pdf', 'S', $html);
 
         $encoded = base64_encode($file);
