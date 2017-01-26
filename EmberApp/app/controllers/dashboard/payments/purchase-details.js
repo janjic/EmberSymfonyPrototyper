@@ -14,6 +14,7 @@ export default Ember.Controller.extend({
     }),
     actions: {
         downloadPDF(){
+            this.set('isPDFLoading', true);
             /** set access token to ajax requests sent by orgchart library */
             let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
 
@@ -26,6 +27,7 @@ export default Ember.Controller.extend({
             });
 
             let id = this.get('model.id');
+            let ctx = this;
 
             Ember.$.ajax({
                 type: "GET",
@@ -33,6 +35,7 @@ export default Ember.Controller.extend({
                 contentType: "application/pdf",
             }).then(function (response) {
                 download(response, "order-"+id+".pdf", "application/pdf");
+                ctx.set('isPDFLoading', false);
             });
         }
     }

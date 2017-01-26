@@ -2887,7 +2887,7 @@ input:focus {
         right: -90px;
         box-shadow: 0 0 10px 1px #999;
         background-color: #fff;
-        z-index: 1;
+        z-index: 22;
         font-size: 12px;
         border-radius: 4px;
         padding: 10px;
@@ -4963,6 +4963,16 @@ ul.dropdown-menu {
   box-shadow: none;
   &:hover {
     box-shadow: none;
+  }
+}
+
+.agent-view-bottom-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  img {
+    width: 100px;
   }
 }
 

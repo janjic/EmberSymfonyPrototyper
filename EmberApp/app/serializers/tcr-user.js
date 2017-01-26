@@ -34,6 +34,7 @@ export default DS.JSONAPISerializer.extend({
                     email: item.email,
                     enabled: item.enabled,
                     created_at: item.created_at,
+                    baseImageUrl: item.baseImageUrl
                 },
             });
         });

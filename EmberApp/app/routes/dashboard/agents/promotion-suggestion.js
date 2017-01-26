@@ -7,7 +7,7 @@ export default Ember.Route.extend({
     data: null,
     model() {
         return new RSVP.Promise((resolve) =>{
-            this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', 'app_dev.php'+Routing.generate('agent-promotion-suggestion'),
+            this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', Routing.generate('agent-promotion-suggestion'),
                 function (response) {
                     resolve(response);
                 }.bind(this));

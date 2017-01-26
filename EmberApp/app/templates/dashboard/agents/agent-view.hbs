@@ -1,2 +1,3 @@
-{{agent-profile-view agent=model.agent subAgents=model.subAgents info=info page=page maxPages=maxPages offset=offset
+{{agent-profile-view agent=model.agent subAgents=subAgents isSubLoading=isSubAgentsLoading loadSubAgents=(action 'getAllSubAgents')
+                     info=info page=page maxPages=maxPages offset=offset
                      filter=(action 'filterModel') editLink="dashboard.agents.agent-edit" viewLink="dashboard.agents.agent-view"}}
