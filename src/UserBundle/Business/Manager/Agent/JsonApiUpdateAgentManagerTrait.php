@@ -185,14 +185,17 @@ trait JsonApiUpdateAgentManagerTrait
                     && ($agent->getSuperior() && $agent->getSuperior()->getGroup()->getName() === RoleHelper::MASTER)){
                 } else {
                     $superior = $dbAgent->getSuperior();
-                    $superior->removeFromActiveAgents($agent->getId());
-                    $newSuperior = $agent->getSuperior();
-                    if($newSuperior->getId() !== $superior->getId() && ($newSuperior->getGroup()->getName() === RoleHelper::MASTER || $newSuperior->getGroup()->getName() === RoleHelper::ACTIVE ) && $agent->getGroup()->getId() === $dbAgent->getGroup()->getId() ){
-                        $newSuperior->addActiveAgentId($agent->getId());
-                        $this->repository->simpleEdit(array($superior, $newSuperior));
-                    } else {
-                        $this->repository->simpleEdit(array($superior));
+                    if(!is_null($superior)){
+                        $superior->removeFromActiveAgents($agent->getId());
+                        $newSuperior = $agent->getSuperior();
+                        if($newSuperior->getId() !== $superior->getId() && ($newSuperior->getGroup()->getName() === RoleHelper::MASTER || $newSuperior->getGroup()->getName() === RoleHelper::ACTIVE ) && $agent->getGroup()->getId() === $dbAgent->getGroup()->getId() ){
+                            $newSuperior->addActiveAgentId($agent->getId());
+                            $this->repository->simpleEdit(array($superior, $newSuperior));
+                        } else {
+                            $this->repository->simpleEdit(array($superior));
+                        }
                     }
+
                 }
 
                 $dbAgent->setGroup($dbGroup);
