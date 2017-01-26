@@ -24,10 +24,13 @@
     </div>
     <div class="col-md-12">
         <div class="input-box">
-            <select class="form-control" onchange={{ action 'currencyChanged'  value="target.value"}}>
-                <option value="EUR" selected>EUR</option>
-                <option value="CHF">CHF</option>
-            </select>
+            <h3 class="sub-heading chart-heading">
+                Revenue
+                <select class="form-control" onchange={{ action 'currencyChanged'  value="target.value"}}>
+                    <option value="EUR" selected>EUR</option>
+                    <option value="CHF">CHF</option>
+                </select>
+            </h3>
             <div id="highchart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </div>

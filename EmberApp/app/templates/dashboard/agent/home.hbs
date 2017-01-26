@@ -38,6 +38,8 @@
             </div>
         </div>
 
+        {{ dashboard/map-component}}
+
         <div class="row">
             {{ dashboard/orders-preview-component
                     viewLink = "dashboard.agent.agent-reports.purchase-details"
@@ -52,7 +54,7 @@
                     getMessages             = (action 'getNumberOfNewMessages')
             }}
         </div>
+
         {{chart-component}}
-        {{ dashboard/map-component}}
     </section>
 </div>

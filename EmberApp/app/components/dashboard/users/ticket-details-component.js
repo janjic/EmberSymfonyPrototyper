@@ -7,6 +7,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
     replyMessage: '',
     disableWriteByUser: Ember.computed('currentUser.user', 'model.forwardedTo', function () {
+        if (this.get('currentUser.isUserAdmin')) {
+            return false;
+        }
         if (!this.get('model.forwardedTo')) {
             return false;
         } else {
