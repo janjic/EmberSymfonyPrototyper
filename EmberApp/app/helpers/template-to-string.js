@@ -1,7 +1,5 @@
 // template-to-string.js
 import Ember from 'ember';
-// when you call this function
-// app initialization must be finished
 export default function(template, applicationInstance, data, destroy=false, el= null) {
     let layout = applicationInstance.lookup(template);
     let container = applicationInstance.container;
