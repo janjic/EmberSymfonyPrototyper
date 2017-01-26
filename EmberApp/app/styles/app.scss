@@ -5221,7 +5221,6 @@ ul.dropdown-menu {
 .top-countries {
   thead tr th {
     padding: 8px;
-    text-align: center;
   }
   tbody tr td {
     padding: 0 !important;
@@ -5234,10 +5233,7 @@ ul.dropdown-menu {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
     span {
       margin-right: 5px;
