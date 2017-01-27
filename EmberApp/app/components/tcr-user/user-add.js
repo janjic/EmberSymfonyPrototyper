@@ -21,8 +21,8 @@ export default Ember.Component.extend({
         return this.searchQuery(page, text, perPage);
     }),
 
-    userCity: null,
-    userStreet: null,
+    userCity: '',
+    userStreet: '',
     address: Ember.computed('userCity', 'userStreet', function() {
         this.set('changeset.address', this.get('userCity')+', '+this.get('userStreet'));
     }),
@@ -50,12 +50,15 @@ export default Ember.Component.extend({
         saveUser(user) {
             this.get('changeset').validate();
             if (this.get('changeset').get('isValid')) {
+                this.set('isLoading', true);
                 user.save().then(() => {
                     this.toast.success(Translator.trans('User saved!'));
+                    this.set('isLoading', false);
                     this.get('routing').transitionTo('dashboard.users.users-customers');
                 }, (resp) => {
                     let errorMessage = resp.errors[0].detail;
                     this.toast.error(Translator.trans(errorMessage));
+                    this.set('isLoading', false);
                 });
             }
         },

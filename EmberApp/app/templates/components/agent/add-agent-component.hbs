@@ -2,7 +2,7 @@
     {{role-changed-modal isModalOpen=isModalOpen groups=groups changeset=changeset}}
 </div>
 <section class="agent-add">
-    <h1 class="main-heading">{{trans 'admin-agent.new.title'}}</h1>
+    <h1 class="main-heading">{{trans title}}</h1>
     <form role="form">
         <div class="row setup-content">
             <div class="col-md-6">
@@ -251,6 +251,7 @@
                     </div>
 
                     {{#unless isProfileView }}
+                        {{#if isUserAdmin}}
                         <div class="form-group clearfix">
                             <label class="control-label col-md-5 col-xs-5">{{trans 'admin-agent.label.status'}}</label>
                             <div class="col-md-7 col-xs-7">
@@ -262,7 +263,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        {{/if}}
                     {{/unless}}
                     {{!--{{#if isProfileView}}--}}
                     {{!--{{agent/notification-setting notifications=notifications}}--}}

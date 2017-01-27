@@ -112,18 +112,19 @@ trait JsonApiSaveMessageManagerTrait
             $this->saveEventResult->getThread()->setIsRead(true);
 
             // SENDING NOTIFICATION IF MESSAGE IS NOT DRAFT
-            if( !$messageFronted->isIsDraft() ) {
+            if( !$messageFronted->isIsDraft() && (!$messageFronted->getThread() ||
+                    !$this->repository->getReferenceForClass($messageFronted->getThread()->getId(), Thread::class)->isisTicketThread()) ) {
                 /** @var Agent $user */
-                $user = $this->getCurrentUser();
-                $userRecipient =  $newMessage->getParticipantsFromMeta()[0]->getId() == $user->getId() ? $newMessage->getParticipantsFromMeta()[1] : $newMessage->getParticipantsFromMeta()[0];
-                if( in_array('optionMessage', $userRecipient->getNotifications()) ) {
+//                $user = $this->getCurrentUser();
+//                $userRecipient =  $newMessage->getParticipantsFromMeta()[0]->getId() == $user->getId() ? $newMessage->getParticipantsFromMeta()[1] : $newMessage->getParticipantsFromMeta()[0];
+//                if( in_array('optionMessage', $userRecipient->getNotifications()) ) {
                     $notification = NotificationManager::createNewMessageNotification($newMessage);
                     $event = new NotificationEvent();
                     $event->setMessage($newMessage);
                     $event->addNotification($notification);
 
                     $this->eventDispatcher->dispatch(NotificationEvents::ON_NOTIFICATION_ACTION, $event);
-                }
+//                }
             }
 
             return $this->serializeMessage($this->saveEventResult);

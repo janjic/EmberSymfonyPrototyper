@@ -80,7 +80,6 @@
                 <dt>{{trans 'admin-user.label.phone'}}</dt>
                 <dd>{{user.phoneNumber}}</dd>
             </dl>
-
         </div>
 
         <div class="input-box referral clearfix">
@@ -120,6 +119,9 @@
                     {{/if}}
                 </dd>
             </dl>
+            {{#link-to viewLink user.agent.id class="button red icon-btn"}}
+                {{trans 'button.view-profile'}}
+            {{/link-to}}
         </div>
     </div>
 </section>

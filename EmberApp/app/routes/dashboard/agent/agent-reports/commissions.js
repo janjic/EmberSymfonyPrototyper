@@ -15,5 +15,9 @@ export default Ember.Route.extend({
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
         controller.set('paymentState', 'true');
+        controller.set('selectedCurrency', 'EUR');
+        controller.set('startDate', null);
+        controller.set('endDate', null);
+        controller.get('setUpGraph').perform();
     }
 });
