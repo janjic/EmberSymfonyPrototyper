@@ -43,6 +43,7 @@ button:
 
 validation:
   email:
+  birth_date: 'You must be at least 18 years old'
 
 general:
   save: 'Save'
@@ -482,6 +483,7 @@ models:
   ticket:
     all: 'All'
     save.message: 'Ticket forwarded!'
+    edit: 'Ticket updated!'
     types:
       bug.report: 'Bug report'
       wrong.order: 'Wrong order'

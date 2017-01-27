@@ -3,6 +3,8 @@ import PaymentInfoListingMixin from './../../../../mixins/payment-info-listing';
 import DateRangesMixin from './../../../../mixins/date-picker-fields';
 import LoadingStateMixin from './../../../../mixins/loading-state';
 const {Routing, Highcharts, Translator} = window;
+import { task, timeout } from 'ember-concurrency';
+
 
 export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixin, DateRangesMixin, {
     session: Ember.inject.service('session'),
@@ -16,10 +18,7 @@ export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixi
     totalBonus: 0,
     unprocessedBonus: 0,
 
-
-    init: function () {
-        this._super();
-
+    setUpGraph: task(function * () {
         /** set access token to ajax requests sent by orgchart library */
         let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
 
@@ -32,6 +31,12 @@ export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixi
         });
 
         this.loadGraphData(this);
+    }).restartable(),
+
+    init: function () {
+        this._super();
+        this.get('setUpGraph').perform();
+
     },
 
     actions: {
