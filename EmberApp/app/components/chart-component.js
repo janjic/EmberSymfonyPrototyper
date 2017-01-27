@@ -1,7 +1,6 @@
 import Ember from 'ember';
-const {Highcharts} = window;
 const {service} = Ember.inject;
-const {Routing} = window;
+const {Routing, Translator, Highcharts} = window;
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Component.extend({
@@ -85,9 +84,13 @@ export default Ember.Component.extend({
             // }
         );
 
+        Highcharts.setOptions({
+            colors: ['#c0392b', '#f39c12', '#1d6876', '#21913a']
+        });
+
             this.set('chart', Highcharts.chart('highchart', {
                 title: {
-                    text: 'Top 5 agents earnings by type'
+                    text: Translator.trans('dashboard.chart.top-4')
                 },
                 credits: {
                     enabled: false
@@ -95,7 +98,7 @@ export default Ember.Component.extend({
                 xAxis: xAxis,
                 labels: {
                     items: [{
-                        html: 'Total Agent Earnings',
+                        html: Translator.trans('dashboard.chart.total-earnings'),
                         style: {
                             left: '50px',
                             top: '18px',

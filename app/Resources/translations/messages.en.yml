@@ -70,6 +70,7 @@ general:
   genealogy: 'Genealogy tree'
   new-message: 'New message'
   payment: 'Payment'
+  e-wallet: 'E-wallet'
   new-agent: 'New agent'
   role: 'Role'
   promotion-suggestion: 'Promotion suggestion'
@@ -573,6 +574,9 @@ dashboard:
     top-sellers: 'Top sellers'
   settings:
     test-commissions: 'Test commissions'
+  chart:
+    total-earnings: 'Total Agent Earnings'
+    top-4: 'Top 4 agents earnings by type'
 
 
 #TICKETS
@@ -613,3 +617,4 @@ manage-roles:
   role: 'Role'
   add-new: 'Add new role'
   title: 'Title'
+

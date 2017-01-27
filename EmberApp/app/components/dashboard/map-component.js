@@ -34,7 +34,7 @@ export default Ember.Component.extend({
                 fills: {
                     defaultFill: '#34495e',
                     '1': '#C0392B',
-                    '2': '#C0742B',
+                    '2': '#f39c12',
                     '3': '#1D6876',
                     '4': '#21913A'
                 },
