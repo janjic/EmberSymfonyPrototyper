@@ -3,6 +3,9 @@
 namespace UserBundle\Business\Manager;
 
 use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use FSerializerBundle\services\FJsonApiSerializer;
 use UserBundle\Business\Manager\AgentHistory\JsonApiJQGridAgentHistoryManagerTrait;
@@ -39,11 +42,17 @@ class AgentHistoryManager implements JSONAPIEntityManagerInterface
     protected $tokenStorage;
 
     /**
-     * @param AgentHistoryRepository $repository
-     * @param FJsonApiSerializer     $fSerializer
-     * @param TokenStorageInterface  $tokenStorage
+     * @var RequestStack $request
      */
-    public function __construct(AgentHistoryRepository $repository, FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage)
+    protected $request;
+
+    /**
+     * @param AgentHistoryRepository $repository
+     * @param FJsonApiSerializer $fSerializer
+     * @param TokenStorageInterface $tokenStorage
+     * @param Request $request
+     */
+    public function __construct(AgentHistoryRepository $repository, FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage, RequestStack $request)
     {
         $this->repository   = $repository;
         $this->fSerializer  = $fSerializer;
@@ -80,6 +89,10 @@ class AgentHistoryManager implements JSONAPIEntityManagerInterface
         return $this->tokenStorage->getToken()->getUser();
     }
 
+    /**
+     * @param null $id
+     * @return array
+     */
     public function getResource($id = null)
     {
         // TODO: Implement getResource() method.
@@ -99,5 +112,21 @@ class AgentHistoryManager implements JSONAPIEntityManagerInterface
     {
         // TODO: Implement deleteResource() method.
     }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getQueryResult(Request $request)
+    {
+        if($agentId = $request->get('agentId')){
+            $data = $this->repository->getAgentHistory($agentId);
+            $serializedData = $this->serializeAgentHistory($data, []);
+
+            return new ArrayCollection($serializedData);
+        }
+    }
+
+
 
 }

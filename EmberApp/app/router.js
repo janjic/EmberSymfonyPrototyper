@@ -38,6 +38,7 @@ Router.map(function() {
           this.route('add-new-agent');
           this.route('all-agents');
           this.route('agent-update-history');
+          this.route('agent-history', {path: '/agent-history/:agentId'});
           this.route('promotion-suggestion');
           this.route('agent-view', {path: '/agent-view/:id'});
           this.route('agent-edit', {path: '/agent-edit/:id'});

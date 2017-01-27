@@ -220,6 +220,7 @@ services:
             repository:      "@agent_system.agent.history.repository"
             fSerializer:     "@f_serializer"
             tokenStorrage:   "@security.token_storage"
+            request:         "@request_stack"
 
     agent_system.agent.history.adapter:
         class: UserBundle\Adapter\AgentHistory\AgentHistoryAdapter

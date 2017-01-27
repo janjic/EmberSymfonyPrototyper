@@ -165,4 +165,20 @@ class AgentHistoryRepository extends EntityRepository
 
         return $oQ0->getQuery()->getResult();
     }
+
+    /**
+     * @param $agentId
+     * @return array
+     */
+    public function getAgentHistory($agentId)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.changedFrom', self::CHANGED_FROM_ALIAS);
+        $qb->leftJoin(self::ALIAS.'.changedTo', self::CHANGED_TO_ALIAS);
+        $qb->where(self::AGENT_ALIAS.'.id = '.$agentId);
+        $qb->orderBy(self::ALIAS.'.id', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
 }
