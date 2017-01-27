@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     groupsModel: [],
     page: 1,
     offset: 10,
-    colNames: ['ID', 'Title', 'Type', ' Status', 'Date', 'Author', 'Actions'],
+    colNames: ['ID', 'Title', 'Type', ' Status', 'Date', 'Author', 'Recipient', 'Actions'],
     colModels: Ember.computed('groupsModel', function () {
         return [{value: 'id', compare:'cn'},
             {value: 'title', compare:'cn'},
@@ -18,6 +18,9 @@ export default Ember.Controller.extend({
                 return value.split('.')[0];
             }},
             {value: 'createdBy', compare:'cn', formatter: function (value) {
+                return value.get('username');
+            }},
+            {value: 'forwardedTo', compare:'cn', formatter: function (value) {
                 return value.get('username');
             }},
         ];

@@ -56,6 +56,16 @@ class AgentHistory
     protected $changedType;
 
     /**
+     * @ORM\Column(name="active_agents_numb", type="integer")
+     */
+    protected $activeAgentsNumb;
+
+    /**
+     * @ORM\Column(name="numb_of_sales", type="integer")
+     */
+    protected $numbOfSales;
+
+    /**
      * @var string
      * @ORM\Column(name="date", type="datetime", length=255, nullable=true)
      */
@@ -194,4 +204,38 @@ class AgentHistory
     {
         $this->changedType = $changedType;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getActiveAgentsNumb()
+    {
+        return $this->activeAgentsNumb;
+    }
+
+    /**
+     * @param mixed $activeAgentsNumb
+     */
+    public function setActiveAgentsNumb($activeAgentsNumb)
+    {
+        $this->activeAgentsNumb = $activeAgentsNumb;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumbOfSales()
+    {
+        return $this->numbOfSales;
+    }
+
+    /**
+     * @param mixed $numbOfSales
+     */
+    public function setNumbOfSales($numbOfSales)
+    {
+        $this->numbOfSales = $numbOfSales;
+    }
+
+
 }
