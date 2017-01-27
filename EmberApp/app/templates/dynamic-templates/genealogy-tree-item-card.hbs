@@ -1,0 +1,15 @@
+<div class="second-menu" hidden data-id="{{id}}">
+    <div class="flex-view">
+        <div class="img-holder"><img class="avatar" src="{{if baseImageUrl baseImageUrl '../assets/images/user-avatar.png'}}">
+            <a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a>
+        </div>
+
+        <div class="actions">
+            <a class="button icon-btn linkToSuspend {{if data.enabled 'green' 'red'}}" data-agent-id='{{id}}'>
+                {{trans (unless data.enabled 'agent.change.enable' 'agent.change.disable')}}
+            </a>
+
+            <a class="button red icon-btn linkToDelete">{{trans 'general.delete'}}</a>
+        </div>
+    </div>
+</div>

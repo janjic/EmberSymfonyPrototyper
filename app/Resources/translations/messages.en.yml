@@ -26,6 +26,8 @@ table:
     previous: 'Previous'
     next: 'Next'
     last: 'Last'
+map:
+  agents: 'Agents'
 
 button:
   reset.passwrod: 'RESET PASSWORD'
@@ -63,6 +65,7 @@ general:
   active-agents: 'Active agents'
   referee: 'Referee'
   delete-user: 'Delete user'
+  delete: 'Delete'
   optional-info: 'Optional information'
   genealogy: 'Genealogy tree'
   new-message: 'New message'

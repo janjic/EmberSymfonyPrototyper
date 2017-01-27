@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import LoadingStateMixin from '../../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
+import templateToString from '../../helpers/template-to-string';
+
 const {Routing, Translator} = window;
+const { getOwner } = Ember;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     store: Ember.inject.service('store'),
@@ -25,6 +28,10 @@ export default Ember.Component.extend(LoadingStateMixin, {
         yield timeout(200);
         return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
     }),
+
+    setItemCard: task(function * (data, $node) {
+        return yield templateToString('template:dynamic-templates/genealogy-tree-item-card', getOwner(this), data, $node);
+    }).enqueue(),
 
     actions: {
         openModal() {
@@ -147,22 +154,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
                         Ember.$(this).siblings('.second-menu').toggle();
                     }
                 });
-                // let secondMenu = '<div class="second-menu" hidden><ul><li>Lorem: '+data.id+'</li><li>Lorem: ipsum</li><li>Lorem: ipsum</li></ul></div>';
-                let secondMenu =
-                    '<div class="second-menu" hidden data-id="'+data.id+'"><div class="flex-view">' +
-                    '<div class="img-holder"><img class="avatar" src="'+(
-                        data.baseImageUrl ? data.baseImageUrl : '../assets/images/user-avatar.png'
-                    )+'">' +
-                    '<a class="button green icon-btn linkToEdit"><i class="fa fa-pencil"></i></a></div>' +
+                $node.append(secondMenuIcon);
 
-                    '<div class="actions"><a class="button icon-btn linkToSuspend '+(!data.enabled ? 'green' : 'red')+'" ' +
-                    '   data-agent-id='+data.id+'>'+
-                    (Translator.trans(!data.enabled ? 'agent.change.enable' : 'agent.change.disable') )+
-                    '</a>'+
-
-                    '<a class="button red icon-btn linkToDelete">Delete</a></div>' +
-                    '</div></div>';
-                $node.append(secondMenuIcon).append(secondMenu);
+                this.get('setItemCard').perform(data, $node);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
             this.changeParent(event.draggedNode.attr('id'), event.dropZone.attr('id'), event.dragZone.attr('id'));

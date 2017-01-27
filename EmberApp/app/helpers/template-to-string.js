@@ -1,6 +1,6 @@
 // template-to-string.js
 import Ember from 'ember';
-export default function(template, applicationInstance, data, destroy=false, el= null) {
+export default function(template, applicationInstance, data, domElement= null) {
     let layout = applicationInstance.lookup(template);
     let container = applicationInstance.container;
     let renderer = applicationInstance.lookup('renderer:-dom');
@@ -19,16 +19,16 @@ export default function(template, applicationInstance, data, destroy=false, el= 
         component.on('didRender', function() {
             // no we can grab the result of rendering
             let el = component.element.innerHTML;
-            // remove the component
-            if (destroy) {
-                this.destroy();
-            }
 
             resolve(el);
+            if (domElement) {
+                domElement.append(el);
+            }
+
+            this.destroy();
         });
 
         // append the component to the body to make it render
-        el ? component.appendTo(el): component.append();
-
-    })
+        component.append();
+    });
 }
