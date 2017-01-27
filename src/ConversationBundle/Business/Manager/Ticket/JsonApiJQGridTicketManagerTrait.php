@@ -28,12 +28,13 @@ trait JsonApiJQGridTicketManagerTrait
         $offset = $request->get('offset');
 
         $searchFields = array(
-            'id'        => 'ticket.id',
-            'title'     => 'ticket.title',
-            'type'      => 'ticket.type',
-            'status'    => 'ticket.status',
-            'createdAt' => 'ticket.createdAt',
-            'createdBy' => 'createdBy.username',
+            'id'          => 'ticket.id',
+            'title'       => 'ticket.title',
+            'type'        => 'ticket.type',
+            'status'      => 'ticket.status',
+            'createdAt'   => 'ticket.createdAt',
+            'createdBy'   => 'createdBy.username',
+            'forwardedTo' => 'forwardedTo.username',
         );
 
         $sortParams = array($searchFields[$request->get('sidx')], $request->get('sord'));

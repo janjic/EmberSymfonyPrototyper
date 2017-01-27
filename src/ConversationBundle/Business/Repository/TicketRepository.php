@@ -119,6 +119,7 @@ class TicketRepository extends EntityRepository
     {
         $oQ0= $this->createQueryBuilder(self::ALIAS);
         $oQ0->join(self::ALIAS.'.'.self::JOIN_WITH_AUTHOR, self::JOIN_WITH_AUTHOR);
+        $oQ0->leftJoin(self::ALIAS.'.'.self::JOIN_WITH_RECIPIENT, self::JOIN_WITH_RECIPIENT);
         if ($additionalParams && array_key_exists('ticketsType', $additionalParams)) {
             if( $additionalParams['agentId'] != 'null' ){
                 $oQ0->andWhere(self::ALIAS.'.'.$additionalParams['ticketsType'].' = '.$additionalParams['agentId']);
@@ -140,8 +141,9 @@ class TicketRepository extends EntityRepository
                     $offset = $page * $offset;
                 }
                 array_shift($searchParams);
+//                var_dump($searchParams);exit;
                 foreach ($searchParams[0] as $key => $param) {
-                    if(!(($key == 'ticket.status' || $key == 'ticket.type' || $key == 'createdBy.username') && $param == -1)){
+                    if(!(($key == 'ticket.status' || $key == 'ticket.type' || $key == 'createdBy.username' || $key == 'forwardedTo.username') && $param == -1)){
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%'.$param.'%')));
                     }
                 }

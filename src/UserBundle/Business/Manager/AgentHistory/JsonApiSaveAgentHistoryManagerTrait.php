@@ -17,12 +17,13 @@ trait JsonApiSaveAgentHistoryManagerTrait
      * @param Group $oldGroup
      * @param bool  $changedToSuspended
      */
-    public function saveChangeHistory(Agent $agent, Group $oldGroup = null, $changedToSuspended = null)
+    public function saveChangeHistory(Agent $agent, Group $oldGroup = null, $changedToSuspended = null, $activeAgentsNumb = 0, $numbOfSales = 0)
     {
         $agentHistory = new AgentHistory();
         $agentHistory->setAgent($agent);
         $agentHistory->setChangedByAgent($this->getCurrentUser());
-
+        $agentHistory->setActiveAgentsNumb($activeAgentsNumb);
+        $agentHistory->setNumbOfSales($numbOfSales);
         if ($oldGroup !== null) {
             $agentHistory->setChangedFrom($oldGroup);
             $agentHistory->setChangedTo($agent->getGroup());
