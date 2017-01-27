@@ -1,4 +1,4 @@
-<button type="button" class="button red heading-button pull-right" {{action 'openModal'}}>{{trans 'general.invite-people'}}</button>
+<a type="button" {{action 'openModal'}}> {{fa-icon "user-plus"}}</a>
 {{#bs-modal open=isModalOpen header=false body=false footer=false }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="invitePeopleModal">
