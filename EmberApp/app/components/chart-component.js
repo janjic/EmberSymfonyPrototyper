@@ -85,7 +85,7 @@ export default Ember.Component.extend({
         );
 
         Highcharts.setOptions({
-            colors: ['#c0392b', '#c0742b', '#1d6876', '#21913a']
+            colors: ['#c0392b', '#f39c12', '#1d6876', '#21913a']
         });
 
             this.set('chart', Highcharts.chart('highchart', {
