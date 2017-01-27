@@ -116,6 +116,7 @@
         </section>
     </div>
     {{#unless disabledSendMessage}}
+        {{#unless ticketSolved}}
         <div class="send-message-mobile">
             <form {{action 'sendMessage' on="submit"}}>
                 <div class="input-group">
@@ -134,6 +135,7 @@
                 </div>
             </form>
         </div>
+        {{/unless}}
     {{/unless}}
 </div>
 {{#if isLoading }}

@@ -12,6 +12,8 @@ password:
   user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
+meta:
+  title: Agents
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'
@@ -484,6 +486,7 @@ models:
   ticket:
     all: 'All'
     save.message: 'Ticket forwarded!'
+    edit: 'Ticket updated!'
     types:
       bug.report: 'Bug report'
       wrong.order: 'Wrong order'

@@ -148,6 +148,7 @@ class ResettingAgentController extends Controller
      */
     private function sendResettingEmailMessage($user)
     {
+        $this->get('translator')->setLocale($user->getNationality());
         $url = $this->get('request_stack')->getCurrentRequest()->getSchemeAndHttpHost().'/'.AgentApiEmberRoute::ROUTE_AFTER_CHANGED_PASSWORD_IN_MAIL.'/'.$user->getConfirmationToken();
         $context = array(
             'user' => $user,
