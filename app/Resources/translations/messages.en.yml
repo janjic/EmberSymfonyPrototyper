@@ -12,6 +12,8 @@ password:
   user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
+meta:
+  title: Agents
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'
@@ -45,6 +47,7 @@ button:
 
 validation:
   email:
+  birth_date: 'You must be at least 18 years old'
 
 general:
   save: 'Save'
@@ -70,6 +73,7 @@ general:
   genealogy: 'Genealogy tree'
   new-message: 'New message'
   payment: 'Payment'
+  e-wallet: 'E-wallet'
   new-agent: 'New agent'
   role: 'Role'
   promotion-suggestion: 'Promotion suggestion'
@@ -115,6 +119,7 @@ general:
   users: 'Users'
   all-notifications: 'All notifications'
   all-orders: 'All orders'
+  filter-users: 'Filter users'
 
 
 mail:
@@ -216,19 +221,21 @@ admin-menu:
 # AGENT MENU ITEMS
 
 agent-menu:
+  agents:
+    title: 'My agents'
   dashboard:
     title: 'Dashboard'
   users:
-    title: 'Users'
+    title: 'My users'
     new: 'Add new user'
     customers: 'My customers'
   tickets:
-    title: 'Tickets'
+    title: 'My tickets'
     history: 'Ticket history'
     created.tickets: 'Created Tickets'
     new: 'Create ticket'
   reports:
-    title: 'Reports'
+    title: 'My reports'
     orders: 'Customer orders'
     bonuses: 'Commissions and bonuses'
   wallet:
@@ -240,7 +247,7 @@ agent-menu:
     settings: 'My profile settings'
   messages:
     create: 'Create Message'
-    title: 'Messages'
+    title: 'My messages'
     received: 'Received messages'
     drafts: 'Drafts'
     sent: 'Sent'
@@ -339,7 +346,7 @@ admin-agent:
     title: 'Edit agent'
   label:
     type: 'Choose type'
-    superior: 'Choose superior type'
+    superior: 'Choose superior'
     title: 'Title'
     choose-title: 'Choose title'
     mr: 'Mr.'
@@ -381,6 +388,8 @@ admin-agent:
     notification-settings: 'Notification settings'
     genealogy-tree: 'Genealogy tree'
   history:
+    agent.not.choosen: 'Choose Agent'
+    agent.history: 'Agent History'
     agent.id: 'Agent ID'
     agent.name: 'Agent Name'
     changed.by: 'Changed By'
@@ -485,6 +494,7 @@ models:
   ticket:
     all: 'All'
     save.message: 'Ticket forwarded!'
+    edit: 'Ticket updated!'
     types:
       bug.report: 'Bug report'
       wrong.order: 'Wrong order'
@@ -572,6 +582,9 @@ dashboard:
     top-sellers: 'Top sellers'
   settings:
     test-commissions: 'Test commissions'
+  chart:
+    total-earnings: 'Total Agent Earnings'
+    top-4: 'Top 4 agents earnings by type'
 
 
 #TICKETS
@@ -612,3 +625,4 @@ manage-roles:
   role: 'Role'
   add-new: 'Add new role'
   title: 'Title'
+

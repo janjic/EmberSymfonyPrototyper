@@ -45,6 +45,14 @@ export default Component.extend({
         },
         transitionToRoute(route){
             this.get('transitionToRoute')(route);
+        },
+        sendInvites(recipientsEmails, emailSubject, emailContent, cUser){
+            return this.get('store').createRecord('invitation', {
+                recipientEmail: recipientsEmails,
+                emailSubject:   emailSubject,
+                emailContent:   emailContent,
+                agent:          cUser
+            });
         }
     },
 

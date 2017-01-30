@@ -6,6 +6,9 @@ import { task, timeout } from 'ember-concurrency';
 export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
     replyMessage: '',
+    ticketSolved:  Ember.computed('model.status', function () {
+        return (this.get('model.status')==='SOLVED');
+    }),
     disableWriteByUser: Ember.computed('currentUser.user', 'model.forwardedTo', function () {
         if (this.get('currentUser.isUserAdmin')) {
             return false;
@@ -31,7 +34,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
         editTicket(){
             this.showLoader('loading.sending.data');
             this.model.save().then( () => {
-                this.toast.success(Translator.trans('models.ticket.save.message'));
+                this.toast.success(Translator.trans('models.ticket.edit'));
                 this.disableLoader();
             }, (response) => {
                 response.errors.forEach((error)=>{

@@ -12,7 +12,7 @@
                 <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
             </div>
         {{/if}}
-        {{#link-to 'dashboard.profile-settings' class='button icon-btn rounded-btn'}}
+        {{#link-to 'dashboard.agent.profile.profile-settings' class='button icon-btn rounded-btn'}}
             {{fa-icon 'pencil'}}
         {{/link-to}}
     </div>
@@ -29,8 +29,8 @@
             </div>
         </div>
         {{agent-menu-items/agent-left-menu-genealogy}}
-        {{agent-menu-items/agent-left-menu-users}}
         {{agent-menu-items/agent-left-menu-agents}}
+        {{agent-menu-items/agent-left-menu-users}}
         {{agent-menu-items/agent-left-menu-tickets}}
         {{agent-menu-items/agent-left-menu-reports}}
         {{agent-menu-items/agent-left-menu-wallet}}

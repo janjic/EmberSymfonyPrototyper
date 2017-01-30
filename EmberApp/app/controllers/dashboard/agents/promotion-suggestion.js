@@ -4,9 +4,12 @@ const {Routing} = window;
 
 export default Ember.Controller.extend({
     authorizedAjax : Ember.inject.service('authorized-ajax'),
-    page    : 1,
-    offset  : 4,
-    groups  : [],
+    showPromotions: Ember.computed('model.promotions.data', function () {
+       return (this.get('model.promotions.data.length') !== 0);
+    }),
+    showDowngrades: Ember.computed('model.promotions.data', function () {
+        return (this.get('model.downgrades.data.length') !== 0);
+    }),
     actions:{
         filterModelPromotions(searchArray, page, maxPages){
             let data =  {
@@ -87,4 +90,9 @@ export default Ember.Controller.extend({
             this.transitionToRoute('dashboard.genealogy-tree', { queryParams: { agentId: agentId }});
         }
     },
+    init(){
+        this.set('groups', []);
+        this.set('page', 1);
+        this.set('offset', 4);
+    }
 });

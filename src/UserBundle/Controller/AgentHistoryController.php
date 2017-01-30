@@ -18,7 +18,7 @@ class AgentHistoryController extends Controller
      * @param ArrayCollection $agentHistoryAPI
      * @return JSONResponse
      */
-    public function roleAPIAction(ArrayCollection $agentHistoryAPI)
+    public function agentHistoryAPIAction(ArrayCollection $agentHistoryAPI)
     {
         return new JSONResponse($agentHistoryAPI->toArray(), array_key_exists('errors', $agentHistoryAPI->toArray()) ? 422 : 200);
     }

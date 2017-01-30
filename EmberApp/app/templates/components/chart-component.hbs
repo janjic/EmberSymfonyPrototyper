@@ -1,36 +1,45 @@
 <div class="row">
     <div class="card-block-holder clearfix">
         {{#each barChartData as |item index|}}
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 bottom-15 block-holder">
-                <div class="card card-primary text-xs-center user-info-box">
-                    <div class="card-block input-box">
-                        {{fa-icon 'money icon-bg'}}
+            <div class="col-xs-12 col-sm-6 col-md-3 card-block">
+                <div class="home-card">
+                    {{fa-icon "dollar"}}
+                    <h5 class="text-capitalize">{{item.agentName}}</h5>
+                    <div class="bottom-block">
                         <div class="img-holder">
-                            <img alt="Card image" src="https://c1.staticflickr.com/3/2456/3799106988_b8f0d001f4_b.jpg">
+                            <img alt="Card image" src="{{item.baseImageUrl}}">
                         </div>
-                        <div class="card-block-info-txt">
-                            <h6 class="text-capitalize">{{item.agentName}}</h6>
+                        <div class="">
                             <h6 class="text-uppercase">{{item.groupName}}</h6>
-                            <h6 class="text-uppercase">{{item.totalCommission}} {{currency}}</h6>
+                            <h6 class="text-uppercase"><span class="earned">{{item.totalCommission}}</span> {{currency}}</h6>
                         </div>
-                        {{!--<div class="col-xs-4">--}}
-
-                        {{!--{{#link-to 'dashboard.agents.agent-view' item.agentId }}{{fa-icon "arrow-circle-o-right"}}{{/link-to}}--}}
-                        {{!--</div>--}}
                     </div>
+                    {{!--<div class="col-xs-4">--}}
+
+                    {{!--{{#link-to 'dashboard.agents.agent-view' item.agentId }}{{fa-icon "arrow-circle-o-right"}}{{/link-to}}--}}
+                    {{!--</div>--}}
                 </div>
             </div>
         {{/each}}
     </div>
     <div class="col-md-12">
         <div class="input-box">
-            <h3 class="sub-heading chart-heading">
-                Revenue
-                <select class="form-control" onchange={{ action 'currencyChanged'  value="target.value"}}>
-                    <option value="EUR" selected>EUR</option>
-                    <option value="CHF">CHF</option>
-                </select>
-            </h3>
+            <div class="chart-heading">
+                <h3 class="sub-heading">
+                    Revenue
+                </h3>
+                <div class="drop-holder">
+                    <button type="button" class="button btn-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select currency
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><span>{{fa-icon "money"}}</span> CHF</li>
+                        <li><span>{{fa-icon "eur"}}</span> EUR</li>
+                    </ul>
+                </div>
+            </div>
+
             <div id="highchart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </div>

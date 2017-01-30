@@ -39,7 +39,7 @@ export default Ember.Component.extend({
                 fills: {
                     defaultFill: '#34495e',
                     '1': '#C0392B',
-                    '2': '#C0742B',
+                    '2': '#f39c12',
                     '3': '#1D6876',
                     '4': '#21913A'
                 },
@@ -52,9 +52,9 @@ export default Ember.Component.extend({
                 },
                 setProjection: function(element) {
                     let projection = d3.geo.equirectangular()
-                        .center([15, 35])
+                        .center([15, 50])
                         .rotate([4.4, 0])
-                        .scale(350)
+                        .scale(740)
                         .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
                     let path = d3.geo.path()
                         .projection(projection);

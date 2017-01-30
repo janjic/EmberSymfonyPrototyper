@@ -43,7 +43,7 @@ class AgentGroupChangeListener
     public function execute()
     {
         if ($this->event) {
-            $this->manager->saveChangeHistory($this->event->getAgent(), $this->event->getOldGroup(), $this->event->isIsSuspended());
+            $this->manager->saveChangeHistory($this->event->getAgent(), $this->event->getOldGroup(), $this->event->isIsSuspended(), $this->event->getActiveAgentsNumb(), $this->event->getNumbOfSales());
         }
     }
 

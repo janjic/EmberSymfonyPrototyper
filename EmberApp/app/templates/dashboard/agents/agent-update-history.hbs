@@ -1,36 +1,27 @@
-{{#if (eq currentUpdateType.key 'UPGRADE')}}
-    <h1 class="main-heading">{{trans 'admin-agent.history.upgread.title'}}</h1>
-{{else if (eq currentUpdateType.key 'DOWNGRADE')}}
-    <h1 class="main-heading">{{trans 'admin-agent.history.downgrade.title'}}</h1>
-{{else}}
-    <h1 class="main-heading">{{trans 'admin-agent.history.suspension.title'}}</h1>
-{{/if}}
+<h1 class="main-heading">{{trans 'admin-agent.history.upgread.title'}}</h1>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="form-group clearfix">
-            {{inf-select
-            optionLabelKey='name'
-            _isShowingClear=false
-            selected=currentUpdateType
-            content=updateTypes
-            on-change=(action 'updateTypeChanged')
-            }}
-        </div>
+    <label for=""> {{trans 'admin-agent.history.agent.not.choosen'}}</label>
+    <div class="form-group clearfix">
+        {{inf-select
+                optionLabelKey='email'
+                selected = changeset.superior
+                on-search = (perform search)
+                on-change=(action 'agentSelected')
+        }}
     </div>
+    {{#if isLoading}}
+        <<div class="loader-holder">
+        <img src="../../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+    {{else}}
+        {{#if currentAgent}}
+            {{user/user-timeline-component model = agentHistory agent = currentAgent }}
+        {{else}}
+            <div class="alert alert-danger" role="alert">
+                {{trans 'admin-agent.history.agent.not.choosen'}}
+            </div>
+        {{/if}}
+    {{/if}}
 </div>
 
-<div class="table-option to1">
-    {{table-view-component
-    model=model
-    colNames=colNames
-    colModels=colModels
-    page=page
-    maxPages=maxPages
-    offset=offset
-    defaultSortType='desc'
-    sortType='desc'
-    editLink='dashboard.agents.agent-edit'
-    filter=(action 'filterModel')
-    }}
-</div>

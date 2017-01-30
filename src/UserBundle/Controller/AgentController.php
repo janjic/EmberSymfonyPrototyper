@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 
 /**
@@ -41,7 +42,7 @@ class AgentController extends Controller
      */
     public function getAgentInfoAction(Agent $agent)
     {
-        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, false/*direct*/);
+        $childCount = $this->get('agent_system.agent.repository')->childCount($agent, !$agent->hasRole(RoleManager::ROLE_SUPER_ADMIN)/*direct*/);
 
         $url = 'en/json/get-jqgrid-user-all?rows=10&page=1&sidx=id&sord=asc&agentId='.$agent->getAgentId();
 

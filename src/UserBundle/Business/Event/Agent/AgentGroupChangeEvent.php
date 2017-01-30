@@ -29,16 +29,30 @@ class AgentGroupChangeEvent extends Event
     protected $isSuspended;
 
     /**
-     * AgentGroupChangeEvent constructor.
-     * @param Agent        $agent
-     * @param Group|null   $oldGroup
-     * @param boolean|null $isSuspended
+     * @var int
      */
-    public function __construct(Agent $agent, $oldGroup, $isSuspended)
+    protected $activeAgentsNumb;
+
+    /**
+     * @var int
+     */
+    protected $numbOfSales;
+
+    /**
+     * AgentGroupChangeEvent constructor.
+     * @param Agent $agent
+     * @param Group|null $oldGroup
+     * @param boolean|null $isSuspended
+     * @param $activeAgentsNumb
+     * @param $numbOfSales
+     */
+    public function __construct(Agent $agent, $oldGroup, $isSuspended, $activeAgentsNumb, $numbOfSales)
     {
-        $this->agent       = $agent;
-        $this->oldGroup    = $oldGroup;
-        $this->isSuspended = $isSuspended;
+        $this->agent            = $agent;
+        $this->oldGroup         = $oldGroup;
+        $this->isSuspended      = $isSuspended;
+        $this->activeAgentsNumb = $activeAgentsNumb;
+        $this->numbOfSales      = $numbOfSales;
     }
 
     /**
@@ -88,6 +102,39 @@ class AgentGroupChangeEvent extends Event
     {
         $this->isSuspended = $isSuspended;
     }
+
+    /**
+     * @return int
+     */
+    public function getActiveAgentsNumb()
+    {
+        return $this->activeAgentsNumb;
+    }
+
+    /**
+     * @param int $activeAgentsNumb
+     */
+    public function setActiveAgentsNumb($activeAgentsNumb)
+    {
+        $this->activeAgentsNumb = $activeAgentsNumb;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumbOfSales()
+    {
+        return $this->numbOfSales;
+    }
+
+    /**
+     * @param int $numbOfSales
+     */
+    public function setNumbOfSales($numbOfSales)
+    {
+        $this->numbOfSales = $numbOfSales;
+    }
+
 
 
 }

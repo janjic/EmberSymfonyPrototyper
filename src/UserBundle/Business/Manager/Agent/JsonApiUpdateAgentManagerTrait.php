@@ -40,6 +40,11 @@ trait JsonApiUpdateAgentManagerTrait
         $dbAgentGroup  = $dbAgent->getGroup();
         $dbAgentLocked = $dbAgent->isEnabled();
 
+        $activeAgentsNumb = 0;
+        if($array = $dbAgent->getActiveAgentsIds()){
+            $activeAgentsNumb = sizeof($array);
+        }
+        $numbOfSales = $dbAgent->getPaymentsNumb();
         $newSuperior = null;
 
         if(!is_null($agent->getSuperior()) && !$isPromotionEdit){
@@ -80,7 +85,7 @@ trait JsonApiUpdateAgentManagerTrait
             }
             /** if there are changes record them */
             if ($changeGroup !== null || $changeSuspended !== null) {
-                $event = new AgentGroupChangeEvent($agentOrException, $changeGroup, $changeSuspended);
+                $event = new AgentGroupChangeEvent($agentOrException, $changeGroup, $changeSuspended, $activeAgentsNumb, $numbOfSales);
                 $this->eventDispatcher->dispatch(AgentEvents::ON_AGENT_GROUP_CHANGE, $event);
             }
 

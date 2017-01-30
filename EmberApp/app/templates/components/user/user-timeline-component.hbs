@@ -1,0 +1,41 @@
+<div class="user-heading">
+    <div class="left-side">
+        {{#if agent.baseImageUrl}}
+            <div class="img-holder">
+                <img src="{{agent.baseImageUrl}}" class="img-circle" alt="">
+            </div>
+        {{else}}
+            <div class="img-holder">
+                <img src="../../assets/images/user-avatar.png" class="img-circle" alt="">
+            </div>
+        {{/if}}
+        <div class="info">
+            <h5>{{agent.fullName}}</h5>
+            <p>{{agent.email}}</p>
+        </div>
+    </div>
+    <div class="right-side">
+        {{#link-to 'dashboard.agents.agent-view' agent.id class='button green'}}
+            {{trans 'button.view-profile'}}
+        {{/link-to}}
+        {{#link-to 'dashboard.profile-settings'  class='button red'}}
+            {{trans 'button.edit-profile'}}
+        {{/link-to}}
+    </div>
+</div>
+<div class="input-box">
+    <h3 class="sub-heading">
+        {{fa-icon "clock-o"}} Agent History
+    </h3>
+    {{#if hasResults}}
+        <ul class="timeline">
+            {{#each model as |history|}}
+                {{component (agent-history-type history.changedType) history = history}}
+            {{/each}}
+        </ul>
+    {{else}}
+        <div class="alert alert-danger" role="alert">
+            {{trans 'payment.no-results'}}
+        </div>
+    {{/if}}
+</div>

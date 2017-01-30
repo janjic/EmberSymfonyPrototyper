@@ -35,16 +35,22 @@
         <div class="input-box agent-list clearfix">
             <h3 class="sub-heading">{{fa-icon "fa-picture-o"}}  {{trans 'general.users'}}</h3>
             {{#each allUsers as |tcr-user|}}
-                <div class="col-md-4">
-                    <a href="#" {{action 'goToRoute' 'dashboard.agent.users.user-view' tcr-user.id }}>
-                        <div class="img-holder">
-                            <img src="./assets/images/user-avatar.png" title="Username">
-                        </div>
-                    </a>
-                    {{tcr-user.username}}
+                <div class="col-md-4 user-item-wrap">
+                    <div class="user-item">
+                        <a href="#" {{action 'goToRoute' 'dashboard.agent.users.user-view' tcr-user.id }}>
+                            <div class="img-holder">
+                                {{#if tcr-user.baseImageUrl}}
+                                    <img src="{{tcr-user.baseImageUrl}}" title="Username">
+                                {{else}}
+                                    <img src="./assets/images/user-avatar.png" title="Username">
+                                {{/if}}
+                            </div>
+                        </a>
+                        <span style="word-break: break-all; font-size: 12px;">{{tcr-user.username}}</span>
+                    </div>
                 </div>
             {{/each}}
-            <div class="text-center">
+            <div class="col-md-12 text-center">
                 {{#link-to 'dashboard.agent.users.users-customers' class='button green btn-small'}}{{trans 'button.view-all'}}{{/link-to}}
             </div>
         </div>
