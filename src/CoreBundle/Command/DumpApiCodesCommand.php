@@ -7,6 +7,7 @@ use CoreBundle\Adapter\AgentApiCode;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use UserBundle\Business\Manager\AgentHistoryManager;
 use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Client;
 use UserBundle\Helpers\NotificationHelper;
@@ -32,7 +33,8 @@ class DumpApiCodesCommand extends ContainerAwareCommand
             ->dump(sprintf('%s/../web/js', $this->getContainer()->getParameter('kernel.root_dir')), array( 'codes'=>(new \ReflectionClass(AgentApiCode::class))->getConstants(),
                                                                                                             'roles' =>(new \ReflectionClass(RoleManager::class))->getConstants(),
                                                                                                             'groups'=>(new \ReflectionClass(RoleHelper::class))->getConstants(),
-                                                                                                             'notifications' => (new \ReflectionClass(NotificationHelper::class))->getConstants()
+                                                                                                            'agentHistoryStatuses' => (new \ReflectionClass(AgentHistoryManager::class))->getConstants(),
+                                                                                                            'notifications' => (new \ReflectionClass(NotificationHelper::class))->getConstants()
                                                                                                             ));
 
         /** @var Client $client */

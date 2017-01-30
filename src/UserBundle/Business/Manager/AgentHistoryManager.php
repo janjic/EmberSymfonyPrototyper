@@ -23,6 +23,11 @@ use UserBundle\Entity\Group;
 class AgentHistoryManager implements JSONAPIEntityManagerInterface
 {
 
+    const DOWNGRADE_STATUS = 'DOWNGRADE';
+    const UPGRADE_STATUS   = 'UPGRADE';
+    const SUSPENDED_STATUS = 'SUSPENSION';
+    const ENABLED_STATUS   = 'RESUMPTION';
+
     use JsonApiJQGridAgentHistoryManagerTrait;
     use JsonApiSaveAgentHistoryManagerTrait;
 

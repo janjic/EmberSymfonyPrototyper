@@ -5,10 +5,10 @@ const {Routing} = window;
 export default Ember.Controller.extend({
     authorizedAjax : Ember.inject.service('authorized-ajax'),
     showPromotions: Ember.computed('model.promotions.data', function () {
-       return !(this.get('model.promotions.data.length') === 0);
+       return (this.get('model.promotions.data.length') !== 0);
     }),
     showDowngrades: Ember.computed('model.promotions.data', function () {
-        return !(this.get('model.downgrades.data.length') === 0);
+        return (this.get('model.downgrades.data.length') !== 0);
     }),
     actions:{
         filterModelPromotions(searchArray, page, maxPages){

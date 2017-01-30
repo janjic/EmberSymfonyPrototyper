@@ -1,8 +1,8 @@
 <div class="user-heading">
     <div class="left-side">
-        {{#if user.baseImageUrl}}
+        {{#if agent.baseImageUrl}}
             <div class="img-holder">
-                <img src="{{user.baseImageUrl}}" class="img-circle" alt="">
+                <img src="{{agent.baseImageUrl}}" class="img-circle" alt="">
             </div>
         {{else}}
             <div class="img-holder">
@@ -10,12 +10,12 @@
             </div>
         {{/if}}
         <div class="info">
-            <h5>{{user.fullName}}</h5>
-            <p>{{user.email}}</p>
+            <h5>{{agent.fullName}}</h5>
+            <p>{{agent.email}}</p>
         </div>
     </div>
     <div class="right-side">
-        {{#link-to 'dashboard.agents.agent-view' user.id class='button green'}}
+        {{#link-to 'dashboard.agents.agent-view' agent.id class='button green'}}
             {{trans 'button.view-profile'}}
         {{/link-to}}
         {{#link-to 'dashboard.profile-settings'  class='button red'}}
@@ -24,171 +24,18 @@
     </div>
 </div>
 <div class="input-box">
-   <h3 class="sub-heading">
+    <h3 class="sub-heading">
         {{fa-icon "clock-o"}} Agent History
-   </h3>
-    <ul class="timeline">
-        {{#each model as |history|}}
-            {{#if (eq history.changedType 'SUSPENSION')}}
-                <li class="clearfix suspend timeline-inverted">
-                    <span class="label label-date">{{moment-format history.date 'DD/MM/YYYY'}}</span>
-                    <div class="timeline-badge info">
-                        {{fa-icon "clock-o"}}
-                    </div>
-                    <div class="timeline-panel bg-info">
-                        <div class="timeline-heading text-white">
-
-                            <h5 class="timeline-title">Suspended</h5>
-                            {{!--<h5 class="timeline-title">Promoted to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>--}}
-                        </div>
-                        <div class="timeline-body text-white">
-                            <p>
-                                Sales: <span>{{ history.numbOfSales }}</span>
-                            </p>
-                            <p>
-                                Agents: <span>{{ history.activeAgentsNumb }}</span>
-                            </p>
-                            <p>
-                                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span><a href="#">{{ history.changedByAgent.fullName }}</a></small>
-                            </p>
-                        </div>
-                        <span class="panel-icon panel-icon-ban">
-                            {{fa-icon "ban"}}
-                        </span>
-                    </div>
-                </li>
-            {{/if}}
-            {{#if (eq history.changedType 'UPGRADE')}}
-                <li class="clearfix upgrade">
-                    <span class="label label-date">25.1.2017</span>
-                    <div class="timeline-badge primary">
-                        {{fa-icon "clock-o"}}
-                    </div>
-                    <div class="timeline-panel bg-primary">
-                        <div class="timeline-heading text-white">
-                            <h5 class="timeline-title">Promoted to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>
-                        </div>
-                        <div class="timeline-body text-white">
-                            <p>
-                                Sales: <span>{{ history.numbOfSales }}</span>
-                            </p>
-                            <p>
-                                Agents: <span>{{ history.activeAgentsNumb }}</span>
-                            </p>
-                            <p>
-                                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span><a href="#">{{ history.changedByAgent.fullName }}</a></small>
-                            </p>
-                        </div>
-                        <span class="panel-icon">
-                            {{fa-icon "angle-double-up"}}
-                        </span>
-                    </div>
-                </li>
-            {{/if}}
-            {{#if (eq history.changedType 'DOWNGRADE')}}
-                <li class="timeline-inverted downgrade clearfix">
-                    <span class="label label-date">25.1.2017</span>
-                    <div class="timeline-badge danger">
-                        {{fa-icon "clock-o"}}
-                    </div>
-                    <div class="timeline-panel bg-danger">
-                        <div class="timeline-heading text-white">
-                            <h5 class="timeline-title">Downgraded to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>
-                            {{!--<h5 class="timeline-title">Downgraded to <span class="role">Referee</span> from <span class="role">Active Agent</span></h5>--}}
-                        </div>
-                        <div class="timeline-body text-white">
-                            <p>
-                                Sales: <span>{{ history.numbOfSales }}</span>
-                            </p>
-                            <p>
-                                Agents: <span>{{ history.activeAgentsNumb }}</span>
-                            </p>
-                            <p>
-                                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span><a href="#">{{ history.changedByAgent.fullName }}</a></small>
-                            </p>
-                        </div>
-                        <span class="panel-icon">
-                            {{fa-icon "angle-double-down"}}
-                        </span>
-                    </div>
-                </li>
-            {{/if}}
-
-        {{/each}}
-        {{!--<li class="clearfix upgrade">--}}
-        {{!--<span class="label label-date">25.1.2017</span>--}}
-        {{!--<div class="timeline-badge primary">--}}
-        {{!--{{fa-icon "clock-o"}}--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-panel bg-primary">--}}
-        {{!--<div class="timeline-heading text-white">--}}
-        {{!--<h5 class="timeline-title">Promoted to <span class="role">Active Agent</span> from <span class="role">Referee</span></h5>--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-body text-white">--}}
-        {{!--<p>--}}
-        {{!--Sales before upgrade: <span>20</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--Agents before upgrade: <span>2</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--<small>changed by <span class="img-holder"><img src="../../assets/images/user-avatar.png" alt=""></span><a href="#">Agent Agentovic</a></small>--}}
-        {{!--</p>--}}
-        {{!--</div>--}}
-        {{!--<span class="panel-icon">--}}
-        {{!--{{fa-icon "angle-double-up"}}--}}
-        {{!--</span>--}}
-        {{!--</div>--}}
-        {{!--</li>--}}
-        {{!--<li class="timeline-inverted downgrade clearfix">--}}
-        {{!--<span class="label label-date">25.1.2017</span>--}}
-        {{!--<div class="timeline-badge danger">--}}
-        {{!--{{fa-icon "clock-o"}}--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-panel bg-danger">--}}
-        {{!--<div class="timeline-heading text-white">--}}
-        {{!--<h5 class="timeline-title">Downgraded to <span class="role">Referee</span> from <span class="role">Active Agent</span></h5>--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-body text-white">--}}
-        {{!--<p>--}}
-        {{!--Sales before downgrade: <span>20</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--Agents before downgrade: <span>2</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--<small>changed by <span class="img-holder"><img src="../../assets/images/user-avatar.png" alt=""></span><a href="#">Agent Agentovic</a></small>--}}
-        {{!--</p>--}}
-        {{!--</div>--}}
-        {{!--<span class="panel-icon">--}}
-        {{!--{{fa-icon "angle-double-down"}}--}}
-        {{!--</span>--}}
-        {{!--</div>--}}
-        {{!--</li>--}}
-        {{!--<li class="clearfix suspend timeline-inverted">--}}
-        {{!--<span class="label label-date">25.1.2017</span>--}}
-        {{!--<div class="timeline-badge info">--}}
-        {{!--{{fa-icon "clock-o"}}--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-panel bg-info">--}}
-        {{!--<div class="timeline-heading text-white">--}}
-        {{!--<h5 class="timeline-title">Promoted to <span class="role">Active Agent</span> from <span class="role"></span></h5>--}}
-        {{!--</div>--}}
-        {{!--<div class="timeline-body text-white">--}}
-        {{!--<p>--}}
-        {{!--Sales: <span>20</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--Agents: <span>2</span>--}}
-        {{!--</p>--}}
-        {{!--<p>--}}
-        {{!--<small>changed by <span class="img-holder"><img src="../../assets/images/user-avatar.png" alt=""></span><a href="#">Agent Agentovic</a></small>--}}
-        {{!--</p>--}}
-        {{!--</div>--}}
-        {{!--<span class="panel-icon panel-icon-ban">--}}
-        {{!--{{fa-icon "ban"}}--}}
-        {{!--</span>--}}
-        {{!--</div>--}}
-        {{!--</li>--}}
-    </ul>
+    </h3>
+    {{#if hasResults}}
+        <ul class="timeline">
+            {{#each model as |history|}}
+                {{component (agent-history-type history.changedType) history = history}}
+            {{/each}}
+        </ul>
+    {{else}}
+        <div class="alert alert-danger" role="alert">
+            {{trans 'payment.no-results'}}
+        </div>
+    {{/if}}
 </div>

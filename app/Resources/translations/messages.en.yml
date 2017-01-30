@@ -382,6 +382,7 @@ admin-agent:
     notification-settings: 'Notification settings'
     genealogy-tree: 'Genealogy tree'
   history:
+    agent.history: 'Agent History'
     agent.id: 'Agent ID'
     agent.name: 'Agent Name'
     changed.by: 'Changed By'

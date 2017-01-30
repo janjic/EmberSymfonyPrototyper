@@ -5720,6 +5720,25 @@ ul.dropdown-menu {
         background-color: $main-red;
       }
     }
+    li.enable {
+      .timeline-panel {
+        background-color: #1d6876;
+        &::after {
+          border-left: 15px solid #1d6876;
+          border-right: 0 solid #1d6876;
+        }
+        .panel-icon {
+          background-color: #1D5967;
+          color: #1d6876;
+        }
+      }
+      .timeline-badge {
+        background-color: #1d6876;
+      }
+      span.label {
+        background-color: #1d6876;
+      }
+    }
     li.timeline-inverted {
       .timeline-panel {
         float: right;
