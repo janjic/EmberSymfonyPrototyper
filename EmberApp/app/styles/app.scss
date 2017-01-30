@@ -316,6 +316,36 @@ table {
   }
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right > li:last-child a {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.invite-people {
+  cursor: pointer;
+  a {
+    font-size: 16px;
+    color: #fff;
+    padding: 10px;
+    background-color: #34495e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    top: -7px;
+    width: 35px;
+    height: 35px;
+    z-index:2;
+  }
+}
+
 .nav.navbar-nav li.dropdown {
   img {
     width: 21px;
@@ -5457,7 +5487,7 @@ ul.dropdown-menu {
 
 .tickets  {
   .img-holder {
-    height: 100% !important;
+    height: 100px !important;
   }
   .ticket-info, .user-info {
     p {

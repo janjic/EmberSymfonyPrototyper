@@ -116,6 +116,7 @@ general:
   users: 'Users'
   all-notifications: 'All notifications'
   all-orders: 'All orders'
+  filter-users: 'Filter users'
 
 
 mail:
@@ -217,19 +218,21 @@ admin-menu:
 # AGENT MENU ITEMS
 
 agent-menu:
+  agents:
+    title: 'My agents'
   dashboard:
     title: 'Dashboard'
   users:
-    title: 'Users'
+    title: 'My users'
     new: 'Add new user'
     customers: 'My customers'
   tickets:
-    title: 'Tickets'
+    title: 'My tickets'
     history: 'Ticket history'
     created.tickets: 'Created Tickets'
     new: 'Create ticket'
   reports:
-    title: 'Reports'
+    title: 'My reports'
     orders: 'Customer orders'
     bonuses: 'Commissions and bonuses'
   wallet:
@@ -241,7 +244,7 @@ agent-menu:
     settings: 'My profile settings'
   messages:
     create: 'Create Message'
-    title: 'Messages'
+    title: 'My messages'
     received: 'Received messages'
     drafts: 'Drafts'
     sent: 'Sent'
@@ -340,7 +343,7 @@ admin-agent:
     title: 'Edit agent'
   label:
     type: 'Choose type'
-    superior: 'Choose superior type'
+    superior: 'Choose superior'
     title: 'Title'
     choose-title: 'Choose title'
     mr: 'Mr.'

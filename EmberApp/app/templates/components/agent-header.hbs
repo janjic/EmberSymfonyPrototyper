@@ -13,12 +13,6 @@
 
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        {{#link-to "dashboard"}}
-                            {{fa-icon "user-plus"}}
-                        {{/link-to}}
-
-                    </li>
                     {{#bs-dropdown tagName="li"}}
                         {{#bs-dropdown-toggle}}
                             {{#if currentUser.user.image.webPath}}
@@ -137,6 +131,9 @@
                             {{/unless}}
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
+                    <li>
+                        {{invite-people-component tagname="li" sendInvites=(action 'sendInvites')}}
+                    </li>
                 </ul>
             </div>
         </div>
