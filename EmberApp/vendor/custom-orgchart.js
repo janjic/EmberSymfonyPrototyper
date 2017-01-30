@@ -1028,7 +1028,6 @@
     function buildParentNode($currentRoot, nodeData, opts, callback) {
         var that = this;
         var $table = $('<table>');
-        nodeData.relationship = '001';
         $.when(createNode(nodeData, 0, opts || $currentRoot.closest('.orgchart').data('options')))
             .done(function($nodeDiv) {
                 $table.append($nodeDiv.removeClass('slide-up').addClass('slide-down').wrap('<tr class="hidden"><td colspan="2"></td></tr>').closest('tr'));
@@ -1075,12 +1074,12 @@
         var insertPostion = (siblingCount > 1) ? Math.floor(siblingCount/2 - 1) : 0;
         // just build the sibling nodes for the specific node
         if ($nodeChart.parent().is('td')) {
-            var $parent = $nodeChart.closest('tr').prevAll('tr:last');
+            var $parent = $nodeChart.closest('tr').parent().prevAll('tr:last');
             $nodeChart.closest('tr').prevAll('tr:lt(2)').remove();
             var childCount = 0;
             buildChildNode.call($nodeChart.closest('.orgchart').parent(),$nodeChart.parent().closest('table'), nodeData, opts, function() {
                 if (++childCount === newSiblingCount) {
-                    var $siblingTds = $nodeChart.parent().closest('table').children('tr:last').children('td');
+                    var $siblingTds = $nodeChart.parent().closest('table').children().children('tr:last').children('td');
                     if (existingSibligCount > 1) {
                         complementLine($siblingTds.eq(0).before($nodeChart.closest('td').siblings().addBack().unwrap()), siblingCount, existingSibligCount);
                         $siblingTds.addClass('hidden').find('.node').addClass('slide-left');
@@ -1097,7 +1096,7 @@
             var nodeCount = 0;
             buildHierarchy($nodeChart.closest('.orgchart'), nodeData, 0, opts, function() {
                 if (++nodeCount === siblingCount) {
-                    complementLine($nodeChart.next().children('tr:last')
+                    complementLine($nodeChart.next().children().children('tr:last')
                         .children().eq(insertPostion).after($('<td colspan="2">')
                             .append($nodeChart)), siblingCount, 1);
                     $nodeChart.closest('tr').siblings().eq(0).addClass('hidden').find('.node').addClass('slide-down');

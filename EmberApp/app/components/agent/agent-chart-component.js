@@ -15,9 +15,25 @@ export default Ember.Component.extend(LoadingStateMixin, {
     agentToDelete: null,
     agentToReplaceId: null,
 
+    shouldRemoveChildrenAfterDragAndDrop: false,
+
     isDeleteDisabled: Ember.computed('agentToDelete', 'agentToReplaceId', function () {
         return this.get('agentToDelete') === null || this.get('agentToReplaceId') === null;
     }),
+
+    agentIdObserver: Ember.observer('agentId', function() {
+        if (this.get('agentId') === null) {
+            this.set('agentFilter', null);
+            this.generateChart();
+        }
+    }),
+
+    init() {
+        this._super(...arguments);
+        if (this.get('agentId') === null) {
+            this.set('agentFilter', null);
+        }
+    },
 
     didInsertElement () {
         this._super(...arguments);
@@ -36,6 +52,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
     actions: {
         openModal() {
             this.set('isModalOpen', true);
+        },
+
+        agentFilterSelected(agent){
+            this.set('agentFilter', agent);
+            this.set('agentId', agent ? agent.get('id') : null);
+            this.generateChart();
         },
 
         agentSelected(agent){
@@ -108,6 +130,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
             }).then(() => {
                 this.toast.success('Agent saved!');
+                this.removeChildrenForNode(newParentId);
                 this.disableLoader();
             }, () => {
                 this.toast.error('Data not saved!');
@@ -119,6 +142,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.disableLoader();
             this.generateChart();
         });
+    },
+
+    getInitialRoute() {
+        let filterForId = this.get('agentFilter') ? this.get('agentFilter.id') : null;
+
+        return filterForId ? Routing.generate('api_orgchart_agents', {'parentId': filterForId}) : Routing.generate('api_orgchart_agents');
     },
 
     generateChart () {
@@ -135,15 +164,23 @@ export default Ember.Component.extend(LoadingStateMixin, {
         let ajaxURLs = {
             'children': function(nodeData) {
                 return Routing.generate('api_orgchart_agents', {'parentId': nodeData.id});
+            },
+            'parent': function(nodeData) {
+                return Routing.generate('api_agents_orgchart_parent', {'parentId': nodeData.parentId});
+            },
+            'siblings': function(nodeData) {
+                return Routing.generate('api_orgchart_agents_siblings', {'id': nodeData.id});
+            },
+            'families': function(nodeData) {
+                return Routing.generate('api_orgchart_agents_families', {'id': nodeData.id});
             }
         };
 
         this.$('#chart-container').html('');
         this.$('#chart-container').orgchart({
-            'data' : Routing.generate('api_orgchart_agents'),
+            'data' : this.getInitialRoute(),
             'ajaxURL': ajaxURLs,
-            'nodeContent': 'groupName',
-            // 'nodeContent': 'id',
+            'nodeContent': 'email',
             'draggable': true,
             'depth': 2,
             'toggleSiblingsResp': true,
@@ -151,6 +188,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 let secondMenuIcon = Ember.$('<i>', {
                     'class': 'fa fa-info-circle second-menu-icon',
                     click: function() {
+                        Ember.$('.second-menu:visible').hide();
                         Ember.$(this).siblings('.second-menu').toggle();
                     }
                 });
@@ -159,6 +197,11 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 this.get('setItemCard').perform(data, $node);
             }
         }).children('.orgchart').on('nodedropped.orgchart', (event) => {
+            let childrenLength = this.$('.node[id="'+event.dropZone.attr('id')+'"]').closest('table').find('.nodes:first').children().length;
+            if (childrenLength === 1) {
+                this.set('shouldRemoveChildrenAfterDragAndDrop', true);
+            }
+
             this.changeParent(event.draggedNode.attr('id'), event.dropZone.attr('id'), event.dragZone.attr('id'));
         });
 
@@ -193,8 +236,23 @@ export default Ember.Component.extend(LoadingStateMixin, {
             }
         });
 
+        /** hide opened cards */
+        this.$('#chart-container').on('click', '.hideCard', () => {
+            this.$('.second-menu:visible').hide();
+        });
+
         let container = this.$("#chart-container");
         container.scrollLeft(this.$("#chart-container table:first").width()/2 - container.width()/2);
+    },
+
+    removeChildrenForNode(nodeId) {
+        if (this.get('shouldRemoveChildrenAfterDragAndDrop')) {
+            this.$('#chart-container .node[id="'+nodeId+'"]').closest('tr').siblings().remove();
+            this.$('.node[id="'+nodeId+'"]').find('.bottomEdge').trigger('click');
+
+            /** reset */
+            this.set('shouldRemoveChildrenAfterDragAndDrop', false);
+        }
     },
 
     changeStatusForAgent(id, newState) {

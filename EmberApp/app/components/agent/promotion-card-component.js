@@ -113,6 +113,7 @@ export default Ember.Component.extend({
                                 ctx.get('deleteDemotion')(data.agent_id);
                             }
                             ctx.toast.success(Translator.trans('models.agent.updated.profile'));
+                            ctx.get('transitionToRoute')(data.agent_id);
                         } else {
                             response.errors.forEach((error)=>{
                                 switch (parseInt(error.status)) {

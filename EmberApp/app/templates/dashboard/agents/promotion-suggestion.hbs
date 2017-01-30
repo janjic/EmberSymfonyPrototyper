@@ -17,7 +17,9 @@
                     promotion = true
                     role_codes = model.role_codes
                     deletePromotion = (action 'removePromotion')
-                    promotionIcon="angle-double-up"}}
+                    promotionIcon="angle-double-up"
+                    transitionToRoute=(action 'transitionToRoute')
+            }}
         {{/card-view-component-promotion}}
     </div>
 
@@ -40,7 +42,9 @@
                     promotion = false
                     deleteDemotion = (action 'removeDemotion')
                     role_codes = model.role_codes
-                    promotionIcon="angle-double-down"}}
+                    promotionIcon="angle-double-down"
+                    transitionToRoute=(action 'transitionToRoute')
+            }}
         {{/card-view-component-promotion}}
     </div>
 </div>

@@ -81,6 +81,10 @@ export default Ember.Controller.extend({
                     }.bind(this));
             });
 
+        },
+
+        transitionToRoute(agentId) {
+            this.transitionToRoute('dashboard.genealogy-tree', { queryParams: { agentId: agentId }});
         }
     },
 });
