@@ -7,7 +7,7 @@
             {{/if}}
             <div class="user-img">
                 <div class="insert-avatar-container text-center" >
-                    {{dropzone-one-file keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
+                    {{dropzone-one-file acceptedFiles = 'image/*' keepLocal=true addRemoveLinks=true maxFiles=1 onRemovedFile=(action 'removedFile') onAddedFile=(action 'addedFile') }}
                 </div>
             </div>
             <hr>
