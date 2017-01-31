@@ -123,6 +123,7 @@ mail:
   add-new-mass-mail-campaign: 'Add new mass mail campaign'
   subject: 'Subject'
   from-name: 'From name'
+  from-email: 'Email from'
   reply-to: 'Reply to'
   choose-mail-list: 'Choose mail list'
   choose-mail-template: 'Choose mail template'
@@ -249,6 +250,10 @@ agent-menu:
     drafts: 'Drafts'
     sent: 'Sent'
     trash: 'Trash'
+  invite:
+    invite.people: "Invite people"
+    new.mail.list: "Create mail list"
+    all.mail.lists: "My mail lists"
 
 # ADMIN - USER PAGES
 
@@ -464,6 +469,7 @@ admin-messages:
 invitation:
   message.save: 'Invitation send'
   message.error: 'Error while sending invitation'
+  mail.list.invalid: "Please choose mail list"
   email:
     invalid: 'Email Address in invalid format'
     presence: 'Please enter recipient email address'

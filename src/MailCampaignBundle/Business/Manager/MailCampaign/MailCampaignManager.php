@@ -28,6 +28,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
     use JsonApiUpdateMailCampaignManagerTrait;
     use JsonApiJQGridMailCampaignManagerTrait;
 
+    const MAIL_CHIMP_API = 'f4e6c760118b21ed3ee0e8b26e693964-us14';
 
     /**
      * @var MailChimp $mailChimp
@@ -39,7 +40,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     public function __construct()
     {
-        $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
+        $this->mailChimp = new Mailchimp(self::MAIL_CHIMP_API);
     }
 
     /**

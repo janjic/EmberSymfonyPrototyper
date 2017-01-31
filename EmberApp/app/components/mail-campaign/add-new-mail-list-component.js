@@ -6,6 +6,7 @@ import { task, timeout } from 'ember-concurrency';
 import LoadingStateMixin from '../../mixins/loading-state';
 const {ApiCode, Translator} = window;
 export default Ember.Component.extend(LoadingStateMixin, {
+    currentUser: Ember.inject.service('current-user'),
     additionalMails : [],
     items : [],
     init() {
@@ -22,7 +23,11 @@ export default Ember.Component.extend(LoadingStateMixin, {
                 list.save().then(() => {
                     this.toast.success(Translator.trans('models.mailList.save'));
                     this.disableLoader();
-                    this.get('goToRoute')('dashboard.mass-mails.all-mail-lists');
+                    let route = "dashboard.mass-mails.all-mail-lists";
+                    if(!this.get('currentUser.isUserAdmin')){
+                        route = "dashboard.agent.invite-people.all-mail-lists";
+                    }
+                    this.get('goToRoute')(route);
                 }, (response) => {
                     response.errors.forEach((error)=> {
                         switch (parseInt(error.status)) {

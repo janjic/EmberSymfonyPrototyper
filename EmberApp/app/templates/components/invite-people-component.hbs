@@ -6,67 +6,31 @@
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body class="clearfix"}}
-        {{#with (changeset this validations) as |changeset|}}
-            <div class="form-group">
-                <!--<label for="text-agentEmail">Sender Email</label>-->
-                <input class="form-control"
-                       type="text"
-                       id="text-agentEmail"
-                               value={{agentEmail}}
-                        disabled
-                >
-            </div>
-            <div class="form-group">
-                {{inf-select
-                        content=items
-                        sortBy="email"
-                        optionLabelKey="email"
-                        multiple=true
-                        searchable=true
-                        selected=selectedTags
-                        prompt="Select emails"
-                        on-add=(action "addNew")
-                        on-change=(action "itemChanged")
-                        on-remove=(action "itemRemoved")
-                }}
-            </div>
-            <div class="form-group">
-                <!--<label for="text-agentCode">Agent Code</label>-->
-                <input class="form-control"
-                       type="text"
-                       id="text-agentCode"
-                               value={{agentCode}}
-                       disabled
-                >
-            </div>
-            <div class="form-group">
-                {{validated-field
-                        type="text"
-                        doNotShowLabel = true
-                        placeholder= 'Subject'
-                        changeset=changeset
-                        property="emailSubject"
-                        validateProperty=(action 'validateProperty' changeset "emailSubject")
-                }}
-            </div>
-            <div class="form-group">
-                {{validated-field
-                        type="textarea"
-                        doNotShowLabel = true
-                        placeholder= 'Email Content'
-                        changeset=changeset
-                        property="emailContent"
-                        validateProperty=(action 'validateProperty' changeset "emailContent")
-                }}
-            </div>
+        <div class="form-group">
+            <label for="">{{trans 'mail.from-email'}}</label>
+            <input class="form-control" type="text" id="text-agentEmail" value={{agentEmail}} disabled>
+        </div>
+        <div class="form-group">
+            <label for="">{{trans 'mail.choose-mail-list'}}</label>
+            {{inf-select
+                    optionLabelKey="name"
+                    searchable=true
+                    content = mailLists
+                    selected = mailList
+                    on-change=(action 'changeList')
+            }}
 
-            <button {{action "invitePeople" changeset }} type="submit" class="button green pull-right">
-                {{#if isLoading }}
-                    {{inf-loading}}
-                {{else}}
-                    {{trans 'button.send-mail'}}
-                {{/if}}
-            </button>
-        {{/with}}
+                <button class="button green" {{action 'goToAddList'}}>{{trans 'mail.add-new-mail-list'}}</button>
+        </div>
+        {{!--<div class="form-group">--}}
+            {{!--<input class="form-control" type="text" id="text-agentCode" value={{agentCode}} disabled>--}}
+        {{!--</div>--}}
+        <button {{action "invitePeople" }} type="submit" class="button green pull-right">
+            {{#if isLoading }}
+                {{inf-loading}}
+            {{else}}
+                {{trans 'button.send-mail'}}
+            {{/if}}
+        </button>
     {{/bs-modal-body}}
 {{/bs-modal}}

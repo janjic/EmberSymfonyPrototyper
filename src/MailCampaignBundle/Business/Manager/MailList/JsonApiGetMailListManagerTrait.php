@@ -5,6 +5,7 @@ namespace MailCampaignBundle\Business\Manager\MailList;
 use ConversationBundle\Entity\Ticket;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\Common\Collections\ArrayCollection;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Agent;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -19,6 +20,11 @@ trait JsonApiGetMailListManagerTrait
      */
     public function getResource($id = null)
     {
+        /**
+         * @var Agent $currentUser
+         */
+        $currentUser = $this->getCurrentUser();
+
         if($id == 'all'){
             /**
              * Get number of lists
@@ -34,18 +40,22 @@ trait JsonApiGetMailListManagerTrait
             $array = [];
 
             foreach ($lists['lists'] as $list){
-                $item = [];
-                $item['fromAddress'] = $list['campaign_defaults']['from_email'];
-                $item['fromName'] = $list['campaign_defaults']['from_name'];
-                $item['name'] = $list['name'];
-                $item['permission_reminder'] = $list['permission_reminder'];
-                $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
+                $listNameArray = explode(';', $list['name']);
+                if(sizeof($listNameArray) == 2 && ($listNameArray[0] === $currentUser->getUsername() || $currentUser->hasRole(RoleManager::ROLE_SUPER_ADMIN))) {
+                    $item = [];
+                    $item['fromAddress'] = $list['campaign_defaults']['from_email'];
+                    $item['fromName'] = $list['campaign_defaults']['from_name'];
+                    $item['name'] = $listNameArray[1];
+                    $item['permission_reminder'] = $list['permission_reminder'];
+                    $array[] = array('attributes' =>$item, 'id' => $list['id'], 'type' => 'mail-lists');
+                }
             }
-
             return new ArrayCollection(array('data'=>$array));
         }
 
         $list = $this->mailChimp->get('lists/'.$id);
+        $listNameArray = explode(';', $list['name']);
+        $list['name'] = $listNameArray[1];
         $list['fromAddress'] = $list['campaign_defaults']['from_email'];
         $list['fromName'] = $list['campaign_defaults']['from_name'];
 

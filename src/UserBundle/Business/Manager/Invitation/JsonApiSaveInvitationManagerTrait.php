@@ -26,10 +26,9 @@ trait JsonApiSaveInvitationManagerTrait
         $invitation = $this->deserializeInvitation($data);
 
         $invitation->setAgent($this->repository->getReferenceForClass($invitation->getAgent()->getId(), Agent::class));
+        $invitationData = $this->sendMail($invitation);
 
-        $this->sendMail($invitation);
-
-        return $this->createJsonAPiSaveResponse($this->repository->saveInvitation($invitation));
+        return $this->createJsonAPiSaveResponse($invitationData);
     }
 
     /**
@@ -38,13 +37,10 @@ trait JsonApiSaveInvitationManagerTrait
      */
     private function createJsonAPiSaveResponse($data)
     {
-        switch (get_class($data)) {
-            case Exception::class:
-                return AgentApiResponse::ERROR_RESPONSE($data);
-            case (Invitation::class && ($id = $data->getId())):
-                return AgentApiResponse::INVITATION_SAVED_SUCCESSFULLY($id);
-            default:
-                return false;
+        if(is_array($data) && array_key_exists('id', $data)){
+            return AgentApiResponse::INVITATION_SAVED_SUCCESSFULLY($data['id']);
+        } else {
+            return AgentApiResponse::ERROR_RESPONSE($data);
         }
     }
 }
