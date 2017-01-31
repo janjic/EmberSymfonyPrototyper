@@ -120,6 +120,7 @@ general:
   all-notifications: 'All notifications'
   all-orders: 'All orders'
   filter-users: 'Filter users'
+  not-allowed: 'You are not allowed to visit this page'
 
 
 mail:
