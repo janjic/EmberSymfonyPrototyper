@@ -21,6 +21,7 @@ use UserBundle\Business\Manager\Agent\JsonApiGetAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiJQGridAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiSaveAgentManagerTrait;
 use UserBundle\Business\Manager\Agent\JsonApiUpdateAgentManagerTrait;
+use UserBundle\Business\Manager\Agent\RoleCheckerTrait;
 use UserBundle\Business\Repository\AgentRepository;
 use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Address;
@@ -42,6 +43,7 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     use JsonApiDeleteAgentManagerTrait;
     use JsonApiJQGridAgentManagerTrait;
     use JsonApiAgentOrgchartManagerTrait;
+    use RoleCheckerTrait;
 
     /**
      * @var AgentRepository

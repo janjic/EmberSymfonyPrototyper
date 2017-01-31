@@ -1,6 +1,18 @@
 <h1 class="main-heading">{{trans 'admin-menu.genealogy.tree.title' }}</h1>
 
 <div class="main-chart-container">
+    <div class="form-group clearfix">
+        <label class="control-label">
+            {{trans 'payment.select-agent'}}
+        </label>
+            {{inf-select
+            optionLabelKey='email'
+            on-search = (perform search)
+            on-change=(action 'agentFilterSelected')
+            selected=agentFilter
+            }}
+    </div>
+
     <div id="chart-container"></div>
     {{#if isLoading }}
         <div class="loader-holder">
@@ -18,7 +30,6 @@
         </div>
     </div>
 </div>
-
 
 {{#bs-modal open=isModalOpen header=false body=false footer=false closedAction=(action 'closedAction')}}
     {{#bs-modal-header}}

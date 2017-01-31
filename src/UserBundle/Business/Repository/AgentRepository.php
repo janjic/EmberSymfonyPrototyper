@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use UserBundle\Business\Manager\RoleManager;
+use UserBundle\Business\Repository\Traits\AgentOrgchartRepositoryTrait;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Group;
 
@@ -24,6 +25,7 @@ use UserBundle\Entity\Group;
 class AgentRepository extends NestedTreeRepository
 {
     use BasicEntityRepositoryTrait;
+    use AgentOrgchartRepositoryTrait;
 
     const ALIAS              = 'agent';
     const ADDRESS_ALIAS      = 'address';
@@ -470,50 +472,6 @@ class AgentRepository extends NestedTreeRepository
         $className = $this->getClassMetadata()->getReflectionClass()->getName();
 
         return $this->_em->getReference($className, $id);
-    }
-
-    /**
-     * @return array
-     */
-    public function loadRootAndChildren()
-    {
-        $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
-            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount',  self::ALIAS.'.email', self::SUPERIOR_ALIAS.'.id as superior_id',
-            self::ALIAS.'.baseImageUrl', self::ALIAS.'.enabled', self::GROUP_ALIAS.'.name AS groupName');
-        $qb->leftJoin(self::ALIAS.'.superior', self::SUPERIOR_ALIAS);
-        $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
-
-        $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-
-        $qb->where(self::SUPERIOR_ALIAS.'.superior is NULL');
-        $qb->orWhere(self::ALIAS.'.superior is NULL');
-
-        $qb->groupBy(self::ALIAS.'.id');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @param $parent
-     * @return array
-     */
-    public function loadChildren($parent)
-    {
-        $qb = $this->createQueryBuilder(self::ALIAS);
-        $qb->select(self::ALIAS.'.id', 'CONCAT('.self::ALIAS.'.firstName'.', \' \', '.self::ALIAS.'.lastName'.') AS name',
-            'COUNT('.self::CHILDREN_ALIAS.'.id) as childrenCount', self::ALIAS.'.email', self::ALIAS.'.baseImageUrl',
-            self::ALIAS.'.enabled', self::GROUP_ALIAS.'.name AS groupName');
-
-        $qb->leftJoin(self::ALIAS.'.children', self::CHILDREN_ALIAS);
-        $qb->leftJoin(self::ALIAS.'.group', self::GROUP_ALIAS);
-
-        $qb->where(self::ALIAS.'.superior =?1');
-        $qb->setParameter(1, $parent);
-
-        $qb->groupBy(self::ALIAS.'.id');
-
-        return $qb->getQuery()->getResult();
     }
 
     /**

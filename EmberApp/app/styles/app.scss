@@ -5548,6 +5548,22 @@ ul.dropdown-menu {
   }
 }
 
+.hideCard {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  color: #f44336;
+}
+
+.hideCard:hover {
+  color: #c0392b;
+}
+
 .daterangepicker td.active, .daterangepicker td.active:hover {
   background-color: $main-dark;
 }
