@@ -422,6 +422,7 @@ validations:
 payment:
   created-at: 'Created at'
   payed-at: 'Payed at'
+  last-change: 'Last changed at'
   commission: 'Commission'
   bonus: 'Bonus'
   unprocessed: 'Unprocessed'

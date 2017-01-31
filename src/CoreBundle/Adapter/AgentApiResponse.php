@@ -41,7 +41,6 @@ class AgentApiResponse
     const PAYMENT_EXECUTE_ERROR                 = array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ERROR)));
 
     const PAYMENT_EXECUTE_ALL_SUCCESS           = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_SUCCESS));
-    const PAYMENT_EXECUTE_ALL_ERROR             = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_ERROR));
 
     /**
      * @param $ttl
@@ -270,4 +269,14 @@ class AgentApiResponse
     {
         return array('data' => $info, 'status' => AgentApiCode::PAYMENT_NEW_INFO_OK);
     }
+
+    /**
+     * @param $exception
+     * @return array
+     */
+    public static function PAYMENT_EXECUTE_ALL_ERROR($exception)
+    {
+        return array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_ERROR, 'detail'=> $exception->getMessage())));
+    }
+
 }
