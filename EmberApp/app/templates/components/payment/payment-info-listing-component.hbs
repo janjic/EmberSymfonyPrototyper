@@ -3,6 +3,7 @@
     <span class="pull-right head-buttons">
     {{#unless (eq initialLength 0)}}
         <a href="#" class="button green btn-small" {{action 'openModal'}}>{{trans 'payment.filter-results'}}</a>
+        <a href="#" class="button green btn-small" {{action 'exportResults'}}>Export To CSV</a>
     {{/unless}}
 
     {{#unless hidePayAllButtons}}
@@ -17,6 +18,12 @@
     {{/unless}}
     </span>
 </h1>
+
+{{#if isCSVLoading }}
+    <div class="loader-holder">
+        <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}
 
 {{#bs-modal open=isModalOpen header=false body=false footer=false}}
     {{#bs-modal-header}}
