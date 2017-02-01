@@ -1,7 +1,14 @@
 import Ember from 'ember';
 const Translator = window.Translator;
-
-export default Ember.Helper.helper(function(params) {
-    Ember.$(document).attr('title', Translator.trans('meta.title'));
+const {
+    inject: {
+        service
+    }
+} = Ember;
+export default Ember.Helper.extend({
+    session: service('session'),
+    compute() {
+        Ember.$(document).attr('title', Translator.trans('meta.title'));
+    }
 });
 
