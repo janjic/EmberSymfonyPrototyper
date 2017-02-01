@@ -1,6 +1,9 @@
 <h1 class="main-heading clearfix">
     {{title}}
     <span class="pull-right head-buttons">
+    {{#unless (eq initialLength 0)}}
+        <a href="#" class="button green btn-small" {{action 'exportResults'}}>Export To CSV</a>
+    {{/unless}}
 
     {{#unless hidePayAllButtons}}
         {{#unless (or (eq initialLength 0) (eq model.length 0))}}
@@ -14,6 +17,13 @@
     {{/unless}}
     </span>
 </h1>
+
+
+{{#if isCSVLoading }}
+    <div class="loader-holder">
+        <img src="../assets/images/ring-alt.gif" alt=""> {{trans loadingText }}
+    </div>
+{{/if}}
 
 <div class="reports-holder">
 

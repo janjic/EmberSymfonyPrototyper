@@ -2,7 +2,8 @@ import Ember from 'ember';
 import LoadingStateMixin from '../../mixins/loading-state';
 import DateRangesMixin from '../../mixins/date-picker-fields';
 import { task, timeout } from 'ember-concurrency';
-const {Routing, ApiCode} = window;
+
+const {Routing, ApiCode, download} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
     page: 1,
@@ -127,6 +128,41 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
 
         rejectAll() {
             this.changeStateForAll(false);
+        },
+
+        exportResults(){
+            this.set('isCSVLoading', true);
+
+            let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
+
+            Ember.$.ajaxSetup({
+                beforeSend: (xhr) => {
+                    accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
+                    xhr.setRequestHeader('Authorization', accessToken);
+                },
+                headers: { 'Authorization': accessToken }
+            });
+
+            // let filterArray = this.get('');
+            let ctx = this;
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+            Ember.$.ajax({
+                type: "GET",
+                url: Routing.generate('payments_csv'),
+                contentType: "text/csv",
+            }).then(function (response) {
+                download(response, "report-"+today+".csv", "text/csv");
+                ctx.set('isCSVLoading', false);
+            });
+
+
+            // this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', Routing.generate('payments_csv'),
+            //     function (response) {
+            //         download(response);
+            //         this.set('isCSVLoading', false);
+            //     }.bind(this), this);
         }
     },
 

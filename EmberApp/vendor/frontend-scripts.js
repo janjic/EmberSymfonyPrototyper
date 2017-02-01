@@ -39,6 +39,11 @@ $( document ).ready(function() {
     $('body').on("click", ".button.dropdown-toggle", function (e) {
         $(".chart-heading .dropdown-menu").toggleClass('clicked');
     });
+
+    $('body').on("click", ".chart-heading .dropdown-menu li", function (e) {
+        $(".chart-heading .dropdown-menu").removeClass('clicked');
+    });
+
 });
 
 $(window).load(function() {

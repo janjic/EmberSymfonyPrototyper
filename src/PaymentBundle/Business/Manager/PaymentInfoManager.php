@@ -13,6 +13,7 @@ use PaymentBundle\Business\Manager\Payment\PaymentInfoJQGridTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoSerializationTrait;
 use PaymentBundle\Business\Manager\Payment\PaymentInfoUpdateTrait;
 use PaymentBundle\Business\Manager\Payment\PromotionSuggestionJQGridTrait;
+use PaymentBundle\Business\CSV\CsvWriter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use PaymentBundle\Business\Repository\PaymentInfoRepository;
 use PaymentBundle\Entity\PaymentInfo;
@@ -467,6 +468,15 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
         }
 
         return $this->agentManager->updateResource($agent, true);
+
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function exportToCSV()
+    {
+        return (new CsvWriter())->writeCollection($this->repository->findPayment(null));
 
     }
 }
