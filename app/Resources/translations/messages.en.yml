@@ -13,7 +13,7 @@ password:
 
 
 meta:
-  title: Agents
+  title: "Agents"
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'
@@ -139,6 +139,11 @@ mail:
   choose-email-addresses: 'Choose email addresses'
   edit-mail-list: 'Edit mail list'
   replicate: 'Replicate mass mail campaign'
+  mail-list-id: "List id"
+  mail-list-name: "List name"
+  mail-list-address: "List address"
+  mail-list-from: "From name"
+  mail-list-action: "Action"
 
 commissions:
   compensation-summary: 'Compensation summary'

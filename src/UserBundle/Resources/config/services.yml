@@ -151,6 +151,7 @@ services:
             repository: "@agent_system.invitation.repository"
             fSerializer: "@f_serializer"
             mailer: "@mailer"
+            settingsManager: "@agent_system.settings.manager"
 
     agent_system.invitation.adapter:
         class: UserBundle\Adapter\Invitation\InvitationAdapter
