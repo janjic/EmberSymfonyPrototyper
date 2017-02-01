@@ -49,6 +49,7 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
     public function __construct(SettingsManager $settingsManager)
     {
         $this->mailChimp = new Mailchimp(self::MAIL_CHIMP_API);
+        $this->settingsManager = $settingsManager;
     }
 
     /**

@@ -18,6 +18,7 @@ export default Ember.Route.extend({
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
         controller.set('page', 1);
+        controller.set('offset', 8);
         controller.set('agentId', this.get('currentUser.user.agentId'));
     }
 });

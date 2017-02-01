@@ -4,7 +4,7 @@ export default Ember.Route.extend({
     model: function () {
         return this.get('store').query('agent', {
             page: 1,
-            offset: 10,
+            offset: 8,
             sidx: 'id',
             sord: 'asc'
         });
@@ -12,6 +12,7 @@ export default Ember.Route.extend({
     },
     setupController : function(controller, model){
         this._super(...arguments);
+        controller.set('page', 1);
         controller.set('maxPages', model.meta.pages);
         controller.set('totalItems', model.meta.totalItems);
         this.get('store').findAll('group', { reload: true }).then(function (groups) {

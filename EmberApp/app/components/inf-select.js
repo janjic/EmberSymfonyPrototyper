@@ -72,7 +72,8 @@ export default Ember.Component.extend({
     }),
 
     _canChangeSelected: Ember.computed('on-change', function() {
-        return (this.get('on-change') !== Ember.K) && (!this.get('multiple'));
+        // return (this.get('on-change') !== Ember.K) && (!this.get('multiple'));
+        return (this.get('on-change') !== Ember.K);
     }),
 
     _itemsPerPage : Ember.computed('perPage',function () {

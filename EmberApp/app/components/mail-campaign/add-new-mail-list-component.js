@@ -7,11 +7,10 @@ import LoadingStateMixin from '../../mixins/loading-state';
 const {ApiCode, Translator} = window;
 export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
-    additionalMails : [],
-    items : [],
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailListValidations), MailListValidations);
+        this.set('additionalMails', []);
     },
     actions: {
         saveMailList(mailList) {
@@ -48,12 +47,12 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.set('additionalMails', selectedItems);
         },
         agentSelected(agent, selectedItems){
-            if(agent.hasOwnProperty('email')){
-                selectedItems = selectedItems.addObject({email: agent});
-            }else {
-                selectedItems = selectedItems.addObject({email: agent.get('email')});
-            }
-            this.set('additionalMails', selectedItems);
+            // if(agent.hasOwnProperty('email')){
+            //     selectedItems = selectedItems.addObject({email: agent});
+            // }else {
+            //     selectedItems = selectedItems.addObject({email: agent.get('email')});
+            // }
+            // this.set('additionalMails', selectedItems);
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);

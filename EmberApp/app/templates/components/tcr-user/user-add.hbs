@@ -136,7 +136,7 @@
                         </label>
                         <div class="col-md-7 col-sm-7 col-xs-12 user-img">
                             <div class="insert-avatar-container text-center" >
-                                {{drop-zone keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
+                                {{drop-zone acceptedFiles = 'image/*' keepLocal=true addRemoveLinks=true onAddedFile=(action 'addedFile') onRemovedFile=(action 'removedFile')}}
                             </div>
                         </div>
                     </div>

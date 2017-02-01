@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    page: 1,
-    offset: 10,
     colNames: ['ID', 'First Name', 'Last Name', ' Username', 'Confirmed', 'Country', 'Actions'],
     colModels: [
         {value: 'id', compare:'cn'},
