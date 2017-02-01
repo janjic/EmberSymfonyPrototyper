@@ -246,12 +246,29 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
 
     /**
      * @param boolean|null $newState
+     * @param $fromState
+     * @param $agentId
+     * @param $startDate
+     * @param $endDate
+     * @param $type
+     * @param $country
      * @return mixed
      */
-    public function executeAllPayments($newState)
+    public function executeAllPayments($newState, $fromState, $agentId, $startDate, $endDate, $type, $country)
     {
+        if ($newState === null) {
+            return $this->createPaymentExecuteAllResponse(new Exception('New state can not be null'));
+        }
 
-        $result = $this->repository->changeAllPaymentsState($newState);
+        $filterResults = $this->repository->getResultsForFilters($agentId, $startDate, $endDate, $type, $country, $fromState);
+
+        /** @var PaymentInfo $payment */
+        foreach ($filterResults as $payment) {
+            $payment->setState($newState);
+            $payment->setPayedAt(new \DateTime());
+        }
+
+        $result = $this->repository->mergeMultiple($filterResults);
 
         return $this->createPaymentExecuteAllResponse($result);
     }
@@ -262,11 +279,12 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
      */
     private function createPaymentExecuteAllResponse($data)
     {
-        if ($data === true) {
-            return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_SUCCESS);
+        if ($data instanceof Exception) {
+            return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_ERROR($data));
         }
 
-        return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_ERROR);
+        return new ArrayCollection(AgentApiResponse::PAYMENT_EXECUTE_ALL_SUCCESS);
+
     }
 
     /**

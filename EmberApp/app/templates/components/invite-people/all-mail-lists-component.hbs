@@ -1,0 +1,22 @@
+<table class="table table-bordered" id="all-mail-lists">
+    <thead>
+    <tr>
+        <th>List id</th>
+        <th>List name</th>
+        <th>From address</th>
+        <th>From name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each model as |list|}}
+        <tr>
+            <td>{{list.id}}</td>
+            <td>{{list.name}}</td>
+            <td>{{list.fromAddress}}</td>
+            <td>{{list.fromName}}</td>
+            <td>{{#link-to "dashboard.agent.invite-people.edit-mail-list" list.id}} {{fa-icon 'pencil'}}{{/link-to}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

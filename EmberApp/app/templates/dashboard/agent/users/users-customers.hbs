@@ -1,5 +1,6 @@
-{{invite-people-component sendInvites=(action 'sendInvites')}}
-
+<span class="pull-right invite-people">
+{{invite-people-component sendInvites=(action 'sendInvites') goToRoute = (action 'transitionToRoute')}}
+</span>
 {{#card-view-component mainTitle=(trans 'admin-user.all.title') model=model page=page maxPages=maxPages offset=offset
                        showAddAgentButton=false filter=(action 'filterModel') as |yieldModel|}}
 

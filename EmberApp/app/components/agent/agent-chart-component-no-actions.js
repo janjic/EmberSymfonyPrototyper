@@ -5,6 +5,7 @@ const {Routing} = window;
 export default Ember.Component.extend(LoadingStateMixin, {
     session: Ember.inject.service('session'),
     routing: Ember.inject.service('-routing'),
+    currentUser: Ember.inject.service('current-user'),
 
     didInsertElement () {
         this._super(...arguments);
@@ -30,9 +31,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
         this.$('#chart-container').html('');
         this.$('#chart-container').orgchart({
-            'data' : Routing.generate('api_orgchart_agents'),
+            'data' : Routing.generate('api_orgchart_agents', {'parentId': this.get('currentUser.user.id')}),
             'ajaxURL': ajaxURLs,
-            'nodeContent': 'groupName',
+            'nodeContent': 'email',
             'depth': 2,
             'toggleSiblingsResp': true,
             'createNode': ($node, data) => {

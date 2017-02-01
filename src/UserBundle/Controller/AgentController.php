@@ -31,15 +31,6 @@ class AgentController extends Controller
         return new JsonResponse(($data = $agentAPI->toArray()), array_key_exists('errors', $data)? 422:200);
     }
 
-    /**
-     * @Route("/api/agent_orgchart/{parentId}", name="api_orgchart_agents", options={"expose" = true}, defaults={"parentId": null}),
-     * @param ArrayCollection $agentOrgchart
-     * @return Response
-     */
-    public function orgchartAction(ArrayCollection $agentOrgchart)
-    {
-        return new JsonResponse($agentOrgchart->toArray());
-    }
 
     /**
      * @Route("/api/agents/info/{id}" ,name="agent-info",

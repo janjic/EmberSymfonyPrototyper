@@ -7,6 +7,7 @@ use CoreBundle\Business\Manager\JSONAPIEntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FSerializerBundle\services\FJsonApiSerializer;
+use MailCampaignBundle\Business\Manager\MailCampaign\MailCampaignManager;
 use MailCampaignBundle\Business\Manager\MailList\JsonApiDeleteMailListManagerTrait;
 use MailCampaignBundle\Business\Manager\MailList\JsonApiGetMailListManagerTrait;
 use MailCampaignBundle\Business\Manager\MailList\JsonApiSaveMailListManagerTrait;
@@ -18,7 +19,9 @@ use MailCampaignBundle\Util\MailChimp;
 use MailCampaignBundle\Util\MailListSerializerInfo;
 use stdClass;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use UserBundle\Business\Manager\RoleManager;
 use UserBundle\Entity\Address;
+use UserBundle\Entity\Agent;
 
 
 /**
@@ -51,7 +54,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
     public function __construct(TokenStorage $tokenStorage)
     {
         $this->tokenStorage  = $tokenStorage;
-        $this->mailChimp     = new Mailchimp('f4e6c760118b21ed3ee0e8b26e693964-us14');
+        $this->mailChimp     = new Mailchimp(MailCampaignManager::MAIL_CHIMP_API);
     }
 
 
@@ -61,13 +64,16 @@ class MailListManager implements JSONAPIEntityManagerInterface
      */
     public function save($mailList)
     {
+        /**
+         * @var Agent $currentUser
+         */
         $currentUser = $this->getCurrentUser();
         /**
          * @var Address $address
          */
         $address = $currentUser->getAddress();
         $response = $this->mailChimp->post('lists', [
-            'name' => $mailList->name,
+            'name' => $currentUser->getUsername().';'.$mailList->name,
             'permission_reminder' => $mailList->permission_reminder,
             'email_type_option' => false,
             'visibility'=> 'prv',
@@ -88,10 +94,10 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 'language' => 'US'
             ]
         ]);
+
         if($this->mailChimp->success()){
 
             $id = $response['id'];
-
             if(count($mailList->subscribers)){
                 $members =  array();
 
@@ -115,7 +121,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
             }
 
         } else {
-            var_dump($response);exit;
             $message = '';
             foreach ($response['errors'] as $error) {
                 $message = $message.'Field : '.$error['field'].', Message: '.$error['message'];
@@ -142,7 +147,7 @@ class MailListManager implements JSONAPIEntityManagerInterface
         $address = $currentUser->getAddress();
 
         $response = $this->mailChimp->patch('lists/'.$id, [
-            'name' => $mailList->attributes->name,
+            'name' => $currentUser->getUsername().';'.$mailList->attributes->name,
             'permission_reminder' => $mailList->attributes->permission_reminder,
             'email_type_option' => false,
             'contact' => [
@@ -162,7 +167,6 @@ class MailListManager implements JSONAPIEntityManagerInterface
                 'language' => 'US'
             ]
         ]);
-//        var_dump($response);exit;
         if($this->mailChimp->success()){
 
             $id = $response['id'];
@@ -241,16 +245,22 @@ class MailListManager implements JSONAPIEntityManagerInterface
      */
     public function serializeListsArray($lists)
     {
+        /**
+         * @var Agent $currentUser
+         */
+        $currentUser = $this->getCurrentUser();
         $array = [];
-        if( is_array($lists)) {
+        if(is_array($lists)) {
             foreach ($lists as $list) {
-
-                $item = [];
-                $item['fromAddress'] = $list['campaign_defaults']['from_email'];
-                $item['fromName'] = $list['campaign_defaults']['from_name'];
-                $item['name'] = $list['name'];
-                $item['permission_reminder'] = $list['permission_reminder'];
-                $array[] = array('attributes' => $item, 'id' => $list['id'], 'type' => 'mail-lists');
+                $listNameArray = explode(';', $list['name']);
+                if(sizeof($listNameArray) == 2 && ($listNameArray[0] === $currentUser->getUsername() || $currentUser->hasRole(RoleManager::ROLE_SUPER_ADMIN))) {
+                    $item = [];
+                    $item['fromAddress'] = $list['campaign_defaults']['from_email'];
+                    $item['fromName'] = $list['campaign_defaults']['from_name'];
+                    $item['name'] = $listNameArray[1];
+                    $item['permission_reminder'] = $list['permission_reminder'];
+                    $array[] = array('attributes' => $item, 'id' => $list['id'], 'type' => 'mail-lists');
+                }
             }
         }
 

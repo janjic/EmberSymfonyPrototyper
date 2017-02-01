@@ -6,5 +6,6 @@ export default Model.extend({
     recipientEmail: attr(),
     emailSubject:   attr('string'),
     emailContent:   attr('string'),
+    mailList:       attr('string'),
     agent:          belongsTo('agent')
 });

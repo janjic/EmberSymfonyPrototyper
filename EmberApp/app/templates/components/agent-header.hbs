@@ -132,7 +132,7 @@
                         {{/bs-dropdown-menu}}
                     {{/bs-dropdown}}
                     <li>
-                        {{invite-people-component tagname="li" sendInvites=(action 'sendInvites')}}
+                        {{invite-people-component tagname="li" sendInvites=(action 'sendInvites') goToRoute = (action 'transitionToRoute')}}
                     </li>
                 </ul>
             </div>

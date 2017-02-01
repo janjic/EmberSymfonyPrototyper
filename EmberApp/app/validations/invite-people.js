@@ -5,6 +5,6 @@ import {
 const { Translator } = window;
 
 export default {
-    emailSubject:   validatePresence({ presence: true, message: Translator.trans('invitation.email.subject') }),
-    emailContent:   validatePresence({ presence: true, message: Translator.trans('invitation.email.content') })
+    mailList:   validatePresence({ presence: true, message: Translator.trans('invitation.mail.list.invalid') }),
+    // emailContent:   validatePresence({ presence: true, message: Translator.trans('invitation.email.content') })
 };

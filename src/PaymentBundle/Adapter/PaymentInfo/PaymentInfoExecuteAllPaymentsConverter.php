@@ -29,9 +29,18 @@ class PaymentInfoExecuteAllPaymentsConverter extends BasicConverter
     {
         $ns = $this->request->request->get('newState');
 
+        $fromState = $this->request->get('fromState');
+        $fromState = $fromState === 'true' ? true : ($fromState==='false' ? false : ($fromState==='null' ? null : ''));
+
+        $agent     = ($ag = $this->request->get('agent')) ? $ag : null;
+        $endDate   = ($ed = $this->request->get('endDate')) ? $ed : null;
+        $startDate = ($sd = $this->request->get('startDate')) ? $sd : null;
+        $type      = ($t = $this->request->get('type')) ? $t : null;
+        $country   = ($c = $this->request->get('country')) ? $c : null;
+
         $newState = $ns === 'true' ? true : ($ns==='false' ? false : null);
 
-        $this->request->attributes->set($this->param, $this->manager->executeAllPayments($newState));
+        $this->request->attributes->set($this->param, $this->manager->executeAllPayments($newState, $fromState, $agent, $startDate, $endDate, $type, $country));
     }
 
 }

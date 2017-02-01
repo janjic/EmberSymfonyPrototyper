@@ -1,0 +1,25 @@
+<li class="timeline-inverted downgrade clearfix">
+    <span class="label label-date">{{moment-format history.date 'DD/MM/YYYY'}}</span>
+    <div class="timeline-badge danger">
+        {{fa-icon "clock-o"}}
+    </div>
+    <div class="timeline-panel bg-danger">
+        <div class="timeline-heading text-white">
+            <h5 class="timeline-title">Downgraded to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>
+        </div>
+        <div class="timeline-body text-white">
+            <p>
+                Sales: <span>{{ history.numbOfSales }}</span>
+            </p>
+            <p>
+                Agents: <span>{{ history.activeAgentsNumb }}</span>
+            </p>
+            <p>
+                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span><a href="#">{{ history.changedByAgent.fullName }}</a></small>
+            </p>
+        </div>
+        <span class="panel-icon">
+            {{fa-icon "angle-double-down"}}
+        </span>
+    </div>
+</li>

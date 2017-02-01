@@ -15,6 +15,18 @@ export default Ember.Route.extend({
         });
     },
 
+    actions: {
+        error: function(reason) {
+            if (reason && reason.errors[0] && reason.errors[0].status === 403) {
+                this.toast.error('general.not-allowed');
+                this.transitionTo('dashboard.agent.agents.all-agents');
+            } else {
+                return true; // throw exception
+            }
+        },
+    },
+
+
     setupController: function(controller/*, model*/) {
         this._super(...arguments);
         let agentId = this.get('agent_id');

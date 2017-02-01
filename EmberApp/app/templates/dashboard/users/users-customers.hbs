@@ -1,5 +1,5 @@
 <span class="pull-right invite-people">
-    {{invite-people-component sendInvites=(action 'sendInvites')}}
+    {{invite-people-component sendInvites=(action 'sendInvites') goToRoute = (action 'transitionToRoute')}}
 </span>
 {{! inf-select
         optionLabelKey='email'

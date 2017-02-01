@@ -16,6 +16,7 @@ class AgentApiResponse
     const PASSWORDS_CHANGED_OK_RESPONSE         = array('status' => AgentApiCode::PASSWORDS_CHANGED_OK);
     const OLD_PASSWORD_IS_NOT_CORRECT_RESPONSE  = array('status' => AgentApiCode::OLD_PASSWORD_IS_NOT_CORRECT);
     const AGENT_NOT_FOUND_RESPONSE              = array('status' => AgentApiCode::AGENT_NOT_FOUND);
+    const AGENT_ACCESS_DENIED                   = array('errors' => array(array('status' => AgentApiCode::ACCESS_DENIED)));
 
     const AGENT_ALREADY_EXIST                   = array('errors' => array(array('status'=> AgentApiCode::AGENT_ALREADY_EXIST)));
     const AGENT_SAVED_FILE_FAILED_RESPONSE      = array('errors' => array(array('status'=> AgentApiCode::FILE_SAVING_ERROR)));
@@ -41,7 +42,6 @@ class AgentApiResponse
     const PAYMENT_EXECUTE_ERROR                 = array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ERROR)));
 
     const PAYMENT_EXECUTE_ALL_SUCCESS           = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_SUCCESS));
-    const PAYMENT_EXECUTE_ALL_ERROR             = array('meta' => array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_ERROR));
 
     /**
      * @param $ttl
@@ -270,4 +270,14 @@ class AgentApiResponse
     {
         return array('data' => $info, 'status' => AgentApiCode::PAYMENT_NEW_INFO_OK);
     }
+
+    /**
+     * @param $exception
+     * @return array
+     */
+    public static function PAYMENT_EXECUTE_ALL_ERROR($exception)
+    {
+        return array('errors' => array(array('status'=> AgentApiCode::PAYMENT_EXECUTE_ALL_ERROR, 'detail'=> $exception->getMessage())));
+    }
+
 }

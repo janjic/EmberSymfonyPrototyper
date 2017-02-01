@@ -18,4 +18,9 @@
         ApiCode.NotificationInfo.{{ key }} = "{{ value }}";
     {% endfor %}
 
+    ApiCode.AgentHistoryStatus = {};
+    {% for key,value in agentHistoryStatuses %}
+    ApiCode.AgentHistoryStatus.{{ key }} = "{{ value }}";
+    {% endfor %}
+
 })(typeof ApiCode === 'undefined' ? this.ApiCode = {} : ApiCode);
