@@ -2,6 +2,7 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     root /var/www/fsd_dev/web;
+
     rewrite ^(/app/.+)/assets/images/(.*)$ /app/assets/images/$2 last;
     ssl on;
   

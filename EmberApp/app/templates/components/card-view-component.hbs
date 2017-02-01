@@ -51,6 +51,8 @@
 
     {{#each model as |yieldModel|}}
         {{yield yieldModel}}
+    {{else}}
+        {{trans 'payment.no-results'}}
     {{/each}}
     </div>
     <div class="row">
