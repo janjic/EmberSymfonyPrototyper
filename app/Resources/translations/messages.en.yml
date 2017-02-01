@@ -121,6 +121,8 @@ general:
   all-orders: 'All orders'
   filter-users: 'Filter users'
   not-allowed: 'You are not allowed to visit this page'
+  choose-agents: 'Choose agents'
+  search-agents: 'Search agents'
 
 
 mail:
@@ -152,7 +154,7 @@ commissions:
 
 purchase-details:
   purchase-details: 'Purchase details'
-  customer-profile: 'Customer profile'
+  profile: 'Profile'
   first-name: 'First name'
   last-name: 'Last name'
   email: 'Email'
@@ -174,8 +176,8 @@ purchase-details:
 agent:
   change:
     status: 'Change status'
-    enable: 'Enable agent'
-    disable: 'Disable agent'
+    enable: 'Enable'
+    disable: 'Disable'
 
 
 # ADMIN MENU ITEMS

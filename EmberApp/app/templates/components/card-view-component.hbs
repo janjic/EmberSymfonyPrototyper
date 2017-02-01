@@ -8,6 +8,9 @@
         <div class="col-md-12">
             <div class="input-box first">
                 {{#if showAgentFilter}}
+                    <label>
+                        {{trans "general.choose-agents"}}
+                    </label>
                     <div class="form-group clearfix">
                         {{inf-select
                         optionLabelKey='email'
@@ -16,7 +19,9 @@
                         }}
                     </div>
                 {{/if}}
-
+                <label>
+                    {{trans "general.search-agents"}}
+                </label>
                 <div class="all-agents-search">
                     <div class="action-buttons">
                         <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
