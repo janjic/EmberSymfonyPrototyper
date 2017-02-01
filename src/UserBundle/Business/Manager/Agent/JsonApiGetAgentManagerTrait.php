@@ -3,6 +3,7 @@
 namespace UserBundle\Business\Manager\Agent;
 use CoreBundle\Adapter\AgentApiResponse;
 use Doctrine\Common\Collections\ArrayCollection;
+use UserBundle\Entity\Agent;
 
 /**
  * Class JsonApiGetAgentManagerTrait
@@ -15,7 +16,15 @@ trait JsonApiGetAgentManagerTrait
      */
     public function getResource($id = null)
     {
-        return $this->createJsonApiGetResponse($this->repository->findAgentById($id));
+        $agent = $this->repository->findAgentById($id);
+
+        /** @var Agent $currentUser */
+        $currentUser = $this->tokenStorage->getToken()->getUser();
+        if (!$currentUser || !($currentUser->getLft() <= $agent->getLft() && $currentUser->getRgt() >= $agent->getRgt())) {
+            return new ArrayCollection(AgentApiResponse::AGENT_ACCESS_DENIED);
+        }
+
+        return $this->createJsonApiGetResponse($agent);
 
     }
 

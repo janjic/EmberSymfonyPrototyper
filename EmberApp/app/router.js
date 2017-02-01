@@ -38,6 +38,7 @@ Router.map(function() {
           this.route('add-new-agent');
           this.route('all-agents');
           this.route('agent-update-history');
+          this.route('agent-history', {path: '/agent-history/:agentId'});
           this.route('promotion-suggestion');
           this.route('agent-view', {path: '/agent-view/:id'});
           this.route('agent-edit', {path: '/agent-edit/:id'});
@@ -72,48 +73,54 @@ Router.map(function() {
       });
 
       this.route('agent', function() {
-          this.route('home');
-          this.route('genealogy-tree');
-          this.route('messages', function() {
-              this.route('create-message');
-              this.route('received-messages');
-              this.route('sent');
-              this.route('trash');
-              this.route('drafts');
-          });
-          this.route('profile', function() {
-              this.route('profile-settings');
-          });
-          this.route('tickets', function() {
-            this.route('tickets-all');
-            this.route('new-ticket');
-            this.route('view-ticket', {path: '/view-ticket/:id'});
-            this.route('created-tickets');
-          });
-          this.route('agent-reports', function() {
-              this.route('customer-orders');
-              this.route('commissions');
-              this.route('purchase-details', {path: '/purchase-details/:id'});
-          });
-          this.route('wallet', function() {
-              this.route('wallet-summary');
-              this.route('payout-history');
-          });
-          this.route('users', function() {
-              this.route('add-new-user');
-              this.route('users-customers');
-              this.route('user-edit', {path: '/user-edit/:id'});
-              this.route('user-view', {path: '/user-view/:id'});
-          });
-          this.route('agents', function() {
-            this.route('add-new-agent');
-            this.route('all-agents');
-            this.route('agent-view', {path: '/agent-view/:id'});
-            this.route('agent-edit', {path: '/agent-edit/:id'});
-          });
-          this.route('notifications', function () {
-              this.route('notifications-all');
-          });
+        this.route('home');
+        this.route('genealogy-tree');
+        this.route('messages', function() {
+            this.route('create-message');
+            this.route('received-messages');
+            this.route('sent');
+            this.route('trash');
+            this.route('drafts');
+        });
+        this.route('profile', function() {
+            this.route('profile-settings');
+        });
+        this.route('tickets', function() {
+          this.route('tickets-all');
+          this.route('new-ticket');
+          this.route('view-ticket', {path: '/view-ticket/:id'});
+          this.route('created-tickets');
+        });
+        this.route('agent-reports', function() {
+            this.route('customer-orders');
+            this.route('commissions');
+            this.route('purchase-details', {path: '/purchase-details/:id'});
+        });
+        this.route('wallet', function() {
+            this.route('wallet-summary');
+            this.route('payout-history');
+        });
+        this.route('users', function() {
+            this.route('add-new-user');
+            this.route('users-customers');
+            this.route('user-edit', {path: '/user-edit/:id'});
+            this.route('user-view', {path: '/user-view/:id'});
+        });
+        this.route('agents', function() {
+          this.route('add-new-agent');
+          this.route('all-agents');
+          this.route('agent-view', {path: '/agent-view/:id'});
+          this.route('agent-edit', {path: '/agent-edit/:id'});
+        });
+        this.route('notifications', function () {
+            this.route('notifications-all');
+        });
+
+        this.route('invite-people', function() {
+          this.route('all-mail-lists');
+          this.route('edit-mail-list', {path: '/mail-list-edit/:id'});
+          this.route('new-mail-list');
+        });
       });
 
       this.route('genealogy-tree');

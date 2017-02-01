@@ -23,13 +23,14 @@ export default Ember.Controller.extend({
             });
         },
 
-        sendInvites(recipientsEmails, emailSubject, emailContent, cUser){
+        sendInvites(cUser, mailList){
             return this.get('store').createRecord('invitation', {
-                recipientEmail: recipientsEmails,
-                emailSubject:   emailSubject,
-                emailContent:   emailContent,
-                agent:          cUser
+                agent:          cUser,
+                mailList:       mailList
             });
+        },
+        transitionToRoute(route){
+            this.transitionToRoute(route);
         }
     }
 });

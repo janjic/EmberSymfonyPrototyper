@@ -49,7 +49,9 @@ trait PaymentInfoCreationTrait
             /** @var Commission $commission */
             $commission = $this->commissionManager->getCommissionForGroup($agent->getGroup());
 
-            $payments[] = $this->createPaymentInfo($agent, $commission->getPackages(), $commission->getConnect(), $commission->getSetupFee(), $commission->getStream());
+            if ($agent->isEnabled()) {
+                $payments[] = $this->createPaymentInfo($agent, $commission->getPackages(), $commission->getConnect(), $commission->getSetupFee(), $commission->getStream());
+            }
         }
 
         /** For agent that are not REF and HQ calculate commissions and bonuses */
@@ -82,10 +84,13 @@ trait PaymentInfoCreationTrait
      */
     public function createCommissionForAgent(Agent $agent, $numberOfCustomers = null)
     {
+        $payments = [];
 
         /** @var Commission $commissionAA */
         $commissionAA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_ACTIVE_AGENT);
-        $payments = [$this->createPaymentInfo($agent, $commissionAA->getPackages(), $commissionAA->getConnect(), $commissionAA->getSetupFee(), $commissionAA->getStream())];
+        if ($agent->isEnabled()) {
+            $payments = [$this->createPaymentInfo($agent, $commissionAA->getPackages(), $commissionAA->getConnect(), $commissionAA->getSetupFee(), $commissionAA->getStream())];
+        }
 
         $this->agentManager->updatePaymentInfoOnAgent($agent);
 
@@ -104,7 +109,9 @@ trait PaymentInfoCreationTrait
         if ($this->isAmbassador($agent->getSuperior())) {
             /** @var Commission $commissionMA */
             $commissionMA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_MASTER_AGENT);
-            array_push($payments, $this->createPaymentInfo($agent->getSuperior(), $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
+            if ($agent->getSuperior()->isEnabled()) {
+                array_push($payments, $this->createPaymentInfo($agent->getSuperior(), $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
+            }
 
             return $payments;
         }
@@ -113,7 +120,9 @@ trait PaymentInfoCreationTrait
         if ($this->isActiveAgent($agent->getSuperior()) && ($ambassador = $this->getAmbassador($agent)) && ($ambassador->getId()!==$agent->getSuperior()->getId())) {
             /** @var Commission $commissionA */
             $commissionA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
-            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
+            if ($ambassador->isEnabled()) {
+                array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
+            }
 
             return $payments;
         }
@@ -122,14 +131,17 @@ trait PaymentInfoCreationTrait
         $master = $agent->getSuperior();
         /** @var Commission $commissionMA */
         $commissionMA = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_MASTER_AGENT);
-        array_push($payments, $this->createPaymentInfo($master, $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
+        if ($master->isEnabled()) {
+            array_push($payments, $this->createPaymentInfo($master, $commissionMA->getPackages(), $commissionMA->getConnect(), $commissionMA->getSetupFee(), $commissionMA->getStream()));
+        }
 
         /** if there is an AMBASSADOR give him commission */
         if (($ambassador = $this->getAmbassador($agent))) {
             /** @var Commission $commissionA */
             $commissionA  = $this->commissionManager->getCommissionForRole(RoleManager::ROLE_AMBASSADOR);
-            array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
-
+            if ($ambassador->isEnabled()) {
+                array_push($payments, $this->createPaymentInfo($ambassador, $commissionA->getPackages(), $commissionA->getConnect(), $commissionA->getSetupFee(), $commissionA->getStream()));
+            }
         }
 
         return $payments;

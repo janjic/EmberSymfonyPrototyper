@@ -6,53 +6,62 @@ const {Translator} = window;
 
 export default Ember.Component.extend(LoadingStateMixin,{
     currentUser:    service('current-user'),
-    store:          service('store'),
+    store:          service(),
     validations:    InvitePeopleValidation,
     isModalOpen:    false,
 
     init() {
         this._setUpDefault();
         this._super(...arguments);
+        this.set('mailLists', []);
     },
-
+    didInsertElement(){
+        let ctx = this;
+        this.get('store').findAll('mail-list', {reload: true}).then((lists)=> {
+            lists.forEach(function (item) {
+                if(item.get('id')){
+                    ctx.get('mailLists').pushObject(item);
+                }
+            });
+        });
+    },
+    validateList(list){
+        if(list.get('id')){
+            this.get('mailLists').pushObject(list);
+        }
+    }
+    ,
     actions: {
-        invitePeople(changeset) {
-            if( !this.get('selectedTags').get('length') ){
-                this.toast.error(Translator.trans('invitation.email.presence'));
+        invitePeople() {
+            if( !this.get('mailList')){
+                this.toast.error(Translator.trans('invitation.mail.list.invalid'));
                 return;
             }
-            if (changeset.validate() && changeset.get('isValid')) {
-                let cUser = this.get('currentUser').get('user');
-                let recipientsEmails = this.get('selectedTags').map((obj)=>{
-                    return obj.email;
-                });
+            let cUser = this.get('currentUser').get('user');
 
-                // let invitation = this.get('store').createRecord('invitation', {
-                //     recipientEmail: recipientsEmails,
-                //     emailSubject:   changeset.get('emailSubject'),
-                //     emailContent:   changeset.get('emailContent'),
-                //     agent:          cUser
-                // });
-                let invitation = this.get('sendInvites')(
-                    recipientsEmails,
-                    changeset.get('emailSubject'),
-                    changeset.get('emailContent'),
-                    cUser
-                );
 
-                this.showLoader('loading.sending.data');
-                invitation.save().then(() => {
-                    this.toast.success(Translator.trans('invitation.message.save'));
-                    this._setUpFields(changeset);
-                    this.send('closeModal');
-                    }, () => {
-                    this.toast.error(Translator.trans('invitation.message.error'));
-                });
-                this.disableLoader();
-            }
+            let invitation = this.get('sendInvites')(
+                cUser,
+                this.get('mailList.id')
+            );
+
+            this.showLoader('loading.sending.data');
+            invitation.save().then(() => {
+                this.toast.success(Translator.trans('invitation.message.save'));
+                this.set('mailList', null);
+                this.send('closeModal');
+            }, () => {
+                this.toast.error(Translator.trans('invitation.message.error'));
+            });
+            this.disableLoader();
         },
-        validateProperty(changeset, property) {
-            return changeset.validate(property);
+        goToAddList(){
+            this.send('closeModal');
+            if(this.get('currentUser.isUserAdmin')){
+                this.get('goToRoute')('dashboard.mass-mails.add-new-mail-list');
+            } else {
+                this.get('goToRoute')('dashboard.agent.invite-people.new-mail-list');
+            }
         },
         openModal() {
             this.set('isModalOpen', true);
@@ -60,56 +69,18 @@ export default Ember.Component.extend(LoadingStateMixin,{
         closeModal(){
             this.set('isModalOpen', false);
         },
-        addNew(text) {
-            let newTag = {
-                id: 1,
-                email: text
-            };
-            if( text.match(/.*@.*\..*/i) ) {
-                this.get('items').addObject(newTag);
-                this.get('selectedTags').addObject(newTag);
-            } else {
-                this.toast.error(Translator.trans('invitation.email.invalid'));
-            }
-        },
-        itemChanged(item){
-            if( item == null ){
-                this.set('selectedTags', Ember.A([]));
-            } else if( Ember.A(this.get('selectedTags')).includes(item) ){
-                this.send("itemRemoved", item );
-            } else {
-                this.set('selectedTags', Ember.A(this.get('selectedTags').concat([item])));
-            }
-        },
-        itemRemoved(item){
-            let _selected = this.get('selectedTags');
-            let i = _selected.indexOf(item);
-            let newSelection = _selected.slice(0, i).concat(_selected.slice(i + 1));
-            this.set('selectedTags', Ember.A(newSelection));
+        changeList(list){
+            this.set('mailList', list);
         }
     },
 
     _setUpDefault(context=this) {
-        this._setUpFields();
-
         let cUser = this.get('currentUser').get('user');
         let agentEmail = cUser.get('email');
         let agentCode = cUser.get('agentId');
         context.set('agentEmail', agentEmail);
         context.set('agentCode', agentCode);
-
         context.set('items', A([]));
 
-    },
-
-    _setUpFields(context=this){
-        A([
-            'emailSubject',
-            'emailContent',
-        ]).forEach((property) => {
-            context.set(property, '');
-        });
-
-        this.set('selectedTags', A([]));
     }
 });

@@ -475,30 +475,81 @@ class PaymentInfoRepository extends EntityRepository
     }
 
     /**
-     * @param $newState
+     * @param $agentId
+     * @param $startDate
+     * @param $endDate
+     * @param $type
+     * @param $country
+     * @param $state
+     * @return bool|\Exception
+     * @internal param $newState
+     */
+    public function getResultsForFilters($agentId, $startDate, $endDate, $type, $country, $state)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
+
+        if ($agentId) {
+            $qb->andWhere(self::AGENT_ALIAS.'.id = ?1');
+            $qb->setParameter(1, $agentId);
+        }
+
+        if ($startDate) {
+            $qb->andWhere(self::ALIAS.'.createdAt > :date_f');
+            $date = new \DateTime($startDate);
+            $qb->setParameter('date_f', $date, Type::DATETIME);
+        }
+
+        if ($endDate){
+            $qb->andWhere(self::ALIAS.'.createdAt < :date_t');
+            $date = (new \DateTime($endDate))->add(new \DateInterval('P1D'));
+            $qb->setParameter('date_t', $date, Type::DATETIME);
+        }
+
+        if ($type){
+            $typeParam = $type === 'Commission' ? PaymentInfoManager::COMMISSION_TYPE : PaymentInfoManager::BONUS_TYPE;
+            $qb->andWhere($qb->expr()->like(self::ALIAS.'.paymentType', $qb->expr()->literal('%' . $typeParam . '%')));
+        }
+
+        if ($country) {
+            $qb->leftJoin(self::AGENT_ALIAS.'.address', 'address');
+            $qb->andWhere('address.country = ?2');
+            $qb->setParameter(2, $country);
+        }
+
+        if ($state === null){
+            $qb->andWhere(self::ALIAS.'.state IS NULL');
+        } else if ($state===false || $state===true) {
+            $qb->andWhere(self::ALIAS.'.state = ?3');
+            $qb->setParameter(3, $state === true ? 1 : 0);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $paymentsList
      * @return boolean|\Exception
      */
-    public function changeAllPaymentsState($newState)
+    public function mergeMultiple($paymentsList)
     {
         try {
-            $sql = 'UPDATE as_payment_info SET state='.($newState===true ? 1 : ($newState===false ? 0 : null));
+            foreach ($paymentsList as $kay =>$payment) {
+                $this->_em->merge($payment);
 
-            $date = new \DateTime();
-            $sql.= ' , payed_at="'.$date->format('Y-m-d H:i:s').'"';
-
-            if ($newState===true) {
-                $sql.= ' WHERE state=0 OR state is NULL';
-            } else if ($newState===false) {
-                $sql.= ' WHERE state is NULL';
+                if ($kay % 20 === 0) {
+                    $this->_em->flush();
+                }
             }
 
-            $stmt = $this->_em->getConnection()->prepare($sql);
-            $stmt->execute();
+            $this->_em->flush();
 
-            return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e){
             return $e;
         }
+
+        return $paymentsList;
     }
 
 

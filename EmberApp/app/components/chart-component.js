@@ -1,7 +1,7 @@
 import Ember from 'ember';
 const {service} = Ember.inject;
 const {Routing, Translator, Highcharts} = window;
-import { task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 
 export default Ember.Component.extend({
     session     : Ember.inject.service('session'),

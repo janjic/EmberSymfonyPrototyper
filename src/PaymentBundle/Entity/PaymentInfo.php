@@ -3,7 +3,10 @@
 namespace PaymentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PaymentBundle\Business\Manager\PaymentInfoManager;
 use UserBundle\Entity\Agent;
+use PaymentBundle\Model\Resource\CSVEntityInterface;
+use PaymentBundle\Model\Resource\PrimaryKeyInterface;
 
 /**
  * Class PaymentInfo
@@ -11,7 +14,7 @@ use UserBundle\Entity\Agent;
  * @ORM\Entity(repositoryClass="PaymentBundle\Business\Repository\PaymentInfoRepository")
  * @ORM\Table(name="as_payment_info")
  */
-class PaymentInfo
+class PaymentInfo implements PrimaryKeyInterface, CSVEntityInterface
 {
     /**
      * @ORM\Id
@@ -673,5 +676,144 @@ class PaymentInfo
     public function setBonusDesc($bonusDesc)
     {
         $this->bonusDesc = $bonusDesc;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCSVHeader()
+    {
+        return array(
+            'id of payment',
+            'Agent\'s FullName',
+            'Agent\'s Bank Name',
+            'Agent\'s Bank Account',
+            'orderId',
+            'customerId',
+            'Package\'s Value',
+            'Package\'s Percentage',
+            'Package\'s Commission',
+            'Connect Value',
+            'Connect Percentage',
+            'Connect Commission',
+            'Setup Fee Value',
+            'Setup Fee Percentage',
+            'Setup Fee Commission',
+            'Stream Value',
+            'Stream Percentage',
+            'Stream Commission',
+            'Total Commission',
+            'Bonus Value',
+            'Bonus Desc',
+            'Payment Type',
+            'state',
+            'Created At',
+            'Payed At',
+            'memo',
+            'currency',
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getCSVValues()
+    {
+        $values = array();
+        foreach ($this->getCSVHeader() as $property) {
+            switch ($property) {
+                case 'id of payment':
+                    $values[] = $this->getId();
+                    break;
+                case 'Agent\'s FullName':
+                    $values[] =  $this->getAgent()->getLastName().' '.$this->getAgent()->getFirstName();
+                    break;
+                case 'Agent\'s Bank Name':
+                    $values[] =  $this->getAgent()->getBankName();
+                    break;
+                case 'Agent\'s Bank Account':
+                    $values[] =  $this->getAgent()->getBankAccountNumber();
+                    break;
+                case 'Package\'s Value':
+                    $values[] =  $this->getPackagesValue();
+                    break;
+                case 'Package\'s Percentage':
+                    $values[] =  $this->getPackagesPercentage();
+                    break;
+                case 'Package\'s Commission':
+                    $values[] =  $this->getPackagesCommission();
+                    break;
+                case 'Connect Value':
+                    $values[] =  $this->getConnectValue();
+                    break;
+                case 'Connect Percentage':
+                    $values[] =  $this->getConnectPercentage();
+                    break;
+                case 'Connect Commission':
+                    $values[] =  $this->getConnectCommission();
+                    break;
+                case 'Setup Fee Value':
+                    $values[] =  $this->getSetupFeeValue();
+                    break;
+                case 'Setup Fee Percentage':
+                    $values[] =  $this->getSetupFeePercentage();
+                    break;
+                case 'Setup Fee Commission':
+                    $values[] =  $this->getSetupFeeCommission();
+                    break;
+                case 'Stream Value':
+                    $values[] =  $this->getStreamValue();
+                    break;
+                case 'Stream Percentage':
+                    $values[] =  $this->getStreamPercentage();
+                    break;
+                case 'Stream Commission':
+                    $values[] =  $this->getStreamCommission();
+                    break;
+                case 'Total Commission':
+                    $values[] =  $this->getTotalCommission();
+                    break;
+                case 'Bonus Value':
+                    $values[] =  $this->getBonusValue();
+                    break;
+                case 'Bonus Desc':
+                    $values[] =  $this->getBonusDesc();
+                    break;
+                case 'Payment Type':
+                    $values[] =  $this->generatePaymentTypeResponse($this->getPaymentType());
+                    break;
+                case 'Created At':
+                    $this->getCreatedAt() ? $values[] =  $this->getCreatedAt()->format('Y-m-d') : $values[] = '';
+                    break;
+                case ('Payed At'):
+                    $this->getPayedAt() ? $values[]  =  $this->getPayedAt()->format('Y-m-d'): $values[] = '';
+                    break;
+                default:
+                    $values[] = $this->{$property};
+                    break;
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCSVValues($csvRow, $locale, $csvHeaders, $propertyMappings = array())
+    {
+        return $this;
+    }
+
+    public function generatePaymentTypeResponse($paymentType)
+    {
+        switch ($paymentType){
+            case PaymentInfoManager::COMMISSION_TYPE:
+                return 'Commission';
+            case PaymentInfoManager::BONUS_TYPE:
+                return 'Bonus';
+            default:
+                return 'N/A';
+        }
     }
 }

@@ -10,6 +10,8 @@ export default Model.extend({
     changedTo:          DS.belongsTo('group'),
     changedToSuspended: attr('boolean'),
     changedType:        attr('string'),
-    date:               attr('custom-date')
+    date:               attr('custom-date'),
+    activeAgentsNumb:   attr('number'),
+    numbOfSales:        attr('number')
 
 });

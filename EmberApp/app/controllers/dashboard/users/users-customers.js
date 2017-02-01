@@ -45,16 +45,16 @@ export default Ember.Controller.extend({
                 this.set('maxPages', this.get('model.meta.pages'));
                 this.set('totalItems', this.get('model.meta.totalItems'));
             });
-
         },
 
-        sendInvites(recipientsEmails, emailSubject, emailContent, cUser){
+        sendInvites(cUser, mailList){
             return this.get('store').createRecord('invitation', {
-                recipientEmail: recipientsEmails,
-                emailSubject:   emailSubject,
-                emailContent:   emailContent,
-                agent:          cUser
+                agent:          cUser,
+                mailList:       mailList
             });
+        },
+        transitionToRoute(route){
+            this.transitionToRoute(route);
         }
     },
 

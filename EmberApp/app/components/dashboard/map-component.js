@@ -1,13 +1,19 @@
 import Ember from 'ember';
+import { task} from 'ember-concurrency';
+import templateToString from '../../helpers/template-to-string';
 
-const {Datamap, d3, Routing} = window;
-import { task, timeout } from 'ember-concurrency';
+const { Datamap, d3, Routing } = window;
+const { getOwner } = Ember;
 
 export default Ember.Component.extend({
     session              :   Ember.inject.service('session'),
     dataArray            :   [],
     topCountries         :   [],
     bubbleMap            :   null,
+
+    setUpPopup: task(function * (data) {
+        return yield templateToString('template:dynamic-templates/map-popup', getOwner(this), data);
+    }).enqueue(),
 
     setUpGraph: task(function * () {
         let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
@@ -21,8 +27,7 @@ export default Ember.Component.extend({
         });
         let response = yield Ember.$.ajax({
             type: "GET",
-            url: Routing.generate('agents-by-country'),
-            contentType: "application/pdf",
+            url: Routing.generate('agents-by-country')
         });
         this.set('bubble_map', new Datamap({
                 element: document.getElementById("bubbles"),
@@ -84,9 +89,12 @@ export default Ember.Component.extend({
             }
         }
 
+        let ctx = this;
         this.get('bubble_map').bubbles(this.get('dataArray'),{
             popupTemplate: function(geo, data) {
-                return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.countryName +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
+                ctx.get('setUpPopup').perform(data);
+
+                return ctx.get('setUpPopup.lastSuccessful.value');
             }
         });
 
@@ -123,9 +131,12 @@ export default Ember.Component.extend({
                 array = JSON.parse(JSON.stringify(this.get('dataArray')));
             }
 
+            let ctx = this;
             this.get('bubble_map').bubbles(array,{
                 popupTemplate: function(geo, data) {
-                    return '<div class="hoverinfo input-box text-center"><h5><span class="flag flag-'+data.countryCode+'" alt="Country"></span>'+ data.countryName +'</h5>' + '<h6><i class="fa fa-users"></i> Agents: '+ data.count+'</h6>';
+                    ctx.get('setUpPopup').perform(data);
+
+                    return ctx.get('setUpPopup.lastSuccessful.value');
                 }
             });
         }

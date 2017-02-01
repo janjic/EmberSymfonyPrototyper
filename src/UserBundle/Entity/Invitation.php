@@ -29,6 +29,13 @@ class Invitation
      * @ORM\Column(name="email_subject", type="string", length=30)
      */
     private $emailSubject;
+
+    /**
+     * @var string
+     * @ORM\Column(name="mail_list_id", type="text")
+     */
+    private $mailList;
+
     /**
      * @var string
      * @ORM\Column(name="email_content", type="text")
@@ -134,4 +141,21 @@ class Invitation
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getMailList()
+    {
+        return $this->mailList;
+    }
+
+    /**
+     * @param string $mailList
+     */
+    public function setMailList($mailList)
+    {
+        $this->mailList = $mailList;
+    }
+
 }

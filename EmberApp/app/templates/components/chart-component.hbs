@@ -30,12 +30,12 @@
                 </h3>
                 <div class="drop-holder">
                     <button type="button" class="button btn-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select currency
+                        Select currency ({{ currency }})
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><span>{{fa-icon "money"}}</span> CHF</li>
-                        <li><span>{{fa-icon "eur"}}</span> EUR</li>
+                        <li {{action 'currencyChanged' 'CHF'}}><span>{{fa-icon "money"}}</span> CHF</li>
+                        <li {{action 'currencyChanged' 'EUR'}}><span>{{fa-icon "eur"}}</span> EUR</li>
                     </ul>
                 </div>
             </div>
