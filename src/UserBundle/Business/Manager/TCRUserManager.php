@@ -230,7 +230,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
         $date = new \DateTime($data->birthDate);
         $data->birth_date = $date->format(DateTime::ISO8601);
 
-        if( $data->imageName != null){
+        if($data->imageName != null){
             if( $data->imageId ) {
                 $data->avatar = array(
                     "id" => $data->imageId,
