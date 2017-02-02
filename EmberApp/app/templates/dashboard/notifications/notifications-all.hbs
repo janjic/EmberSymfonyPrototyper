@@ -61,7 +61,7 @@
                 <h3 class="sub-heading">{{fa-icon "bell"}} {{trans 'general.all-notifications'}}</h3>
                 {{#each model as |notification|}}
                     <li class="single-notification {{if notification.isSeen "seen"}}" >
-                        <a href="#" {{action "transitionTo" notification notification.link notification.newAgent}}>
+                        <a href="#" {{action "transitionTo" notification notification.link}}>
                             <div class="img-holder">
                                 <img class="img-circle" src="../assets/images/user-avatar.png" title="Username">
                                 <span class="icon-circle">{{fa-icon "envelope"}}</span>
@@ -73,7 +73,7 @@
                                     {{else}}
                                         <h4>{{notification.payment.paymentType}}</h4>
                                     {{/if}}
-                                    <p>{{ notification.type }} <span>{{ notification.agent.email }}</span></p>
+                                    <p>{{ notification.type }}</p>
                                     <span class="date">{{print-custom-date notification.createdAt}}</span>
                                 </div>
                             </div>

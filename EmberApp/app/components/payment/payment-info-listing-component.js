@@ -9,6 +9,7 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
     page: 1,
     eventBus: Ember.inject.service('event-bus'),
     authorizedAjax: Ember.inject.service('authorized-ajax'),
+    session: Ember.inject.service(),
 
     paymentTypes: ['Commission', 'Bonus'],
 
@@ -133,6 +134,30 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
         exportResults(){
             this.set('isCSVLoading', true);
 
+            let options = {
+                fromState: (this.get('initialPaymentState') === null ? 'null' : this.get('initialPaymentState'))
+            };
+
+            if (this.get('agentFilter.id')) {
+                options.agent = this.get('agentFilter.id');
+            }
+
+            if (this.get('endDateFilter')) {
+                options.endDate = this.get('endDateFilter');
+            }
+
+            if (this.get('startDateFilter')) {
+                options.startDate = this.get('startDateFilter');
+            }
+
+            if (this.get('typeFilter')) {
+                options.type = this.get('typeFilter');
+            }
+
+            if (this.get('countryFilter')) {
+                options.country = this.get('countryFilter');
+            }
+
             let accessToken = `Bearer ${this.get('session.data.authenticated.access_token')}`;
 
             Ember.$.ajaxSetup({
@@ -143,26 +168,18 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
                 headers: { 'Authorization': accessToken }
             });
 
-            // let filterArray = this.get('');
             let ctx = this;
             let today = new Date();
             let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
             Ember.$.ajax({
-                type: "GET",
+                type: "POST",
                 url: Routing.generate('payments_csv'),
-                contentType: "text/csv",
+                data: options
             }).then(function (response) {
-                download(response, "report-"+today+".csv", "text/csv");
+                download(response, "report-"+date+".csv", "text/csv");
                 ctx.set('isCSVLoading', false);
             });
-
-
-            // this.get('authorizedAjax').sendAuthorizedRequest(null, 'GET', Routing.generate('payments_csv'),
-            //     function (response) {
-            //         download(response);
-            //         this.set('isCSVLoading', false);
-            //     }.bind(this), this);
         }
     },
 

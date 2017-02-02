@@ -472,11 +472,18 @@ class PaymentInfoManager implements JSONAPIEntityManagerInterface
     }
 
     /**
+     * @param $fromState
+     * @param $agentId
+     * @param $startDate
+     * @param $endDate
+     * @param $type
+     * @param $country
      * @return mixed|null
      */
-    public function exportToCSV()
+    public function exportToCSV($fromState, $agentId, $startDate, $endDate, $type, $country)
     {
-        return (new CsvWriter())->writeCollection($this->repository->findPayment(null));
+        $results = $this->repository->getResultsForFilters($agentId, $startDate, $endDate, $type, $country, $fromState);
 
+        return (new CsvWriter())->writeCollection($results);
     }
 }
