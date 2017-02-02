@@ -7,7 +7,7 @@
         <div class="timeline-heading text-white">
 
             <h5 class="timeline-title">ENABLED</h5>
-            <h5 class="timeline-title">Promoted to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>
+            {{!--<h5 class="timeline-title">Promoted to <span class="role">{{history.changedTo.name}}</span> from <span class="role">{{history.changedFrom.name}}</span></h5>--}}
         </div>
         <div class="timeline-body text-white">
             <p>
@@ -17,7 +17,9 @@
                 Agents: <span>{{ history.activeAgentsNumb }}</span>
             </p>
             <p>
-                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span><a href="#">{{ history.changedByAgent.fullName }}</a></small>
+                <small>changed by <span class="img-holder"><img src="{{ history.changedByAgent.baseImageUrl }}" alt=""></span>
+                    {{#link-to "dashboard.agent.agents.agent-view" history.changedByAgent.id }}{{ history.changedByAgent.fullName }}{{/link-to}}
+                </small>
             </p>
         </div>
         <span class="panel-icon panel-icon-ban">
