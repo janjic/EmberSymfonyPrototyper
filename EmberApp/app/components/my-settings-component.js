@@ -95,12 +95,12 @@ export default Ember.Component.extend(LoadingStateMixin,{
             }
         },
         removedFile() {
-            // if(!this.get('maxFilesReached')) {
+            if(!this.get('maxFilesReached')) {
                 let img = this.getImage();
                 img.set('name', null);
                 img.set('webPath', null);
                 img.set('base64Content', null);
-            // }
+            }
         },
 
         maxFilesReached: function (reached) {
