@@ -37,6 +37,11 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
     protected $agentManager;
 
     /**
+     * @var \Swift_Mailer
+     */
+    protected $mailer;
+
+    /**
      * TCRUserManager constructor.
      * @param FJsonApiSerializer $fSerializer
      * @param TokenStorageInterface $tokenStorage
@@ -44,7 +49,7 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
      */
     public function __construct(FJsonApiSerializer $fSerializer, TokenStorageInterface $tokenStorage, AgentManager $agentManager)
     {
-        $this->fSerializer = $fSerializer;
+        $this->fSerializer  = $fSerializer;
         $this->tokenStorage = $tokenStorage;
         $this->agentManager = $agentManager;
     }
@@ -149,7 +154,6 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
     {
         $content = json_decode($data);
         $data = $content->data->attributes;
-
         $promoCode = $content->data->relationships->agent->data->attributes->agent_id;
 
         foreach ($data as $key => $value) {
@@ -300,4 +304,5 @@ class TCRUserManager extends TCRSyncManager implements JSONAPIEntityManagerInter
 
         return $serialized;
     }
+
 }
