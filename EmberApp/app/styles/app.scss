@@ -1569,7 +1569,7 @@ header {
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
   transition: all 0.2s ease-in-out;
   &:hover {
-    box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.14), 0 5px 9px 0 rgba(0,0,0,0.12), 0 7px 5px -6px rgba(0,0,0,0.2);
   }
   .title {
     font-size: 16px;
@@ -2803,6 +2803,10 @@ input:focus {
 
 .chart-holder h5 {
   margin-bottom: 5px;
+}
+
+.genealogy-form {
+  width: 50%;
 }
 
 .legend-orgchart.input-box {
@@ -4173,6 +4177,7 @@ ul.notification-list {
 
 .navbar-nav > li:first-child {
   float: right;
+  order: 1;
   @media screen and (max-width: 768px) {
     float: none;
   }
@@ -4662,7 +4667,7 @@ ul.dropdown-menu {
   border: none;
   min-height: 350px;
   &:hover {
-    box-shadow: 1px 6px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.14), 0 5px 9px 0 rgba(0,0,0,0.12), 0 7px 5px -6px rgba(0,0,0,0.2);
   }
   .upper-box {
     background-color: #34495e;
