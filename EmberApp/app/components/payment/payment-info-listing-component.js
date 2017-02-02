@@ -10,6 +10,7 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
     eventBus: Ember.inject.service('event-bus'),
     authorizedAjax: Ember.inject.service('authorized-ajax'),
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
 
     paymentTypes: ['Commission', 'Bonus'],
 
@@ -138,8 +139,12 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
                 fromState: (this.get('initialPaymentState') === null ? 'null' : this.get('initialPaymentState'))
             };
 
-            if (this.get('agentFilter.id')) {
-                options.agent = this.get('agentFilter.id');
+            if( this.get('currentUser.isUserAdmin') ) {
+                if (this.get('agentFilter.id')) {
+                    options.agent = this.get('agentFilter.id');
+                }
+            } else {
+                options.agent = this.get('currentUser.user.id');
             }
 
             if (this.get('endDateFilter')) {

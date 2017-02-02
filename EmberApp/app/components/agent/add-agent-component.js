@@ -96,6 +96,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
                     }
                 }
             } else {
+                withoutProxies(this.getImage()).rollbackAttributes();
                 this.get('model').reload();
                 this.toast.success(Translator.trans('models.agent.updated.profile'));
             }
@@ -225,6 +226,6 @@ export default Ember.Component.extend(LoadingStateMixin,{
     shouldOpenModal(group){
         let iniGroup = this.get('initialGroup');
         return iniGroup ? (iniGroup.get('name') !== ApiCode.GroupInfo.REFEREE && group.get('name') === ApiCode.GroupInfo.REFEREE ): false;
-    }
+    },
 
 });

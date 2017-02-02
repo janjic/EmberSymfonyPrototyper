@@ -8,6 +8,7 @@ const { Translator } = window;
 export default Ember.Component.extend({
     store: Ember.inject.service(),
     routing: Ember.inject.service('-routing'),
+    currentUser: Ember.inject.service('current-user'),
     TCRUserValidations,
     userCity: null,
     userStreet: null,

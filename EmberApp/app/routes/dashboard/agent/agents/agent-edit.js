@@ -33,6 +33,10 @@ export default Ember.Route.extend({
                 return true; // throw exception
             }
         },
+
+        willTransition(){
+            this.get('currentModel.agent').rollbackAttributes();
+        }
     },
 
     afterModel(model) {

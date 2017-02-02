@@ -16,6 +16,12 @@ export default Ember.Route.extend({
             this.transitionTo('dashboard.agent.users.users-customers');
         }
 
+    },
+
+    actions: {
+        willTransition(){
+            this.get('currentModel').rollbackAttributes();
+        }
     }
 
 });
