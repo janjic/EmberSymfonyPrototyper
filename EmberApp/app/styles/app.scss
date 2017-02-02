@@ -6527,3 +6527,42 @@ ul.dropdown-menu {
     margin-left: 5px;
   }
 }
+
+.pager {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: end;
+  justify-content: center;
+  .page-number {
+    outline: none;
+    border: none;
+    height: 34px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-right: none;
+    background-color: #34495e;
+    color: #fff;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .active {
+    background-color: #4caf50;
+  }
+}

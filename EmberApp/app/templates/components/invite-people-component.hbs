@@ -6,10 +6,6 @@
         </h4>
     {{/bs-modal-header}}
     {{#bs-modal-body class="clearfix"}}
-        {{!--<div class="form-group">--}}
-            {{!--<label for="">{{trans 'mail.from-email'}}</label>--}}
-            {{!--<input class="form-control" type="text" id="text-agentEmail" value={{agentEmail}} disabled>--}}
-        {{!--</div>--}}
         <div class="form-group">
             <label for="">{{trans 'mail.choose-mail-list'}}</label>
             {{inf-select
@@ -20,17 +16,17 @@
                     on-change=(action 'changeList')
             }}
 
-                <button class="button green" {{action 'goToAddList'}}>{{trans 'mail.add-new-mail-list'}}</button>
+
         </div>
-        {{!--<div class="form-group">--}}
-            {{!--<input class="form-control" type="text" id="text-agentCode" value={{agentCode}} disabled>--}}
-        {{!--</div>--}}
-        <button {{action "invitePeople" }} type="submit" class="button green pull-right">
-            {{#if isLoading }}
-                {{inf-loading}}
-            {{else}}
-                {{trans 'button.send-mail'}}
-            {{/if}}
-        </button>
+        <div class="form-group clearfix">
+            <button class="button green" {{action 'goToAddList'}}>{{trans 'mail.add-new-mail-list'}}</button>
+            <button {{action "invitePeople" }} type="submit" class="button green pull-right">
+                {{#if isLoading }}
+                    {{inf-loading}}
+                {{else}}
+                    {{trans 'button.send-mail'}}
+                {{/if}}
+            </button>
+        </div>
     {{/bs-modal-body}}
 {{/bs-modal}}
