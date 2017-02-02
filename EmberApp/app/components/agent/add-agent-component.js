@@ -96,7 +96,10 @@ export default Ember.Component.extend(LoadingStateMixin,{
                     }
                 }
             } else {
-                withoutProxies(this.getImage()).rollbackAttributes();
+                let imgObj = this.getImage();
+                if( imgObj.get('id') ) {
+                    withoutProxies(imgObj).rollbackAttributes();
+                }
                 this.get('model').reload();
                 this.toast.success(Translator.trans('models.agent.updated.profile'));
             }

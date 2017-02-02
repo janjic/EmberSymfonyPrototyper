@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { $ } = window;
 
 export default Ember.Component.extend({
     didInsertElement(){

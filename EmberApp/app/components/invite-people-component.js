@@ -29,8 +29,8 @@ export default Ember.Component.extend(LoadingStateMixin,{
         if(list.get('id')){
             this.get('mailLists').pushObject(list);
         }
-    }
-    ,
+    },
+
     actions: {
         invitePeople() {
             if( !this.get('mailList')){

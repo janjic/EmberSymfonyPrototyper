@@ -1,5 +1,4 @@
 import Ember from 'ember';
-const Translator = window.Translator;
 import { task, timeout } from 'ember-concurrency';
 
 export default Ember.Controller.extend({
