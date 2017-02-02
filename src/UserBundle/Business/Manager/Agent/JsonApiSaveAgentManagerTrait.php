@@ -64,7 +64,7 @@ trait JsonApiSaveAgentManagerTrait
          * @var Agent $agent
          */
         $agent = $this->deserializeAgent($data);
-
+        $agent->setRoleChangedAt(new DateTime());
         $agent->setUsername($agent->getEmail());
         $group = $this->groupManager->getEntityReference($agent->getGroup()->getId());
         /**

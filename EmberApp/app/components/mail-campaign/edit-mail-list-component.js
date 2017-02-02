@@ -8,8 +8,6 @@ const {ApiCode, Translator} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, {
     currentUser: Ember.inject.service('current-user'),
-    additionalMails : [],
-    items : [],
     init() {
         this._super(...arguments);
         this.changeset = new Changeset(this.get('model'), lookupValidator(MailListValidations), MailListValidations);
@@ -58,11 +56,15 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.get('model.newSubscribers').pushObject({email:value});
         },
         agentSelected(agent){
-            if(agent.hasOwnProperty('email')){
-                this.get('model.newSubscribers').pushObject({email:agent.email});
-            }else {
-                this.get('model.newSubscribers').pushObject({email:agent.get('email')});
+            let newSubsIndex = this.itemInArray(this.get('model.newSubscribers'), agent);
+            if(newSubsIndex === -1) {
+                if(agent.hasOwnProperty('email')){
+                    this.get('model.newSubscribers').pushObject({email:agent.email});
+                }else {
+                    this.get('model.newSubscribers').pushObject({email: agent.get('email')});
+                }
             }
+
         },
         agentRemoved(agent){
             let newSubsIndex = this.itemInArray(this.get('model.newSubscribers'), agent);

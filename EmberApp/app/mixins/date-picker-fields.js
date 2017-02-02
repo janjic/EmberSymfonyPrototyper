@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import moment from 'moment';
+const {Translator} = window;
 
 export default Ember.Mixin.create({
     /** datetime picker */
@@ -13,18 +14,18 @@ export default Ember.Mixin.create({
         "Sa"
     ],
     monthNames: [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agusto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre"
+        Translator.trans('January'),
+        Translator.trans('February'),
+        Translator.trans('March'),
+        Translator.trans('April'),
+        Translator.trans('May'),
+        Translator.trans('June'),
+        Translator.trans('July'),
+        Translator.trans('August'),
+        Translator.trans('September'),
+        Translator.trans('October'),
+        Translator.trans('November'),
+        Translator.trans('December'),
     ],
     today : Ember.computed(function () {
         let date = new Date();

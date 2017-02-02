@@ -84,8 +84,14 @@ export default Ember.Component.extend({
         },
 
         removedFile: function () {
-            this.set('user.base64Content', null);
-            this.set('user.imageName', null);
+            if(!this.get('maxFilesReached')) {
+                this.set('user.base64Content', null);
+                this.set('user.imageName', null);
+            }
+        },
+
+        maxFilesReached: function (reached) {
+            this.set('maxFilesReached', reached);
         },
 
         /** validations */

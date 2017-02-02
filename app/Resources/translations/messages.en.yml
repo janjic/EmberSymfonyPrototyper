@@ -13,7 +13,7 @@ password:
 
 
 meta:
-  title: Agents
+  title: "Agents"
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'
@@ -121,6 +121,8 @@ general:
   all-orders: 'All orders'
   filter-users: 'Filter users'
   not-allowed: 'You are not allowed to visit this page'
+  choose-agents: 'Choose agents'
+  search-agents: 'Search agents'
 
 
 mail:
@@ -139,6 +141,11 @@ mail:
   choose-email-addresses: 'Choose email addresses'
   edit-mail-list: 'Edit mail list'
   replicate: 'Replicate mass mail campaign'
+  mail-list-id: "List id"
+  mail-list-name: "List name"
+  mail-list-address: "List address"
+  mail-list-from: "From name"
+  mail-list-action: "Action"
 
 commissions:
   compensation-summary: 'Compensation summary'
@@ -152,7 +159,7 @@ commissions:
 
 purchase-details:
   purchase-details: 'Purchase details'
-  customer-profile: 'Customer profile'
+  profile: 'Profile'
   first-name: 'First name'
   last-name: 'Last name'
   email: 'Email'
@@ -174,8 +181,8 @@ purchase-details:
 agent:
   change:
     status: 'Change status'
-    enable: 'Enable agent'
-    disable: 'Disable agent'
+    enable: 'Enable'
+    disable: 'Disable'
 
 
 # ADMIN MENU ITEMS

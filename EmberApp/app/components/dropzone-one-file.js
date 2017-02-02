@@ -5,6 +5,9 @@ const {Dropzone} = window;
 export default EmberDropzone.extend({
 
     eventBus: Ember.inject.service('event-bus'),
+
+    maxFilesReached: '',
+
     loadPreExistingFiles() {
         let file = this.get('currentImage');
         if (withoutProxies(file)) {
@@ -66,12 +69,17 @@ export default EmberDropzone.extend({
         this._super(...arguments);
         Ember.run.scheduleOnce('afterRender', this, ()=>{
             let dropZone = this.get('dropzone');
+            let ctx = this;
             dropZone.on('addedfile', function() {
-                    if (this.files.length > 1) {
-                        this.removeFile(this.files[0]);
-                    }
-             });
+                if(typeof ctx.get('maxFilesReached') === 'function'){
+                    ctx.get('maxFilesReached')(this.files.length > 1);
+                }
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
 
+
+            });
         });
     },
 

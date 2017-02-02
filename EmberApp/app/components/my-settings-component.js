@@ -17,6 +17,12 @@ export default Ember.Component.extend(LoadingStateMixin,{
     init(){
         this._super(...arguments);
         this.changeset = new Changeset(this.get('settings'), lookupValidator(SettingsValidations), SettingsValidations);
+        // if(this.get('settings.image.webPath')){
+        //     this.set('maxFilesReached', false);
+        // } else {
+        //     this.set('maxFilesReached', true);
+        // }
+        // console.log(this.get('maxFilesReached'));
     },
 
     image: Ember.Object.create({
@@ -89,10 +95,16 @@ export default Ember.Component.extend(LoadingStateMixin,{
             }
         },
         removedFile() {
-            let img = this.getImage();
-            img.set('name', null);
-            img.set('webPath', null);
-            img.set('base64Content', null);
+            if(!this.get('maxFilesReached')) {
+                let img = this.getImage();
+                img.set('name', null);
+                img.set('webPath', null);
+                img.set('base64Content', null);
+            }
         },
+
+        maxFilesReached: function (reached) {
+            this.set('maxFilesReached', reached);
+        }
     }
 });

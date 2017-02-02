@@ -13,6 +13,8 @@ use MailCampaignBundle\Business\Manager\MailCampaign\JsonApiUpdateMailCampaignMa
 use MailCampaignBundle\Entity\MailCampaign;
 use MailCampaignBundle\Util\MailCampaignSerializerInfo;
 use MailCampaignBundle\Util\MailChimp;
+use UserBundle\Business\Manager\SettingsManager;
+use UserBundle\Entity\Settings\Settings;
 
 
 /**
@@ -36,11 +38,26 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
     protected $mailChimp;
 
     /**
-     * MailCampaignManager constructor.
+     * @var $settingsManager SettingsManager
      */
-    public function __construct()
+    protected $settingsManager;
+
+    /**
+     * MailCampaignManager constructor.
+     * @param SettingsManager $settingsManager
+     */
+    public function __construct(SettingsManager $settingsManager)
     {
         $this->mailChimp = new Mailchimp(self::MAIL_CHIMP_API);
+        $this->settingsManager = $settingsManager;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settingsManager->getEntity();
     }
 
     /**
@@ -49,6 +66,11 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
      */
     public function save($mailCampaign)
     {
+        /**
+         * @var $settings Settings
+         */
+        $settings = $this->getSettings();
+
         $campaign = $this->mailChimp->post('campaigns', [
             'recipients' => [
                 'list_id'=> $mailCampaign->relationships->mailList->data->id
@@ -56,7 +78,8 @@ class MailCampaignManager implements JSONAPIEntityManagerInterface
             'type' => 'regular',
             'settings' => [
                 'subject_line' => $mailCampaign->attributes->subject_line,
-                'reply_to'    => $mailCampaign->attributes->reply_to,
+//                'reply_to'    => $mailCampaign->attributes->reply_to,
+                'reply_to'    => $settings->getConfirmationMail(),
                 'from_name'    => $mailCampaign->attributes->from_name
             ]
         ]);

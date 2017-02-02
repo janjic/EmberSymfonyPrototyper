@@ -6,6 +6,7 @@
             <h4>{{card-title}}</h4>
 
             <p class="counter">
+                <span class="title"> {{trans 'dashboard.labels.today'}}</span>
                 {{#if isMultipleCard}}
                     <span class="card-number-holder">
                         <span class="{{if currencyEUR 'card-number-up' 'card-number-down'}} ">
@@ -19,7 +20,6 @@
                 {{else}}
                     <span class="timer count-title" id="count-number" data-to="{{model.today}}" data-speed="1500">{{model.today}}</span> {{model.currency}}
                 {{/if}}
-                <span class="title"> {{trans 'dashboard.labels.today'}}</span>
             </p>
             <p class="counter">
                 <span class="title"> {{trans 'dashboard.labels.this-month'}}</span>
