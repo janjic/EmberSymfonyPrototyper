@@ -241,6 +241,7 @@ trait JsonApiUpdateAgentManagerTrait
         } else {
             $dbAgent->setImage($agent->getImage());
             $this->saveMedia($agent);
+            $dbAgent->setBaseImageUrl($agent->getBaseImageUrl());
         }
 
     }
