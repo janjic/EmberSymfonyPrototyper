@@ -21,6 +21,7 @@ export default Ember.Route.extend({
             this.controller.set('agentId', undefined);
             this.controller.set('searchArray', undefined);
             this.controller.set('page', 1);
+            this.controller.set('offset', 8);
         }
     }
 });

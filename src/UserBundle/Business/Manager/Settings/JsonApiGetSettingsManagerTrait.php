@@ -16,4 +16,12 @@ trait JsonApiGetSettingsManagerTrait
     {
         return $this->serializeSettings($this->repository->findSettings());
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEntity()
+    {
+        return $this->repository->findSettings();
+    }
 }

@@ -18,6 +18,7 @@ use UserBundle\Business\Manager\Invitation\JsonApiSaveInvitationManagerTrait;
 use UserBundle\Business\Repository\InvitationRepository;
 use UserBundle\Entity\Agent;
 use UserBundle\Entity\Invitation;
+use UserBundle\Entity\Settings\Settings;
 
 /**
  * Class InvitationManager
@@ -55,16 +56,32 @@ class InvitationManager implements JSONAPIEntityManagerInterface
     protected $mailChimp;
 
     /**
+     * @var SettingsManager
+     */
+    protected $settingsManager;
+
+    /**
      * @param InvitationRepository $repository
      * @param FJsonApiSerializer $fSerializer
      * @param \Swift_Mailer $mailer
+     * @param SettingsManager $settingsManager
      */
-    public function __construct(InvitationRepository $repository, FJsonApiSerializer $fSerializer, \Swift_Mailer $mailer)
+    public function __construct(InvitationRepository $repository, FJsonApiSerializer $fSerializer, \Swift_Mailer $mailer, SettingsManager $settingsManager)
     {
         $this->repository = $repository;
         $this->fSerializer = $fSerializer;
         $this->mailer = $mailer;
         $this->mailChimp = new Mailchimp(MailCampaignManager::MAIL_CHIMP_API);
+        $this->settingsManager = $settingsManager;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settingsManager->getEntity();
     }
 
     /**
@@ -73,6 +90,10 @@ class InvitationManager implements JSONAPIEntityManagerInterface
      */
     public function sendMail(Invitation $invitation)
     {
+        /**
+         * @var $settings Settings
+         */
+        $settings = $this->getSettings();
         $campaign = $this->mailChimp->post('campaigns', [
             'recipients' => [
                 'list_id'=> $invitation->getMailList()
@@ -80,7 +101,8 @@ class InvitationManager implements JSONAPIEntityManagerInterface
             'type' => 'regular',
             'settings' => [
                 'subject_line' => self::INVITATION_MAIL_SUBJECT,
-                'reply_to'    => $invitation->getAgent()->getUsername(),
+//                'reply_to'    => $invitation->getAgent()->getUsername(),
+                'reply_to'    => $settings->getConfirmationMail(),
                 'from_name'    => $invitation->getAgent()->getFirstName().''.$invitation->getAgent()->getLastName()
             ]
         ]);

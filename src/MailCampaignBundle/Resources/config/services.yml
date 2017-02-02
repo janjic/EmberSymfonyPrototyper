@@ -2,6 +2,9 @@ services:
     # ------ MailCampaign ------------------------------------------------------------------------------------------------- #
     agent_system.mail.campaign.manager:
         class: MailCampaignBundle\Business\Manager\MailCampaign\MailCampaignManager
+        arguments:
+            settingsManager: "@agent_system.settings.manager"
+
     agent_system.mail.campaign.adapter:
         class: MailCampaignBundle\Adapter\MailCampaign\MailCampaignAdapter
         arguments:
