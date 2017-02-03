@@ -46,7 +46,7 @@ export default Ember.Component.extend(LoadingStateMixin, {
             selectedItems = selectedItems.addObject({email: value});
             this.set('additionalMails', selectedItems);
         },
-        agentSelected(agent, selectedItems){
+        agentSelected(){
             // if(agent.hasOwnProperty('email')){
             //     selectedItems = selectedItems.addObject({email: agent});
             // }else {

@@ -35,6 +35,10 @@ trait JsonApiUpdateAgentManagerTrait
              */
             $agent = $data;
         }
+
+        if ($agent->getImage() && $agent->getImage()->getId() ===0){
+            $agent->getImage()->setId(null);
+        }
         /** @var Agent $dbAgent */
         $dbAgent       = $this->getEntityReference($agent->getId());
         $dbAgentGroup  = $dbAgent->getGroup();

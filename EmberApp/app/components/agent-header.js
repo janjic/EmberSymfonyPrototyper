@@ -47,8 +47,8 @@ export default Component.extend({
                 this.get('transitionToRoute')(link);
             }
         },
-        transitionToRoute(route){
-            this.get('transitionToRoute')(route);
+        transitionToRoute(route, id){
+            this.get('transitionToRoute')(route, id);
         },
         sendInvites(cUser, mailList){
             return this.get('store').createRecord('invitation', {

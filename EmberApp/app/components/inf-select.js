@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { task } from 'ember-concurrency';
 import {withoutProxies} from './../utils/proxy-helpers';
-const menuSelector = '.Searchable-select__options-list-scroll-wrapper';
+const menuSelector = '.select-list-scroll-wrapper';
+
 export default Ember.Component.extend({
 
     classNames: ['searchable-select searchable-select-infinite'],
@@ -9,7 +10,7 @@ export default Ember.Component.extend({
         '_isShowingMenu:searchable-select-menu-open',
         'multiple:searchable-select-multiple'
     ],
-
+    tagName: 'div',
     content: null,
     selected: null,
     optionLabelKey: null,
@@ -329,9 +330,14 @@ export default Ember.Component.extend({
 
 
     _bindMenuScroll() {
+        console.log('usao');
+        const component = this;
+
+        console.log(component.$(menuSelector));
         if (this.get('autoloadMore')) {
             const component = this;
-            component.$(menuSelector).on(`scroll.${component.elementId}`, function(event) {
+            component.$(menuSelector).on(`scroll`, function(event){
+                console.log('sss');
                 Ember.run.debounce(component, '_debouncedMenuScroll', event.target, 50);
             });
         }

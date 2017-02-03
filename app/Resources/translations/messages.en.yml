@@ -12,8 +12,7 @@ password:
   user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
-meta:
-  title: "Agents"
+meta.title: "Agents"
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'

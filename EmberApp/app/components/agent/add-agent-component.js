@@ -143,7 +143,6 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.set('changeset.enabled', status);
         },
         addedFile (file) {
-            console.log(file);
                 if (!file.url) {
                     let image = this.getImage();
                     image.set('webPath', null);

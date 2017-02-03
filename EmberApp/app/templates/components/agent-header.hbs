@@ -23,10 +23,12 @@
                         {{#bs-dropdown-toggle}}
                             {{#if currentUser.user.image.webPath}}
                                 <img src="{{currentUser.user.image.webPath}}" class="img-circle" alt="">
-                                {{currentUser.user.username }}<i class="fa fa-caret-down"></i>
+                                {{!--{{currentUser.user.username }}<i class="fa fa-caret-down"></i>--}}
+                                {{currentUser.user.firstName }}<i class="fa fa-caret-down"></i>
                             {{else}}
                                 <img src="../assets/images/user-avatar.png" class="img-circle" alt="">
-                                {{currentUser.user.username }}<i class="fa fa-caret-down"></i>
+                                {{!--{{currentUser.user.username }}<i class="fa fa-caret-down"></i>--}}
+                                {{currentUser.user.firstName }}<i class="fa fa-caret-down"></i>
                             {{/if}}
                         {{/bs-dropdown-toggle}}
                         {{#bs-dropdown-menu class="header-user-info"}}
@@ -41,7 +43,7 @@
                                     </div>
                                 {{/if}}
                                 <div class="info-actions">
-                                    <p>{{currentUser.user.fullName }}</p>
+                                    {{!--<p>{{currentUser.user.fullName }}</p>--}}
                                     <p>{{currentUser.user.email}}</p>
                                     {{#if isUserAdmin}}
                                         {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class="button green icon-btn" }}
