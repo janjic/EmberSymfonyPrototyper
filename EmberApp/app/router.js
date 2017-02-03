@@ -96,10 +96,10 @@ Router.map(function() {
             this.route('commissions');
             this.route('purchase-details', {path: '/purchase-details/:id'});
         });
-        this.route('wallet', function() {
-            this.route('wallet-summary');
-            this.route('payout-history');
-        });
+        //this.route('wallet', function() {
+        //    //this.route('wallet-summary');
+        //    //this.route('payout-history');
+        //});
         this.route('users', function() {
             this.route('add-new-user');
             this.route('users-customers');
