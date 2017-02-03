@@ -36,6 +36,7 @@ trait JsonApiSaveAgentManagerTrait
                 !is_null($image = $agent->getImage()) ? $image->deleteFile() : false;
                 return $this->createJsonAPiSaveResponse($data);
             } else {
+                $this->sendNewAgentMail($data);
                 $event = new NotificationEvent();
                 /** @var Agent $superAdmin */
                 $superAdmin = $this->findAgentByRole();

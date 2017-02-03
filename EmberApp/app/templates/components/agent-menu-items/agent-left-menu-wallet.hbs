@@ -1,13 +1,23 @@
 {{#bs-accordion-item title=(trans "agent-menu.wallet.title") class="menu-wallet"}}
     <ul class="table">
+        {{!--<li>--}}
+            {{!--{{#link-to 'dashboard.agent.wallet.wallet-summary'}}--}}
+                {{!--{{trans 'agent-menu.wallet.summary' }}--}}
+            {{!--{{/link-to}}--}}
+        {{!--</li>--}}
+        {{!--<li>--}}
+            {{!--{{#link-to 'dashboard.agent.wallet.payout-history' }}--}}
+                {{!--{{trans 'agent-menu.wallet.history' }}--}}
+            {{!--{{/link-to}}--}}
+        {{!--</li>--}}
         <li>
-            {{#link-to 'dashboard.agent.wallet.wallet-summary'}}
-                {{trans 'agent-menu.wallet.summary' }}
+            {{#link-to 'dashboard.agent.agent-reports.customer-orders'}}
+                {{trans 'agent-menu.reports.orders' }}
             {{/link-to}}
         </li>
         <li>
-            {{#link-to 'dashboard.agent.wallet.payout-history' }}
-                {{trans 'agent-menu.wallet.history' }}
+            {{#link-to 'dashboard.agent.agent-reports.commissions' }}
+                {{trans 'agent-menu.reports.bonuses' }}
             {{/link-to}}
         </li>
     </ul>

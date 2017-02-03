@@ -12,8 +12,7 @@ password:
   user.wrong.params.or.inactive: 'You entered wrong credentials, or your account is inactive '
 
 
-meta:
-  title: "Agents"
+meta.title: "Agents"
 loading:
   sending.data: 'Sending data...'
   logging.user: 'Logging user...'
@@ -406,6 +405,7 @@ admin-agent:
   history:
     agent.not.choosen: 'Choose Agent'
     agent.history: 'Agent History'
+    history: 'History'
     agent.id: 'Agent ID'
     agent.name: 'Agent Name'
     changed.by: 'Changed By'
@@ -591,6 +591,7 @@ dashboard:
     new-orders: 'New orders'
     new-commissions: 'New commissions'
     no-new-notifications: 'No New Notifications'
+    no-new-messages: 'No New Messages'
     today: 'Today'
     this-month: 'This month'
     total: 'Total'

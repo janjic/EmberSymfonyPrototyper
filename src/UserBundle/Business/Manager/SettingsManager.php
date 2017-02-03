@@ -9,6 +9,7 @@ use UserBundle\Business\Manager\Settings\JsonApiGetSettingsManagerTrait;
 use UserBundle\Business\Manager\Settings\JsonApiSaveSettingsManagerTrait;
 use UserBundle\Business\Manager\Settings\JsonApiUpdateSettingsManagerTrait;
 use UserBundle\Business\Repository\SettingsRepository;
+use UserBundle\Business\Util\AgentSerializerInfo;
 use UserBundle\Entity\Document\Image;
 use UserBundle\Entity\Group;
 use UserBundle\Entity\Settings\Bonus;
@@ -97,6 +98,6 @@ class SettingsManager implements JSONAPIEntityManagerInterface
             );
         }
 
-        return $this->fSerializer->serialize($content, $mappings, $relations)->toArray();
+        return $this->fSerializer->serialize($content, $mappings, $relations, array(),AgentSerializerInfo::$basicFields)->toArray();
     }
 }

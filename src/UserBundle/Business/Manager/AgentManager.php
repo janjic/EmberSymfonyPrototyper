@@ -11,6 +11,9 @@ use Exception;
 use FOS\UserBundle\Util\UserManipulator;
 use FSerializerBundle\services\FJsonApiSerializer;
 use PaymentBundle\Business\Manager\PaymentInfoManager;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -76,24 +79,52 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     protected $tokenStorage;
 
     /**
+     * @var \Swift_Mailer
+     */
+    protected $mailer;
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * @param AgentRepository $repository
      * @param GroupManager $groupManager
      * @param FJsonApiSerializer $fSerializer
      * @param EventDispatcherInterface $eventDispatcher
-     * @param TokenStorageInterface $tokenStorage,
+     * @param TokenStorageInterface $tokenStorage
+     * @param \Swift_Mailer $mailer
+     * @param ContainerInterface $container
      */
-    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage)
+    public function __construct(AgentRepository $repository, GroupManager $groupManager, FJsonApiSerializer $fSerializer,
+                                EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage,  \Swift_Mailer $mailer, ContainerInterface $container)
     {
         $this->repository       = $repository;
         $this->groupManager     = $groupManager;
         $this->fSerializer      = $fSerializer;
         $this->eventDispatcher  = $eventDispatcher;
         $this->tokenStorage     = $tokenStorage;
+        $this->mailer           = $mailer;
+        $this->container        = $container;
     }
 
     public function getGroupById($id)
     {
         return $this->groupManager->getGroupById($id);
+    }
+
+    /**
+     * @return object
+     */
+    public function getTemplatingEngine()
+    {
+        return $this->container->get('templating');
+    }
+
+    public function getTranslator()
+    {
+        return $this->container->get('translator');
     }
 
     /**
@@ -502,5 +533,30 @@ class AgentManager extends TCRSyncManager implements JSONAPIEntityManagerInterfa
     public function getPromotionSuggestionsForReferee($request, $isCountSearch= false, $firstRes = 0, $maxRes = 1)
     {
         return $this->repository->getPromotionSuggestionsForReferee($request, $isCountSearch, $firstRes, $maxRes);
+    }
+
+    /**
+     * @param Agent $agent
+     */
+    public function sendNewAgentMail($agent)
+    {
+        /** @var Agent $user */
+        $user     = $this->getCurrentUser();
+        $subject  = $this->getTranslator()->trans('Content Republic Agent Portal', array(), null, $agent->getNationality());
+        $from     = $user->getEmail();
+        $body     = $this->getTemplatingEngine()->render("UserBundle::mail/agent-registration-mail.html.twig", array(
+            'agentSender'    => $user,
+            'agentRecipient' => $agent
+        ));
+        $to = $agent->getEmail();
+
+        /** @var \Swift_Message $message */
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setTo($to)
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
     }
 }

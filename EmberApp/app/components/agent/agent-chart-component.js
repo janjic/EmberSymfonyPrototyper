@@ -214,9 +214,11 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
         /** edit in sidebar */
         this.$('#chart-container').on('click', '.linkToEdit', (event) => {
-            let id = this.$(event.target).closest('.second-menu').data('id');
-            if (parseInt(id)) {
-                this.get('redirectToEdit')(id);
+            if( this.$(event.target) ) {
+                let id = this.$(event.target).closest('.second-menu').data('id');
+                if (parseInt(id)) {
+                    this.get('redirectToEdit')(id);
+                }
             }
         });
 

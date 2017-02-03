@@ -5,7 +5,8 @@ import EditAgentAdminValidations from '../../validations/edit-agent-admin';
 import AddressValidations from '../../validations/address';
 import {withoutProxies} from './../../utils/proxy-helpers';
 import Changeset from 'ember-changeset';
-import lookupValidator from './../../utils/lookupValidator';
+//import lookupValidator from './../../utils/lookupValidator';
+import lookupValidator from 'ember-changeset-validations';
 const {ApiCode, Translator} = window;
 import { task, timeout } from 'ember-concurrency';
 import LoadingStateMixin from '../../mixins/loading-state';
@@ -64,7 +65,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
     },
     image: Ember.Object.create({
         base64Content: null,
-        name: null,
+        name: null
     }),
     currentImage: null,
 
@@ -88,7 +89,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
             if (!this.get('isProfileView')) {
                 this.toast.success(Translator.trans('models.agent.save.message'));
                 this.get('model').reload();
-                if (!this.get('isEdit')) {
+                let imgObj = this.getImage();
+                if( imgObj.get('id') ) {
+                    withoutProxies(imgObj).rollbackAttributes();
+                }
+                if (this.get('isEdit')) {
                     if( this.get('isUserAdmin')) {
                         this.get('goToRoute')('dashboard.agents.all-agents');
                     } else {
@@ -138,7 +143,6 @@ export default Ember.Component.extend(LoadingStateMixin,{
             this.set('changeset.enabled', status);
         },
         addedFile (file) {
-            console.log(file);
                 if (!file.url) {
                     let image = this.getImage();
                     image.set('webPath', null);
@@ -215,7 +219,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
         validateProperty(changeset, property) {
             return changeset.validate(property);
-        },
+        }
     },
 
     validateDateInput(date) {
@@ -231,5 +235,13 @@ export default Ember.Component.extend(LoadingStateMixin,{
         let iniGroup = this.get('initialGroup');
         return iniGroup ? (iniGroup.get('name') !== ApiCode.GroupInfo.REFEREE && group.get('name') === ApiCode.GroupInfo.REFEREE ): false;
     },
+
+    willDestroyElement() {
+        this._super(...arguments);
+        let imgObj = this.getImage();
+        if( imgObj.get('id') ) {
+            withoutProxies(imgObj).rollbackAttributes();
+        }
+    }
 
 });
