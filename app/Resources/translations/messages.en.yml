@@ -124,6 +124,8 @@ general:
   choose-agents: 'Choose agents'
   search-agents: 'Search agents'
   filters: 'Filters'
+  instructions: 'Instructions'
+  instructions-content: 'Use your mouse to drag and drop agents and change their position and role in the Genealogy tree.'
 
 
 mail:

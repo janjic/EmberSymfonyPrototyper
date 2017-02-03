@@ -45,29 +45,24 @@
                                     on-change=(action 'agentSelected')
                             }}
                         </div>
-
-                        <div class="form-group clearfix">
-                            {{date-range-picker
-                                    label = 'Select date'
-                                    autoUpdateInput = false
-                                    daysOfWeek  = daysOfWeek
-                                    applyLabel  = "Apply"
-                                    cancelLabel = "Clear"
-                                    fromLabel   = "From"
-                                    toLabel     = "To"
-                                    customRangeLabel = "Custom"
-                                    monthNames = monthNames
-                                    start=startDate
-                                    showDropdowns = true
-                                    ranges = ranges
-                                    alwaysShowCalendars = true
-                                    end=endDate
-                                    applyAction=(action "applyDateChange")
-                                    cancelAction=(action "cancelDateChange")
-                            }}
-                        </div>
-
-
+                        {{date-range-picker
+                                label = 'Select date'
+                                autoUpdateInput = false
+                                daysOfWeek  = daysOfWeek
+                                applyLabel  = "Apply"
+                                cancelLabel = "Clear"
+                                fromLabel   = "From"
+                                toLabel     = "To"
+                                customRangeLabel = "Custom"
+                                monthNames = monthNames
+                                start=startDate
+                                showDropdowns = true
+                                ranges = ranges
+                                alwaysShowCalendars = true
+                                end=endDate
+                                applyAction=(action "applyDateChange")
+                                cancelAction=(action "cancelDateChange")
+                        }}
                     {{/unless}}
                 </div>
                 <div class="col-md-6">
