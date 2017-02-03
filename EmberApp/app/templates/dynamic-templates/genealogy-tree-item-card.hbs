@@ -10,7 +10,7 @@
 
         <div class="actions">
             <a class="button icon-btn linkToSuspend {{if data.enabled 'green' 'red'}}" data-agent-id='{{id}}'>
-                {{trans (unless data.enabled 'agent.change.enable' 'agent.change.disable')}}
+                {{trans (unless data.enabled 'agent.change.disable' 'agent.change.enable')}}
             </a>
 
             <a class="button red icon-btn linkToDelete">{{trans 'general.delete'}}</a>
