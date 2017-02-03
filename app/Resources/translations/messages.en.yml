@@ -123,6 +123,7 @@ general:
   not-allowed: 'You are not allowed to visit this page'
   choose-agents: 'Choose agents'
   search-agents: 'Search agents'
+  filters: 'Filters'
 
 
 mail:

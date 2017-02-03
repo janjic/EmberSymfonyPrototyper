@@ -5,16 +5,16 @@
         <a href="#" class="button green btn-small" {{action 'exportResults'}}>Export To CSV</a>
     {{/unless}}
 
-    {{#unless hidePayAllButtons}}
-        {{#unless (or (eq initialLength 0) (eq model.length 0))}}
-            {{#unless hidePayButton}}
-                <a href="#" {{action 'payAll'}}class="button green btn-small">{{trans 'payment.pay-all'}}</a>
-            {{/unless}}
-            {{#unless hideRejectButton}}
-                <a href="#" {{action 'rejectAll'}} class="button red btn-small">{{trans 'payment.reject-all'}}</a>
+        {{#unless hidePayAllButtons}}
+            {{#unless (or (eq initialLength 0) (eq model.length 0))}}
+                {{#unless hidePayButton}}
+                    <a href="#" {{action 'payAll'}}class="button green btn-small">{{trans 'payment.pay-all'}}</a>
+                {{/unless}}
+                {{#unless hideRejectButton}}
+                    <a href="#" {{action 'rejectAll'}} class="button red btn-small">{{trans 'payment.reject-all'}}</a>
+                {{/unless}}
             {{/unless}}
         {{/unless}}
-    {{/unless}}
     </span>
 </h1>
 
@@ -28,83 +28,87 @@
 <div class="reports-holder">
 
     {{#unless (eq initialLength 0)}}
-        <div class="input-box clearfix">
+        <div class="input-box clearfix filter-box">
             <h3 class="sub-heading">
-                {{trans 'payment.select-filters'}}
+                {{fa-icon "filter"}} {{trans 'payment.select-filters'}} <span id="filter-toggle" class="pull-right">{{fa-icon "chevron-down"}}</span>
             </h3>
-            <div class="col-md-6">
-                {{#unless hideAgentFilter}}
+            <div class="filter-content">
+                <div class="col-md-6">
+                    {{#unless hideAgentFilter}}
+                        <div class="form-group clearfix">
+                            <label>
+                                {{trans 'payment.select-agent'}}
+                            </label>
+                            {{inf-select
+                                    optionLabelKey='email'
+                                    on-search = (perform search)
+                                    on-change=(action 'agentSelected')
+                            }}
+                        </div>
+
+                        <div class="form-group clearfix">
+                            {{date-range-picker
+                                    label = 'Select date'
+                                    autoUpdateInput = false
+                                    daysOfWeek  = daysOfWeek
+                                    applyLabel  = "Apply"
+                                    cancelLabel = "Clear"
+                                    fromLabel   = "From"
+                                    toLabel     = "To"
+                                    customRangeLabel = "Custom"
+                                    monthNames = monthNames
+                                    start=startDate
+                                    showDropdowns = true
+                                    ranges = ranges
+                                    alwaysShowCalendars = true
+                                    end=endDate
+                                    applyAction=(action "applyDateChange")
+                                    cancelAction=(action "cancelDateChange")
+                            }}
+                        </div>
+
+
+                    {{/unless}}
+                </div>
+                <div class="col-md-6">
                     <div class="form-group clearfix">
                         <label>
-                            {{trans 'payment.select-agent'}}
+                            {{trans 'payment.select-type'}}
                         </label>
                         {{inf-select
-                        optionLabelKey='email'
-                        on-search = (perform search)
-                        on-change=(action 'agentSelected')
+                                content=paymentTypes
+                                on-change=(action 'typeChange')
                         }}
                     </div>
-
-                    <div class="form-group clearfix">
-                        <label>
-                            {{trans 'payment.select-country'}}
-                        </label>
-                        {{elements/country-select onCountryChange=(action 'changeCountry')}}
-                    </div>
-                {{/unless}}
-            </div>
-            <div class="col-md-6">
-                <div class="form-group clearfix">
-                    <label>
-                        {{trans 'payment.select-type'}}
-                    </label>
-                    {{inf-select
-                    content=paymentTypes
-                    on-change=(action 'typeChange')
-                    }}
+                    {{#unless hideAgentFilter}}
+                        <div class="form-group clearfix">
+                            <label>
+                                {{trans 'payment.select-country'}}
+                            </label>
+                            {{elements/country-select onCountryChange=(action 'changeCountry')}}
+                        </div>
+                    {{/unless}}
                 </div>
-                {{#unless hideAgentFilter}}
-                    <div class="form-group clearfix">
-                        {{date-range-picker
-                        label = 'Select date'
-                        autoUpdateInput = false
-                        daysOfWeek  = daysOfWeek
-                        applyLabel  = "Apply"
-                        cancelLabel = "Clear"
-                        fromLabel   = "From"
-                        toLabel     = "To"
-                        customRangeLabel = "Custom"
-                        monthNames = monthNames
-                        start=startDate
-                        showDropdowns = true
-                        ranges = ranges
-                        alwaysShowCalendars = true
-                        end=endDate
-                        applyAction=(action "applyDateChange")
-                        cancelAction=(action "cancelDateChange")
-                        }}
-                    </div>
-                {{/unless}}
-            </div>
-            {{!--<div class="col-md-12">--}}
+                {{!--<div class="col-md-12">--}}
                 {{!--<div class="pull-right">--}}
-                    {{!--<button class="button green" {{action '_applyFilters'}}>--}}
-                        {{!--{{#if isLoading}}--}}
-                            {{!--{{inf-loading}}--}}
-                        {{!--{{else}}--}}
-                            {{!--{{trans 'payment.apply'}}--}}
-                        {{!--{{/if}}--}}
-                    {{!--</button>--}}
+                {{!--<button class="button green" {{action '_applyFilters'}}>--}}
+                {{!--{{#if isLoading}}--}}
+                {{!--{{inf-loading}}--}}
+                {{!--{{else}}--}}
+                {{!--{{trans 'payment.apply'}}--}}
+                {{!--{{/if}}--}}
+                {{!--</button>--}}
                 {{!--</div>--}}
-            {{!--</div>--}}
+                {{!--</div>--}}
+            </div>
         </div>
     {{/unless}}
 
     {{#if model.length}}
         {{#card-view-component model=model page=page maxPages=maxPages offset=offset filter=(action 'applyFilters') hideSearchAndFilter=true as |yieldModel|}}
             {{payment/payment-info-listing-item-component
-            hidePayAllButtons=hidePayAllButtons
-            payment=yieldModel}}
+                    hidePayAllButtons=hidePayAllButtons
+                    payment=yieldModel}}
         {{/card-view-component}}
     {{else}}
         <div>
