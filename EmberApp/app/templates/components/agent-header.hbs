@@ -2,7 +2,13 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid ">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Content Republic</a>
+                {{#if settings.image.webPath}}
+                    <div class="logo-wrap">
+                        <img src="{{settings.image.webPath}}">
+                    </div>
+                {{else}}
+                    <a class="navbar-brand" href="#">Content Republic </a>
+                {{/if}}
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" id="nav-icon3">
                     <span ></span>
                     <span ></span>
@@ -105,7 +111,7 @@
                         {{#bs-dropdown-menu class="header-messages"}}
                             {{#unless _maxIdMessage}}
                                 <li>
-                                    <a class="message-item">{{trans "dashboard.labels.no-new-notifications"}}</a>
+                                    <a class="message-item">{{trans "dashboard.labels.no-new-messages"}}</a>
                                 </li>
                             {{else}}
                                 {{#each messageNotifications as |notification|}}

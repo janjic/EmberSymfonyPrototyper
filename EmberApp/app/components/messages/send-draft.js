@@ -3,7 +3,8 @@ const { ApiCode, Translator } = window;
 import LoadingStateMixin from '../../mixins/loading-state';
 import { task, timeout } from 'ember-concurrency';
 import Changeset from 'ember-changeset';
-import lookupValidator from './../../utils/lookupValidator';
+//import lookupValidator from './../../utils/lookupValidator';
+import lookupValidator from 'ember-changeset-validations';
 import MessageValidations from './../../validations/message-new';
 
 export default Ember.Component.extend(LoadingStateMixin, {

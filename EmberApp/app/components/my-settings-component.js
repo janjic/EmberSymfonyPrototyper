@@ -1,33 +1,25 @@
 import Ember from 'ember';
 import SettingsValidations from '../validations/my-settings';
-import CommissionValidations from '../validations/commission';
 import Changeset from 'ember-changeset';
-import lookupValidator from './../utils/lookupValidator';
+//import lookupValidator from './../utils/lookupValidator';
+import lookupValidator from 'ember-changeset-validations';
 import LoadingStateMixin from '../mixins/loading-state';
 import { withoutProxies } from './../utils/proxy-helpers';
 const { Translator } = window;
 
 export default Ember.Component.extend(LoadingStateMixin,{
     SettingsValidations,
-    CommissionValidations,
     store: Ember.inject.service(),
-    isValidCommissions:      [true],
-    isValidBonus:            [true],
 
     init(){
         this._super(...arguments);
         this.changeset = new Changeset(this.get('settings'), lookupValidator(SettingsValidations), SettingsValidations);
-        // if(this.get('settings.image.webPath')){
-        //     this.set('maxFilesReached', false);
-        // } else {
-        //     this.set('maxFilesReached', true);
-        // }
-        // console.log(this.get('maxFilesReached'));
+        this.set('subComponentValidations', []);
     },
 
     image: Ember.Object.create({
         base64Content: null,
-        name: null,
+        name: null
     }),
     currentImage: null,
 
@@ -42,11 +34,18 @@ export default Ember.Component.extend(LoadingStateMixin,{
     actions: {
         saveSettings(){
             this.get('changeset').validate();
-            let validCommissions = this.get('isValidCommissions').every((valid)=>valid===true);
-            let validBonuses = this.get('isValidBonus').every((valid)=>valid===true);
-            if (this.get('changeset').get('isValid') && validCommissions && validBonuses) {
+            //let validCommissions = this.get('isValidCommissions').every((valid)=>valid===true);
+            //let validBonuses = this.get('isValidBonus').every((valid)=>valid===true);
+
+            let isValidSubComponents = this.get('subComponentValidations').every((changeSet)=>changeSet.get('isValid'));
+
+            if (this.get('changeset').get('isValid') && isValidSubComponents) {
                 this.showLoader('loading.sending.data');
                 this.setLoadingText('loading.sending.data');
+
+                this.get('subComponentValidations').forEach((changeSet)=>{
+                    changeSet.execute();
+                });
 
                 let img = this.getImage();
                 //WE can send image to server
@@ -68,14 +67,11 @@ export default Ember.Component.extend(LoadingStateMixin,{
                 });
             }
         },
+        registerSubComponentChangeset(changeSet){
+            this.get('subComponentValidations').push(changeSet);
+        },
         validateProperty(changeset, property) {
             return changeset.validate(property);
-        },
-        validateCommissionsProperty(isSubPropertyValid, index){
-            this.get('isValidCommissions')[index] = isSubPropertyValid;
-        },
-        validateBonusProperty(isSubPropertyValid, index){
-            this.get('isValidBonus')[index] = isSubPropertyValid;
         },
         updateLanguage(lang){
             this.set('changeset.language', lang);
@@ -105,6 +101,14 @@ export default Ember.Component.extend(LoadingStateMixin,{
 
         maxFilesReached: function (reached) {
             this.set('maxFilesReached', reached);
+        }
+    },
+
+    willDestroyElement() {
+        this._super(...arguments);
+        let imgObj = this.getImage();
+        if( imgObj.get('id') ) {
+            withoutProxies(imgObj).rollbackAttributes();
         }
     }
 });
