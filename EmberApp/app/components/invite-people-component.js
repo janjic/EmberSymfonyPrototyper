@@ -63,11 +63,23 @@ export default Ember.Component.extend(LoadingStateMixin,{
                 this.get('goToRoute')('dashboard.agent.invite-people.new-mail-list');
             }
         },
+        goToEditList(id)
+        {
+            this.send('closeModal');
+            if(this.get('currentUser.isUserAdmin')){
+                this.get('goToRoute')('dashboard.mass-mails.edit-mail-list', id);
+            } else {
+                this.get('goToRoute')('dashboard.agent.invite-people.edit-mail-list', id);
+            }
+        },
         openModal() {
             this.set('isModalOpen', true);
         },
         closeModal(){
             this.set('isModalOpen', false);
+        },
+        closedAction() {
+            this.set('mailList', null);
         },
         changeList(list){
             this.set('mailList', list);

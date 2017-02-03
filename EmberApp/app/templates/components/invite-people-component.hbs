@@ -1,5 +1,5 @@
 <a type="button" {{action 'openModal'}}> {{fa-icon "user-plus"}}</a>
-{{#bs-modal open=isModalOpen header=false body=false footer=false }}
+{{#bs-modal open=isModalOpen header=false body=false footer=false closedAction=(action 'closedAction') }}
     {{#bs-modal-header}}
         <h4 class="modal-title" id="invitePeopleModal">
             {{trans 'general.invite-people'}}
@@ -15,11 +15,12 @@
                     selected = mailList
                     on-change=(action 'changeList')
             }}
-
-
         </div>
         <div class="form-group clearfix">
             <button class="button green" {{action 'goToAddList'}}>{{trans 'mail.add-new-mail-list'}}</button>
+            {{#if mailList}}
+                <button class="button green" {{action 'goToEditList' mailList.id}}>{{trans 'mail.edit-mail-list'}}</button>
+            {{/if}}
             <button {{action "invitePeople" }} type="submit" class="button green pull-right">
                 {{#if isLoading }}
                     {{inf-loading}}

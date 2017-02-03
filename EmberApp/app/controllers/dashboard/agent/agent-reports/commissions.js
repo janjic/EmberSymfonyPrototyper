@@ -3,7 +3,7 @@ import PaymentInfoListingMixin from './../../../../mixins/payment-info-listing';
 import DateRangesMixin from './../../../../mixins/date-picker-fields';
 import LoadingStateMixin from './../../../../mixins/loading-state';
 const {Routing, Highcharts, Translator} = window;
-import { task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 
 
 export default Ember.Controller.extend(PaymentInfoListingMixin, LoadingStateMixin, DateRangesMixin, {
