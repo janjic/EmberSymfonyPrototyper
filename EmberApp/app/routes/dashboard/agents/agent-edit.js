@@ -25,11 +25,11 @@ export default Ember.Route.extend({
         if (Object.is(model.agent.get('id'), this.get('currentUser.user.id'))) {
             this.transitionTo('dashboard.profile-settings');
         }
-    },
-
-    actions: {
-        willTransition(){
-            this.get('currentModel.agent').rollbackAttributes();
-        }
     }
+
+    //actions: {
+    //    willTransition(){
+    //        this.get('currentModel.agent').rollbackAttributes();
+    //    }
+    //}
 });

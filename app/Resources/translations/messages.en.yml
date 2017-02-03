@@ -587,6 +587,7 @@ dashboard:
     new-orders: 'New orders'
     new-commissions: 'New commissions'
     no-new-notifications: 'No New Notifications'
+    no-new-messages: 'No New Messages'
     today: 'Today'
     this-month: 'This month'
     total: 'Total'

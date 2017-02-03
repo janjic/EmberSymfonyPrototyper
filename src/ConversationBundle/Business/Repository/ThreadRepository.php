@@ -243,12 +243,14 @@ class ThreadRepository extends EntityRepository
         $qb = $this->createQueryBuilder(self::ALIAS);
 
         $qb->select('COUNT('.self::ALIAS.'.id)');
-        $qb->leftJoin(self::ALIAS.'.metadata', 'meta');
+        $qb->innerJoin(self::ALIAS.'.metadata', 'meta');
         $qb->where('meta.isReadByParticipant = ?1')
             ->setParameter(1, false);
+        $qb->andWhere(self::ALIAS.'.isDraft = ?2')
+            ->setParameter(2, false);
         if ( $agent ) {
-            $qb->andWhere('meta.participant = ?2')
-                ->setParameter(2, $agent);
+            $qb->andWhere('meta.participant = ?3')
+                ->setParameter(3, $agent->getId());
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();

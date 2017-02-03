@@ -25,7 +25,6 @@ trait JsonApiUpdateSettingsManagerTrait
     {
         /** @var Settings $settings */
         $settings = $this->deserializeSettings($data);
-//        var_dump($settings->getCommissions());die();
 
         //1. reference
         $dbSettings = $this->getEntityReference($settings->getId());
@@ -86,8 +85,9 @@ trait JsonApiUpdateSettingsManagerTrait
                 ($img = $dbSettings->getImage()) ? $img->deleteFile() :false;
                 $dbSettings->setImage(null);
                 //Agent changed his/her image, we must only update image
-            } else if ( !$settings->getImage()->getId() ) {
+            } else if ( $settings->getImage()->getId() && $settings->getImage()->getBase64Content() ) {
                 $dbImage->setBase64Content($settings->getImage()->getBase64Content());
+                $dbImage->setName($dbImage->getName().uniqid());
                 $settings->setImage($dbImage);
                 $settings->getImage()->setId(null);
                 $dbImage->deleteFile();
