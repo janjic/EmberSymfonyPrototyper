@@ -36,7 +36,7 @@
                                 {{/if}}
                                 <div class="info-actions">
                                     <p>{{currentUser.user.fullName }}</p>
-                                    <p>{{currentUser.user.email}}</p>
+                                    {{!--<p>{{currentUser.user.email}}</p>--}}
                                     {{#if isUserAdmin}}
                                         {{#link-to 'dashboard.agents.agent-view' currentUser.user.id class="button green icon-btn" }}
                                             {{trans 'button.view-profile'}}

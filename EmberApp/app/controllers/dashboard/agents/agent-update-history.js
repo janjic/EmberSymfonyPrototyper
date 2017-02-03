@@ -26,9 +26,4 @@ export default Ember.Controller.extend({
         return this.get('store').query('agent', {page:page, rows:perPage, search: text, searchField: 'agent.email'}).then(results => results);
     }),
 
-    init(){
-        this.set('currentAgent', null);
-        this.set('agentHistory', []);
-        this.set('isLoading', false);
-    }
 });
