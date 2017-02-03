@@ -9,11 +9,8 @@
         </div>
 
         <div class="actions">
-            <a class="button icon-btn linkToSuspend {{if data.enabled 'green' 'red'}}" data-agent-id='{{id}}'>
-                {{trans (unless data.enabled 'agent.change.enable' 'agent.change.disable')}}
-            </a>
-
-            <a class="button red icon-btn linkToDelete">{{trans 'general.delete'}}</a>
+            {{#link-to "dashboard.agent.agents.agent-view" id class="button green icon-btn"}} {{trans 'button.view-profile'}} {{/link-to}}
+            {{#link-to "dashboard.agent.agents.agent-edit" id class="button green icon-btn"}} {{trans 'button.edit-profile'}} {{/link-to}}
         </div>
     </div>
     <a class="hideCard">{{fa-icon "times-circle-o"}}</a>

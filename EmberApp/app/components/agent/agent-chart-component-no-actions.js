@@ -1,5 +1,9 @@
 import Ember from 'ember';
 import LoadingStateMixin from '../../mixins/loading-state';
+import templateToString from '../../helpers/template-to-string';
+import { task, timeout } from 'ember-concurrency';
+const { getOwner } = Ember;
+
 const {Routing} = window;
 
 export default Ember.Component.extend(LoadingStateMixin, {
@@ -11,6 +15,10 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this._super(...arguments);
         this.generateChart();
     },
+
+    setItemCard: task(function * (data, $node) {
+        return yield templateToString('template:dynamic-templates/genealogy-tree-item-card-agent', getOwner(this), data, $node);
+    }).enqueue(),
 
     generateChart () {
         /** set access token to ajax requests sent by orgchart library */
@@ -39,18 +47,20 @@ export default Ember.Component.extend(LoadingStateMixin, {
             'createNode': ($node, data) => {
                 let secondMenuIcon = Ember.$('<i>', {
                     'class': 'fa fa-info-circle second-menu-icon',
-                    hover: function() {
+                    click: function() {
+                        Ember.$('.second-menu:visible').hide();
                         Ember.$(this).siblings('.second-menu').toggle();
                     }
                 });
-                let secondMenu =
-                    '<div class="second-menu agent-second-menu" hidden data-id="'+data.id+'">' +
-                    '<img class="avatar img-circle" src="'+(
-                        data.baseImageUrl ? data.baseImageUrl : '../assets/images/user-avatar.png'
-                    )+'">' +
-                    '</div>';
-                $node.append(secondMenuIcon).append(secondMenu);
+                $node.append(secondMenuIcon);
+
+                this.get('setItemCard').perform(data, $node);
             }
+        });
+
+        /** hide opened cards */
+        this.$('#chart-container').on('click', '.hideCard', () => {
+            this.$('.second-menu:visible').hide();
         });
     }
 
