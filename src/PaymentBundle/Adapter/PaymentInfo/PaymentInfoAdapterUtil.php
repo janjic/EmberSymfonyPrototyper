@@ -22,5 +22,6 @@ abstract class PaymentInfoAdapterUtil extends BaseAdapterUtil
     const PROMOTE_AGENT_TO_ROLE_CONVERTER        = 'promoteAgentToRole';
     const PAYMENT_EARNINGS_BY_AGENT              = 'paymentInfoEarningsByAgent';
     const PAYMENT_EXECUTE_ALL                    = 'paymentInfoExecuteAllPayments';
+    const PAYMENT_INFO_CSV                       = 'paymentInfoCSV';
 
 }

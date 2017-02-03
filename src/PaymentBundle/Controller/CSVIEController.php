@@ -3,25 +3,25 @@
 namespace PaymentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class CSVIEController extends Controller
 {
     /**
-     * @Route("/test/csv/payment", name="payments_csv", options={"expose" = true})
+     * @Route("/api/csv/payment", name="payments_csv", options={"expose" = true})
+     * @param ArrayCollection $paymentInfoCSV
      * @return Response
      */
-    public function convertToCSVPaymentAction()
+    public function convertToCSVPaymentAction(ArrayCollection $paymentInfoCSV)
     {
-        $manager = $this->get('agent_system.payment_info.manager');
-
         $response = new Response();
         $response->headers->set('Content-type', 'application/octect-stream');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', "export.csv"));
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
-        $response->setContent($manager->exportToCSV());
+        $response->setContent($paymentInfoCSV[0]);
 
         return $response;
     }

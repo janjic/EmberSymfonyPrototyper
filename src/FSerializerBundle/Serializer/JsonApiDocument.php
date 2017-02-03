@@ -468,7 +468,7 @@ class JsonApiDocument implements JsonSerializable
                     $class = $serializer->getDeserializationClass();
                     $newObject = $this->createInstance($data, new ReflectionClass($class));
                     try {
-                        $propertyAccessor->setValue($newObject, 'id', intval($decodedObject['id']));
+                        $propertyAccessor->setValue($newObject, 'id', $decodedObject['id'] === null ? null : intval($decodedObject['id']));
                     } catch (Exception $exception) {
 
                     }
@@ -495,7 +495,7 @@ class JsonApiDocument implements JsonSerializable
             $class = $serializer->getDeserializationClass();
             $newObject = $this->createInstance($data, new ReflectionClass($class));
             try {
-                $propertyAccessor->setValue($newObject, 'id', intval($decoded['id']));
+                $propertyAccessor->setValue($newObject, 'id',  $decoded['id'] === null ? null : intval($decoded['id']));
             } catch (Exception $exception) {
                 // Properties not found are ignored
             }

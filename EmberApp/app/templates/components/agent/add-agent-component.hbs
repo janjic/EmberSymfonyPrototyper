@@ -252,17 +252,17 @@
 
                     {{#unless isProfileView }}
                         {{#if isUserAdmin}}
-                        <div class="form-group clearfix">
-                            <label class="control-label col-md-5 col-xs-5">{{trans 'admin-agent.label.status'}}</label>
-                            <div class="col-md-7 col-xs-7">
-                                <div class="mt-action-buttons">
-                                    <div class="btn-group btn-group-circle">
-                                        <button {{action "statusChanged" true}} type="button" class="{{if changeset.enabled 'active' }} btn btn-outline switch-green btn-sm">Enabled</button>
-                                        <button {{action "statusChanged" false}} type="button" class="{{unless changeset.enabled 'active' }} btn btn-outline switch-red btn-sm">Disabled</button>
+                            <div class="form-group clearfix">
+                                <label class="control-label col-md-5 col-xs-5">{{trans 'admin-agent.label.status'}}</label>
+                                <div class="col-md-7 col-xs-7">
+                                    <div class="mt-action-buttons">
+                                        <div class="btn-group btn-group-circle">
+                                            <button {{action "statusChanged" true}} type="button" class="{{if changeset.enabled 'active' }} btn btn-outline switch-green btn-sm">{{trans 'general.enabled'}}</button>
+                                            <button {{action "statusChanged" false}} type="button" class="{{unless changeset.enabled 'active' }} btn btn-outline switch-red btn-sm">{{trans 'general.disabled'}}</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         {{/if}}
                     {{/unless}}
                     {{!--{{#if isProfileView}}--}}

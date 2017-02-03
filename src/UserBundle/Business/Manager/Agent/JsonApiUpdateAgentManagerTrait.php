@@ -236,7 +236,7 @@ trait JsonApiUpdateAgentManagerTrait
                 $dbAgent->setBaseImageUrl(null);
                 //Agent changed his/her image, we must only update image
             } else if ($agent->getImage()->getId() && $agent->getImage()->getBase64Content()) {
-
+                $dbAgent->getImage()->setName($dbAgent->getImage()->getName().uniqid());
                 $dbImage->setBase64Content($agent->getImage()->getBase64Content());
                 $dbImage->deleteFile();
                 $this->saveMedia($dbAgent);

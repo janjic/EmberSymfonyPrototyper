@@ -41,7 +41,11 @@ export default Component.extend({
         transitionTo(notification, link){
             notification.set('isSeen', true);
             notification.save();
-            this.get('transitionToRoute')(link);
+            if ( notification.get('newAgent') ){
+                this.get('transitionToRoute')(link, notification.get('newAgent.id'));
+            } else {
+                this.get('transitionToRoute')(link);
+            }
         },
         transitionToRoute(route){
             this.get('transitionToRoute')(route);

@@ -16,11 +16,11 @@
         </div>
         <div class="lower-box">
             <p><span>{{trans 'payment.created-at'}}</span> <br>
-                {{printCustomDate payment.createdAt}}
+                {{print-custom-date payment.createdAt}}
             </p>
             {{#if payment.payedAt}}
                 <p><span>{{trans 'payment.last-change'}}</span> <br>
-                    {{printCustomDate payment.payedAt}}
+                    {{print-custom-date payment.payedAt}}
                 </p>
             {{/if}}
 

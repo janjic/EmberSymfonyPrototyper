@@ -180,6 +180,9 @@ class PaymentInfoRepository extends EntityRepository
                         $date = (new \DateTime($param))->add(new \DateInterval('P1D'));
                         $oQ0->setParameter($key, $date, Type::DATETIME);
 
+                    } else if ($key == 'agent.id'){
+                        $oQ0->andWhere($key.'='.$param);
+
                     } else if ($key == 'paymentInfo.type'){
                         $type = $param === 'Commission' ? PaymentInfoManager::COMMISSION_TYPE : PaymentInfoManager::BONUS_TYPE;
                         $oQ0->andWhere($oQ0->expr()->like($key, $oQ0->expr()->literal('%' . $type . '%')));
@@ -481,11 +484,11 @@ class PaymentInfoRepository extends EntityRepository
      * @param $type
      * @param $country
      * @param $state
-     * @return bool|\Exception
-     * @internal param $newState
+     * @return mixed
      */
     public function getResultsForFilters($agentId, $startDate, $endDate, $type, $country, $state)
     {
+
         $qb = $this->createQueryBuilder(self::ALIAS);
         $qb->leftJoin(self::ALIAS.'.agent', self::AGENT_ALIAS);
 
