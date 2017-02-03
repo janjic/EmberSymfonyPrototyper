@@ -125,6 +125,8 @@ services:
             fSerializer: "@f_serializer"
             eventDispatcher: "@event_dispatcher"
             tokenStorage: '@security.token_storage'
+            mailer: "@mailer"
+            container: "@service_container"
 
     agent_system.agent.adapter:
         class: UserBundle\Adapter\Agent\AgentAdapter

@@ -330,14 +330,9 @@ export default Ember.Component.extend({
 
 
     _bindMenuScroll() {
-        console.log('usao');
-        const component = this;
-
-        console.log(component.$(menuSelector));
         if (this.get('autoloadMore')) {
             const component = this;
             component.$(menuSelector).on(`scroll`, function(event){
-                console.log('sss');
                 Ember.run.debounce(component, '_debouncedMenuScroll', event.target, 50);
             });
         }

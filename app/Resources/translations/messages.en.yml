@@ -402,6 +402,7 @@ admin-agent:
   history:
     agent.not.choosen: 'Choose Agent'
     agent.history: 'Agent History'
+    history: 'History'
     agent.id: 'Agent ID'
     agent.name: 'Agent Name'
     changed.by: 'Changed By'
