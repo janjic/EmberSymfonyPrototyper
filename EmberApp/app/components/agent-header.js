@@ -39,8 +39,11 @@ export default Component.extend({
             this.get('session').invalidate();
         },
         transitionTo(notification, link){
-            notification.set('isSeen', true);
-            notification.save();
+            if ( !notification.get('isSeen') ) {
+                notification.set('isSeen', true);
+                notification.save();
+            }
+
             if ( notification.get('newAgent') ){
                 this.get('transitionToRoute')(link, notification.get('newAgent.id'));
             } else {

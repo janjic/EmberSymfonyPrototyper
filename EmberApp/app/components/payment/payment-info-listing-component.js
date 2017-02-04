@@ -94,12 +94,12 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
 
         changeCountry(val) {
             this.set('countryFilter', val);
-            this.send('applyFilters');
+            this.send('_applyFilters');
         },
 
         typeChange(val) {
             this.set('typeFilter', val);
-            this.send('applyFilters');
+            this.send('_applyFilters');
         },
 
         applyDateChange(startDate, endDate) {
@@ -108,7 +108,7 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
             });
             this.set('startDateFilter', startDate);
             this.set('endDateFilter', endDate);
-            this.send('applyFilters');
+            this.send('_applyFilters');
         },
 
         cancelDateChange() {
@@ -116,12 +116,12 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
             this.set('endDate', null);
             this.set('startDateFilter', null);
             this.set('endDateFilter', null);
-            this.send('applyFilters');
+            this.send('_applyFilters');
         },
 
         agentSelected(agent) {
             this.set('agentFilter', agent);
-            this.send('applyFilters');
+            this.send('_applyFilters');
         },
 
         payAll() {
@@ -235,7 +235,7 @@ export default Ember.Component.extend(LoadingStateMixin, DateRangesMixin, {
 
     /** trigger search on event */
     _filterAction(){
-        this.send('applyFilters');
+        this.send('_applyFilters');
     },
 
     _initialize: Ember.on('init', function(){

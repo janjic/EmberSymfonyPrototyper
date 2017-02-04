@@ -140,7 +140,7 @@ class NotificationManager implements JSONAPIEntityManagerInterface
         if( in_array(RoleManager::ROLE_SUPER_ADMIN, $agent->getRoles()) ) {
             $notification->setLink('dashboard.payments.payouts-to-agents');
         } else {
-            $notification->setLink('dashboard.agent.wallet.payout-history');
+            $notification->setLink('dashboard.agent.agent-reports.commissions');
         }
         $notification->setCreatedAt(new \DateTime());
 

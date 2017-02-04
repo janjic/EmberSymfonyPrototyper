@@ -93,13 +93,14 @@ export default Ember.Component.extend(LoadingStateMixin,{
                 if( imgObj.get('id') ) {
                     withoutProxies(imgObj).rollbackAttributes();
                 }
-                if (this.get('isEdit')) {
-                    if( this.get('isUserAdmin')) {
-                        this.get('goToRoute')('dashboard.agents.all-agents');
-                    } else {
-                        this.get('goToRoute')('dashboard.agent.agents.all-agents');
-                    }
+
+                //if (this.get('isEdit')) {
+                if( this.get('isUserAdmin')) {
+                    this.get('goToRoute')('dashboard.agents.all-agents');
+                } else {
+                    this.get('goToRoute')('dashboard.agent.agents.all-agents');
                 }
+                //}
             } else {
                 let imgObj = this.getImage();
                 if( imgObj.get('id') ) {
@@ -176,6 +177,7 @@ export default Ember.Component.extend(LoadingStateMixin,{
             let addressChangeSet = this.get('addressChangeset');
             let validation = (changeSet.validate() && addressChangeSet.validate());
             if (validation && changeSet.get('isValid') && addressChangeSet.get('isValid') ) {
+                addressChangeSet.execute();
                 let img = this.getImage();
                 //WE can send image to server
                 if (!img.get('id') && ((img.get('base64Content')))) {
