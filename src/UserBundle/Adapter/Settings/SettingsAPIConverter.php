@@ -28,6 +28,10 @@ class SettingsAPIConverter extends JsonAPIConverter
      */
     public function convert()
     {
-        $this->request->attributes->set($this->param, new ArrayCollection(parent::convert()));
+        if( $this->request->get('settingsLogo') ){
+            $this->request->attributes->set($this->param, new ArrayCollection($this->manager->getSettingsLogo()));
+        } else {
+            $this->request->attributes->set($this->param, new ArrayCollection(parent::convert()));
+        }
     }
 }

@@ -82,11 +82,15 @@ class SettingsManager implements JSONAPIEntityManagerInterface
     /**
      * @param $content
      * @param null $mappings
+     * @param null $relations
      * @return mixed
+     * @throws \Exception
      */
-    public function serializeSettings($content, $mappings = null)
+    public function serializeSettings($content, $mappings = null, $relations = null)
     {
-        $relations = array('image', 'bonuses', 'commissions', 'bonuses.group', 'commissions.group');
+        if( !$relations ){
+            $relations = array('image', 'bonuses', 'commissions', 'bonuses.group', 'commissions.group');
+        }
 
         if (!$mappings) {
             $mappings = array(
@@ -99,5 +103,16 @@ class SettingsManager implements JSONAPIEntityManagerInterface
         }
 
         return $this->fSerializer->serialize($content, $mappings, $relations, array(),AgentSerializerInfo::$basicFields)->toArray();
+    }
+
+    public function getSettingsLogo()
+    {
+        $relations = array('image');
+        $mappings = array(
+            'settings'          => array('class' => Settings::class, 'type'=>'settings'),
+            'image'             => array('class' => Image::class,  'type'=>'images')
+        );
+
+        return $this->serializeSettings($this->repository->getSettingsLogo(), $mappings , $relations);
     }
 }
