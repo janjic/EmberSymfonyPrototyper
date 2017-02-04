@@ -1,17 +1,38 @@
 <h1 class="main-heading">{{trans 'admin-menu.genealogy.tree.title' }}</h1>
 
 <div class="main-chart-container">
-    <div class="form-group clearfix genealogy-form">
-        <label class="control-label">
-            {{trans 'payment.select-agent'}}
-        </label>
-            {{inf-select
-            optionLabelKey='email'
-            on-search = (perform search)
-            on-change=(action 'agentFilterSelected')
-            selected=agentFilter
-            }}
+    <div class="input-box filter-box">
+        <h3 class="sub-heading">  {{fa-icon "filter"}} {{trans "general.filters"}} <span id="filter-toggle" class="pull-right">{{fa-icon "chevron-down"}}</span></h3>
+        <div class="filter-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group clearfix">
+                        <label class="control-label">
+                            {{trans 'payment.select-agent'}}
+                        </label>
+                        {{inf-select
+                                optionLabelKey='email'
+                                on-search = (perform search)
+                                on-change=(action 'agentFilterSelected')
+                                selected=agentFilter
+                        }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group clearfix">
+                        <div class="instruction-box">
+                            <label>{{fa-icon "info-circle"}} {{trans "general.instructions"}}</label>
+                            <p>{{trans "general.instructions-content"}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
 
     <div id="chart-container"></div>
     {{#if isLoading }}

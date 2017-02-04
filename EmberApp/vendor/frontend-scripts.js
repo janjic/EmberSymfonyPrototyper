@@ -12,6 +12,12 @@ $( document ).ready(function() {
         $("#navbar").toggleClass('open');
     });
 
+    $('body').on("click", "#filter-toggle", function(e){
+        $(this).toggleClass('clicked');
+        $(".filter-box .filter-content").toggleClass('open');
+    });
+
+
     $('.dropdown').on('show.bs.dropdown', function() {
         $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
     });
