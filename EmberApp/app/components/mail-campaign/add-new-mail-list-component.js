@@ -46,7 +46,16 @@ export default Ember.Component.extend(LoadingStateMixin, {
             selectedItems = selectedItems.addObject({email: value});
             this.set('additionalMails', selectedItems);
         },
-        agentSelected(){
+        agentSelected(agent, selectedItems){
+            console.log(selectedItems);
+            let newSubsIndex = this.itemInArray(this.get('additionalMails'), agent);
+            if(newSubsIndex === -1) {
+                if(agent.hasOwnProperty('email')){
+                    this.get('additionalMails').pushObject({email:agent.email});
+                }else {
+                    this.get('additionalMails').pushObject({email: agent.get('email')});
+                }
+            }
             // if(agent.hasOwnProperty('email')){
             //     selectedItems = selectedItems.addObject({email: agent});
             // }else {
@@ -62,4 +71,28 @@ export default Ember.Component.extend(LoadingStateMixin, {
         yield timeout(200);
         return this.get('searchQuery')(page, text, perPage);
     }),
+
+    /**
+     *
+     * @param array
+     * @param item
+     * @returns {number}
+     */
+    itemInArray(array, item){
+        let elIndex = -1;
+        array.forEach(function (element, index) {
+            if(item.hasOwnProperty('email')){
+                if (element.email === item.email){
+                    elIndex = index;
+                }
+            } else {
+                if (element.email === item.get('email')){
+                    elIndex = index;
+                }
+            }
+
+        });
+
+        return elIndex;
+    },
 });

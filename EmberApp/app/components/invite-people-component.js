@@ -16,14 +16,14 @@ export default Ember.Component.extend(LoadingStateMixin,{
         this.set('mailLists', []);
     },
     didInsertElement(){
-        let ctx = this;
-        this.get('store').findAll('mail-list', {reload: true}).then((lists)=> {
-            lists.forEach(function (item) {
-                if(item.get('id')){
-                    ctx.get('mailLists').pushObject(item);
-                }
-            });
-        });
+        // let ctx = this;
+        // this.get('store').findAll('mail-list', {reload: true}).then((lists)=> {
+        //     lists.forEach(function (item) {
+        //         if(item.get('id')){
+        //             ctx.get('mailLists').pushObject(item);
+        //         }
+        //     });
+        // });
     },
     validateList(list){
         if(list.get('id')){
@@ -74,6 +74,15 @@ export default Ember.Component.extend(LoadingStateMixin,{
         },
         openModal() {
             this.set('isModalOpen', true);
+            let ctx = this;
+            this.get('store').findAll('mail-list', {reload: true}).then((lists)=> {
+                lists.forEach(function (item) {
+                    if(item.get('id')){
+                        ctx.get('mailLists').pushObject(item);
+                    }
+                });
+            });
+
         },
         closeModal(){
             this.set('isModalOpen', false);

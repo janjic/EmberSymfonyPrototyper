@@ -54,7 +54,11 @@ export default Ember.Component.extend({
                 user.save().then(() => {
                     this.toast.success(Translator.trans('User saved!'));
                     this.set('isLoading', false);
-                    this.get('routing').transitionTo('dashboard.users.users-customers');
+                    if( this.get('current_user.isUserAdmin')) {
+                        this.get('routing').transitionTo('dashboard.users.users-customers');
+                    } else {
+                        this.get('routing').transitionTo('dashboard.agent.users.users-customers');
+                    }
                 }, (resp) => {
                     let errorMessage = resp.errors[0].detail;
                     this.toast.error(Translator.trans(errorMessage));

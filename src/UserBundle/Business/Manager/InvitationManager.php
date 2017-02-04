@@ -28,7 +28,7 @@ class InvitationManager implements JSONAPIEntityManagerInterface
 {
 
     const INVITATION_MAIL_SUBJECT     = 'Invite';
-    const INVITATION_MAIL_TEMPLATE_ID = 58647;
+    const INVITATION_MAIL_TEMPLATE_ID = 58635;
 
     use JsonApiSaveInvitationManagerTrait;
     public function getResource($id = null){}
