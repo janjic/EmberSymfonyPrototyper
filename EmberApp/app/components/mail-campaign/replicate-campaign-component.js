@@ -15,6 +15,9 @@ export default Ember.Component.extend(LoadingStateMixin, {
         this.set('model.from_name', this.get('oldCampaign.from_name'));
         this.set('model.template', this.get('oldCampaign.template'));
         this.set('model.mailList', this.get('oldCampaign.mailList'));
+        if(!this.get('model.template.name')){
+            this.set('model.template', null);
+        }
     },
     actions: {
         changeList(list){
