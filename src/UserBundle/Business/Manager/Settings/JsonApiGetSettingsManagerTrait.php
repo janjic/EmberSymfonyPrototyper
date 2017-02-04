@@ -24,4 +24,12 @@ trait JsonApiGetSettingsManagerTrait
     {
         return $this->repository->findSettings();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->repository->getLogo();
+    }
 }

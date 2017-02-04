@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\Agent;
+use UserBundle\Entity\Document\Image;
 
 class PaymentController extends Controller
 {
@@ -103,16 +104,9 @@ class PaymentController extends Controller
 
         $url = 'en/orders/order-preview-complete/'.$request->get('id');
 
-        $settingsData = $this->get('agent_system.settings.manager')->getResource();
+        $imageName = $this->get('agent_system.settings.manager')->getLogo()['imgName'];
 
-        $imageUrl = '';
-
-        foreach ($settingsData['included'] as $inc) {
-            if ($inc['type'] == 'images'){
-                $imageUrl = $inc['attributes']['absolutePathWithVersion'];
-                break;
-            }
-        }
+        $imageUrl = (new Image())->setName($imageName)->getAbsolutePathWithVersion();
 
         $response = $tcrManager->getContentFromTCR($url, 'GET');
 

@@ -18,6 +18,7 @@ class SettingsRepository extends EntityRepository
     const ALIAS       = 'settings';
     const COMMISSION  = 'commissions';
     const BONUS       = 'bonuses';
+    const IMAGE       = 'image';
 
     /**
      * Save new Settings
@@ -65,5 +66,17 @@ class SettingsRepository extends EntityRepository
         }
 
         return $settings;
+    }
+
+    /**
+     * @return array|Settings|null
+     */
+    public function getLogo()
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::IMAGE.'.name as imgName');
+        $qb->leftJoin(self::ALIAS.'.'.self::IMAGE, self::IMAGE);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }
