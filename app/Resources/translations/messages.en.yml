@@ -122,6 +122,9 @@ general:
   not-allowed: 'You are not allowed to visit this page'
   choose-agents: 'Choose agents'
   search-agents: 'Search agents'
+  filters: 'Filters'
+  instructions: 'Instructions'
+  instructions-content: 'Use your mouse to drag and drop agents and change their position and role in the Genealogy tree.'
 
 
 mail:
@@ -402,6 +405,7 @@ admin-agent:
   history:
     agent.not.choosen: 'Choose Agent'
     agent.history: 'Agent History'
+    history: 'History'
     agent.id: 'Agent ID'
     agent.name: 'Agent Name'
     changed.by: 'Changed By'

@@ -6,45 +6,48 @@
 
         {{#unless hideSearchAndFilter}}
             <div class="col-md-12">
-                <div class="input-box first">
-                    {{#if showAgentFilter}}
-                        <label>
-                            {{trans "general.choose-agents"}}
-                        </label>
-                        <div class="form-group clearfix">
-                            {{inf-select
-                                    optionLabelKey='email'
-                                    on-search = (perform search)
-                                    on-change=(action 'agentSelected')
-                            }}
-                        </div>
-                    {{/if}}
-                    <label>
-                        {{trans "general.search-agents"}}
-                    </label>
-                    <div class="all-agents-search">
-                        <div class="action-buttons">
-                            <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
-                            <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
-                        </div>
-                        {{#if limitAll}}
-                            <div class="form-group">
-                                {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
-                            </div>
-                        {{else}}
-                            <div class="form-group">
-                                {{abc-buttons filter=(perform handleFilterEntry) }}
+                <div class="input-box first filter-box">
+                    <h3 class="sub-heading">  {{fa-icon "filter"}} {{trans "general.filters"}} <span id="filter-toggle" class="pull-right">{{fa-icon "chevron-down"}}</span></h3>
+                    <div class="filter-content clearfix">
+                        {{#if showAgentFilter}}
+                            <div class="form-group clearfix first-fg">
+                                <label>
+                                    {{trans "general.choose-agents"}}
+                                </label>
+                                {{inf-select
+                                        optionLabelKey='email'
+                                        on-search = (perform search)
+                                        on-change=(action 'agentSelected')
+                                }}
                             </div>
                         {{/if}}
-                        {{#if showAddAgentButton}}
-                            {{#if currentUser.isUserAdmin}}
-                                {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
-                            {{else}}
-                                {{#link-to 'dashboard.agent.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
-                            {{/if}}
-                        {{/if}}
+                        <div class="form-group clearfix second-fg">
+                            <label>
+                                {{trans "general.search-agents"}}
+                            </label>
+                            <div class="all-agents-search">
+                                <div class="action-buttons">
+                                    <button {{action "setSearch" 1}} class={{firstBtnClasses}}>{{fa-icon "search"}}</button>
+                                    <button {{action "setSearch" 2}} class={{secondBtnClasses}}>{{fa-icon "mouse-pointer"}}</button>
+                                </div>
+                                {{#if limitAll}}
+                                    <div class="form-group">
+                                        {{input value=searchValue class=inputClasses  key-up=(perform handleFilterEntry null) focusIn= (action "addClickedClass") focusOut= (action 'removeClickedClass')  placeholder="Search ..."}}
+                                    </div>
+                                {{else}}
+                                    <div class="form-group">
+                                        {{abc-buttons filter=(perform handleFilterEntry) }}
+                                    </div>
+                                {{/if}}
+                                {{#if showAddAgentButton}}
+                                    {{#if currentUser.isUserAdmin}}
+                                        {{#link-to 'dashboard.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
+                                    {{else}}
+                                        {{#link-to 'dashboard.agent.agents.add-new-agent' class="button green add-agent btn-small"}}{{trans 'admin-menu.agents.new'}}{{/link-to}}
+                                    {{/if}}
+                                {{/if}}
+                            </div>                        </div>
                     </div>
-
                 </div>
             </div>
         {{/unless}}
