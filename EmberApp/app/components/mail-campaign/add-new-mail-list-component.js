@@ -47,7 +47,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
             this.set('additionalMails', selectedItems);
         },
         agentSelected(agent, selectedItems){
-            console.log(selectedItems);
             let newSubsIndex = this.itemInArray(this.get('additionalMails'), agent);
             if(newSubsIndex === -1) {
                 if(agent.hasOwnProperty('email')){

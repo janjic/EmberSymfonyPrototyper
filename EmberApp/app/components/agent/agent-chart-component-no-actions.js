@@ -65,7 +65,6 @@ export default Ember.Component.extend(LoadingStateMixin, {
 
         this.$('#chart-container').dblclick('.node', (event) => {
             let id = this.$(event.target).closest('.node').attr('id');
-            console.log(id);
             if (parseInt(id)) {
                 this.get('redirectToEdit')(id);
             }

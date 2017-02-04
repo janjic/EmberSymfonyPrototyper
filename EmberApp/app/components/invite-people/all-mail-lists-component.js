@@ -7,6 +7,7 @@ export default Ember.Component.extend({
             let currentPage = 0;
             let numPerPage = 10;
             let $table = $(this);
+
             $table.bind('repaginate', function() {
                 $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
             });

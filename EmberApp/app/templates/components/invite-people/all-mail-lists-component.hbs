@@ -1,24 +1,31 @@
-<table class="table table-bordered" id="all-mail-lists">
-    <thead>
-    <tr>
-        <th>{{trans 'mail.mail-list-id'}}</th>
-        <th>{{trans 'mail.mail-list-name'}}</th>
-        <th>{{trans 'mail.mail-list-address'}}</th>
-        <th>{{trans 'mail.mail-list-from'}}</th>
-        <th>{{trans 'mail.mail-list-action'}}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each model as |list|}}
-        {{#if list.id}}
-            <tr>
-                <td>{{list.id}}</td>
-                <td>{{list.name}}</td>
-                <td>{{list.fromAddress}}</td>
-                <td>{{list.fromName}}</td>
-                <td>{{#link-to "dashboard.agent.invite-people.edit-mail-list" list.id}} {{fa-icon 'pencil'}}{{/link-to}}</td>
-            </tr>
-        {{/if}}
-    {{/each}}
-    </tbody>
-</table>
+{{#if model.length}}
+    <table class="table table-bordered" id="all-mail-lists">
+        <thead>
+        <tr>
+            <th>{{trans 'mail.mail-list-id'}}</th>
+            <th>{{trans 'mail.mail-list-name'}}</th>
+            <th>{{trans 'mail.mail-list-address'}}</th>
+            <th>{{trans 'mail.mail-list-from'}}</th>
+            <th>{{trans 'mail.mail-list-action'}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each model as |list|}}
+            {{#if list.id}}
+                <tr>
+                    <td>{{list.id}}</td>
+                    <td>{{list.name}}</td>
+                    <td>{{list.fromAddress}}</td>
+                    <td>{{list.fromName}}</td>
+                    <td>{{#link-to "dashboard.agent.invite-people.edit-mail-list" list.id}} {{fa-icon 'pencil'}}{{/link-to}}</td>
+                </tr>
+            {{/if}}
+        {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <div class="alert alert-danger" role="alert">
+        {{trans 'payment.no-results'}}
+    </div>
+{{/if}}
+

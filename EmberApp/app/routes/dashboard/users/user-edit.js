@@ -7,7 +7,6 @@ export default Ember.Route.extend({
 
     actions: {
         willTransition(){
-            console.log('usao');
             this.get('currentModel').rollbackAttributes();
         }
     }
