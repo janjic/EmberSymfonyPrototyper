@@ -4112,6 +4112,9 @@ ul.notification-list {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
+    a.btn-small {
+      width: 100px;
+    }
   }
   .img-holder {
     height: 70px !important;
@@ -6597,21 +6600,22 @@ ul.dropdown-menu {
     margin: 0;
     #filter-toggle {
       cursor: pointer;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.2s ease-out;
     }
     #filter-toggle.clicked {
       transform: rotate(180deg);
-      transition: all 0.3s ease-in-out;
+      transition: all 0.2s ease-in;
     }
   }
   .filter-content {
     max-height: 0;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.2s ease-out;
     overflow: hidden;
   }
   .filter-content.open {
     max-height: 300px;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.2s ease-in;
+    overflow: visible;
   }
 }
 
@@ -6623,4 +6627,17 @@ ul.dropdown-menu {
 
 .main-chart-container .filter-box .filter-content .form-group {
   padding-top: 15px;
+}
+
+.purchase-tables {
+  td {
+    span.button {
+      cursor: pointer;
+    }
+  }
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+  padding: 5px;
+  vertical-align: middle;
 }
