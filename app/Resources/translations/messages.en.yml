@@ -43,6 +43,7 @@ button:
   edit-profile: 'Edit profile'
   view-profile: 'View profile'
   account-info: 'Account information'
+  view: 'View'
 
 validation:
   email:
@@ -125,6 +126,7 @@ general:
   filters: 'Filters'
   instructions: 'Instructions'
   instructions-content: 'Use your mouse to drag and drop agents and change their position and role in the Genealogy tree.'
+
 
 
 mail:

@@ -79,4 +79,13 @@ class SettingsRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getSettingsLogo()
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb->select(self::ALIAS, self::IMAGE);
+        $qb->leftJoin(self::ALIAS.'.'.self::IMAGE, self::IMAGE);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

@@ -134,7 +134,7 @@
                         <td>{{trans 'purchase-details.total'}}</td>
                         <td></td>
                         <td>{{currency-for-country model.user.country}} {{ number-format model.total 2}}</td>
-                        <td><span {{ action 'downloadPDF' }}><i class="fa fa-print"></i></span></td>
+                        <td><span class="button btn-small red" {{ action 'downloadPDF' }}><i class="fa fa-print"></i></span></td>
                     </tr>
                     </tfoot>
                 </table>

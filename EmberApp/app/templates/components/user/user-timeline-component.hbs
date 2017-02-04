@@ -15,11 +15,11 @@
         </div>
     </div>
     <div class="right-side">
-        {{#link-to 'dashboard.agents.agent-view' agent.id class='button green'}}
-            {{trans 'button.view-profile'}}
+        {{#link-to 'dashboard.agents.agent-view' agent.id class='button green btn-small'}}
+            {{fa-icon "eye"}} {{trans 'button.view'}}
         {{/link-to}}
-        {{#link-to 'dashboard.agents.agent-edit' agent.id  class='button red'}}
-            {{trans 'button.edit-profile'}}
+        {{#link-to 'dashboard.agents.agent-edit' agent.id  class='button red btn-small'}}
+            {{fa-icon "pencil"}} {{trans 'button.edit'}}
         {{/link-to}}
     </div>
 </div>

@@ -4,7 +4,7 @@ const { Route } = Ember;
 
 export default Route.extend(PermissionCheckerMixin, {
     model(){
-        return this.store.find('setting', 1);
+        return this.store.queryRecord('setting', { settingsLogo: true });
     },
     setupController(controller) {
         controller.set('user', this.get('currentUser.user'));
