@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
 
-
-
     /**
      * @Route("/api/usersJqgrid", name="users_api_jqgrid")
      */
